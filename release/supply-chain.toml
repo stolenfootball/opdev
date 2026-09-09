@@ -28,7 +28,7 @@ checksums_file = "SHA256SUMS"
 mode = "sigstore-keyless"
 bundle_suffix = ".sigstore.json"
 oidc_issuer = "https://gitlab.com"
-identity_pattern = "https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/<tag>"
+identity_pattern = "https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/<tag>"
 
 [claims]
 slsa_build_level = false

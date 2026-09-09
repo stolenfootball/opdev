@@ -43,6 +43,19 @@ identity before publication. This authenticates the archive at release time;
 it does not retroactively turn the CLI-generated provenance into trusted-builder
 provenance or establish a SLSA Build level.
 
+## Repository rename compatibility
+
+The canonical GitLab repository is `stolenfootball-tools/opdev`. The GitHub
+build mirror remains `stolenfootball/opinionateddevelopment`. Future release
+signatures use the new GitLab project path. Existing release assets, signatures,
+provenance, and historical evidence retain their original identities; consumers
+MUST verify pre-rename releases against the original signing identity. The
+operational verification example in `release/README.md` identifies that boundary.
+
+The old GitLab path must remain available for redirects to support installed
+CLI versions, generated CI configurations, and marketplace registrations that
+still reference it. Do not reuse that path for another project.
+
 ## Rust release SBOM
 
 OpDev pins `cargo-cyclonedx` 0.5.9 with `--locked` and emits CycloneDX JSON 1.5,

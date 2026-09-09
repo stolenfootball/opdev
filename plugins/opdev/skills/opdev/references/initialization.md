@@ -18,7 +18,7 @@ Initialization creates `.opdev/project.yaml` and managed sections in `AGENTS.md`
 Inform the user before substantive software development and offer, rather than perform, one of these choices:
 
 - Download the native binary for their platform from the project’s GitLab release page and verify it against `SHA256SUMS`.
-- For a Rust development environment, install from the source repository with `cargo install --git https://gitlab.com/stolenfootball-tools/opinionateddevelopment.git --locked opdev-cli`.
+- For a Rust development environment, install from the source repository with `cargo install --git https://gitlab.com/stolenfootball-tools/opdev.git --locked opdev-cli`.
 - Continue without OpDev for this task.
 
 After installation, verify with `opdev version`; then return to the initialization flow. Never claim installation succeeded without running that check.

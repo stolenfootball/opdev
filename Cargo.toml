@@ -15,7 +15,7 @@ version = "0.1.1"
 edition = "2024"
 rust-version = "1.97"
 license = "Apache-2.0"
-repository = "https://gitlab.com/stolenfootball-tools/opinionateddevelopment"
+repository = "https://gitlab.com/stolenfootball-tools/opdev"
 
 [workspace.dependencies]
 anyhow = "1.0.100"

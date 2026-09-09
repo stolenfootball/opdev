@@ -36,6 +36,17 @@ signing, and publication.
 
 ## Consumer verification
 
+The canonical repository is now `stolenfootball-tools/opdev` on GitLab.
+Download releases from `https://gitlab.com/stolenfootball-tools/opdev/-/releases`.
+The GitHub build mirror remains `stolenfootball/opinionateddevelopment`.
+
+Releases through `v0.1.1` (including their release candidates) were signed before
+the repository rename. Their certificate identity still contains
+`stolenfootball-tools/opinionateddevelopment`, as in the example below. Renaming
+the repository does not change existing signatures or provenance. Releases
+signed after the rename use `stolenfootball-tools/opdev` in the identity;
+always use the exact identity for the release being verified.
+
 Download the selected archive, its `.sigstore.json` bundle, and `SHA256SUMS`
 from the same GitLab release. Verify the digest and then the GitLab signing
 identity:

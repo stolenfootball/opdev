@@ -3,6 +3,12 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
+## Unreleased
+
+- Rename the canonical GitLab repository to `stolenfootball-tools/opdev` and
+  update installation links, generated CI downloads, and future signing identity.
+  Preserve historical release identities and the existing GitHub build mirror.
+
 ## 0.1.1 - 2026-08-31
 
 - Correct GitHub and GitLab generated installers, GitLab runtime/OAuth behavior,

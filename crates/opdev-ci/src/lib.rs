@@ -480,6 +480,9 @@ mod tests {
     fn generated_installers_use_versioned_archives_outside_the_worktree()
     -> Result<(), Box<dyn std::error::Error>> {
         let github = rendered(CiProvider::Github)?;
+        let release_base =
+            "https://gitlab.com/stolenfootball-tools/opdev/-/releases/v${OPDEV_VERSION}/downloads";
+        assert!(github.contains(release_base));
         assert!(
             github.contains("archive=\"opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz\"")
         );
@@ -488,6 +491,7 @@ mod tests {
         assert!(!github.contains("--output \"$archive\""));
 
         let gitlab = rendered(CiProvider::Gitlab)?;
+        assert!(gitlab.contains(release_base));
         assert!(
             gitlab.contains("archive=\"opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz\"")
         );

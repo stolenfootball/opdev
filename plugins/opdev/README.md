@@ -9,9 +9,9 @@ For local Claude Code testing, run `claude --plugin-dir ./plugins/opdev`.
 For repository-marketplace installation:
 
 ```sh
-codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opinionateddevelopment.git
+codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
 codex plugin add opdev@personal
-claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opinionateddevelopment.git
+claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
 claude plugin install opdev@opdev
 ```
 

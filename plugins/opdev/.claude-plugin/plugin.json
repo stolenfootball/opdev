@@ -5,8 +5,8 @@
   "author": {
     "name": "Opinionated Development contributors"
   },
-  "homepage": "https://gitlab.com/stolenfootball-tools/opinionateddevelopment",
-  "repository": "https://gitlab.com/stolenfootball-tools/opinionateddevelopment.git",
+  "homepage": "https://gitlab.com/stolenfootball-tools/opdev",
+  "repository": "https://gitlab.com/stolenfootball-tools/opdev.git",
   "license": "Apache-2.0",
   "keywords": ["software-development", "testing", "continuous-delivery", "minimumcd"]
 }
