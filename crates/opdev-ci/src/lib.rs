@@ -728,7 +728,7 @@ mod tests {
         fs::write(
             &fake_curl,
             format!(
-                "#!/bin/sh\nset -eu\noutput=\nurl=\nwhile [ \"$#\" -gt 0 ]; do\n  case \"$1\" in\n    --output) output=$2; shift 2 ;;\n    *) url=$1; shift ;;\n  esac\ndone\ncase \"$url\" in\n  */SHA256SUMS) cp \"$FIXTURE_RELEASE/SHA256SUMS\" \"$output\" ;;\n  *) cp \"$FIXTURE_RELEASE/{archive}\" \"$output\" ;;\nesac\n"
+                "#!/bin/sh\nset -eu\noutput=\nurl=\nwhile [ \"$#\" -gt 0 ]; do\n  case \"$1\" in\n    --output) output=$2; shift 2 ;;\n    *) url=$1; shift ;;\n  esac\ndone\ncase \"$url\" in\n  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.0/downloads/*) ;;\n  *) exit 92 ;;\nesac\ncase \"$url\" in\n  */SHA256SUMS) cp \"$FIXTURE_RELEASE/SHA256SUMS\" \"$output\" ;;\n  *) cp \"$FIXTURE_RELEASE/{archive}\" \"$output\" ;;\nesac\n"
             ),
         )?;
         let mut permissions = fs::metadata(&fake_curl)?.permissions();

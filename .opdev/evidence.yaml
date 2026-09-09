@@ -837,3 +837,70 @@ changes:
           - kind: test
             summary: Compatibility and validation failures now block activation or release packaging rather than relying on a remembered manual checklist.
             location: crates/opdev-cli/src/main.rs
+
+  - fingerprint: cf14b90f9003fc89bef745d6db300b0bb892b9332687516ad7390335c134924f
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/20
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 20 defines the rename problem, scope, acceptance, authorities, compatibility risks, and release-qualification exclusion."
+        evidence:
+          - kind: work
+            summary: "Reviewable acceptance criteria and integration plan are tracked in issue 20."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/20"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The release authority records in-place rename alternatives, rationale, compatibility evidence, and the trigger to restore the previous path."
+        evidence:
+          - kind: decision
+            summary: "Repository rename compatibility preserves historical signatures and redirects and leaves new-release qualification to the protected tag pipeline."
+            location: "spec/release-evidence.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The bounded rename branch descends directly from current main at 2d499eadcb2fe010ec40cfc7cf5e8a6cb466f8a4 and is being integrated through MR 13 with source-branch removal."
+        evidence:
+          - kind: git
+            summary: "The branch was created on 2026-09-09; fetch and merge-base confirm unchanged main. MR 13 is the integration and branch-removal path."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/13"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "This is one cohesive rename on one branch completed within the same working day, not active multi-change development."
+        evidence:
+          - kind: git
+            summary: "Both rename commits are dated 2026-09-09 and target the same merge request."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/13"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "The required main pipeline is green; the earlier failures were on the rename merge request, not trunk."
+        evidence:
+          - kind: ci
+            summary: "Main pipeline 2804424585 passed at the branch base 2d499eadcb2fe010ec40cfc7cf5e8a6cb466f8a4."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2804424585"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Old and new provider URLs preserve repository identity and old/new v0.1.1 checksum downloads match; existing release signatures retain their original identity."
+        evidence:
+          - kind: validation
+            summary: "GitLab ID 85892266 and GitHub ID 1351669119 resolve through both paths. Both checksum files hash to 3b022c7737de680e8803ca03d32c2a5f90cbf4a9a43367c0865bd1abbcff90b7. Workflow 346072329 remains active. Historical signing identity is documented. New tag publication is not claimed."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/20"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Acceptance maps to live identity/redirect/download checks, generated-installer execution tests, CI lint, source plugin validation, and canonical pre/post-integration suites."
+        evidence:
+          - kind: test
+            summary: "Local format, Clippy, and 60 workspace tests passed; three existing environment-dependent tests were ignored. Generated installer fixtures now reject stale release-base URLs. GitLab CI lint passed after correcting the request encoding. Full new-release qualification is excluded by issue 20."
+            location: "crates/opdev-ci/src/lib.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "The agent-authored changes are checked by the same compiler, linter, automated tests, plugin validator, CI, and fingerprint-bound evidence rules as other changes."
+        evidence:
+          - kind: ci
+            summary: "The earlier pipeline passed format, lint, tests, and plugin validation and correctly blocked integration on missing evidence. Final integration still requires the rerun of those unchanged gates; no check is waived."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2834899262"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The observed evidence-gate failure is tracked as stale acceptance evidence and resolved by reviewing fresh facts for the final index and repeating CI."
+        evidence:
+          - kind: work
+            summary: "Issue 20 records the observed integration failure, required evidence repair, strengthened URL test, and repeated measurement through MR 13."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/20"
