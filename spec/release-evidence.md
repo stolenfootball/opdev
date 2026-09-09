@@ -46,7 +46,7 @@ provenance or establish a SLSA Build level.
 ## Repository rename compatibility
 
 The canonical GitLab repository is `stolenfootball-tools/opdev`. The GitHub
-build mirror remains `stolenfootball/opinionateddevelopment`. Future release
+build mirror is `stolenfootball/opdev`. Future release
 signatures use the new GitLab project path. Existing release assets, signatures,
 provenance, and historical evidence retain their original identities; consumers
 MUST verify pre-rename releases against the original signing identity. The

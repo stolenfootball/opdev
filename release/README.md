@@ -38,7 +38,7 @@ signing, and publication.
 
 The canonical repository is now `stolenfootball-tools/opdev` on GitLab.
 Download releases from `https://gitlab.com/stolenfootball-tools/opdev/-/releases`.
-The GitHub build mirror remains `stolenfootball/opinionateddevelopment`.
+The GitHub build mirror is `stolenfootball/opdev`.
 
 Releases through `v0.1.1` (including their release candidates) were signed before
 the repository rename. Their certificate identity still contains
