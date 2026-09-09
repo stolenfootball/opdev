@@ -480,6 +480,9 @@ mod tests {
     fn generated_installers_use_versioned_archives_outside_the_worktree()
     -> Result<(), Box<dyn std::error::Error>> {
         let github = rendered(CiProvider::Github)?;
+        let release_base =
+            "https://gitlab.com/stolenfootball-tools/opdev/-/releases/v${OPDEV_VERSION}/downloads";
+        assert!(github.contains(release_base));
         assert!(
             github.contains("archive=\"opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz\"")
         );
@@ -488,6 +491,7 @@ mod tests {
         assert!(!github.contains("--output \"$archive\""));
 
         let gitlab = rendered(CiProvider::Gitlab)?;
+        assert!(gitlab.contains(release_base));
         assert!(
             gitlab.contains("archive=\"opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz\"")
         );
@@ -724,7 +728,7 @@ mod tests {
         fs::write(
             &fake_curl,
             format!(
-                "#!/bin/sh\nset -eu\noutput=\nurl=\nwhile [ \"$#\" -gt 0 ]; do\n  case \"$1\" in\n    --output) output=$2; shift 2 ;;\n    *) url=$1; shift ;;\n  esac\ndone\ncase \"$url\" in\n  */SHA256SUMS) cp \"$FIXTURE_RELEASE/SHA256SUMS\" \"$output\" ;;\n  *) cp \"$FIXTURE_RELEASE/{archive}\" \"$output\" ;;\nesac\n"
+                "#!/bin/sh\nset -eu\noutput=\nurl=\nwhile [ \"$#\" -gt 0 ]; do\n  case \"$1\" in\n    --output) output=$2; shift 2 ;;\n    *) url=$1; shift ;;\n  esac\ndone\ncase \"$url\" in\n  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.0/downloads/*) ;;\n  *) exit 92 ;;\nesac\ncase \"$url\" in\n  */SHA256SUMS) cp \"$FIXTURE_RELEASE/SHA256SUMS\" \"$output\" ;;\n  *) cp \"$FIXTURE_RELEASE/{archive}\" \"$output\" ;;\nesac\n"
             ),
         )?;
         let mut permissions = fs::metadata(&fake_curl)?.permissions();

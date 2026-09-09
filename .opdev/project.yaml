@@ -4,7 +4,7 @@ project:
   trunk: main
   ci:
     provider: gitlab
-    remote: git@gitlab.com:stolenfootball-tools/opinionateddevelopment.git
+    remote: git@gitlab.com:stolenfootball-tools/opdev.git
 authorities:
   architecture:
     kind: path
@@ -20,7 +20,7 @@ authorities:
     location: spec
   work:
     kind: tracker
-    location: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/issues
+    location: https://gitlab.com/stolenfootball-tools/opdev/-/issues
 commands:
   check:
     argv:
@@ -102,7 +102,7 @@ delivery:
   mode: release
   artifact:
     kind: native-cli-and-agent-plugin
-    locator: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/releases
+    locator: https://gitlab.com/stolenfootball-tools/opdev/-/releases
   environments:
   - name: windows-x86_64
     production_like: true

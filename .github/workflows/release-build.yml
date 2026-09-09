@@ -53,7 +53,7 @@ jobs:
           SOURCE_REF: ${{ inputs.source_ref }}
           SOURCE_REVISION: ${{ inputs.source_revision }}
         run: |
-          git clone --branch "$SOURCE_REF" --depth 1 https://github.com/stolenfootball/opinionateddevelopment.git source
+          git clone --branch "$SOURCE_REF" --depth 1 https://github.com/stolenfootball/opdev.git source
           cd source
           test "$(git rev-parse HEAD)" = "$SOURCE_REVISION"
       - name: Install the pinned Rust toolchain
@@ -121,7 +121,7 @@ jobs:
           SOURCE_REF: ${{ inputs.source_ref }}
           SOURCE_REVISION: ${{ inputs.source_revision }}
         run: |
-          git clone --branch $env:SOURCE_REF --depth 1 https://github.com/stolenfootball/opinionateddevelopment.git source
+          git clone --branch $env:SOURCE_REF --depth 1 https://github.com/stolenfootball/opdev.git source
           Set-Location source
           if ((git rev-parse HEAD) -ne $env:SOURCE_REVISION) { throw "source revision mismatch" }
       - name: Install the pinned Rust toolchain
@@ -188,7 +188,7 @@ jobs:
           SOURCE_REF: ${{ inputs.source_ref }}
           SOURCE_REVISION: ${{ inputs.source_revision }}
         run: |
-          git clone --branch "$SOURCE_REF" --depth 1 https://github.com/stolenfootball/opinionateddevelopment.git source
+          git clone --branch "$SOURCE_REF" --depth 1 https://github.com/stolenfootball/opdev.git source
           cd source
           test "$(git rev-parse HEAD)" = "$SOURCE_REVISION"
       - name: Install the pinned Rust toolchain

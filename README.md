@@ -63,7 +63,7 @@ without interruption; an uninitialized software project prompts before running
 ### 1. Install the CLI
 
 Download the archive for your system from the
-[v0.1.1 release](https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/releases/v0.1.1),
+[v0.1.1 release](https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1),
 verify it as described in [`release/README.md`](release/README.md), and place the
 `opdev` executable on `PATH`.
 
@@ -71,7 +71,7 @@ Linux x86-64 example:
 
 ```sh
 curl --fail --location --output opdev.tar.gz \
-  https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/releases/v0.1.1/downloads/opdev-0.1.1-x86_64-unknown-linux-gnu.tar.gz
+  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/opdev-0.1.1-x86_64-unknown-linux-gnu.tar.gz
 tar -xzf opdev.tar.gz
 install -m 0755 opdev "$HOME/.local/bin/opdev"
 opdev version
@@ -81,7 +81,7 @@ Windows x86-64 example:
 
 ```powershell
 Invoke-WebRequest `
-  https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/releases/v0.1.1/downloads/opdev-0.1.1-x86_64-pc-windows-msvc.zip `
+  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/opdev-0.1.1-x86_64-pc-windows-msvc.zip `
   -OutFile opdev.zip
 Expand-Archive opdev.zip -DestinationPath opdev
 .\opdev\opdev.exe version
@@ -91,7 +91,7 @@ Archives are published for Windows, Linux GNU, and macOS on both x86-64 and
 ARM64. Rust 1.97 or newer provides a source-install fallback:
 
 ```sh
-cargo install --locked --git https://gitlab.com/stolenfootball-tools/opinionateddevelopment.git opdev-cli
+cargo install --locked --git https://gitlab.com/stolenfootball-tools/opdev.git opdev-cli
 opdev version
 ```
 
@@ -106,7 +106,7 @@ Claude Code to apply OpDev automatically during software-development work.
 For Codex:
 
 ```sh
-codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opinionateddevelopment.git
+codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
 codex plugin add opdev@personal
 ```
 
@@ -116,7 +116,7 @@ fresh context.
 For Claude Code:
 
 ```sh
-claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opinionateddevelopment.git
+claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
 claude plugin install opdev@opdev
 ```
 
@@ -332,7 +332,7 @@ Report suspected vulnerabilities privately as described in
 
 ## Contributing and help
 
-Use [GitLab issues](https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/issues)
+Use [GitLab issues](https://gitlab.com/stolenfootball-tools/opdev/-/issues)
 for questions, defects, and proposed improvements. Focused contributions are
 welcome; start with [`CONTRIBUTING.md`](CONTRIBUTING.md) and keep behavioral or
 architectural changes grounded in the normative specification.
