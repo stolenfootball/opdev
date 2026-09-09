@@ -838,7 +838,7 @@ changes:
             summary: Compatibility and validation failures now block activation or release packaging rather than relying on a remembered manual checklist.
             location: crates/opdev-cli/src/main.rs
 
-  - fingerprint: cf14b90f9003fc89bef745d6db300b0bb892b9332687516ad7390335c134924f
+  - fingerprint: 865fd3ad3ff577388185c58ea5dc5cefa5f68b5cacf32c51a8c5903ddc539631
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/20
     assertions:
       - rule_id: OPDEV-WORK-001
@@ -899,8 +899,8 @@ changes:
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2834899262"
       - rule_id: OPDEV-LEARN-001
         outcome: passed
-        summary: "The observed evidence-gate failure is tracked as stale acceptance evidence and resolved by reviewing fresh facts for the final index and repeating CI."
+        summary: "The observed stale-evidence failure and offline Proxmox runners are tracked in issue 20; fresh evidence and equivalent hosted Linux package qualification address both before integration."
         evidence:
           - kind: work
-            summary: "Issue 20 records the observed integration failure, required evidence repair, strengthened URL test, and repeated measurement through MR 13."
+            summary: "Issue 20 records the evidence repair and runner IDs 54929563 and 54929564 being offline. The package job uses hosted saas-linux-small-amd64 with the same Rust image and unchanged build, reproducibility, and smoke commands. GitLab CI lint accepted the final configuration. MR 13 repeats qualification."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/20"
