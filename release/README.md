@@ -1,17 +1,30 @@
 # Release operations
 
 The protected GitLab tag pipeline is the only supported way to publish OpDev.
-It mirrors the exact tag revision to GitHub, dispatches ephemeral native GitHub
-builders, retrieves their immutable archives, and then generates evidence,
-signs, and publishes from GitLab. GitHub Actions artifacts are an internal build
-handoff, not a supported distribution path. Do not upload, replace, or
-reconstruct release assets manually.
+GitLab remains the source and signing authority. Beginning with 0.1.2, the
+canonical binary host is [the existing GitHub mirror](https://github.com/stolenfootball/opdev/releases).
+Historical GitLab assets remain intact. GitHub Actions artifacts are internal
+build handoffs; no independent GitHub tag-triggered publisher is enabled.
 
-GitLab is the source and release authority. The protected tag pipeline
-fast-forwards the public GitHub build mirror's `main` branch to the exact
-qualified revision before dispatch and deletes the ephemeral
-`gitlab-release/<tag>` source branch after the artifact handoff. GitHub releases
-and GitHub Actions artifacts are not consumer distribution channels.
+Native builders build/test each binary once. The GitLab pipeline runs pinned
+cargo-dist over those bytes, preserving legacy archives and adding dist archives,
+verified installers, and manifests. It signs the archives and installers with
+GitLab OIDC, then publishes the same qualified assets through a GitHub draft.
+
+The publisher checks an exact source tag, a complete inventory, every uploaded
+asset digest, and the repository's immutable-release setting. It resumes a
+matching incomplete draft, refuses to overwrite mismatched assets/tags, and
+accepts a retry of an already-published release only when every digest matches
+and the release is immutable. GitLab release notes link to the canonical GitHub
+download destination after publication succeeds.
+
+Prerequisites: protect release tags in GitLab; keep `GH_OPDEV_RELEASE_TOKEN`
+protected/masked and scoped to the mirror with Contents write permission;
+enable immutable releases in the mirror settings. The existing credential also
+needs the mirroring/workflow-dispatch permissions used by native builds. The
+publisher fails before uploading if immutability is disabled. It creates the
+exact GitHub tag only after the source commit is available in the build mirror.
+No manual asset uploads, replacement releases, or floating commit selection.
 
 ## Candidate and final release
 
@@ -32,12 +45,13 @@ The separate final build is intentional because the versioned asset names,
 source revision, and tag-bound signing identity differ. Within each tag
 pipeline, every published archive is built once on its target runner and
 promoted unchanged through the GitHub artifact handoff, GitLab evidence,
-signing, and publication.
+signing, and GitHub publication.
 
 ## Consumer verification
 
 The canonical repository is now `stolenfootball-tools/opdev` on GitLab.
-Download releases from `https://gitlab.com/stolenfootball-tools/opdev/-/releases`.
+For 0.1.2 and later, download from `https://github.com/stolenfootball/opdev/releases`.
+Historical 0.1.0/0.1.1 releases remain at `https://gitlab.com/stolenfootball-tools/opdev/-/releases`.
 The GitHub build mirror is `stolenfootball/opdev`.
 
 Releases through `v0.1.1` (including their release candidates) were signed before
@@ -48,7 +62,7 @@ signed after the rename use `stolenfootball-tools/opdev` in the identity;
 always use the exact identity for the release being verified.
 
 Download the selected archive, its `.sigstore.json` bundle, and `SHA256SUMS`
-from the same GitLab release. Verify the digest and then the GitLab signing
+from the same release. The signer remains GitLab even when the download host is GitHub. Verify the digest and then the GitLab signing
 identity:
 
 ```sh
@@ -71,7 +85,7 @@ data rollback or mutation of existing assets.
 
 Recovery is an on-demand safe roll-forward:
 
-1. Mark the affected release and its known impact in GitLab without deleting
+1. Mark the affected release and its known impact in GitHub release notes and the GitLab work tracker without deleting
    its evidence.
 2. Restore `main` first if its required pipeline is red.
 3. Implement the smallest compatible fix with a regression test.
@@ -95,5 +109,19 @@ plugin at a release that has not been published.
 
 The bootstrap scripts and lock are included automatically in the shared plugin
 archive. Existing native archives and release signing/publication remain the
-canonical path. cargo-dist has not been enabled in release CI; its reproducible
-feasibility result is in `release/cargo-dist-probe/README.md`.
+canonical path. cargo-dist is enabled for standalone release packaging and verified installers.
+The old GitLab-only feasibility probe remains as an upstream regression aid.
+
+## First GitHub candidate and interrupted publication
+
+The first candidate must exercise the exact-tag mirror handoff, immutable draft
+publication, download verification on supported platforms, README one-liners,
+and a fixture `opdev check`. Generation and offline fixtures do not replace this
+qualification. No GitHub release exists until that protected tag pipeline runs.
+
+If upload is interrupted, retry the same GitLab publication job: matching assets
+are retained, missing assets are uploaded, and the draft becomes public only
+after the complete digest inventory matches. A conflicting draft/tag requires
+investigation and a new candidate tag; never delete or overwrite assets to force
+publication. If GitHub publication succeeds but GitLab release-note creation
+fails, retry that note job; do not rebuild or republish the binaries.

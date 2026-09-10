@@ -42,6 +42,7 @@ quality:
     when: always
     paths:
       - opdev-report.json
+      - target/debug/opdev
     expire_in: 30 days
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -104,6 +105,10 @@ installer-windows:
         - .agents/plugins/marketplace.json
         - .claude-plugin/marketplace.json
         - release/**/*
+        - scripts/*dist*
+        - scripts/publish_github.py
+        - scripts/release_evidence.py
+        - tests/dist*
         - tests/runtime*
 
 package-linux-x86_64:
@@ -131,6 +136,38 @@ package-linux-x86_64:
       - release-artifacts/
     expire_in: 7 days
   extends: .release-package-rules
+
+qualify-dist:
+  stage: package
+  image: ubuntu:24.04
+  tags: [saas-linux-small-amd64]
+  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  before_script:
+    - apt-get update
+    - apt-get install --yes --no-install-recommends python3 curl xz-utils ca-certificates
+  script:
+    - sh scripts/install_dist.sh /tmp/opdev-dist-tools
+    - python3 tests/dist_integration_test.py --dist /tmp/opdev-dist-tools/cargo-dist-x86_64-unknown-linux-gnu/dist --output dist-test-output --opdev target/debug/opdev
+  artifacts:
+    paths: [dist-test-output/]
+    expire_in: 7 days
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+qualify-dist-windows:
+  stage: package
+  tags: [windows, powershell, hyperv]
+  needs:
+    - job: qualify-dist
+      artifacts: true
+  script:
+    - powershell -NoProfile -File tests/dist_test.ps1 -Installer dist-test-output/opdev-installer.ps1
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
 
 package-linux-aarch64:
   stage: package
@@ -272,7 +309,7 @@ fetch-cross-platform-packages:
   stage: package
   image: rust:1.97.0-bookworm
   needs: [quality, plugin-validation, installer-linux, installer-windows]
-  tags: [linux, docker, proxmox]
+  tags: [saas-linux-small-amd64]
   before_script:
     - apt-get update
     - apt-get install --yes --no-install-recommends ca-certificates curl git jq unzip
@@ -376,18 +413,27 @@ fetch-cross-platform-packages:
 release-evidence:
   stage: package
   image: rust:1.97.0-bookworm
-  tags: [linux, docker, proxmox]
+  tags: [saas-linux-small-amd64]
   needs:
     - job: fetch-cross-platform-packages
       artifacts: true
+    - job: qualify-dist-windows
+      artifacts: false
+  before_script:
+    - apt-get update
+    - apt-get install --yes --no-install-recommends python3 curl xz-utils ca-certificates
   script:
     - export SOURCE_DATE_EPOCH="$(git show -s --format=%ct "$CI_COMMIT_SHA")"
     - cargo install --locked cargo-cyclonedx --version 0.5.9
     - cargo cyclonedx --manifest-path crates/opdev-cli/Cargo.toml --format json --describe binaries --all-features --target all --spec-version 1.5
+    - sh scripts/install_dist.sh /tmp/opdev-dist-tools
+    - cargo build --locked -p opdev-cli
+    - python3 scripts/prepare_dist.py --dist /tmp/opdev-dist-tools/cargo-dist-x86_64-unknown-linux-gnu/dist --input release-artifacts --output dist-assets --version "$OPDEV_VERSION" --tag "$CI_COMMIT_TAG" --opdev target/debug/opdev
     - mkdir release-bundle
+    - cp dist-assets/* release-bundle/
     - mv release-artifacts/* release-bundle/
     - mv crates/opdev-cli/opdev_bin.cdx.json release-bundle/opdev-${OPDEV_VERSION}.cdx.json
-    - cargo run --locked -p opdev-cli -- release evidence --artifact release-bundle/opdev-${OPDEV_VERSION}-x86_64-pc-windows-msvc.zip --artifact release-bundle/opdev-${OPDEV_VERSION}-aarch64-pc-windows-msvc.zip --artifact release-bundle/opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz --artifact release-bundle/opdev-${OPDEV_VERSION}-aarch64-unknown-linux-gnu.tar.gz --artifact release-bundle/opdev-${OPDEV_VERSION}-x86_64-apple-darwin.tar.gz --artifact release-bundle/opdev-${OPDEV_VERSION}-aarch64-apple-darwin.tar.gz --artifact release-bundle/opdev-plugin-${OPDEV_VERSION}.tar.gz --sbom release-bundle/opdev-${OPDEV_VERSION}.cdx.json --source-uri "$CI_PROJECT_URL" --source-revision "$CI_COMMIT_SHA" --builder-id "https://github.com/stolenfootball/opdev/actions/runs/${GH_BUILD_RUN_ID}" --assurance-limitation "The CycloneDX 1.5 SBOM is an all-target dependency superset associated with every archive and may include components not shipped on a given target. GitHub Actions built and smoke-tested the immutable archives; the protected GitLab tag pipeline retrieved, digest-bound, signed, and published those exact bytes. This bundle does not by itself establish trusted-builder provenance or any SLSA Build level." --output release-bundle
+    - python3 scripts/release_evidence.py --opdev target/debug/opdev --bundle release-bundle --version "$OPDEV_VERSION" --revision "$CI_COMMIT_SHA" --build-run "$GH_BUILD_RUN_ID"
     - cd release-bundle && sha256sum -c SHA256SUMS
   artifacts:
     paths:
@@ -410,7 +456,7 @@ sign-release:
   before_script:
     - apk add --no-cache cosign
   script:
-    - 'for artifact in release-bundle/*.tar.gz release-bundle/*.zip; do cosign sign-blob "$artifact" --bundle "$artifact.sigstore.json"; cosign verify-blob "$artifact" --bundle "$artifact.sigstore.json" --certificate-identity "${CI_PROJECT_URL}//.gitlab-ci.yml@refs/tags/${CI_COMMIT_TAG}" --certificate-oidc-issuer "$CI_SERVER_URL"; done'
+    - 'for artifact in release-bundle/*.tar.gz release-bundle/*.zip release-bundle/*.sh release-bundle/*.ps1; do cosign sign-blob "$artifact" --bundle "$artifact.sigstore.json"; cosign verify-blob "$artifact" --bundle "$artifact.sigstore.json" --certificate-identity "${CI_PROJECT_URL}//.gitlab-ci.yml@refs/tags/${CI_COMMIT_TAG}" --certificate-oidc-issuer "$CI_SERVER_URL"; done'
   artifacts:
     paths:
       - release-bundle/
@@ -418,86 +464,31 @@ sign-release:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$/'
 
-publish-gitlab:
+publish-github:
   stage: publish
-  image: rust:1.97.0-bookworm
+  image: python:3.13-bookworm
+  resource_group: github-release
   needs:
     - job: sign-release
       artifacts: true
-  before_script:
-    - apt-get update
-    - apt-get install --yes --no-install-recommends ca-certificates curl
-    - rm -rf /var/lib/apt/lists/*
   script:
-    - 'for file in release-bundle/*; do name=$(basename "$file"); curl --fail --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "$file" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/$name"; done'
+    - python3 scripts/publish_github.py --bundle release-bundle --tag "$CI_COMMIT_TAG" --revision "$CI_COMMIT_SHA"
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$/'
+    - if: '$CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$/'
 
 create-gitlab-release:
   stage: publish
   image: registry.gitlab.com/gitlab-org/cli:v1.58.0
-  needs: [publish-gitlab]
+  needs: [publish-github]
   script:
-    - echo "Creating immutable OpDev release $CI_COMMIT_TAG"
+    - echo "Recording the canonical GitHub download destination"
   release:
     tag_name: $CI_COMMIT_TAG
     name: OpDev $CI_COMMIT_TAG
-    description: Release artifacts, CycloneDX SBOM, checksums, release manifest, and SLSA-compatible provenance generated by the tag pipeline.
+    description: "Qualified and signed by GitLab CI. Download binaries, verified installers, and release evidence from https://github.com/stolenfootball/opdev/releases/tag/$CI_COMMIT_TAG"
     assets:
       links:
-        - name: opdev-${OPDEV_VERSION}-x86_64-pc-windows-msvc.zip
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-x86_64-pc-windows-msvc.zip
-          direct_asset_path: /opdev-${OPDEV_VERSION}-x86_64-pc-windows-msvc.zip
-        - name: opdev-${OPDEV_VERSION}-aarch64-pc-windows-msvc.zip
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-aarch64-pc-windows-msvc.zip
-          direct_asset_path: /opdev-${OPDEV_VERSION}-aarch64-pc-windows-msvc.zip
-        - name: opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz
-          direct_asset_path: /opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz
-        - name: opdev-${OPDEV_VERSION}-aarch64-unknown-linux-gnu.tar.gz
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-aarch64-unknown-linux-gnu.tar.gz
-          direct_asset_path: /opdev-${OPDEV_VERSION}-aarch64-unknown-linux-gnu.tar.gz
-        - name: opdev-${OPDEV_VERSION}-x86_64-apple-darwin.tar.gz
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-x86_64-apple-darwin.tar.gz
-          direct_asset_path: /opdev-${OPDEV_VERSION}-x86_64-apple-darwin.tar.gz
-        - name: opdev-${OPDEV_VERSION}-aarch64-apple-darwin.tar.gz
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-aarch64-apple-darwin.tar.gz
-          direct_asset_path: /opdev-${OPDEV_VERSION}-aarch64-apple-darwin.tar.gz
-        - name: opdev-plugin-${OPDEV_VERSION}.tar.gz
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-plugin-${OPDEV_VERSION}.tar.gz
-          direct_asset_path: /opdev-plugin-${OPDEV_VERSION}.tar.gz
-        - name: opdev-${OPDEV_VERSION}-x86_64-pc-windows-msvc.zip.sigstore.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-x86_64-pc-windows-msvc.zip.sigstore.json
-          direct_asset_path: /opdev-${OPDEV_VERSION}-x86_64-pc-windows-msvc.zip.sigstore.json
-        - name: opdev-${OPDEV_VERSION}-aarch64-pc-windows-msvc.zip.sigstore.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-aarch64-pc-windows-msvc.zip.sigstore.json
-          direct_asset_path: /opdev-${OPDEV_VERSION}-aarch64-pc-windows-msvc.zip.sigstore.json
-        - name: opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz.sigstore.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz.sigstore.json
-          direct_asset_path: /opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz.sigstore.json
-        - name: opdev-${OPDEV_VERSION}-aarch64-unknown-linux-gnu.tar.gz.sigstore.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-aarch64-unknown-linux-gnu.tar.gz.sigstore.json
-          direct_asset_path: /opdev-${OPDEV_VERSION}-aarch64-unknown-linux-gnu.tar.gz.sigstore.json
-        - name: opdev-${OPDEV_VERSION}-x86_64-apple-darwin.tar.gz.sigstore.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-x86_64-apple-darwin.tar.gz.sigstore.json
-          direct_asset_path: /opdev-${OPDEV_VERSION}-x86_64-apple-darwin.tar.gz.sigstore.json
-        - name: opdev-${OPDEV_VERSION}-aarch64-apple-darwin.tar.gz.sigstore.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}-aarch64-apple-darwin.tar.gz.sigstore.json
-          direct_asset_path: /opdev-${OPDEV_VERSION}-aarch64-apple-darwin.tar.gz.sigstore.json
-        - name: opdev-plugin-${OPDEV_VERSION}.tar.gz.sigstore.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-plugin-${OPDEV_VERSION}.tar.gz.sigstore.json
-          direct_asset_path: /opdev-plugin-${OPDEV_VERSION}.tar.gz.sigstore.json
-        - name: opdev-${OPDEV_VERSION}.cdx.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-${OPDEV_VERSION}.cdx.json
-          direct_asset_path: /opdev-${OPDEV_VERSION}.cdx.json
-        - name: SHA256SUMS
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/SHA256SUMS
-          direct_asset_path: /SHA256SUMS
-        - name: opdev-release-manifest.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-release-manifest.json
-          direct_asset_path: /opdev-release-manifest.json
-        - name: opdev-provenance.intoto.json
-          url: $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/opdev/$CI_COMMIT_TAG/opdev-provenance.intoto.json
-          direct_asset_path: /opdev-provenance.intoto.json
+        - name: Downloads and installation
+          url: https://github.com/stolenfootball/opdev/releases/tag/$CI_COMMIT_TAG
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$/'
+    - if: '$CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$/'
