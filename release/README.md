@@ -100,7 +100,7 @@ candidate and whenever the delivery path materially changes.
 
 ## Managed-runtime pin maintenance
 
-The source package is prepared for version 0.1.2; no historical 0.1.1 asset is
+The source package is version 0.1.2; no historical 0.1.1 asset is
 replaced. The plugin's `runtime.lock` intentionally pins published CLI 0.1.1
 until a newer CLI is independently qualified and available. Update that lock's
 version, tag, signing identity, and verifier digests only as a reviewed change,
@@ -117,7 +117,19 @@ The old GitLab-only feasibility probe remains as an upstream regression aid.
 The first candidate must exercise the exact-tag mirror handoff, immutable draft
 publication, download verification on supported platforms, README one-liners,
 and a fixture `opdev check`. Generation and offline fixtures do not replace this
-qualification. No GitHub release exists until that protected tag pipeline runs.
+qualification. Candidate `v0.1.2-rc.1` completed this path in
+[GitLab pipeline 2835650463](https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2835650463).
+All 43 downloaded asset digests and all 15 archive/installer signatures passed.
+Live install/reinstall and CLI fixtures passed on macOS ARM64 and Ubuntu 24.04
+ARM64; the downloaded macOS x86-64 binary passed under Rosetta. All six native
+build/smoke jobs and Windows installer fixtures passed in CI. Post-download
+Windows installation was not exercised.
+
+Retrying the same publication job succeeded against the immutable candidate
+without rebuilding or replacing assets (job 16411303523). Interrupted-draft
+recovery remains covered by offline fixtures; no live interruption was injected.
+[Issue 21](https://gitlab.com/stolenfootball-tools/opdev/-/issues/21) records
+candidate acceptance and final release validation.
 
 If upload is interrupted, retry the same GitLab publication job: matching assets
 are retained, missing assets are uploaded, and the draft becomes public only

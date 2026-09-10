@@ -15,7 +15,7 @@ project:
     summary: Native binaries are built once, compared byte-for-byte after additive cargo-dist packaging, and promoted through the sole protected GitLab publisher to immutable GitHub releases.
     evidence:
       - kind: ci
-        summary: The native handoff preserves its repeat packaging check. prepare_dist.py compares every repackaged executable with its input, and publish_github.py requires exact tag and asset digests. Six-target fixture generation and the release-evidence inventory test cover the migrated path; live candidate qualification remains unverified.
+        summary: The native handoff preserves its repeat packaging check. prepare_dist.py compares every repackaged executable with its input, and publish_github.py requires exact tag and asset digests. Six-target fixture generation and the release-evidence inventory test cover the migrated path. Candidate pipeline 2835650463 published the same qualified bytes; all 43 downloaded assets matched GitHub digests.
         location: .gitlab-ci.yml
       - kind: release
         summary: The release manifest and provenance bind RC2 artifact digests to source revision 103e1cd614fcbb171189bf48affd099170d0efab and its builder run.
@@ -28,7 +28,7 @@ project:
         summary: The on-demand recovery procedure preserves evidence, restores trunk, requires regression protection, and republishes only through the canonical pipeline.
         location: release/README.md
       - kind: test
-        summary: Offline publication tests exercise an interrupted draft upload, resume, immutable publication retry, mismatched assets, wrong tags, missing signatures, and disabled immutability. The historical GitLab roll-forward remains documented; first live GitHub candidate recovery is not yet claimed.
+        summary: Offline publication tests exercise an interrupted draft upload, resume, immutable publication retry, mismatched assets, wrong tags, missing signatures, and disabled immutability. The historical GitLab roll-forward remains documented. Live immutable candidate publication retry job 16411303523 passed without rebuilding or replacing assets; no live interrupted upload was injected.
         location: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/merge_requests/3
   - rule_id: MCD-CONFIG-002
     outcome: passed
@@ -93,6 +93,30 @@ project:
       - kind: ci
         summary: GitHub change CI declares read-only contents permission and uses full-SHA pinned actions.
         location: .github/workflows/opdev.yml
+  - rule_id: MCD-PIPELINE-001
+    outcome: passed
+    summary: The protected GitLab candidate pipeline completed native handoff, evidence, signing, immutable GitHub publication, and linked GitLab release notes.
+    evidence:
+      - kind: ci
+        summary: Candidate v0.1.2-rc.1 at 5d6721ea05f500856789f5738bd2562f96665d55 passed pipeline 2835650463 and all six native jobs in GitHub run 34435310881. Same-artifact publication retry 16411303523 also passed.
+        location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2835650463
+  - rule_id: MCD-ARTIFACT-001
+    outcome: passed
+    summary: The immutable candidate contains the complete native/plugin archives, verified installers, checksums, SBOM, manifest, provenance, and signature inventory.
+    evidence:
+      - kind: release
+        summary: All 43 downloaded assets match GitHub SHA-256 digests and the strict publisher inventory. All 15 archive/installer signatures verify against the exact candidate GitLab identity; provenance names source commit 5d6721ea05f500856789f5738bd2562f96665d55.
+        location: https://github.com/stolenfootball/opdev/releases/tag/v0.1.2-rc.1
+  - rule_id: MCD-ENV-001
+    outcome: passed
+    summary: The candidate artifacts passed all six native build environments and representative post-download consumer checks.
+    evidence:
+      - kind: ci
+        summary: Linux, macOS, and Windows ARM64/x86-64 build, reproducibility, and native CLI smoke checks passed. Codex/Claude package validation and generated PowerShell fixtures passed in GitLab CI.
+        location: https://github.com/stolenfootball/opdev/actions/runs/34435310881
+      - kind: validation
+        summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
+        location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
   - fingerprint: f9c2c180f5caee367bb6a8cdf4b9920d3cb94fb2969530f6a649f7970a18d38c
     work: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/issues/10
@@ -1011,3 +1035,70 @@ changes:
           - kind: test
             summary: "Both generated script parsers and successful/failed verification paths were rerun. Candidate generation asserts rc download and signing identities. Upstream template drift stops generation. Separate cargo-dist runs exposed wall-clock archive metadata; the existing deterministic OpDev packager now normalizes the final layout and refreshes digests. The new cross-run archive equality regression, real evidence inventory, and both installer fixture suites passed. All assertions were rechecked for this correction; GitHub immutable releases is now enabled without publishing a release. The subsequent README-only correction separates plugin commands while retaining one-line CLI installers. All eight jobs in pipeline 2835597295 passed for the unchanged implementation; the correction and existing assertion evidence were reviewed again."
             location: "tests/dist_integration_test.py"
+
+  - fingerprint: 5892ebd7246e45f24792fd50f7d06aefae1a26ef0b65041071364440ad20b4d5
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 21 records authorization to publish, candidate acceptance, exact validation evidence, and the final release sequence."
+        evidence:
+          - kind: work
+            summary: "Issue 21 records authorization to publish, candidate acceptance, exact validation evidence, and the final release sequence."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "This documentation-only follow-up records execution of the accepted hosting and verification design; no runtime or delivery behavior changes."
+        evidence:
+          - kind: decision
+            summary: "This documentation-only follow-up records execution of the accepted hosting and verification design; no runtime or delivery behavior changes."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The short-lived documentation branch originates from green trunk 5d6721ea05f500856789f5738bd2562f96665d55 and will merge through CI after final live validation."
+        evidence:
+          - kind: git
+            summary: "The short-lived documentation branch originates from green trunk 5d6721ea05f500856789f5738bd2562f96665d55 and will merge through CI after final live validation."
+            location: "codex/release-0.1.2-qualification"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "One bounded release documentation follow-up is prepared in this session; no concurrent long-lived implementation branch exists."
+        evidence:
+          - kind: work
+            summary: "One bounded release documentation follow-up is prepared in this session; no concurrent long-lived implementation branch exists."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2835637771 passed before the release and documentation follow-up; no known red trunk is deferred."
+        evidence:
+          - kind: ci
+            summary: "Trunk pipeline 2835637771 passed before the release and documentation follow-up; no known red trunk is deferred."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2835637771"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "README CLI installers remain single physical lines and plugin commands remain separate lines. Runtime code, schemas, historical assets, and the plugin 0.1.1 pin are unchanged."
+        evidence:
+          - kind: review
+            summary: "README CLI installers remain single physical lines and plugin commands remain separate lines. Runtime code, schemas, historical assets, and the plugin 0.1.1 pin are unchanged."
+            location: "README.md"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Candidate acceptance is evidenced by all six native builds, all 43 downloaded asset digests, all 15 signatures, live installation/reinstallation, CLI fixtures, and immutable publication retry. No new tests are necessary for documentation-only changes; canonical checks remain required."
+        evidence:
+          - kind: validation
+            summary: "Candidate acceptance is evidenced by all six native builds, all 43 downloaded asset digests, all 15 signatures, live installation/reinstallation, CLI fixtures, and immutable publication retry. No new tests are necessary for documentation-only changes; canonical checks remain required."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored release documentation and evidence use exact staged fingerprints and the same canonical local and CI gates."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored release documentation and evidence use exact staged fingerprints and the same canonical local and CI gates."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The first GitHub candidate validated protected credential permissions, exact-tag publication, immutable retry, signatures, and representative live consumers. The recorded scope distinguishes native Windows CI from unperformed post-download Windows installation and offline interrupted-upload fixtures from live retry."
+        evidence:
+          - kind: work
+            summary: "The first GitHub candidate validated protected credential permissions, exact-tag publication, immutable retry, signatures, and representative live consumers. The recorded scope distinguishes native Windows CI from unperformed post-download Windows installation and offline interrupted-upload fixtures from live retry."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"

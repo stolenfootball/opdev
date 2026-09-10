@@ -63,7 +63,7 @@ falls back to checksum-only installation.
 
 ## Standalone cargo-dist installation
 
-Future releases beginning with 0.1.2 use the existing public GitHub mirror as the
+Releases beginning with 0.1.2 use the existing public GitHub mirror as the
 canonical binary host. GitLab remains the source, qualification, signing, and
 publication authority. Historical GitLab releases remain available, including
 the plugin's deliberate 0.1.1 runtime pin. Generated CI adapters select GitLab
@@ -119,5 +119,7 @@ bootstrap of CLI 0.1.1 does not qualify a new CLI release.
 
 Standalone qualification generates all six target packages and both installers,
 runs shell/PowerShell signature-failure fixtures, and checks interrupted draft
-publication and immutable retry behavior. A first live GitHub candidate remains
-required before claiming the new delivery path is production-qualified.
+publication and immutable retry behavior. The first live GitHub candidate, `v0.1.2-rc.1`, passed this qualification;
+[issue 21](https://gitlab.com/stolenfootball-tools/opdev/-/issues/21) records
+the exact pipelines, signature and inventory checks, and consumer environments.
+Each subsequent release still requires its own tag-bound qualification.

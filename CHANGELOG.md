@@ -3,10 +3,9 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
-## Unreleased
+## 0.1.2 - 2026-09-10
 
 - Add cargo-dist packaging and signature-verifying one-line installers, with immutable GitHub releases published exclusively by GitLab CI. Preserve historical GitLab downloads and the plugin runtime pin.
-
 
 - Add plugin-managed CLI setup with a pinned signature verifier, exact release
   identity verification, versioned storage, and offline failure tests.
