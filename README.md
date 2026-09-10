@@ -106,8 +106,8 @@ or separately installed signature verifier. It does not add a global `opdev`
 command or initialize a repository. See [setup requirements and recovery](plugins/opdev/skills/setup/SKILL.md)
 for supported platforms, storage locations, and manual setup commands.
 
-The source plugin is version 0.1.2 and deliberately installs already-published
-CLI 0.1.1. This does not announce a new CLI release.
+The plugin is version 0.1.2 and deliberately installs qualified CLI 0.1.1.
+Standalone CLI 0.1.2 is available separately below.
 
 To adopt OpDev in a project, open that repository with your agent and say:
 
@@ -120,9 +120,8 @@ terminal examples below apply when you also install a standalone CLI on PATH.
 
 ### Optional: install a standalone CLI
 
-The following one-line installers become available with the first GitHub release
-of **0.1.2**; that release has not been published yet. For the currently published
-0.1.1, use the [historical release and verification instructions](release/README.md#consumer-verification).
+Install **0.1.2** using the following one-line installers. Earlier versions remain
+available through the [historical release and verification instructions](release/README.md#consumer-verification).
 
 macOS or Linux:
 
