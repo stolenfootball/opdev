@@ -427,12 +427,12 @@ release-evidence:
     - cargo install --locked cargo-cyclonedx --version 0.5.9
     - cargo cyclonedx --manifest-path crates/opdev-cli/Cargo.toml --format json --describe binaries --all-features --target all --spec-version 1.5
     - sh scripts/install_dist.sh /tmp/opdev-dist-tools
-    - python3 scripts/prepare_dist.py --dist /tmp/opdev-dist-tools/cargo-dist-x86_64-unknown-linux-gnu/dist --input release-artifacts --output dist-assets --version "$OPDEV_VERSION" --tag "$CI_COMMIT_TAG"
+    - cargo build --locked -p opdev-cli
+    - python3 scripts/prepare_dist.py --dist /tmp/opdev-dist-tools/cargo-dist-x86_64-unknown-linux-gnu/dist --input release-artifacts --output dist-assets --version "$OPDEV_VERSION" --tag "$CI_COMMIT_TAG" --opdev target/debug/opdev
     - mkdir release-bundle
     - cp dist-assets/* release-bundle/
     - mv release-artifacts/* release-bundle/
     - mv crates/opdev-cli/opdev_bin.cdx.json release-bundle/opdev-${OPDEV_VERSION}.cdx.json
-    - cargo build --locked -p opdev-cli
     - python3 scripts/release_evidence.py --opdev target/debug/opdev --bundle release-bundle --version "$OPDEV_VERSION" --revision "$CI_COMMIT_SHA" --build-run "$GH_BUILD_RUN_ID"
     - cd release-bundle && sha256sum -c SHA256SUMS
   artifacts:

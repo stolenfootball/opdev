@@ -63,7 +63,7 @@ def harden(text, extension, tag):
     return text
 
 
-def prepare(dist, inputs, output, version, targets, tag=None):
+def prepare(dist, inputs, output, version, targets, tag=None, opdev=None):
     if not re.fullmatch(r'0\.\d+\.\d+(?:-rc\.\d+)?', version):
         raise ValueError('Invalid release version')
     tag = tag or 'v' + version
@@ -73,6 +73,8 @@ def prepare(dist, inputs, output, version, targets, tag=None):
         raise ValueError('Expected cargo-dist 0.32.0')
     if output.exists():
         raise ValueError('Refusing to overwrite dist output')
+    if opdev is None:
+        raise ValueError('The qualified OpDev packager is required')
     with tempfile.TemporaryDirectory(prefix='opdev-dist-') as tmp:
         work = Path(tmp)
         config = (ROOT / 'release/cargo-dist/dist-workspace.toml').read_text()
@@ -93,6 +95,7 @@ def prepare(dist, inputs, output, version, targets, tag=None):
         result = subprocess.run([dist, 'build', '--artifacts=all', '--tag', tag, '--output-format=json', '--no-local-paths'], cwd=work, check=True, text=True, capture_output=True)
         manifest = json.loads(result.stdout)
         distrib = work / 'target/distrib'
+        checksum_changes = {}
         # Assert cargo-dist's repackaging preserved all executable bytes.
         for target in targets:
             ext = 'zip' if 'windows' in target else 'tar.gz'
@@ -105,11 +108,23 @@ def prepare(dist, inputs, output, version, targets, tag=None):
             original = (work / 'inputs' / target / ('opdev.exe' if 'windows' in target else 'opdev')).read_bytes()
             if data != original:
                 raise ValueError('cargo-dist changed executable bytes')
+            # cargo-dist archives retain wall-clock metadata. Normalize using our
+            # existing deterministic packager before signing or embedding digests.
+            before = hashlib.sha256(archive.read_bytes()).hexdigest()
+            canonical = work / 'canonical' / archive.name
+            binary = work / 'inputs' / target / ('opdev.exe' if 'windows' in target else 'opdev')
+            entry = 'opdev.exe' if ext == 'zip' else f'opdev-{target}/opdev'
+            subprocess.run([opdev, 'release', 'package', '--format', 'zip' if ext == 'zip' else 'tar-gz', '--executable-entry', f'{binary}={entry}', '--output', str(canonical)], check=True, capture_output=True)
+            archive.write_bytes(canonical.read_bytes())
+            checksum_changes[before] = hashlib.sha256(archive.read_bytes()).hexdigest()
         output.mkdir(parents=True)
         for path in distrib.iterdir():
             if path.is_file():
                 if path.suffix in ('.sh', '.ps1'):
-                    path.write_text(harden(path.read_text(), path.suffix[1:], tag))
+                    text = path.read_text()
+                    for old, new in checksum_changes.items():
+                        text = text.replace(old, new)
+                    path.write_text(harden(text, path.suffix[1:], tag))
                 shutil.copy2(path, output / path.name)
         for path in output.glob('*.sha256'):
             artifact = output / path.name.removesuffix('.sha256')
@@ -132,6 +147,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--version', required=True)
     parser.add_argument('--tag')
+    parser.add_argument('--opdev', required=True)
     parser.add_argument('--target', action='append', choices=TARGETS)
     args = parser.parse_args()
-    prepare(str(Path(args.dist).resolve()), args.input.resolve(), args.output.resolve(), args.version, args.target or TARGETS, args.tag)
+    prepare(str(Path(args.dist).resolve()), args.input.resolve(), args.output.resolve(), args.version, args.target or TARGETS, args.tag, str(Path(args.opdev).resolve()))

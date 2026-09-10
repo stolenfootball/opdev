@@ -36,9 +36,12 @@ with tempfile.TemporaryDirectory(prefix='opdev dist integration ') as tmp:
                 entry.mode = 0o755
                 entry.size = len(payload)
                 t.addfile(entry, io.BytesIO(payload))
-    dist.prepare(str(Path(args.dist).resolve()), inputs, args.output.resolve(), '0.1.2', dist.TARGETS)
+    dist.prepare(str(Path(args.dist).resolve()), inputs, args.output.resolve(), '0.1.2', dist.TARGETS, opdev=str(Path(args.opdev).resolve()))
     candidate = root / 'candidate'
-    dist.prepare(str(Path(args.dist).resolve()), inputs, candidate, '0.1.2', dist.TARGETS, 'v0.1.2-rc.1')
+    dist.prepare(str(Path(args.dist).resolve()), inputs, candidate, '0.1.2', dist.TARGETS, 'v0.1.2-rc.1', str(Path(args.opdev).resolve()))
+    for archive in args.output.iterdir():
+        if archive.name.endswith(('.tar.gz', '.zip')):
+            assert archive.read_bytes() == (candidate / archive.name).read_bytes(), 'Archive metadata is not deterministic'
     for ext in ('sh', 'ps1'):
         text = (candidate / ('opdev-installer.' + ext)).read_text()
         assert 'releases/download/v0.1.2-rc.1' in text

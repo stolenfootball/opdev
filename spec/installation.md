@@ -74,7 +74,9 @@ package identifies the GitHub mirror and stages already-built native binaries;
 it MUST NOT compile them again. Existing archive layouts/names are preserved
 as additional assets, while cargo-dist creates its expected archive layout.
 Packaging verifies that every extracted executable equals the input byte for
-byte. Global installers and refreshed manifest/checksums describe the final
+byte. Because cargo-dist preserves wall-clock archive metadata, the existing
+deterministic OpDev packager normalizes its archive layout before signing;
+installer and manifest digests are refreshed for those final bytes. Global installers and refreshed manifest/checksums describe the final
 assets. GitLab signs both legacy and cargo-dist archives and the installers.
 
 Generated scripts receive the versioned verification extensions in

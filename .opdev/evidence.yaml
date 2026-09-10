@@ -945,7 +945,7 @@ changes:
             summary: "The first live macOS attempt verified the signature but rejected multiline version output; after correction, offline regressions and the live retry passed. The initial package fixture omitted marketplace metadata; the corrected full package passed validation. Pipeline 2835323662 passed both live Linux architectures but exposed a missing explicit ZIP assembly load on Windows PowerShell 5.1; production and fixture now load it explicitly, and platform detection uses native Windows architecture environment variables. Pipeline 2835332690 subsequently passed all six jobs including Windows and both Linux live installs. The final README-only revision was reviewed against the setup skill, runtime storage contract, and marketplace commands; it leads with plugin setup and separates optional standalone CLI use. Implementation, pins, tests, and delivery configuration are unchanged; all change assertions were rechecked for this staged state."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
 
-  - fingerprint: e355e5d1f134fd20c9d73e77a610b9273b810727a55f90e9d28b9f8c650f2405
+  - fingerprint: f4866e06de2f70fb6a9e03ee0c312a513cab2934ae0e001b0434c8fe58d60292
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
     assertions:
       - rule_id: OPDEV-WORK-001
@@ -1009,5 +1009,5 @@ changes:
         summary: "Observed PowerShell redirection parse failure and release-candidate identity mismatch were corrected and given executable regression coverage."
         evidence:
           - kind: test
-            summary: "Both generated script parsers and successful/failed verification paths were rerun. Candidate generation asserts rc download and signing identities. Upstream template drift stops generation."
+            summary: "Both generated script parsers and successful/failed verification paths were rerun. Candidate generation asserts rc download and signing identities. Upstream template drift stops generation. Separate cargo-dist runs exposed wall-clock archive metadata; the existing deterministic OpDev packager now normalizes the final layout and refreshes digests. The new cross-run archive equality regression, real evidence inventory, and both installer fixture suites passed. All assertions were rechecked for this correction; GitHub immutable releases is now enabled without publishing a release."
             location: "tests/dist_integration_test.py"
