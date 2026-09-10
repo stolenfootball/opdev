@@ -68,7 +68,8 @@ to install the CLI separately or have Rust installed.
 For Codex:
 
 ```sh
-codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git && codex plugin add opdev@personal
+codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
+codex plugin add opdev@personal
 ```
 
 Start a new Codex task after installation or update so the skill is loaded into
@@ -77,7 +78,8 @@ fresh context.
 For Claude Code:
 
 ```sh
-claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git && claude plugin install opdev@opdev
+claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
+claude plugin install opdev@opdev
 ```
 
 Restart Claude Code or reload its plugins after installation. Plugin developers
