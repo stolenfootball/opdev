@@ -60,22 +60,65 @@ without interruption; an uninitialized software project prompts before running
 
 ## Quick start
 
-### Plugin-first setup (development version 0.1.2)
+### Install the agent plugin
 
-The new plugin includes native runtime setup. After installing the plugin, ask
-it to **set up OpDev**. On first software-development use it can also request
-setup when no compatible CLI exists. Normal agent permissions apply. Setup
-installs the pinned, signed CLI into OpDev-owned storage without Rust, global
-PATH changes, or repository initialization. A compatible standalone CLI can
-still be used.
+Install the plugin for your agent, then ask it to set up OpDev. You do not need
+to install the CLI separately or have Rust installed.
 
-This source change is not a new published release. The runtime deliberately pins
-the existing CLI 0.1.1. See [plugin setup](plugins/opdev/skills/setup/SKILL.md) for
-manual invocation, platform requirements, storage, and recovery. cargo-dist
-integration is deferred after a reproducible GitLab-only generation failure;
-see the [probe](release/cargo-dist-probe/README.md).
+For Codex:
 
-### 1. Install the standalone CLI
+```sh
+codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
+codex plugin add opdev@personal
+```
+
+Start a new Codex task after installation or update so the skill is loaded into
+fresh context.
+
+For Claude Code:
+
+```sh
+claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
+claude plugin install opdev@opdev
+```
+
+Restart Claude Code or reload its plugins after installation. Plugin developers
+can load this checkout directly with `claude --plugin-dir ./plugins/opdev`.
+
+On its first use in a task, the plugin verifies the installed CLI against its
+packaged semantic-version compatibility contract. An incompatible or invalid
+combination stops OpDev and offers a compatible CLI installation instead of
+silently continuing.
+
+### Ask the agent to set up OpDev
+
+After starting a fresh task or reloading plugins, say:
+
+> Set up OpDev.
+
+The agent downloads the pinned native CLI and signature verifier, verifies the
+archive signature, checks compatibility, and installs the CLI into private,
+versioned storage. Normal tool approvals apply. Subsequent sessions reuse the
+installed runtime without downloading it again.
+
+Setup requires basic OS tools and initial network access, but no Rust toolchain
+or separately installed signature verifier. It does not add a global `opdev`
+command or initialize a repository. See [setup requirements and recovery](plugins/opdev/skills/setup/SKILL.md)
+for supported platforms, storage locations, and manual setup commands.
+
+The source plugin is version 0.1.2 and deliberately installs already-published
+CLI 0.1.1. This does not announce a new CLI release.
+
+To adopt OpDev in a project, open that repository with your agent and say:
+
+> Initialize OpDev in this repository.
+
+The agent reviews discovery and the project contract with you. Project-specific
+compilers and test runners remain prerequisites for the project's own checks.
+For ongoing work, ask the agent to run OpDev using its managed runtime. The
+terminal examples below apply when you also install a standalone CLI on PATH.
+
+### Optional: install a standalone CLI
 
 Download the archive for your system from the
 [v0.1.1 release](https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1),
@@ -113,37 +156,7 @@ opdev version
 The CLI owns project discovery, schemas, command execution, rule evaluation,
 reports, provider inspection, and release evidence.
 
-### 2. Install the agent plugin
-
-The plugin is optional for CLI-only use. Install it when you want Codex or
-Claude Code to apply OpDev automatically during software-development work.
-
-For Codex:
-
-```sh
-codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
-codex plugin add opdev@personal
-```
-
-Start a new Codex task after installation or update so the skill is loaded into
-fresh context.
-
-For Claude Code:
-
-```sh
-claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
-claude plugin install opdev@opdev
-```
-
-Restart Claude Code or reload its plugins after installation. Plugin developers
-can load this checkout directly with `claude --plugin-dir ./plugins/opdev`.
-
-On its first use in a task, the plugin verifies the installed CLI against its
-packaged semantic-version compatibility contract. An incompatible or invalid
-combination stops OpDev and offers a compatible CLI installation instead of
-silently continuing.
-
-### 3. Initialize a repository
+### Initialize a repository
 
 Run the dry run first. Discovery does not execute repository-controlled
 commands.
@@ -166,7 +179,7 @@ git add .opdev/project.yaml AGENTS.md CLAUDE.md
 git commit -m "chore: initialize OpDev"
 ```
 
-### 4. Make a change
+### Make a change
 
 After initialization, work with an agent or your usual tools. Run the canonical
 checks before staging the complete change:
@@ -205,7 +218,7 @@ fingerprinting. Changing any staged path, content, or executable bit invalidates
 an existing fingerprint. The pull or merge request then runs the project's
 normal build and test commands plus the OpDev integration gate.
 
-### 5. Connect CI
+### Connect CI
 
 Inspect an existing first-class configuration:
 
