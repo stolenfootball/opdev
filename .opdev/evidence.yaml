@@ -61,12 +61,15 @@ project:
         summary: RC1 stopped before publication, RC2 exercised the corrected path, and the RC2 consumer-link defect was corrected through the same merge and release flow for RC3.
         location: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/merge_requests/3
   - rule_id: MCD-CONFIG-002
-    outcome: not_applicable
-    summary: OpDev has no consumer environment-specific behavioral configuration; release credentials and tag inputs are injected only into CI and never rebuilt into artifacts.
+    outcome: passed
+    summary: Runtime location is externalized through OPDEV_DATA_DIR while release versions, verification identities, and platform pins remain versioned and tested; CI credentials remain injected.
     evidence:
       - kind: architecture
-        summary: The distributed CLI and plugin are stateless and contain no destination-specific configuration layer.
-        location: release/README.md
+        summary: The managed-runtime contract separates caller-selected storage from versioned release and trust inputs.
+        location: spec/installation.md
+      - kind: test
+        summary: POSIX and PowerShell fixtures install into overridden temporary paths with spaces without changing global PATH or project state.
+        location: tests
       - kind: ci
         summary: Publication credentials and exact release identity enter only at the protected GitLab pipeline boundary.
         location: .gitlab-ci.yml
@@ -904,3 +907,70 @@ changes:
           - kind: work
             summary: "Issue 20 records the evidence repair and runner IDs 54929563 and 54929564 being offline. The package job uses hosted saas-linux-small-amd64 with the same Rust image and unchanged build, reproducibility, and smoke commands. GitLab CI lint accepted the final configuration. MR 13 repeats qualification."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/20"
+
+  - fingerprint: 5b2d32389069b0d3f41fd809293ab12662f8e4238e6d655fe53ba4d122387107
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 21 records installer acceptance, platform/dependency risks, authorities, and the tested first-increment adjustment after cargo-dist generation failed."
+        evidence:
+          - kind: work
+            summary: "The implementation covers managed plugin setup; cargo-dist adoption and publishing a new release remain explicitly outside this increment."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The installation authority records the bootstrap trust model, runtime pin versus plugin version, atomic installation, recovery, alternatives, and a cargo-dist reconsideration trigger."
+        evidence:
+          - kind: decision
+            summary: "The pinned cargo-dist probe reproduces its GitHub-only receipt error; the chosen bootstrap preserves the single GitLab consumer release path."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused installer branch originates from green main at 61c6d1b75def45c724cbee7e255020a99ac97779 and is prepared for review through CI with branch removal after integration."
+        evidence:
+          - kind: git
+            summary: "codex/installer-bootstrap was created on 2026-09-09 from the completed rename integration."
+            location: "codex/installer-bootstrap"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "This is one bounded installer increment on one branch, prepared within the same working day rather than active multi-change development."
+        evidence:
+          - kind: work
+            summary: "Issue 21 scopes the first installer increment and records the upstream feasibility limitation."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Required trunk CI passed before installer work began."
+        evidence:
+          - kind: ci
+            summary: "Pipeline 2835029825 passed at 61c6d1b75def45c724cbee7e255020a99ac97779."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2835029825"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Existing native archive format and manual installation remain supported; plugin 0.1.2 pins available CLI 0.1.1 and preserves its historical signing identity."
+        evidence:
+          - kind: validation
+            summary: "Live macOS ARM64 signature verification and installation passed, repeat use reused the cache, and the packaged 0.1.2 plugin passed validation and CLI 0.1.1 compatibility verification. Existing workspace tests passed."
+            location: "plugins/opdev/runtime.lock"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Acceptance and risks map to canonical checks, offline POSIX/PowerShell cases, live platform installation CI, packaged-plugin validation, and a reproducible cargo-dist probe."
+        evidence:
+          - kind: test
+            summary: "Format, Clippy, 62 Rust tests (including nine nested POSIX cases), eight offline PowerShell cases, release build, skill validators, and packaged-plugin verification passed locally. Three existing environment-dependent Rust tests remain ignored; explicit new live installer jobs must pass in CI."
+            location: "tests"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored bootstrap code is subject to compiler, lint, executable regression tests, plugin/skill validators, exact-fingerprint evidence, and mandatory live-install CI jobs."
+        evidence:
+          - kind: policy
+            summary: "No gate was weakened to admit generated code or the cargo-dist failure; package jobs now require the Linux and Windows installer jobs."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Observed cargo-dist hosting failure and multiline CLI version output produced a recorded design decision, a reproducible probe, corrected version handling, and repeated installation tests."
+        evidence:
+          - kind: work
+            summary: "The first live macOS attempt verified the signature but rejected multiline version output; after correction, offline regressions and the live retry passed. The initial package fixture omitted marketplace metadata; the corrected full package passed validation."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"

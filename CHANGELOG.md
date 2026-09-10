@@ -5,6 +5,11 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Add plugin-managed CLI setup with a pinned signature verifier, exact release
+  identity verification, versioned storage, and offline failure tests.
+- Add Linux and Windows consumer-install CI checks and a reproducible cargo-dist
+  0.32.0 probe documenting the GitLab-only hosting blocker.
+
 - Rename the canonical GitLab repository to `stolenfootball-tools/opdev` and
   update installation links, generated CI downloads, and future signing identity.
   Rename the GitHub build mirror to `stolenfootball/opdev` while preserving

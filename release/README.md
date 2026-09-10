@@ -83,3 +83,17 @@ Recovery is an on-demand safe roll-forward:
 Until the forward fix qualifies, consumers can pin or reinstall the last known
 good exact version. This procedure must be exercised during the initial release
 candidate and whenever the delivery path materially changes.
+
+## Managed-runtime pin maintenance
+
+The source package is prepared for version 0.1.2; no historical 0.1.1 asset is
+replaced. The plugin's `runtime.lock` intentionally pins published CLI 0.1.1
+until a newer CLI is independently qualified and available. Update that lock's
+version, tag, signing identity, and verifier digests only as a reviewed change,
+then run the offline and live installer suites. Do not point a source-marketplace
+plugin at a release that has not been published.
+
+The bootstrap scripts and lock are included automatically in the shared plugin
+archive. Existing native archives and release signing/publication remain the
+canonical path. cargo-dist has not been enabled in release CI; its reproducible
+feasibility result is in `release/cargo-dist-probe/README.md`.

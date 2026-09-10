@@ -6,7 +6,7 @@ stages:
 
 variables:
   CARGO_TERM_COLOR: always
-  OPDEV_VERSION: "0.1.1"
+  OPDEV_VERSION: "0.1.2"
   RUST_IMAGE: rust:1.97.0-bookworm
   RUST_VERSION: "1.97.0"
   RUSTUP_VERSION: "1.29.0"
@@ -22,6 +22,9 @@ workflow:
 quality:
   stage: verify
   image: rust:1.97.0-bookworm
+  before_script:
+    - apt-get update
+    - apt-get install --yes --no-install-recommends python3
   script:
     - cargo fmt --all -- --check
     - cargo clippy --workspace --all-targets --all-features -- -D warnings
@@ -60,6 +63,34 @@ plugin-validation:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
     - if: '$CI_COMMIT_TAG'
 
+installer-linux:
+  stage: verify
+  image: ubuntu:24.04
+  parallel:
+    matrix:
+      - INSTALLER_RUNNER: [saas-linux-small-amd64, saas-linux-small-arm64]
+  tags: [$INSTALLER_RUNNER]
+  before_script:
+    - apt-get update
+    - apt-get install --yes --no-install-recommends ca-certificates curl tar coreutils
+  script:
+    - sh tests/runtime_smoke.sh
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+installer-windows:
+  stage: verify
+  tags: [windows, powershell, hyperv]
+  script:
+    - powershell -NoProfile -File tests/runtime_test.ps1
+    - powershell -NoProfile -File tests/runtime_smoke.ps1
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
 .release-package-rules:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -73,11 +104,12 @@ plugin-validation:
         - .agents/plugins/marketplace.json
         - .claude-plugin/marketplace.json
         - release/**/*
+        - tests/runtime*
 
 package-linux-x86_64:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation]
+  needs: [quality, plugin-validation, installer-linux, installer-windows]
   tags: [saas-linux-small-amd64]
   script:
     - cargo build --release --locked -p opdev-cli --target x86_64-unknown-linux-gnu
@@ -103,7 +135,7 @@ package-linux-x86_64:
 package-linux-aarch64:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation]
+  needs: [quality, plugin-validation, installer-linux, installer-windows]
   tags: [saas-linux-small-arm64]
   script:
     - cargo build --release --locked -p opdev-cli --target aarch64-unknown-linux-gnu
@@ -123,7 +155,7 @@ package-linux-aarch64:
 
 package-windows:
   stage: package
-  needs: [quality, plugin-validation]
+  needs: [quality, plugin-validation, installer-linux, installer-windows]
   tags: [saas-windows-medium-amd64]
   script:
     - |
@@ -192,7 +224,7 @@ package-windows:
 
 package-macos:
   stage: package
-  needs: [quality, plugin-validation]
+  needs: [quality, plugin-validation, installer-linux, installer-windows]
   tags: [saas-macos-medium-m1]
   image: macos-15-xcode-16
   variables:
@@ -239,7 +271,7 @@ package-macos:
 fetch-cross-platform-packages:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation]
+  needs: [quality, plugin-validation, installer-linux, installer-windows]
   tags: [linux, docker, proxmox]
   before_script:
     - apt-get update

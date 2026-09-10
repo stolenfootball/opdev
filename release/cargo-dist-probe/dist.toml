@@ -1,0 +1,7 @@
+[package]
+name = "opdev"
+version = "0.1.1"
+description = "OpDev native CLI"
+repository = "https://github.com/stolenfootball/opdev"
+binaries = ["opdev"]
+build-command = ["false"]

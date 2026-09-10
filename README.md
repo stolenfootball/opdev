@@ -60,7 +60,22 @@ without interruption; an uninitialized software project prompts before running
 
 ## Quick start
 
-### 1. Install the CLI
+### Plugin-first setup (development version 0.1.2)
+
+The new plugin includes native runtime setup. After installing the plugin, ask
+it to **set up OpDev**. On first software-development use it can also request
+setup when no compatible CLI exists. Normal agent permissions apply. Setup
+installs the pinned, signed CLI into OpDev-owned storage without Rust, global
+PATH changes, or repository initialization. A compatible standalone CLI can
+still be used.
+
+This source change is not a new published release. The runtime deliberately pins
+the existing CLI 0.1.1. See [plugin setup](plugins/opdev/skills/setup/SKILL.md) for
+manual invocation, platform requirements, storage, and recovery. cargo-dist
+integration is deferred after a reproducible GitLab-only generation failure;
+see the [probe](release/cargo-dist-probe/README.md).
+
+### 1. Install the standalone CLI
 
 Download the archive for your system from the
 [v0.1.1 release](https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1),

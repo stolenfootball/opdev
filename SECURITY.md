@@ -44,3 +44,20 @@ launcher. OpDev never
 constructs an unrestricted `cmd /c` string, and Rust rejects arguments it
 cannot escape safely. The package manager and project scripts remain
 project-controlled code and require the same review as any canonical command.
+
+## Plugin bootstrap trust
+
+The managed-runtime bootstrap trusts the installed plugin source and its reviewed
+`runtime.lock`. It verifies the pinned cosign executable digest before execution,
+then requires the CLI archive's exact GitLab certificate identity and issuer.
+Signature failure never falls back to adjacent checksums. Only the expected
+executable is extracted after verification; temporary storage and per-version
+installation locks isolate incomplete attempts. Installation uses user-owned
+storage and never changes global PATH or initializes a repository.
+
+The runtime receipt detects accidental damage before cached execution. It does
+not protect against an actor able to rewrite both executable and receipt in the
+same user's data directory. `OPDEV_DATA_DIR` is a trusted caller override, not a
+repository-configured value. A damaged runtime requires explicit recovery;
+read-only hooks do not replace it or silently select a different executable.
+See `spec/installation.md` for dependencies, timeout behavior, and recovery.

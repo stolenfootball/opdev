@@ -9,7 +9,7 @@ problem, intended outcome, scope and exclusions, acceptance conditions, evidence
 and material risks. Durable architecture or contract changes belong in `spec/`
 and should describe alternatives, rationale, and a reversal trigger.
 
-Use Rust 1.97.0 and run:
+Use Rust 1.97.0 and Python 3 for the offline POSIX installer tests, then run:
 
 ```sh
 cargo fmt --all -- --check
@@ -31,3 +31,8 @@ Use conventional commit messages. Keep branches short-lived and integrate only
 through CI. Release tags are `vMAJOR.MINOR.PATCH`; their pipeline builds the
 artifact once and publishes its SBOM, checksums, release manifest, and provenance
 with the same immutable archive.
+
+PowerShell installer tests run with `powershell -NoProfile -File tests/runtime_test.ps1`
+on Windows (or `pwsh` on a development machine). Live consumer smoke tests are
+separate CI jobs; their network dependencies and limits are documented in
+`spec/installation.md`.
