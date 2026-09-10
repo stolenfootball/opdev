@@ -10,55 +10,25 @@ project:
       - kind: test
         summary: Workspace tests parse schemas, manifests, profiles, CI templates, agent files, and protocol messages.
         location: crates
-  - rule_id: MCD-PIPELINE-001
-    outcome: passed
-    summary: A protected tag pipeline gives the definitive release verdict only after native builds, repeat packaging, evidence generation, signing, and publication succeed.
-    evidence:
-      - kind: ci
-        summary: RC2 completed every qualification and publication stage through the declared GitLab pipeline.
-        location: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/pipelines/2803675236
-      - kind: policy
-        summary: Release operations define the required candidate and final verdicts and prohibit manual publication.
-        location: release/README.md
-  - rule_id: MCD-ARTIFACT-001
-    outcome: passed
-    summary: The release contract defines deployable native CLI archives, a shared agent-plugin archive, checksums, signatures, an SBOM, provenance, and successful smoke checks.
-    evidence:
-      - kind: ci
-        summary: The cross-platform builder qualifies all six native targets and the shared plugin payload before handoff.
-        location: .github/workflows/release-build.yml
-      - kind: release
-        summary: RC2 published the complete declared artifact and evidence set.
-        location: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/releases/v0.1.0-rc.2
   - rule_id: MCD-ARTIFACT-002
     outcome: passed
-    summary: Every archive is built once on its native runner, digest-bound to the exact source, and transferred unchanged to the sole publisher.
+    summary: Native binaries are built once, compared byte-for-byte after additive cargo-dist packaging, and promoted through the sole protected GitLab publisher to immutable GitHub releases.
     evidence:
       - kind: ci
-        summary: GitLab retrieves the exact GitHub run artifacts, repeats packaging to detect nondeterminism, verifies digests, and signs those same bytes without rebuilding them.
+        summary: The native handoff preserves its repeat packaging check. prepare_dist.py compares every repackaged executable with its input, and publish_github.py requires exact tag and asset digests. Six-target fixture generation and the release-evidence inventory test cover the migrated path; live candidate qualification remains unverified.
         location: .gitlab-ci.yml
       - kind: release
         summary: The release manifest and provenance bind RC2 artifact digests to source revision 103e1cd614fcbb171189bf48affd099170d0efab and its builder run.
         location: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/releases/v0.1.0-rc.2
-  - rule_id: MCD-ENV-001
-    outcome: passed
-    summary: Native artifacts and both agent-plugin formats are qualified in environments representative of every supported consumer target.
-    evidence:
-      - kind: ci
-        summary: RC2 ran native build, deterministic-package, and smoke jobs on x86-64 and ARM64 Windows, Linux, and macOS runners.
-        location: https://github.com/stolenfootball/opinionateddevelopment/actions/runs/33330835504
-      - kind: validation
-        summary: The shared plugin passes both the Codex and Claude Code plugin validators.
-        location: plugins/opdev
   - rule_id: MCD-RECOVERY-001
     outcome: passed
-    summary: OpDev's immutable, stateless releases use an exercised safe roll-forward procedure while consumers can remain pinned to the last known-good version.
+    summary: OpDev uses immutable stateless releases and safe roll-forward; the GitHub publisher additionally resumes matching drafts without replacing existing bytes.
     evidence:
       - kind: policy
         summary: The on-demand recovery procedure preserves evidence, restores trunk, requires regression protection, and republishes only through the canonical pipeline.
         location: release/README.md
       - kind: test
-        summary: RC1 stopped before publication, RC2 exercised the corrected path, and the RC2 consumer-link defect was corrected through the same merge and release flow for RC3.
+        summary: Offline publication tests exercise an interrupted draft upload, resume, immutable publication retry, mismatched assets, wrong tags, missing signatures, and disabled immutability. The historical GitLab roll-forward remains documented; first live GitHub candidate recovery is not yet claimed.
         location: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/merge_requests/3
   - rule_id: MCD-CONFIG-002
     outcome: passed
@@ -974,3 +944,70 @@ changes:
           - kind: work
             summary: "The first live macOS attempt verified the signature but rejected multiline version output; after correction, offline regressions and the live retry passed. The initial package fixture omitted marketplace metadata; the corrected full package passed validation. Pipeline 2835323662 passed both live Linux architectures but exposed a missing explicit ZIP assembly load on Windows PowerShell 5.1; production and fixture now load it explicitly, and platform detection uses native Windows architecture environment variables. Pipeline 2835332690 subsequently passed all six jobs including Windows and both Linux live installs. The final README-only revision was reviewed against the setup skill, runtime storage contract, and marketplace commands; it leads with plugin setup and separates optional standalone CLI use. Implementation, pins, tests, and delivery configuration are unchanged; all change assertions were rechecked for this staged state."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+
+  - fingerprint: e355e5d1f134fd20c9d73e77a610b9273b810727a55f90e9d28b9f8c650f2405
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 21 records the authorized GitHub hosting implementation and one-line README acceptance."
+        evidence:
+          - kind: work
+            summary: "GitLab remains source/CI/signing authority. GitHub is the accepted future binary host; no release publication is part of this implementation."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The installation and release authorities record the hosting migration, build-once packaging, pinned verification extension, alternatives, recovery, and first-candidate qualification boundary."
+        evidence:
+          - kind: decision
+            summary: "The user selected the existing GitHub mirror after successful hosting probes. Generated installers retain archive authenticity checks rather than relying on upstream checksums."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused cargo-dist branch originates from green main at 04db023706e07dd983f966a9b278c625a2739388 and will be reviewed through CI."
+        evidence:
+          - kind: git
+            summary: "One short-lived branch holds this installer and publication increment."
+            location: "codex/cargo-dist-github"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "One bounded implementation is being prepared on one branch within this working session."
+        evidence:
+          - kind: work
+            summary: "No concurrent long-lived integration branches are introduced."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk was green before implementation; no known red-trunk recovery is being deferred."
+        evidence:
+          - kind: ci
+            summary: "Main pipeline 2835527523 passed at branch origin 04db023."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2835527523"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Historical GitLab assets and plugin CLI 0.1.1 remain supported. New CI templates use GitHub starting with 0.1.2."
+        evidence:
+          - kind: test
+            summary: "Workspace regression tests retain legacy URL fixtures and cover new release URLs. Six-target cargo-dist packaging compares all executable bytes; release candidate generation uses the exact rc tag."
+            location: "tests/dist_integration_test.py"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Acceptance maps to canonical suites, real cargo-dist generation, shell/PowerShell installation fixtures, archive-preservation checks, and publication-recovery tests."
+        evidence:
+          - kind: test
+            summary: "Local format, Clippy, workspace tests, five offline publication/preparation tests, both installer fixture suites, and GitLab CI lint passed. Generated six-target fixtures and the real release-evidence/inventory integration passed. Live GitHub release qualification is explicitly unverified."
+            location: "tests"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored release code is checked by the normal compiler/linter/tests, exact-change evidence, and required Linux and Windows CI generation/install jobs."
+        evidence:
+          - kind: ci
+            summary: "No gate is waived; first live delivery evidence is not copied from historical GitLab releases."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Observed PowerShell redirection parse failure and release-candidate identity mismatch were corrected and given executable regression coverage."
+        evidence:
+          - kind: test
+            summary: "Both generated script parsers and successful/failed verification paths were rerun. Candidate generation asserts rc download and signing identities. Upstream template drift stops generation."
+            location: "tests/dist_integration_test.py"

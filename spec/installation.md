@@ -61,22 +61,48 @@ network. Downloads have bounded timeouts and HTTPS-only redirects. Neither boots
 silently retries a failed download; a new installation attempt is explicit. Signature failure never
 falls back to checksum-only installation.
 
-## cargo-dist decision
+## Standalone cargo-dist installation
 
-cargo-dist 0.32.0 was evaluated with `hosting = ["simple"]`, GitLab release URLs,
-and shell/PowerShell installers. Actual generation fails in
-`InstallReceipt::from_metadata` because it requires GitHub hosting. A GitLab
-repository metadata URL is rejected earlier as well. The reproducible probe is
-in `release/cargo-dist-probe` and `scripts/probe_cargo_dist.py`; its reported
-`error` describes unavailable generation, not a passing installer gate.
+Future releases beginning with 0.1.2 use the existing public GitHub mirror as the
+canonical binary host. GitLab remains the source, qualification, signing, and
+publication authority. Historical GitLab releases remain available, including
+the plugin's deliberate 0.1.1 runtime pin. Generated CI adapters select GitLab
+for 0.1.0/0.1.1 and GitHub for subsequent versions.
 
-Alternatives were adding a second GitHub consumer release channel, maintaining a
-cargo-dist fork, or rewriting generated installer templates. All would add
-maintenance or weaken the established distribution boundary. This increment
-therefore uses a small reviewed bootstrap over the existing signed archives.
-Revisit cargo-dist when the probe can generate GitLab-only installers without
-patches. At that point its nested tar layout must be handled additively, preserving
-legacy archive names/layout and packaging already-built binaries without rebuilds.
+The release pipeline pins cargo-dist 0.32.0 by binary checksum. A generic dist
+package identifies the GitHub mirror and stages already-built native binaries;
+it MUST NOT compile them again. Existing archive layouts/names are preserved
+as additional assets, while cargo-dist creates its expected archive layout.
+Packaging verifies that every extracted executable equals the input byte for
+byte. Global installers and refreshed manifest/checksums describe the final
+assets. GitLab signs both legacy and cargo-dist archives and the installers.
+
+Generated scripts receive the versioned verification extensions in
+`release/installers`. Generation requires exact, single upstream insertion
+points and MUST fail on template drift. The extension verifies a pinned cosign
+binary digest, then the downloaded archive's exact GitLab signing identity and
+issuer before extraction. Verification failure prevents installation. These
+extensions are necessary because upstream PowerShell lacks checksum checks and
+neither upstream installer checks our signatures. Optional cargo-dist updater
+installation is disabled until its verification path is separately qualified.
+The generated scripts retain the upstream MIT notice; OpDev additions are
+Apache-2.0 and the upstream license ships with releases.
+
+Standalone installers use cargo-dist's user installation directory, PATH
+handling, and overwrite semantics. Reinstallation downloads and verifies the
+selected version again. This differs deliberately from immutable cached plugin
+runtimes. No repository is initialized. Download overrides do not override the
+pinned signature identity or verifier hashes.
+
+The accepted alternative was GitLab-first plus GitHub fallback, which generated
+successfully but would require synchronizing two download inventories. Pure
+GitLab generation still fails in cargo-dist 0.32.0's GitHub-only receipt path;
+the historical probe remains for tracking upstream support. Extending only our
+handwritten installer would forgo cargo-dist packaging and installer maintenance.
+The user selected GitHub hosting and cargo-dist, accepting a bounded, tested
+verification extension. Reconsider the extension when upstream provides
+fail-closed archive authenticity checks, and reconsider hosting if the mirror
+cannot preserve exact source tags and immutable qualified assets.
 
 ## Acceptance and qualification
 
@@ -88,3 +114,8 @@ Linux x86-64 and ARM64 and Windows CI also install the actual pinned release int
 temporary storage. macOS is exercised locally before review; full platform
 release qualification remains part of the protected tag pipeline. A successful
 bootstrap of CLI 0.1.1 does not qualify a new CLI release.
+
+Standalone qualification generates all six target packages and both installers,
+runs shell/PowerShell signature-failure fixtures, and checks interrupted draft
+publication and immutable retry behavior. A first live GitHub candidate remains
+required before claiming the new delivery path is production-qualified.

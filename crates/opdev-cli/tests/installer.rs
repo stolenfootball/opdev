@@ -4,16 +4,18 @@
 #[test]
 fn managed_runtime_bootstrap_regressions() -> Result<(), Box<dyn std::error::Error>> {
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
-    let output = std::process::Command::new("python3")
-        .arg(root.join("tests/runtime_test.py"))
-        .current_dir(root)
-        .output()?;
-    assert!(
-        output.status.success(),
-        "installer regressions failed:\n{}\n{}",
-        String::from_utf8_lossy(&output.stdout),
-        String::from_utf8_lossy(&output.stderr)
-    );
+    for suite in ["tests/runtime_test.py", "tests/dist_test.py"] {
+        let output = std::process::Command::new("python3")
+            .arg(root.join(suite))
+            .current_dir(&root)
+            .output()?;
+        assert!(
+            output.status.success(),
+            "installer regressions failed:\n{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
     Ok(())
 }
 

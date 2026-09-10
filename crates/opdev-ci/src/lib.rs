@@ -227,7 +227,14 @@ fn render_template(template: &str, context: &TemplateContext) -> Result<String, 
         .map_err(|error| CiError::InvalidTemplateValue(error.to_string()))?;
     let trunk = serde_json::to_string(&context.trunk)
         .map_err(|error| CiError::InvalidTemplateValue(error.to_string()))?;
+    let release_base = match context.opdev_version.split('-').next() {
+        Some("0.1.0" | "0.1.1") => {
+            "https://gitlab.com/stolenfootball-tools/opdev/-/releases/v${OPDEV_VERSION}/downloads"
+        }
+        _ => "https://github.com/stolenfootball/opdev/releases/download/v${OPDEV_VERSION}",
+    };
     Ok(template
+        .replace("{{RELEASE_BASE}}", release_base)
         .replace("{{VERSION_JSON}}", &version)
         .replace("{{TRUNK_JSON}}", &trunk))
 }
@@ -463,6 +470,23 @@ mod tests {
             assert_eq!(inspection.pre_merge.outcome, Outcome::Passed);
             assert_eq!(inspection.post_merge.outcome, Outcome::Passed);
             assert_eq!(inspection.integrity.outcome, Outcome::Passed);
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn new_releases_use_github_while_historical_releases_keep_gitlab()
+    -> Result<(), Box<dyn std::error::Error>> {
+        for provider in [CiProvider::Github, CiProvider::Gitlab] {
+            for version in ["0.1.2-rc.1", "0.1.2", "0.2.0"] {
+                let mut context = context();
+                context.opdev_version = version.into();
+                let output = adapter_for(provider)?.render(&context)?;
+                assert!(output.contains(
+                    "https://github.com/stolenfootball/opdev/releases/download/v${OPDEV_VERSION}"
+                ));
+                assert!(!output.contains("{{RELEASE_BASE}}"));
+            }
         }
         Ok(())
     }

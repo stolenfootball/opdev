@@ -68,8 +68,7 @@ to install the CLI separately or have Rust installed.
 For Codex:
 
 ```sh
-codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
-codex plugin add opdev@personal
+codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git && codex plugin add opdev@personal
 ```
 
 Start a new Codex task after installation or update so the skill is loaded into
@@ -78,8 +77,7 @@ fresh context.
 For Claude Code:
 
 ```sh
-claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
-claude plugin install opdev@opdev
+claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git && claude plugin install opdev@opdev
 ```
 
 Restart Claude Code or reload its plugins after installation. Plugin developers
@@ -120,37 +118,41 @@ terminal examples below apply when you also install a standalone CLI on PATH.
 
 ### Optional: install a standalone CLI
 
-Download the archive for your system from the
-[v0.1.1 release](https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1),
-verify it as described in [`release/README.md`](release/README.md), and place the
-`opdev` executable on `PATH`.
+The following one-line installers become available with the first GitHub release
+of **0.1.2**; that release has not been published yet. For the currently published
+0.1.1, use the [historical release and verification instructions](release/README.md#consumer-verification).
 
-Linux x86-64 example:
+macOS or Linux:
 
 ```sh
-curl --fail --location --output opdev.tar.gz \
-  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/opdev-0.1.1-x86_64-unknown-linux-gnu.tar.gz
-tar -xzf opdev.tar.gz
-install -m 0755 opdev "$HOME/.local/bin/opdev"
-opdev version
+curl --proto '=https' --tlsv1.2 -fsSL https://github.com/stolenfootball/opdev/releases/download/v0.1.2/opdev-installer.sh | sh
 ```
 
-Windows x86-64 example:
+Windows PowerShell:
 
 ```powershell
-Invoke-WebRequest `
-  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/opdev-0.1.1-x86_64-pc-windows-msvc.zip `
-  -OutFile opdev.zip
-Expand-Archive opdev.zip -DestinationPath opdev
-.\opdev\opdev.exe version
+powershell -NoProfile -Command "& ([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://github.com/stolenfootball/opdev/releases/download/v0.1.2/opdev-installer.ps1').Content))"
 ```
 
-Archives are published for Windows, Linux GNU, and macOS on both x86-64 and
-ARM64. Rust 1.97 or newer provides a source-install fallback:
+Each installer detects the platform, downloads a checksum-pinned signature
+verifier, and verifies the archive against the exact GitLab release signing
+identity before extraction. It installs into your user bin directory and sets
+up user PATH; open a new terminal afterward and run `opdev version`. No Rust or
+administrator access is required. Windows ARM64 needs Windows 11 x64 emulation
+for the signature verifier. Basic OS tools and network access are prerequisites.
+To leave PATH unchanged, set `OPDEV_NO_MODIFY_PATH=1` for the shell installer or use the
+`-NoModifyPath` PowerShell option. Repository initialization remains separate.
+
+To select another published version, replace `v0.1.2` in the URL. Re-running an
+installer verifies and reinstalls that version; the separate automatic updater
+is disabled. Install only trusted release scripts: the script supplies the
+verification trust anchors. See [release operations](release/README.md) for
+manual verification, recovery, and the immutable publication contract.
+
+Rust 1.97 or newer provides a source-install fallback:
 
 ```sh
 cargo install --locked --git https://gitlab.com/stolenfootball-tools/opdev.git opdev-cli
-opdev version
 ```
 
 The CLI owns project discovery, schemas, command execution, rule evaluation,

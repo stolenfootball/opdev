@@ -1,0 +1,17 @@
+[workspace]
+members = ["dist:."]
+[dist]
+cargo-dist-version = "0.32.0"
+ci = []
+hosting = ["github"]
+installers = ["shell", "powershell"]
+targets = ["x86_64-unknown-linux-gnu", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "aarch64-apple-darwin", "x86_64-pc-windows-msvc", "aarch64-pc-windows-msvc"]
+unix-archive = ".tar.gz"
+windows-archive = ".zip"
+install-path = "~/.local/bin"
+source-tarball = false
+install-updater = false
+
+# Native Linux artifacts are built on Ubuntu 24.04.
+[dist.min-glibc-version]
+"*" = "2.39"

@@ -28,7 +28,8 @@ The CLI treats initialized project content as untrusted:
 - checks have time and output bounds and terminate their process group;
 - remote audits are read-only and limited to first-class provider hosts;
 - extensions cannot replace or weaken core MinimumCD results; and
-- release evidence does not claim signing or trusted-builder provenance.
+- release archives and standalone installers are signed by GitLab CI; the
+  generated provenance does not claim trusted-builder provenance.
 
 Running an initialized project's canonical commands still executes code chosen
 by that project. Review `.opdev/project.yaml` before running checks from an
@@ -61,3 +62,8 @@ same user's data directory. `OPDEV_DATA_DIR` is a trusted caller override, not a
 repository-configured value. A damaged runtime requires explicit recovery;
 read-only hooks do not replace it or silently select a different executable.
 See `spec/installation.md` for dependencies, timeout behavior, and recovery.
+
+Standalone cargo-dist installers verify a checksum-pinned cosign binary and the
+archive signature before extraction. The initial installer script is a trust
+anchor downloaded over HTTPS. GitHub immutable release settings protect the
+published assets, but do not replace consumer signature verification.

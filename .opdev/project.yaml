@@ -102,7 +102,7 @@ delivery:
   mode: release
   artifact:
     kind: native-cli-and-agent-plugin
-    locator: https://gitlab.com/stolenfootball-tools/opdev/-/releases
+    locator: https://github.com/stolenfootball/opdev/releases
   environments:
   - name: windows-x86_64
     production_like: true

@@ -5,6 +5,9 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Add cargo-dist packaging and signature-verifying one-line installers, with immutable GitHub releases published exclusively by GitLab CI. Preserve historical GitLab downloads and the plugin runtime pin.
+
+
 - Add plugin-managed CLI setup with a pinned signature verifier, exact release
   identity verification, versioned storage, and offline failure tests.
 - Add Linux and Windows consumer-install CI checks and a reproducible cargo-dist

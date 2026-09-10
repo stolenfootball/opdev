@@ -6,6 +6,9 @@ workflow = ".github/workflows/release-build.yml"
 handoff = "internal-workflow-artifact"
 publisher = "gitlab-ci"
 publisher_workflow = ".gitlab-ci.yml"
+artifact_host = "github-releases"
+artifact_repository = "stolenfootball/opdev"
+cargo_dist_version = "0.32.0"
 
 [sbom]
 format = "cyclonedx-json"
@@ -34,4 +37,4 @@ identity_pattern = "https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.ym
 slsa_build_level = false
 trusted_builder = false
 signed_evidence = false
-note = "Canonical tag releases sign every native and plugin archive with GitLab OIDC and Sigstore. Checksums, the SBOM, manifest, and provenance are digest-bound but are not separately signed, so OpDev makes no signed-evidence or SLSA Build-level claim."
+note = "Canonical tag releases sign every native/plugin archive and standalone installer with GitLab OIDC and Sigstore. Checksums, the SBOM, manifest, and provenance are digest-bound but are not separately signed, so OpDev makes no signed-evidence or SLSA Build-level claim."

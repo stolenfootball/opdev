@@ -32,11 +32,12 @@ is a claim from the caller, not proof of builder identity. The files therefore
 do not establish a SLSA Build level, trusted-builder isolation, provenance
 authenticity, secure distribution, or successful consumer verification.
 
-The protected GitLab tag pipeline is the sole publisher. It dispatches native
+The protected GitLab tag pipeline is the sole publisher; GitHub Releases is the
+canonical download host beginning with 0.1.2. Historical GitLab assets remain. It dispatches native
 builders on GitHub Actions for an exact mirrored source revision, retrieves the
 resulting internal workflow artifacts, and promotes those bytes without
 rebuilding. It then adds a separate keyless Sigstore bundle for each native and
-plugin archive. The signing job receives a short-lived GitLab OIDC token with
+plugin archive and each standalone installer. The signing job receives a short-lived GitLab OIDC token with
 the `sigstore` audience, records the signing identity through Fulcio/Rekor, and
 verifies the bundle against the exact GitLab project, `.gitlab-ci.yml`, and tag
 identity before publication. This authenticates the archive at release time;
@@ -117,3 +118,9 @@ verification commands are defined in `release/README.md`.
 Generation alone does not pass `OPDEV-SUPPLY-002`. The delivery gate also needs
 evidence that the bundle was published with the artifact and that the chosen
 distribution and authenticity controls match the project's risk model.
+
+Cargo-dist packages the same native executable bytes into additive archives.
+The release evidence includes these archives, the hardened generated installers,
+dist manifest, and upstream license. GitHub publication requires immutable
+releases and checks exact tag/asset digests before making the draft public.
+The first live candidate must qualify this migrated delivery path.
