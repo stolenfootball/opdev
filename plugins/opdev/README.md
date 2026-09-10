@@ -21,3 +21,26 @@ installation and release packaging are described at the repository root.
 The plugin declares its supported CLI range in `opdev-compatibility.json`.
 Claude's prompt hook and the shared skill run `opdev plugin verify` before OpDev
 is activated; missing, malformed, and incompatible contracts fail closed.
+
+## Managed runtime setup
+
+Version 0.1.2 adds the `setup` skill. Ask the agent to set up OpDev after plugin
+installation; the OpDev skill also handles missing CLI setup on first use under
+normal host approvals. The current runtime pin is published CLI 0.1.1, compatible
+with this plugin. Existing standalone installations remain supported.
+
+For manual setup from a plugin checkout:
+
+```sh
+sh plugins/opdev/scripts/runtime.sh --install
+sh plugins/opdev/scripts/runtime.sh --run version
+```
+
+```powershell
+powershell -NoProfile -File plugins/opdev/scripts/runtime.ps1 -Mode Install
+powershell -NoProfile -File plugins/opdev/scripts/runtime.ps1 -Mode Run version
+```
+
+These commands install only a private, versioned runtime. They do not initialize
+a repository or add a global `opdev` command. See [setup](skills/setup/SKILL.md)
+for supported environments, storage overrides, and explicit cleanup.

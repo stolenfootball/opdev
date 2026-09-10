@@ -11,11 +11,32 @@ Apply one evidence-driven development loop across software of any language, arch
 
 At the start of a software-development task, look for `.opdev/project.yaml` at the Git repository root.
 
-Before the first OpDev action in each task, determine whether the CLI is available. If it is, resolve `../../opdev-compatibility.json` relative to this `SKILL.md` and run `opdev plugin verify --contract <absolute-path>`. A zero exit activates the plugin for the task. Exit 1 means the installed CLI is incompatible: stop applying OpDev, report both versions, and offer installation of a compatible CLI. Exit 2 means the contract could not be verified: report the error and do not claim OpDev is active. Claude Code's prompt hook performs the same check early, but this step remains required so the shared skill fails closed on every agent.
+Before the first OpDev action in each task, resolve `../../` relative to this
+skill directory to find the plugin root and select a CLI:
 
+1. Prefer the plugin-managed CLI: run `sh <plugin-root>/scripts/runtime.sh --path`
+   on macOS/Linux, or `powershell -NoProfile -File <plugin-root>/scripts/runtime.ps1
+   -Mode Path` on Windows. This lookup has no network or installation side effects.
+2. Only if lookup exits 3 (no managed CLI), check whether `opdev` on PATH verifies against the
+   packaged `opdev-compatibility.json`. A compatible standalone installation is
+   sufficient; do not replace it. Any other lookup failure must be reported
+   before proceeding; it is not evidence that no managed runtime exists.
+3. If neither is available, apply the packaged `setup` skill to install the pinned
+   managed runtime. This is part of setting up the explicitly activated plugin;
+   use the host's normal execution/network approval flow. Do not bypass a denied
+   approval, install for unrelated tasks, or initialize a repository as part of
+   installation. Report setup failures and do not claim OpDev is active.
+4. Run the selected executable's `plugin verify --contract <absolute-path>`.
+   A zero exit activates the plugin. Exit 1 is an incompatible combination; exit
+   2 is a verification error. Neither activates OpDev. Use that same executable
+   for the rest of the task, including calls shown as `opdev` in the references.
+
+Keep runtime setup separate from repository initialization. A damaged managed
+runtime must be reported with its exact path; do not silently delete it or fall
+back to another binary. The setup skill documents recovery.
 - If it exists, OpDev is initialized. Read it before planning or editing and apply this skill without asking the user whether to use OpDev.
 - If it does not exist and the user is clearly asking to develop software, determine whether the `opdev` CLI is available. If it is, ask whether the user wants to initialize OpDev in this project. Do not initialize until they agree.
-- If the CLI is unavailable, tell the user that OpDev is not installed and offer the installation choices in [initialization.md](references/initialization.md). Do not install it without consent.
+- If setup is unavailable or fails, report the concrete failure and offer the manual choices in [initialization.md](references/initialization.md).
 - If the task is not software development, do not interrupt it with an OpDev prompt.
 
 The Claude Code prompt hook may provide the same state as additional context. Treat that as a detection aid, not as a substitute for checking the project contract.

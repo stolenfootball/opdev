@@ -11,6 +11,11 @@ task. Claude Code also verifies it through the prompt hook. A missing, malformed
 unsupported, or unsatisfied compatibility contract prevents OpDev activation;
 Codex plugin installation itself does not provide a portable activation hook.
 
+A plugin-managed runtime may pin an older published CLI within its supported
+range. Runtime selection, installation, and recovery are defined in
+[`installation.md`](installation.md). The plugin version and its runtime pin
+are intentionally distinct.
+
 Pre-1.0 releases may change command-line and plugin behavior between minor
 versions, but migrations and diagnostics are still required for project-owned
 state.

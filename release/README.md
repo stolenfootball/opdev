@@ -17,14 +17,14 @@ and GitHub Actions artifacts are not consumer distribution channels.
 
 1. Merge a green change pipeline to `main` and confirm the resulting trunk
    pipeline is green.
-2. Create an annotated candidate tag such as `v0.1.1-rc.1` on that exact trunk
+2. Create an annotated candidate tag such as `v0.1.2-rc.1` on that exact trunk
    revision and push it to GitLab.
 3. Confirm all six native archives and the plugin archive were smoke-tested,
    reproduced byte-for-byte, included in `SHA256SUMS`, signed, and published
    with the SBOM, manifest, and provenance.
 4. Install the candidate archives on representative consumer systems and run
    `opdev version`, `opdev init --dry-run`, and a fixture `opdev check`.
-5. If the candidate is accepted, create the final `v0.1.1` tag on the same
+5. If the candidate is accepted, create the final `v0.1.2` tag on the same
    qualified revision. The final tag runs the complete pipeline again; it does
    not promote candidate bytes under a new identity.
 
@@ -83,3 +83,17 @@ Recovery is an on-demand safe roll-forward:
 Until the forward fix qualifies, consumers can pin or reinstall the last known
 good exact version. This procedure must be exercised during the initial release
 candidate and whenever the delivery path materially changes.
+
+## Managed-runtime pin maintenance
+
+The source package is prepared for version 0.1.2; no historical 0.1.1 asset is
+replaced. The plugin's `runtime.lock` intentionally pins published CLI 0.1.1
+until a newer CLI is independently qualified and available. Update that lock's
+version, tag, signing identity, and verifier digests only as a reviewed change,
+then run the offline and live installer suites. Do not point a source-marketplace
+plugin at a release that has not been published.
+
+The bootstrap scripts and lock are included automatically in the shared plugin
+archive. Existing native archives and release signing/publication remain the
+canonical path. cargo-dist has not been enabled in release CI; its reproducible
+feasibility result is in `release/cargo-dist-probe/README.md`.
