@@ -908,7 +908,7 @@ changes:
             summary: "Issue 20 records the evidence repair and runner IDs 54929563 and 54929564 being offline. The package job uses hosted saas-linux-small-amd64 with the same Rust image and unchanged build, reproducibility, and smoke commands. GitLab CI lint accepted the final configuration. MR 13 repeats qualification."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/20"
 
-  - fingerprint: 5b2d32389069b0d3f41fd809293ab12662f8e4238e6d655fe53ba4d122387107
+  - fingerprint: 42d62543c394b8a664091486f276454cf6fcef35b75f89e559a1dc4d21f20833
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
     assertions:
       - rule_id: OPDEV-WORK-001
@@ -972,5 +972,5 @@ changes:
         summary: "Observed cargo-dist hosting failure and multiline CLI version output produced a recorded design decision, a reproducible probe, corrected version handling, and repeated installation tests."
         evidence:
           - kind: work
-            summary: "The first live macOS attempt verified the signature but rejected multiline version output; after correction, offline regressions and the live retry passed. The initial package fixture omitted marketplace metadata; the corrected full package passed validation."
+            summary: "The first live macOS attempt verified the signature but rejected multiline version output; after correction, offline regressions and the live retry passed. The initial package fixture omitted marketplace metadata; the corrected full package passed validation. Pipeline 2835323662 passed both live Linux architectures but exposed a missing explicit ZIP assembly load on Windows PowerShell 5.1; production and fixture now load it explicitly, and platform detection uses native Windows architecture environment variables. Windows CI must rerun successfully before integration."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"

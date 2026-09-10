@@ -12,7 +12,13 @@ function Get-OpdevPlatform {
     if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) {
         throw 'On macOS and Linux use runtime.sh.'
     }
-    return @('Windows', [Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString())
+    $architecture = $env:PROCESSOR_ARCHITEW6432
+    if (-not $architecture) { $architecture = $env:PROCESSOR_ARCHITECTURE }
+    switch ($architecture) {
+        'AMD64' { return @('Windows', 'X64') }
+        'ARM64' { return @('Windows', 'Arm64') }
+        default { throw "Unsupported Windows architecture: $architecture" }
+    }
 }
 function Get-OpdevHash([string]$Path) {
     return (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -121,7 +127,8 @@ function Invoke-OpdevRuntime([string]$Operation, [string[]]$Arguments) {
         Invoke-OpdevDownload "$base/$archive" $archivePath
         Invoke-OpdevDownload "$base/$archive.sigstore.json" $bundlePath
         $null = Invoke-OpdevNative $verifier @('verify-blob', $archivePath, '--bundle', $bundlePath, '--certificate-identity', $identity, '--certificate-oidc-issuer', 'https://gitlab.com')
-        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        Add-Type -AssemblyName System.IO.Compression
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
         $zip = [IO.Compression.ZipFile]::OpenRead($archivePath)
         $runtime = Join-Path $staging 'runtime'
         $null = [IO.Directory]::CreateDirectory($runtime)

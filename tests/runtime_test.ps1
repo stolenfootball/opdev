@@ -69,6 +69,7 @@ function Assert-CleanFailure {
     Assert-True ($files.Count -eq 0) 'Failed install left runtime, staging, or lock files'
 }
 try {
+    Add-Type -AssemblyName System.IO.Compression
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     New-Case
     $binary = Invoke-OpdevRuntime 'Install' @()

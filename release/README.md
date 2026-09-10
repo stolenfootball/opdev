@@ -17,14 +17,14 @@ and GitHub Actions artifacts are not consumer distribution channels.
 
 1. Merge a green change pipeline to `main` and confirm the resulting trunk
    pipeline is green.
-2. Create an annotated candidate tag such as `v0.1.1-rc.1` on that exact trunk
+2. Create an annotated candidate tag such as `v0.1.2-rc.1` on that exact trunk
    revision and push it to GitLab.
 3. Confirm all six native archives and the plugin archive were smoke-tested,
    reproduced byte-for-byte, included in `SHA256SUMS`, signed, and published
    with the SBOM, manifest, and provenance.
 4. Install the candidate archives on representative consumer systems and run
    `opdev version`, `opdev init --dry-run`, and a fixture `opdev check`.
-5. If the candidate is accepted, create the final `v0.1.1` tag on the same
+5. If the candidate is accepted, create the final `v0.1.2` tag on the same
    qualified revision. The final tag runs the complete pipeline again; it does
    not promote candidate bytes under a new identity.
 
