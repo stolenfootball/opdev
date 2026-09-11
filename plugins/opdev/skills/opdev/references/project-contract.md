@@ -14,3 +14,28 @@
 - `context` routes each task to only the authorities it needs. `always` is the small baseline.
 
 When project facts change, update their declared authority and then reconcile pointers in the contract. Do not create a second authoritative copy for agent convenience.
+
+## Documentation locations and ownership
+
+Read the existing project contract and inspect established documentation before
+choosing paths. `.opdev/` holds OpDev configuration and evidence. For a project
+without established locations, suggest `docs/` for human guidance, `spec/` for
+behavioral/design contracts, and `release/` for packaging inputs, release
+procedures, recovery, and changelog. These are advisory defaults, not reserved
+folders or a required scaffold. `DELIVERY.md` is optional.
+
+Existing non-OpDev folders belong to the project. Reuse an appropriate authority
+wherever it lives, including inside `.opdev/` if explicitly configured. Do not
+repurpose a folder, overwrite a file, move existing material, or create competing
+authorities merely to follow a default. Inspect conflicting paths and choose an
+unused location consistent with the project; ask only when unresolved ownership
+or meaning materially affects that choice. Existing task authorization applies.
+Record selected locations in `authorities` and relevant `context` routes.
+Folder names alone do not establish their contents as authoritative.
+
+`opdev init --dry-run` preserves an existing contract and writes no files.
+Uninitialized discovery reports ambiguous candidates without choosing between
+them; review its proposals before treating them as authorities. Initialization
+creates only the contract and managed root agent instructions, not documentation
+folders. Moving documentation is a separate, explicitly scoped project change;
+update links, evidence references, and provider discovery settings together.

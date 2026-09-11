@@ -3,6 +3,12 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
+## Unreleased
+
+- Organize human guidance and release history into folders; preserve configured
+  authorities and surface discovery conflicts without modifying project-owned
+  documentation. Keep initialization dry-run read-only on existing projects.
+
 ## 0.1.2 - 2026-09-10
 
 - Add cargo-dist packaging and signature-verifying one-line installers, with immutable GitHub releases published exclusively by GitLab CI. Preserve historical GitLab downloads and the plugin runtime pin.

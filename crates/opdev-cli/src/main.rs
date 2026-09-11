@@ -591,8 +591,10 @@ fn initialize(args: &InitArgs) -> Result<()> {
     let manifest_path = discovery.root.join(MANIFEST_PATH);
 
     if manifest_path.exists() {
-        ProjectManifest::load(&manifest_path)
-            .context("the existing project contract is invalid")?;
+        if args.dry_run {
+            print!("{}", discovery.manifest.to_yaml()?);
+            return Ok(());
+        }
         report_agent_changes(&reconcile_agent_files(&discovery.root)?);
         println!(
             "OpDev is already initialized at {}",
@@ -963,6 +965,29 @@ fn show_rules(args: RulesArgs) -> Result<()> {
 mod tests {
     use super::*;
     use clap::CommandFactory;
+
+    #[test]
+    fn initialized_dry_run_preserves_contract_and_agent_files() -> Result<()> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        std::fs::create_dir(root.join(".git"))?;
+        let manifest = discover(root)?.manifest;
+        manifest.write_new(&root.join(MANIFEST_PATH))?;
+        let before = std::fs::read(root.join(MANIFEST_PATH))?;
+        std::fs::write(root.join("AGENTS.md"), "Project-owned instructions\n")?;
+        initialize(&InitArgs {
+            root: root.to_path_buf(),
+            dry_run: true,
+        })?;
+        assert_eq!(std::fs::read(root.join(MANIFEST_PATH))?, before);
+        assert_eq!(
+            std::fs::read_to_string(root.join("AGENTS.md"))?,
+            "Project-owned instructions\n"
+        );
+        assert!(!root.join("CLAUDE.md").exists());
+        assert!(!root.join("docs").exists());
+        Ok(())
+    }
 
     #[test]
     fn command_definition_is_valid() {

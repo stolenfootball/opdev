@@ -29,6 +29,10 @@ pub enum DiscoveryError {
     /// No repository root could be found.
     #[error("`{0}` is not inside a Git repository")]
     NotRepository(PathBuf),
+
+    /// Existing project contracts must be validated rather than rediscovered.
+    #[error("existing project contract is invalid: {0}")]
+    ExistingContract(#[from] crate::manifest::ManifestError),
 }
 
 /// Read-only facts and a proposed project contract.
@@ -64,11 +68,24 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
     let root =
         find_repository_root(&start).ok_or_else(|| DiscoveryError::NotRepository(start.clone()))?;
 
+    let contract = root.join(crate::MANIFEST_PATH);
+    if contract.exists() {
+        return Ok(Discovery {
+            manifest: ProjectManifest::load(&contract)?,
+            root,
+            warnings: Vec::new(),
+            evidence: vec![
+                "Existing .opdev/project.yaml is authoritative; discovery preserved it.".into(),
+            ],
+        });
+    }
+
     let remote = git_output(&root, &["config", "--get", "remote.origin.url"]);
     let trunk = discover_trunk(&root);
     let provider = discover_provider(&root, remote.as_deref());
     let (kind, mut evidence) = discover_kind(&root);
-    let mut authorities = discover_authorities(&root, remote.as_deref());
+    let mut warnings = Vec::new();
+    let mut authorities = discover_authorities(&root, remote.as_deref(), &mut warnings);
     let commands = discover_commands(&root, &mut evidence);
     let testing = discover_testing(&commands, &authorities);
 
@@ -84,7 +101,6 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
 
     let context = discover_context(&authorities);
     let delivery = infer_delivery(kind);
-    let mut warnings = Vec::new();
     if provider == CiProvider::Unconfigured {
         warnings.push(
             "No CI provider was detected; MinimumCD CI requirements remain a migration gap.".into(),
@@ -244,7 +260,11 @@ fn discover_kind(root: &Path) -> (ProjectKind, Vec<String>) {
     (ProjectKind::Generic, Vec::new())
 }
 
-fn discover_authorities(root: &Path, remote: Option<&str>) -> BTreeMap<String, AuthorityRef> {
+fn discover_authorities(
+    root: &Path,
+    remote: Option<&str>,
+    warnings: &mut Vec<String>,
+) -> BTreeMap<String, AuthorityRef> {
     let mut authorities = BTreeMap::new();
     if let Some(remote) = remote
         && let Some(tracker) = tracker_url(remote)
@@ -257,35 +277,63 @@ fn discover_authorities(root: &Path, remote: Option<&str>) -> BTreeMap<String, A
             },
         );
     }
-    for (name, candidates) in [
+    // These are read-only hints, never permission to create or repurpose folders.
+    let candidates: &[(&str, &[&str])] = &[
+        ("documentation", &["docs", "doc", "documentation"]),
         (
             "architecture",
-            ["architecture", "docs/architecture", "spec"],
+            &["architecture", "docs/architecture", "spec"],
         ),
-        ("decisions", ["decisions", "docs/decisions", "adr"]),
-        ("contracts", ["contracts", "spec", "rules"]),
-        ("implementation", ["crates", "src", "app"]),
-        ("testing", ["tests", "test", "spec"]),
+        ("decisions", &["decisions", "docs/decisions", "adr"]),
+        ("contracts", &["contracts", "spec", "rules"]),
+        ("implementation", &["crates", "src", "app"]),
+        ("testing", &["tests", "test", "spec"]),
         (
             "delivery",
-            [".github/workflows", ".gitlab-ci.yml", "delivery"],
+            &[
+                "release/README.md",
+                ".github/workflows",
+                ".gitlab-ci.yml",
+                "delivery",
+            ],
         ),
-        ("operations", ["operations", "runbooks", "ops"]),
-        ("evaluation", ["evaluation", "evals", "benchmarks"]),
-    ] {
-        if let Some(candidate) = candidates
-            .iter()
-            .find(|candidate| root.join(candidate).exists())
-        {
-            authorities.insert(
-                name.into(),
-                AuthorityRef {
+        ("operations", &["operations", "runbooks", "ops"]),
+        ("evaluation", &["evaluation", "evals", "benchmarks"]),
+    ];
+    for &(name, paths) in candidates {
+        let mut matches = Vec::new();
+        for &candidate in paths {
+            let path = root.join(candidate);
+            let is_file = path.extension().is_some_and(|ext| {
+                ext.eq_ignore_ascii_case("md") || ext.eq_ignore_ascii_case("yml")
+            });
+            // Do not infer ownership from symlinks, broken links, or wrong path types.
+            if let Ok(metadata) = fs::symlink_metadata(&path) {
+                let has_symlink = path
+                    .ancestors()
+                    .take_while(|parent| *parent != root)
+                    .any(Path::is_symlink);
+                if !has_symlink
+                    && ((is_file && metadata.is_file()) || (!is_file && metadata.is_dir()))
+                {
+                    matches.push(candidate);
+                } else {
+                    warnings.push(format!("Authority candidate `{candidate}` has a conflicting path type; left unchanged. Choose an explicit `{name}` authority."));
+                }
+            }
+        }
+        match matches.as_slice() {
+            [candidate] => {
+                authorities.insert(name.into(), AuthorityRef {
                     kind: AuthorityKind::Path,
                     location: (*candidate).into(),
-                },
-            );
+                });
+            }
+            [] => {}
+            _ => warnings.push(format!("Ambiguous `{name}` authority: {}. No authority selected; review existing ownership and record the chosen location in .opdev/project.yaml.", matches.join(", "))),
         }
     }
+    warnings.push("Review inferred authorities against existing project ownership. docs/, spec/, and release/ are advisory defaults only when no established location exists; no documentation folders or files are created or moved.".into());
     authorities
 }
 
@@ -518,6 +566,128 @@ fn infer_delivery(kind: ProjectKind) -> Delivery {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn existing_contract_locations_win_over_conventional_folders()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        fs::create_dir(root.join(".git"))?;
+        let mut manifest = discover(root)?.manifest;
+        manifest.authorities.insert(
+            "documentation".into(),
+            AuthorityRef {
+                kind: AuthorityKind::Path,
+                location: "handbook/team".into(),
+            },
+        );
+        manifest.authorities.insert(
+            "delivery".into(),
+            AuthorityRef {
+                kind: AuthorityKind::Url,
+                location: "https://example.com/operations".into(),
+            },
+        );
+        manifest.write_new(&root.join(crate::MANIFEST_PATH))?;
+        for name in ["docs", "doc", "spec", "release"] {
+            fs::create_dir(root.join(name))?;
+            fs::write(root.join(name).join("README.md"), "project-owned content")?;
+        }
+        let before = fs::read(root.join(crate::MANIFEST_PATH))?;
+        let discovery = discover(root)?;
+        assert_eq!(discovery.manifest, manifest);
+        assert_eq!(fs::read(root.join(crate::MANIFEST_PATH))?, before);
+        assert!(discovery.warnings.is_empty());
+        fs::write(root.join(crate::MANIFEST_PATH), "invalid contract")?;
+        assert!(matches!(
+            discover(root),
+            Err(DiscoveryError::ExistingContract(_))
+        ));
+        Ok(())
+    }
+
+    #[test]
+    fn ambiguous_and_wrong_type_candidates_are_left_for_review()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        fs::create_dir(root.join(".git"))?;
+        fs::create_dir(root.join("docs"))?;
+        fs::create_dir(root.join("doc"))?;
+        fs::write(
+            root.join("spec"),
+            "a project-owned file, not an authority directory",
+        )?;
+        fs::create_dir(root.join("release"))?;
+        fs::write(root.join("release/output.bin"), "existing build output")?;
+        let discovery = discover(root)?;
+        assert!(!discovery.manifest.authorities.contains_key("documentation"));
+        assert!(!discovery.manifest.authorities.contains_key("contracts"));
+        assert!(!discovery.manifest.authorities.contains_key("delivery"));
+        assert!(
+            discovery
+                .warnings
+                .iter()
+                .any(|w| w.contains("Ambiguous `documentation`"))
+        );
+        assert!(
+            discovery
+                .warnings
+                .iter()
+                .any(|w| w.contains("`spec` has a conflicting path type"))
+        );
+        assert_eq!(
+            fs::read_to_string(root.join("release/output.bin"))?,
+            "existing build output"
+        );
+        assert!(!root.join("release/README.md").exists());
+        assert!(!root.join(".opdev").exists());
+        Ok(())
+    }
+
+    #[test]
+    fn absent_defaults_are_advisory_and_existing_release_guidance_is_discovered()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        fs::create_dir(root.join(".git"))?;
+        let discovery = discover(root)?;
+        for name in ["docs", "spec", "release"] {
+            assert!(!root.join(name).exists());
+        }
+        assert!(!discovery.manifest.authorities.contains_key("documentation"));
+        fs::create_dir(root.join("release"))?;
+        fs::write(
+            root.join("release/README.md"),
+            "Existing deployment instructions",
+        )?;
+        let discovery = discover(root)?;
+        assert_eq!(
+            discovery.manifest.authorities["delivery"].location,
+            "release/README.md"
+        );
+        assert_eq!(
+            discovery.manifest.context.routes["delivery_change"],
+            ["delivery"]
+        );
+        Ok(())
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn discovery_does_not_infer_authorities_through_symlinks()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let external = tempfile::tempdir()?;
+        fs::create_dir(directory.path().join(".git"))?;
+        fs::create_dir(external.path().join("architecture"))?;
+        std::os::unix::fs::symlink(external.path(), directory.path().join("docs"))?;
+        let discovery = discover(directory.path())?;
+        assert!(!discovery.manifest.authorities.contains_key("documentation"));
+        assert!(!discovery.manifest.authorities.contains_key("architecture"));
+        assert!(directory.path().join("docs").is_symlink());
+        Ok(())
+    }
 
     #[test]
     fn tracker_urls_support_ssh_remotes() {

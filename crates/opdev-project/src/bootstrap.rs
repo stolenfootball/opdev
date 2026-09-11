@@ -9,7 +9,7 @@ const END_MARKER: &str = "<!-- opdev:end -->";
 const AGENTS_BLOCK: &str = r"<!-- opdev:start -->
 ## OpDev development protocol
 
-This repository is initialized for OpDev. Apply this protocol seamlessly to every software-development task; do not ask whether to use it. `.opdev/project.yaml` is the machine-readable project contract and the starting point for finding project-specific commands, authorities, risks, tests, delivery requirements, assurance profiles, and context routes. Do not assume that design or operational material lives in a conventional `docs/` directory.
+This repository is initialized for OpDev. Apply this protocol seamlessly to every software-development task; do not ask whether to use it. `.opdev/project.yaml` is the machine-readable project contract and the starting point for finding project-specific commands, authorities, risks, tests, delivery requirements, assurance profiles, and context routes. Do not assume that design or operational material lives in a conventional `docs/` directory. Existing authority locations take precedence over folder defaults. Treat non-OpDev folders as project-owned; do not create, move, overwrite, or repurpose their contents merely to match a convention. Record reviewed locations in the project contract.
 
 If the `opdev` CLI or required OpDev agent integration is unavailable, tell the user before substantive development begins and offer to install it. Do not silently replace OpDev with an improvised process. You may continue only when the user chooses to proceed without it or the current task does not require the unavailable capability.
 

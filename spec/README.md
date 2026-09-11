@@ -33,6 +33,9 @@ It may satisfy an otherwise unverified rule only when the catalog explicitly
 allows evidence verification; it cannot override a concrete failure, error, or
 migration requirement.
 
+See [documentation ownership and folder defaults](documentation-layout.md) for
+authority placement and conflict handling.
+
 ## Lifecycle
 
 OpDev uses this general lifecycle:
