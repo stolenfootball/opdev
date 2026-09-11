@@ -61,7 +61,7 @@ not protect against an actor able to rewrite both executable and receipt in the
 same user's data directory. `OPDEV_DATA_DIR` is a trusted caller override, not a
 repository-configured value. A damaged runtime requires explicit recovery;
 read-only hooks do not replace it or silently select a different executable.
-See `spec/installation.md` for dependencies, timeout behavior, and recovery.
+See [installation requirements](../spec/installation.md) for dependencies, timeout behavior, and recovery.
 
 Standalone cargo-dist installers verify a checksum-pinned cosign binary and the
 archive signature before extraction. The initial installer script is a trust

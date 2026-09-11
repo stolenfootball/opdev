@@ -58,6 +58,15 @@ Agent behavior is intentionally low-friction: an initialized project uses OpDev
 without interruption; an uninitialized software project prompts before running
 `opdev init`; and a missing CLI is reported with an offer to install it.
 
+## Repository organization
+
+`.opdev/` contains configuration and evidence; [`docs/`](docs/) contains human
+guidance; [`spec/`](spec/) defines behavioral contracts; [`release/`](release/)
+contains release engineering and the changelog. These are defaults for new
+layouts, not directories OpDev owns or creates in other projects. Existing
+locations take precedence through `.opdev/project.yaml`. See
+[documentation ownership](spec/documentation-layout.md).
+
 ## Quick start
 
 ### Install the agent plugin
@@ -345,7 +354,7 @@ still executes code selected by that project, so review `.opdev/project.yaml`
 before checking an untrusted repository.
 
 Report suspected vulnerabilities privately as described in
-[`SECURITY.md`](SECURITY.md).
+[`SECURITY.md`](docs/SECURITY.md).
 
 ## Documentation
 
@@ -365,7 +374,7 @@ Report suspected vulnerabilities privately as described in
 
 Use [GitLab issues](https://gitlab.com/stolenfootball-tools/opdev/-/issues)
 for questions, defects, and proposed improvements. Focused contributions are
-welcome; start with [`CONTRIBUTING.md`](CONTRIBUTING.md) and keep behavioral or
+welcome; start with [`CONTRIBUTING.md`](docs/CONTRIBUTING.md) and keep behavioral or
 architectural changes grounded in the normative specification.
 
 The repository requires Rust 1.97. Run the canonical checks before opening a
@@ -378,6 +387,6 @@ cargo test --workspace --all-features
 cargo build --release --locked
 ```
 
-Notable changes are recorded in [`CHANGELOG.md`](CHANGELOG.md). OpDev is
+Notable changes are recorded in [`CHANGELOG.md`](release/CHANGELOG.md). OpDev is
 maintained by Opinionated Development contributors and is available under the
 [Apache License 2.0](LICENSE).

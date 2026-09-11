@@ -44,7 +44,7 @@ The Claude Code prompt hook may provide the same state as additional context. Tr
 ## Work in an initialized project
 
 1. Read `AGENTS.md` and the project contract. `CLAUDE.md` imports the same project guidance for Claude Code.
-2. Load authorities selected by `context.always` and by every relevant task route. Follow [project-contract.md](references/project-contract.md) when interpreting fields. Do not assume design material belongs in `docs/`.
+2. Load authorities selected by `context.always` and by every relevant task route. Follow [project-contract.md](references/project-contract.md) when interpreting fields. Do not assume design material belongs in `docs/`. Follow [documentation ownership](references/project-contract.md#documentation-locations-and-ownership) before choosing or changing authority locations.
 3. Use the declared work authority for active status, sequencing, and decisions. Keep static specifications free of roadmap drift.
 4. Establish the outcome, scope, exclusions, acceptance conditions, risks, and evidence before substantive edits. Scale design work to risk and reversibility.
 5. Make small, reviewable changes. Preserve supported behavior unless the accepted change deliberately migrates it.

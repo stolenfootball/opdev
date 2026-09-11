@@ -79,7 +79,7 @@ project:
     evidence:
       - kind: policy
         summary: Reporting, repository trust, command execution, remote audit, extension, and release-evidence boundaries are documented.
-        location: SECURITY.md
+        location: docs/SECURITY.md
       - kind: test
         summary: Safe command execution, output bounds, process-tree timeouts, strict protocols, and remote host restrictions have automated tests.
         location: crates
@@ -1102,3 +1102,70 @@ changes:
           - kind: work
             summary: "The first GitHub candidate validated protected credential permissions, exact-tag publication, immutable retry, signatures, and representative live consumers. The recorded scope distinguishes native Windows CI from unperformed post-download Windows installation and offline interrupted-upload fixtures from live retry."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/21"
+
+  - fingerprint: d4ef1775ff17d707c8396107362a1b82d060725fdeae3c9e385cf01f909f12cc
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/22
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 22 scopes folder cleanup, existing-authority precedence, ownership conflicts, compatibility, and regression acceptance."
+        evidence:
+          - kind: work
+            summary: "Issue 22 scopes folder cleanup, existing-authority precedence, ownership conflicts, compatibility, and regression acceptance."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/22"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The normative layout decision distinguishes advisory folder defaults from project-owned authorities, documents conflict review and alternatives, and preserves explicit locations."
+        evidence:
+          - kind: decision
+            summary: "The normative layout decision distinguishes advisory folder defaults from project-owned authorities, documents conflict review and alternatives, and preserves explicit locations."
+            location: "spec/documentation-layout.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused branch originated from green main adf4661cc70d7d7ff27d8875a3f9a538cc277aeb and is prepared for CI review with source-branch removal after merge."
+        evidence:
+          - kind: git
+            summary: "The focused branch originated from green main adf4661cc70d7d7ff27d8875a3f9a538cc277aeb and is prepared for CI review with source-branch removal after merge."
+            location: "codex/documentation-folders"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "One bounded folder/discovery increment is prepared within this working session; no concurrent long-lived implementation branches are introduced."
+        evidence:
+          - kind: work
+            summary: "One bounded folder/discovery increment is prepared within this working session; no concurrent long-lived implementation branches are introduced."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/22"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2835775276 passed before work began; no known required red trunk pipeline is deferred."
+        evidence:
+          - kind: ci
+            summary: "Trunk pipeline 2835775276 passed before work began; no known required red trunk pipeline is deferred."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2835775276"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Manifest schema and explicit custom/external authorities remain supported. Ambiguous uninitialized discovery now warns without selecting a winner. Existing dry-run prints the saved contract without modifying instructions. Documentation links and current project evidence were updated; historical fingerprint-bound facts and published archives remain historical."
+        evidence:
+          - kind: test
+            summary: "Manifest schema and explicit custom/external authorities remain supported. Ambiguous uninitialized discovery now warns without selecting a winner. Existing dry-run prints the saved contract without modifying instructions. Documentation links and current project evidence were updated; historical fingerprint-bound facts and published archives remain historical."
+            location: "crates/opdev-project/src/discovery.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical format, Clippy, workspace tests, Codex/Claude plugin validation, and skill validation passed. Five new regressions cover configured locations/invalid contracts, ambiguous and wrong-type paths, advisory defaults/release guidance, symlink ownership, and initialized dry-run preservation. No standalone tests were added solely for file moves."
+        evidence:
+          - kind: test
+            summary: "Canonical format, Clippy, workspace tests, Codex/Claude plugin validation, and skill validation passed. Five new regressions cover configured locations/invalid contracts, ambiguous and wrong-type paths, advisory defaults/release guidance, symlink ownership, and initialized dry-run preservation. No standalone tests were added solely for file moves."
+            location: "crates/opdev-cli/src/main.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored source and guidance changes use the same compiler/linter/tests, plugin validators, fingerprint evidence, and CI requirements as other changes."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored source and guidance changes use the same compiler/linter/tests, plugin validators, fingerprint evidence, and CI requirements as other changes."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Discovery inspection exposed silent candidate precedence and initialized dry-run modifying agent files; both now have regression coverage. Initial Clippy rejected extension comparisons and the skill validator lacked PyYAML; corrected code and an isolated validator dependency passed on visible retries."
+        evidence:
+          - kind: work
+            summary: "Discovery inspection exposed silent candidate precedence and initialized dry-run modifying agent files; both now have regression coverage. Initial Clippy rejected extension comparisons and the skill validator lacked PyYAML; corrected code and an isolated validator dependency passed on visible retries."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/22"

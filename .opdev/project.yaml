@@ -6,6 +6,18 @@ project:
     provider: gitlab
     remote: git@gitlab.com:stolenfootball-tools/opdev.git
 authorities:
+  documentation:
+    kind: path
+    location: docs
+  security:
+    kind: path
+    location: docs/SECURITY.md
+  contributing:
+    kind: path
+    location: docs/CONTRIBUTING.md
+  delivery:
+    kind: path
+    location: release
   architecture:
     kind: path
     location: spec
@@ -133,6 +145,15 @@ context:
   always:
   - contracts
   routes:
+    documentation_change:
+    - documentation
+    - contracts
+    delivery_change:
+    - delivery
+    - contracts
+    security_change:
+    - security
+    - contracts
     architecture_change:
     - architecture
     - contracts
