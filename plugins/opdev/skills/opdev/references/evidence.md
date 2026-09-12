@@ -3,6 +3,15 @@
 Use `.opdev/evidence.yaml` only when a core rule accepts evidence and the CLI
 cannot infer the fact safely. It is not a waiver or override mechanism.
 
+Before reading the ledger, check whether the selected CLI supports
+`opdev evidence show --help`. When available, stage material files and use
+`opdev evidence show --current` to inspect durable facts and only the exact
+matching change. Add `--rule <ID>` when investigating one rule. Missing evidence
+is explicit; these are input assertions, not evaluated passes. Requery after
+the staged state changes. The view never rewrites the ledger or prepares new
+approvals. Older compatible CLIs retain the fingerprint-and-ledger workflow
+below; do not replace a runtime just to enable the query.
+
 For change evidence:
 
 1. Stage every material file except that the ledger may remain unstaged.

@@ -54,6 +54,24 @@ Understand -> Specify -> Design -> Implement -> Verify
 6. CI evaluates the integration gate; release automation binds an already-built
    artifact to checksums, an SBOM, a manifest, and provenance.
 
+### Compact inspection (development CLI)
+
+The development CLI can save a full check report while printing a smaller view:
+
+```sh
+opdev check --report /tmp/opdev-check-1.json --format summary
+opdev report summarize /tmp/opdev-check-1.json
+opdev evidence show --current --rule OPDEV-WORK-001
+```
+
+Choose a new report path outside the working tree; existing files are never
+replaced. On Windows, use a path in your temporary directory. Offline summaries
+retain the recorded results without rerunning checks. Evidence queries require
+material changes to be staged and return assertions, not gate verdicts.
+Published older CLIs may lack these commands; the plugin checks capabilities
+and retains their existing workflow. See [compact views](spec/compact-views.md)
+for exit statuses, diagnostic retrieval, and freshness limits.
+
 Agent behavior is intentionally low-friction: an initialized project uses OpDev
 without interruption; an uninitialized software project prompts before running
 `opdev init`; and a missing CLI is reported with an offer to install it.

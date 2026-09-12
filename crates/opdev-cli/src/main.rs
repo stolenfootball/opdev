@@ -24,6 +24,8 @@ use opdev_remote::{RemoteAudit, RemoteCapability, audit};
 use semver::{Version, VersionReq};
 use serde::Deserialize;
 
+mod views;
+
 #[derive(Debug, Parser)]
 #[command(name = "opdev", version, about = "Evidence-driven software delivery")]
 struct Cli {
@@ -37,6 +39,8 @@ enum Command {
     Init(InitArgs),
     /// Evaluate project requirements.
     Check(CheckArgs),
+    /// Inspect a saved check report without executing project commands.
+    Report(ReportArgs),
     /// Explain missing, contradictory, or unverified capabilities.
     Doctor(DoctorArgs),
     /// Generate or inspect a first-class CI configuration.
@@ -122,8 +126,30 @@ struct CheckArgs {
     #[arg(long)]
     no_exec: bool,
     /// Report presentation.
-    #[arg(long, value_enum, default_value_t = OutputFormat::Human)]
-    format: OutputFormat,
+    #[arg(long, value_enum, default_value_t = CheckFormat::Human)]
+    format: CheckFormat,
+    /// Save the full JSON report to a new file (required for summary output).
+    #[arg(long)]
+    report: Option<PathBuf>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+enum CheckFormat {
+    Human,
+    Json,
+    Summary,
+}
+
+#[derive(Debug, Args)]
+struct ReportArgs {
+    #[command(subcommand)]
+    command: ReportCommand,
+}
+
+#[derive(Debug, Subcommand)]
+enum ReportCommand {
+    /// Print a compact JSON view; exit 1 if any recorded gate is blocked.
+    Summarize { path: PathBuf },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
@@ -306,6 +332,21 @@ enum EvidenceCommand {
     Fingerprint(EvidenceFingerprintArgs),
     /// Generate or apply a fail-closed review questionnaire for a new evidence ledger.
     Bootstrap(EvidenceBootstrapArgs),
+    /// Show durable and exact-current evidence without modifying the ledger.
+    Show(EvidenceShowArgs),
+}
+
+#[derive(Debug, Args)]
+struct EvidenceShowArgs {
+    /// Directory inside the initialized Git repository.
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Select only the exact staged fingerprint; historical queries are unsupported.
+    #[arg(long, required = true)]
+    current: bool,
+    /// Limit both evidence scopes to one known rule.
+    #[arg(long)]
+    rule: Option<RuleId>,
 }
 
 #[derive(Debug, Args)]
@@ -355,6 +396,9 @@ fn run(cli: Cli) -> Result<ExitCode> {
         Command::Plugin(args) => plugin_command(&args),
         Command::Init(args) => initialize(&args).map(|()| ExitCode::SUCCESS),
         Command::Check(args) => check_project(&args),
+        Command::Report(args) => match args.command {
+            ReportCommand::Summarize { path } => views::summarize_file(&path),
+        },
         Command::Doctor(args) => doctor(&args).map(|()| ExitCode::SUCCESS),
         Command::Ci(args) => ci_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Upgrade(args) => upgrade(&args).map(|()| ExitCode::SUCCESS),
@@ -417,6 +461,10 @@ fn evidence_command(args: &EvidenceArgs) -> Result<()> {
             println!("{}", staged_fingerprint(&root)?);
         }
         EvidenceCommand::Bootstrap(args) => bootstrap_evidence(args)?,
+        EvidenceCommand::Show(args) => {
+            let (root, _) = load_project(&args.root)?;
+            views::show_evidence(&root, args.rule.as_ref())?;
+        }
     }
     Ok(())
 }
@@ -694,6 +742,17 @@ fn print_capability(name: &str, capability: &Capability) {
 }
 
 fn check_project(args: &CheckArgs) -> Result<ExitCode> {
+    if args.format == CheckFormat::Summary && args.report.is_none() {
+        bail!("--format summary requires --report PATH to retain the full evaluation");
+    }
+    if let Some(path) = &args.report
+        && path.symlink_metadata().is_ok()
+    {
+        bail!(
+            "report output {} already exists; choose a new path",
+            path.display()
+        );
+    }
     let (root, manifest) = load_project(&args.root)?;
     let mut options = if args.ci {
         CheckOptions::pre_merge()
@@ -708,9 +767,17 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     if args.remote {
         apply_remote_audit(&manifest, &mut report)?;
     }
+    let source = args
+        .report
+        .as_ref()
+        .map(|path| views::save_report(&report, path))
+        .transpose()?;
     match args.format {
-        OutputFormat::Human => print_human_report(&report),
-        OutputFormat::Json => println!("{}", serde_json::to_string_pretty(&report)?),
+        CheckFormat::Human => print_human_report(&report),
+        CheckFormat::Json => println!("{}", serde_json::to_string_pretty(&report)?),
+        CheckFormat::Summary => {
+            views::print_summary(&report, source.context("summary requires a saved report")?)?;
+        }
     }
     let gate = if args.ci {
         Gate::Integration
