@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "reason": "Preserve optional cache-write and reasoning counters from existing host traces; no model calls replayed.",
+  "execution_harness_sha256": "34fe80984fcfb68e20d5397ebc63d74fbfdff32320c29a1886c6690b7aa26bba",
+  "normalization_harness_sha256": "142d287a63b4b83822a9c79d9e9bd13abe73d2a32af7e84b42a38537e67b0bc4",
+  "source_records_revision": "dd8b1d37fd26801199d5a2fbca8018e80b5afea5",
+  "source_records_sha256": "3e30166e3cb2127eaeae349cf8d43c66cbda35776e223ed66aff341c2b4c5b3e",
+  "normalized_records_sha256": "422468dffa4720d133f27d6d9c88b2c8eb1c23ebc1f0419b4d494f756fe1d722"
+}

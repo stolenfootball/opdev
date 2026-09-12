@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "microbenchmark-summary",
+  "experiments": [
+    {
+      "experiment": "2df282d18f6006d6ff6d0fd78489a71a1243ce7e0c8cfaa791829888372f1fe6",
+      "arms": {
+        "full": {
+          "runs": 9,
+          "accepted": 9,
+          "outcomes": {
+            "passed": 9,
+            "failed": 0,
+            "unverified": 0,
+            "error": 0
+          },
+          "usage_complete": true,
+          "known_total_tokens": 145725,
+          "tokens_per_accepted": 16191.666666666666,
+          "median_tokens": 16629,
+          "p95_tokens": 16634,
+          "median_seconds": 5.1103038331493735,
+          "cached_input_tokens": 46592,
+          "uncached_input_tokens": 98962,
+          "cache_write_input_tokens": 0,
+          "reasoning_output_tokens": 0
+        },
+        "selected": {
+          "runs": 9,
+          "accepted": 9,
+          "outcomes": {
+            "passed": 9,
+            "failed": 0,
+            "unverified": 0,
+            "error": 0
+          },
+          "usage_complete": true,
+          "known_total_tokens": 133866,
+          "tokens_per_accepted": 14874.0,
+          "median_tokens": 14882,
+          "p95_tokens": 14888,
+          "median_seconds": 5.83315495820716,
+          "cached_input_tokens": 46592,
+          "uncached_input_tokens": 87082,
+          "cache_write_input_tokens": 0,
+          "reasoning_output_tokens": 19
+        }
+      },
+      "complete_pairs": true,
+      "observed_quality": "passed",
+      "token_reduction_fraction": 0.0813793103448276,
+      "end_to_end_effectiveness": "unverified"
+    }
+  ]
+}

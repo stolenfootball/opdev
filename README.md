@@ -67,6 +67,10 @@ layouts, not directories OpDev owns or creates in other projects. Existing
 locations take precedence through `.opdev/project.yaml`. See
 [documentation ownership](spec/documentation-layout.md).
 
+The [token-efficiency benchmark](benchmarks/token-efficiency/README.md) measures
+context selection before workflow optimizations are adopted. Synthetic case
+results are separate from complete development-task effectiveness.
+
 ## Quick start
 
 ### Install the agent plugin

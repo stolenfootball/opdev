@@ -1,0 +1,2 @@
+# Optional proxy token counts; the harness and canonical tests use stdlib only.
+tiktoken==0.12.0

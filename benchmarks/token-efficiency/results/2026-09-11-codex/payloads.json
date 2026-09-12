@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "kind": "static-payloads",
+  "cases_sha256": "17b3f9b45efc72883ce1b3f4b3f19681739a6363bb603e001b6870f29cba65fe",
+  "tokenizer": "o200k_base",
+  "tokenizer_version": "0.12.0",
+  "measurements": [
+    {
+      "case": "report-passed",
+      "arm": "full",
+      "bytes": 8274,
+      "sha256": "acb37e12a9f7c26fee79f6346a35f1e30dff2816578d7de03d75b671b598750d",
+      "proxy_tokens": 1873
+    },
+    {
+      "case": "report-passed",
+      "arm": "selected",
+      "bytes": 537,
+      "sha256": "ae62fbc436cddd2f88f2a2a61f6c362664aa2dd66ac5aab968cac4a62169a05d",
+      "proxy_tokens": 117
+    },
+    {
+      "case": "report-failed",
+      "arm": "full",
+      "bytes": 8275,
+      "sha256": "5e9fda72855b21fd3ffbcf7fc364e6d4fad1f95efd3cc73df84931f7d304f6ad",
+      "proxy_tokens": 1873
+    },
+    {
+      "case": "report-failed",
+      "arm": "selected",
+      "bytes": 572,
+      "sha256": "08c22a76eb62e60dcead858fb710853a1ce7864fd34ce30e5bc405b433b3f9c3",
+      "proxy_tokens": 127
+    },
+    {
+      "case": "report-unverified",
+      "arm": "full",
+      "bytes": 8279,
+      "sha256": "1046977d234eba2fd0571707ca5680097df1f36f40e2f68efb8c42561e28ad00",
+      "proxy_tokens": 1874
+    },
+    {
+      "case": "report-unverified",
+      "arm": "selected",
+      "bytes": 576,
+      "sha256": "8d29a128ce3160dd53c33f03213d0d7ff962e1ccd6279aeb208317d5d2e45047",
+      "proxy_tokens": 128
+    },
+    {
+      "case": "report-error",
+      "arm": "full",
+      "bytes": 8274,
+      "sha256": "9a3f58cf2e43dafb2525570d0c777373f956cebf3f6b9e067df8865e18986acd",
+      "proxy_tokens": 1873
+    },
+    {
+      "case": "report-error",
+      "arm": "selected",
+      "bytes": 571,
+      "sha256": "3eb9daec5008bcaea410a913caae7c2d7a1f4c02ed61fc039d8bd936a1eb4de4",
+      "proxy_tokens": 127
+    },
+    {
+      "case": "report-migration_required",
+      "arm": "full",
+      "bytes": 8287,
+      "sha256": "c07bbc07311b1e366f822043217e39e542dbff3d6e56eb83a874680c3b9c47e1",
+      "proxy_tokens": 1874
+    },
+    {
+      "case": "report-migration_required",
+      "arm": "selected",
+      "bytes": 584,
+      "sha256": "c6d68ee84b029d0d497ff7891790be314723dc49222d45608111bd55731d0a1c",
+      "proxy_tokens": 128
+    },
+    {
+      "case": "report-not_applicable",
+      "arm": "full",
+      "bytes": 8312,
+      "sha256": "a10079392dc43bf50144402b060b56a339ae1ef52d3e64ddafc4cbe2d6d81d32",
+      "proxy_tokens": 1880
+    },
+    {
+      "case": "report-not_applicable",
+      "arm": "selected",
+      "bytes": 537,
+      "sha256": "ae62fbc436cddd2f88f2a2a61f6c362664aa2dd66ac5aab968cac4a62169a05d",
+      "proxy_tokens": 117
+    },
+    {
+      "case": "evidence-current",
+      "arm": "full",
+      "bytes": 3084,
+      "sha256": "b9f93a84304272be8b79cee6f8d5161ddd0d588565e5f7f8d26e677e184ec963",
+      "proxy_tokens": 791
+    },
+    {
+      "case": "evidence-current",
+      "arm": "selected",
+      "bytes": 634,
+      "sha256": "b1a9e2142853ca28d5a28bb8c740d723320280421e5cdc7de32fd092011c2efc",
+      "proxy_tokens": 131
+    },
+    {
+      "case": "evidence-stale",
+      "arm": "full",
+      "bytes": 2931,
+      "sha256": "e9687044cfbc4d2f4b2a36b89ce01f17cca3756a61eab5c1ce2cca257a799341",
+      "proxy_tokens": 759
+    },
+    {
+      "case": "evidence-stale",
+      "arm": "selected",
+      "bytes": 482,
+      "sha256": "ef563ca1c4b9d97b080c31aada8971542fc52b8fcd46b3109249d99a82c79e90",
+      "proxy_tokens": 98
+    },
+    {
+      "case": "context-owned-folders",
+      "arm": "full",
+      "bytes": 727,
+      "sha256": "839eb0ce6afd941a4315c09115d8266798ed9cccbb3fcb059ffb88f7a3731e0d",
+      "proxy_tokens": 142
+    },
+    {
+      "case": "context-owned-folders",
+      "arm": "selected",
+      "bytes": 430,
+      "sha256": "e9e7e05ed7d861034f983893ffc79b469a5d37488650a36bde94d12c7b99d225",
+      "proxy_tokens": 86
+    }
+  ],
+  "effectiveness": "unverified"
+}
