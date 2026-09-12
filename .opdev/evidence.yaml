@@ -1235,3 +1235,135 @@ changes:
           - kind: work
             summary: "The checked-in baseline records 18 accepted answers and 8.1% fewer total tokens, while latency did not improve. Missing tokenizer and socket-restricted test attempts are visible. These environment issues required no product workaround; full workflow effectiveness remains unverified."
             location: "benchmarks/token-efficiency/results/README.md"
+  - fingerprint: a96a5dd06c08c2549b806953b852b8032ef86463111c88ccd795e75512e858bb
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/25
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 25 defines compact report and exact-current evidence scope, acceptance tests, runtime compatibility and freshness risks."
+        evidence:
+          - kind: work
+            summary: "Issue 25 defines compact report and exact-current evidence scope, acceptance tests, runtime compatibility and freshness risks."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The compact-view specification defines retained artifacts, diagnostic retrieval, saved-result freshness, separate evidence scopes, strict input validation, compatibility fallback, alternatives and reversal triggers."
+        evidence:
+          - kind: decision
+            summary: "The compact-view specification defines retained artifacts, diagnostic retrieval, saved-result freshness, separate evidence scopes, strict input validation, compatibility fallback, alternatives and reversal triggers."
+            location: "spec/compact-views.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused feat/compact-views branch originated independently from green main 4e4b3a3f35d29f4d090a65b2fffae4568e45bb42; benchmark MR 18 remains separate. This increment is prepared for required CI review."
+        evidence:
+          - kind: git
+            summary: "The focused feat/compact-views branch originated independently from green main 4e4b3a3f35d29f4d090a65b2fffae4568e45bb42; benchmark MR 18 remains separate. This increment is prepared for required CI review."
+            location: "feat/compact-views"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "One bounded compact-view increment is implemented in this session. The completed benchmark branch is awaiting integration and contains no concurrent implementation dependency."
+        evidence:
+          - kind: work
+            summary: "One bounded compact-view increment is implemented in this session. The completed benchmark branch is awaiting integration and contains no concurrent implementation dependency."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2841565305 passed before this implementation; no known required red trunk pipeline is deferred."
+        evidence:
+          - kind: ci
+            summary: "Trunk pipeline 2841565305 passed before this implementation; no known required red trunk pipeline is deferred."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2841565305"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Existing check human/JSON outputs and selected-gate exit semantics remain. Read-only view commands and optional report saving are additive. The pinned older CLI and plugin compatibility range remain supported through capability-based fallback; existing project and ledger schemas are unchanged."
+        evidence:
+          - kind: test
+            summary: "Existing check human/JSON outputs and selected-gate exit semantics remain. Read-only view commands and optional report saving are additive. The pinned older CLI and plugin compatibility range remain supported through capability-based fallback; existing project and ledger schemas are unchanged."
+            location: "crates/opdev-cli/tests/compact_views.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Six projection tests cover all outcomes, retained gates, scope/fingerprint selection, invalid/stale inputs, diagnostic truncation and artifact retention. A process-level test executes real checks once, retains a failure, summarizes offline, refuses overwrite before rerunning, and rejects unindexed evidence queries. Canonical tests and plugin/skill validation passed; final staged gate evaluation reruns the canonical suites."
+        evidence:
+          - kind: test
+            summary: "Six projection tests cover all outcomes, retained gates, scope/fingerprint selection, invalid/stale inputs, diagnostic truncation and artifact retention. A process-level test executes real checks once, retains a failure, summarizes offline, refuses overwrite before rerunning, and rejects unindexed evidence queries. Canonical tests and plugin/skill validation passed; final staged gate evaluation reruns the canonical suites."
+            location: "crates/opdev-cli/src/views.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored CLI and skill changes use the same canonical compiler/linter/tests, plugin validation, staged evidence and required quality CI as other changes."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored CLI and skill changes use the same canonical compiler/linter/tests, plugin validation, staged evidence and required quality CI as other changes."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Review identified legitimate suite/extension ID overlap; the projection preserves kind identity and tests shared IDs. Initial Clippy formatting/test-length findings were corrected without waivers, and the skill validator used the existing isolated YAML environment after system Python lacked it. The saved real report retains identical gates with 394 versus 11,471 proxy tokens; full workflow speed remains unverified."
+        evidence:
+          - kind: work
+            summary: "Review identified legitimate suite/extension ID overlap; the projection preserves kind identity and tests shared IDs. Initial Clippy formatting/test-length findings were corrected without waivers, and the skill validator used the existing isolated YAML environment after system Python lacked it. The saved real report retains identical gates with 394 versus 11,471 proxy tokens; full workflow speed remains unverified."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
+  - fingerprint: 9068735d1b4f3743f4d302e650768f71f6ab54282503de368fb1a5db793462ba
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/25
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 25 and MR 19 define compact-view acceptance. The owner authorized integrating benchmark MR 18 and compact-view MR 19 while explicitly deferring additional model benchmarks."
+        evidence:
+          - kind: work
+            summary: "Issue 25 and MR 19 define compact-view acceptance. The owner authorized integrating benchmark MR 18 and compact-view MR 19 while explicitly deferring additional model benchmarks."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Both benchmark and compact-view specifications and their index links are retained in the combined tree; projection, freshness, compatibility and evaluation boundaries remain explicit."
+        evidence:
+          - kind: decision
+            summary: "Both benchmark and compact-view specifications and their index links are retained in the combined tree; projection, freshness, compatibility and evaluation boundaries remain explicit."
+            location: "spec/compact-views.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The compact-view branch incorporates benchmark trunk 028cb0e6c0cb7ccb3be8614f0225308acc13a432 before final integration; source-head CI and post-merge trunk checks remain required."
+        evidence:
+          - kind: git
+            summary: "The compact-view branch incorporates benchmark trunk 028cb0e6c0cb7ccb3be8614f0225308acc13a432 before final integration; source-head CI and post-merge trunk checks remain required."
+            location: "feat/compact-views"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "The benchmark increment is merged; the remaining work is one compact-view integration, with no concurrent unintegrated feature implementation."
+        evidence:
+          - kind: work
+            summary: "The benchmark increment is merged; the remaining work is one compact-view integration, with no concurrent unintegrated feature implementation."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/18"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk was green before benchmark integration and no required failing trunk pipeline was known during conflict resolution. Benchmark post-merge pipeline 2842384448 must pass before the compact-view merge."
+        evidence:
+          - kind: ci
+            summary: "Trunk was green before benchmark integration and no required failing trunk pipeline was known during conflict resolution. Benchmark post-merge pipeline 2842384448 must pass before the compact-view merge."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2842384448"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Conflict resolution keeps both historical evidence blocks and both specification links. The combined tree retains the additive compact CLI, legacy human/JSON behavior, older-runtime fallback, and unchanged project/ledger schemas."
+        evidence:
+          - kind: test
+            summary: "Conflict resolution keeps both historical evidence blocks and both specification links. The combined tree retains the additive compact CLI, legacy human/JSON behavior, older-runtime fallback, and unchanged project/ledger schemas."
+            location: "crates/opdev-cli/tests/compact_views.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "The combined canonical workspace suite includes eleven offline benchmark regressions, six view projections and real CLI acceptance for single execution, failure diagnostics, offline summaries, overwrite prevention and stale evidence. Integration does not invoke live model trials."
+        evidence:
+          - kind: test
+            summary: "The combined canonical workspace suite includes eleven offline benchmark regressions, six view projections and real CLI acceptance for single execution, failure diagnostics, offline summaries, overwrite prevention and stale evidence. Integration does not invoke live model trials."
+            location: "crates/opdev-cli/tests"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored integration and conflict resolution remain subject to the unchanged required quality CI, canonical tests, plugin validation and exact staged evidence."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored integration and conflict resolution remain subject to the unchanged required quality CI, canonical tests, plugin validation and exact staged evidence."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Both branches appended fingerprint evidence and specification links at the same positions. Resolution preserved each history and authority, then bound this combined state to a new fingerprint instead of reusing either parent assertion."
+        evidence:
+          - kind: work
+            summary: "Both branches appended fingerprint evidence and specification links at the same positions. Resolution preserved each history and authority, then bound this combined state to a new fingerprint instead of reusing either parent assertion."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/19"

@@ -36,6 +36,9 @@ migration requirement.
 See [documentation ownership and folder defaults](documentation-layout.md) for
 authority placement and conflict handling.
 
+See [compact report and evidence views](compact-views.md) for read-only
+projections, retained diagnostics, freshness, and compatibility.
+
 See [token-efficiency evaluation](token-efficiency.md) for the benchmark's
 measurement, acceptance, and effectiveness boundaries.
 
