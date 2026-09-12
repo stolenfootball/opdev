@@ -36,6 +36,9 @@ migration requirement.
 See [documentation ownership and folder defaults](documentation-layout.md) for
 authority placement and conflict handling.
 
+See [token-efficiency evaluation](token-efficiency.md) for the benchmark's
+measurement, acceptance, and effectiveness boundaries.
+
 ## Lifecycle
 
 OpDev uses this general lifecycle:

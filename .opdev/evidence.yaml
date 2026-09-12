@@ -1169,3 +1169,69 @@ changes:
           - kind: work
             summary: "Discovery inspection exposed silent candidate precedence and initialized dry-run modifying agent files; both now have regression coverage. Initial Clippy rejected extension comparisons and the skill validator lacked PyYAML; corrected code and an isolated validator dependency passed on visible retries."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/22"
+  - fingerprint: 5d0785e6c6e000ab70ad64ccd37f68b83ece81567a2d78b55adbe6bd8a2ef06e
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/24
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 24 defines the benchmark outcome, scope, acceptance conditions, evidence, and accounting risks before implementation."
+        evidence:
+          - kind: work
+            summary: "Issue 24 defines the benchmark outcome, scope, acceptance conditions, evidence, and accounting risks before implementation."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/24"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The evaluation specification records the synthetic-first measurement decision, alternatives, limitations, acceptance contract, and reversal triggers."
+        evidence:
+          - kind: decision
+            summary: "The evaluation specification records the synthetic-first measurement decision, alternatives, limitations, acceptance contract, and reversal triggers."
+            location: "spec/token-efficiency.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused feat/token-efficiency-benchmark branch originated from main 4e4b3a3f35d29f4d090a65b2fffae4568e45bb42 after its required pipeline passed; this change is prepared for CI review."
+        evidence:
+          - kind: git
+            summary: "The focused feat/token-efficiency-benchmark branch originated from main 4e4b3a3f35d29f4d090a65b2fffae4568e45bb42 after its required pipeline passed; this change is prepared for CI review."
+            location: "feat/token-efficiency-benchmark"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "This is one bounded benchmark increment within the current working session; no concurrent multi-change implementation is introduced."
+        evidence:
+          - kind: work
+            summary: "This is one bounded benchmark increment within the current working session; no concurrent multi-change implementation is introduced."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/24"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Required trunk pipeline 2841565305 succeeded before benchmark implementation began."
+        evidence:
+          - kind: ci
+            summary: "Required trunk pipeline 2841565305 succeeded before benchmark implementation began."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2841565305"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "The diff adds a standalone experimental harness, fixtures, documentation, reviewed results, and a canonical test wrapper; production CLI, plugin instructions, schemas, and delivery behavior are unchanged."
+        evidence:
+          - kind: test
+            summary: "The diff adds a standalone experimental harness, fixtures, documentation, reviewed results, and a canonical test wrapper; production CLI, plugin instructions, schemas, and delivery behavior are unchanged."
+            location: "crates/opdev-cli/tests/benchmark.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Eleven offline tests cover full-fact answer oracles, all outcomes, missing and corrupt usage, cache and optional-counter accounting, tool and timeout errors, pairing, repeat visibility, and deterministic schedules. Canonical format, lint, and workspace tests passed; the first workspace attempt was blocked only by local socket permissions and the same command passed with access."
+        evidence:
+          - kind: test
+            summary: "Eleven offline tests cover full-fact answer oracles, all outcomes, missing and corrupt usage, cache and optional-counter accounting, tool and timeout errors, pairing, repeat visibility, and deterministic schedules. Canonical format, lint, and workspace tests passed; the first workspace attempt was blocked only by local socket permissions and the same command passed with access."
+            location: "tests/benchmark_test.py"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "The agent-authored benchmark tests are invoked by cargo test through the same required quality CI job as other repository changes; live model trials are separate effectiveness evidence."
+        evidence:
+          - kind: policy
+            summary: "The agent-authored benchmark tests are invoked by cargo test through the same required quality CI job as other repository changes; live model trials are separate effectiveness evidence."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The checked-in baseline records 18 accepted answers and 8.1% fewer total tokens, while latency did not improve. Missing tokenizer and socket-restricted test attempts are visible. These environment issues required no product workaround; full workflow effectiveness remains unverified."
+        evidence:
+          - kind: work
+            summary: "The checked-in baseline records 18 accepted answers and 8.1% fewer total tokens, while latency did not improve. Missing tokenizer and socket-restricted test attempts are visible. These environment issues required no product workaround; full workflow effectiveness remains unverified."
+            location: "benchmarks/token-efficiency/results/README.md"

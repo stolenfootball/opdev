@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "kind": "synthetic-context-microbenchmark",
+  "host": "codex-cli 0.153.4",
+  "run_id": "e1dd42e8-ae0d-4b38-8a54-30b5f4001dd7",
+  "model": "gpt-6-astra",
+  "effort": "medium",
+  "repeats": 1,
+  "seed": 17,
+  "timeout": 120,
+  "cases_sha256": "17b3f9b45efc72883ce1b3f4b3f19681739a6363bb603e001b6870f29cba65fe",
+  "harness_sha256": "34fe80984fcfb68e20d5397ebc63d74fbfdff32320c29a1886c6690b7aa26bba",
+  "context": "fresh-process; provider cache uncontrolled",
+  "plugin": "not activated; context interpretation only",
+  "config": "ignore-user-config; read-only; approval never"
+}

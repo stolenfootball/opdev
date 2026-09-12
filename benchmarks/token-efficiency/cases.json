@@ -1,0 +1,3832 @@
+{
+  "schema": 1,
+  "kind": "synthetic-context-microbenchmark",
+  "cases": [
+    {
+      "id": "report-passed",
+      "family": "report",
+      "question": "Return the integration verdict and every blocking rule with its outcome. Output exactly {\"verdict\":string,\"blockers\":[{\"id\":string,\"outcome\":string}]}. Preserve all non-satisfying outcomes; passed and justified not_applicable satisfy the gate.",
+      "full": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "passed"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE-000",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-001",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-002",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-003",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-004",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-005",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-006",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-007",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-008",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-009",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-010",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-011",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-012",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-013",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-014",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-015",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-016",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "TARGET",
+            "outcome": "passed",
+            "diagnostic": "Target fixture result.",
+            "evidence": [
+              "fixture://target"
+            ]
+          },
+          {
+            "id": "RULE-017",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-018",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-019",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-020",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-021",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-022",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-023",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-024",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-025",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-026",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-027",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-028",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-029",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-030",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-031",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-032",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-033",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-034",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-035",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-036",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-037",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-038",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-039",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-040",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-041",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-042",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-043",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-044",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-045",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-046",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-047",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-048",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-049",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-050",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-051",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-052",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-053",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-054",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-055",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-056",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-057",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-058",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-059",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "passed"
+          }
+        ],
+        "blocking_rules": [],
+        "full_report": "fixture://full-report"
+      },
+      "expected": {
+        "verdict": "passed",
+        "blockers": []
+      }
+    },
+    {
+      "id": "report-failed",
+      "family": "report",
+      "question": "Return the integration verdict and every blocking rule with its outcome. Output exactly {\"verdict\":string,\"blockers\":[{\"id\":string,\"outcome\":string}]}. Preserve all non-satisfying outcomes; passed and justified not_applicable satisfy the gate.",
+      "full": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE-000",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-001",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-002",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-003",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-004",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-005",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-006",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-007",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-008",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-009",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-010",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-011",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-012",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-013",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-014",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-015",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-016",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "TARGET",
+            "outcome": "failed",
+            "diagnostic": "Target fixture result.",
+            "evidence": [
+              "fixture://target"
+            ]
+          },
+          {
+            "id": "RULE-017",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-018",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-019",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-020",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-021",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-022",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-023",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-024",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-025",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-026",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-027",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-028",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-029",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-030",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-031",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-032",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-033",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-034",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-035",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-036",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-037",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-038",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-039",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-040",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-041",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-042",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-043",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-044",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-045",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-046",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-047",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-048",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-049",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-050",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-051",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-052",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-053",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-054",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-055",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-056",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-057",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-058",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-059",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "blocking_rules": [
+          {
+            "id": "TARGET",
+            "outcome": "failed"
+          }
+        ],
+        "full_report": "fixture://full-report"
+      },
+      "expected": {
+        "verdict": "blocked",
+        "blockers": [
+          {
+            "id": "TARGET",
+            "outcome": "failed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "report-unverified",
+      "family": "report",
+      "question": "Return the integration verdict and every blocking rule with its outcome. Output exactly {\"verdict\":string,\"blockers\":[{\"id\":string,\"outcome\":string}]}. Preserve all non-satisfying outcomes; passed and justified not_applicable satisfy the gate.",
+      "full": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE-000",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-001",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-002",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-003",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-004",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-005",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-006",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-007",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-008",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-009",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-010",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-011",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-012",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-013",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-014",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-015",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-016",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "TARGET",
+            "outcome": "unverified",
+            "diagnostic": "Target fixture result.",
+            "evidence": [
+              "fixture://target"
+            ]
+          },
+          {
+            "id": "RULE-017",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-018",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-019",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-020",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-021",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-022",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-023",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-024",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-025",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-026",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-027",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-028",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-029",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-030",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-031",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-032",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-033",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-034",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-035",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-036",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-037",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-038",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-039",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-040",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-041",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-042",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-043",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-044",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-045",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-046",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-047",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-048",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-049",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-050",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-051",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-052",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-053",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-054",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-055",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-056",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-057",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-058",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-059",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "blocking_rules": [
+          {
+            "id": "TARGET",
+            "outcome": "unverified"
+          }
+        ],
+        "full_report": "fixture://full-report"
+      },
+      "expected": {
+        "verdict": "blocked",
+        "blockers": [
+          {
+            "id": "TARGET",
+            "outcome": "unverified"
+          }
+        ]
+      }
+    },
+    {
+      "id": "report-error",
+      "family": "report",
+      "question": "Return the integration verdict and every blocking rule with its outcome. Output exactly {\"verdict\":string,\"blockers\":[{\"id\":string,\"outcome\":string}]}. Preserve all non-satisfying outcomes; passed and justified not_applicable satisfy the gate.",
+      "full": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE-000",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-001",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-002",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-003",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-004",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-005",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-006",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-007",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-008",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-009",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-010",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-011",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-012",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-013",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-014",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-015",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-016",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "TARGET",
+            "outcome": "error",
+            "diagnostic": "Target fixture result.",
+            "evidence": [
+              "fixture://target"
+            ]
+          },
+          {
+            "id": "RULE-017",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-018",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-019",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-020",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-021",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-022",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-023",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-024",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-025",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-026",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-027",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-028",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-029",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-030",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-031",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-032",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-033",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-034",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-035",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-036",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-037",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-038",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-039",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-040",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-041",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-042",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-043",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-044",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-045",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-046",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-047",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-048",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-049",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-050",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-051",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-052",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-053",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-054",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-055",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-056",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-057",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-058",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-059",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "blocking_rules": [
+          {
+            "id": "TARGET",
+            "outcome": "error"
+          }
+        ],
+        "full_report": "fixture://full-report"
+      },
+      "expected": {
+        "verdict": "blocked",
+        "blockers": [
+          {
+            "id": "TARGET",
+            "outcome": "error"
+          }
+        ]
+      }
+    },
+    {
+      "id": "report-migration_required",
+      "family": "report",
+      "question": "Return the integration verdict and every blocking rule with its outcome. Output exactly {\"verdict\":string,\"blockers\":[{\"id\":string,\"outcome\":string}]}. Preserve all non-satisfying outcomes; passed and justified not_applicable satisfy the gate.",
+      "full": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE-000",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-001",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-002",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-003",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-004",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-005",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-006",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-007",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-008",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-009",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-010",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-011",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-012",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-013",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-014",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-015",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-016",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "TARGET",
+            "outcome": "migration_required",
+            "diagnostic": "Target fixture result.",
+            "evidence": [
+              "fixture://target"
+            ]
+          },
+          {
+            "id": "RULE-017",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-018",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-019",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-020",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-021",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-022",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-023",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-024",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-025",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-026",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-027",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-028",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-029",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-030",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-031",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-032",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-033",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-034",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-035",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-036",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-037",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-038",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-039",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-040",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-041",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-042",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-043",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-044",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-045",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-046",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-047",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-048",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-049",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-050",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-051",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-052",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-053",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-054",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-055",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-056",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-057",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-058",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-059",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "blocked"
+          }
+        ],
+        "blocking_rules": [
+          {
+            "id": "TARGET",
+            "outcome": "migration_required"
+          }
+        ],
+        "full_report": "fixture://full-report"
+      },
+      "expected": {
+        "verdict": "blocked",
+        "blockers": [
+          {
+            "id": "TARGET",
+            "outcome": "migration_required"
+          }
+        ]
+      }
+    },
+    {
+      "id": "report-not_applicable",
+      "family": "report",
+      "question": "Return the integration verdict and every blocking rule with its outcome. Output exactly {\"verdict\":string,\"blockers\":[{\"id\":string,\"outcome\":string}]}. Preserve all non-satisfying outcomes; passed and justified not_applicable satisfy the gate.",
+      "full": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "passed"
+          }
+        ],
+        "rules": [
+          {
+            "id": "RULE-000",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-001",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-002",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-003",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-004",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-005",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-006",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-007",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-008",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-009",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-010",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-011",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-012",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-013",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-014",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-015",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-016",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "TARGET",
+            "outcome": "not_applicable",
+            "diagnostic": "Reviewed applicability: this fixture has no runtime.",
+            "evidence": [
+              "fixture://target"
+            ]
+          },
+          {
+            "id": "RULE-017",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-018",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-019",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-020",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-021",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-022",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-023",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-024",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-025",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-026",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-027",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-028",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-029",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-030",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-031",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-032",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-033",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-034",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-035",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-036",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-037",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-038",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-039",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-040",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-041",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-042",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-043",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-044",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-045",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-046",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-047",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-048",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-049",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-050",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-051",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-052",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-053",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-054",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-055",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-056",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-057",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-058",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          },
+          {
+            "id": "RULE-059",
+            "outcome": "passed",
+            "diagnostic": "All required fixture checks completed.",
+            "evidence": [
+              "fixture://test/result"
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "subject": "fixture-revision-1",
+        "gates": [
+          {
+            "gate": "integration",
+            "verdict": "passed"
+          }
+        ],
+        "blocking_rules": [],
+        "full_report": "fixture://full-report"
+      },
+      "expected": {
+        "verdict": "passed",
+        "blockers": []
+      }
+    },
+    {
+      "id": "evidence-current",
+      "family": "evidence",
+      "question": "Return effective evidence outcomes for POLICY and CHANGE as exactly {\"POLICY\":string,\"CHANGE\":string}. Use project facts and only the change entry matching fingerprint. Missing current evidence is unverified. List order does not imply freshness.",
+      "full": {
+        "fingerprint": "current",
+        "project": [
+          {
+            "id": "POLICY",
+            "outcome": "passed"
+          }
+        ],
+        "changes": [
+          {
+            "fingerprint": "historical-0",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-1",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-2",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "current",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "not_applicable",
+                "reason": "The fixture change contains no architecture modification."
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-3",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-4",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-5",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-6",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-7",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-8",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-9",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-10",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-11",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-12",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-13",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-14",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-15",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-16",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-17",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-18",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-19",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-20",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-21",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-22",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-23",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-24",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-25",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-26",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-27",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-28",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-29",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "fingerprint": "current",
+        "project": [
+          {
+            "id": "POLICY",
+            "outcome": "passed"
+          }
+        ],
+        "changes": [
+          {
+            "fingerprint": "current",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "not_applicable",
+                "reason": "The fixture change contains no architecture modification."
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "POLICY": "passed",
+        "CHANGE": "not_applicable"
+      }
+    },
+    {
+      "id": "evidence-stale",
+      "family": "evidence",
+      "question": "Return effective evidence outcomes for POLICY and CHANGE as exactly {\"POLICY\":string,\"CHANGE\":string}. Use project facts and only the change entry matching fingerprint. Missing current evidence is unverified. List order does not imply freshness.",
+      "full": {
+        "fingerprint": "current",
+        "project": [
+          {
+            "id": "POLICY",
+            "outcome": "passed"
+          }
+        ],
+        "changes": [
+          {
+            "fingerprint": "historical-0",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-1",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-2",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-3",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-4",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-5",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-6",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-7",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-8",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-9",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-10",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-11",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-12",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-13",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-14",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-15",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-16",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-17",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-18",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-19",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-20",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-21",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-22",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-23",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-24",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-25",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-26",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-27",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-28",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          },
+          {
+            "fingerprint": "historical-29",
+            "assertions": [
+              {
+                "id": "CHANGE",
+                "outcome": "passed"
+              }
+            ]
+          }
+        ]
+      },
+      "selected": {
+        "fingerprint": "current",
+        "project": [
+          {
+            "id": "POLICY",
+            "outcome": "passed"
+          }
+        ],
+        "changes": []
+      },
+      "expected": {
+        "POLICY": "passed",
+        "CHANGE": "unverified"
+      }
+    },
+    {
+      "id": "context-owned-folders",
+      "family": "context",
+      "question": "Return the deduplicated paths required by always plus the code_change route, sorted lexically, as exactly {\"paths\":[string]}. Use configured authorities, not directory naming conventions.",
+      "full": {
+        "authorities": {
+          "contracts": "design/contracts.md",
+          "testing": "design/contracts.md",
+          "implementation": "src",
+          "documentation": "handbook",
+          "delivery": "ops/release"
+        },
+        "always": [
+          "contracts"
+        ],
+        "routes": {
+          "code_change": [
+            "implementation",
+            "testing",
+            "contracts"
+          ],
+          "documentation_change": [
+            "documentation"
+          ],
+          "delivery_change": [
+            "delivery"
+          ]
+        },
+        "existing_unselected_directories": [
+          "docs",
+          "release",
+          ".opdev/design"
+        ]
+      },
+      "selected": {
+        "resolved_routes": [
+          "always",
+          "code_change"
+        ],
+        "required_paths": [
+          "design/contracts.md",
+          "src"
+        ]
+      },
+      "expected": {
+        "paths": [
+          "design/contracts.md",
+          "src"
+        ]
+      }
+    }
+  ]
+}
