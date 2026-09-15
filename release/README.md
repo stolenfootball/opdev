@@ -28,6 +28,16 @@ No manual asset uploads, replacement releases, or floating commit selection.
 
 ## Candidate and final release
 
+Normal Linux amd64 jobs use the group runners tagged `linux`, `docker`,
+`proxmox`; Windows qualification uses `windows`, `powershell`, `hyperv`.
+Both Proxmox runners are amd64. The Linux installer matrix asserts `uname -m`
+and retains a separate native ARM64 job on `saas-linux-small-arm64`; do not
+retag it to amd64 or waive it when hosted compute is unavailable. A green amd64
+job alone cannot qualify the full pipeline. The optional hosted native release
+builders retain their platform tags; the normal protected-tag release path still
+uses the exact-revision GitHub native-build handoff. Runner recovery does not
+change the single GitLab publication path or make an unrun check pass.
+
 1. Merge a green change pipeline to `main` and confirm the resulting trunk
    pipeline is green.
 2. Create an annotated candidate tag such as `v0.1.2-rc.1` on that exact trunk

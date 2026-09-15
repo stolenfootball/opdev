@@ -118,6 +118,72 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 2681f26cc71aacaab40e5983c1390ec398a4c16ca4bd64ceccdc730f25e3ce89
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "The owner approved routing blocked CI to restored Proxmox runners; native ARM64 remains a separate unresolved capacity requirement."
+        evidence:
+          - kind: work
+            summary: "The owner approved routing blocked CI to restored Proxmox runners; native ARM64 remains a separate unresolved capacity requirement."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/26
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Generic amd64 Docker jobs use group tags; architecture-specific jobs retain overrides and the installer asserts its actual architecture. GitLab remains the publication authority."
+        evidence:
+          - kind: specification
+            summary: "Generic amd64 Docker jobs use group tags; architecture-specific jobs retain overrides and the installer asserts its actual architecture. GitLab remains the publication authority."
+            location: release/README.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The short-lived upgrade branch retains main 72ffeaf29f78703e96974c798e764edf472a0e50 and adds the approved CI recovery change; no alternate trunk or direct publication is introduced."
+        evidence:
+          - kind: git
+            summary: "The short-lived upgrade branch retains main 72ffeaf29f78703e96974c798e764edf472a0e50 and adds the approved CI recovery change; no alternate trunk or direct publication is introduced."
+            location: codex/reviewed-upgrades
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "This is one active upgrade-and-CI-recovery branch, not concurrent unintegrated feature branches."
+        evidence:
+          - kind: work
+            summary: "This is one active upgrade-and-CI-recovery branch, not concurrent unintegrated feature branches."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/26
+      - rule_id: MCD-FLOW-001
+        outcome: passed
+        summary: "Hosted jobs failed before execution with ci_quota_exceeded. Work is limited to CI recovery, preserves required gates, and does not claim the blocked pipeline green."
+        evidence:
+          - kind: ci
+            summary: "Hosted jobs failed before execution with ci_quota_exceeded. Work is limited to CI recovery, preserves required gates, and does not claim the blocked pipeline green."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852659244
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "The reviewed upgrade behavior is retained. Routing preserves job scripts, containers, required dependencies, native ARM64 and Windows checks, and immutable release publication."
+        evidence:
+          - kind: test
+            summary: "The reviewed upgrade behavior is retained. Routing preserves job scripts, containers, required dependencies, native ARM64 and Windows checks, and immutable release publication."
+            location: crates/opdev-cli/tests/ci_routing.rs
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Seven upgrade regressions and bootstrap tests are retained; two new routing tests verify inherited amd64 tags, architecture overrides, the ARM64 installer row and required dependencies. GitLab CI lint accepted the YAML with no warnings."
+        evidence:
+          - kind: test
+            summary: "Seven upgrade regressions and bootstrap tests are retained; two new routing tests verify inherited amd64 tags, architecture overrides, the ARM64 installer row and required dependencies. GitLab CI lint accepted the YAML with no warnings."
+            location: crates/opdev-cli/tests/ci_routing.rs
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored routing changes retain the canonical suites and all required CI jobs; no allow-failure or quota-bypass verdict is added."
+        evidence:
+          - kind: ci
+            summary: "Agent-authored routing changes retain the canonical suites and all required CI jobs; no allow-failure or quota-bypass verdict is added."
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Both restored managers report linux/amd64 and their execution traces use Docker. The missing native ARM64 capacity is explicitly retained as a blocker rather than silently substituting amd64."
+        evidence:
+          - kind: work
+            summary: "Both restored managers report linux/amd64 and their execution traces use Docker. The missing native ARM64 capacity is explicitly retained as a blocker rather than silently substituting amd64."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/26#note_3839785225
   - fingerprint: 0934a6843c5baad618a525c47dae5540e097f6f24c21febbd1f6f0a53603cdae
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
     assertions:
