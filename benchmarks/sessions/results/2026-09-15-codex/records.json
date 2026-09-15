@@ -1,0 +1,1442 @@
+[
+  {
+    "case": "stale",
+    "arm": "compact",
+    "repeat": 4,
+    "usage": {
+      "input_tokens": 160120,
+      "cached_input_tokens": 126464,
+      "output_tokens": 1080,
+      "total_tokens": 161200,
+      "uncached_input_tokens": 33656,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 23
+    },
+    "outcome": "passed",
+    "seconds": 61.21420399999988,
+    "ci_seconds": 32.99899039999946,
+    "revision": "b23da5d0a897fa8fb9616da11d8a3522a4d92ec3",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "bdc51b8886585a8875a08a538a278df7fb874a6ef3c622ae10eb8c31d1367ed1",
+    "events_sha256": "5ee717ec1f5f4122cbe592c0a727b9ddc0e631176df7c0ab7cb2326b27d633c9",
+    "tool_commands": 12,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 4,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851406984,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851406984",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "stale",
+    "arm": "compact",
+    "repeat": 0,
+    "usage": {
+      "input_tokens": 177966,
+      "cached_input_tokens": 145536,
+      "output_tokens": 1214,
+      "total_tokens": 179180,
+      "uncached_input_tokens": 32430,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 41
+    },
+    "outcome": "passed",
+    "seconds": 67.27989040000102,
+    "ci_seconds": 34.36264139999912,
+    "revision": "749f21f9b0a6355ec8b074377da32e06aeb8b905",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "bdc51b8886585a8875a08a538a278df7fb874a6ef3c622ae10eb8c31d1367ed1",
+    "events_sha256": "91df093d5ea16489a65b2a9fcacc91864c91531514c2008d868c342097241ba5",
+    "tool_commands": 12,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 4,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851412599,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851412599",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "express",
+    "arm": "compact",
+    "repeat": 4,
+    "usage": {
+      "input_tokens": 195400,
+      "cached_input_tokens": 164608,
+      "output_tokens": 2589,
+      "total_tokens": 197989,
+      "uncached_input_tokens": 30792,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 56
+    },
+    "outcome": "passed",
+    "seconds": 114.70587499999965,
+    "ci_seconds": 43.37268159999803,
+    "revision": "8f21e65ffa3913b5cfa5e38523b88aa84a6584bf",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "52b2c52b5b8909017a0ec0f67d64c778e1e1a925b9268f116507fee1e90b4e2b",
+    "events_sha256": "981c729bbfe77e9605ef24722035c550b88bf6e60650a04e136f1e7e276617fb",
+    "tool_commands": 7,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 5,
+    "compact_calls": 3,
+    "ci": {
+      "id": 2851421154,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851421154",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "8c82b17102c6dedf19523d6eb4ecfbfd8a36ba7bb8b52ffb8072f84daa85cebb"
+  },
+  {
+    "case": "express",
+    "arm": "baseline",
+    "repeat": 2,
+    "usage": {
+      "input_tokens": 218491,
+      "cached_input_tokens": 185088,
+      "output_tokens": 2703,
+      "total_tokens": 221194,
+      "uncached_input_tokens": 33403,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 25
+    },
+    "outcome": "passed",
+    "seconds": 129.21797979999974,
+    "ci_seconds": 33.650283999999374,
+    "revision": "5ff3c249dce3e12742221c65cc04d337f416402d",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "6b587b3dfe91bd151b7d8c544f3ad4a2ad41202ce2ab2adaf2fcdcfd9b9268b0",
+    "events_sha256": "2956cce9597b9fdd9fc6ae7677ff279f847fe428989671228046f1d54526270f",
+    "tool_commands": 12,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 5,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851432283,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851432283",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "1dd191b205d7ed0482794dc8a3d28ca015e2bbebe0689bfd08d0e49f3c721f8f"
+  },
+  {
+    "case": "stale",
+    "arm": "compact",
+    "repeat": 3,
+    "usage": {
+      "input_tokens": 191781,
+      "cached_input_tokens": 156928,
+      "output_tokens": 1227,
+      "total_tokens": 193008,
+      "uncached_input_tokens": 34853,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 38
+    },
+    "outcome": "passed",
+    "seconds": 71.76275479999822,
+    "ci_seconds": 32.82330880000154,
+    "revision": "a955d192fe4b385b054c8590a47eb07ea014c2f9",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "bdc51b8886585a8875a08a538a278df7fb874a6ef3c622ae10eb8c31d1367ed1",
+    "events_sha256": "89712d78ab53b77db35311dfefb213bcec9caed9667bbe7a31bfb29f934fc045",
+    "tool_commands": 10,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 3,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851440311,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851440311",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "stale",
+    "arm": "baseline",
+    "repeat": 2,
+    "usage": {
+      "input_tokens": 291565,
+      "cached_input_tokens": 241280,
+      "output_tokens": 1446,
+      "total_tokens": 293011,
+      "uncached_input_tokens": 50285,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 28
+    },
+    "outcome": "passed",
+    "seconds": 85.92516679999972,
+    "ci_seconds": 33.2914978000008,
+    "revision": "8a6a1e74569c6955b5cb48b16d90f3c2fe6be6b9",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "785daebbda11da8deb865d63328cdda95b0b833eac54e75ab2159f8bb42d0e35",
+    "events_sha256": "6a533fcf3cc5f77f31eb80889a0666f206f8093900fdb2c55405ccced0940bbe",
+    "tool_commands": 10,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 7,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851449758,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851449758",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "rounding",
+    "arm": "compact",
+    "repeat": 0,
+    "usage": {
+      "input_tokens": 195192,
+      "cached_input_tokens": 162176,
+      "output_tokens": 1926,
+      "total_tokens": 197118,
+      "uncached_input_tokens": 33016,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 55
+    },
+    "outcome": "passed",
+    "seconds": 96.4095793000015,
+    "ci_seconds": 32.976070799999434,
+    "revision": "dc31f79331b1e8049278ef247a934effa5abf65b",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "aef62d8b8e02e03c882968254b85861f919f0d78248d5429b7c1794a20bce6c1",
+    "events_sha256": "044a1688ef63781388b85a0047b1c0070d15700f9e9b5dc241936cd089801845",
+    "tool_commands": 10,
+    "web_searches": 1,
+    "failed_commands": 4,
+    "full_reads": 6,
+    "compact_calls": 3,
+    "ci": {
+      "id": 2851459571,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851459571",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "60f500e295a38d53015a5677ae11fc2450db6b2f3a4e152bded2ece37accc5ff"
+  },
+  {
+    "case": "express",
+    "arm": "baseline",
+    "repeat": 4,
+    "usage": {
+      "input_tokens": 285193,
+      "cached_input_tokens": 256384,
+      "output_tokens": 2890,
+      "total_tokens": 288083,
+      "uncached_input_tokens": 28809,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 62
+    },
+    "outcome": "passed",
+    "seconds": 140.46764249999978,
+    "ci_seconds": 34.871923899998365,
+    "revision": "4b5eb019529e9fbfe2d8dea8ca5acebf42f68630",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "6b587b3dfe91bd151b7d8c544f3ad4a2ad41202ce2ab2adaf2fcdcfd9b9268b0",
+    "events_sha256": "ceb5caf9cc4622359801a724b58eefa10d15885a15760564902e8a1e329bd42d",
+    "tool_commands": 9,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 7,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851470021,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851470021",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "c47742bcfacb218f5a528f6e456bfaa12d5c844b83cc279588f498a9bf75ebb4"
+  },
+  {
+    "case": "rounding",
+    "arm": "baseline",
+    "repeat": 1,
+    "usage": {
+      "input_tokens": 221427,
+      "cached_input_tokens": 186368,
+      "output_tokens": 1878,
+      "total_tokens": 223305,
+      "uncached_input_tokens": 35059,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 40
+    },
+    "outcome": "passed",
+    "seconds": 102.72131509999963,
+    "ci_seconds": 33.45247300000119,
+    "revision": "621349b7c66bd7c8f0430b2de9c2064cc645ac86",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "ce85cbba2044e74ec9a285fc56dba5c0d00cf023e471dee55b6be8ea56cef08e",
+    "events_sha256": "6653663c1859aec21f5dbc49ea9a302371969a7e43808b5533bb79cae268ca40",
+    "tool_commands": 13,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 6,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851478294,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851478294",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "48b28b8572f2f10ba42027fd553523e620e45882fd1bc318d4d9750493b1d50d"
+  },
+  {
+    "case": "rounding",
+    "arm": "baseline",
+    "repeat": 3,
+    "usage": {
+      "input_tokens": 218396,
+      "cached_input_tokens": 189568,
+      "output_tokens": 1916,
+      "total_tokens": 220312,
+      "uncached_input_tokens": 28828,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 18
+    },
+    "outcome": "passed",
+    "seconds": 88.00777939999898,
+    "ci_seconds": 53.820297199999914,
+    "revision": "4e55216643b709c9e2b07db776bd76ba894dbd90",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "ce85cbba2044e74ec9a285fc56dba5c0d00cf023e471dee55b6be8ea56cef08e",
+    "events_sha256": "3ff652c44d84195630ee7055e92c1a5923c290430df721fb43ba8557d42ef04c",
+    "tool_commands": 13,
+    "web_searches": 1,
+    "failed_commands": 4,
+    "full_reads": 5,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851484290,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851484290",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "5922b6855b1c0e55d2d47baa93e641b1885f4b4f84fa55fc951727326d3fd3cb"
+  },
+  {
+    "case": "express",
+    "arm": "baseline",
+    "repeat": 0,
+    "usage": {
+      "input_tokens": 245460,
+      "cached_input_tokens": 212096,
+      "output_tokens": 2482,
+      "total_tokens": 247942,
+      "uncached_input_tokens": 33364,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 23
+    },
+    "outcome": "passed",
+    "seconds": 121.79871869999988,
+    "ci_seconds": 33.47873509999772,
+    "revision": "2617d7a65d981669eca42c97c507e95ad91cb8c1",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "6b587b3dfe91bd151b7d8c544f3ad4a2ad41202ce2ab2adaf2fcdcfd9b9268b0",
+    "events_sha256": "5abc1bc62a361112133ba82d41b56f6c94ca74b4050a17a23a7b7fb08a180082",
+    "tool_commands": 12,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 5,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851493303,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851493303",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "603e7739b8cb3a836a6499db740cd4f52d78d7cf9cbc4183f0c5d76dea595dbd"
+  },
+  {
+    "case": "stale",
+    "arm": "compact",
+    "repeat": 1,
+    "usage": {
+      "input_tokens": 151698,
+      "cached_input_tokens": 97664,
+      "output_tokens": 985,
+      "total_tokens": 152683,
+      "uncached_input_tokens": 54034,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 37
+    },
+    "outcome": "passed",
+    "seconds": 59.08223329999964,
+    "ci_seconds": 33.10503950000202,
+    "revision": "bdedef0679fa471ac6abc8a34c07d130b5532232",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "bdc51b8886585a8875a08a538a278df7fb874a6ef3c622ae10eb8c31d1367ed1",
+    "events_sha256": "b6f62eee389954b743c69379c0790d0fcb64c9b38f47d5aab3bfe8b7108f068a",
+    "tool_commands": 12,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 4,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851497751,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851497751",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "stale",
+    "arm": "baseline",
+    "repeat": 0,
+    "usage": {
+      "input_tokens": 251248,
+      "cached_input_tokens": 218752,
+      "output_tokens": 1259,
+      "total_tokens": 252507,
+      "uncached_input_tokens": 32496,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 32
+    },
+    "outcome": "passed",
+    "seconds": 81.95595989999856,
+    "ci_seconds": 32.961600999999064,
+    "revision": "e20ae6552def32aab3b0d59c2565bc390b402ee6",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "785daebbda11da8deb865d63328cdda95b0b833eac54e75ab2159f8bb42d0e35",
+    "events_sha256": "3e6664943ce732bb3332cabd31de806e480a5dc82a30aa07199fd8587965b30c",
+    "tool_commands": 8,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 5,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851503902,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851503902",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "express",
+    "arm": "compact",
+    "repeat": 2,
+    "usage": {
+      "input_tokens": 211646,
+      "cached_input_tokens": 155904,
+      "output_tokens": 2832,
+      "total_tokens": 214478,
+      "uncached_input_tokens": 55742,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 106
+    },
+    "outcome": "passed",
+    "seconds": 124.00641639999958,
+    "ci_seconds": 32.93111610000051,
+    "revision": "ea3604911ef5523ff77f23a59b8bc7c5b0f8f85f",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "52b2c52b5b8909017a0ec0f67d64c778e1e1a925b9268f116507fee1e90b4e2b",
+    "events_sha256": "a1164db3c54bfc18b5ed4ce8ffea5715ca4e1ecf998a0f6350400aab2cec1b1e",
+    "tool_commands": 11,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 4,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851512947,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851512947",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "d1e73ffe1c513cd6db6a3e85e451fa549baba6c90e160c628e9027c021ffdf22"
+  },
+  {
+    "case": "rounding",
+    "arm": "baseline",
+    "repeat": 2,
+    "usage": {
+      "input_tokens": 288053,
+      "cached_input_tokens": 253056,
+      "output_tokens": 2025,
+      "total_tokens": 290078,
+      "uncached_input_tokens": 34997,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 63
+    },
+    "outcome": "passed",
+    "seconds": 98.09360419999939,
+    "ci_seconds": 32.73131199999989,
+    "revision": "285c3c45acebc9d2b4a2b969f9749644f4d1c515",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "ce85cbba2044e74ec9a285fc56dba5c0d00cf023e471dee55b6be8ea56cef08e",
+    "events_sha256": "a81fe0858fc00e4f18793ca093fa188b6504896368836a4960d9a6afff4f215e",
+    "tool_commands": 10,
+    "web_searches": 0,
+    "failed_commands": 4,
+    "full_reads": 6,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851519932,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851519932",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "ca022ae5ebb69e7b9d1d500c5c32e6aa4e4ab3c0ea2fc7aa04e1c811c3922d10"
+  },
+  {
+    "case": "stale",
+    "arm": "baseline",
+    "repeat": 4,
+    "usage": {
+      "input_tokens": 250279,
+      "cached_input_tokens": 213376,
+      "output_tokens": 1521,
+      "total_tokens": 251800,
+      "uncached_input_tokens": 36903,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 96
+    },
+    "outcome": "passed",
+    "seconds": 82.05275219999749,
+    "ci_seconds": 32.69381969999813,
+    "revision": "9e237a71e5746aa119b41daf8ab358fe54f0961d",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "785daebbda11da8deb865d63328cdda95b0b833eac54e75ab2159f8bb42d0e35",
+    "events_sha256": "fdabba66d9e6103772f1fd6e579f4d6ec28df167e954567076ba5b8323b6d20c",
+    "tool_commands": 8,
+    "web_searches": 0,
+    "failed_commands": 0,
+    "full_reads": 5,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851525781,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851525781",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "express",
+    "arm": "baseline",
+    "repeat": 1,
+    "usage": {
+      "input_tokens": 258936,
+      "cached_input_tokens": 224000,
+      "output_tokens": 2762,
+      "total_tokens": 261698,
+      "uncached_input_tokens": 34936,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 57
+    },
+    "outcome": "passed",
+    "seconds": 119.94546039999841,
+    "ci_seconds": 32.72921700000006,
+    "revision": "2fd28074edaf4e7394b3df7a595f323da4b517a9",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "6b587b3dfe91bd151b7d8c544f3ad4a2ad41202ce2ab2adaf2fcdcfd9b9268b0",
+    "events_sha256": "5a3d4cc126be8c9aef0418862e424355da62f425a14eb7d23f5b633931846039",
+    "tool_commands": 11,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 6,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851534884,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851534884",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "dcdbab507e634eeb8fed8fd987d7d9c6c6d5dda0a15de2c04546a54aa07146d2"
+  },
+  {
+    "case": "rounding",
+    "arm": "compact",
+    "repeat": 3,
+    "usage": {
+      "input_tokens": 228710,
+      "cached_input_tokens": 191616,
+      "output_tokens": 1903,
+      "total_tokens": 230613,
+      "uncached_input_tokens": 37094,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 33
+    },
+    "outcome": "passed",
+    "seconds": 89.62267930000235,
+    "ci_seconds": 32.8388180999973,
+    "revision": "29b25e97091f62f0eaad4f37835770433a76a924",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "aef62d8b8e02e03c882968254b85861f919f0d78248d5429b7c1794a20bce6c1",
+    "events_sha256": "b7029cbed92456a6d96ba9f900fb7883bcc2bec88c5c91d775f6a27034e593b3",
+    "tool_commands": 15,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 5,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851541450,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851541450",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "965ca934989f1d3aec97200169ad6da86f875f6042244e83ef6b284580704b22"
+  },
+  {
+    "case": "rounding",
+    "arm": "baseline",
+    "repeat": 0,
+    "usage": {
+      "input_tokens": 286657,
+      "cached_input_tokens": 252288,
+      "output_tokens": 1860,
+      "total_tokens": 288517,
+      "uncached_input_tokens": 34369,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 78
+    },
+    "outcome": "passed",
+    "seconds": 92.41524449999997,
+    "ci_seconds": 32.80859090000013,
+    "revision": "b2e9fba2a147c2cb9e4994f16fbde9fc28decf6c",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "ce85cbba2044e74ec9a285fc56dba5c0d00cf023e471dee55b6be8ea56cef08e",
+    "events_sha256": "5fd5595e55ba8c6b5c82044b1f06c7fdbf2bc920fc7659a2eddd44cb316fb1e4",
+    "tool_commands": 9,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 6,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851548750,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851548750",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "ee1aa66c7317bf45c713c6f4514d52409950ed58e862ca0850d5f2d7c9cd37e5"
+  },
+  {
+    "case": "rounding",
+    "arm": "compact",
+    "repeat": 1,
+    "usage": {
+      "input_tokens": 182201,
+      "cached_input_tokens": 165376,
+      "output_tokens": 1563,
+      "total_tokens": 183764,
+      "uncached_input_tokens": 16825,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 50
+    },
+    "outcome": "passed",
+    "seconds": 76.52090950000274,
+    "ci_seconds": 34.7524612000052,
+    "revision": "3c9302c0d5f2fef37a938d472fdfdecae3319866",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "aef62d8b8e02e03c882968254b85861f919f0d78248d5429b7c1794a20bce6c1",
+    "events_sha256": "7e6f94b86fff839151479bf8636d5fede1ab73e43997a28ee508b5de7725ee21",
+    "tool_commands": 11,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 4,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851553557,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851553557",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "82fa5776a47e4c54cf7f2c2239467b88860ab04987f5dd23f610e28b8ed1836c"
+  },
+  {
+    "case": "rounding",
+    "arm": "baseline",
+    "repeat": 4,
+    "usage": {
+      "input_tokens": 274417,
+      "cached_input_tokens": 236416,
+      "output_tokens": 2194,
+      "total_tokens": 276611,
+      "uncached_input_tokens": 38001,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 55
+    },
+    "outcome": "passed",
+    "seconds": 104.72373140000127,
+    "ci_seconds": 32.82551429999876,
+    "revision": "b8d95c4f08e140536b1fab84064fab23d7286ad1",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "ce85cbba2044e74ec9a285fc56dba5c0d00cf023e471dee55b6be8ea56cef08e",
+    "events_sha256": "1ed161b2e32a55fac736751c13587b3a9438f29ddc672ffb6b30fc2253336c01",
+    "tool_commands": 14,
+    "web_searches": 0,
+    "failed_commands": 3,
+    "full_reads": 10,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851562071,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851562071",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "62100b7a15c8373cfbf7a727d2be4037ba6e5f986dfd3ab28ae617650058832f"
+  },
+  {
+    "case": "express",
+    "arm": "compact",
+    "repeat": 3,
+    "usage": {
+      "input_tokens": 220311,
+      "cached_input_tokens": 200832,
+      "output_tokens": 3040,
+      "total_tokens": 223351,
+      "uncached_input_tokens": 19479,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 53
+    },
+    "outcome": "passed",
+    "seconds": 140.9764753999989,
+    "ci_seconds": 32.77080759999808,
+    "revision": "e73d5a7370a74ef8f04f820454d08ff3f1180d65",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "52b2c52b5b8909017a0ec0f67d64c778e1e1a925b9268f116507fee1e90b4e2b",
+    "events_sha256": "337e3c95f397a575cc48d5b1b04ae7077ba8b8022f592d8058661f38f95f9ec1",
+    "tool_commands": 15,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 5,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851573327,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851573327",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "27384d08af67693c96b5b54b0fbeb6b0cc44cae38efd82cf1867e09860edc700"
+  },
+  {
+    "case": "stale",
+    "arm": "baseline",
+    "repeat": 1,
+    "usage": {
+      "input_tokens": 269920,
+      "cached_input_tokens": 238336,
+      "output_tokens": 1283,
+      "total_tokens": 271203,
+      "uncached_input_tokens": 31584,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 70
+    },
+    "outcome": "passed",
+    "seconds": 67.4405431999985,
+    "ci_seconds": 32.66625080000085,
+    "revision": "dac160d619d618ef91b0cfb2dd90a45ab7002d27",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "785daebbda11da8deb865d63328cdda95b0b833eac54e75ab2159f8bb42d0e35",
+    "events_sha256": "1df9c6251589062de46a5ad40d0cf01f86c32e053ced57c3e65a65893a46f0fa",
+    "tool_commands": 9,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 5,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851578934,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851578934",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "rounding",
+    "arm": "compact",
+    "repeat": 2,
+    "usage": {
+      "input_tokens": 236230,
+      "cached_input_tokens": 217984,
+      "output_tokens": 1959,
+      "total_tokens": 238189,
+      "uncached_input_tokens": 18246,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 42
+    },
+    "outcome": "passed",
+    "seconds": 97.92324850000296,
+    "ci_seconds": 32.71654090000084,
+    "revision": "b9fb10500fd20110f79781d0b07c37b1a89b4ad5",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "aef62d8b8e02e03c882968254b85861f919f0d78248d5429b7c1794a20bce6c1",
+    "events_sha256": "e55c26562e0c19a196c14d52ccf6a116a89ae419682ddb6d006f3aa52319fa07",
+    "tool_commands": 11,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 5,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851587860,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851587860",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "f67f442ab4b74cdac7a3fc48b21f52f05364f0ee5ddd25c451f46309e4068f6a"
+  },
+  {
+    "case": "stale",
+    "arm": "baseline",
+    "repeat": 3,
+    "usage": {
+      "input_tokens": 251963,
+      "cached_input_tokens": 220032,
+      "output_tokens": 1392,
+      "total_tokens": 253355,
+      "uncached_input_tokens": 31931,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 128
+    },
+    "outcome": "passed",
+    "seconds": 70.96463000000222,
+    "ci_seconds": 32.82591230000253,
+    "revision": "430b1f22adfffe9dd45349e71d743c91c8b0a6e3",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "785daebbda11da8deb865d63328cdda95b0b833eac54e75ab2159f8bb42d0e35",
+    "events_sha256": "af29276c4e9e79a5ec3abb4f5f169be9b9ccc7474979691dc79feaf3525acb6d",
+    "tool_commands": 12,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 7,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851599964,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851599964",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "express",
+    "arm": "compact",
+    "repeat": 0,
+    "usage": {
+      "input_tokens": 207455,
+      "cached_input_tokens": 177920,
+      "output_tokens": 2538,
+      "total_tokens": 209993,
+      "uncached_input_tokens": 29535,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 49
+    },
+    "outcome": "passed",
+    "seconds": 121.31776109999919,
+    "ci_seconds": 43.24644129999797,
+    "revision": "e748b6a28f56a00f70c2a5e85f5da5e190c2c589",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "52b2c52b5b8909017a0ec0f67d64c778e1e1a925b9268f116507fee1e90b4e2b",
+    "events_sha256": "605fbecc6196ea368cdc079e90db36d14a3bc0b95d17c4802a5f2681dfe85807",
+    "tool_commands": 12,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 5,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851613864,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851613864",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "723f301f455f0825fcb0bcfa199960d1bccbbc7f8f2a74eea811a0b2efdc5968"
+  },
+  {
+    "case": "rounding",
+    "arm": "compact",
+    "repeat": 4,
+    "usage": {
+      "input_tokens": 225525,
+      "cached_input_tokens": 192640,
+      "output_tokens": 1693,
+      "total_tokens": 227218,
+      "uncached_input_tokens": 32885,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 92
+    },
+    "outcome": "failed",
+    "seconds": 87.47324579999986,
+    "ci_seconds": 32.97334759999649,
+    "revision": "c92dbe5faf672c34b0862369231dcb79dbcf6882",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "aef62d8b8e02e03c882968254b85861f919f0d78248d5429b7c1794a20bce6c1",
+    "events_sha256": "282bc37e9d0018d15b70b0658aeb1952e7e3ca858f36aa6b7157be18b8dd1e0e",
+    "tool_commands": 9,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 6,
+    "compact_calls": 3,
+    "ci": {
+      "id": 2851621679,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851621679",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": false,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "fdba24fc933ecd38c12d40b76bf9d200c1bdebe7a047afb3a4a53ce128aeb639"
+  },
+  {
+    "case": "stale",
+    "arm": "compact",
+    "repeat": 2,
+    "usage": {
+      "input_tokens": 190171,
+      "cached_input_tokens": 134528,
+      "output_tokens": 1326,
+      "total_tokens": 191497,
+      "uncached_input_tokens": 55643,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 49
+    },
+    "outcome": "passed",
+    "seconds": 81.4861665999997,
+    "ci_seconds": 32.77955010000005,
+    "revision": "4c833cbe97e5ecd05e50d4d51dabec8d3e679144",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "bdc51b8886585a8875a08a538a278df7fb874a6ef3c622ae10eb8c31d1367ed1",
+    "events_sha256": "a1f7ae9332001f8b021ca74504ba37b397febc7941d4cb9512d606464d057928",
+    "tool_commands": 13,
+    "web_searches": 1,
+    "failed_commands": 3,
+    "full_reads": 5,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851628098,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851628098",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "a19bb3880edeefb897935fa27c7cad23659184872db06cad5ae9b28b79fcc398"
+  },
+  {
+    "case": "express",
+    "arm": "compact",
+    "repeat": 1,
+    "usage": {
+      "input_tokens": 210012,
+      "cached_input_tokens": 192256,
+      "output_tokens": 2652,
+      "total_tokens": 212664,
+      "uncached_input_tokens": 17756,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 115
+    },
+    "outcome": "passed",
+    "seconds": 115.83631109999988,
+    "ci_seconds": 32.88995760000398,
+    "revision": "aa458579336ac8b40f3ecc90364b40a3a5b04df7",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "52b2c52b5b8909017a0ec0f67d64c778e1e1a925b9268f116507fee1e90b4e2b",
+    "events_sha256": "cf87e1190d2698da4456370bbd0b38d748f7e1c7d46bfd262c05bdfca04e14ba",
+    "tool_commands": 9,
+    "web_searches": 1,
+    "failed_commands": 2,
+    "full_reads": 5,
+    "compact_calls": 4,
+    "ci": {
+      "id": 2851637144,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851637144",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "4bc336175d13d4fae915a0a852eb2cb7d6e644fc3e331f568c7931adc3ad07e8"
+  },
+  {
+    "case": "express",
+    "arm": "baseline",
+    "repeat": 3,
+    "usage": {
+      "input_tokens": 233001,
+      "cached_input_tokens": 209664,
+      "output_tokens": 2610,
+      "total_tokens": 235611,
+      "uncached_input_tokens": 23337,
+      "cache_write_input_tokens": 0,
+      "reasoning_output_tokens": 20
+    },
+    "outcome": "passed",
+    "seconds": 108.69134620000114,
+    "ci_seconds": 33.147842300000775,
+    "revision": "be107d94f0bcbe2d534207d4dd991dce2a45624d",
+    "seed_revision": "642a7547551c8e33a559a43d4db6fcd42960d074",
+    "prompt_sha256": "6b587b3dfe91bd151b7d8c544f3ad4a2ad41202ce2ab2adaf2fcdcfd9b9268b0",
+    "events_sha256": "9b129e53823b96ab0e2cd685e83d89b93f8ff80f7673a4cb74345298f5374504",
+    "tool_commands": 7,
+    "web_searches": 0,
+    "failed_commands": 2,
+    "full_reads": 5,
+    "compact_calls": 0,
+    "ci": {
+      "id": 2851647837,
+      "web_url": "https://gitlab.com/stolenfootball-tools/opdev-session-canary-20260915/-/pipelines/2851647837",
+      "status": "success"
+    },
+    "acceptance_checks": {
+      "scope": true,
+      "existing_tests_preserved": true,
+      "canonical_tests": true,
+      "behavior": true,
+      "regression_protection": true,
+      "honest_gates": true,
+      "honest_evidence": true,
+      "staged": true
+    },
+    "gates": {
+      "development": "blocked",
+      "integration": "blocked",
+      "delivery": "blocked",
+      "compliance": "blocked"
+    },
+    "fingerprint": "86aa1c6e3a0efba796bb1dfa45a25c8b00278ba495e3f0ba81d5198e958ff9d7"
+  }
+]

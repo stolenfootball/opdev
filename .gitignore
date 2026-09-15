@@ -4,3 +4,4 @@
 *.cdx.json
 /release-bundle/
 /release-staging/
+__pycache__/

@@ -96,5 +96,30 @@ report unsuccessful runs, medians, tail latency, and cost per accepted task.
 Use explicit run/cost budgets and controlled workspaces for live task evaluation.
 Choose a practical improvement threshold after the baseline distribution is
 known. Require no observed acceptance regression or false gate passes. Zero
-observed defects in a sample is not proof of zero risk. This broader benchmark
-and all production optimizations remain follow-up work under the tracker.
+observed defects in a sample is not proof of zero risk. The shipped compact
+views are specified separately in `compact-views.md`. The first coding-session
+experiment below evaluates those views within a bounded subset of this broader
+matrix; unmeasured scenarios remain follow-up work under the tracker.
+
+## First coding-session experiment
+
+`scripts/opdev_sessions.py` and `benchmarks/sessions/` extend measurement to
+single-agent sessions with actual file edits and tool calls. The baseline and
+compact arms use the same executable and repository protocol. Only inspection
+guidance differs; baseline agents may select fields without loading whole files.
+This is an explicitly activated repository-protocol experiment, not a test of
+plugin installation or automatic discovery.
+
+Independent acceptance runs outside agent checkouts, verifies behavior, retains
+original tests, and checks added tests against the original defective package.
+The controller compares final gate claims to a fresh evaluator report. It records
+each candidate on a private GitLab branch and waits for CI. No branch is promoted
+as a qualified release. Controller CI time is separate from agent elapsed time;
+model-driven CI repair and resumed sessions are outside this first experiment.
+
+The complete tool-using invocation must have exactly one terminal usage record.
+The adapter rejects ambiguous multi-turn usage, unknown worker events, missing
+counters, host errors, and sessions with no successful commands. Failed product
+attempts remain in token totals. A host/accounting failure stops subsequent
+trials; it cannot be silently retried or excluded to produce a savings claim.
+Raw traces are private and the versioned results contain reviewed aggregates.

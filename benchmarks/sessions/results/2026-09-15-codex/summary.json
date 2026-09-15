@@ -1,0 +1,358 @@
+{
+  "schema": 1,
+  "planned": 30,
+  "completed": 30,
+  "complete": true,
+  "arms": {
+    "baseline": {
+      "runs": 15,
+      "accepted": 15,
+      "outcomes": {
+        "passed": 15,
+        "failed": 0,
+        "error": 0
+      },
+      "usage_complete": true,
+      "known_total_tokens": 3875227,
+      "tokens_per_accepted": 258348.46666666667,
+      "median_seconds": 98.09360419999939,
+      "slowest_seconds": 140.46764249999978,
+      "median_tokens": 253355,
+      "tool_commands": 157,
+      "web_searches": 6,
+      "compact_calls_proxy": 0,
+      "full_reads_proxy": 90,
+      "false_gate_claims": 0,
+      "input_tokens": 3845006,
+      "cached_input_tokens": 3336704,
+      "uncached_input_tokens": 508302,
+      "output_tokens": 30221,
+      "reasoning_output_tokens": 795,
+      "cache_write_input_tokens": 0
+    },
+    "compact": {
+      "runs": 15,
+      "accepted": 14,
+      "outcomes": {
+        "passed": 14,
+        "failed": 1,
+        "error": 0
+      },
+      "usage_complete": true,
+      "known_total_tokens": 3012945,
+      "tokens_per_accepted": 215210.35714285713,
+      "median_seconds": 89.62267930000235,
+      "slowest_seconds": 140.9764753999989,
+      "median_tokens": 197989,
+      "tool_commands": 169,
+      "web_searches": 13,
+      "compact_calls_proxy": 57,
+      "full_reads_proxy": 70,
+      "false_gate_claims": 0,
+      "input_tokens": 2984418,
+      "cached_input_tokens": 2482432,
+      "uncached_input_tokens": 501986,
+      "output_tokens": 28527,
+      "reasoning_output_tokens": 839,
+      "cache_write_input_tokens": 0
+    }
+  },
+  "cases": {
+    "express": {
+      "baseline": {
+        "runs": 5,
+        "accepted": 5,
+        "outcomes": {
+          "passed": 5,
+          "failed": 0,
+          "error": 0
+        },
+        "usage_complete": true,
+        "known_total_tokens": 1254528,
+        "tokens_per_accepted": 250905.6,
+        "median_seconds": 121.79871869999988,
+        "slowest_seconds": 140.46764249999978,
+        "median_tokens": 247942,
+        "tool_commands": 51,
+        "web_searches": 3,
+        "compact_calls_proxy": 0,
+        "full_reads_proxy": 28,
+        "false_gate_claims": 0,
+        "input_tokens": 1241081,
+        "cached_input_tokens": 1087232,
+        "uncached_input_tokens": 153849,
+        "output_tokens": 13447,
+        "reasoning_output_tokens": 187,
+        "cache_write_input_tokens": 0
+      },
+      "compact": {
+        "runs": 5,
+        "accepted": 5,
+        "outcomes": {
+          "passed": 5,
+          "failed": 0,
+          "error": 0
+        },
+        "usage_complete": true,
+        "known_total_tokens": 1058475,
+        "tokens_per_accepted": 211695.0,
+        "median_seconds": 121.31776109999919,
+        "slowest_seconds": 140.9764753999989,
+        "median_tokens": 212664,
+        "tool_commands": 54,
+        "web_searches": 5,
+        "compact_calls_proxy": 19,
+        "full_reads_proxy": 24,
+        "false_gate_claims": 0,
+        "input_tokens": 1044824,
+        "cached_input_tokens": 891520,
+        "uncached_input_tokens": 153304,
+        "output_tokens": 13651,
+        "reasoning_output_tokens": 379,
+        "cache_write_input_tokens": 0
+      }
+    },
+    "rounding": {
+      "baseline": {
+        "runs": 5,
+        "accepted": 5,
+        "outcomes": {
+          "passed": 5,
+          "failed": 0,
+          "error": 0
+        },
+        "usage_complete": true,
+        "known_total_tokens": 1298823,
+        "tokens_per_accepted": 259764.6,
+        "median_seconds": 98.09360419999939,
+        "slowest_seconds": 104.72373140000127,
+        "median_tokens": 276611,
+        "tool_commands": 59,
+        "web_searches": 2,
+        "compact_calls_proxy": 0,
+        "full_reads_proxy": 33,
+        "false_gate_claims": 0,
+        "input_tokens": 1288950,
+        "cached_input_tokens": 1117696,
+        "uncached_input_tokens": 171254,
+        "output_tokens": 9873,
+        "reasoning_output_tokens": 254,
+        "cache_write_input_tokens": 0
+      },
+      "compact": {
+        "runs": 5,
+        "accepted": 4,
+        "outcomes": {
+          "passed": 4,
+          "failed": 1,
+          "error": 0
+        },
+        "usage_complete": true,
+        "known_total_tokens": 1076902,
+        "tokens_per_accepted": 269225.5,
+        "median_seconds": 89.62267930000235,
+        "slowest_seconds": 97.92324850000296,
+        "median_tokens": 227218,
+        "tool_commands": 56,
+        "web_searches": 5,
+        "compact_calls_proxy": 18,
+        "full_reads_proxy": 26,
+        "false_gate_claims": 0,
+        "input_tokens": 1067858,
+        "cached_input_tokens": 929792,
+        "uncached_input_tokens": 138066,
+        "output_tokens": 9044,
+        "reasoning_output_tokens": 272,
+        "cache_write_input_tokens": 0
+      }
+    },
+    "stale": {
+      "baseline": {
+        "runs": 5,
+        "accepted": 5,
+        "outcomes": {
+          "passed": 5,
+          "failed": 0,
+          "error": 0
+        },
+        "usage_complete": true,
+        "known_total_tokens": 1321876,
+        "tokens_per_accepted": 264375.2,
+        "median_seconds": 81.95595989999856,
+        "slowest_seconds": 85.92516679999972,
+        "median_tokens": 253355,
+        "tool_commands": 47,
+        "web_searches": 1,
+        "compact_calls_proxy": 0,
+        "full_reads_proxy": 29,
+        "false_gate_claims": 0,
+        "input_tokens": 1314975,
+        "cached_input_tokens": 1131776,
+        "uncached_input_tokens": 183199,
+        "output_tokens": 6901,
+        "reasoning_output_tokens": 354,
+        "cache_write_input_tokens": 0
+      },
+      "compact": {
+        "runs": 5,
+        "accepted": 5,
+        "outcomes": {
+          "passed": 5,
+          "failed": 0,
+          "error": 0
+        },
+        "usage_complete": true,
+        "known_total_tokens": 877568,
+        "tokens_per_accepted": 175513.6,
+        "median_seconds": 67.27989040000102,
+        "slowest_seconds": 81.4861665999997,
+        "median_tokens": 179180,
+        "tool_commands": 59,
+        "web_searches": 3,
+        "compact_calls_proxy": 20,
+        "full_reads_proxy": 20,
+        "false_gate_claims": 0,
+        "input_tokens": 871736,
+        "cached_input_tokens": 661120,
+        "uncached_input_tokens": 210616,
+        "output_tokens": 5832,
+        "reasoning_output_tokens": 188,
+        "cache_write_input_tokens": 0
+      }
+    }
+  },
+  "pairs": [
+    {
+      "case": "express",
+      "repeat": 0,
+      "baseline_tokens": 247942,
+      "compact_tokens": 209993,
+      "difference_tokens": -37949,
+      "reduction_fraction": 0.15305595663501947
+    },
+    {
+      "case": "express",
+      "repeat": 1,
+      "baseline_tokens": 261698,
+      "compact_tokens": 212664,
+      "difference_tokens": -49034,
+      "reduction_fraction": 0.18736864630222627
+    },
+    {
+      "case": "express",
+      "repeat": 2,
+      "baseline_tokens": 221194,
+      "compact_tokens": 214478,
+      "difference_tokens": -6716,
+      "reduction_fraction": 0.030362487228405843
+    },
+    {
+      "case": "express",
+      "repeat": 3,
+      "baseline_tokens": 235611,
+      "compact_tokens": 223351,
+      "difference_tokens": -12260,
+      "reduction_fraction": 0.05203492196883852
+    },
+    {
+      "case": "express",
+      "repeat": 4,
+      "baseline_tokens": 288083,
+      "compact_tokens": 197989,
+      "difference_tokens": -90094,
+      "reduction_fraction": 0.31273626003617017
+    },
+    {
+      "case": "rounding",
+      "repeat": 0,
+      "baseline_tokens": 288517,
+      "compact_tokens": 197118,
+      "difference_tokens": -91399,
+      "reduction_fraction": 0.3167889587095388
+    },
+    {
+      "case": "rounding",
+      "repeat": 1,
+      "baseline_tokens": 223305,
+      "compact_tokens": 183764,
+      "difference_tokens": -39541,
+      "reduction_fraction": 0.17707171805378297
+    },
+    {
+      "case": "rounding",
+      "repeat": 2,
+      "baseline_tokens": 290078,
+      "compact_tokens": 238189,
+      "difference_tokens": -51889,
+      "reduction_fraction": 0.178879473796703
+    },
+    {
+      "case": "rounding",
+      "repeat": 3,
+      "baseline_tokens": 220312,
+      "compact_tokens": 230613,
+      "difference_tokens": 10301,
+      "reduction_fraction": -0.046756418170594394
+    },
+    {
+      "case": "rounding",
+      "repeat": 4,
+      "baseline_tokens": 276611,
+      "compact_tokens": 227218,
+      "difference_tokens": -49393,
+      "reduction_fraction": 0.17856484376977055
+    },
+    {
+      "case": "stale",
+      "repeat": 0,
+      "baseline_tokens": 252507,
+      "compact_tokens": 179180,
+      "difference_tokens": -73327,
+      "reduction_fraction": 0.29039590981636154
+    },
+    {
+      "case": "stale",
+      "repeat": 1,
+      "baseline_tokens": 271203,
+      "compact_tokens": 152683,
+      "difference_tokens": -118520,
+      "reduction_fraction": 0.4370158147218135
+    },
+    {
+      "case": "stale",
+      "repeat": 2,
+      "baseline_tokens": 293011,
+      "compact_tokens": 191497,
+      "difference_tokens": -101514,
+      "reduction_fraction": 0.34645115712379404
+    },
+    {
+      "case": "stale",
+      "repeat": 3,
+      "baseline_tokens": 253355,
+      "compact_tokens": 193008,
+      "difference_tokens": -60347,
+      "reduction_fraction": 0.2381914704663417
+    },
+    {
+      "case": "stale",
+      "repeat": 4,
+      "baseline_tokens": 251800,
+      "compact_tokens": 161200,
+      "difference_tokens": -90600,
+      "reduction_fraction": 0.3598093725178714
+    }
+  ],
+  "all_acceptance_passed": false,
+  "token_reduction_fraction": null,
+  "general_development_effectiveness": "unverified",
+  "limitations": [
+    "small synthetic repository",
+    "one model/host/OS",
+    "uncontrolled provider cache",
+    "explicit repository-protocol activation",
+    "controller-owned staging and CI",
+    "no model-driven CI repair, resumed sessions, subagents or installation",
+    "tool/read counts are command-text proxies; no dollar savings inferred"
+  ]
+}
