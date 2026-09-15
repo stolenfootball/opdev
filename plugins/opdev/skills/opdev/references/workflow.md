@@ -1,5 +1,10 @@
 # OpDev lifecycle
 
+Repeat this lifecycle per meaningful increment, not as project-wide phases.
+For all plans and next-step recommendations, use [planning.md](planning.md).
+Specific user objectives control scope; technical tasks support demonstrable
+outcomes or bounded enabling work. An advice request does not authorize execution.
+
 ## Specify
 
 Identify the problem, intended outcome, affected consumers, scope, exclusions, acceptance conditions, evidence, authorities, dependencies, and material risks. Put active status in the declared work system.

@@ -6,12 +6,14 @@ use thiserror::Error;
 const START_MARKER: &str = "<!-- opdev:start -->";
 const END_MARKER: &str = "<!-- opdev:end -->";
 
-const AGENTS_BLOCK: &str = r"<!-- opdev:start -->
+const AGENTS_BLOCK: &str = r#"<!-- opdev:start -->
 ## OpDev development protocol
 
 This repository is initialized for OpDev. Apply this protocol seamlessly to every software-development task; do not ask whether to use it. `.opdev/project.yaml` is the machine-readable project contract and the starting point for finding project-specific commands, authorities, risks, tests, delivery requirements, assurance profiles, and context routes. Do not assume that design or operational material lives in a conventional `docs/` directory. Existing authority locations take precedence over folder defaults. Treat non-OpDev folders as project-owned; do not create, move, overwrite, or repurpose their contents merely to match a convention. Record reviewed locations in the project contract.
 
 If the `opdev` CLI or required OpDev agent integration is unavailable, tell the user before substantive development begins and offer to install it. Do not silently replace OpDev with an improvised process. You may continue only when the user chooses to proceed without it or the current task does not require the unavailable capability.
+
+For every planning objective, including roadmaps, task breakdowns, prioritization and "what is the next step?", use the OpDev planning guidance. Honor explicit user scope, constraints and requested order. Otherwise prefer the next thin, demonstrable consumer outcome over completing whole technical layers; keep later increments provisional. Bound enabling work by its supported outcome, uncertainty and exit evidence. Include acceptance tests, feedback and applicable delivery/recovery within each increment, and replan from evidence. Advice does not authorize implementation or tracker writes. Keep planning facts in existing authorities; no extra project document is required.
 
 For each development task:
 
@@ -31,7 +33,7 @@ MinimumCD requirements are mandatory. Every change is version controlled and del
 For experimental work, separate integration from activation and distinguish not enabled from not shipped. Use the OpDev experiment guidance and existing work authority to record ownership, review date, decision criteria, isolation, stable defaults, supported configuration tests, recovery, and cleanup. Test stable and supported experimental configurations before and after integration; qualify each distributed artifact variant independently. Review overdue experiments and remove temporary machinery or deliberately adopt a supported permanent option. Experiments never waive core gates; ordinary changes need no experiment record.
 
 Before declaring work complete, reconcile implementation, tests, project authorities, delivery behavior, and tracked work. Run the applicable canonical checks and provide concise evidence, including anything not run or still requiring migration. Never hide a failing or unverified requirement behind a summary success statement.
-<!-- opdev:end -->";
+<!-- opdev:end -->"#;
 
 const CLAUDE_BLOCK: &str = r"<!-- opdev:start -->
 @AGENTS.md

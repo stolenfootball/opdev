@@ -22,6 +22,9 @@ making every new agent rediscover them.
   instructions and follow pointers to the relevant design, tests, and work item.
 - **Make testing part of the workflow.** Declare canonical commands, regression
   expectations, quality risks, and how flaky tests are handled.
+- **Plan useful increments.** Roadmaps and "what next?" answers prioritize
+  demonstrable outcomes and feedback, not completed technical layers. Specific
+  user requests still control the scope.
 - **Keep approval tied to evidence.** Missing or stale evidence blocks the
   affected gate. A successful test run does not imply readiness to deliver.
 - **Use one process across tools.** Codex and Claude Code share the protocol;

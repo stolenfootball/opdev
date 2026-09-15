@@ -5,6 +5,8 @@ This repository is initialized for OpDev. Apply this protocol seamlessly to ever
 
 If the `opdev` CLI or required OpDev agent integration is unavailable, tell the user before substantive development begins and offer to install it. Do not silently replace OpDev with an improvised process. You may continue only when the user chooses to proceed without it or the current task does not require the unavailable capability.
 
+For every planning objective, including roadmaps, task breakdowns, prioritization and "what is the next step?", use the OpDev planning guidance. Honor explicit user scope, constraints and requested order. Otherwise prefer the next thin, demonstrable consumer outcome over completing whole technical layers; keep later increments provisional. Bound enabling work by its supported outcome, uncertainty and exit evidence. Include acceptance tests, feedback and applicable delivery/recovery within each increment, and replan from evidence. Advice does not authorize implementation or tracker writes. Keep planning facts in existing authorities; no extra project document is required.
+
 For each development task:
 
 For initialization or conversion to OpDev, follow the adoption guidance: assess every supplied practice, preserve adequate existing choices, research only unresolved project-specific gaps, and record reviewed dispositions in `.opdev/adoption.yaml`. Pending work is not complete adoption; only optional practices may be explicitly ignored, and no disposition waives core requirements. Use `opdev adoption check` on a capable CLI before claiming completion. Existing projects without a record require explicit assessment adoption; ordinary tasks reuse decisions and do not restart setup or research.
