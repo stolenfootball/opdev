@@ -15,6 +15,12 @@
 
 When project facts change, update their declared authority and then reconcile pointers in the contract. Do not create a second authoritative copy for agent convenience.
 
+Experiments reuse `authorities.work`, relevant context routes, and existing
+`commands`/`testing.suites`. There is no required `experiments` manifest field.
+For experimental work, follow [experiments.md](experiments.md); an optional
+`experimental_change` context route can select the existing work, testing,
+design, and delivery authorities without introducing another registry.
+
 ## Documentation locations and ownership
 
 Read the existing project contract and inspect established documentation before

@@ -1,0 +1,26 @@
+# Edit for the actual experiment; do not use this example as evidence.
+# Keep the record at the existing work authority or link its canonical file there.
+schema: 1
+id: alternative-engine
+work: https://example.test/project/issues/42
+owner: accountable-maintainer
+review_by: YYYY-MM-DD
+purpose: Determine whether the alternative engine improves latency without changing results.
+decision:
+  promote: Equivalent results and the work item's latency target hold in the agreed evaluation.
+  abandon: Correctness regresses or the agreed evaluation shows no worthwhile improvement.
+isolation:
+  mechanism: runtime_flag
+  details: Select the alternative engine only with an explicit experimental option.
+  stable_default: The existing engine remains the default for every supported consumer.
+  recovery: Disable the option; both engines use the same unchanged data format.
+configurations:
+  - id: stable
+    exposure: stable
+    description: Default execution with the existing engine.
+    suites: [stable-tests]
+  - id: opt-in
+    exposure: experimental
+    description: Explicitly selected alternative engine.
+    suites: [experimental-tests]
+cleanup: Remove the switch and losing implementation; update tests and supported-option documentation.

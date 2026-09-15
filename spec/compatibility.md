@@ -35,6 +35,12 @@ state.
 The first stable CLI will read its current schema and at least one previous
 schema when a deterministic migration exists.
 
+Experiment records have a separate integer schema (currently 1). They do not add
+fields to the project manifest. Development CLIs expose `experiment validate`;
+older published runtimes may still apply the agent lifecycle but cannot claim
+automated record validation. The validator rejects unknown record fields and
+versions and never rewrites records. See [experiments](experiments.md).
+
 ## Rule catalog
 
 The catalog has its own integer `catalog_version`. Rule IDs are permanent.

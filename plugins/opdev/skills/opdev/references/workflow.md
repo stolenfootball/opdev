@@ -14,6 +14,11 @@ Use one trunk. Branches originate from trunk, remain short-lived, integrate at l
 
 Run relevant local and pre-merge suites. Preserve supported delivered behavior, or record and test an intentional migration. Agent-authored work meets exactly the same standards as human-authored work.
 
+Integration need not enable unfinished behavior. For experiments, apply
+[the experiment lifecycle](experiments.md): explicit isolation and stable defaults,
+bounded configuration tests, accountable review, and promotion or cleanup. No
+extra record is required for ordinary work.
+
 ## Package and deliver
 
 CI is the exclusive supported delivery path. The pipeline gives a definitive verdict, builds a deployable artifact once, identifies it immutably, and promotes the same bytes. Qualify in an environment representative of material destination risks. Version and test behavioral configuration; inject environment-specific values without rebuilding.

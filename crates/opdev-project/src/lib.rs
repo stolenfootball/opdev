@@ -5,6 +5,7 @@
 mod bootstrap;
 mod discovery;
 mod evidence;
+mod experiment;
 mod manifest;
 
 pub use bootstrap::{BootstrapError, FileChange, ManagedFile, reconcile_agent_files};
@@ -13,6 +14,7 @@ pub use evidence::{
     ChangeEvidence, ChangeEvidenceReview, EVIDENCE_PATH, EvidenceAssertion, EvidenceBootstrap,
     EvidenceError, EvidenceLedger, EvidenceReview, ReviewDecision, staged_fingerprint,
 };
+pub use experiment::{ExperimentError, validate_experiment};
 pub use manifest::{
     Artifact, Assurance, AuthorityKind, AuthorityRef, ChangeTests, CiConfig, CiProvider,
     CommandSpec, Context, Coverage, CoverageMode, Delivery, DeliveryMode, DeliveryStatus,

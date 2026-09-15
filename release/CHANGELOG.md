@@ -5,6 +5,10 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Adopt a mechanism-neutral experiment lifecycle with shared agent guidance,
+  a standard record, and read-only `opdev experiment validate` checks. Preserve
+  existing project schemas, evidence gates, and stable release defaults.
+
 - Organize human guidance and release history into folders; preserve configured
   authorities and surface discovery conflicts without modifying project-owned
   documentation. Keep initialization dry-run read-only on existing projects.

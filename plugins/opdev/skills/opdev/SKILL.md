@@ -55,6 +55,10 @@ The Claude Code prompt hook may provide the same state as additional context. Tr
 
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
 
+For experimental features or releases that must exclude unfinished behavior, read
+[experiments.md](references/experiments.md). Keep stable behavior releasable and
+record opt-in, ownership, review, tests, and cleanup at the existing work authority.
+
 ## Preserve the core
 
 MinimumCD requirements are mandatory for every initialized project. Extensions may add or strengthen checks but cannot disable a core rule, change its applicability, replace its result, or suppress required evidence.
