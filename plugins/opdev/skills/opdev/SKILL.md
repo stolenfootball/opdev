@@ -1,15 +1,25 @@
 ---
 name: opdev
-description: Use for general software-development work, including planning, design, implementation, debugging, testing, review, CI, release, operations, maintenance, and software documentation. Detect whether the project is initialized with `.opdev/project.yaml`. If initialized, apply OpDev seamlessly. If clearly developing software but uninitialized, ask whether to initialize. If the OpDev CLI is unavailable, inform the user and offer installation. Do not trigger for tasks unrelated to software development.
+description: Follow OpDev for software work in projects configured with .opdev/project.yaml, or when the user explicitly requests adoption. In uninitialized projects, only suggest adoption for substantive development; wait for consent before following the workflow or setting up its runtime. Routine pull, status, or dev-server requests do not warrant a suggestion. Loading this skill checks applicability, not consent.
 ---
 
 # OpDev
 
-Apply one evidence-driven development loop across software of any language, architecture, platform, or delivery model. Keep project-specific choices in the project contract rather than inventing conventions.
+Apply the workflow only after the project-state and consent gate below. Loading this skill, installing the plugin, or a host requiring skill inspection does not authorize following OpDev in an uninitialized project. Do not announce "using OpDev" merely because this skill was loaded.
 
 ## Establish state
 
-At the start of a software-development task, look for `.opdev/project.yaml` at the Git repository root.
+First identify the target repository (not an unrelated current workspace) and look for `.opdev/project.yaml` at its Git root, including when working in a subdirectory or worktree. This applicability inspection does not require an OpDev CLI.
+
+- **Configured project:** read the contract and project instructions, then resolve the runtime and apply OpDev seamlessly. A malformed or unreadable contract is an error, not an uninitialized project. Configuration is not proof of complete adoption.
+- **Explicit adoption request:** consent to assessment is already supplied. Resolve the runtime, then follow [adoption.md](references/adoption.md). This is not blanket permission for installation or other material changes.
+- **Uninitialized, substantive development:** offer adoption once, without blocking the requested work. Wait for affirmative consent before applying the workflow, probing its runtime, or initializing. If declined or unanswered, continue the original task without OpDev; do not repeatedly ask in the same task.
+- **Uninitialized, routine repository operation:** handle the request directly without an OpDev announcement, suggestion, runtime lookup, installation, or gate. For example, "Pull down the most recent changes to the courses repo and start the dev server" needs ordinary repository safety and project instructions, not adoption. Inspecting status or running an existing command alone is also not a reason to adopt. If later work becomes substantive development, reassess then.
+- **Unrelated task:** do not interrupt it with OpDev.
+
+An explicit runtime-setup request uses the packaged setup skill without adopting any repository. For mixed requests, judge the actual development scope rather than matching words such as "repo" or "server".
+
+## Resolve runtime after activation
 
 Before the first OpDev action in each task, resolve `../../` relative to this
 skill directory to find the plugin root and select a CLI:
@@ -21,23 +31,20 @@ skill directory to find the plugin root and select a CLI:
    packaged `opdev-compatibility.json`. A compatible standalone installation is
    sufficient; do not replace it. Any other lookup failure must be reported
    before proceeding; it is not evidence that no managed runtime exists.
-3. If neither is available, apply the packaged `setup` skill to install the pinned
-   managed runtime. This is part of setting up the explicitly activated plugin;
+3. If neither is available, inform the user and offer the packaged `setup` skill.
+   Install only after setup is accepted (an explicit setup request suffices);
    use the host's normal execution/network approval flow. Do not bypass a denied
    approval, install for unrelated tasks, or initialize a repository as part of
    installation. Report setup failures and do not claim OpDev is active.
 4. Run the selected executable's `plugin verify --contract <absolute-path>`.
-   A zero exit activates the plugin. Exit 1 is an incompatible combination; exit
-   2 is a verification error. Neither activates OpDev. Use that same executable
+   A zero exit verifies runtime compatibility, not project consent. Exit 1 is an incompatible combination; exit
+   2 is a verification error. Neither permits the workflow to proceed. Use that same executable
    for the rest of the task, including calls shown as `opdev` in the references.
 
 Keep runtime setup separate from repository initialization. A damaged managed
 runtime must be reported with its exact path; do not silently delete it or fall
 back to another binary. The setup skill documents recovery.
-- If it exists, OpDev is configured. Read it before planning or editing and apply this skill without asking the user whether to use OpDev. Configuration presence is not proof that adoption is complete.
-- If it does not exist and the user is clearly asking to develop software, determine whether the `opdev` CLI is available. If it is, ask whether the user wants to initialize OpDev in this project. Do not initialize until they agree.
-- If setup is unavailable or fails, report the concrete failure and offer the manual choices in [initialization.md](references/initialization.md).
-- If the task is not software development, do not interrupt it with an OpDev prompt.
+If setup is unavailable or fails after activation, report the concrete failure and offer the manual choices in [initialization.md](references/initialization.md). Do not silently replace the configured project's process.
 
 The Claude Code prompt hook may provide the same state as additional context. Treat that as a detection aid, not as a substitute for checking the project contract.
 

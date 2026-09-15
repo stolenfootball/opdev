@@ -4,7 +4,11 @@
 #[test]
 fn managed_runtime_bootstrap_regressions() -> Result<(), Box<dyn std::error::Error>> {
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
-    for suite in ["tests/runtime_test.py", "tests/dist_test.py"] {
+    for suite in [
+        "tests/runtime_test.py",
+        "tests/dist_test.py",
+        "tests/hook_test.py",
+    ] {
         let output = std::process::Command::new("python3")
             .arg(root.join(suite))
             .current_dir(&root)

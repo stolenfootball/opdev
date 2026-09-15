@@ -7,6 +7,30 @@ pin is deliberately separate from the plugin version so a source-marketplace
 update never depends on an unpublished archive. The declared CLI compatibility
 range MUST accept the pin. Updating the pin is a reviewed source change.
 
+## Activation and consent
+
+Skill inspection is applicability detection, not project consent. First inspect
+the target repository's contract at its Git root. Configured projects use OpDev
+seamlessly; malformed contracts remain errors. In uninitialized projects, routine
+pull/status/dev-server operations MUST NOT trigger workflow enforcement, adoption
+suggestions, or runtime lookup. Substantive development may receive one optional
+adoption offer; without acceptance, continue the original task without OpDev.
+Explicit adoption supplies assessment consent. Explicit setup supplies runtime
+installation consent but does not adopt a project.
+
+Resolve the runtime only after activation. If missing, offer setup and wait for
+acceptance; plugin installation and compatibility verification do not grant
+project or runtime-installation consent. The prompt hook only inspects project
+state, never probes or executes a runtime. The skill classifies user intent;
+the hook does not attempt natural-language classification with keyword rules.
+
+Regression scenarios: uninitialized pull-and-start, status, unrelated requests,
+substantive feature work with acceptance/decline/no answer, explicit adoption,
+explicit setup, configured work, nested directories and worktrees. Deterministic
+hook tests establish no runtime execution and correct root discovery; they do
+not prove that every agent will interpret intent correctly. The reported courses
+incident motivates this consent gate, not a project-specific exception.
+
 ## Bootstrap contract
 
 `plugins/opdev/runtime.lock` is trusted package data, not executable code. It

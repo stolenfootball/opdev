@@ -118,6 +118,72 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: b143b5dd63c3be453381ad773f9ec32a4463825e5f33de290456092818013f9f
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/32
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 32 records the reported courses incident, consent-first outcome, scope and regression plan."
+        evidence:
+          - kind: work
+            summary: "Issue 32 records the reported courses incident, consent-first outcome, scope and regression plan."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/32"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Installation specification separates skill inspection, project consent and runtime setup; semantic intent stays in agent guidance, while the hook performs only project-state routing."
+        evidence:
+          - kind: specification
+            summary: "Installation specification separates skill inspection, project consent and runtime setup; semantic intent stays in agent guidance, while the hook performs only project-state routing."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "Single focused fix branch starts from current main aa8749e and will integrate through a required green merge-request pipeline."
+        evidence:
+          - kind: git
+            summary: "Single focused fix branch starts from current main aa8749e and will integrate through a required green merge-request pipeline."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/32"
+      - rule_id: MCD-TRUNK-003
+        outcome: passed
+        summary: "This change has no parallel feature dependencies and is being integrated as one short-lived correction."
+        evidence:
+          - kind: review
+            summary: "This change has no parallel feature dependencies and is being integrated as one short-lived correction."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/32"
+      - rule_id: MCD-FLOW-001
+        outcome: passed
+        summary: "Main pipeline 2852475261 succeeded at aa8749e97588297f1fc6d7ddb5ccacbf669268ca; no red trunk requires restoration."
+        evidence:
+          - kind: ci
+            summary: "Main pipeline 2852475261 succeeded at aa8749e97588297f1fc6d7ddb5ccacbf669268ca; no red trunk requires restoration."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852475261"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "CLI schemas, runtime pin, installers and configured-project requirements are preserved. Uninitialized activation and hook runtime probing deliberately change to restore consent; missing setup is offered after activation."
+        evidence:
+          - kind: review
+            summary: "CLI schemas, runtime pin, installers and configured-project requirements are preserved. Uninitialized activation and hook runtime probing deliberately change to restore consent; missing setup is offered after activation."
+            location: "plugins/opdev/skills/opdev/SKILL.md"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Full local workspace tests, format, clippy and validators pass. Four hook tests execute with runtime probes replaced by markers, cover six prompt inputs and verify nested, unrelated and worktree roots. Linux runtime regressions run in canonical CI; semantic agent interpretation is not claimed as automatically proven."
+        evidence:
+          - kind: test
+            summary: "Full local workspace tests, format, clippy and validators pass. Four hook tests execute with runtime probes replaced by markers, cover six prompt inputs and verify nested, unrelated and worktree roots. Linux runtime regressions run in canonical CI; semantic agent interpretation is not claimed as automatically proven."
+            location: "tests/hook_test.py"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Reviewed skill entrypoint, setup skill, initialization reference and hook together for contradictory activation instructions. Hook tests demonstrate no runtime execution; prompt scenarios are documented, not represented as a live model benchmark."
+        evidence:
+          - kind: review
+            summary: "Reviewed skill entrypoint, setup skill, initialization reference and hook together for contradictory activation instructions. Hook tests demonstrate no runtime execution; prompt scenarios are documented, not represented as a live model benchmark."
+            location: "spec/installation.md"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The escaped courses pull/start-server interruption is addressed by explicit consent-first routing and deterministic non-execution tests rather than a courses-specific exception."
+        evidence:
+          - kind: regression
+            summary: "The escaped courses pull/start-server interruption is addressed by explicit consent-first routing and deterministic non-execution tests rather than a courses-specific exception."
+            location: "tests/hook_test.py"
   - fingerprint: 44397f4457e83bd4d8feea296bd4c3c0233f3fbfeaea78118f173f40e44e86f8
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/31
     assertions:
