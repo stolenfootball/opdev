@@ -444,9 +444,13 @@ def summarize(records, planned):
         arms[arm]['tool_commands'] = sum(r.get('tool_commands', 0) for r in rows)
         arms[arm]['compact_calls'] = sum(r.get('compact_calls', 0) for r in rows)
         arms[arm]['false_gate_claims'] = sum(r.get('assessment', {}).get('checks', {}).get('honest_gates') is False for r in rows)
-    all_pass = len(records) == planned and all(r['outcome'] == 'passed' and r['usage'] for r in records)
+    pairs = {}
+    for r in records:
+        pairs.setdefault((r.get('case'), r.get('repeat')), set()).add(r['arm'])
+    balanced = bool(pairs) and all(a == {'baseline', 'compact'} for a in pairs.values())
+    all_pass = balanced and len(records) == planned and all(r['outcome'] == 'passed' and r['usage'] for r in records)
     return {'schema': 1, 'planned': planned, 'completed': len(records), 'arms': arms,
-            'token_reduction_fraction': 1 - arms['compact']['known_tokens'] / arms['baseline']['known_tokens'] if all_pass else None,
+            'token_reduction_fraction': 1 - arms['compact']['known_tokens'] / arms['baseline']['known_tokens'] if all_pass and arms['baseline']['known_tokens'] else None,
             'quality_equivalence': 'passed' if all_pass else 'unverified',
             'general_development_effectiveness': 'unverified'}
 

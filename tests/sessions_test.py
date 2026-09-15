@@ -58,6 +58,11 @@ class Accounting(unittest.TestCase):
         self.assertIsNone(result['arms']['baseline']['tokens_per_accepted'])
         self.assertIsNone(result['token_reduction_fraction'])
 
+    def test_single_arm_pilot_cannot_claim_savings(self):
+        rows = [{'case': 'rounding', 'repeat': 0, 'arm': 'compact', 'outcome': 'passed',
+                 'usage': {'total_tokens': 100, 'cached_input_tokens': 0}, 'seconds': 1}]
+        self.assertIsNone(sessions.summarize(rows, 1)['token_reduction_fraction'])
+
     def test_baseline_defect_is_caught_by_external_oracle(self):
         run = sessions.command([sys.executable, '-c', sessions.acceptance('rounding')], cwd=sessions.FIXTURE, check=False)
         self.assertNotEqual(run.returncode, 0)

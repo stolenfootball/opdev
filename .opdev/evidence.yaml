@@ -1301,7 +1301,7 @@ changes:
           - kind: work
             summary: "Review identified legitimate suite/extension ID overlap; the projection preserves kind identity and tests shared IDs. Initial Clippy formatting/test-length findings were corrected without waivers, and the skill validator used the existing isolated YAML environment after system Python lacked it. The saved real report retains identical gates with 394 versus 11,471 proxy tokens; full workflow speed remains unverified."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
-  - fingerprint: bad7f108901e8fc22a4d41c51b472a7c0336c44310dbd0064397179e6f76fcb6
+  - fingerprint: 1315d6aa686674ed98390e42247131c5fbcc92a7d6c8fecf2ece4210737aa6b1
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
     assertions:
       - rule_id: OPDEV-WORK-001
@@ -1348,7 +1348,7 @@ changes:
             location: crates/opdev-cli/tests/benchmark.rs
       - rule_id: OPDEV-TEST-002
         outcome: passed
-        summary: Twelve offline tests exercise terminal accounting, cached-input consistency, worker rejection, failure denominators, negative acceptance and scoped staging.
+        summary: Thirteen offline tests exercise terminal accounting, cached-input consistency, worker rejection, failure denominators, single-arm rejection, negative acceptance and scoped staging.
         evidence:
           - kind: test
             summary: Python session tests passed; baseline code fails all three independent acceptance scenarios as intended.
