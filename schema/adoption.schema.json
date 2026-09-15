@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpDev adoption decisions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "catalog_version", "scope", "practices"],
+  "properties": {
+    "schema": {"const": 1},
+    "catalog_version": {"type":"integer", "minimum":1},
+    "scope": {"type":"string"},
+    "practices": {
+      "type":"object",
+      "additionalProperties": {
+        "type":"object", "additionalProperties":false,
+        "required":["state", "owner", "reason", "references", "suites", "research"],
+        "properties": {
+          "state":{"enum":["pending","implemented","ignored","not_applicable"]},
+          "owner":{"type":"string"},
+          "reason":{"type":"string"},
+          "references":{"$ref":"#/$defs/strings"},
+          "suites":{"$ref":"#/$defs/strings"},
+          "research":{"$ref":"#/$defs/strings"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "strings": {
+      "type":"array", "uniqueItems":true,
+      "items":{"type":"string", "minLength":1, "pattern":"\\S"}
+    }
+  }
+}

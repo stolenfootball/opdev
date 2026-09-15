@@ -45,6 +45,9 @@ measurement, acceptance, and effectiveness boundaries.
 See [experiments](experiments.md) for independently releasable work on trunk,
 standard experiment records, configuration testing, and removal decisions.
 
+See [adoption](adoption.md) for the complete practice assessment, project-specific
+recommendations, explicit dispositions, and evidence-backed initialization completion.
+
 ## Lifecycle
 
 OpDev uses this general lifecycle:

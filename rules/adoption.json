@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "practices": [
+    {"id":"project","title":"Project scope, authorities and work tracking","requirement":"required","automated":false},
+    {"id":"coding_style","title":"Coding conventions","requirement":"optional","automated":false},
+    {"id":"formatting","title":"Automated formatting checks","requirement":"optional","automated":true},
+    {"id":"linting","title":"Linting and static analysis","requirement":"optional","automated":true},
+    {"id":"testing","title":"Behavioral and regression testing, test levels and flakes","requirement":"required","automated":true},
+    {"id":"coverage","title":"Coverage collection and interpretation","requirement":"optional","automated":false},
+    {"id":"integration","title":"CI, trunk workflow and pre/post-merge checks","requirement":"required","automated":true},
+    {"id":"delivery","title":"Artifact identity, qualification and delivery path","requirement":"conditional","automated":false},
+    {"id":"recovery","title":"Automated, tested recovery","requirement":"conditional","automated":false},
+    {"id":"configuration","title":"Versioned configuration and environment values","requirement":"conditional","automated":false},
+    {"id":"security","title":"Security boundaries, secrets and reporting","requirement":"required","automated":false},
+    {"id":"dependencies","title":"Dependency policy and supply-chain evidence","requirement":"conditional","automated":false},
+    {"id":"agents","title":"Agent instructions, routing and compatible runtime","requirement":"required","automated":false},
+    {"id":"experiments","title":"Experimental work and lifecycle","requirement":"conditional","automated":false},
+    {"id":"observability","title":"Operational health and diagnostics","requirement":"conditional","automated":false},
+    {"id":"accessibility","title":"Accessibility assessment","requirement":"conditional","automated":false},
+    {"id":"effectiveness","title":"Effectiveness evaluation","requirement":"conditional","automated":false},
+    {"id":"extensions","title":"Project checks and assurance profiles","requirement":"conditional","automated":false}
+  ]
+}

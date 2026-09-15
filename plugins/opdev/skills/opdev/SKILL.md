@@ -34,7 +34,7 @@ skill directory to find the plugin root and select a CLI:
 Keep runtime setup separate from repository initialization. A damaged managed
 runtime must be reported with its exact path; do not silently delete it or fall
 back to another binary. The setup skill documents recovery.
-- If it exists, OpDev is initialized. Read it before planning or editing and apply this skill without asking the user whether to use OpDev.
+- If it exists, OpDev is configured. Read it before planning or editing and apply this skill without asking the user whether to use OpDev. Configuration presence is not proof that adoption is complete.
 - If it does not exist and the user is clearly asking to develop software, determine whether the `opdev` CLI is available. If it is, ask whether the user wants to initialize OpDev in this project. Do not initialize until they agree.
 - If setup is unavailable or fails, report the concrete failure and offer the manual choices in [initialization.md](references/initialization.md).
 - If the task is not software development, do not interrupt it with an OpDev prompt.
@@ -54,6 +54,11 @@ The Claude Code prompt hook may provide the same state as additional context. Tr
 9. Reconcile implementation, tests, declared authorities, delivery behavior, and tracked work before completion.
 
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
+
+For initialization, conversion to OpDev, or resolving incomplete adoption, read
+[adoption.md](references/adoption.md). Assess every supplied practice, preserve
+existing choices, research only project-specific gaps, and verify completion.
+An explicit adoption request supplies consent to assess; do not ask again.
 
 For experimental features or releases that must exclude unfinished behavior, read
 [experiments.md](references/experiments.md). Keep stable behavior releasable and

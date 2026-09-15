@@ -5,6 +5,10 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Add explicit adoption assessment and completion checks with a versioned practice
+  inventory, project-specific research, preserved decisions, and reviewed opt-outs.
+  New initialization starts pending; existing projects opt into assessment explicitly.
+
 - Adopt a mechanism-neutral experiment lifecycle with shared agent guidance,
   a standard record, and read-only `opdev experiment validate` checks. Preserve
   existing project schemas, evidence gates, and stable release defaults.
