@@ -24,6 +24,7 @@ use opdev_remote::{RemoteAudit, RemoteCapability, audit};
 use semver::{Version, VersionReq};
 use serde::Deserialize;
 
+mod adoption;
 mod views;
 
 #[derive(Debug, Parser)]
@@ -61,6 +62,8 @@ enum Command {
     Plugin(PluginArgs),
     /// Validate an experiment plan without running tests or qualifying delivery.
     Experiment(ExperimentArgs),
+    /// Assess project-specific practices and verify adoption completion.
+    Adoption(adoption::AdoptionArgs),
 }
 
 #[derive(Debug, Args)]
@@ -415,6 +418,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         Command::Evidence(args) => evidence_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Plugin(args) => plugin_command(&args),
         Command::Experiment(args) => experiment_command(&args).map(|()| ExitCode::SUCCESS),
+        Command::Adoption(args) => adoption::run(&args),
         Command::Init(args) => initialize(&args).map(|()| ExitCode::SUCCESS),
         Command::Check(args) => check_project(&args),
         Command::Report(args) => match args.command {
@@ -679,6 +683,7 @@ fn show_profiles(args: ProfilesArgs) -> Result<()> {
 fn initialize(args: &InitArgs) -> Result<()> {
     let discovery = discover(&args.root).context("could not inspect the repository")?;
     let manifest_path = discovery.root.join(MANIFEST_PATH);
+    let adoption = opdev_project::AdoptionRecord::load(&discovery.root)?;
 
     if manifest_path.exists() {
         if args.dry_run {
@@ -686,9 +691,14 @@ fn initialize(args: &InitArgs) -> Result<()> {
             return Ok(());
         }
         report_agent_changes(&reconcile_agent_files(&discovery.root)?);
+        println!("OpDev files already exist at {}", manifest_path.display());
         println!(
-            "OpDev is already initialized at {}",
-            manifest_path.display()
+            "{}",
+            if adoption.is_some() {
+                "Adoption decisions preserved; use opdev adoption status/check to resume or verify completion."
+            } else {
+                "Legacy project: no adoption assessment was added. Use opdev adoption start explicitly."
+            }
         );
         return Ok(());
     }
@@ -702,12 +712,26 @@ fn initialize(args: &InitArgs) -> Result<()> {
 
     if args.dry_run {
         print!("{}", discovery.manifest.to_yaml()?);
+        let catalog = opdev_project::adoption_catalog()?;
+        eprintln!(
+            "Adoption catalog {}: {} practices require explicit review; discovery does not mark them implemented.",
+            catalog.version,
+            catalog.practices.len()
+        );
+        for practice in catalog.practices {
+            eprintln!("assess {}: {}", practice.id, practice.title);
+        }
     } else {
+        // Create unresolved state first so interruption after writing the manifest
+        // is distinguishable from a legacy project. Existing decisions are untouched.
+        if adoption.is_none() {
+            opdev_project::AdoptionRecord::pending()?.write_new(&discovery.root)?;
+        }
         discovery.manifest.write_new(&manifest_path)?;
         report_agent_changes(&reconcile_agent_files(&discovery.root)?);
-        println!("Initialized OpDev at {}", manifest_path.display());
+        println!("Created OpDev files at {}", manifest_path.display());
         println!(
-            "Review migration_required and unconfigured values before enforcing delivery gates."
+            "Adoption is incomplete. Review project choices and .opdev/adoption.yaml, implement the approved plan, then run opdev adoption check."
         );
     }
     Ok(())

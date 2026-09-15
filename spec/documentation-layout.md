@@ -22,8 +22,9 @@ for a role produce a warning and leave that authority unselected. A unique
 candidate remains an inference requiring review. Absent folders are not created
 or asserted to be authorities. Unknown/custom layouts require explicit routing.
 
-Initialization writes only `.opdev/project.yaml` and managed sections of root
-`AGENTS.md` and `CLAUDE.md`. Dry-run writes nothing, including for initialized
+New initialization writes `.opdev/project.yaml`, pending `.opdev/adoption.yaml`
+decisions, and managed sections of root `AGENTS.md` and `CLAUDE.md`. Legacy projects
+start assessment explicitly; see [adoption](adoption.md). Dry-run writes nothing, including for initialized
 projects. Neither initialization nor upgrade migrates documentation.
 `DELIVERY.md` is not a required filename. Repository-wide agent entry points
 remain at the root; detailed project facts belong in their declared authorities.

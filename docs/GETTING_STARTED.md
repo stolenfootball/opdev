@@ -82,6 +82,10 @@ Initialization writes `.opdev/project.yaml` and managed blocks in `AGENTS.md`
 and `CLAUDE.md`. It preserves unrelated instructions, is idempotent, and does
 not move or create documentation folders.
 
+Development builds also create `.opdev/adoption.yaml` with every practice
+pending for new projects. Re-running initialization preserves existing decisions;
+legacy projects are not silently migrated. See the completion workflow below.
+
 Review the contract before running checks. Confirm the exact command arguments,
 working directories, test suites, authority locations, and CI provider.
 Discovery leaves ambiguous facts for review. It does not invent a production-like
@@ -115,6 +119,52 @@ A new adoption often has blockers:
 Use `opdev doctor` for diagnostics and `opdev rules` to inspect requirements.
 Only `passed` and justified `not_applicable` satisfy required rules. Recording
 a migration gap is not delivery approval. See [result semantics](../spec/result-semantics.md).
+
+## Complete adoption in development builds
+
+Check `opdev adoption --help` first. These commands are not yet available in
+published 0.1.2 or the plugin's pinned 0.1.1 runtime. If unavailable, select a
+compatible source-built CLI or leave adoption explicitly incomplete; do not
+report older scaffolding as completed assessment.
+
+For an existing project, start an assessment explicitly. New initialization
+already creates the record:
+
+```sh
+opdev adoption start --dry-run
+opdev adoption start
+opdev adoption status
+```
+
+Review the whole project's scope, including relevant components in mixed-stack
+repositories. Preserve adequate tools and conventions. For unresolved gaps,
+research suitable options using current primary documentation and project
+constraints, then agree on the proposal before implementation. OpDev supplies
+a consistent checklist, not a prescribed ecosystem tool stack.
+
+Record an owner, rationale, and evidence references for each disposition in
+`.opdev/adoption.yaml`. Implemented automated practices must reference declared
+verification suites. Only optional practices may be ignored; conditional ones
+may be justified as not applicable. Required practices cannot be waived, and
+pending items prevent completion. A resolved checklist is not verification.
+
+After implementation, stage all material changes and review the evidence for
+that exact state using the [adoption review contract](../spec/adoption.md).
+Then run:
+
+```sh
+opdev adoption check --format json
+```
+
+Completion requires the current reviewed decisions, successful declared checks,
+and all core gates. Local execution does not replace actual CI or delivery
+qualification. Save the result in the work item and complete the normal CI
+integration workflow. Do not register this command as a project test suite:
+it runs the project's verification itself.
+
+Later tasks reuse these decisions; they do not repeat initialization or research
+without a relevant change. See [the full specification](../spec/adoption.md)
+for resumability, evidence binding, and compatibility.
 
 ## Make and verify a change
 

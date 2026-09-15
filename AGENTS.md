@@ -7,6 +7,8 @@ If the `opdev` CLI or required OpDev agent integration is unavailable, tell the 
 
 For each development task:
 
+For initialization or conversion to OpDev, follow the adoption guidance: assess every supplied practice, preserve adequate existing choices, research only unresolved project-specific gaps, and record reviewed dispositions in `.opdev/adoption.yaml`. Pending work is not complete adoption; only optional practices may be explicitly ignored, and no disposition waives core requirements. Use `opdev adoption check` on a capable CLI before claiming completion. Existing projects without a record require explicit assessment adoption; ordinary tasks reuse decisions and do not restart setup or research.
+
 1. Read `.opdev/project.yaml` before planning or editing. Load the authorities listed by `context.always` and the authorities in every route relevant to the task. Treat those sources as project facts; resolve contradictions explicitly instead of guessing.
 2. Identify the intended outcome, acceptance evidence, affected consumers, and applicable quality risks. Use the project work authority for active decisions and progress when one is declared.
 3. Keep design effort proportional to risk, reversibility, novelty, and blast radius. Record durable decisions in the declared decision or architecture authority when the project contract routes the task there.

@@ -99,6 +99,14 @@ checklist, not a reason to mark unknown requirements as passed. The
 [first-check guide](docs/GETTING_STARTED.md#understand-the-first-check) explains
 what to do next.
 
+Development builds add an explicit adoption review: every supplied practice
+must be implemented, explicitly ignored when optional, or justified as not
+applicable. Existing tools are preserved; the agent researches only unresolved
+project-specific gaps. Creating files alone is not completed adoption. See the
+[adoption guide](docs/GETTING_STARTED.md#complete-adoption-in-development-builds)
+for capability checks and the completion gate; published runtimes may not yet
+support it.
+
 ## A typical session
 
 Once initialized, ask for software work normally—no special command sequence
@@ -136,6 +144,7 @@ and offers setup rather than silently continuing without the protocol.
 | File | Purpose |
 | --- | --- |
 | `.opdev/project.yaml` | Project commands, document and tracker locations, testing policy, delivery requirements, and context routes. |
+| `.opdev/adoption.yaml` | Reviewed practice dispositions, created by new initialization in development builds or explicit assessment of an existing project. |
 | `AGENTS.md` | Persistent instructions for fresh agents, alongside your existing guidance. |
 | `CLAUDE.md` | Imports the shared `AGENTS.md` guidance for Claude Code. |
 | `.opdev/evidence.yaml` | Optional reviewed facts; change-specific assertions are bound to the staged Git index. |

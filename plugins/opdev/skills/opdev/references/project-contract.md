@@ -42,6 +42,6 @@ Folder names alone do not establish their contents as authoritative.
 `opdev init --dry-run` preserves an existing contract and writes no files.
 Uninitialized discovery reports ambiguous candidates without choosing between
 them; review its proposals before treating them as authorities. Initialization
-creates only the contract and managed root agent instructions, not documentation
-folders. Moving documentation is a separate, explicitly scoped project change;
+creates the contract, pending adoption decisions on capable CLIs, and managed root
+agent instructions, not documentation folders. Moving documentation is a separate, explicitly scoped project change;
 update links, evidence references, and provider discovery settings together.

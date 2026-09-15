@@ -100,6 +100,7 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
     }
 
     let context = discover_context(&authorities);
+    warnings.push("Command and authority discovery is a proposal, not a complete repository assessment. Review every relevant component, preserve adequate existing tools, and research only unresolved project-specific gaps.".into());
     let delivery = infer_delivery(kind);
     if provider == CiProvider::Unconfigured {
         warnings.push(

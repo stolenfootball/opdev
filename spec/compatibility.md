@@ -35,6 +35,14 @@ state.
 The first stable CLI will read its current schema and at least one previous
 schema when a deterministic migration exists.
 
+Adoption decisions use separate record schema 1 and practice catalog 1. Existing
+projects without a record are legacy-unassessed, not silently migrated or blocked
+by new ordinary-check requirements. New development CLIs distinguish successful
+scaffolding from completion; `adoption start` explicitly opts legacy projects in.
+Unknown fields, missing/extra practices and unsupported versions fail closed.
+No automatic adoption catalog migration is implemented. Older runtimes cannot
+claim this completion check; see [adoption](adoption.md).
+
 Experiment records have a separate integer schema (currently 1). They do not add
 fields to the project manifest. Development CLIs expose `experiment validate`;
 older published runtimes may still apply the agent lifecycle but cannot claim

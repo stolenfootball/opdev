@@ -118,6 +118,72 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 44397f4457e83bd4d8feea296bd4c3c0233f3fbfeaea78118f173f40e44e86f8
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/31
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 31 defines the approved outcome, scope, acceptance and risks."
+        evidence:
+          - kind: work
+            summary: "Issue 31 defines the approved outcome, scope, acceptance and risks."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/31"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The adoption specification records the catalog, disposition semantics, evidence binding, compatibility, alternatives and reversal trigger."
+        evidence:
+          - kind: specification
+            summary: "The adoption specification records the catalog, disposition semantics, evidence binding, compatibility, alternatives and reversal trigger."
+            location: "spec/adoption.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "This focused adoption branch was created from current main f8c7371 for integration through a required green merge-request pipeline."
+        evidence:
+          - kind: git
+            summary: "This focused adoption branch was created from current main f8c7371 for integration through a required green merge-request pipeline."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/31"
+      - rule_id: MCD-TRUNK-003
+        outcome: passed
+        summary: "The branch contains one cohesive adoption increment; no parallel feature branches or deferred integration dependencies are introduced."
+        evidence:
+          - kind: review
+            summary: "The branch contains one cohesive adoption increment; no parallel feature branches or deferred integration dependencies are introduced."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/31"
+      - rule_id: MCD-FLOW-001
+        outcome: passed
+        summary: "Latest main pipeline 2852384288 is successful at f8c73712c4e3b2ec6ee362c2be82b983e1d6b937; no failing trunk pipeline requires restoration."
+        evidence:
+          - kind: ci
+            summary: "Latest main pipeline 2852384288 is successful at f8c73712c4e3b2ec6ee362c2be82b983e1d6b937; no failing trunk pipeline requires restoration."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852384288"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Existing manifests, ordinary checks and runtime pin remain unchanged. Legacy assessment is explicit; new initialization intentionally creates pending decisions. Tests cover legacy preservation and retry behavior."
+        evidence:
+          - kind: test
+            summary: "Existing manifests, ordinary checks and runtime pin remain unchanged. Legacy assessment is explicit; new initialization intentionally creates pending decisions. Tests cover legacy preservation and retry behavior."
+            location: "crates/opdev-cli/tests/adoption.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "All seven adoption command tests and the complete workspace suite pass. Positive completion and missing, invalid, stale, failing and mutated-state cases are exercised with synthetic fixtures, not live delivery qualification."
+        evidence:
+          - kind: test
+            summary: "All seven adoption command tests and the complete workspace suite pass. Positive completion and missing, invalid, stale, failing and mutated-state cases are exercised with synthetic fixtures, not live delivery qualification."
+            location: "crates/opdev-cli/tests/adoption.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Reviewed generated code and guidance against issue 31: deterministic strict catalog, no automatic ecosystem installs, no core waiver, current review required before commands. Format, clippy, workspace tests and plugin/skill validators pass; no effectiveness claim is made."
+        evidence:
+          - kind: review
+            summary: "Reviewed generated code and guidance against issue 31: deterministic strict catalog, no automatic ecosystem installs, no core waiver, current review required before commands. Format, clippy, workspace tests and plugin/skill validators pass; no effectiveness claim is made."
+            location: "spec/adoption.md"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The observed onboarding gap is now explicit and regression-protected: file creation cannot imply complete adoption; pending dispositions and interrupted initialization are tested. No live canary or release qualification is claimed."
+        evidence:
+          - kind: test
+            summary: "The observed onboarding gap is now explicit and regression-protected: file creation cannot imply complete adoption; pending dispositions and interrupted initialization are tested. No live canary or release qualification is claimed."
+            location: "crates/opdev-cli/tests/adoption.rs"
   - fingerprint: 6156f848cfb72229df1af433712a89b10a522d567a84775c1f133325c9c95e9c
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/30
     assertions:
