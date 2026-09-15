@@ -5,6 +5,9 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Apply outcome-based planning to plans, roadmaps, task breakdowns and next-step
+  recommendations, preserving explicit user requests and bounded enabling work.
+
 - Gate agent activation on target-project state and consent before runtime setup.
   Uninitialized pull/status/dev-server tasks proceed without an OpDev suggestion;
   prompt hooks no longer probe runtimes before the workflow is needed.

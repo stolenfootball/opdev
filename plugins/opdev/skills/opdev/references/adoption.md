@@ -22,7 +22,10 @@ accepted decisions on future tasks. Do not research or replace working tools mer
 because another tool is fashionable. If a necessary choice cannot be justified,
 leave it pending and ask a focused question.
 
-Present one plan grouped into preserve, add/change, ignore and unresolved. Ask
+Assess decisions as preserve, add/change, ignore and unresolved. Sequence the
+approved work using [outcome-based planning](planning.md), including when asked
+what to do next. The checklist is not a requirement to build every foundation
+before a useful increment; pending practices still prevent adoption completion. Ask
 grouped questions for material choices. Adoption is not blanket permission for
 arbitrary installations, broad reformatting, destructive migrations, protection
 changes or publication. Keep style-only migrations separate from behavior changes.

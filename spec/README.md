@@ -50,6 +50,10 @@ recommendations, explicit dispositions, and evidence-backed initialization compl
 
 ## Lifecycle
 
+Apply [outcome-based planning](planning.md) to formal plans and informal next-step
+recommendations. The lifecycle below repeats within increments; it is not a
+sequence of project-wide phases. Honor explicit user scope and constraints.
+
 OpDev uses this general lifecycle:
 
 ```text

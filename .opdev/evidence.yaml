@@ -118,6 +118,72 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 544eab39904c6fc48d073ae2c70bfda1395fbbc5fe63eea9538ee1b942b9e273
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/33
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 33 records the approved outcome, coverage of next-step advice, specific-request precedence, scope, exclusions and verification plan."
+        evidence:
+          - kind: work
+            summary: "Issue 33 records the approved outcome, coverage of next-step advice, specific-request precedence, scope, exclusions and verification plan."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/33"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The planning specification records outcome-first decomposition, bounded enabling work, advice-only authority, alternatives, evidence and reversal triggers; no new mandatory project schema or catalog rule is added."
+        evidence:
+          - kind: specification
+            summary: "The planning specification records outcome-first decomposition, bounded enabling work, advice-only authority, alternatives, evidence and reversal triggers; no new mandatory project schema or catalog rule is added."
+            location: "spec/planning.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused outcome-based-planning branch originated from current main 6a3752c and is prepared for integration through required green CI."
+        evidence:
+          - kind: git
+            summary: "The focused outcome-based-planning branch originated from current main 6a3752c and is prepared for integration through required green CI."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/33"
+      - rule_id: MCD-TRUNK-003
+        outcome: passed
+        summary: "One cohesive planning-guidance increment is being integrated without parallel feature dependencies or a long-lived roadmap branch."
+        evidence:
+          - kind: review
+            summary: "One cohesive planning-guidance increment is being integrated without parallel feature dependencies or a long-lived roadmap branch."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/33"
+      - rule_id: MCD-FLOW-001
+        outcome: passed
+        summary: "Latest checked main pipeline 2852524154 is successful at 6a3752cf83f231edd32f89b03e272bec59f1297e."
+        evidence:
+          - kind: ci
+            summary: "Latest checked main pipeline 2852524154 is successful at 6a3752cf83f231edd32f89b03e272bec59f1297e."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852524154"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Core gates, schemas, activation consent and runtime pin remain unchanged. Shared guidance intentionally adds planning defaults; generated instructions preserve project-owned content and Claude import. Explicit component requests and response-only scope remain controlling."
+        evidence:
+          - kind: test
+            summary: "Core gates, schemas, activation consent and runtime pin remain unchanged. Shared guidance intentionally adds planning defaults; generated instructions preserve project-owned content and Claude import. Explicit component requests and response-only scope remain controlling."
+            location: "crates/opdev-cli/tests/planning_guidance.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Two new routing/bootstrap tests, plugin/skill validators, format and clippy pass. Initial sandboxed workspace run failed two package-manager execution tests; the unchanged canonical suite passed with installed-shim access. Semantic scenarios are documented for review, not claimed as live model tests."
+        evidence:
+          - kind: test
+            summary: "Two new routing/bootstrap tests, plugin/skill validators, format and clippy pass. Initial sandboxed workspace run failed two package-manager execution tests; the unchanged canonical suite passed with installed-shim access. Semantic scenarios are documented for review, not claimed as live model tests."
+            location: "tests/planning-review.md"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Reviewed the ten scenarios against entrypoint, planning reference, adoption sequencing and fresh-agent guidance: explicit objectives, next-step brevity, non-UI consumers, red-trunk restoration, bounded spikes and no unauthorized execution are addressed. Automated tests verify distribution/bootstrap invariants only; live agent quality remains unmeasured."
+        evidence:
+          - kind: review
+            summary: "Reviewed the ten scenarios against entrypoint, planning reference, adoption sequencing and fresh-agent guidance: explicit objectives, next-step brevity, non-UI consumers, red-trunk restoration, bounded spikes and no unauthorized execution are addressed. Automated tests verify distribution/bootstrap invariants only; live agent quality remains unmeasured."
+            location: "tests/planning-review.md"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The observed risk of component-first planning is addressed through demonstrable increments and bounded enabling work, with regression scenarios including next-step recommendations. Initial raw-string compilation error was corrected and the new bootstrap parity test passed."
+        evidence:
+          - kind: review
+            summary: "The observed risk of component-first planning is addressed through demonstrable increments and bounded enabling work, with regression scenarios including next-step recommendations. Initial raw-string compilation error was corrected and the new bootstrap parity test passed."
+            location: "spec/planning.md"
   - fingerprint: b143b5dd63c3be453381ad773f9ec32a4463825e5f33de290456092818013f9f
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/32
     assertions:
