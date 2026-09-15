@@ -13,7 +13,10 @@ pub use adoption::{
     ADOPTION_PATH, AdoptionCatalog, AdoptionDecision, AdoptionError, AdoptionRecord, AdoptionState,
     Practice, Requirement, adoption_catalog,
 };
-pub use bootstrap::{BootstrapError, FileChange, ManagedFile, reconcile_agent_files};
+pub use bootstrap::{
+    AgentFilePreview, BootstrapError, FileChange, ManagedFile, apply_agent_preview,
+    preview_agent_files, reconcile_agent_files,
+};
 pub use discovery::{Discovery, DiscoveryError, discover};
 pub use evidence::{
     ChangeEvidence, ChangeEvidenceReview, EVIDENCE_PATH, EvidenceAssertion, EvidenceBootstrap,

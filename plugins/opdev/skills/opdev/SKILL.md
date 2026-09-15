@@ -17,7 +17,7 @@ First identify the target repository (not an unrelated current workspace) and lo
 - **Uninitialized, routine repository operation:** handle the request directly without an OpDev announcement, suggestion, runtime lookup, installation, or gate. For example, "Pull down the most recent changes to the courses repo and start the dev server" needs ordinary repository safety and project instructions, not adoption. Inspecting status or running an existing command alone is also not a reason to adopt. If later work becomes substantive development, reassess then.
 - **Unrelated task:** do not interrupt it with OpDev.
 
-An explicit runtime-setup request uses the packaged setup skill without adopting any repository. For mixed requests, judge the actual development scope rather than matching words such as "repo" or "server".
+An explicit runtime-setup request uses the packaged setup skill without adopting any repository. An OpDev upgrade request follows [upgrades.md](references/upgrades.md), including read-only inspection of incompatible installations for repair; it does not authorize project adoption. For mixed requests, judge the actual development scope rather than matching words such as "repo" or "server".
 
 ## Resolve runtime after activation
 

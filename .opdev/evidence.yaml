@@ -118,6 +118,78 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 0934a6843c5baad618a525c47dae5540e097f6f24c21febbd1f6f0a53603cdae
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: Issue 34 defines coordinated upgrade scope, preservation, exclusions and acceptance evidence.
+        evidence:
+          - kind: work
+            summary: The user approved implementation of inspect, preview, approved apply and separate verification; release publication and installed-cache changes are excluded.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: The upgrade specification separates host installation authority from deterministic snapshot-bound project guidance changes.
+        evidence:
+          - kind: specification
+            summary: Records alternatives, rationale, reversal conditions, custom CI limits, per-file atomicity and unsupported migration behavior.
+            location: spec/upgrades.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: The short-lived upgrade branch begins at current main 72ffeaf29f78703e96974c798e764edf472a0e50 and uses the existing GitLab integration path.
+        evidence:
+          - kind: git
+            summary: No independent release or long-lived alternate integration trunk is introduced; integration remains conditional on required CI.
+            location: codex/reviewed-upgrades
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: This is one bounded upgrade increment with no concurrent unintegrated implementation branches in this task.
+        evidence:
+          - kind: work
+            summary: Existing release/token-experiment follow-up remains separate from this upgrade implementation.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: No failed required trunk job was observed; the prior trunk pipeline has a queued Linux qualification job and is not claimed green.
+        evidence:
+          - kind: ci
+            summary: Quality, plugin validation and three installer jobs passed; qualify-dist was pending and Windows qualification waiting. Integration and delivery remain conditional on required qualification.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852592402
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: Bare upgrade intentionally becomes preview-only, with its explicit apply migration documented and tested; project schemas, decisions, opt-ins and pins are preserved.
+        evidence:
+          - kind: test
+            summary: CLI tests cover exact preview/apply, idempotence, stale/cross-project tokens, unsupported schema/adoption state, compatibility failures and CI preservation.
+            location: crates/opdev-cli/tests/upgrades.rs
+          - kind: documentation
+            summary: Release notes explain the intentional change from implicit writes and the new reviewed apply requirement.
+            location: release/CHANGELOG.md
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: Automated regressions exercise upgrade behavior and unsafe guidance writes; host procedure review is explicitly not a live model-session qualification.
+        evidence:
+          - kind: test
+            summary: Seven consumer CLI tests passed; bootstrap regressions cover read-only planning, stale second targets and invalid targets, with Unix link coverage run by CI.
+            location: crates/opdev-cli/tests/upgrades.rs
+          - kind: test
+            summary: Existing canonical workspace tests and installer fixtures remain required. Initial compile/lint findings were corrected. A subsequent gate run from target/debug/opdev.exe could not replace its running Windows executable during test recompilation; rerun uses the completed release CLI and preserves the failed report.
+            location: crates/opdev-project/src/bootstrap.rs
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: Agent-authored work retains the same required quality, plugin and installer CI checks, with exact staged evidence and no gate weakening.
+        evidence:
+          - kind: ci
+            summary: Pipeline configuration and publication paths are unchanged; new tests are part of the canonical workspace suite.
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: Inspection found sequential writes could update AGENTS before detecting invalid CLAUDE markers; both files are now prevalidated with regression coverage.
+        evidence:
+          - kind: test
+            summary: Malformed second-file CLI regression and stale/invalid second-target unit tests prevent overwriting earlier guidance on preflight failures.
+            location: crates/opdev-project/src/bootstrap.rs
   - fingerprint: 544eab39904c6fc48d073ae2c70bfda1395fbbc5fe63eea9538ee1b942b9e273
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/33
     assertions:

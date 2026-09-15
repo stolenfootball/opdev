@@ -18,7 +18,8 @@ Initial discovery and scaffolding:
 Development CLIs create `.opdev/project.yaml`, pending `.opdev/adoption.yaml`, and
 managed sections in `AGENTS.md` and `CLAUDE.md` for new projects. They preserve
 content outside OpDev markers. Existing projects without an adoption record require
-explicit `opdev adoption start`; `opdev upgrade` refreshes only managed guidance.
+explicit `opdev adoption start`; [upgrades](upgrades.md) preview and explicitly
+apply only managed guidance, without starting adoption.
 
 ## CLI unavailable
 

@@ -25,6 +25,7 @@ use semver::{Version, VersionReq};
 use serde::Deserialize;
 
 mod adoption;
+mod upgrade;
 mod views;
 
 #[derive(Debug, Parser)]
@@ -46,8 +47,8 @@ enum Command {
     Doctor(DoctorArgs),
     /// Generate or inspect a first-class CI configuration.
     Ci(CiArgs),
-    /// Upgrade project-owned `OpDev` files explicitly.
-    Upgrade(UpgradeArgs),
+    /// Preview an upgrade, or apply an explicitly reviewed guidance plan.
+    Upgrade(upgrade::UpgradeArgs),
     /// Show CLI and protocol versions.
     Version,
     /// Inspect the embedded normative rule catalog.
@@ -247,13 +248,6 @@ struct DoctorArgs {
 }
 
 #[derive(Debug, Args)]
-struct UpgradeArgs {
-    /// Directory inside the initialized Git repository.
-    #[arg(long, default_value = ".")]
-    root: PathBuf,
-}
-
-#[derive(Debug, Args)]
 struct RulesArgs {
     /// Show one stable rule ID instead of listing the catalog.
     #[arg(long)]
@@ -426,7 +420,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         },
         Command::Doctor(args) => doctor(&args).map(|()| ExitCode::SUCCESS),
         Command::Ci(args) => ci_command(&args).map(|()| ExitCode::SUCCESS),
-        Command::Upgrade(args) => upgrade(&args).map(|()| ExitCode::SUCCESS),
+        Command::Upgrade(args) => upgrade::run(&args),
     }
 }
 
@@ -734,14 +728,6 @@ fn initialize(args: &InitArgs) -> Result<()> {
             "Adoption is incomplete. Review project choices and .opdev/adoption.yaml, implement the approved plan, then run opdev adoption check."
         );
     }
-    Ok(())
-}
-
-fn upgrade(args: &UpgradeArgs) -> Result<()> {
-    let (root, _) = load_project(&args.root)?;
-    let changes = reconcile_agent_files(&root)?;
-    report_agent_changes(&changes);
-    println!("OpDev project-owned guidance is current.");
     Ok(())
 }
 

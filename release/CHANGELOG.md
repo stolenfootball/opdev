@@ -5,6 +5,12 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Make `opdev upgrade` preview-only by default; apply managed guidance with a
+  reviewed `--apply PLAN_ID`. Inspect plugin/runtime compatibility, adoption and
+  CI pins without changing project choices. Existing automation that relied on
+  bare `upgrade` writing files must migrate to preview/review/apply. Add a shared
+  Codex/Claude upgrade procedure and reject stale or unsafe guidance writes.
+
 - Apply outcome-based planning to plans, roadmaps, task breakdowns and next-step
   recommendations, preserving explicit user requests and bounded enabling work.
 

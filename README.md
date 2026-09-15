@@ -209,6 +209,13 @@ for capabilities and fallback behavior.
 
 ## Learn more
 
+To upgrade an initialized project, ask your agent to "upgrade OpDev." It inspects
+the installed plugin/runtime, explains the target and project changes, and seeks
+approval before applying them. Capable development CLIs support `opdev upgrade
+--dry-run` and reviewed `--apply PLAN_ID`; older released CLIs do not yet support
+this flow. Installation, project guidance and CI qualification are separate steps.
+See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are preserved.
+
 - [Getting started with the CLI](docs/GETTING_STARTED.md): installation,
   initialization, a first change, evidence review, and CI.
 - [Normative specification](spec/README.md): lifecycle, rules, and authority order.

@@ -1,4 +1,5 @@
 use std::fs;
+use std::io::Write;
 use std::path::{Path, PathBuf};
 
 use thiserror::Error;
@@ -59,9 +60,32 @@ pub struct ManagedFile {
     pub change: FileChange,
 }
 
+/// Read-only candidate for a managed guidance file.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AgentFilePreview {
+    /// Reconciliation metadata.
+    pub file: ManagedFile,
+    /// Exact existing contents, or absence.
+    pub before: Option<String>,
+    /// Proposed complete contents, including preserved project text.
+    pub after: String,
+}
+
 /// Errors produced while reconciling agent instructions.
 #[derive(Debug, Error)]
 pub enum BootstrapError {
+    /// A linked/non-regular file is not a safe managed-write target.
+    #[error("agent instructions `{path}` must be a regular file, not a link or directory")]
+    UnsafeTarget {
+        /// File path.
+        path: PathBuf,
+    },
+    /// A file changed after inspection; nothing should overwrite the new state.
+    #[error("agent instructions `{path}` changed after preview; preview again")]
+    StalePreview {
+        /// File path.
+        path: PathBuf,
+    },
     /// An instruction file could not be read.
     #[error("could not read agent instructions `{path}`: {source}")]
     Read {
@@ -96,32 +120,123 @@ pub enum BootstrapError {
 /// Returns [`BootstrapError`] for unreadable files, failed writes, or ambiguous
 /// marker layouts. Ambiguous files are never modified.
 pub fn reconcile_agent_files(root: &Path) -> Result<Vec<ManagedFile>, BootstrapError> {
-    let agents = reconcile_file(&root.join("AGENTS.md"), AGENTS_BLOCK, false)?;
-    let claude = reconcile_file(&root.join("CLAUDE.md"), CLAUDE_BLOCK, true)?;
-    Ok(vec![agents, claude])
+    let preview = preview_agent_files(root)?;
+    apply_agent_preview(&preview)
 }
 
-fn reconcile_file(
-    path: &Path,
-    desired_block: &str,
-    accept_existing_agents_import: bool,
-) -> Result<ManagedFile, BootstrapError> {
-    let existing = match fs::read_to_string(path) {
-        Ok(value) => Some(value),
-        Err(source) if source.kind() == std::io::ErrorKind::NotFound => None,
+/// Plans both files before writing either. Does not create directories or files.
+///
+/// # Errors
+/// Returns an error for unreadable, linked or ambiguous instruction files.
+pub fn preview_agent_files(root: &Path) -> Result<Vec<AgentFilePreview>, BootstrapError> {
+    Ok(vec![
+        preview_file(&root.join("AGENTS.md"), AGENTS_BLOCK, false)?,
+        preview_file(&root.join("CLAUDE.md"), CLAUDE_BLOCK, true)?,
+    ])
+}
+
+/// Applies a previously reviewed candidate, checking all inputs before writing.
+/// Each changed file is staged and atomically replaced; this is not a multi-file
+/// transaction. On an I/O failure inspect the files and preview again.
+///
+/// # Errors
+/// Returns an error for changed inputs, unsafe targets, staging or commit errors.
+pub fn apply_agent_preview(
+    preview: &[AgentFilePreview],
+) -> Result<Vec<ManagedFile>, BootstrapError> {
+    for item in preview {
+        if read_target(&item.file.path)? != item.before {
+            return Err(BootstrapError::StalePreview {
+                path: item.file.path.clone(),
+            });
+        }
+    }
+    let mut staged = Vec::new();
+    for item in preview
+        .iter()
+        .filter(|item| item.file.change != FileChange::Unchanged)
+    {
+        let path = &item.file.path;
+        let mut temporary = tempfile::NamedTempFile::new_in(
+            path.parent().unwrap_or(Path::new(".")),
+        )
+        .map_err(|source| BootstrapError::Write {
+            path: path.clone(),
+            source,
+        })?;
+        temporary
+            .write_all(item.after.as_bytes())
+            .map_err(|source| BootstrapError::Write {
+                path: path.clone(),
+                source,
+            })?;
+        if let Ok(metadata) = fs::metadata(path) {
+            temporary
+                .as_file()
+                .set_permissions(metadata.permissions())
+                .map_err(|source| BootstrapError::Write {
+                    path: path.clone(),
+                    source,
+                })?;
+        }
+        staged.push((item, temporary));
+    }
+    for (item, temporary) in staged {
+        if read_target(&item.file.path)? != item.before {
+            return Err(BootstrapError::StalePreview {
+                path: item.file.path.clone(),
+            });
+        }
+        if item.before.is_none() {
+            temporary.persist_noclobber(&item.file.path)
+        } else {
+            temporary.persist(&item.file.path)
+        }
+        .map_err(|error| BootstrapError::Write {
+            path: item.file.path.clone(),
+            source: error.error,
+        })?;
+    }
+    Ok(preview.iter().map(|item| item.file.clone()).collect())
+}
+
+fn read_target(path: &Path) -> Result<Option<String>, BootstrapError> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) if !metadata.file_type().is_file() => {
+            return Err(BootstrapError::UnsafeTarget {
+                path: path.to_path_buf(),
+            });
+        }
+        Ok(_) => {}
+        Err(source) if source.kind() == std::io::ErrorKind::NotFound => return Ok(None),
         Err(source) => {
             return Err(BootstrapError::Read {
                 path: path.to_path_buf(),
                 source,
             });
         }
-    };
+    }
+    fs::read_to_string(path)
+        .map(Some)
+        .map_err(|source| BootstrapError::Read {
+            path: path.to_path_buf(),
+            source,
+        })
+}
+
+fn preview_file(
+    path: &Path,
+    desired_block: &str,
+    accept_existing_agents_import: bool,
+) -> Result<AgentFilePreview, BootstrapError> {
+    let existing = read_target(path)?;
 
     let (next, change) = match existing {
         None => (format!("{desired_block}\n"), FileChange::Created),
         Some(ref content)
             if accept_existing_agents_import
                 && !content.contains(START_MARKER)
+                && !content.contains(END_MARKER)
                 && content.lines().any(|line| line.trim() == "@AGENTS.md") =>
         {
             (content.clone(), FileChange::Unchanged)
@@ -137,15 +252,13 @@ fn reconcile_file(
         }
     };
 
-    if change != FileChange::Unchanged {
-        fs::write(path, next).map_err(|source| BootstrapError::Write {
+    Ok(AgentFilePreview {
+        file: ManagedFile {
             path: path.to_path_buf(),
-            source,
-        })?;
-    }
-    Ok(ManagedFile {
-        path: path.to_path_buf(),
-        change,
+            change,
+        },
+        before: existing,
+        after: next,
     })
 }
 
@@ -194,6 +307,61 @@ fn newline_style(content: &str) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn preview_is_read_only_and_stale_second_file_blocks_all_writes()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let preview = preview_agent_files(directory.path())?;
+        assert_eq!(fs::read_dir(directory.path())?.count(), 0);
+        fs::write(directory.path().join("CLAUDE.md"), "new user content\n")?;
+        assert!(matches!(
+            apply_agent_preview(&preview),
+            Err(BootstrapError::StalePreview { .. })
+        ));
+        assert!(!directory.path().join("AGENTS.md").exists());
+        assert_eq!(
+            fs::read_to_string(directory.path().join("CLAUDE.md"))?,
+            "new user content\n"
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn invalid_second_target_never_updates_first() -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        fs::write(directory.path().join("AGENTS.md"), "existing\n")?;
+        fs::create_dir(directory.path().join("CLAUDE.md"))?;
+        assert!(matches!(
+            reconcile_agent_files(directory.path()),
+            Err(BootstrapError::UnsafeTarget { .. })
+        ));
+        assert_eq!(
+            fs::read_to_string(directory.path().join("AGENTS.md"))?,
+            "existing\n"
+        );
+        Ok(())
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn linked_guidance_is_not_followed_and_atomic_write_preserves_other_hardlink()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let outside = tempfile::tempdir()?;
+        let path = outside.path().join("owned.md");
+        fs::write(&path, "unrelated\n")?;
+        std::os::unix::fs::symlink(&path, directory.path().join("AGENTS.md"))?;
+        assert!(matches!(
+            preview_agent_files(directory.path()),
+            Err(BootstrapError::UnsafeTarget { .. })
+        ));
+        fs::remove_file(directory.path().join("AGENTS.md"))?;
+        fs::hard_link(&path, directory.path().join("AGENTS.md"))?;
+        reconcile_agent_files(directory.path())?;
+        assert_eq!(fs::read_to_string(path)?, "unrelated\n");
+        Ok(())
+    }
 
     #[test]
     fn creates_both_files_and_is_idempotent() -> Result<(), Box<dyn std::error::Error>> {

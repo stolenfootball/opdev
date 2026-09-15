@@ -116,8 +116,8 @@ meaningful assertions and complete component coverage require competent review.
 ## Legacy projects, interruption and runtime compatibility
 
 Existing projects without a record remain `legacy_unassessed`. `init` preserves
-their contract and does not add a record; `upgrade` still refreshes only managed
-guidance. Use `opdev adoption start --dry-run`, then `opdev adoption start` after
+their contract and does not add a record; [upgrade](upgrades.md) previews and
+explicitly applies only managed guidance. Use `opdev adoption start --dry-run`, then `opdev adoption start` after
 choosing to assess the project. Neither command resets existing decisions.
 
 New initialization writes unresolved adoption state atomically before the project
