@@ -118,6 +118,81 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 6156f848cfb72229df1af433712a89b10a522d567a84775c1f133325c9c95e9c
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/30
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: Issue 30 defines the lifecycle outcome, implementation sequence, acceptance, exclusions, and risks; compact-summary defaults and publishing are excluded.
+        evidence:
+          - kind: work
+            summary: The user approved explicit lifecycle adoption; the work item scopes portable records, validation, agent guidance, tests, and CI integration.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/30
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: The experiment specification records isolation alternatives, existing-rule mapping, ownership, compatibility limits, and a reversal trigger for recurring inventory gaps.
+        evidence:
+          - kind: decision
+            summary: Standard work-authority records avoid mandatory registries and project-schema churn; metadata validation cannot qualify behavioral evidence.
+            location: spec/experiments.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: The single bounded implementation branch originated at green main c65f716 and remains a direct descendant for normal CI integration.
+        evidence:
+          - kind: git
+            summary: codex/experiment-lifecycle contains only the requested adoption change; normal merge-request integration and source-branch removal apply.
+            location: codex/experiment-lifecycle
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: This is one bounded implementation increment, not concurrent multi-change development or a separate experimental integration trunk.
+        evidence:
+          - kind: work
+            summary: Issue 30 tracks the single lifecycle increment being submitted for integration in this task.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/30
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: Required main pipeline 2852257276 was successful when work began; no failing required trunk pipeline was known.
+        evidence:
+          - kind: ci
+            summary: GitLab returned success for main c65f716 before implementation started.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852257276
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: The new command and record schema are additive; project and evidence schemas, rule IDs, profiles, runtime pins, and compact-summary behavior are unchanged.
+        evidence:
+          - kind: test
+            summary: Canonical workspace tests pass, including existing CLI, initialization idempotence, manifest, evidence, provider, and packaging regressions.
+            location: crates
+          - kind: compatibility
+            summary: Shared agent guidance explicitly handles older published CLIs without inventing automated validation or replacing the runtime.
+            location: spec/compatibility.md
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: Six new tests cover the command and date conversion; existing canonical suites cover integration, initialization and packaging invariants.
+        evidence:
+          - kind: test
+            summary: Positive YAML/JSON paths, metadata rejection, schema versions, nonblank values, invalid/overdue dates, duplicate configurations, missing exposure categories/suites/stages, shared suites, and read-only execution are verified.
+            location: crates/opdev-cli/tests/experiments.rs
+          - kind: test
+            summary: Epoch and Gregorian leap boundaries are tested; canonical format, lint and workspace tests passed on Windows.
+            location: crates/opdev-project/src/experiment.rs
+          - kind: validation
+            summary: Repository and bundled Codex plugin validators and the skill validator passed; Claude strict validation remains in required CI.
+            location: plugins/opdev
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: Agent-authored changes remain subject to unchanged canonical tests, strict fingerprint-bound evidence, and GitLab quality/plugin-validation jobs.
+        evidence:
+          - kind: ci
+            summary: The required CI path is unchanged and executes the expanded workspace test suite before integration and on resulting trunk.
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: Research and implementation distinguish not shipped from not enabled and metadata validation from behavioral proof; older-runtime and test dependency limits are explicit.
+        evidence:
+          - kind: decision
+            summary: The specification records primary guidance, tradeoffs, supported configuration testing and cleanup review without a universal flag framework or policy waiver.
+            location: spec/experiments.md
   - fingerprint: f9c2c180f5caee367bb6a8cdf4b9920d3cb94fb2969530f6a649f7970a18d38c
     work: https://gitlab.com/stolenfootball-tools/opinionateddevelopment/-/issues/10
     assertions:

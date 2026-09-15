@@ -199,6 +199,8 @@ for capabilities and fallback behavior.
   initialization, a first change, evidence review, and CI.
 - [Normative specification](spec/README.md): lifecycle, rules, and authority order.
 - [Evidence ledger](spec/evidence-ledger.md): review and freshness requirements.
+- [Experiments](spec/experiments.md): keep stable releases independent of opt-in
+  work, with a standard record, configuration tests, and a cleanup decision.
 - [Extensions](spec/extensions.md) and [assurance profiles](spec/assurance-profiles.md):
   additional project checks and versioned guidance.
 - [Release operations](release/README.md): verification, supported assets, and recovery.

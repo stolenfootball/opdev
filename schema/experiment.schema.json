@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpDev active experiment record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "work", "owner", "review_by", "purpose", "decision", "isolation", "configurations", "cleanup"],
+  "properties": {
+    "schema": {"const": 1},
+    "id": {"$ref": "#/$defs/text"},
+    "work": {"$ref": "#/$defs/text"},
+    "owner": {"$ref": "#/$defs/text"},
+    "review_by": {"type": "string", "format": "date"},
+    "purpose": {"$ref": "#/$defs/text"},
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["promote", "abandon"],
+      "properties": {
+        "promote": {"$ref": "#/$defs/text"},
+        "abandon": {"$ref": "#/$defs/text"}
+      }
+    },
+    "isolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mechanism", "details", "stable_default", "recovery"],
+      "properties": {
+        "mechanism": {"enum": ["runtime_flag", "build_flag", "abstraction", "disconnected", "prototype", "other"]},
+        "details": {"$ref": "#/$defs/text"},
+        "stable_default": {"$ref": "#/$defs/text"},
+        "recovery": {"$ref": "#/$defs/text"}
+      }
+    },
+    "configurations": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "exposure", "description", "suites"],
+        "properties": {
+          "id": {"$ref": "#/$defs/text"},
+          "exposure": {"enum": ["stable", "experimental"]},
+          "description": {"$ref": "#/$defs/text"},
+          "suites": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"$ref": "#/$defs/text"}
+          }
+        }
+      }
+    },
+    "cleanup": {"$ref": "#/$defs/text"}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "pattern": "\\S"}
+  }
+}

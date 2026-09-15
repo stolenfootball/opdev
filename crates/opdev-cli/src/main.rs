@@ -14,7 +14,7 @@ use opdev_engine::{CheckOptions, CheckReport, evaluate, reaggregate};
 use opdev_project::{
     CiProvider, CoverageMode, DeliveryStatus, EVIDENCE_PATH, EvidenceBootstrap, FileChange,
     MANIFEST_PATH, ProjectManifest, RecoveryStrategy, discover, reconcile_agent_files,
-    staged_fingerprint,
+    staged_fingerprint, validate_experiment,
 };
 use opdev_release::{
     EvidenceRequest, PackageFormat, PackageInput, PackageRequest, generate_evidence,
@@ -59,6 +59,26 @@ enum Command {
     Evidence(EvidenceArgs),
     /// Verify compatibility between an installed agent plugin and this CLI.
     Plugin(PluginArgs),
+    /// Validate an experiment plan without running tests or qualifying delivery.
+    Experiment(ExperimentArgs),
+}
+
+#[derive(Debug, Args)]
+struct ExperimentArgs {
+    #[command(subcommand)]
+    command: ExperimentCommand,
+}
+
+#[derive(Debug, Subcommand)]
+enum ExperimentCommand {
+    /// Validate an active YAML/JSON record and its project test-suite references.
+    Validate {
+        /// Record path, relative to the current working directory.
+        path: PathBuf,
+        /// Directory inside the initialized Git repository.
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+    },
 }
 
 #[derive(Debug, Args)]
@@ -394,6 +414,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         Command::Release(args) => release_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Evidence(args) => evidence_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Plugin(args) => plugin_command(&args),
+        Command::Experiment(args) => experiment_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Init(args) => initialize(&args).map(|()| ExitCode::SUCCESS),
         Command::Check(args) => check_project(&args),
         Command::Report(args) => match args.command {
@@ -403,6 +424,27 @@ fn run(cli: Cli) -> Result<ExitCode> {
         Command::Ci(args) => ci_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Upgrade(args) => upgrade(&args).map(|()| ExitCode::SUCCESS),
     }
+}
+
+fn experiment_command(args: &ExperimentArgs) -> Result<()> {
+    match &args.command {
+        ExperimentCommand::Validate { path, root } => {
+            let (_, manifest) = load_project(root)?;
+            let yaml = std::fs::read_to_string(path)
+                .with_context(|| format!("could not read experiment record {}", path.display()))?;
+            let today = i64::try_from(
+                std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)?
+                    .as_secs()
+                    / 86_400,
+            )?;
+            let id = validate_experiment(&yaml, &manifest, today)?;
+            println!(
+                "passed: experiment `{id}` record validation only; behavior, isolation, effectiveness, and delivery remain unverified by this command"
+            );
+        }
+    }
+    Ok(())
 }
 
 fn plugin_command(args: &PluginArgs) -> Result<ExitCode> {

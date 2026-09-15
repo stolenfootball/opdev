@@ -42,6 +42,9 @@ projections, retained diagnostics, freshness, and compatibility.
 See [token-efficiency evaluation](token-efficiency.md) for the benchmark's
 measurement, acceptance, and effectiveness boundaries.
 
+See [experiments](experiments.md) for independently releasable work on trunk,
+standard experiment records, configuration testing, and removal decisions.
+
 ## Lifecycle
 
 OpDev uses this general lifecycle:
