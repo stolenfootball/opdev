@@ -1,414 +1,218 @@
 # OpDev
 
-**Evidence-driven software development for humans and coding agents.**
+**A shared development workflow for Codex, Claude Code, and CI.**
 
-OpDev gives a Git-backed software project a repeatable path from an intended
-outcome to a tested, reviewable, deliverable change. It keeps languages,
-frameworks, repository layout, work tracking, and design-document location
-project-specific while enforcing the delivery rules from
-[MinimumCD](https://minimumcd.org/) and strict, fail-closed evidence semantics.
+OpDev helps coding agents pick up your project's rules, make tested changes,
+and report what is actually ready to merge or deliver. It combines an agent
+plugin with a Rust CLI: the plugin guides the work; the CLI runs your checks
+and evaluates the evidence; your CI applies the integration gate.
 
-**Project status:** OpDev `0.1.1` is the current release line. Its public
-compatibility boundary is pre-1.0, while rule IDs, schemas, and assurance
-profiles are independently versioned so changes remain explicit and reviewable.
+Keep your language, framework, test tools, work tracker, and document locations.
+OpDev records those choices in a small, versioned project contract instead of
+making every new agent rediscover them.
 
-## Why OpDev
+[Quick start](#quick-start) · [Example session](#a-typical-session) ·
+[CLI guide](docs/GETTING_STARTED.md) ·
+[Releases](https://github.com/stolenfootball/opdev/releases) ·
+[Help](https://gitlab.com/stolenfootball-tools/opdev/-/issues)
 
-- **Process continuity:** Codex and Claude Code recover the same project-owned
-  workflow when an agent starts with fresh context.
-- **Project independence:** OpDev points to the repository's existing
-  architecture, contracts, tests, and work tracker instead of imposing a
-  `docs/` layout or a particular development framework.
-- **Honest gates:** Missing evidence is `unverified`, tooling problems are
-  `error`, and known adoption gaps are `migration_required`; none is silently
-  converted into a pass.
-- **Testing as a contract:** Canonical project commands, change tests, regression
-  expectations, flake policy, and selected risks are evaluated together.
-- **Continuous delivery discipline:** MinimumCD rules remain mandatory even when
-  a project adopts the rest of the process incrementally.
-- **Portable automation:** The Rust CLI, GitHub Actions adapter, GitLab CI
-  adapter, and shell-free extension protocol are designed to work across
-  software ecosystems.
+## Why use it?
 
-OpDev does not certify a project, replace engineering judgment, or claim that an
-artifact is deployable before the project proves its build, delivery, and
-recovery path.
+- **Carry context between sessions.** Fresh agents read the same project-owned
+  instructions and follow pointers to the relevant design, tests, and work item.
+- **Make testing part of the workflow.** Declare canonical commands, regression
+  expectations, quality risks, and how flaky tests are handled.
+- **Keep approval tied to evidence.** Missing or stale evidence blocks the
+  affected gate. A successful test run does not imply readiness to deliver.
+- **Use one process across tools.** Codex and Claude Code share the protocol;
+  GitHub Actions and GitLab CI are first-class providers. The CLI also works
+  without an agent.
 
-## How it works
-
-OpDev models a general software lifecycle:
-
-```text
-Understand -> Specify -> Design -> Implement -> Verify
-           -> Integrate -> Package -> Deliver -> Observe -> Learn
-```
-
-1. `opdev init` discovers safe, static project facts and writes a small project
-   contract.
-2. The contract points to existing authorities and exact project commands.
-3. Installed agents use the contract and persistent repository guidance without
-   asking the developer to restate the process in every task.
-4. `opdev check` executes configured checks and evaluates every applicable rule.
-5. Reviewed facts that cannot be inferred safely can be bound to the exact staged
-   Git index in `.opdev/evidence.yaml`.
-6. CI evaluates the integration gate; release automation binds an already-built
-   artifact to checksums, an SBOM, a manifest, and provenance.
-
-### Compact inspection (development CLI)
-
-The development CLI can save a full check report while printing a smaller view:
-
-```sh
-opdev check --report /tmp/opdev-check-1.json --format summary
-opdev report summarize /tmp/opdev-check-1.json
-opdev evidence show --current --rule OPDEV-WORK-001
-```
-
-Choose a new report path outside the working tree; existing files are never
-replaced. On Windows, use a path in your temporary directory. Offline summaries
-retain the recorded results without rerunning checks. Evidence queries require
-material changes to be staged and return assertions, not gate verdicts.
-Published older CLIs may lack these commands; the plugin checks capabilities
-and retains their existing workflow. See [compact views](spec/compact-views.md)
-for exit statuses, diagnostic retrieval, and freshness limits.
-
-Agent behavior is intentionally low-friction: an initialized project uses OpDev
-without interruption; an uninitialized software project prompts before running
-`opdev init`; and a missing CLI is reported with an offer to install it.
-
-## Repository organization
-
-`.opdev/` contains configuration and evidence; [`docs/`](docs/) contains human
-guidance; [`spec/`](spec/) defines behavioral contracts; [`release/`](release/)
-contains release engineering and the changelog. These are defaults for new
-layouts, not directories OpDev owns or creates in other projects. Existing
-locations take precedence through `.opdev/project.yaml`. See
-[documentation ownership](spec/documentation-layout.md).
-
-The [token-efficiency benchmark](benchmarks/token-efficiency/README.md) measures
-context selection before workflow optimizations are adopted. Synthetic case
-results are separate from complete development-task effectiveness.
+OpDev is opinionated about delivery: [MinimumCD](https://minimumcd.org/)
+requirements are mandatory. Use one integration trunk, restore red CI first,
+deliver through CI, build an immutable artifact once, and have a tested recovery
+strategy. You choose how your project meets those requirements. Extensions can
+add checks, but cannot waive core rules.
 
 ## Quick start
 
-### Install the agent plugin
+You need a Git-backed project and a version of Codex or Claude Code with plugin
+support. Native runtimes are available for macOS, Windows, and Linux GNU on
+x86-64 and ARM64. Initial setup needs network access and basic OS tools, but
+not Rust. Your project's own compilers and test runners are still required.
+See [platform requirements](docs/GETTING_STARTED.md#requirements) for Linux and
+Windows ARM64 constraints.
 
-Install the plugin for your agent, then ask it to set up OpDev. You do not need
-to install the CLI separately or have Rust installed.
+### 1. Install the plugin for your agent
 
-For Codex:
+Run the appropriate commands in a **terminal**. Install separately for each
+agent if you use both.
+
+**Codex**
 
 ```sh
 codex plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
 codex plugin add opdev@personal
 ```
 
-Start a new Codex task after installation or update so the skill is loaded into
-fresh context.
+Start a new Codex task after installation or an update.
 
-For Claude Code:
+**Claude Code**
 
 ```sh
 claude plugin marketplace add https://gitlab.com/stolenfootball-tools/opdev.git
 claude plugin install opdev@opdev
 ```
 
-Restart Claude Code or reload its plugins after installation. Plugin developers
-can load this checkout directly with `claude --plugin-dir ./plugins/opdev`.
+Restart Claude Code or reload its plugins after installation.
 
-On its first use in a task, the plugin verifies the installed CLI against its
-packaged semantic-version compatibility contract. An incompatible or invalid
-combination stops OpDev and offers a compatible CLI installation instead of
-silently continuing.
+### 2. Set up the runtime
 
-### Ask the agent to set up OpDev
-
-After starting a fresh task or reloading plugins, say:
+In your **agent's chat**, say:
 
 > Set up OpDev.
 
-The agent downloads the pinned native CLI and signature verifier, verifies the
-archive signature, checks compatibility, and installs the CLI into private,
-versioned storage. Normal tool approvals apply. Subsequent sessions reuse the
-installed runtime without downloading it again.
+The plugin locates a compatible CLI or offers to install its pinned native
+runtime. Installation verifies the archive's signature and CLI compatibility,
+then stores it in private, versioned storage. Normal tool approvals apply.
+Later sessions reuse that runtime.
 
-Setup requires basic OS tools and initial network access, but no Rust toolchain
-or separately installed signature verifier. It does not add a global `opdev`
-command or initialize a repository. See [setup requirements and recovery](plugins/opdev/skills/setup/SKILL.md)
-for supported platforms, storage locations, and manual setup commands.
+This step does **not** initialize your repository or add `opdev` to your
+terminal's PATH. Prefer a terminal-only workflow? Use the
+[standalone CLI installation](docs/GETTING_STARTED.md#install-the-standalone-cli).
 
-The plugin is version 0.1.2 and deliberately installs qualified CLI 0.1.1.
-Standalone CLI 0.1.2 is available separately below.
+### 3. Initialize your project
 
-To adopt OpDev in a project, open that repository with your agent and say:
+Open the project with your agent and say:
 
-> Initialize OpDev in this repository.
+> Initialize OpDev in this repository. Review the discovered commands and
+> document locations with me before adopting them.
 
-The agent reviews discovery and the project contract with you. Project-specific
-compilers and test runners remain prerequisites for the project's own checks.
-For ongoing work, ask the agent to run OpDev using its managed runtime. The
-terminal examples below apply when you also install a standalone CLI on PATH.
+The agent reviews the project contract and initialization with you. OpDev
+creates `.opdev/project.yaml` and managed guidance in `AGENTS.md` and
+`CLAUDE.md`, preserving unrelated content. Existing documentation stays where
+it is; initialization does not create or take over a `docs/` folder.
 
-### Optional: install a standalone CLI
+Review and commit those files through your normal development workflow. A first
+check may identify missing evidence or delivery setup. That is an adoption
+checklist, not a reason to mark unknown requirements as passed. The
+[first-check guide](docs/GETTING_STARTED.md#understand-the-first-check) explains
+what to do next.
 
-Install **0.1.2** using the following one-line installers. Earlier versions remain
-available through the [historical release and verification instructions](release/README.md#consumer-verification).
+## A typical session
 
-macOS or Linux:
+Once initialized, ask for software work normally—no special command sequence
+is needed for every task. For example:
 
-```sh
-curl --proto '=https' --tlsv1.2 -fsSL https://github.com/stolenfootball/opdev/releases/download/v0.1.2/opdev-installer.sh | sh
-```
+> Add express shipping to the API and CLI. Preserve standard shipping behavior
+> and add regression coverage.
 
-Windows PowerShell:
+OpDev guides the agent to:
 
-```powershell
-powershell -NoProfile -Command "& ([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://github.com/stolenfootball/opdev/releases/download/v0.1.2/opdev-installer.ps1').Content))"
-```
+1. Read the project contract, relevant design/behavior documents, and work item.
+2. Establish the expected behavior, affected consumers, and tests. Record a
+   durable design decision only when the change warrants one.
+3. Make a focused change and run the project's declared checks.
+4. Review any evidence that cannot be inferred automatically, tied to the exact
+   staged change where required.
+5. Report each gate honestly and reconcile the work with CI and project docs.
 
-Each installer detects the platform, downloads a checksum-pinned signature
-verifier, and verifies the archive against the exact GitLab release signing
-identity before extraction. It installs into your user bin directory and sets
-up user PATH; open a new terminal afterward and run `opdev version`. No Rust or
-administrator access is required. Windows ARM64 needs Windows 11 x64 emulation
-for the signature verifier. Basic OS tools and network access are prerequisites.
-To leave PATH unchanged, set `OPDEV_NO_MODIFY_PATH=1` for the shell installer or use the
-`-NoModifyPath` PowerShell option. Repository initialization remains separate.
+An illustrative handoff might say:
 
-To select another published version, replace `v0.1.2` in the URL. Re-running an
-installer verifies and reinstalls that version; the separate automatic updater
-is disabled. Install only trusted release scripts: the script supplies the
-verification trust anchors. See [release operations](release/README.md) for
-manual verification, recovery, and the immutable publication contract.
+> Express shipping is implemented; compatibility and regression tests pass.
+> Integration is blocked: this change still needs reviewed evidence.
+> Delivery remains blocked until the declared recovery path is qualified.
 
-Rust 1.97 or newer provides a source-install fallback:
+That distinction is deliberate. OpDev does not treat an agent's confidence,
+old approval, or green unit tests as proof of delivery readiness.
 
-```sh
-cargo install --locked --git https://gitlab.com/stolenfootball-tools/opdev.git opdev-cli
-```
+For a fresh agent, the repository instructions restore the process. In an
+uninitialized software project, the plugin asks before adopting OpDev. If a
+required CLI or integration is missing or incompatible, it reports the problem
+and offers setup rather than silently continuing without the protocol.
 
-The CLI owns project discovery, schemas, command execution, rule evaluation,
-reports, provider inspection, and release evidence.
+## What lives in your repository?
 
-### Initialize a repository
-
-Run the dry run first. Discovery does not execute repository-controlled
-commands.
-
-```sh
-cd path/to/your-project
-opdev init --dry-run
-opdev init
-opdev check
-```
-
-Review `.opdev/project.yaml`, especially values marked `migration_required` or
-`unconfigured`. OpDev deliberately does not invent a production-like
-environment, artifact, coverage target, or recovery strategy.
-
-Commit the project-owned process files when the inferred contract is correct:
-
-```sh
-git add .opdev/project.yaml AGENTS.md CLAUDE.md
-git commit -m "chore: initialize OpDev"
-```
-
-### Make a change
-
-After initialization, work with an agent or your usual tools. Run the canonical
-checks before staging the complete change:
-
-```sh
-opdev check
-git add -- path/to/changed-file
-```
-
-If OpDev reports a required fact that automation cannot verify, review the fact,
-then generate a compact questionnaire outside the Git working tree. It separates
-durable project facts from assertions bound to this exact staged change:
-
-```sh
-opdev evidence bootstrap > ../opdev-evidence-review.yaml
-# Edit the questionnaire: decisions begin as review_required.
-opdev evidence bootstrap --answers ../opdev-evidence-review.yaml
-# After reviewing the expanded candidate ledger:
-opdev evidence bootstrap --answers ../opdev-evidence-review.yaml --write
-git add .opdev/evidence.yaml
-opdev check --ci
-git commit -m "feat: describe the change"
-git push
-```
-
-Each generated decision is `review_required`, which cannot satisfy a gate. A
-reviewer must add concrete evidence and explicitly choose `passed` or justified
-`not_applicable`; OpDev never chooses either. It rejects stale fingerprints or
-changed candidate sets, previews before writing, and refuses to replace an
-existing ledger. Use `opdev evidence fingerprint` when maintaining an existing
-ledger directly.
-
-Skip the evidence step when no reviewed assertion is needed. Keep the temporary
-questionnaire outside the repository: untracked material intentionally blocks
-fingerprinting. Changing any staged path, content, or executable bit invalidates
-an existing fingerprint. The pull or merge request then runs the project's
-normal build and test commands plus the OpDev integration gate.
-
-### Connect CI
-
-Inspect an existing first-class configuration:
-
-```sh
-opdev ci inspect
-```
-
-If the project does not have one, generate a pinned baseline for GitLab CI or
-GitHub Actions:
-
-```sh
-opdev ci generate --provider gitlab --write
-# Or: opdev ci generate --provider github --write
-```
-
-For GitLab, OpDev infers an official toolchain image when the repository pins
-Rust (`rust-toolchain.toml` or `rust-toolchain`), Go (`go.mod`), Node.js
-(`.nvmrc` or `.node-version`), or Python (`.python-version`). Mixed or custom
-stacks can select a reviewed image explicitly. Go's module directives identify
-a minimum or preferred toolchain, so generated CI uses the matching
-major-minor Docker Official Image family rather than assuming that an
-historical patch-specific Debian tag exists:
-
-```sh
-opdev ci generate --provider gitlab --image registry.example.com/team/toolchain:2026.08 --write
-```
-
-The image must contain the project toolchain plus a POSIX shell, Git, curl,
-tar, `sha256sum`, and `mktemp`. OpDev refuses to guess when it cannot infer a
-compatible image. The generated job verifies these prerequisites, downloads
-and checksum-verifies the exact OpDev release outside the checkout, confirms
-that the CLI starts, and then evaluates the project contract.
-
-Generation refuses to replace an existing provider configuration. Review and
-commit the generated file like any other build-system change.
-
-Read-only remote audits use provider environment credentials when present. For
-GitLab, an authenticated `glab` session is the final fallback, so a browser or
-device OAuth login works without copying its token into project files. Exact
-credential precedence and header behavior are defined in
-[`spec/remote-audits.md`](spec/remote-audits.md); credentials never appear in
-reports or diagnostics.
-
-## Rules, results, and gates
-
-OpDev `0.1.1` evaluates 37 core OpDev and MinimumCD rules. Every applicable rule
-has exactly one result: `passed`, `failed`, `unverified`, `not_applicable`,
-`error`, or `migration_required`. Only `passed` and justified
-`not_applicable` satisfy a required rule.
-
-Rules and configured checks contribute to four independent gates:
-
-| Gate | Decision |
+| File | Purpose |
 | --- | --- |
-| Development | Whether ordinary local implementation may proceed. |
-| Integration | Whether a change may enter trunk. |
-| Delivery | Whether an identified artifact may be delivered through the declared automated path. |
-| Compliance | Whether the project may claim its selected OpDev or external assurance profile. |
+| `.opdev/project.yaml` | Project commands, document and tracker locations, testing policy, delivery requirements, and context routes. |
+| `AGENTS.md` | Persistent instructions for fresh agents, alongside your existing guidance. |
+| `CLAUDE.md` | Imports the shared `AGENTS.md` guidance for Claude Code. |
+| `.opdev/evidence.yaml` | Optional reviewed facts; change-specific assertions are bound to the staged Git index. |
 
-`migration_required` supports incremental adoption, but it cannot qualify a
-delivery or support a compliance claim. OpDev also keeps correctness,
-deployability, and real-world effectiveness as separate judgments.
+The contract points to your existing sources of truth. Design notes can live in
+your chosen folder or declared external authority. There is no required project
+template, document relocation, or replacement test framework.
 
-The normative sources are [`rules/core.yaml`](rules/core.yaml) and
-[`spec/README.md`](spec/README.md). Exact aggregation behavior is defined in
-[`spec/result-semantics.md`](spec/result-semantics.md).
+Discovery recognizes common Cargo, npm, Python, Go, infrastructure, documentation,
+and plugin repositories. Other stacks can declare their commands and authorities
+explicitly; discovery support is not an allowlist of software you can use.
 
-## Project-owned files
+## What the checks mean
 
-| Path | Purpose |
+OpDev evaluates 37 core rules and the checks configured by your project.
+It reports four separate gates:
+
+| Gate | Question |
 | --- | --- |
-| `.opdev/project.yaml` | Small, schema-validated project contract that selects authorities, commands, delivery behavior, and assurance profiles. |
-| `.opdev/evidence.yaml` | Optional reviewed project and staged-change assertions; it is evidence ingress, not a waiver file. `opdev evidence bootstrap` can create a first ledger from explicit reviewed answers. |
-| `AGENTS.md` | Detailed managed guidance that gives fresh agents reliable process continuity. Existing project-owned content is preserved. |
-| `CLAUDE.md` | Imports the shared `AGENTS.md` guidance for Claude Code while preserving one behavioral source. |
+| Development | May ordinary implementation proceed? |
+| Integration | May this change enter trunk? |
+| Delivery | May this identified artifact be delivered through the declared path? |
+| Compliance | Is there sufficient evidence for the selected assurance profile? |
 
-Initialization is idempotent and updates only OpDev-managed blocks. Existing
-project documentation stays where the project already keeps it.
+Rule outcomes are `passed`, `failed`, `unverified`, `not_applicable`, `error`,
+and `migration_required`. Only `passed` and justified `not_applicable` satisfy
+a required rule. Missing evidence is `unverified`; an evaluation problem is
+`error`; a recorded adoption gap is `migration_required`. None is a hidden pass.
 
-## Supported surface
+Some gaps permit incremental development, but they cannot qualify a delivery
+or compliance claim. See [result semantics](spec/result-semantics.md).
 
-| Capability | Version 0.1 support |
-| --- | --- |
-| Project discovery | Cargo, npm, Python, Go, Terraform/infrastructure, documentation, and agent-plugin repositories. |
-| Agent integration | Codex and Claude Code through one shared skill package. |
-| CI providers | GitHub Actions and GitLab CI as first-class adapters. |
-| Remote audit | Read-only GitHub and GitLab policy and pipeline inspection. Unknown or inaccessible facts remain unverified. |
-| Extensions | Declarative checks using exact argument vectors and a strict JSON protocol. Extensions can strengthen gates but cannot replace core results. |
-| Release evidence | SHA-256 checksums, CycloneDX SBOM association, a release manifest, and SLSA-compatible provenance without a SLSA Build-level claim. |
-| Native release contract | Windows, Linux GNU, and macOS on x86-64 and ARM64; optional Linux musl targets. A target is not supported until its archive is present in a release. |
+## CI, trust, and limits
 
-Other languages and build systems can be configured explicitly in
-`.opdev/project.yaml`; discovery support is an ergonomic baseline, not an
-allowlist of software OpDev can govern.
+Use `opdev ci inspect` to review existing GitHub Actions or GitLab CI files.
+For a project without CI, OpDev can generate a baseline without overwriting an
+existing configuration. You still need to supply and qualify your project's
+build, delivery, and recovery path. See [connect CI](docs/GETTING_STARTED.md#connect-ci).
 
-## CLI reference
+Discovery is static; running checks executes commands selected by the project.
+Review the contract before running checks in an untrusted repository. Remote
+audits are read-only, and extensions cannot replace core verdicts. OpDev does
+not certify software or replace engineering judgment.
 
-| Command | Purpose |
-| --- | --- |
-| `opdev init` | Discover and initialize or reconcile project-owned OpDev files. |
-| `opdev check` | Execute configured checks and evaluate project requirements. |
-| `opdev doctor` | Explain missing, contradictory, or unverified capabilities. |
-| `opdev ci` | Generate or inspect GitHub Actions and GitLab CI configurations. |
-| `opdev evidence` | Bootstrap a new reviewed evidence ledger or fingerprint staged state for direct ledger maintenance. |
-| `opdev rules` | Inspect the embedded normative rule catalog. |
-| `opdev profiles` | Inspect bundled exact-version assurance profiles. |
-| `opdev release` | Deterministically package already-built artifacts and bind them to checksums, an SBOM, source, and provenance. |
-| `opdev upgrade` | Explicitly upgrade project-owned OpDev files. |
+**Status:** OpDev is pre-1.0. The standalone release is
+[0.1.2](https://github.com/stolenfootball/opdev/releases/tag/v0.1.2); the source
+plugin deliberately pins compatible CLI 0.1.1. The
+[compatibility policy](spec/compatibility.md) explains their separate versions.
+GitLab is the source and CI authority; GitHub hosts current binary releases.
 
-Use `opdev <command> --help` for the complete command surface. JSON reports are
-available through `opdev check --format json`; CI mode uses
-`opdev check --ci --format json`.
+Development builds on `main` also include compact report and evidence views;
+published CLIs may not have them yet. The
+[30-session evaluation](benchmarks/sessions/results/2026-09-15-codex/README.md)
+found lower total token usage, but did not establish equivalent-quality savings
+or general development effectiveness. See [compact views](spec/compact-views.md)
+for capabilities and fallback behavior.
 
-## Security and trust boundaries
+## Learn more
 
-OpDev treats initialized project content as untrusted. Discovery is static,
-configured checks use exact argument vectors without a general-purpose shell,
-command output and runtime are bounded, remote audits are read-only, and
-extensions cannot weaken core results. Running a project's configured checks
-still executes code selected by that project, so review `.opdev/project.yaml`
-before checking an untrusted repository.
+- [Getting started with the CLI](docs/GETTING_STARTED.md): installation,
+  initialization, a first change, evidence review, and CI.
+- [Normative specification](spec/README.md): lifecycle, rules, and authority order.
+- [Evidence ledger](spec/evidence-ledger.md): review and freshness requirements.
+- [Extensions](spec/extensions.md) and [assurance profiles](spec/assurance-profiles.md):
+  additional project checks and versioned guidance.
+- [Release operations](release/README.md): verification, supported assets, and recovery.
+- [Changelog](release/CHANGELOG.md): notable changes.
 
-Report suspected vulnerabilities privately as described in
-[`SECURITY.md`](docs/SECURITY.md).
+## Help and contributing
 
-## Documentation
+Ask questions, report bugs, or propose improvements through
+[GitLab issues](https://gitlab.com/stolenfootball-tools/opdev/-/issues).
+For suspected vulnerabilities, follow the private reporting instructions in
+[SECURITY.md](docs/SECURITY.md).
 
-| Topic | Reference |
-| --- | --- |
-| Normative model and authority order | [`spec/README.md`](spec/README.md) |
-| Result and gate semantics | [`spec/result-semantics.md`](spec/result-semantics.md) |
-| Project evidence ledger | [`spec/evidence-ledger.md`](spec/evidence-ledger.md) |
-| CI provider boundaries | [`spec/ci-providers.md`](spec/ci-providers.md) |
-| Remote audits | [`spec/remote-audits.md`](spec/remote-audits.md) |
-| Extension protocol | [`spec/extensions.md`](spec/extensions.md) |
-| Assurance profiles | [`spec/assurance-profiles.md`](spec/assurance-profiles.md) |
-| Compatibility policy | [`spec/compatibility.md`](spec/compatibility.md) |
-| Release evidence | [`spec/release-evidence.md`](spec/release-evidence.md) |
+Contributions are welcome; start with [CONTRIBUTING.md](docs/CONTRIBUTING.md)
+for development prerequisites and required checks.
 
-## Contributing and help
-
-Use [GitLab issues](https://gitlab.com/stolenfootball-tools/opdev/-/issues)
-for questions, defects, and proposed improvements. Focused contributions are
-welcome; start with [`CONTRIBUTING.md`](docs/CONTRIBUTING.md) and keep behavioral or
-architectural changes grounded in the normative specification.
-
-The repository requires Rust 1.97. Run the canonical checks before opening a
-merge request:
-
-```sh
-cargo fmt --all -- --check
-cargo clippy --workspace --all-targets --all-features -- -D warnings
-cargo test --workspace --all-features
-cargo build --release --locked
-```
-
-Notable changes are recorded in [`CHANGELOG.md`](release/CHANGELOG.md). OpDev is
-maintained by Opinionated Development contributors and is available under the
-[Apache License 2.0](LICENSE).
+Maintained by Opinionated Development contributors. Licensed under
+[Apache 2.0](LICENSE).

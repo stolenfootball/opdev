@@ -1301,6 +1301,72 @@ changes:
           - kind: work
             summary: "Review identified legitimate suite/extension ID overlap; the projection preserves kind identity and tests shared IDs. Initial Clippy formatting/test-length findings were corrected without waivers, and the skill validator used the existing isolated YAML environment after system Python lacked it. The saved real report retains identical gates with 394 versus 11,471 proxy tokens; full workflow speed remains unverified."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
+  - fingerprint: 5ca9e771cc7b6aad7ff1a9a03c48fdab6e446ab2620bcfd611746782d1cd95f1
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/29
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: Issue 29 records the requested README research, rewrite, scope, sources and acceptance checks.
+        evidence:
+          - kind: work
+            summary: The user requested this documentation work before further token-efficiency changes.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/29
+      - rule_id: OPDEV-DESIGN-001
+        outcome: not_applicable
+        summary: This is an onboarding documentation rewrite, not an architecture or behavioral contract change.
+        evidence:
+          - kind: work
+            summary: The content plan keeps normative specifications authoritative and moves operational detail to a linked guide; rationale and alternatives are recorded in issue 29.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/29
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: The focused documentation branch starts from current trunk 21bd742 and contains only README, getting-started guidance and this evidence.
+        evidence:
+          - kind: git
+            summary: Fetch and clean-worktree checks preceded branch creation from 21bd74261f13ecc8ce7805ff086c7adcacb64838.
+            location: codex/readme-onboarding
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: One focused documentation change is active; no concurrent implementation branches are being integrated.
+        evidence:
+          - kind: work
+            summary: Issue 29 excludes runtime, installer, policy and benchmark changes.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/29
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: Required trunk pipeline 2851699956 was successful before this work; no red trunk was known.
+        evidence:
+          - kind: ci
+            summary: GitLab main status was re-queried after fetching current source.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2851699956
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: The rewrite preserves installation commands, evidence restrictions and provider behavior, and separates published from development-only capabilities.
+        evidence:
+          - kind: test
+            summary: Marketplace selectors and host command help were checked; the release API confirmed v0.1.2 assets and runtime.lock confirmed the independent 0.1.1 pin.
+            location: docs/GETTING_STARTED.md
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: Automated checks resolved all 33 local links and heading anchors; canonical format, lint and workspace tests passed.
+        evidence:
+          - kind: test
+            summary: Documentation examples were checked against CLI help and source contracts. No runtime behavior changed; live installation was not repeated on this host.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/29
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: Agent-authored documentation remains subject to canonical checks, fingerprint-bound evidence and required GitLab CI.
+        evidence:
+          - kind: policy
+            summary: The required CI configuration and integration policy are unchanged.
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: Review identified conflicting release labels and mixed onboarding/reference material; the rewrite corrects both without changing runtime pins or inflating benchmark claims.
+        evidence:
+          - kind: work
+            summary: Research sources, content rationale and validation limits are recorded in the work item; the session handoff is explicitly illustrative.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/29
   - fingerprint: a9c3683c88196a437dfaff22e8dd6ba1a58b55adf092f6f45d6d16110b232948
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
     assertions:
