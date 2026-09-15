@@ -1301,6 +1301,72 @@ changes:
           - kind: work
             summary: "Review identified legitimate suite/extension ID overlap; the projection preserves kind identity and tests shared IDs. Initial Clippy formatting/test-length findings were corrected without waivers, and the skill validator used the existing isolated YAML environment after system Python lacked it. The saved real report retains identical gates with 394 versus 11,471 proxy tokens; full workflow speed remains unverified."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
+  - fingerprint: bad7f108901e8fc22a4d41c51b472a7c0336c44310dbd0064397179e6f76fcb6
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: Issue 26 records the authorized 30-session comparison, private GitLab scope, independent acceptance, bounded runs and exclusions.
+        evidence:
+          - kind: work
+            summary: The user authorized the proposed three-scenario, two-arm, five-repeat experiment using authenticated GitLab.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: The session specification distinguishes agent usage from controller CI, limits claims, and requires independent behavior and gate grading.
+        evidence:
+          - kind: decision
+            summary: Unknown worker accounting stops runs; raw traces stay private and baseline/compact arms share the same evaluator and fixture.
+            location: spec/token-efficiency.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: This focused branch starts at current trunk 824535f and contains only the opt-in experiment and offline tests.
+        evidence:
+          - kind: git
+            summary: Local main and origin/main matched before branch creation on 2026-09-15.
+            location: codex/full-session-benchmark
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: There is one active implementation branch; disposable benchmark candidates are isolated experimental outputs.
+        evidence:
+          - kind: work
+            summary: Issue 26 scopes a single experiment and excludes production delivery of fixture candidates.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: Required trunk pipeline 2842393437 was successful when work started; no red trunk was known.
+        evidence:
+          - kind: ci
+            summary: GitLab main pipeline 62 passed before experiment implementation.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2842393437
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: Production CLI and plugin behavior remain unchanged; the experiment is opt-in and offline regression coverage joins the existing test entrypoint.
+        evidence:
+          - kind: test
+            summary: Canonical format, lint and workspace tests passed on Windows; live model calls are excluded from required CI.
+            location: crates/opdev-cli/tests/benchmark.rs
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: Twelve offline tests exercise terminal accounting, cached-input consistency, worker rejection, failure denominators, negative acceptance and scoped staging.
+        evidence:
+          - kind: test
+            summary: Python session tests passed; baseline code fails all three independent acceptance scenarios as intended.
+            location: tests/sessions_test.py
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: Agent-authored harness changes remain subject to canonical checks, exact staged evidence and required GitLab CI.
+        evidence:
+          - kind: policy
+            summary: The required quality pipeline is unchanged and invokes the expanded offline benchmark test entrypoint.
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: Pilot setup found an outdated CLI, protected Git metadata and an unrecognized web-search event; each was diagnosed before measured runs.
+        evidence:
+          - kind: test
+            summary: CLI 0.154.0 executes in the configured sandbox; scoped staging and web-event accounting have offline regression coverage. Pilot results are excluded from measured comparisons.
+            location: benchmarks/sessions/README.md
   - fingerprint: 9068735d1b4f3743f4d302e650768f71f6ab54282503de368fb1a5db793462ba
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/25
     assertions:
