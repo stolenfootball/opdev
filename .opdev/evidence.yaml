@@ -1301,6 +1301,75 @@ changes:
           - kind: work
             summary: "Review identified legitimate suite/extension ID overlap; the projection preserves kind identity and tests shared IDs. Initial Clippy formatting/test-length findings were corrected without waivers, and the skill validator used the existing isolated YAML environment after system Python lacked it. The saved real report retains identical gates with 394 versus 11,471 proxy tokens; full workflow speed remains unverified."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/25"
+  - fingerprint: a9c3683c88196a437dfaff22e8dd6ba1a58b55adf092f6f45d6d16110b232948
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: The authorized 30-session GitLab comparison is complete, with all attempts retained and bounded conclusions published.
+        evidence:
+          - kind: work
+            summary: Issue 26 defines the three cases, two arms, five repeats, private backing source and independent acceptance.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: The report separates measured acceptance, manual diagnosis, total tokens, cached input and general effectiveness.
+        evidence:
+          - kind: decision
+            summary: A strict grading rejection remains failed; neither post-hoc relabeling nor a qualified savings claim is allowed.
+            location: benchmarks/sessions/results/2026-09-15-codex/README.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: The focused experiment branch remains based on current trunk 824535f, rechecked before publishing results.
+        evidence:
+          - kind: git
+            summary: Fetch confirmed origin/main still at 824535f97af2f75c653f89aaad6fddad2a98939b on 2026-09-15.
+            location: codex/full-session-benchmark
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: One implementation branch is active; fixture candidate branches are experimental outputs and are not delivered software.
+        evidence:
+          - kind: work
+            summary: The experiment scope excludes promotion of the canary candidates.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: Trunk pipeline 2842393437 remains successful; there is no known red integration trunk.
+        evidence:
+          - kind: ci
+            summary: GitLab main status was re-queried before result publication.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2842393437
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: Production CLI, plugin instructions, project schemas and CI delivery behavior remain unchanged by the experiment.
+        evidence:
+          - kind: test
+            summary: Canonical format, lint and workspace tests passed; all 30 fixture pipelines passed independently of the stricter benchmark verdict.
+            location: benchmarks/sessions/results/2026-09-15-codex/records.json
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: Sixteen offline tests cover accounting, grading, protected staging and verified result export; all passed.
+        evidence:
+          - kind: test
+            summary: Tests reject altered hashes, schedules and counters, preserve failed-attempt denominators, and document the strict AST-preservation limitation.
+            location: tests/sessions_test.py
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: Agent-authored experiment and exporter changes remain subject to canonical checks, staged evidence and required GitLab CI.
+        evidence:
+          - kind: policy
+            summary: The required quality job invokes the offline benchmark suite; live model trials remain opt-in.
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: The measured test-preservation rejection and unrelated Windows installer cleanup flake are preserved and tracked without hidden retries.
+        evidence:
+          - kind: work
+            summary: Issue 28 tracks aligning future grading with permitted test strengthening; the original measured failure remains unchanged.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/28
+          - kind: work
+            summary: Issue 27 retains failed job 16516389618 and its one visible successful retry 16516431965; no runtime fix or quarantine is claimed.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/27
   - fingerprint: 1315d6aa686674ed98390e42247131c5fbcc92a7d6c8fecf2ece4210737aa6b1
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/26
     assertions:

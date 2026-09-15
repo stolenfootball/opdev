@@ -8,6 +8,10 @@ the complete OpDev workflow or prove end-to-end savings.
 See the [initial baseline and limitations](results/README.md) for the first
 18 live trials, measured token reduction, and inconclusive latency results.
 
+For the separate experiment with real edits, tests and private GitLab CI, see
+[coding-session evaluation](../sessions/README.md). Its results must not be
+pooled with this single-question microbenchmark.
+
 Run offline measurements with Python 3:
 
 ```sh

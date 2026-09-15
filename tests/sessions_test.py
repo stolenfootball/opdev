@@ -11,6 +11,9 @@ import unittest
 spec = importlib.util.spec_from_file_location('sessions', Path(__file__).resolve().parents[1] / 'scripts/opdev_sessions.py')
 sessions = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(sessions)
+report_spec = importlib.util.spec_from_file_location('session_report', Path(__file__).resolve().parents[1] / 'scripts/opdev_sessions_report.py')
+reporter = importlib.util.module_from_spec(report_spec)
+report_spec.loader.exec_module(reporter)
 
 
 def events(usage=None, extra=None):
@@ -63,9 +66,70 @@ class Accounting(unittest.TestCase):
                  'usage': {'total_tokens': 100, 'cached_input_tokens': 0}, 'seconds': 1}]
         self.assertIsNone(sessions.summarize(rows, 1)['token_reduction_fraction'])
 
+    def test_strict_preservation_rejects_strengthened_existing_test(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'tests').mkdir()
+            original = (sessions.FIXTURE / 'tests/test_parcel.py').read_text()
+            target = root / 'tests/test_parcel.py'
+            target.write_text(original)
+            self.assertTrue(sessions.preserved_tests(root))
+            # Frozen experiment semantics: even a monotonic test extension fails.
+            # Keep this limitation visible; issue 28 tracks a future protocol.
+            target.write_text(original.replace('[0, -1, True, 1.5]', '[0, -1, True, False, 1.5]'))
+            self.assertFalse(sessions.preserved_tests(root))
+
+    def test_export_checks_hashes_and_removes_private_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            schedule = [['rounding', 'baseline', 0]]
+            sessions.write_json(root / 'manifest.json', {'opdev': 'PRIVATE_LOCAL_PATH', 'codex': 'PRIVATE_LOCAL_PATH',
+                'schedule_sha256': sessions.sha(json.dumps(schedule).encode())})
+            sessions.write_json(root / 'schedule.json', schedule)
+            raw = root / 'rounding-baseline-0.events.jsonl'
+            raw.write_text(events())
+            usage = sessions.parse_session(events())['usage']
+            row = {'case': 'rounding', 'arm': 'baseline', 'repeat': 0, 'outcome': 'passed',
+                   'seconds': 1, 'usage': usage, 'events_sha256': reporter.digest(raw),
+                   'assessment': {'checks': {'behavior': True}, 'test_stderr': 'PRIVATE_LOCAL_PATH'}}
+            records = root / 'records.jsonl'
+            records.write_text(json.dumps(row) + '\n')
+            result = reporter.report(root)
+            self.assertNotIn('PRIVATE_LOCAL_PATH', json.dumps(result))
+            self.assertIsNone(result[0]['token_reduction_fraction'])
+            raw.write_text(events() + '\n')
+            with self.assertRaises(ValueError):
+                reporter.report(root)
+
     def test_baseline_defect_is_caught_by_external_oracle(self):
         run = sessions.command([sys.executable, '-c', sessions.acceptance('rounding')], cwd=sessions.FIXTURE, check=False)
         self.assertNotEqual(run.returncode, 0)
+
+    def test_export_rejects_changed_schedule_and_usage(self):
+        for fault in ('schedule', 'counter', 'optional_counter', 'missing_hash'):
+            with self.subTest(fault=fault), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                schedule = [['rounding', 'baseline', 0]]
+                sessions.write_json(root / 'manifest.json', {
+                    'schedule_sha256': sessions.sha(json.dumps(schedule).encode())})
+                sessions.write_json(root / 'schedule.json', schedule)
+                raw = root / 'rounding-baseline-0.events.jsonl'
+                raw.write_text(events())
+                row = {'case': 'rounding', 'arm': 'baseline', 'repeat': 0,
+                       'outcome': 'passed', 'seconds': 1,
+                       'usage': sessions.parse_session(events())['usage'],
+                       'events_sha256': reporter.digest(raw)}
+                if fault == 'schedule':
+                    sessions.write_json(root / 'schedule.json', [['express', 'baseline', 0]])
+                elif fault == 'counter':
+                    row['usage']['input_tokens'] += 1
+                elif fault == 'optional_counter':
+                    row['usage']['reasoning_output_tokens'] = 1
+                else:
+                    del row['events_sha256']
+                (root / 'records.jsonl').write_text(json.dumps(row) + '\n')
+                with self.assertRaises(ValueError):
+                    reporter.report(root)
 
     def test_baseline_missing_feature_is_caught(self):
         run = sessions.command([sys.executable, '-c', sessions.acceptance('express')], cwd=sessions.FIXTURE, check=False)

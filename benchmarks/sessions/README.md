@@ -13,6 +13,10 @@ GitLab branch for CI. Controller CI time is reported separately from agent time.
 This first experiment does not measure model-driven CI repair, installation,
 multi-agent workflows, human interruptions, resumed sessions or compactions.
 
+The [first measured results](results/2026-09-15-codex/README.md) retain all 30
+trials, including one strict test-preservation rejection. They do not establish
+acceptance-equivalent savings.
+
 The Windows workspace sandbox protects Git metadata. Both arms request staging
 through an ignored `.benchmark/stage.request` marker. A trusted controller checks
 the changed path allowlist, stages only task-owned paths and returns a receipt.
@@ -57,3 +61,29 @@ Raw events remain private local artifacts. Publish only reviewed aggregates,
 hashes and source/CI identities. The fixed seed and manifests make the experiment
 reproducible, but provider cache state and model alias resolution are uncontrolled.
 Do not infer general software-development effectiveness from this small fixture.
+
+## Reproduce
+
+Use authenticated `glab`, Git, Python 3, a Codex 0.154.0 executable and an OpDev
+build with compact views. Create an empty private GitLab project first. The
+following placeholders must be replaced with actual paths and project identity:
+
+```text
+glab repo create GROUP/EXPERIMENT --private --skipGitInit --defaultBranch main
+python scripts/opdev_sessions.py prepare --project GROUP/EXPERIMENT --output PRIVATE_OUTPUT --opdev OPDEV_BINARY --codex CODEX_BINARY
+python scripts/opdev_sessions.py run --output PRIVATE_OUTPUT --opdev OPDEV_BINARY --codex CODEX_BINARY --label pilot --pilot
+python scripts/opdev_sessions.py run --output PRIVATE_OUTPUT --opdev OPDEV_BINARY --codex CODEX_BINARY --label measured
+python scripts/opdev_sessions_report.py PRIVATE_OUTPUT/measured --verify-checkouts --output REVIEWED_RESULTS
+```
+
+Create work item 1 in the fixture project with the scope from its handbook before
+running agents. Verify the seed pipeline is green. Inspect pilot outcomes before
+starting measured trials; a stopped or invalid pilot is not permission to pool
+its results into the comparison. Output labels and export directories must be
+new. `refresh` is an explicit pre-experiment fixture update used during pilot
+setup, not a way to change fixture revisions during a measured schedule.
+
+The exporter verifies raw event hashes, terminal counters and checkout identities,
+then exports fingerprints and reviewed fields without host paths or transcripts.
+Keep the source traces private for audit. A new CLI/host, fixture, prompt or
+accounting implementation requires a separately identified experiment.

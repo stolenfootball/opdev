@@ -96,8 +96,10 @@ report unsuccessful runs, medians, tail latency, and cost per accepted task.
 Use explicit run/cost budgets and controlled workspaces for live task evaluation.
 Choose a practical improvement threshold after the baseline distribution is
 known. Require no observed acceptance regression or false gate passes. Zero
-observed defects in a sample is not proof of zero risk. This broader benchmark
-and all production optimizations remain follow-up work under the tracker.
+observed defects in a sample is not proof of zero risk. The shipped compact
+views are specified separately in `compact-views.md`. The first coding-session
+experiment below evaluates those views within a bounded subset of this broader
+matrix; unmeasured scenarios remain follow-up work under the tracker.
 
 ## First coding-session experiment
 
