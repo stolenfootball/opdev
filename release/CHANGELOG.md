@@ -5,6 +5,10 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Gate agent activation on target-project state and consent before runtime setup.
+  Uninitialized pull/status/dev-server tasks proceed without an OpDev suggestion;
+  prompt hooks no longer probe runtimes before the workflow is needed.
+
 - Add explicit adoption assessment and completion checks with a versioned practice
   inventory, project-specific research, preserved decisions, and reviewed opt-outs.
   New initialization starts pending; existing projects opt into assessment explicitly.

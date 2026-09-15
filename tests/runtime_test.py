@@ -151,7 +151,7 @@ case "$1" in version) printf 'opdev {version}\\nproject schema 1\\nrule catalog 
         self.assertEqual(self.native_log.read_text(), before)
         self.assertEqual(self.log.read_text(), downloads)
 
-    def test_prompt_hook_does_not_install_or_fall_back_on_damage(self):
+    def test_prompt_hook_defers_runtime_damage_to_activated_skill(self):
         binary = Path(self.run_script('--install').stdout.strip())
         binary.write_text('damaged')
         before = self.log.read_text()
@@ -159,7 +159,8 @@ case "$1" in version) printf 'opdev {version}\\nproject schema 1\\nrule catalog 
         result = subprocess.run(['bash', str(self.plugin / 'hooks/opdev-context.sh')],
                                 env=env, cwd=self.root, capture_output=True, text=True, check=True)
         context = json.loads(result.stdout)['hookSpecificOutput']['additionalContext']
-        self.assertIn('could not be validated', context)
+        self.assertIn('no OpDev contract', context)
+        self.assertNotIn('could not be validated', context)
         self.assertEqual(self.log.read_text(), before)
 
     def test_concurrent_install_lock_is_preserved(self):

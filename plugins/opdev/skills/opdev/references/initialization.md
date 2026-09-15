@@ -2,7 +2,7 @@
 
 ## Uninitialized project
 
-Ask once, in plain language: “This looks like software-development work. OpDev is installed but this project is not initialized. Would you like me to initialize it?” Continue the original task without OpDev if the user declines.
+For substantive development, offer once: “Would you like to adopt OpDev for this project?” Continue the original task without OpDev unless the user accepts. Routine operations such as pulling changes and starting a dev server do not warrant a suggestion. Do not resolve or install the runtime before consent.
 
 An explicit request to adopt or convert the project already supplies consent.
 After consent, follow [adoption.md](adoption.md) for the full assessment and
@@ -22,7 +22,7 @@ explicit `opdev adoption start`; `opdev upgrade` refreshes only managed guidance
 
 ## CLI unavailable
 
-Inform the user before substantive software development and offer, rather than perform, one of these choices:
+Only after project activation or explicit setup intent, inform the user and offer, rather than perform, one of these choices:
 
 - Use the packaged setup skill for the pinned verified runtime, or obtain a compatible native release through the project's documented installation path. Confirm it supplies the capabilities required for the task.
 - For a Rust development environment, install from the source repository with `cargo install --git https://gitlab.com/stolenfootball-tools/opdev.git --locked opdev-cli`.

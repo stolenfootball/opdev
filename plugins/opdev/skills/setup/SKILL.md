@@ -5,6 +5,11 @@ description: Install or locate the pinned native CLI for the OpDev plugin. Use w
 
 # Set up OpDev
 
+Proceed only for an explicit setup request or accepted setup offer after OpDev
+has been activated for the target project. Merely loading the OpDev skill or
+having the plugin installed is not setup consent. If neither applies, return
+to the original task without looking up or installing the runtime.
+
 Resolve the plugin root two directories above this skill directory. Installation
 downloads the pinned CLI and a checksum-pinned signature verifier, verifies the
 GitLab signature before extraction, and checks the CLI version and compatibility.

@@ -135,8 +135,10 @@ That distinction is deliberate. OpDev does not treat an agent's confidence,
 old approval, or green unit tests as proof of delivery readiness.
 
 For a fresh agent, the repository instructions restore the process. In an
-uninitialized software project, the plugin asks before adopting OpDev. If a
-required CLI or integration is missing or incompatible, it reports the problem
+uninitialized project, substantive development may prompt an adoption offer;
+without acceptance, the original task continues without OpDev. Routine requests
+such as pulling changes or starting a dev server do not prompt adoption. If a
+required CLI or integration is missing or incompatible after activation, it reports the problem
 and offers setup rather than silently continuing without the protocol.
 
 ## What lives in your repository?
