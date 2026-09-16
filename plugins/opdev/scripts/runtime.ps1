@@ -120,7 +120,11 @@ function Invoke-OpdevRuntime([string]$Operation, [string[]]$Arguments) {
         Invoke-OpdevDownload "https://github.com/sigstore/cosign/releases/download/$($values['cosign'])/$verifierAsset" $verifier
         if ((Get-OpdevHash $verifier) -cne $verifierDigest) { throw 'Signature verifier checksum mismatch.' }
         $archive = "opdev-$version-$triple.zip"
-        $base = "https://gitlab.com/stolenfootball-tools/opdev/-/releases/$tag/downloads"
+        $base = if ($version -in @('0.1.0', '0.1.1')) {
+            "https://gitlab.com/stolenfootball-tools/opdev/-/releases/$tag/downloads"
+        } else {
+            "https://github.com/stolenfootball/opdev/releases/download/$tag"
+        }
         $archivePath = Join-Path $staging $archive
         $bundlePath = "$archivePath.sigstore.json"
         [Console]::Error.WriteLine("Downloading and verifying OpDev $version for $triple...")

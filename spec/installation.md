@@ -1,8 +1,8 @@
 # Native installation and plugin runtime
 
-The plugin can install a compatible native CLI from the canonical GitLab release
+The plugin can install a compatible native CLI from the canonical release host
 without requiring a Rust toolchain or a global signature-verifier installation.
-Version 0.1.2 of the plugin initially pins the already-published CLI 0.1.1. The
+Plugin 0.2.1 pins the qualified, immutable CLI 0.2.0 GitHub release. The
 pin is deliberately separate from the plugin version so a source-marketplace
 update never depends on an unpublished archive. The declared CLI compatibility
 range MUST accept the pin. Updating the pin is a reviewed source change.
@@ -83,7 +83,8 @@ PowerShell 5.1 or newer; Windows ARM64 requires Windows 11 x64 emulation for the
 upstream x64 cosign binary. The CLI's own system-library requirements still
 apply. Unsupported or unusable binaries fail setup before installation.
 
-Initial verification requires access to GitLab archives, GitHub cosign binaries,
+Initial verification requires access to GitHub archives (GitLab for historical
+0.1.0/0.1.1 pins), GitHub cosign binaries,
 and Sigstore trust metadata. Reuse of a valid installed runtime requires no
 network. Downloads have bounded timeouts and HTTPS-only redirects. Neither bootstrap
 silently retries a failed download; a new installation attempt is explicit. Signature failure never
@@ -94,7 +95,7 @@ falls back to checksum-only installation.
 Releases beginning with 0.1.2 use the existing public GitHub mirror as the
 canonical binary host. GitLab remains the source, qualification, signing, and
 publication authority. Historical GitLab releases remain available, including
-the plugin's deliberate 0.1.1 runtime pin. Generated CI adapters select GitLab
+historical managed 0.1.1 runtimes. Managed bootstraps and generated CI adapters select GitLab
 for 0.1.0/0.1.1 and GitHub for subsequent versions.
 
 The release pipeline pins cargo-dist 0.32.0 by binary checksum. A generic dist

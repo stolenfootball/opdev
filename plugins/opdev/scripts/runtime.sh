@@ -75,7 +75,10 @@ download "https://github.com/sigstore/cosign/releases/download/$cosign_version/$
 [ "$(hash "$verifier")" = "$verifier_digest" ] || fail 'Signature verifier checksum mismatch.'
 chmod 700 "$verifier"
 archive="opdev-$version-$triple.tar.gz"
-base="https://gitlab.com/stolenfootball-tools/opdev/-/releases/$tag/downloads"
+case "$version" in
+  0.1.0|0.1.1) base="https://gitlab.com/stolenfootball-tools/opdev/-/releases/$tag/downloads" ;;
+  *) base="https://github.com/stolenfootball/opdev/releases/download/$tag" ;;
+esac
 printf 'Downloading and verifying OpDev %s for %s...\n' "$version" "$triple" >&2
 download "$base/$archive" "$staging/$archive"
 download "$base/$archive.sigstore.json" "$staging/$archive.sigstore.json"

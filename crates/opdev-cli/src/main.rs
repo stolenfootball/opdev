@@ -1212,8 +1212,8 @@ mod tests {
     }
 
     #[test]
-    fn cli_and_plugin_versions_stay_in_sync() -> Result<()> {
-        let expected = env!("CARGO_PKG_VERSION");
+    fn plugin_versions_agree_and_accept_the_independent_cli_version() -> Result<()> {
+        let cli_version = Version::parse(env!("CARGO_PKG_VERSION"))?;
         let claude_marketplace: serde_json::Value =
             serde_json::from_str(include_str!("../../../.claude-plugin/marketplace.json"))?;
         let claude_plugin: serde_json::Value = serde_json::from_str(include_str!(
@@ -1226,17 +1226,13 @@ mod tests {
             "../../../plugins/opdev/opdev-compatibility.json"
         ))?;
 
+        let expected = compatibility.plugin.version.to_string();
         assert_eq!(claude_marketplace["version"], expected);
         assert_eq!(claude_marketplace["plugins"][0]["version"], expected);
         assert_eq!(claude_plugin["version"], expected);
         assert_eq!(codex_plugin["version"], expected);
         assert_eq!(compatibility.plugin.version.to_string(), expected);
-        assert!(
-            compatibility
-                .requires
-                .cli
-                .matches(&Version::parse(expected)?)
-        );
+        assert!(compatibility.requires.cli.matches(&cli_version));
         Ok(())
     }
 

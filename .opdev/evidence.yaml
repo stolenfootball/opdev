@@ -118,6 +118,72 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 999544fb78794a110d31e8a44ba55fb596901bd7c8e37d849773509bc692f363
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/35
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 35 records the user-requested update of both managed plugins to qualified CLI 0.2.0, preserving experimental defaults and existing project choices."
+        evidence:
+          - kind: work
+            summary: "Issue 35 records the user-requested update of both managed plugins to qualified CLI 0.2.0, preserving experimental defaults and existing project choices."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/35"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Plugin 0.2.1 is versioned independently from CLI 0.2.0. Current managed downloads use immutable GitHub assets with the exact GitLab signer; historical 0.1.0/0.1.1 pins keep GitLab routing."
+        evidence:
+          - kind: decision
+            summary: "Plugin 0.2.1 is versioned independently from CLI 0.2.0. Current managed downloads use immutable GitHub assets with the exact GitLab signer; historical 0.1.0/0.1.1 pins keep GitLab routing."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "This bounded managed-runtime increment starts from green main 32583d6 on a short-lived branch; pre-merge and integrated-trunk CI remain required before marketplace refresh."
+        evidence:
+          - kind: git
+            summary: "This bounded managed-runtime increment starts from green main 32583d6 on a short-lived branch; pre-merge and integrated-trunk CI remain required before marketplace refresh."
+            location: "codex/managed-runtime-020"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only the current managed-runtime update is in progress; no independent concurrent implementation requires integration."
+        evidence:
+          - kind: work
+            summary: "Only the current managed-runtime update is in progress; no independent concurrent implementation requires integration."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/35"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2852854978 and final release pipeline 2852885413 passed before this update began; no red trunk was known at start."
+        evidence:
+          - kind: ci
+            summary: "Trunk pipeline 2852854978 and final release pipeline 2852885413 passed before this update began; no red trunk was known at start."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852885413"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Host plugin manifests and compatibility contract agree on 0.2.1 and require CLI >=0.2.0,<0.3.0. Existing runtime directories and immutable v0.2.0 archives remain untouched; new installation coexists with old sessions."
+        evidence:
+          - kind: test
+            summary: "Host plugin manifests and compatibility contract agree on 0.2.1 and require CLI >=0.2.0,<0.3.0. Existing runtime directories and immutable v0.2.0 archives remain untouched; new installation coexists with old sessions."
+            location: "tests/runtime_test.ps1"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Full Windows workspace tests, lint, plugin and setup-skill validators passed. Offline bootstrap tests cover old/new hosts, invalid signatures, cache reuse and old-runtime preservation; live managed Windows 0.2.0 install/reuse passed. POSIX variants await required CI."
+        evidence:
+          - kind: test
+            summary: "Full Windows workspace tests, lint, plugin and setup-skill validators passed. Offline bootstrap tests cover old/new hosts, invalid signatures, cache reuse and old-runtime preservation; live managed Windows 0.2.0 install/reuse passed. POSIX variants await required CI."
+            location: "tests/runtime_test.py"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored installer and metadata changes retain checksum, exact signature, version and compatibility checks and require canonical and provider CI gates. Host refresh uses supported commands, never manual cache edits."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored installer and metadata changes retain checksum, exact signature, version and compatibility checks and require canonical and provider CI gates. Host refresh uses supported commands, never manual cache edits."
+            location: "docs/SECURITY.md"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Inspection found the managed installers still routed every version to GitLab and a test incorrectly required CLI/plugin versions to be equal. Historical routing is retained and version checks now enforce independent compatibility rather than equality."
+        evidence:
+          - kind: test
+            summary: "Inspection found the managed installers still routed every version to GitLab and a test incorrectly required CLI/plugin versions to be equal. Historical routing is retained and version checks now enforce independent compatibility rather than equality."
+            location: "crates/opdev-cli/src/main.rs"
   - fingerprint: 760de0a681532fa698debf026857793d9880f91231ad709e21640ab5fc140e27
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
     assertions:
