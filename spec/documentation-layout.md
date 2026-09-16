@@ -2,9 +2,34 @@
 
 The project contract, rather than a folder name, selects authoritative material.
 OpDev configuration and evidence live in `.opdev/`. For projects without an
-established structure, the recommended locations are `docs/` for human guidance,
-`spec/` for design and behavioral contracts, and `release/` for release
-engineering inputs, procedures, recovery, and changelog.
+established structure, internal working documentation SHOULD also live there:
+
+| Optional location | Purpose |
+| --- | --- |
+| `.opdev/design.md` | Current design and architecture |
+| `.opdev/development.md` | Human development guidance |
+| `.opdev/delivery.md` | Release and recovery guidance |
+| `.opdev/specs/` | Individual capability specifications |
+| `.opdev/decisions/` | Significant durable decision records |
+
+These are placement defaults, not an initialization scaffold. Agents MUST NOT
+create empty directories, placeholder documents, or a document per practice just
+to fill out this layout. Create a document only when its purpose and durability
+justify it; a small change can live entirely in its work item. Start with one
+design document and split it when navigation warrants it.
+
+Product documentation, contribution and security guidance, changelogs, and
+packaging inputs retain appropriate project/ecosystem locations outside this
+internal default. Keep the product README at the root and link to internal
+development guidance when it exists. Do not move public material into `.opdev/`
+merely because an agent authored it. No additional Markdown index is required.
+
+Commands remain authoritative in `project.yaml`; current status and sequencing
+remain in the declared work authority. Agents MUST NOT create competing PLAN,
+TODO, or STATUS documents or duplicate command definitions for convenience.
+If work is tracked in repository files, explicitly route that existing authority
+rather than imposing a second tracker. Durable specifications describe behavior
+and rationale, not a second copy of the live backlog.
 
 These defaults MUST NOT override existing authority locations. Existing
 project-owned files, directories, and symlinks MUST NOT be overwritten, moved,
@@ -31,14 +56,15 @@ remain at the root; detailed project facts belong in their declared authorities.
 
 ## Decision and this repository
 
-Keeping human guidance separate makes it discoverable independently of OpDev.
-Keeping release instructions beside packaging inputs helps reviewers reconcile
-changes. A mandatory scaffold would collide with existing docs sites, language
-conventions, generated release directories, and externally maintained manuals.
-Putting all documents in `.opdev/` would obscure general project guidance.
-Advisory defaults plus explicit routing preserve existing ownership. Revisit the
-heuristics if candidate warnings create excessive ambiguity; do not replace
-review with silent directory ownership assumptions.
+Grouping internal working documents reduces root clutter and avoids assigning
+ownership of `docs/`, `spec/`, or `release/` in new projects. The alternative of
+spreading all internal material across those directories adds navigation and
+setup decisions; putting all public documentation in `.opdev/` would obscure it.
+Dot-directories can be hidden by file browsers, so root README links provide
+human discovery while the root agent entry points and contract route agents.
+The Markdown remains usable without OpDev. Existing projects incur no migration.
+Revisit this default if discoverability or navigation costs outweigh the reduced
+clutter; do not replace review with silent directory ownership assumptions.
 
 This repository keeps README, AGENTS, and CLAUDE as its root Markdown files.
 Contributor and security guidance live in `docs/`; the changelog joins existing

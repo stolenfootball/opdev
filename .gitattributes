@@ -1,0 +1,2 @@
+# POSIX entry points must survive Windows checkouts unchanged.
+*.sh text eol=lf

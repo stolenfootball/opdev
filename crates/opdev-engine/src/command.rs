@@ -419,8 +419,15 @@ mod tests {
             {
                 continue;
             }
+            // pnpx is a dlx alias, not a version-reporting package manager.
+            // Help exercises its real shim without fetching or executing a package.
+            let probe = if program == "pnpx" {
+                "--help"
+            } else {
+                "--version"
+            };
             let command = CommandSpec {
-                argv: vec![program.into(), "--version".into()],
+                argv: vec![program.into(), probe.into()],
                 working_directory: None,
                 timeout_seconds: Some(30),
             };

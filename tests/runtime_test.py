@@ -13,6 +13,36 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class CheckoutTests(unittest.TestCase):
+    def test_windows_checkout_keeps_plugin_shell_inputs_lf(self):
+        # Exercise Git checkout conversion, not a newline-normalizing copy.
+        with tempfile.TemporaryDirectory(prefix='opdev checkout ') as temporary:
+            root = Path(temporary)
+            source = root / 'source'
+            source.mkdir()
+            plugin = source / 'plugins/opdev'
+            shutil.copytree(ROOT / 'plugins/opdev', plugin)
+            shutil.copy2(ROOT / '.gitattributes', source / '.gitattributes')
+            def git(*args):
+                return subprocess.run(['git', '-C', str(source), *args], check=True,
+                                      capture_output=True, text=True)
+            git('init', '--quiet')
+            git('config', 'core.autocrlf', 'true')
+            git('add', '.')
+            checkout = root / 'checkout'
+            checkout.mkdir()
+            git('checkout-index', '--all', '--prefix=' + checkout.as_posix() + '/')
+            installed = checkout / 'plugins/opdev'
+            for path in [*installed.rglob('*.sh'), installed / 'runtime.lock']:
+                self.assertNotIn(b'\r', path.read_bytes(), str(path))
+            if os.name != 'nt':
+                result = subprocess.run(['sh', str(installed / 'scripts/runtime.sh'), '--path'],
+                                        env=dict(os.environ, OPDEV_DATA_DIR=str(root / 'empty-runtime')),
+                                        capture_output=True, text=True, timeout=15)
+                self.assertEqual(result.returncode, 3, result.stdout + result.stderr)
+                self.assertFalse((root / 'empty-runtime').exists())
+
+
 @unittest.skipIf(os.name == 'nt', 'POSIX installer; Windows has runtime_test.ps1')
 class RuntimeTests(unittest.TestCase):
     def setUp(self):

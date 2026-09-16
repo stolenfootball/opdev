@@ -99,6 +99,12 @@ actual response, use `adoption approve --plan <ID> --reviewer <name> --reference
 <response-or-review-reference>`; include `--delegation <scope-and-limits>` only for
 an explicit grant. Changed choices or contract invalidate the approval. A hash
 and a recorded reference do not authenticate consent: review the real response.
+State-only transitions between `pending`, `in_progress`, and `implemented`
+preserve the schema-2 plan ID and existing approval. Do not revert truthful
+progress or request reapproval solely for such an edit. If the ID changes,
+inspect the actual diff for changed rationale, references, scope, choices or
+contract; do not claim every record edit invalidates approval. Repository changes
+still require fresh fingerprint-bound acceptance evidence.
 For an existing adoption record with schema 1, preview `adoption migrate`, then apply with `--write` only when
 requested/approved. It preserves previous claims but invents no approval.
 
@@ -158,6 +164,15 @@ Record the assessed repository/component `scope`. For every catalog item fill
 Use `implemented` only when the implementation exists and has meaningful evidence.
 Use `pending` or `in_progress` for unfinished implementation even after approval;
 approval and verification are separate from this state.
+Approving an accessibility target is a policy decision, not evidence that it is
+implemented. Verify current interfaces against the reviewed target; checks for
+a future interface remain pending until that interface and its checks exist.
+
+Before changing agent instruction files, inspect both filesystem type and Git
+index mode. Windows can represent a tracked symlink as plain target-name text.
+Do not append guidance to it or convert it to a regular file automatically.
+Explain the conflict and obtain an explicit migration decision; initialization
+or upgrade alone does not authorize replacing upstream instruction structure.
 Only optional items can be `ignored`, with explicit owner agreement, rationale and
 review references. Conditional items may be `not_applicable` with evidence;
 mandatory practices cannot be ignored or declared inapplicable. No disposition

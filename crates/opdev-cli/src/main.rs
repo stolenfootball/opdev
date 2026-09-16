@@ -1146,6 +1146,39 @@ mod tests {
     }
 
     #[test]
+    fn initialization_does_not_scaffold_optional_documentation() -> Result<()> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        std::fs::create_dir(root.join(".git"))?;
+        initialize(&InitArgs {
+            root: root.to_path_buf(),
+            dry_run: false,
+        })?;
+        for path in [
+            MANIFEST_PATH,
+            ".opdev/adoption.yaml",
+            "AGENTS.md",
+            "CLAUDE.md",
+        ] {
+            assert!(root.join(path).is_file(), "missing {path}");
+        }
+        for path in [
+            ".opdev/design.md",
+            ".opdev/development.md",
+            ".opdev/delivery.md",
+            ".opdev/specs",
+            ".opdev/decisions",
+            ".opdev/README.md",
+            "docs",
+            "spec",
+            "release",
+        ] {
+            assert!(!root.join(path).exists(), "unexpected scaffold {path}");
+        }
+        Ok(())
+    }
+
+    #[test]
     fn command_definition_is_valid() {
         Cli::command().debug_assert();
     }

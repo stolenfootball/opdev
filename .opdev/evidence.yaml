@@ -118,6 +118,100 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 708a4c9e41fc15622ccc339b0d3020dfa78ed070ef434a83523b2658f74b97ff
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/42
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issues 40, 41, 42 and 27 define the approved maintenance increment; scope excludes consumer migrations and experimental activation."
+        evidence:
+          - kind: work
+            summary: "Issues 40, 41, 42 and 27 define the approved maintenance increment; scope excludes consumer migrations and experimental activation."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/42"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Optional internal document defaults preserve existing authorities. Windows bootstrap checks Git link modes and bounds owned-path cleanup while independently releasing its lock."
+        evidence:
+          - kind: specification
+            summary: "Optional internal document defaults preserve existing authorities. Windows bootstrap checks Git link modes and bounds owned-path cleanup while independently releasing its lock."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "main remains the sole integration and release source; the maintenance branch is subject to required GitLab merge-request CI."
+        evidence:
+          - kind: policy
+            summary: "main remains the sole integration and release source; the maintenance branch is subject to required GitLab merge-request CI."
+            location: "release/README.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "This single maintenance branch starts at current main ce8a45b9149550cf4c495f65b452ff23820a7351; integration and post-merge checks remain required."
+        evidence:
+          - kind: git
+            summary: "This single maintenance branch starts at current main ce8a45b9149550cf4c495f65b452ff23820a7351; integration and post-merge checks remain required."
+            location: "codex/internal-document-layout"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "The previously staged layout and adoption fixes and their test unblocker are one coordinated implementation stream, not parallel long-lived branches."
+        evidence:
+          - kind: work
+            summary: "The previously staged layout and adoption fixes and their test unblocker are one coordinated implementation stream, not parallel long-lived branches."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/41"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2855752633 passed before implementation; no failing trunk pipeline was observed."
+        evidence:
+          - kind: ci
+            summary: "Trunk pipeline 2855752633 passed before implementation; no failing trunk pipeline was observed."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2855752633"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Manifest and ledger schemas, runtime pin and experimental opt-in remain unchanged. Existing authority preservation and optional-scaffold absence have behavioral tests; unsafe Git symlink edits now fail explicitly."
+        evidence:
+          - kind: test
+            summary: "Manifest and ledger schemas, runtime pin and experimental opt-in remain unchanged. Existing authority preservation and optional-scaffold absence have behavioral tests; unsafe Git symlink edits now fail explicitly."
+            location: "crates/opdev-project/src/bootstrap.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical Windows format, clippy and full all-feature workspace suite passed after correcting the pnpx probe. Both plugin validators, 11 POSIX runtime cases, 7 hook cases, 13 PowerShell cases and first-attempt signed Windows install/run/reinstall passed."
+        evidence:
+          - kind: test
+            summary: "Canonical Windows format, clippy and full all-feature workspace suite passed after correcting the pnpx probe. Both plugin validators, 11 POSIX runtime cases, 7 hook cases, 13 PowerShell cases and first-attempt signed Windows install/run/reinstall passed."
+            location: "tests/runtime_test.ps1"
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "New refusal and cleanup messages are plain text with explicit paths, attempts and outcomes; existing consumer interface tests pass. No new visual interface or WCAG conformance claim is introduced."
+        evidence:
+          - kind: test
+            summary: "New refusal and cleanup messages are plain text with explicit paths, attempts and outcomes; existing consumer interface tests pass. No new visual interface or WCAG conformance claim is introduced."
+            location: "crates/opdev-cli/tests/consumer_interface.rs"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Cleanup retries and exhaustion are visible; exhausted cleanup preserves original verification errors, distinguishes installed-runtime partial success and still releases the lock. Real file-lock and injected exhaustion tests pass."
+        evidence:
+          - kind: test
+            summary: "Cleanup retries and exhaustion are visible; exhausted cleanup preserves original verification errors, distinguishes installed-runtime partial success and still releases the lock. Real file-lock and injected exhaustion tests pass."
+            location: "tests/runtime_test.ps1"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored changes retain required CI, signature verification, failure reporting and post-merge qualification; no test or gate is disabled."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored changes retain required CI, signature verification, failure reporting and post-merge qualification; no test or gate is disabled."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The pnpx test assumption and cleanup exception skipping lock disposal were reproduced and repaired with actual shim, exclusive-file-lock and bounded-failure tests. External causes of historical transient locks remain unknown."
+        evidence:
+          - kind: work
+            summary: "The pnpx test assumption and cleanup exception skipping lock disposal were reproduced and repaired with actual shim, exclusive-file-lock and bounded-failure tests. External causes of historical transient locks remain unknown."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/27"
+      - rule_id: OPDEV-EVAL-001
+        outcome: passed
+        summary: "Deterministic regressions and a live signed Windows install support the maintenance outcome. Existing early-offer canaries retain their narrow scope; expanded host trials are separate and no general agent-reliability or token-savings claim is made."
+        evidence:
+          - kind: documentation
+            summary: "Deterministic regressions and a live signed Windows install support the maintenance outcome. Existing early-offer canaries retain their narrow scope; expanded host trials are separate and no general agent-reliability or token-savings claim is made."
+            location: "benchmarks/adoption/early-offer-results-2026-09-16.md"
   - fingerprint: 69385bb4bee08ca556f51da25dbf2fce77652c0a5984506e787823fd0cae6927
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/39
     assertions:

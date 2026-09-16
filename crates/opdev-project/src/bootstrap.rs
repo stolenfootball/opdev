@@ -1,6 +1,7 @@
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 
 use thiserror::Error;
 
@@ -76,8 +77,18 @@ pub struct AgentFilePreview {
 /// Errors produced while reconciling agent instructions.
 #[derive(Debug, Error)]
 pub enum BootstrapError {
+    /// Git metadata could not be checked safely.
+    #[error("could not inspect Git mode for `{path}`: {detail}")]
+    GitInspection {
+        /// File path.
+        path: PathBuf,
+        /// Inspection failure.
+        detail: String,
+    },
     /// A linked/non-regular file is not a safe managed-write target.
-    #[error("agent instructions `{path}` must be a regular file, not a link or directory")]
+    #[error(
+        "agent instructions `{path}` must be a regular file, not a filesystem/Git-tracked link or directory; review any migration explicitly"
+    )]
     UnsafeTarget {
         /// File path.
         path: PathBuf,
@@ -203,6 +214,7 @@ pub fn apply_agent_preview(
 }
 
 fn read_target(path: &Path) -> Result<Option<String>, BootstrapError> {
+    reject_index_link(path)?;
     match fs::symlink_metadata(path) {
         Ok(metadata) if !metadata.file_type().is_file() => {
             return Err(BootstrapError::UnsafeTarget {
@@ -224,6 +236,57 @@ fn read_target(path: &Path) -> Result<Option<String>, BootstrapError> {
             path: path.to_path_buf(),
             source,
         })
+}
+
+// With core.symlinks=false, a mode-120000 entry is a regular file on disk.
+// Check the index as well as the filesystem, including at apply time.
+fn reject_index_link(path: &Path) -> Result<(), BootstrapError> {
+    let parent = path.parent().unwrap_or(Path::new("."));
+    let absolute = fs::canonicalize(parent).map_err(|source| BootstrapError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    // Non-repository callers are supported. A gitfile covers linked worktrees.
+    let has_repository = absolute.ancestors().any(|ancestor| {
+        let marker = ancestor.join(".git");
+        marker.is_file() || marker.join("HEAD").exists()
+    });
+    if !has_repository {
+        return Ok(());
+    }
+    let output = Command::new("git")
+        .current_dir(&absolute)
+        .args(["--literal-pathspecs", "ls-files", "--stage", "-z", "--"])
+        .arg(path.file_name().unwrap_or_default())
+        .output()
+        .map_err(|error| BootstrapError::GitInspection {
+            path: path.to_path_buf(),
+            detail: error.to_string(),
+        })?;
+    if !output.status.success() {
+        return Err(BootstrapError::GitInspection {
+            path: path.to_path_buf(),
+            detail: String::from_utf8_lossy(&output.stderr).into_owned(),
+        });
+    }
+    for entry in output
+        .stdout
+        .split(|byte| *byte == 0)
+        .filter(|entry| !entry.is_empty())
+    {
+        if entry.starts_with(b"120000 ") {
+            return Err(BootstrapError::UnsafeTarget {
+                path: path.to_path_buf(),
+            });
+        }
+        if !entry.starts_with(b"100644 ") && !entry.starts_with(b"100755 ") {
+            return Err(BootstrapError::GitInspection {
+                path: path.to_path_buf(),
+                detail: "unsupported Git index mode".into(),
+            });
+        }
+    }
+    Ok(())
 }
 
 fn preview_file(
@@ -309,6 +372,62 @@ fn newline_style(content: &str) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn git_symlink_placeholders_and_index_changes_block_all_writes()
+    -> Result<(), Box<dyn std::error::Error>> {
+        for name in ["AGENTS.md", "CLAUDE.md"] {
+            let directory = tempfile::tempdir()?;
+            let root = directory.path();
+            let git = |args: &[&str]| -> Result<String, Box<dyn std::error::Error>> {
+                let output = Command::new("git").current_dir(root).args(args).output()?;
+                assert!(
+                    output.status.success(),
+                    "{}",
+                    String::from_utf8_lossy(&output.stderr)
+                );
+                Ok(String::from_utf8(output.stdout)?.trim().to_owned())
+            };
+            git(&["init", "--quiet"])?;
+            git(&["config", "core.symlinks", "false"])?;
+            fs::write(root.join(name), "other-instructions.md")?;
+            let preview = preview_agent_files(root)?;
+            let blob = git(&["hash-object", "-w", name])?;
+            git(&[
+                "update-index",
+                "--add",
+                "--cacheinfo",
+                &format!("120000,{blob},{name}"),
+            ])?;
+            assert!(root.join(name).is_file());
+            assert!(matches!(
+                preview_agent_files(root),
+                Err(BootstrapError::UnsafeTarget { .. })
+            ));
+            assert!(matches!(
+                apply_agent_preview(&preview),
+                Err(BootstrapError::UnsafeTarget { .. })
+            ));
+            assert_eq!(
+                fs::read_to_string(root.join(name))?,
+                "other-instructions.md"
+            );
+            let other = if name == "AGENTS.md" {
+                "CLAUDE.md"
+            } else {
+                "AGENTS.md"
+            };
+            assert!(!root.join(other).exists());
+            git(&[
+                "update-index",
+                "--cacheinfo",
+                &format!("100644,{blob},{name}"),
+            ])?;
+            reconcile_agent_files(root)?;
+            assert!(fs::read_to_string(root.join(name))?.contains(START_MARKER));
+        }
+        Ok(())
+    }
 
     #[test]
     fn preview_is_read_only_and_stale_second_file_blocks_all_writes()

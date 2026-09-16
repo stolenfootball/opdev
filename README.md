@@ -158,6 +158,15 @@ The contract points to your existing sources of truth. Design notes can live in
 your chosen folder or declared external authority. There is no required project
 template, document relocation, or replacement test framework.
 
+Without established locations, internal working documents default to
+`.opdev/design.md`, `.opdev/development.md`, `.opdev/delivery.md`,
+`.opdev/specs/`, and `.opdev/decisions/` **only as needed**. Initialization does
+not generate these documents or empty folders. Small changes can stay in their
+work item; commands and live progress are not duplicated into Markdown trackers.
+Public documentation retains its project/ecosystem locations, and the root
+README should link to development guidance when it exists. Both root agent
+entry points remain. See [documentation layout](spec/documentation-layout.md).
+
 Discovery recognizes common Cargo, npm, Python, Go, infrastructure, documentation,
 and plugin repositories. Other stacks can declare their commands and authorities
 explicitly; discovery support is not an allowlist of software you can use.
