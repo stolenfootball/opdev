@@ -11,6 +11,7 @@ use thiserror::Error;
 
 const GITHUB_TEMPLATE: &str = include_str!("../../../templates/ci/github.yml");
 const GITLAB_TEMPLATE: &str = include_str!("../../../templates/ci/gitlab.yml");
+const RUNTIME_LOCK: &str = include_str!("../../../plugins/opdev/runtime.lock");
 
 /// Data used to render a provider configuration.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -43,7 +44,7 @@ pub struct CiInspection {
     pub pre_merge: Capability,
     /// Trunk pipelines invoke the `OpDev` integration gate.
     pub post_merge: Capability,
-    /// The pinned CLI archive is checksum-verified before execution.
+    /// The pinned CLI archive declares checksum and signing-identity verification.
     pub integrity: Capability,
 }
 
@@ -170,7 +171,13 @@ impl CiAdapter for GithubAdapter {
             &ProviderRequirements {
                 pre_merge: &["pull_request", "opdev check --ci"],
                 post_merge: &["push", "opdev check --ci"],
-                integrity: &["SHA256SUMS", "sha256sum -c"],
+                integrity: &[
+                    "SHA256SUMS",
+                    "sha256sum -c",
+                    "verify-blob",
+                    "--certificate-identity",
+                    "--certificate-oidc-issuer",
+                ],
             },
         )
     }
@@ -205,7 +212,13 @@ impl CiAdapter for GitlabAdapter {
             &ProviderRequirements {
                 pre_merge: &["merge_request_event", "opdev check --ci"],
                 post_merge: &["CI_DEFAULT_BRANCH", "opdev check --ci"],
-                integrity: &["SHA256SUMS", "sha256sum -c"],
+                integrity: &[
+                    "SHA256SUMS",
+                    "sha256sum -c",
+                    "verify-blob",
+                    "--certificate-identity",
+                    "--certificate-oidc-issuer",
+                ],
             },
         )
     }
@@ -233,7 +246,26 @@ fn render_template(template: &str, context: &TemplateContext) -> Result<String, 
         }
         _ => "https://github.com/stolenfootball/opdev/releases/download/v${OPDEV_VERSION}",
     };
+    let verifier_version = RUNTIME_LOCK
+        .lines()
+        .find_map(|line| line.strip_prefix("cosign "))
+        .ok_or_else(|| CiError::InvalidTemplateValue("missing pinned verifier version".into()))?;
+    let verifier_digest = RUNTIME_LOCK
+        .lines()
+        .find(|line| line.starts_with("target Linux x86_64 "))
+        .and_then(|line| line.split_whitespace().last())
+        .ok_or_else(|| CiError::InvalidTemplateValue("missing pinned verifier digest".into()))?;
+    let signing_project = match context.opdev_version.split('-').next() {
+        Some("0.1.0" | "0.1.1") => "opinionateddevelopment",
+        _ => "opdev",
+    };
+    let identity = format!(
+        "https://gitlab.com/stolenfootball-tools/{signing_project}//.gitlab-ci.yml@refs/tags/v${{OPDEV_VERSION}}"
+    );
     Ok(template
+        .replace("{{COSIGN_VERSION}}", verifier_version)
+        .replace("{{COSIGN_DIGEST}}", verifier_digest)
+        .replace("{{SIGNING_IDENTITY}}", &identity)
         .replace("{{RELEASE_BASE}}", release_base)
         .replace("{{VERSION_JSON}}", &version)
         .replace("{{TRUNK_JSON}}", &trunk))
@@ -654,6 +686,7 @@ mod tests {
             ),
         ] {
             let mut context = context();
+            context.opdev_version = "0.2.0".into();
             context.job_image = Some(image.into());
             let rendered = adapter_for(CiProvider::Gitlab)?.render(&context)?;
             let parsed: serde_json::Value = serde_saphyr::from_str(&rendered)?;
@@ -676,7 +709,7 @@ mod tests {
                     "run",
                     "--rm",
                     "--env",
-                    "OPDEV_VERSION=0.1.0",
+                    "OPDEV_VERSION=0.2.0",
                     image,
                     "sh",
                     "-c",
@@ -693,12 +726,51 @@ mod tests {
         Ok(())
     }
 
+    #[test]
+    fn generated_job_does_not_inherit_compiled_caches() -> Result<(), Box<dyn std::error::Error>> {
+        let output = rendered(CiProvider::Gitlab)?;
+        let parsed: serde_json::Value = serde_saphyr::from_str(&output)?;
+        assert_eq!(parsed["opdev"]["cache"], serde_json::json!([]));
+        assert!(parsed["opdev"].get("extends").is_none());
+        assert!(!output.contains("{{"));
+        Ok(())
+    }
+
+    #[test]
+    #[ignore = "requires Docker and a Bookworm image"]
+    fn incompatible_libc_fails_before_downloading_or_executing_opdev()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let output = rendered(CiProvider::Gitlab)?;
+        let parsed: serde_json::Value = serde_saphyr::from_str(&output)?;
+        let script = parsed["opdev"]["before_script"]
+            .as_array()
+            .ok_or("commands")?
+            .iter()
+            .map(|v| v.as_str().ok_or("command"))
+            .collect::<Result<Vec<_>, _>>()?
+            .join("\n");
+        let script = format!("curl() {{ echo UNEXPECTED_DOWNLOAD >&2; exit 99; }}\n{script}");
+        let result = Command::new("docker")
+            .args(["run", "--rm", "rust:1.97.0-bookworm", "sh", "-c", &script])
+            .output()?;
+        assert!(!result.status.success());
+        let diagnostic = String::from_utf8_lossy(&result.stderr);
+        assert!(
+            diagnostic.contains("OpDev requires glibc >= 2.39"),
+            "{diagnostic}"
+        );
+        assert!(!diagnostic.contains("UNEXPECTED_DOWNLOAD"));
+        Ok(())
+    }
+
     #[cfg(unix)]
     #[test]
     fn rendered_installers_execute_a_release_fixture_without_dirtying_git()
     -> Result<(), Box<dyn std::error::Error>> {
         for provider in [CiProvider::Github, CiProvider::Gitlab] {
-            execute_installer_fixture(provider)?;
+            for failure in ["none", "verifier_digest", "signature"] {
+                execute_installer_fixture(provider, failure)?;
+            }
         }
         Ok(())
     }
@@ -712,7 +784,11 @@ mod tests {
     }
 
     #[cfg(unix)]
-    fn execute_installer_fixture(provider: CiProvider) -> Result<(), Box<dyn std::error::Error>> {
+    #[allow(clippy::too_many_lines)] // End-to-end offline installer fixture, including failure paths.
+    fn execute_installer_fixture(
+        provider: CiProvider,
+        failure: &str,
+    ) -> Result<(), Box<dyn std::error::Error>> {
         let project = tempfile::tempdir()?;
         run(Command::new("git")
             .args(["init", "-b", "main"])
@@ -729,7 +805,10 @@ mod tests {
         let payload = fixture.path().join("payload");
         fs::create_dir(&payload)?;
         let executable = payload.join("opdev");
-        fs::write(&executable, "#!/bin/sh\nexit 0\n")?;
+        fs::write(
+            &executable,
+            "#!/bin/sh\ntouch \"$FIXTURE_RELEASE/executed\"\nexit 0\n",
+        )?;
         let mut permissions = fs::metadata(&executable)?.permissions();
         permissions.set_mode(0o755);
         fs::set_permissions(&executable, permissions)?;
@@ -745,6 +824,22 @@ mod tests {
             return Err(std::io::Error::other("sha256sum fixture generation failed").into());
         }
         fs::write(fixture.path().join("SHA256SUMS"), checksum.stdout)?;
+        let verifier = fixture.path().join("cosign-linux-amd64");
+        fs::write(
+            &verifier,
+            "#!/bin/sh\nset -eu\ntest \"$1\" = verify-blob\ntest \"$3\" = --bundle\ntest \"$5\" = --certificate-identity\ntest \"$6\" = https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/v0.1.0\ntest \"$7\" = --certificate-oidc-issuer\ntest \"$8\" = https://gitlab.com\ntest \"$VERIFY_FAILURE\" != signature\n",
+        )?;
+        fs::write(
+            fixture.path().join(format!("{archive}.sigstore.json")),
+            "fixture bundle",
+        )?;
+        let digest_output = Command::new("sha256sum").arg(&verifier).output()?;
+        assert!(digest_output.status.success());
+        let fixture_digest = String::from_utf8(digest_output.stdout)?
+            .split_whitespace()
+            .next()
+            .ok_or("fixture digest")?
+            .to_string();
 
         let fake_bin = fixture.path().join("bin");
         fs::create_dir(&fake_bin)?;
@@ -752,14 +847,35 @@ mod tests {
         fs::write(
             &fake_curl,
             format!(
-                "#!/bin/sh\nset -eu\noutput=\nurl=\nwhile [ \"$#\" -gt 0 ]; do\n  case \"$1\" in\n    --output) output=$2; shift 2 ;;\n    *) url=$1; shift ;;\n  esac\ndone\ncase \"$url\" in\n  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.0/downloads/*) ;;\n  *) exit 92 ;;\nesac\ncase \"$url\" in\n  */SHA256SUMS) cp \"$FIXTURE_RELEASE/SHA256SUMS\" \"$output\" ;;\n  *) cp \"$FIXTURE_RELEASE/{archive}\" \"$output\" ;;\nesac\n"
+                "#!/bin/sh\nset -eu\noutput=\nurl=\nwhile [ \"$#\" -gt 0 ]; do\n  case \"$1\" in\n    --output) output=$2; shift 2 ;;\n    *) url=$1; shift ;;\n  esac\ndone\ncase \"$url\" in\n  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.0/downloads/*|https://github.com/sigstore/cosign/releases/download/*/cosign-linux-amd64) ;;\n  *) exit 92 ;;\nesac\ncase \"$url\" in\n  */SHA256SUMS) cp \"$FIXTURE_RELEASE/SHA256SUMS\" \"$output\" ;;\n  */cosign-linux-amd64) cp \"$FIXTURE_RELEASE/cosign-linux-amd64\" \"$output\" ;;\n  *.sigstore.json) cp \"$FIXTURE_RELEASE/{archive}.sigstore.json\" \"$output\" ;;\n  *) cp \"$FIXTURE_RELEASE/{archive}\" \"$output\" ;;\nesac\n"
             ),
         )?;
         let mut permissions = fs::metadata(&fake_curl)?.permissions();
         permissions.set_mode(0o755);
         fs::set_permissions(&fake_curl, permissions)?;
 
-        let rendered = rendered(provider)?;
+        // Keep offline fixtures portable on older Linux and macOS; live container
+        // qualification below exercises the actual architecture/libc boundary.
+        for (name, output) in [("uname", "x86_64"), ("getconf", "glibc 2.39")] {
+            let path = fake_bin.join(name);
+            fs::write(&path, format!("#!/bin/sh\necho '{output}'\n"))?;
+            let mut permissions = fs::metadata(&path)?.permissions();
+            permissions.set_mode(0o755);
+            fs::set_permissions(&path, permissions)?;
+        }
+        let real_digest = RUNTIME_LOCK
+            .lines()
+            .find(|line| line.starts_with("target Linux x86_64 "))
+            .and_then(|line| line.split_whitespace().last())
+            .ok_or("pin")?;
+        let rendered = rendered(provider)?.replace(
+            real_digest,
+            if failure == "verifier_digest" {
+                real_digest
+            } else {
+                &fixture_digest
+            },
+        );
         let parsed: serde_json::Value = serde_saphyr::from_str(&rendered)?;
         let mut script = match provider {
             CiProvider::Github => parsed["jobs"]["opdev"]["steps"][1]["run"]
@@ -787,14 +903,26 @@ mod tests {
             fake_bin.display(),
             std::env::var("PATH").unwrap_or_default()
         );
-        run(Command::new("bash")
+        let result = Command::new("bash")
             .arg("-c")
             .arg(script)
             .env("FIXTURE_RELEASE", fixture.path())
             .env("OPDEV_VERSION", "0.1.0")
             .env("RUNNER_TEMP", runner_temp.path())
             .env("PATH", path)
-            .current_dir(project.path()))?;
+            .env("VERIFY_FAILURE", failure)
+            .current_dir(project.path())
+            .output()?;
+        assert_eq!(
+            result.status.success(),
+            failure == "none",
+            "{provider:?} {failure}: {}",
+            String::from_utf8_lossy(&result.stderr)
+        );
+        if failure != "none" {
+            assert!(!fixture.path().join("executed").exists());
+            assert!(!runner_temp.path().join("opdev").exists());
+        }
         assert_eq!(
             opdev_project::staged_fingerprint(project.path())?,
             fingerprint

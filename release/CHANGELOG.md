@@ -3,6 +3,27 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
+## 0.2.1 / Plugin 0.2.2
+
+- Fix adoption review: ask relevant material questions before implementation
+  approval, verify inherited consent, respect bounded delegation, and preserve
+  the choice to keep a non-main trunk name. Use supported host question tools
+  with chat fallback; unanswered questions never become approval.
+- Separate adoption approval from implementation with plan-bound review,
+  explicit schema-1-to-2 adoption migration and unresolved evidence preparation.
+  Existing records are preserved, not automatically migrated. CLI 0.2.0 cannot
+  read schema-2 adoption records; use CLI 0.2.1 before choosing that migration.
+  Project-manifest and evidence schemas are unchanged.
+- Correct applicability, integration-versus-delivery qualification and action
+  reporting. Diagnostics do not substitute for release recovery; missing evidence
+  is not proof of implementation or inapplicability.
+- Harden generated CI installation with signature verification, explicit libc
+  compatibility checks and isolated caches. Preserve project images and choices.
+- Keep compact/token-reduction views behind explicit experimental opt-in.
+- The bundled plugin retains its qualified CLI 0.2.0 pin during publication;
+  new adoption capabilities require standalone CLI 0.2.1 until the subsequent
+  managed-runtime pin update is qualified. No historical assets are replaced.
+
 ## Plugin 0.2.1
 
 - Pin the qualified CLI 0.2.0 and route managed downloads to GitHub while

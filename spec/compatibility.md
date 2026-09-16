@@ -18,7 +18,9 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.2.1 pins published CLI 0.2.0 and requires CLI >=0.2.0, <0.3.0. Both host
+0.2.2 retains published CLI 0.2.0 during CLI 0.2.1 qualification and requires
+CLI >=0.2.0, <0.3.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
+capability detection must report the older runtime gap. Both host
 manifests and the packaged compatibility contract must agree on the plugin
 version; the current CLI and managed pin must satisfy its CLI range.
 
@@ -45,12 +47,15 @@ application, host/runtime boundaries and separate project verification. Bare
 The first stable CLI will read its current schema and at least one previous
 schema when a deterministic migration exists.
 
-Adoption decisions use separate record schema 1 and practice catalog 1. Existing
+Adoption decisions now write separate record schema 2 and retain practice catalog 1. Existing
 projects without a record are legacy-unassessed, not silently migrated or blocked
 by new ordinary-check requirements. New development CLIs distinguish successful
 scaffolding from completion; `adoption start` explicitly opts legacy projects in.
 Unknown fields, missing/extra practices and unsupported versions fail closed.
-No automatic adoption catalog migration is implemented. Older runtimes cannot
+Schema 1 is readable but requires an explicit `adoption migrate` preview/write
+and genuine approval before completion. Migration preserves old decisions, not
+an inferred approval. Older runtimes reject schema 2; capability-check before
+upgrading project-owned records. No automatic adoption catalog migration is implemented. Older runtimes cannot
 claim this completion check; see [adoption](adoption.md).
 
 Experiment records have a separate integer schema (currently 1). They do not add

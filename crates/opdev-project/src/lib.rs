@@ -10,8 +10,9 @@ mod experiment;
 mod manifest;
 
 pub use adoption::{
-    ADOPTION_PATH, AdoptionCatalog, AdoptionDecision, AdoptionError, AdoptionRecord, AdoptionState,
-    Practice, Requirement, adoption_catalog,
+    ADOPTION_PATH, AdoptionCatalog, AdoptionDecision, AdoptionError, AdoptionRecord,
+    AdoptionReview, AdoptionState, AdoptionWorkflow, MainOption, Practice, Requirement,
+    adoption_catalog,
 };
 pub use bootstrap::{
     AgentFilePreview, BootstrapError, FileChange, ManagedFile, apply_agent_preview,

@@ -1,0 +1,5 @@
+[project]
+name = "parcel-note-canary"
+version = "0.0.1"
+requires-python = ">=3.13"
+dependencies = []

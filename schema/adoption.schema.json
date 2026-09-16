@@ -5,7 +5,9 @@
   "additionalProperties": false,
   "required": ["schema", "catalog_version", "scope", "practices"],
   "properties": {
-    "schema": {"const": 1},
+    "schema": {"enum": [1, 2]},
+    "review": {"$ref":"#/$defs/review"},
+    "workflow": {"$ref":"#/$defs/workflow"},
     "catalog_version": {"type":"integer", "minimum":1},
     "scope": {"type":"string"},
     "practices": {
@@ -14,7 +16,7 @@
         "type":"object", "additionalProperties":false,
         "required":["state", "owner", "reason", "references", "suites", "research"],
         "properties": {
-          "state":{"enum":["pending","implemented","ignored","not_applicable"]},
+          "state":{"enum":["pending","in_progress","implemented","ignored","not_applicable"]},
           "owner":{"type":"string"},
           "reason":{"type":"string"},
           "references":{"$ref":"#/$defs/strings"},
@@ -24,7 +26,28 @@
       }
     }
   },
+  "allOf": [{"if":{"properties":{"schema":{"const":1}}},"then":{"not":{"anyOf":[{"required":["review"]},{"required":["workflow"]}]},"properties":{"practices":{"additionalProperties":{"properties":{"state":{"not":{"const":"in_progress"}}}}}} }}],
   "$defs": {
+    "review": {
+      "type":"object", "additionalProperties":false,
+      "required":["plan_id","reviewer","reference"],
+      "properties": {
+        "plan_id":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "reviewer":{"type":"string","pattern":"\\S"},
+        "reference":{"type":"string","pattern":"\\S"},
+        "delegation":{"type":"string","pattern":"\\S"}
+      }
+    },
+    "workflow": {
+      "type":"object", "additionalProperties":false,
+      "required":["integration_branches","release_source","main_option","references"],
+      "properties": {
+        "integration_branches":{"$ref":"#/$defs/strings"},
+        "release_source":{"type":"string","pattern":"\\S"},
+        "main_option":{"enum":["already_main","keep_name","rename_to_main"]},
+        "references":{"$ref":"#/$defs/strings"}
+      }
+    },
     "strings": {
       "type":"array", "uniqueItems":true,
       "items":{"type":"string", "minLength":1, "pattern":"\\S"}

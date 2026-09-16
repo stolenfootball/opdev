@@ -24,7 +24,15 @@ jobs:
           install_dir="$(mktemp -d "$RUNNER_TEMP/opdev-install.XXXXXX")"
           curl --fail --silent --show-error --location --output "$install_dir/$archive" "$base/$archive"
           curl --fail --silent --show-error --location --output "$install_dir/SHA256SUMS" "$base/SHA256SUMS"
-          (cd "$install_dir" && grep "  $archive$" SHA256SUMS | sha256sum -c - && tar -xzf "$archive")
+          curl --fail --silent --show-error --location --output "$install_dir/cosign" "https://github.com/sigstore/cosign/releases/download/{{COSIGN_VERSION}}/cosign-linux-amd64"
+          echo "{{COSIGN_DIGEST}}  $install_dir/cosign" | sha256sum -c -
+          chmod 700 "$install_dir/cosign"
+          curl --fail --silent --show-error --location --output "$install_dir/$archive.sigstore.json" "$base/$archive.sigstore.json"
+          "$install_dir/cosign" verify-blob "$install_dir/$archive" --bundle "$install_dir/$archive.sigstore.json" --certificate-identity "{{SIGNING_IDENTITY}}" --certificate-oidc-issuer https://gitlab.com
+          (cd "$install_dir" && grep "  $archive$" SHA256SUMS | sha256sum -c -)
+          test "$(tar -tzf "$install_dir/$archive" | grep -cx opdev)" -eq 1
+          tar -tvzf "$install_dir/$archive" opdev | awk 'substr($0,1,1) != "-" {exit 1}'
+          tar -xOzf "$install_dir/$archive" opdev > "$install_dir/opdev"
           install -m 0755 "$install_dir/opdev" "$RUNNER_TEMP/opdev"
       - name: Evaluate integration gate
         run: |

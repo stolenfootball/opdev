@@ -8,7 +8,7 @@ use opdev_core::{
 };
 use opdev_project::{
     CiProvider, CoverageMode, DeliveryStatus, EVIDENCE_PATH, EvidenceAssertion, EvidenceLedger,
-    ExtensionCheck, ExtensionStage, ProjectKind, ProjectManifest, TestStage, staged_fingerprint,
+    ExtensionCheck, ExtensionStage, ProjectManifest, TestStage, staged_fingerprint,
 };
 use thiserror::Error;
 
@@ -94,6 +94,22 @@ pub fn evaluate(
         })
         .collect();
     apply_evidence_ledger(root, &catalog, &mut rules)?;
+    // A known workflow contradiction must not be hidden behind a generic ledger pass.
+    if let Some(record) = opdev_project::AdoptionRecord::load(root)
+        .map_err(|error| opdev_project::EvidenceError::Semantic(error.to_string()))?
+        && record.workflow.is_some()
+        && let Some(result) = rules
+            .iter_mut()
+            .find(|r| r.rule_id.as_str() == "MCD-TRUNK-001")
+    {
+        let blockers = record.workflow_blockers(manifest);
+        if !blockers.is_empty() {
+            result.outcome = Outcome::MigrationRequired;
+            result.verifier = VerificationSource::Manifest;
+            result.diagnostic = Some(blockers.join("; "));
+            result.evidence.clear();
+        }
+    }
     let checks = if options.execute_checks {
         let mut checks = run_suites(root, manifest, options.test_stage);
         checks.extend(run_extensions(root, manifest, options.extension_stage)?);
@@ -218,13 +234,6 @@ fn evaluate_project_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Ev
             Some(".opdev/project.yaml"),
         ),
         "MCD-CI-001" => migration("A CI provider must be configured"),
-        "MCD-TRUNK-001" => manifest_pass(
-            format!(
-                "The declared integration trunk is `{}`",
-                manifest.project.trunk
-            ),
-            Some(".opdev/project.yaml"),
-        ),
         "MCD-DELIVERY-001" if manifest.delivery.status == DeliveryStatus::Configured => {
             manifest_pass(
                 format!(
@@ -305,20 +314,6 @@ fn evaluate_testing_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Ev
 
 fn evaluate_applicability(rule: &Rule, manifest: &ProjectManifest) -> Option<Evaluation> {
     let evaluation = match rule.id.as_str() {
-        "OPDEV-EVAL-001"
-            if !manifest
-                .quality
-                .risks
-                .contains(&opdev_project::QualityRisk::Effectiveness) =>
-        {
-            not_applicable("No effectiveness objective is declared")
-        }
-        "OPDEV-A11Y-001" if !has_user_interface(manifest.project.kind) => {
-            not_applicable("The declared software kind has no inferred user interface")
-        }
-        "OPDEV-OPS-001" if !is_operated(manifest.project.kind) => {
-            not_applicable("The declared software kind is not inferred to be operated software")
-        }
         "OPDEV-OPS-001"
             if manifest.operations.health_evidence.is_some()
                 && manifest.operations.observability_authority.is_some() =>
@@ -403,23 +398,6 @@ fn is_delivery_rule(id: &str) -> bool {
             | "MCD-ENV-001"
             | "MCD-RECOVERY-001"
             | "MCD-CONFIG-002"
-    )
-}
-
-fn has_user_interface(kind: ProjectKind) -> bool {
-    matches!(
-        kind,
-        ProjectKind::Web | ProjectKind::Desktop | ProjectKind::Mobile
-    )
-}
-
-fn is_operated(kind: ProjectKind) -> bool {
-    matches!(
-        kind,
-        ProjectKind::Service
-            | ProjectKind::Web
-            | ProjectKind::DataPipeline
-            | ProjectKind::MachineLearning
     )
 }
 
@@ -706,6 +684,7 @@ fn unix_timestamp() -> u64 {
 
 #[cfg(test)]
 mod tests {
+    use opdev_project::ProjectKind;
     use std::collections::BTreeMap;
 
     use super::*;
@@ -714,6 +693,37 @@ mod tests {
         DeliveryMode, Environment, EscapedDefectRegressions, Extensions, FlakePolicy, Operations,
         Profile, Project, Quality, QualityRisk, Recovery, RecoveryStrategy, Testing,
     };
+
+    #[test]
+    fn software_kind_and_missing_configuration_do_not_prove_inapplicability()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        let mut project = manifest();
+        for kind in [ProjectKind::Plugin, ProjectKind::Library, ProjectKind::Web] {
+            project.project.kind = kind;
+            let mut options = CheckOptions::local();
+            options.execute_checks = false;
+            let report = evaluate(root.path(), &project, options)?;
+            for id in [
+                "MCD-TRUNK-001",
+                "OPDEV-A11Y-001",
+                "OPDEV-OPS-001",
+                "OPDEV-EVAL-001",
+            ] {
+                assert_eq!(
+                    report
+                        .rules
+                        .iter()
+                        .find(|r| r.rule_id.as_str() == id)
+                        .ok_or("rule")?
+                        .outcome,
+                    Outcome::Unverified,
+                    "{kind:?} {id}"
+                );
+            }
+        }
+        Ok(())
+    }
 
     fn manifest() -> ProjectManifest {
         ProjectManifest {

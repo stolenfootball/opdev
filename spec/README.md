@@ -99,6 +99,10 @@ requirements or turn unknown evidence into a passing result.
 
 ## External standards
 
+OpDev's own [consumer-interface targets](consumer-interface.md) define its
+approved CLI accessibility, human-review and operational-diagnostic requirements.
+They do not impose the same implementation on consumer projects.
+
 OpDev uses public guidance from MinimumCD, NIST SSDF, SLSA, W3C WCAG, OWASP,
 OpenSSF, and the public descriptions of ISO testing and quality models. OpDev
 only claims conformance to an external standard when a versioned profile
