@@ -17,8 +17,18 @@ Skill inspection is applicability detection, not project consent. First inspect
 the target repository's contract at its Git root. Configured projects use OpDev
 seamlessly; malformed contracts remain errors. In uninitialized projects, routine
 pull/status/dev-server operations MUST NOT trigger workflow enforcement, adoption
-suggestions, or runtime lookup. Substantive development may receive one optional
-adoption offer; without acceptance, continue the original task without OpDev.
+suggestions, or runtime lookup. For substantive software planning or implementation,
+the agent MUST offer adoption once in its first response after minimal local
+inspection establishes applicability, before substantive research, planning or
+edits. The choice is optional for the developer, not the offer for the agent.
+A folder containing only a supplied design qualifies, even without Git. Reading
+that design, local instructions and repository state is permitted before the
+offer; upstream browsing, dependency investigation and architecture selection
+must not precede it. Do not initialize Git merely to check applicability.
+Use a brief neutral question through a permitted host tool or plain chat.
+Honor a prior decline in the current conversation. Without acceptance, continue
+the original task without OpDev; do not repeatedly ask or block ordinary work.
+No runtime lookup, setup, adoption or consent-record write precedes acceptance.
 Explicit adoption supplies assessment consent. Explicit setup supplies runtime
 installation consent but does not adopt a project.
 
@@ -32,8 +42,10 @@ Regression scenarios: uninitialized pull-and-start, status, unrelated requests,
 substantive feature work with acceptance/decline/no answer, explicit adoption,
 explicit setup, configured work, nested directories and worktrees. Deterministic
 hook tests establish no runtime execution and correct root discovery; they do
-not prove that every agent will interpret intent correctly. The reported courses
-incident motivates this consent gate, not a project-specific exception.
+not prove that every agent will interpret intent correctly. The
+[early-offer canary](../benchmarks/adoption/early-offer-canary.md) separately
+checks visible offer timing and consent in fresh host sessions. These regressions
+are general activation boundaries, not project-specific exceptions.
 
 ## Bootstrap contract
 

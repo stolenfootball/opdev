@@ -3,6 +3,13 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
+## Unreleased
+
+- Offer optional adoption early for substantive planning or implementation in
+  uninitialized projects, including design-only folders without Git. Minimal
+  local inspection may precede the offer; substantive research and planning may
+  not. Preserve routine-task exclusions and acceptance/decline/no-answer behavior.
+
 ## Plugin 0.2.3
 
 - Pin published and qualified CLI 0.2.1, including its exact GitLab signature

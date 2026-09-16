@@ -1,5 +1,11 @@
 # Adoption conversation canary
 
+The [early-offer scenario](early-offer-canary.md) checks unsolicited but optional
+adoption offers before substantive research in design-only projects, including
+no-Git folders, negative controls and acceptance/decline/unanswered continuations.
+The [targeted results](early-offer-results-2026-09-16.md) distinguish observed
+fresh-host outcomes from the remaining unverified scenario matrix.
+
 The [decision-review scenario](decision-review-canary.md) checks relevant question
 rounds, inherited approval provenance, partial/absent responses, capability
 evidence and the separation of policy choices from implementation authorization.
