@@ -3,7 +3,12 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
-## Unreleased
+## 0.2.0 - release candidate
+
+This minor release changes bare `upgrade` to preview-only and requires an
+experimental flag for compact views. Project and evidence schemas are unchanged.
+The managed plugin pin remains on published CLI 0.1.1 until the new runtime is
+independently published and qualified; new CLI commands require standalone 0.2.0.
 
 - Keep token-reduction views experimental and off by default. Compact check
   summaries, saved-report summaries and current-evidence queries require

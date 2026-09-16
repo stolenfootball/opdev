@@ -248,7 +248,8 @@ fn incompatible_plugin_blocks_apply_and_package_change_invalidates_review() -> T
     let path = plugin.path().to_str().ok_or("path")?;
     let contract = plugin.path().join("opdev-compatibility.json");
     fs::write(plugin.path().join("runtime.lock"), "version 0.1.1\n")?;
-    for range in [">=99.0.0", ">=0.1.1, <0.2.0"] {
+    let compatible = format!(">=0.1.1, <={}", env!("CARGO_PKG_VERSION"));
+    for range in [">=99.0.0", compatible.as_str()] {
         fs::write(
             &contract,
             serde_json::to_vec(

@@ -128,7 +128,7 @@ candidate and whenever the delivery path materially changes.
 
 ## Managed-runtime pin maintenance
 
-The source package is version 0.1.2; no historical 0.1.1 asset is
+The source package is version 0.2.0; no historical 0.1.1 asset is
 replaced. The plugin's `runtime.lock` intentionally pins published CLI 0.1.1
 until a newer CLI is independently qualified and available. Update that lock's
 version, tag, signing identity, and verifier digests only as a reviewed change,

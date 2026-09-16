@@ -200,7 +200,8 @@ plugin deliberately pins compatible CLI 0.1.1. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.
 
-Development builds include compact report and evidence views behind the explicit
+The 0.2.0 release candidate includes reviewed upgrades, adoption completion checks,
+outcome-based planning and compact report and evidence views behind the explicit
 `--experimental-compact` flag, disabled by default. Agents use full output unless
 you or your project explicitly opt in; omit the flag to return to stable behavior.
 Published CLIs may not have this flag yet. The
