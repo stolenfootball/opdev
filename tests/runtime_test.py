@@ -30,6 +30,7 @@ class RuntimeTests(unittest.TestCase):
         self.native_log = self.root / 'native'
         self.env = dict(os.environ, OPDEV_DATA_DIR=str(self.data), FIXTURE=str(self.fixture),
                         DOWNLOAD_LOG=str(self.log), NATIVE_LOG=str(self.native_log),
+                        EXPECTED_IDENTITY='https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/v0.1.1',
                         PATH=str(self.bin) + os.pathsep + os.environ['PATH'])
         self.verifier = self.fixture / 'verifier'
         self.verifier.write_text('''#!/bin/sh
@@ -38,7 +39,7 @@ printf 'verify\\n' >> "$NATIVE_LOG"
 [ "$1" = verify-blob ]
 [ "$3" = --bundle ]
 [ "$5" = --certificate-identity ]
-[ "$6" = https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/v0.1.1 ]
+[ "$6" = "$EXPECTED_IDENTITY" ]
 [ "$7" = --certificate-oidc-issuer ]
 [ "$8" = https://gitlab.com ]
 [ "$(cat "$4")" = valid ]
@@ -46,6 +47,10 @@ printf 'verify\\n' >> "$NATIVE_LOG"
         digest = hashlib.sha256(self.verifier.read_bytes()).hexdigest()
         lock = self.plugin / 'runtime.lock'
         lines = lock.read_text().splitlines()
+        # Keep historical release coverage independent of the current package pin.
+        fields = {'version': '0.1.1', 'tag': 'v0.1.1', 'identity': self.env['EXPECTED_IDENTITY']}
+        lines = [f'{line.split()[0]} {fields[line.split()[0]]}'
+                 if line and line.split()[0] in fields else line for line in lines]
         lock.write_text('\n'.join(' '.join(line.split()[:-1] + [digest]) if line.startswith('target ') else line for line in lines) + '\n')
         curl = self.bin / 'curl'
         curl.write_text('''#!/bin/sh
@@ -62,6 +67,8 @@ case "$url" in
  https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-*) cp "$FIXTURE/verifier" "$output" ;;
  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/*.sigstore.json) cp "$FIXTURE/bundle" "$output" ;;
  https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/*.tar.gz) cp "$FIXTURE/archive" "$output" ;;
+ https://github.com/stolenfootball/opdev/releases/download/v0.2.0/*.sigstore.json) cp "$FIXTURE/bundle" "$output" ;;
+ https://github.com/stolenfootball/opdev/releases/download/v0.2.0/*.tar.gz) cp "$FIXTURE/archive" "$output" ;;
  *) exit 97 ;;
 esac
 ''')
@@ -112,6 +119,30 @@ case "$1" in version) printf 'opdev {version}\\nproject schema 1\\nrule catalog 
         self.run_script('--path', ok=False)
         self.assertFalse(self.data.exists())
         self.assertFalse(self.log.exists())
+
+    def test_current_github_pin_preserves_existing_historical_runtime(self):
+        old_binary = Path(self.run_script('--install').stdout.strip())
+        old_bytes = old_binary.read_bytes()
+        lock = self.plugin / 'runtime.lock'
+        identity = 'https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v0.2.0'
+        lock.write_text(lock.read_text().replace('0.1.1', '0.2.0').replace(
+            'stolenfootball-tools/opinionateddevelopment//', 'stolenfootball-tools/opdev//'))
+        self.env['EXPECTED_IDENTITY'] = identity
+        self.archive('0.2.0')
+        before = self.native_log.read_text()
+        (self.fixture / 'bundle').write_text('invalid')
+        self.run_script('--install', ok=False)
+        self.assertEqual(self.native_log.read_text(), before + 'verify\n')
+        self.assertEqual(old_binary.read_bytes(), old_bytes)
+        (self.fixture / 'bundle').write_text('valid')
+        binary = Path(self.run_script('--install').stdout.strip())
+        self.assertNotEqual(binary, old_binary)
+        self.assertEqual(old_binary.read_bytes(), old_bytes)
+        self.assertIn('https://github.com/stolenfootball/opdev/releases/download/v0.2.0/opdev-0.2.0-', self.log.read_text())
+        downloads = self.log.read_text()
+        self.assertEqual(self.run_script('--install').stdout.strip(), str(binary))
+        self.assertEqual(self.run_script('--path').stdout.strip(), str(binary))
+        self.assertEqual(self.log.read_text(), downloads)
 
     def test_verifier_digest_failure_never_executes(self):
         self.verifier.write_text('corrupted')

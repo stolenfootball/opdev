@@ -3,7 +3,15 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
-## 0.2.0 - release candidate
+## Plugin 0.2.1
+
+- Pin the qualified CLI 0.2.0 and route managed downloads to GitHub while
+  preserving historical GitLab routing and exact GitLab signature verification.
+  Require CLI >=0.2.0, <0.3.0; preserve older cached runtimes for active sessions.
+- Version agent plugins independently from the CLI. This source-marketplace
+  update does not replace the immutable v0.2.0 release archives.
+
+## 0.2.0 - 2026-09-16
 
 This minor release changes bare `upgrade` to preview-only and requires an
 experimental flag for compact views. Project and evidence schemas are unchanged.

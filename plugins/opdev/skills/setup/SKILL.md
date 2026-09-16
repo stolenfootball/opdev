@@ -57,5 +57,6 @@ session uses it; leave other versions intact.
 Requirements: macOS/Linux need standard `sh`, `curl`, `tar`, `awk`, `sed`, `mktemp`,
 and `sha256sum` or `shasum`. Linux must run the published GNU binary. Windows needs
 PowerShell 5.1+; Windows ARM64 uses the pinned x64 cosign verifier under Windows 11
-x64 emulation. Network access is needed for GitLab releases, GitHub verifier
+x64 emulation. Network access is needed for GitHub releases (GitLab for historical
+0.1.0/0.1.1 pins), GitHub verifier
 assets, and Sigstore trust data. A cached runtime needs no download.

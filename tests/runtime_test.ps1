@@ -20,6 +20,12 @@ function New-Case {
     $digest = Get-OpdevHash (Join-Path $script:Fixture 'verifier')
     $path = Join-Path $script:OpdevPluginRoot 'runtime.lock'
     $lock = Get-Content -LiteralPath $path
+    $lock = $lock | ForEach-Object {
+        if ($_.StartsWith('version ')) { 'version 0.1.1' }
+        elseif ($_.StartsWith('tag ')) { 'tag v0.1.1' }
+        elseif ($_.StartsWith('identity ')) { 'identity https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/v0.1.1' }
+        else { $_ }
+    }
     $lock = $lock | ForEach-Object { if ($_.StartsWith('target ')) { $_ -replace '[0-9a-f]{64}$', $digest } else { $_ } }
     [IO.File]::WriteAllLines($path, [string[]]$lock)
     [IO.File]::WriteAllText((Join-Path $script:Fixture 'bundle'), 'valid')
@@ -33,13 +39,15 @@ function New-Case {
     $script:Verifications = 0
     $script:Executions = 0
     $script:FixtureVersion = '0.1.1'
+    $script:ExpectedIdentity = 'https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/v0.1.1'
+    $script:ExpectedBase = 'https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads'
     $script:Compatible = $true
 }
 function Invoke-OpdevDownload([string]$Url, [string]$Path) {
     $script:Downloads++
     if ($Url -like 'https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-*') { $file = 'verifier' }
-    elseif ($Url -like 'https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/*.sigstore.json') { $file = 'bundle' }
-    elseif ($Url -like 'https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads/*.zip') { $file = 'archive' }
+    elseif ($Url -like "$script:ExpectedBase/*.sigstore.json") { $file = 'bundle' }
+    elseif ($Url -like "$script:ExpectedBase/*.zip") { $file = 'archive' }
     else { throw "Unexpected download URL: $Url" }
     Copy-Item -LiteralPath (Join-Path $script:Fixture $file) -Destination $Path
 }
@@ -49,7 +57,7 @@ function Invoke-OpdevNative([string]$Program, [string[]]$Arguments) {
         Assert-True ($Arguments[0] -eq 'verify-blob') 'Wrong verifier command'
         Assert-True ($Arguments[3] -and (Get-Content -LiteralPath $Arguments[3] -Raw) -eq 'valid') 'Signature failure'
         Assert-True ($Arguments[4] -eq '--certificate-identity') 'Missing identity constraint'
-        Assert-True ($Arguments[5] -eq 'https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/v0.1.1') 'Wrong signature identity'
+        Assert-True ($Arguments[5] -eq $script:ExpectedIdentity) 'Wrong signature identity'
         Assert-True ($Arguments[6] -eq '--certificate-oidc-issuer' -and $Arguments[7] -eq 'https://gitlab.com') 'Wrong issuer'
         return
     }
@@ -80,6 +88,27 @@ try {
     Assert-True ($script:Downloads -eq $downloads) 'Repeat install accessed network'
     $result = @(Invoke-OpdevRuntime 'Run' @('check', 'argument with spaces'))
     Assert-True ($result.Count -eq 2 -and $result[1] -eq 'argument with spaces') 'Arguments not preserved'
+
+    $oldBinary = $binary
+    $oldDigest = Get-OpdevHash $oldBinary
+    $pinPath = Join-Path $script:OpdevPluginRoot 'runtime.lock'
+    $newPin = (Get-Content -LiteralPath $pinPath -Raw).Replace('0.1.1', '0.2.0').Replace('stolenfootball-tools/opinionateddevelopment//', 'stolenfootball-tools/opdev//')
+    [IO.File]::WriteAllText($pinPath, $newPin)
+    $script:FixtureVersion = '0.2.0'
+    $script:ExpectedIdentity = 'https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v0.2.0'
+    $script:ExpectedBase = 'https://github.com/stolenfootball/opdev/releases/download/v0.2.0'
+    [IO.File]::WriteAllText((Join-Path $script:Fixture 'bundle'), 'invalid')
+    $executions = $script:Executions
+    Assert-Failure { Invoke-OpdevRuntime 'Install' @() }
+    Assert-True ($script:Executions -eq $executions) 'Executed new runtime after invalid signature'
+    Assert-True ((Get-OpdevHash $oldBinary) -eq $oldDigest) 'Failed upgrade changed historical runtime'
+    [IO.File]::WriteAllText((Join-Path $script:Fixture 'bundle'), 'valid')
+    $binary = Invoke-OpdevRuntime 'Install' @()
+    Assert-True ($binary -ne $oldBinary -and (Get-OpdevHash $oldBinary) -eq $oldDigest) 'Upgrade replaced historical runtime'
+    $downloads = $script:Downloads
+    Assert-True ((Invoke-OpdevRuntime 'Install' @()) -eq $binary) 'Current pin reuse changed path'
+    Assert-True ((Invoke-OpdevRuntime 'Path' @()) -eq $binary) 'Current pin lookup differs'
+    Assert-True ($script:Downloads -eq $downloads) 'Current pin reuse downloaded again'
 
     New-Case
     Assert-Failure { Invoke-OpdevRuntime 'Path' @() }

@@ -17,6 +17,11 @@ range. Runtime selection, installation, and recovery are defined in
 [`installation.md`](installation.md). The plugin version and its runtime pin
 are intentionally distinct.
 
+Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
+0.2.1 pins published CLI 0.2.0 and requires CLI >=0.2.0, <0.3.0. Both host
+manifests and the packaged compatibility contract must agree on the plugin
+version; the current CLI and managed pin must satisfy its CLI range.
+
 Pre-1.0 releases may change command-line and plugin behavior between minor
 versions, but migrations and diagnostics are still required for project-owned
 state.
