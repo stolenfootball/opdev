@@ -118,6 +118,72 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 96692b8b3aa67acc6249f20a92d11bb6a74f2557b093145dcc8ee3f8430ac860
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "The user approved native GitHub ARM64 qualification, then a release with token reduction opt-in; this increment restores CI without exposing write credentials to MR jobs."
+        evidence:
+          - kind: work
+            summary: "The user approved native GitHub ARM64 qualification, then a release with token reduction opt-in; this increment restores CI without exposing write credentials to MR jobs."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/26
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The scoped handoff binds source SHA, repository, ref, workflow, attempt and native runner. Broad persistent mirroring was rejected and is not implemented; protected jobs mirror one immutable test ref."
+        evidence:
+          - kind: specification
+            summary: "The scoped handoff binds source SHA, repository, ref, workflow, attempt and native runner. Broad persistent mirroring was rejected and is not implemented; protected jobs mirror one immutable test ref."
+            location: release/README.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The short-lived reviewed-upgrades branch retains current main and requires green integration CI and post-merge qualification before release."
+        evidence:
+          - kind: git
+            summary: "The short-lived reviewed-upgrades branch retains current main and requires green integration CI and post-merge qualification before release."
+            location: codex/reviewed-upgrades
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only this bounded upgrade and CI recovery branch is active in this task."
+        evidence:
+          - kind: work
+            summary: "Only this bounded upgrade and CI recovery branch is active in this task."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/26
+      - rule_id: MCD-FLOW-001
+        outcome: passed
+        summary: "Work restores blocked qualification: hosted ARM64 exhausted quota and an amd64 checkout had a visible network failure. Neither failed run is relabeled passed or hidden."
+        evidence:
+          - kind: ci
+            summary: "Work restores blocked qualification: hosted ARM64 exhausted quota and an amd64 checkout had a visible network failure. Neither failed run is relabeled passed or hidden."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852688176
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "The reviewed upgrade remains intact; native ARM64 is still a mandatory dependency, using the same pinned runtime smoke test on GitHub hardware. Existing release signing/publication authority is unchanged."
+        evidence:
+          - kind: test
+            summary: "The reviewed upgrade remains intact; native ARM64 is still a mandatory dependency, using the same pinned runtime smoke test on GitHub hardware. Existing release signing/publication authority is unchanged."
+            location: crates/opdev-cli/tests/ci_routing.rs
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Eight offline bridge tests cover exact binding, retries, native labels, missing/skipped/failed results, API failures, bounded timeout and credential-safe scoped pushes; two CI routing tests and GitLab lint pass."
+        evidence:
+          - kind: test
+            summary: "Eight offline bridge tests cover exact binding, retries, native labels, missing/skipped/failed results, API failures, bounded timeout and credential-safe scoped pushes; two CI routing tests and GitLab lint pass."
+            location: tests/arm64_gate_test.py
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "All canonical quality suites, installer checks and release qualification dependencies remain required for this agent-authored change."
+        evidence:
+          - kind: ci
+            summary: "All canonical quality suites, installer checks and release qualification dependencies remain required for this agent-authored change."
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Protected release credentials cannot be granted to ordinary MR jobs. MR handoff uses an authorized maintainer's narrow exact-ref push; protected trunk/tag jobs automate the same operation."
+        evidence:
+          - kind: specification
+            summary: "Protected release credentials cannot be granted to ordinary MR jobs. MR handoff uses an authorized maintainer's narrow exact-ref push; protected trunk/tag jobs automate the same operation."
+            location: release/README.md
   - fingerprint: 2681f26cc71aacaab40e5983c1390ec398a4c16ca4bd64ceccdc730f25e3ce89
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
     assertions:

@@ -72,19 +72,23 @@ plugin-validation:
 installer-linux:
   stage: verify
   image: ubuntu:24.04
-  parallel:
-    matrix:
-      - INSTALLER_RUNNER: proxmox
-        INSTALLER_ARCH: x86_64
-      - INSTALLER_RUNNER: saas-linux-small-arm64
-        INSTALLER_ARCH: aarch64
-  tags: [$INSTALLER_RUNNER]
   before_script:
     - apt-get update
     - apt-get install --yes --no-install-recommends ca-certificates curl tar coreutils
   script:
-    - test "$(uname -m)" = "$INSTALLER_ARCH"
+    - test "$(uname -m)" = x86_64
     - sh tests/runtime_smoke.sh
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+installer-arm64:
+  stage: verify
+  image: python:3.13-bookworm
+  timeout: 25m
+  script:
+    - python3 scripts/await_arm64.py --revision "$CI_COMMIT_SHA"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
@@ -123,7 +127,7 @@ installer-windows:
 package-linux-x86_64:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [linux, docker, proxmox]
   script:
     - cargo build --release --locked -p opdev-cli --target x86_64-unknown-linux-gnu
@@ -150,7 +154,7 @@ qualify-dist:
   stage: package
   image: ubuntu:24.04
   tags: [linux, docker, proxmox]
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   before_script:
     - apt-get update
     - apt-get install --yes --no-install-recommends python3 curl xz-utils ca-certificates
@@ -181,7 +185,7 @@ qualify-dist-windows:
 package-linux-aarch64:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [saas-linux-small-arm64]
   script:
     - cargo build --release --locked -p opdev-cli --target aarch64-unknown-linux-gnu
@@ -201,7 +205,7 @@ package-linux-aarch64:
 
 package-windows:
   stage: package
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [saas-windows-medium-amd64]
   script:
     - |
@@ -270,7 +274,7 @@ package-windows:
 
 package-macos:
   stage: package
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [saas-macos-medium-m1]
   image: macos-15-xcode-16
   variables:
@@ -317,7 +321,7 @@ package-macos:
 fetch-cross-platform-packages:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [linux, docker, proxmox]
   before_script:
     - apt-get update

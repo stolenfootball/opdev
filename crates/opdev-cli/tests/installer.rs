@@ -8,6 +8,7 @@ fn managed_runtime_bootstrap_regressions() -> Result<(), Box<dyn std::error::Err
         "tests/runtime_test.py",
         "tests/dist_test.py",
         "tests/hook_test.py",
+        "tests/arm64_gate_test.py",
     ] {
         let output = std::process::Command::new("python3")
             .arg(root.join(suite))

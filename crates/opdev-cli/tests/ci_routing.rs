@@ -11,6 +11,8 @@ fn generic_linux_jobs_use_group_runners_and_platform_jobs_keep_overrides()
     for name in [
         "quality",
         "plugin-validation",
+        "installer-linux",
+        "installer-arm64",
         "package-linux-x86_64",
         "qualify-dist",
         "fetch-cross-platform-packages",
@@ -38,22 +40,26 @@ fn generic_linux_jobs_use_group_runners_and_platform_jobs_keep_overrides()
 }
 
 #[test]
-fn installer_matrix_preserves_native_arm_and_remains_a_required_dependency()
--> Result<(), Box<dyn std::error::Error>> {
+fn native_arm_handoff_remains_a_required_dependency() -> Result<(), Box<dyn std::error::Error>> {
     let ci: Value = serde_saphyr::from_str(include_str!("../../../.gitlab-ci.yml"))?;
+    let github: Value = serde_saphyr::from_str(include_str!(
+        "../../../.github/workflows/arm64-installer.yml"
+    ))?;
     assert_eq!(
-        ci["installer-linux"]["parallel"]["matrix"],
-        json!([
-            {"INSTALLER_RUNNER": "proxmox", "INSTALLER_ARCH": "x86_64"},
-            {"INSTALLER_RUNNER": "saas-linux-small-arm64", "INSTALLER_ARCH": "aarch64"}
-        ])
+        github["jobs"]["installer-arm64"]["runs-on"],
+        "ubuntu-24.04-arm"
     );
-    assert_eq!(ci["installer-linux"]["tags"], json!(["$INSTALLER_RUNNER"]));
+    assert_eq!(github["permissions"]["contents"], "read");
+    assert_eq!(
+        ci["installer-arm64"]["script"],
+        json!(["python3 scripts/await_arm64.py --revision \"$CI_COMMIT_SHA\""])
+    );
+    assert_ne!(ci["installer-arm64"]["allow_failure"], true);
     assert!(
         ci["installer-linux"]["script"]
             .as_array()
             .ok_or("script")?
-            .contains(&json!("test \"$(uname -m)\" = \"$INSTALLER_ARCH\""))
+            .contains(&json!("test \"$(uname -m)\" = x86_64"))
     );
     assert_ne!(ci["installer-linux"]["allow_failure"], true);
     for name in [
@@ -66,6 +72,13 @@ fn installer_matrix_preserves_native_arm_and_remains_a_required_dependency()
                 .as_array()
                 .ok_or("needs")?
                 .contains(&json!("installer-linux")),
+            "{name}"
+        );
+        assert!(
+            ci[name]["needs"]
+                .as_array()
+                .ok_or("needs")?
+                .contains(&json!("installer-arm64")),
             "{name}"
         );
     }
