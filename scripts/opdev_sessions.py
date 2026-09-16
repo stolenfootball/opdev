@@ -302,7 +302,7 @@ def task_prompt(case, arm, opdev, work_url):
     inspection = (
         'Use the ordinary human or full JSON output of opdev check. Inspect the original .opdev/evidence.yaml ledger as needed; selecting fields is permitted. Do not use compact report or evidence-show commands in this baseline arm.'
         if arm == 'baseline' else
-        'Prefer opdev check --report <new path under .benchmark> --format summary. Inspect current evidence with opdev evidence show --current. Full report diagnostics remain available when needed; do not hide blockers.')
+        'Explicitly opt in to experimental compact views for this benchmark condition. Prefer opdev --experimental-compact check --report <new path under .benchmark> --format summary. Inspect current evidence with opdev --experimental-compact evidence show --current. Full report diagnostics remain available when needed; do not hide blockers.')
     return f'''Complete this software-development task in the current disposable checkout.
 {CASES[case]}
 Apply AGENTS.md and .opdev/project.yaml. The selected compatible OpDev executable is {opdev}; use that absolute executable for all OpDev actions. The integration is the repository OpDev protocol; no installation is needed. Active work authority: {work_url}.

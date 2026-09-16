@@ -118,6 +118,72 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 1abe0d72d6ba1e338b9eac507c2e20f213d045ccbdb76af46fb9e053fedc6f6d
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "The requested release isolates compact token-reduction views behind explicit opt-in; GitHub workflow authorization and complete remote qualification remain release blockers."
+        evidence:
+          - kind: work
+            summary: "The requested release isolates compact token-reduction views behind explicit opt-in; GitHub workflow authorization and complete remote qualification remain release blockers."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/34"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Invocation-scoped runtime flag preserves the stable evaluator, report format and ledger; the experiment record defines owner, review date, configuration suites, recovery and promotion criteria."
+        evidence:
+          - kind: decision
+            summary: "Invocation-scoped runtime flag preserves the stable evaluator, report format and ledger; the experiment record defines owner, review date, configuration suites, recovery and promotion criteria."
+            location: "benchmarks/sessions/compact-experiment.yaml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The short-lived reviewed-upgrades branch retains main ancestry; merge and publication await required source-head and integrated-trunk CI."
+        evidence:
+          - kind: git
+            summary: "The short-lived reviewed-upgrades branch retains main ancestry; merge and publication await required source-head and integrated-trunk CI."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/26"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "This is the existing single release increment, not concurrent feature work or a new integration trunk."
+        evidence:
+          - kind: work
+            summary: "This is the existing single release increment, not concurrent feature work or a new integration trunk."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/26"
+      - rule_id: MCD-FLOW-001
+        outcome: passed
+        summary: "Delivery is stopped while required CI is unresolved. Group runners are restored; the ARM64 handoff awaits workflow authorization and the Linux download failed with a GitLab connection timeout, not a passing installer result."
+        evidence:
+          - kind: ci
+            summary: "Delivery is stopped while required CI is unresolved. Group runners are restored; the ARM64 handoff awaits workflow authorization and the Linux download failed with a GitLab connection timeout, not a passing installer result."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2852742207"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Human and full JSON output and full report persistence remain stable. Compact callers must now explicitly pass --experimental-compact; the changelog documents this intended migration and agents no longer activate compact views by capability detection."
+        evidence:
+          - kind: test
+            summary: "Human and full JSON output and full report persistence remain stable. Compact callers must now explicitly pass --experimental-compact; the changelog documents this intended migration and agents no longer activate compact views by capability detection."
+            location: "crates/opdev-cli/tests/compact_views.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Workspace tests and lint passed on Windows, including disabled compact requests before I/O, stable full reports, and enabled projections retaining all blockers. Sixteen offline session-harness tests and plugin validators passed; remote installer qualification remains separate."
+        evidence:
+          - kind: test
+            summary: "Workspace tests and lint passed on Windows, including disabled compact requests before I/O, stable full reports, and enabled projections retaining all blockers. Sixteen offline session-harness tests and plugin validators passed; remote installer qualification remains separate."
+            location: "crates/opdev-cli/tests/compact_views.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored CLI and guidance changes are covered by canonical checks, process-level tests, skill/plugin validation and unchanged required CI; no remote or effectiveness pass is asserted."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored CLI and guidance changes are covered by canonical checks, process-level tests, skill/plugin validation and unchanged required CI; no remote or effectiveness pass is asserted."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The original measured experiment remains unchanged. Issue 28 requires a new preregistered comparison with a corrected oracle before claiming quality-equivalent savings; lack of workflow authorization is reported rather than bypassed."
+        evidence:
+          - kind: work
+            summary: "The original measured experiment remains unchanged. Issue 28 requires a new preregistered comparison with a corrected oracle before claiming quality-equivalent savings; lack of workflow authorization is reported rather than bypassed."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/28"
   - fingerprint: 96692b8b3aa67acc6249f20a92d11bb6a74f2557b093145dcc8ee3f8430ac860
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/34
     assertions:

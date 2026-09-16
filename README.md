@@ -200,8 +200,10 @@ plugin deliberately pins compatible CLI 0.1.1. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.
 
-Development builds on `main` also include compact report and evidence views;
-published CLIs may not have them yet. The
+Development builds include compact report and evidence views behind the explicit
+`--experimental-compact` flag, disabled by default. Agents use full output unless
+you or your project explicitly opt in; omit the flag to return to stable behavior.
+Published CLIs may not have this flag yet. The
 [30-session evaluation](benchmarks/sessions/results/2026-09-15-codex/README.md)
 found lower total token usage, but did not establish equivalent-quality savings
 or general development effectiveness. See [compact views](spec/compact-views.md)

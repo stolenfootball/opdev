@@ -5,6 +5,12 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Keep token-reduction views experimental and off by default. Compact check
+  summaries, saved-report summaries and current-evidence queries require
+  `--experimental-compact`; agents require explicit opt-in. Full human/JSON
+  checks and full report persistence remain stable. Older compact scripts must
+  add the flag. General quality-equivalent token savings remain unverified.
+
 - Make `opdev upgrade` preview-only by default; apply managed guidance with a
   reviewed `--apply PLAN_ID`. Inspect plugin/runtime compatibility, adoption and
   CI pins without changing project choices. Existing automation that relied on

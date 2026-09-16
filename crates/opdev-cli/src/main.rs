@@ -31,6 +31,9 @@ mod views;
 #[derive(Debug, Parser)]
 #[command(name = "opdev", version, about = "Evidence-driven software delivery")]
 struct Cli {
+    /// Opt in to experimental compact report and evidence views for this invocation.
+    #[arg(long, global = true)]
+    experimental_compact: bool,
     #[command(subcommand)]
     command: Command,
 }
@@ -397,6 +400,18 @@ fn main() -> ExitCode {
 }
 
 fn run(cli: Cli) -> Result<ExitCode> {
+    let compact_requested = match &cli.command {
+        Command::Check(args) => args.format == CheckFormat::Summary,
+        Command::Report(_) => true,
+        Command::Evidence(args) => matches!(args.command, EvidenceCommand::Show(_)),
+        _ => false,
+    };
+    if compact_requested && !cli.experimental_compact {
+        bail!(
+            "compact views are experimental; explicitly opt in with --experimental-compact, \
+             or use human/full JSON check output and the full evidence ledger"
+        );
+    }
     match cli.command {
         Command::Version => {
             let catalog = embedded_catalog().context("could not load the embedded rule catalog")?;
