@@ -1,7 +1,7 @@
 # Pinned CLI and verifier assets. Whitespace-separated data, never sourced as code.
-version 0.2.0
-tag v0.2.0
-identity https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v0.2.0
+version 0.2.1
+tag v0.2.1
+identity https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v0.2.1
 cosign v3.1.3
 # target OS architecture Rust-triple cosign-asset cosign-SHA256
 # Windows ARM64 uses the x64 verifier under Windows 11 x64 emulation.

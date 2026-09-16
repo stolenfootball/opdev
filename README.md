@@ -195,12 +195,14 @@ audits are read-only, and extensions cannot replace core verdicts. OpDev does
 not certify software or replace engineering judgment.
 
 **Status:** OpDev is pre-1.0. The standalone release is
-[0.2.0](https://github.com/stolenfootball/opdev/releases/tag/v0.2.0); source
-plugin 0.2.1 pins qualified CLI 0.2.0. The
+[0.2.1](https://github.com/stolenfootball/opdev/releases/tag/v0.2.1); source
+plugin 0.2.3 pins qualified CLI 0.2.1. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.
 
-Release 0.2.0 includes reviewed upgrades, adoption completion checks,
+Release 0.2.1 adds explicit adoption decision review and plan-bound approval,
+with reviewed migration for older adoption records. It retains reviewed upgrades,
+adoption completion checks,
 outcome-based planning and compact report and evidence views behind the explicit
 `--experimental-compact` flag, disabled by default. Agents use full output unless
 you or your project explicitly opt in; omit the flag to return to stable behavior.

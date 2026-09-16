@@ -3,6 +3,14 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
+## Plugin 0.2.3
+
+- Pin published and qualified CLI 0.2.1, including its exact GitLab signature
+  identity. Both hosts now receive the schema-2 adoption-capable runtime through
+  normal managed setup. Keep older cached runtimes and all project state intact.
+- Preserve experimental compact views as explicit opt-in. This source-plugin
+  update does not modify the immutable v0.2.1 release archives.
+
 ## 0.2.1 / Plugin 0.2.2
 
 - Fix adoption review: ask relevant material questions before implementation
