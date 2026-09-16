@@ -24,11 +24,29 @@ design, and delivery authorities without introducing another registry.
 ## Documentation locations and ownership
 
 Read the existing project contract and inspect established documentation before
-choosing paths. `.opdev/` holds OpDev configuration and evidence. For a project
-without established locations, suggest `docs/` for human guidance, `spec/` for
-behavioral/design contracts, and `release/` for packaging inputs, release
-procedures, recovery, and changelog. These are advisory defaults, not reserved
-folders or a required scaffold. `DELIVERY.md` is optional.
+choosing paths. `.opdev/` holds OpDev configuration and evidence. Without
+established locations, use these optional defaults for internal working material:
+
+- `.opdev/design.md`: current design and architecture.
+- `.opdev/development.md`: human development guidance.
+- `.opdev/delivery.md`: release and recovery guidance.
+- `.opdev/specs/`: individual capability specifications.
+- `.opdev/decisions/`: significant durable decisions.
+
+These are placement conventions, not a scaffold. Create only documents justified
+by the work; no empty folders, placeholders, or file per practice. Start small
+and split documents when navigation warrants it. Small changes can remain in
+their work item. Keep commands in `project.yaml` and status/sequencing in the
+declared work authority, not competing PLAN, TODO, STATUS or command copies.
+Repository-file work tracking remains valid when explicitly routed.
+
+Keep the product README and both agent entry points at the root; preserve the
+full managed AGENTS guidance. Link from the README to development guidance when
+it exists, so humans can find it despite the hidden directory. Public product
+docs, contribution/security guidance, changelogs and packaging inputs retain
+appropriate project/ecosystem locations. Do not hide them in `.opdev/` merely
+because an agent wrote them. No extra Markdown index or DELIVERY filename is
+required.
 
 Existing non-OpDev folders belong to the project. Reuse an appropriate authority
 wherever it lives, including inside `.opdev/` if explicitly configured. Do not

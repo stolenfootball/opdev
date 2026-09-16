@@ -280,13 +280,24 @@ fn discover_authorities(
     }
     // These are read-only hints, never permission to create or repurpose folders.
     let candidates: &[(&str, &[&str])] = &[
-        ("documentation", &["docs", "doc", "documentation"]),
+        (
+            "documentation",
+            &["docs", "doc", "documentation", ".opdev/development.md"],
+        ),
         (
             "architecture",
-            &["architecture", "docs/architecture", "spec"],
+            &[
+                "architecture",
+                "docs/architecture",
+                "spec",
+                ".opdev/design.md",
+            ],
         ),
-        ("decisions", &["decisions", "docs/decisions", "adr"]),
-        ("contracts", &["contracts", "spec", "rules"]),
+        (
+            "decisions",
+            &["decisions", "docs/decisions", "adr", ".opdev/decisions"],
+        ),
+        ("contracts", &["contracts", "spec", "rules", ".opdev/specs"]),
         ("implementation", &["crates", "src", "app"]),
         ("testing", &["tests", "test", "spec"]),
         (
@@ -296,6 +307,7 @@ fn discover_authorities(
                 ".github/workflows",
                 ".gitlab-ci.yml",
                 "delivery",
+                ".opdev/delivery.md",
             ],
         ),
         ("operations", &["operations", "runbooks", "ops"]),
@@ -334,7 +346,7 @@ fn discover_authorities(
             _ => warnings.push(format!("Ambiguous `{name}` authority: {}. No authority selected; review existing ownership and record the chosen location in .opdev/project.yaml.", matches.join(", "))),
         }
     }
-    warnings.push("Review inferred authorities against existing project ownership. docs/, spec/, and release/ are advisory defaults only when no established location exists; no documentation folders or files are created or moved.".into());
+    warnings.push("Review inferred authorities against existing project ownership. Optional internal Markdown defaults live in .opdev/ only when no established location exists; public documentation retains project/ecosystem locations. No documentation folders or files are created or moved.".into());
     authorities
 }
 
@@ -486,6 +498,7 @@ fn discover_context(authorities: &BTreeMap<String, AuthorityRef>) -> Context {
         .collect();
     let mut routes = BTreeMap::new();
     for (route, candidates) in [
+        ("documentation_change", &["documentation", "contracts"][..]),
         (
             "architecture_change",
             &["architecture", "decisions", "contracts"][..],
@@ -590,6 +603,8 @@ mod tests {
             },
         );
         manifest.write_new(&root.join(crate::MANIFEST_PATH))?;
+        fs::write(root.join(".opdev/development.md"), "Internal guidance")?;
+        fs::write(root.join(".opdev/delivery.md"), "Internal recovery")?;
         for name in ["docs", "doc", "spec", "release"] {
             fs::create_dir(root.join(name))?;
             fs::write(root.join(name).join("README.md"), "project-owned content")?;
@@ -653,10 +668,18 @@ mod tests {
         let root = directory.path();
         fs::create_dir(root.join(".git"))?;
         let discovery = discover(root)?;
-        for name in ["docs", "spec", "release"] {
+        for name in ["docs", "spec", "release", ".opdev"] {
             assert!(!root.join(name).exists());
         }
-        assert!(!discovery.manifest.authorities.contains_key("documentation"));
+        for role in [
+            "documentation",
+            "architecture",
+            "contracts",
+            "decisions",
+            "delivery",
+        ] {
+            assert!(!discovery.manifest.authorities.contains_key(role));
+        }
         fs::create_dir(root.join("release"))?;
         fs::write(
             root.join("release/README.md"),
@@ -670,6 +693,76 @@ mod tests {
         assert_eq!(
             discovery.manifest.context.routes["delivery_change"],
             ["delivery"]
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn internal_markdown_candidates_are_read_only_reviewable_hints()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        fs::create_dir(root.join(".git"))?;
+        fs::create_dir(root.join(".opdev"))?;
+        for file in ["development.md", "design.md", "delivery.md"] {
+            fs::write(root.join(".opdev").join(file), "Existing internal content")?;
+        }
+        for folder in ["specs", "decisions"] {
+            fs::create_dir(root.join(".opdev").join(folder))?;
+        }
+        let discovery = discover(root)?;
+        for (role, path) in [
+            ("documentation", ".opdev/development.md"),
+            ("architecture", ".opdev/design.md"),
+            ("delivery", ".opdev/delivery.md"),
+            ("contracts", ".opdev/specs"),
+            ("decisions", ".opdev/decisions"),
+        ] {
+            assert_eq!(discovery.manifest.authorities[role].location, path);
+        }
+        assert_eq!(
+            discovery.manifest.context.routes["documentation_change"],
+            ["documentation", "contracts"]
+        );
+        assert_eq!(
+            discovery.manifest.context.routes["architecture_change"],
+            ["architecture", "decisions", "contracts"]
+        );
+        assert!(!root.join(crate::MANIFEST_PATH).exists());
+        for file in ["development.md", "design.md", "delivery.md"] {
+            assert_eq!(
+                fs::read_to_string(root.join(".opdev").join(file))?,
+                "Existing internal content"
+            );
+        }
+        // Defaults never silently displace another plausible authority.
+        fs::create_dir(root.join("docs"))?;
+        let ambiguous = discover(root)?;
+        assert!(!ambiguous.manifest.authorities.contains_key("documentation"));
+        assert!(
+            ambiguous
+                .warnings
+                .iter()
+                .any(|warning| warning.contains("Ambiguous `documentation`"))
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn internal_markdown_wrong_path_types_are_not_authorities()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        fs::create_dir(root.join(".git"))?;
+        fs::create_dir_all(root.join(".opdev/design.md"))?;
+        fs::write(root.join(".opdev/specs"), "Not a directory")?;
+        let discovery = discover(root)?;
+        assert!(!discovery.manifest.authorities.contains_key("architecture"));
+        assert!(!discovery.manifest.authorities.contains_key("contracts"));
+        assert!(root.join(".opdev/design.md").is_dir());
+        assert_eq!(
+            fs::read_to_string(root.join(".opdev/specs"))?,
+            "Not a directory"
         );
         Ok(())
     }

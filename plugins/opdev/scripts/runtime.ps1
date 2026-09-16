@@ -70,6 +70,35 @@ function Test-OpdevRuntime([string]$Destination) {
     }
     return (Get-OpdevHash $binary) -eq (Get-Content -LiteralPath $receipt -Raw).Trim()
 }
+function Remove-OpdevCleanupItem([string]$Path, [bool]$Recurse) {
+    Remove-Item -LiteralPath $Path -Recurse:$Recurse -Force -ErrorAction Stop
+}
+function Remove-OpdevOwnedTemporary([string]$Path, [string]$Parent, [bool]$Recurse) {
+    $fullParent = [IO.Path]::GetFullPath($Parent).TrimEnd('\', '/')
+    $fullPath = [IO.Path]::GetFullPath($Path)
+    $leaf = [IO.Path]::GetFileName($fullPath)
+    $expected = if ($Recurse) { '^\.install\.[0-9a-f]{32}$' } else { '^[A-Za-z0-9_-]+\.lock$' }
+    if ([IO.Path]::GetDirectoryName($fullPath) -ine $fullParent -or $leaf -notmatch $expected) {
+        throw "Refusing cleanup outside the expected runtime temporary path: $fullPath"
+    }
+    # Retry only transient filesystem failures; never retry verification/downloads.
+    for ($attempt = 1; $attempt -le 4; $attempt++) {
+        if (-not (Test-Path -LiteralPath $fullPath)) { return }
+        $item = Get-Item -LiteralPath $fullPath -Force
+        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Refusing linked cleanup target: $fullPath" }
+        if ($Recurse) {
+            $links = @(Get-ChildItem -LiteralPath $fullPath -Recurse -Force -ErrorAction Stop | Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint })
+            if ($links.Count) { throw "Refusing linked staging contents: $fullPath" }
+        }
+        try { Remove-OpdevCleanupItem $fullPath $Recurse; return }
+        catch {
+            if ($_.Exception -isnot [IO.IOException] -and $_.Exception -isnot [UnauthorizedAccessException]) { throw }
+            [Console]::Error.WriteLine("OpDev cleanup attempt $attempt/4 failed for ${fullPath}: $($_.Exception.Message)")
+            if ($attempt -eq 4) { throw "Cleanup exhausted for ${fullPath}: $($_.Exception.Message)" }
+            Start-Sleep -Milliseconds (100 * $attempt)
+        }
+    }
+}
 function Invoke-OpdevRuntime([string]$Operation, [string[]]$Arguments) {
     $rows = @(Get-Content -LiteralPath (Join-Path $OpdevPluginRoot 'runtime.lock') | Where-Object { $_ -and -not $_.StartsWith('#') })
     $values = @{}
@@ -112,6 +141,7 @@ function Invoke-OpdevRuntime([string]$Operation, [string[]]$Arguments) {
     try { $installLock = [IO.File]::Open($lockPath, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None) }
     catch { throw "Another setup may be running. If interrupted, remove the stale lock: $lockPath" }
     $staging = Join-Path $parent ('.install.' + [Guid]::NewGuid().ToString('N'))
+    $installationFailure = $null
     try {
         if (Test-Path -LiteralPath $destination) { throw 'Runtime appeared during setup; retry.' }
         $null = [IO.Directory]::CreateDirectory($staging)
@@ -155,10 +185,22 @@ function Invoke-OpdevRuntime([string]$Operation, [string[]]$Arguments) {
         [IO.File]::WriteAllText((Join-Path $runtime 'opdev.sha256'), (Get-OpdevHash $stagedBinary))
         [IO.Directory]::Move($runtime, $destination)
         return $binary
+    } catch {
+        $installationFailure = $_.Exception.Message
+        throw
     } finally {
-        if (Test-Path -LiteralPath $staging) { Remove-Item -LiteralPath $staging -Recurse -Force }
-        $installLock.Dispose()
-        Remove-Item -LiteralPath $lockPath -Force
+        $cleanupFailures = @()
+        try { Remove-OpdevOwnedTemporary $staging $parent $true }
+        catch { $cleanupFailures += $_.Exception.Message }
+        # Staging cleanup must never prevent releasing our own installation lock.
+        try { $installLock.Dispose() }
+        catch { $cleanupFailures += $_.Exception.Message }
+        try { Remove-OpdevOwnedTemporary $lockPath $parent $false }
+        catch { $cleanupFailures += $_.Exception.Message }
+        if ($cleanupFailures.Count) {
+            $original = if ($installationFailure) { "Installation failed: $installationFailure. " } else { 'Runtime was installed, but cleanup failed. ' }
+            throw ($original + ($cleanupFailures -join '; '))
+        }
     }
 }
 if ($MyInvocation.InvocationName -ne '.') {

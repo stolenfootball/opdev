@@ -9,6 +9,18 @@ range MUST accept the pin. Updating the pin is a reviewed source change.
 
 ## Activation and consent
 
+POSIX scripts and `runtime.lock` MUST retain LF endings through Windows Git
+checkouts and plugin packaging. Plugin-local attributes travel with standalone
+copies; repository attributes also cover other shell entry points. Existing
+installed caches are not repaired by a source change: refresh from a qualified
+package, rather than silently altering cached runtime code. Offline tests exercise
+Git checkout conversion with `core.autocrlf=true` and POSIX runtime lookup.
+
+Managed instruction reconciliation MUST reject filesystem links and Git-index
+mode `120000` entries, even when Windows exposes them as ordinary files. Preview
+and apply both check this boundary. Converting upstream links requires an
+explicitly reviewed migration; OpDev does not perform it automatically.
+
 For updates rather than initial setup, follow [coordinated upgrades](upgrades.md).
 Plugin installation, selected runtime, project guidance and CI qualification are
 separate states. Installation alone never establishes a fully upgraded project.
@@ -64,6 +76,14 @@ location. Version and plugin compatibility checks MUST succeed before the
 runtime directory is installed atomically. Failed attempts clean their staging
 files and lock; a lock left by an uncatchable interruption requires explicit
 recovery after checking that no installer is active.
+
+Windows temporary cleanup makes at most four attempts for I/O/access failures,
+with visible diagnostics and delays of 100, 200, and 300 milliseconds. Only the
+validated staging directory and this invocation's lock may be removed; linked
+targets are rejected. Lock disposal/removal is attempted even when staging
+cleanup fails. Exhaustion is an error, preserving the original installation
+failure or explicitly reporting an installed runtime with incomplete cleanup.
+Verification and downloads are never retried by this cleanup policy.
 
 Runtime directories are immutable per release tag and target under an
 OpDev-owned data root. macOS/Linux default to `$XDG_DATA_HOME/opdev` or

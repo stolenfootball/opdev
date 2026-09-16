@@ -5,6 +5,20 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+- Use a supported, non-downloading `pnpx --help` smoke probe on Windows.
+- Bound and report Windows temporary-cleanup retries, release the install lock
+  even when staging cleanup fails, and retain original verification failures.
+
+- Preserve LF for shell scripts and the plugin runtime lock across Windows
+  checkouts. Reject Git-tracked symlink placeholders during agent-file preview
+  and apply. Clarify that state-only adoption progress preserves approval and
+  approved accessibility targets still require implementation evidence.
+
+- Default new internal working documentation to optional `.opdev/` Markdown
+  locations. Preserve existing authorities and public documentation, avoid
+  placeholder scaffolds and duplicate tracking, and discover existing internal
+  documents as reviewable hints without moving or creating them.
+
 - Offer optional adoption early for substantive planning or implementation in
   uninitialized projects, including design-only folders without Git. Minimal
   local inspection may precede the offer; substantive research and planning may

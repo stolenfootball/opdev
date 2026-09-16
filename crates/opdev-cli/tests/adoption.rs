@@ -313,6 +313,29 @@ fn approval_is_separate_stale_choices_fail_and_progress_preserves_approval()
     let manifest = discover(root)?.manifest;
     let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
     let original_id = record.plan_id(&manifest)?;
+    let original_review = record.review.clone();
+    for state in [
+        AdoptionState::Pending,
+        AdoptionState::InProgress,
+        AdoptionState::Implemented,
+    ] {
+        record
+            .practices
+            .get_mut("integration")
+            .ok_or("integration")?
+            .state = state;
+        fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+        let persisted = AdoptionRecord::load(root)?.ok_or("record")?;
+        assert_eq!(original_id, persisted.plan_id(&manifest)?);
+        assert_eq!(
+            serde_json::to_value(&original_review)?,
+            serde_json::to_value(&persisted.review)?
+        );
+        let status: Value = serde_json::from_slice(
+            &cli(root, &["adoption", "status", "--format", "json"])?.stdout,
+        )?;
+        assert_eq!(status["approval"], "approved");
+    }
     record
         .practices
         .get_mut("integration")

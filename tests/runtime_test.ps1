@@ -42,6 +42,28 @@ function New-Case {
     $script:ExpectedIdentity = 'https://gitlab.com/stolenfootball-tools/opinionateddevelopment//.gitlab-ci.yml@refs/tags/v0.1.1'
     $script:ExpectedBase = 'https://gitlab.com/stolenfootball-tools/opdev/-/releases/v0.1.1/downloads'
     $script:Compatible = $true
+    $script:CleanupFailuresRemaining = 0
+    $script:CleanupAttempts = 0
+    $script:RealCleanupLock = $false
+    $script:CleanupHandle = $null
+}
+function Remove-OpdevCleanupItem([string]$Path, [bool]$Recurse) {
+    if ($Recurse) {
+        $script:CleanupAttempts++
+        if ($script:RealCleanupLock) {
+            if ($script:CleanupAttempts -eq 1) {
+                $script:CleanupHandle = [IO.File]::Open((Join-Path $Path 'cosign.exe'), [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::None)
+            } elseif ($script:CleanupHandle) {
+                $script:CleanupHandle.Dispose()
+                $script:CleanupHandle = $null
+            }
+        }
+        if ($script:CleanupFailuresRemaining -gt 0) {
+            $script:CleanupFailuresRemaining--
+            throw [IO.IOException]::new('Injected executable lock')
+        }
+    }
+    Remove-Item -LiteralPath $Path -Recurse:$Recurse -Force -ErrorAction Stop
 }
 function Invoke-OpdevDownload([string]$Url, [string]$Path) {
     $script:Downloads++
@@ -155,6 +177,43 @@ try {
     [IO.File]::WriteAllText("$destination.lock", 'in progress')
     Assert-Failure { Invoke-OpdevRuntime 'Install' @() }
     Assert-True (Test-Path -LiteralPath "$destination.lock") 'Removed another installer lock'
+
+    New-Case
+    $script:CleanupFailuresRemaining = 2
+    $binary = Invoke-OpdevRuntime 'Install' @()
+    Assert-True ($script:CleanupAttempts -eq 3) 'Transient cleanup was not retried exactly twice'
+    Assert-True (Test-Path -LiteralPath $binary) 'Cleanup retry removed verified runtime'
+    Assert-True (@(Get-ChildItem -LiteralPath $env:OPDEV_DATA_DIR -Recurse -Force | Where-Object { $_.Name -like '*.lock' -or $_.Name -like '.install.*' }).Count -eq 0) 'Transient cleanup left temporary files'
+
+    foreach ($signatureFails in @($false, $true)) {
+        New-Case
+        $script:CleanupFailuresRemaining = 10
+        if ($signatureFails) { [IO.File]::WriteAllText((Join-Path $script:Fixture 'bundle'), 'invalid') }
+        $failure = $null
+        try { $null = Invoke-OpdevRuntime 'Install' @() } catch { $failure = $_.Exception.Message }
+        Assert-True ($failure -and $failure.Contains('Cleanup exhausted')) 'Permanent cleanup failure was hidden'
+        Assert-True ($script:CleanupAttempts -eq 4) 'Cleanup retry budget was not bounded'
+        if ($signatureFails) {
+            Assert-True ($failure.Contains('Signature failure')) 'Cleanup masked original signature failure'
+            Assert-True ($script:Executions -eq 0) 'Failed verification executed CLI'
+        } else { Assert-True ($failure.Contains('Runtime was installed')) 'Partial success was not distinguished'
+        }
+        Assert-True (@(Get-ChildItem -LiteralPath $env:OPDEV_DATA_DIR -Recurse -Force | Where-Object { $_.Name -like '*.lock' }).Count -eq 0) 'Staging failure prevented lock cleanup'
+    }
+
+    New-Case
+    $script:RealCleanupLock = $true
+    try {
+        $binary = Invoke-OpdevRuntime 'Install' @()
+        Assert-True ($script:CleanupAttempts -eq 2) 'Real Windows file lock did not recover on second attempt'
+        Assert-True (Test-Path -LiteralPath $binary) 'Real-lock cleanup removed the runtime'
+    } finally { if ($script:CleanupHandle) { $script:CleanupHandle.Dispose() } }
+
+    New-Case
+    $sentinel = Join-Path $script:Fixture 'keep.txt'
+    [IO.File]::WriteAllText($sentinel, 'keep')
+    Assert-Failure { Remove-OpdevOwnedTemporary $script:Fixture $env:OPDEV_DATA_DIR $true }
+    Assert-True ((Get-Content -LiteralPath $sentinel -Raw) -eq 'keep') 'Out-of-scope cleanup modified files'
     Write-Output "$script:Cases PowerShell installer cases passed."
 } finally {
     $env:OPDEV_DATA_DIR = $previousData
