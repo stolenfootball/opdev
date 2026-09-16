@@ -118,6 +118,103 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 2e934b0bd80f7156ebe9251c43aaffbb473e5686a318b4c21d017e85cb056ac3
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/37
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: The release follow-up pins only the published CLI and updates matching plugin metadata and documentation.
+        evidence:
+          - kind: work
+            summary: Scope excludes installed plugins, consumer projects and experimental activation; local checks and integration CI are required.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/work_items/37#note_3844678572
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: Plugin 0.2.3 independently pins qualified CLI 0.2.1 without replacing historical archives or cached runtimes.
+        evidence:
+          - kind: specification
+            summary: The existing installation contract separates the plugin version, supported range and immutable managed pin.
+            location: spec/installation.md
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: main remains the single integration and release source; this short-lived metadata branch uses required CI.
+        evidence:
+          - kind: policy
+            summary: Release and managed-pin maintenance retain the canonical GitLab integration path.
+            location: release/README.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: The follow-up branch starts at qualified current trunk 0ccfecd5738c3165aa70b3d43ce9f0cd0b446523.
+        evidence:
+          - kind: git
+            summary: The branch contains only managed-pin metadata, documentation and fresh evidence; post-merge checks remain required.
+            location: codex/managed-runtime-021
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: There is one active follow-up branch and no parallel implementation streams.
+        evidence:
+          - kind: work
+            summary: The adoption patch is merged and released; this is its sole managed-pin follow-up.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/37
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: Trunk pipeline 2855380287 passed after runner recovery; no red trunk is known at the start of this change.
+        evidence:
+          - kind: ci
+            summary: All seven trunk jobs passed; final release pipeline 2855610264 also passed with its Windows retry retained.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2855380287
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: Both plugin manifests and compatibility metadata agree on 0.2.3, accept the 0.2.1 pin and preserve the supported CLI range and stable defaults.
+        evidence:
+          - kind: test
+            summary: Workspace version-contract tests, both host plugin validators and Windows historical/current installer fixtures passed.
+            location: tests/runtime_test.ps1
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: Formatting, strict clippy, all enabled workspace tests, eight Windows installer cases and signed live install/reinstall passed for this metadata change.
+        evidence:
+          - kind: test
+            summary: The live smoke selected CLI 0.2.1 from the changed lock; documented platform/live workspace skips remain explicit and CI qualifies other platforms.
+            location: tests/runtime_smoke.ps1
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: This metadata-only change leaves the released interface and the maintainer-reviewed accessibility target unchanged.
+        evidence:
+          - kind: test
+            summary: Both process-level consumer interface tests passed again; no new WCAG or assistive-technology claim is made.
+            location: crates/opdev-cli/tests/consumer_interface.rs
+          - kind: review
+            summary: The limited maintainer review applies to the unchanged released help, errors, blocked output and decision interaction.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/work_items/37#note_3844075180
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: The pinned release reports its identity and retains actionable outcomes, JSON reports and overwrite protection.
+        evidence:
+          - kind: release
+            summary: Final download verification exercised version, no-write discovery, incomplete-fixture blocking and report protection; live managed installation verified its signature and identity.
+            location: https://github.com/stolenfootball/opdev/releases/tag/v0.2.1
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: Agent-authored metadata is verified by canonical tests, host validators, signed live installation and required integration CI.
+        evidence:
+          - kind: policy
+            summary: No quality, installer, packaging or post-merge gate is removed or weakened.
+            location: .gitlab-ci.yml
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: The observed Windows temporary-verifier cleanup failure and successful visible retry are retained for follow-up, not hidden or quarantined.
+        evidence:
+          - kind: work
+            summary: Issue 38 records the failed job, unknown cause, investigation scope and required regression coverage.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/38
+      - rule_id: OPDEV-EVAL-001
+        outcome: passed
+        summary: Release correctness and deployability evidence remain distinct from general agent reliability and token-efficiency claims.
+        evidence:
+          - kind: documentation
+            summary: README retains explicit opt-in and the evaluation limitations; this pin update does not claim new effectiveness results.
+            location: README.md
   - fingerprint: b238968515f4dad30e493e594dc2ed8e5efaedc8614803505f001f9f51740ef4
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/37
     assertions:
