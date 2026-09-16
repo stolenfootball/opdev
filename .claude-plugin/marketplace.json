@@ -4,13 +4,13 @@
     "name": "Opinionated Development contributors"
   },
   "description": "Evidence-driven software development plugins",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "plugins": [
     {
       "name": "opdev",
       "source": "./plugins/opdev",
       "description": "Evidence-driven software development with mandatory MinimumCD rules and cross-agent continuity.",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "author": {
         "name": "Opinionated Development contributors"
       },

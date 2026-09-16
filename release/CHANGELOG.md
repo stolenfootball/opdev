@@ -3,7 +3,24 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
-## Unreleased
+## 0.2.0 - release candidate
+
+This minor release changes bare `upgrade` to preview-only and requires an
+experimental flag for compact views. Project and evidence schemas are unchanged.
+The managed plugin pin remains on published CLI 0.1.1 until the new runtime is
+independently published and qualified; new CLI commands require standalone 0.2.0.
+
+- Keep token-reduction views experimental and off by default. Compact check
+  summaries, saved-report summaries and current-evidence queries require
+  `--experimental-compact`; agents require explicit opt-in. Full human/JSON
+  checks and full report persistence remain stable. Older compact scripts must
+  add the flag. General quality-equivalent token savings remain unverified.
+
+- Make `opdev upgrade` preview-only by default; apply managed guidance with a
+  reviewed `--apply PLAN_ID`. Inspect plugin/runtime compatibility, adoption and
+  CI pins without changing project choices. Existing automation that relied on
+  bare `upgrade` writing files must migrate to preview/review/apply. Add a shared
+  Codex/Claude upgrade procedure and reject stale or unsafe guidance writes.
 
 - Apply outcome-based planning to plans, roadmaps, task breakdowns and next-step
   recommendations, preserving explicit user requests and bounded enabling work.

@@ -48,6 +48,9 @@ standard experiment records, configuration testing, and removal decisions.
 See [adoption](adoption.md) for the complete practice assessment, project-specific
 recommendations, explicit dispositions, and evidence-backed initialization completion.
 
+See [upgrades](upgrades.md) for coordinated plugin/runtime updates, reviewed project
+guidance application and preserved project decisions.
+
 ## Lifecycle
 
 Apply [outcome-based planning](planning.md) to formal plans and informal next-step

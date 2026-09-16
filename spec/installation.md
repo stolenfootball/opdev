@@ -9,6 +9,10 @@ range MUST accept the pin. Updating the pin is a reviewed source change.
 
 ## Activation and consent
 
+For updates rather than initial setup, follow [coordinated upgrades](upgrades.md).
+Plugin installation, selected runtime, project guidance and CI qualification are
+separate states. Installation alone never establishes a fully upgraded project.
+
 Skill inspection is applicability detection, not project consent. First inspect
 the target repository's contract at its Git root. Configured projects use OpDev
 seamlessly; malformed contracts remain errors. In uninitialized projects, routine

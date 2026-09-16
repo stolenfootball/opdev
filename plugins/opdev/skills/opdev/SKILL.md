@@ -17,7 +17,7 @@ First identify the target repository (not an unrelated current workspace) and lo
 - **Uninitialized, routine repository operation:** handle the request directly without an OpDev announcement, suggestion, runtime lookup, installation, or gate. For example, "Pull down the most recent changes to the courses repo and start the dev server" needs ordinary repository safety and project instructions, not adoption. Inspecting status or running an existing command alone is also not a reason to adopt. If later work becomes substantive development, reassess then.
 - **Unrelated task:** do not interrupt it with OpDev.
 
-An explicit runtime-setup request uses the packaged setup skill without adopting any repository. For mixed requests, judge the actual development scope rather than matching words such as "repo" or "server".
+An explicit runtime-setup request uses the packaged setup skill without adopting any repository. An OpDev upgrade request follows [upgrades.md](references/upgrades.md), including read-only inspection of incompatible installations for repair; it does not authorize project adoption. For mixed requests, judge the actual development scope rather than matching words such as "repo" or "server".
 
 ## Resolve runtime after activation
 
@@ -57,7 +57,7 @@ The Claude Code prompt hook may provide the same state as additional context. Tr
 5. Make small, reviewable changes. Preserve supported behavior unless the accepted change deliberately migrates it.
 6. Apply the testing policy in [testing.md](references/testing.md). Run canonical command argument vectors directly; do not reinterpret them through a shell.
 7. For facts the CLI cannot infer, follow [evidence.md](references/evidence.md). When a new ledger is needed, prefer the schema-backed `opdev evidence bootstrap` review flow; it starts every decision unresolved and keeps durable project facts separate from fingerprint-bound change facts. Never reuse an assertion after the repository state changes without rechecking it.
-8. Use `opdev check` for local evidence. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Follow [results.md](references/results.md) to retain full evidence while inspecting compact results on capable CLIs. Report blocked or unavailable evidence honestly.
+8. Use `opdev check` for local evidence. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Use full human/JSON output by default. Follow [results.md](references/results.md) for retained reports; compact views require explicit experimental opt-in from the user or project, never just a capable runtime. Report blocked or unavailable evidence honestly.
 9. Reconcile implementation, tests, declared authorities, delivery behavior, and tracked work before completion.
 
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.

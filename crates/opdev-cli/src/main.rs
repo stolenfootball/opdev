@@ -25,11 +25,15 @@ use semver::{Version, VersionReq};
 use serde::Deserialize;
 
 mod adoption;
+mod upgrade;
 mod views;
 
 #[derive(Debug, Parser)]
 #[command(name = "opdev", version, about = "Evidence-driven software delivery")]
 struct Cli {
+    /// Opt in to experimental compact report and evidence views for this invocation.
+    #[arg(long, global = true)]
+    experimental_compact: bool,
     #[command(subcommand)]
     command: Command,
 }
@@ -46,8 +50,8 @@ enum Command {
     Doctor(DoctorArgs),
     /// Generate or inspect a first-class CI configuration.
     Ci(CiArgs),
-    /// Upgrade project-owned `OpDev` files explicitly.
-    Upgrade(UpgradeArgs),
+    /// Preview an upgrade, or apply an explicitly reviewed guidance plan.
+    Upgrade(upgrade::UpgradeArgs),
     /// Show CLI and protocol versions.
     Version,
     /// Inspect the embedded normative rule catalog.
@@ -247,13 +251,6 @@ struct DoctorArgs {
 }
 
 #[derive(Debug, Args)]
-struct UpgradeArgs {
-    /// Directory inside the initialized Git repository.
-    #[arg(long, default_value = ".")]
-    root: PathBuf,
-}
-
-#[derive(Debug, Args)]
 struct RulesArgs {
     /// Show one stable rule ID instead of listing the catalog.
     #[arg(long)]
@@ -403,6 +400,18 @@ fn main() -> ExitCode {
 }
 
 fn run(cli: Cli) -> Result<ExitCode> {
+    let compact_requested = match &cli.command {
+        Command::Check(args) => args.format == CheckFormat::Summary,
+        Command::Report(_) => true,
+        Command::Evidence(args) => matches!(args.command, EvidenceCommand::Show(_)),
+        _ => false,
+    };
+    if compact_requested && !cli.experimental_compact {
+        bail!(
+            "compact views are experimental; explicitly opt in with --experimental-compact, \
+             or use human/full JSON check output and the full evidence ledger"
+        );
+    }
     match cli.command {
         Command::Version => {
             let catalog = embedded_catalog().context("could not load the embedded rule catalog")?;
@@ -426,7 +435,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         },
         Command::Doctor(args) => doctor(&args).map(|()| ExitCode::SUCCESS),
         Command::Ci(args) => ci_command(&args).map(|()| ExitCode::SUCCESS),
-        Command::Upgrade(args) => upgrade(&args).map(|()| ExitCode::SUCCESS),
+        Command::Upgrade(args) => upgrade::run(&args),
     }
 }
 
@@ -734,14 +743,6 @@ fn initialize(args: &InitArgs) -> Result<()> {
             "Adoption is incomplete. Review project choices and .opdev/adoption.yaml, implement the approved plan, then run opdev adoption check."
         );
     }
-    Ok(())
-}
-
-fn upgrade(args: &UpgradeArgs) -> Result<()> {
-    let (root, _) = load_project(&args.root)?;
-    let changes = reconcile_agent_files(&root)?;
-    report_agent_changes(&changes);
-    println!("OpDev project-owned guidance is current.");
     Ok(())
 }
 

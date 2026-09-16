@@ -200,14 +200,24 @@ plugin deliberately pins compatible CLI 0.1.1. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.
 
-Development builds on `main` also include compact report and evidence views;
-published CLIs may not have them yet. The
+The 0.2.0 release candidate includes reviewed upgrades, adoption completion checks,
+outcome-based planning and compact report and evidence views behind the explicit
+`--experimental-compact` flag, disabled by default. Agents use full output unless
+you or your project explicitly opt in; omit the flag to return to stable behavior.
+Published CLIs may not have this flag yet. The
 [30-session evaluation](benchmarks/sessions/results/2026-09-15-codex/README.md)
 found lower total token usage, but did not establish equivalent-quality savings
 or general development effectiveness. See [compact views](spec/compact-views.md)
 for capabilities and fallback behavior.
 
 ## Learn more
+
+To upgrade an initialized project, ask your agent to "upgrade OpDev." It inspects
+the installed plugin/runtime, explains the target and project changes, and seeks
+approval before applying them. Capable development CLIs support `opdev upgrade
+--dry-run` and reviewed `--apply PLAN_ID`; older released CLIs do not yet support
+this flow. Installation, project guidance and CI qualification are separate steps.
+See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are preserved.
 
 - [Getting started with the CLI](docs/GETTING_STARTED.md): installation,
   initialization, a first change, evidence review, and CI.

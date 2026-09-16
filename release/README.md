@@ -28,6 +28,34 @@ No manual asset uploads, replacement releases, or floating commit selection.
 
 ## Candidate and final release
 
+Normal Linux amd64 jobs use the group runners tagged `linux`, `docker`,
+`proxmox`; Windows qualification uses `windows`, `powershell`, `hyperv`.
+Both Proxmox runners are amd64. The Linux installer asserts `uname -m`.
+The required ARM64 check runs on GitHub's standard `ubuntu-24.04-arm` runner in
+the existing public mirror, triggered by an exact `opdev-arm64/<SHA>` branch.
+The GitLab `installer-arm64` job reads the public API, matches the source SHA,
+repository, ref, workflow, successful attempt and native runner label, and waits
+at most 20 minutes. Missing/failed/skipped results and API errors block the gate.
+It never substitutes amd64 or waives ARM64 because hosted compute is unavailable.
+
+For merge requests, an authorized maintainer pushes that single revision to
+`https://github.com/stolenfootball/opdev.git` as `refs/heads/opdev-arm64/<SHA>`
+using their existing GitHub login. Ordinary MR jobs receive no write credential.
+Protected trunk/tag jobs can perform the same single-ref push using the existing
+protected `GH_OPDEV_RELEASE_TOKEN`. Credentials stay out of URLs and arguments.
+There is no automatic all-branch mirror; its broader credential/ref scope requires
+separate authorization. Keep divergent refs and never force-push to get a pass.
+Remove these temporary test branches after their associated integration/release
+is complete; retain the workflow run as qualification evidence. For a retry, use
+GitHub's visible workflow rerun, then retry the GitLab gate; failed attempts remain
+visible. Public standard-runner compute is free; API limits and service availability
+can still prevent qualification. Neither job publishes an artifact or release.
+
+A green amd64 job alone cannot qualify the full pipeline. The optional hosted native release
+builders retain their platform tags; the normal protected-tag release path still
+uses the exact-revision GitHub native-build handoff. Runner recovery does not
+change the single GitLab publication path or make an unrun check pass.
+
 1. Merge a green change pipeline to `main` and confirm the resulting trunk
    pipeline is green.
 2. Create an annotated candidate tag such as `v0.1.2-rc.1` on that exact trunk
@@ -100,7 +128,7 @@ candidate and whenever the delivery path materially changes.
 
 ## Managed-runtime pin maintenance
 
-The source package is version 0.1.2; no historical 0.1.1 asset is
+The source package is version 0.2.0; no historical 0.1.1 asset is
 replaced. The plugin's `runtime.lock` intentionally pins published CLI 0.1.1
 until a newer CLI is independently qualified and available. Update that lock's
 version, tag, signing identity, and verifier digests only as a reviewed change,

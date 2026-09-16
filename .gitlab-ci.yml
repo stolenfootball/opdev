@@ -4,9 +4,14 @@ stages:
   - sign
   - publish
 
+# The restored group runners provide Linux amd64 Docker execution without
+# consuming GitLab-hosted compute. Architecture-specific jobs override this.
+default:
+  tags: [linux, docker, proxmox]
+
 variables:
   CARGO_TERM_COLOR: always
-  OPDEV_VERSION: "0.1.2"
+  OPDEV_VERSION: "0.2.0"
   RUST_IMAGE: rust:1.97.0-bookworm
   RUST_VERSION: "1.97.0"
   RUSTUP_VERSION: "1.29.0"
@@ -67,15 +72,23 @@ plugin-validation:
 installer-linux:
   stage: verify
   image: ubuntu:24.04
-  parallel:
-    matrix:
-      - INSTALLER_RUNNER: [saas-linux-small-amd64, saas-linux-small-arm64]
-  tags: [$INSTALLER_RUNNER]
   before_script:
     - apt-get update
     - apt-get install --yes --no-install-recommends ca-certificates curl tar coreutils
   script:
+    - test "$(uname -m)" = x86_64
     - sh tests/runtime_smoke.sh
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_TAG'
+
+installer-arm64:
+  stage: verify
+  image: python:3.13-bookworm
+  timeout: 25m
+  script:
+    - python3 scripts/await_arm64.py --revision "$CI_COMMIT_SHA"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
@@ -114,8 +127,8 @@ installer-windows:
 package-linux-x86_64:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
-  tags: [saas-linux-small-amd64]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
+  tags: [linux, docker, proxmox]
   script:
     - cargo build --release --locked -p opdev-cli --target x86_64-unknown-linux-gnu
     - cargo run --locked -p opdev-cli -- release package --format tar-gz --executable-entry target/x86_64-unknown-linux-gnu/release/opdev=opdev --entry LICENSE=LICENSE --entry README.md=README.md --output release-artifacts/opdev-${OPDEV_VERSION}-x86_64-unknown-linux-gnu.tar.gz
@@ -140,8 +153,8 @@ package-linux-x86_64:
 qualify-dist:
   stage: package
   image: ubuntu:24.04
-  tags: [saas-linux-small-amd64]
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  tags: [linux, docker, proxmox]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   before_script:
     - apt-get update
     - apt-get install --yes --no-install-recommends python3 curl xz-utils ca-certificates
@@ -172,7 +185,7 @@ qualify-dist-windows:
 package-linux-aarch64:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [saas-linux-small-arm64]
   script:
     - cargo build --release --locked -p opdev-cli --target aarch64-unknown-linux-gnu
@@ -192,7 +205,7 @@ package-linux-aarch64:
 
 package-windows:
   stage: package
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [saas-windows-medium-amd64]
   script:
     - |
@@ -261,7 +274,7 @@ package-windows:
 
 package-macos:
   stage: package
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
   tags: [saas-macos-medium-m1]
   image: macos-15-xcode-16
   variables:
@@ -308,8 +321,8 @@ package-macos:
 fetch-cross-platform-packages:
   stage: package
   image: rust:1.97.0-bookworm
-  needs: [quality, plugin-validation, installer-linux, installer-windows]
-  tags: [saas-linux-small-amd64]
+  needs: [quality, plugin-validation, installer-linux, installer-arm64, installer-windows]
+  tags: [linux, docker, proxmox]
   before_script:
     - apt-get update
     - apt-get install --yes --no-install-recommends ca-certificates curl git jq unzip
@@ -413,7 +426,7 @@ fetch-cross-platform-packages:
 release-evidence:
   stage: package
   image: rust:1.97.0-bookworm
-  tags: [saas-linux-small-amd64]
+  tags: [linux, docker, proxmox]
   needs:
     - job: fetch-cross-platform-packages
       artifacts: true

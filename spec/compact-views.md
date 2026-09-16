@@ -1,5 +1,20 @@
 # Compact report and evidence views
 
+## Experimental activation
+
+Compact views are shipped but disabled by default. `check --format summary`,
+`report summarize`, and `evidence show` MUST require the invocation-scoped
+`--experimental-compact` flag. Without it, the CLI MUST fail before reading
+reports, querying evidence, executing project commands, or writing output files.
+The flag does not change the default check format, persist configuration, or
+weaken any gate. Human/full JSON output and full `--report` persistence remain
+stable. Agents MUST require explicit user or project opt-in, not infer consent
+from command availability. Older runtimes without the flag use the stable path.
+
+Recovery is omission of the flag and use of full output/the full ledger. The
+session experiment has not established general quality-equivalent token savings;
+promotion requires the tracked evaluation, not just passing projection tests.
+
 These CLI views reduce exposed context without changing evaluation, evidence
 selection, or gate requirements. They are projections, not a second evaluator
 or an evidence approval mechanism. Full check artifacts and the original ledger

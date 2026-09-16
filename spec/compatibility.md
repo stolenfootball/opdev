@@ -7,7 +7,8 @@ OpDev versions four public contracts independently.
 The CLI and agent plugins use semantic versions. A published plugin declares the
 CLI version range it supports in packaged `opdev-compatibility.json`. The shared
 plugin skill verifies this relationship before its first OpDev action in each
-task. Claude Code also verifies it through the prompt hook. A missing, malformed,
+task. The Claude Code prompt hook only detects project state; runtime verification
+belongs to the shared skill after activation. A missing, malformed,
 unsupported, or unsatisfied compatibility contract prevents OpDev activation;
 Codex plugin installation itself does not provide a portable activation hook.
 
@@ -21,6 +22,10 @@ versions, but migrations and diagnostics are still required for project-owned
 state.
 
 ## Project-manifest schema
+
+See [coordinated upgrades](upgrades.md) for read-only assessment, reviewed guidance
+application, host/runtime boundaries and separate project verification. Bare
+`upgrade` now previews; older runtimes require capability detection before use.
 
 `.opdev/project.yaml` contains an integer `schema` version.
 

@@ -8,7 +8,51 @@ use opdev_project::{CommandSpec, MANIFEST_PATH, TestStage, TestSuite, discover};
 use serde_json::Value;
 
 fn opdev() -> Command {
-    Command::new(env!("CARGO_BIN_EXE_opdev"))
+    let mut command = Command::new(env!("CARGO_BIN_EXE_opdev"));
+    command.arg("--experimental-compact");
+    command
+}
+
+#[test]
+fn compact_views_require_explicit_opt_in_before_any_io() -> Result<(), Box<dyn std::error::Error>> {
+    let repo = project()?;
+    let artifacts = tempfile::tempdir()?;
+    let report = artifacts.path().join("must-not-exist.json");
+    for args in [
+        vec!["check", "--format", "summary", "--report"],
+        vec!["report", "summarize"],
+    ] {
+        let output = Command::new(env!("CARGO_BIN_EXE_opdev"))
+            .current_dir(repo.path())
+            .args(args)
+            .arg(&report)
+            .output()?;
+        assert_eq!(output.status.code(), Some(2));
+        assert!(String::from_utf8_lossy(&output.stderr).contains("--experimental-compact"));
+        assert!(!report.exists());
+    }
+    let output = Command::new(env!("CARGO_BIN_EXE_opdev"))
+        .current_dir(repo.path())
+        .args(["evidence", "show", "--current"])
+        .output()?;
+    assert_eq!(output.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&output.stderr).contains("--experimental-compact"));
+    assert!(
+        git(repo.path(), &["config", "--get-all", "opdev.runs"])?
+            .stdout
+            .is_empty()
+    );
+
+    // Full report persistence is stable, and no previous invocation enables compact mode.
+    let stable = Command::new(env!("CARGO_BIN_EXE_opdev"))
+        .current_dir(repo.path())
+        .args(["check", "--format", "json", "--report"])
+        .arg(&report)
+        .output()?;
+    assert_eq!(stable.status.code(), Some(1));
+    let full: Value = serde_json::from_slice(&stable.stdout)?;
+    assert_eq!(full, serde_json::from_slice::<Value>(&fs::read(&report)?)?);
+    Ok(())
 }
 
 fn git(root: &Path, args: &[&str]) -> Result<Output, Box<dyn std::error::Error>> {

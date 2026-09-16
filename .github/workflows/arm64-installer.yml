@@ -1,0 +1,23 @@
+name: Native ARM64 installer
+on:
+  push:
+    branches: ['opdev-arm64/**']
+permissions:
+  contents: read
+jobs:
+  installer-arm64:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 15
+    steps:
+      - name: Check out the exact mirrored revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Verify source and native architecture
+        env:
+          EXPECTED_REVISION: ${{ github.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_REVISION"
+          test "$(uname -m)" = aarch64
+      - name: Install, verify and reuse the pinned runtime
+        run: sh tests/runtime_smoke.sh
