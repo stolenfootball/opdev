@@ -32,6 +32,8 @@ Minimal local inspection (design, instructions, repository state) may precede
 the offer. The first response after that inspection must visibly offer a choice
 to use OpDev, before external research, dependency investigation, architecture
 or implementation planning, or edits. Wording need not match an exact string.
+Language/runtime version probes for stack selection count as implementation
+investigation, not applicability inspection; they must follow the offer too.
 Do not count a later apology, claimed intention, or offer after interruption.
 An unavailable question tool may use plain chat; it must not invent consent.
 No runtime probe, setup, project initialization or consent marker may precede

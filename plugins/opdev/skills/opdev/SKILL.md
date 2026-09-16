@@ -30,6 +30,13 @@ An explicit runtime-setup request uses the packaged setup skill without adopting
 
 Keep the offer short and neutral, for example: "OpDev is installed and this is a new software project. Would you like to use it for planning and development? Otherwise, I'll proceed normally." Use an available, permitted host question tool or plain chat; a missing question tool is not a blocker. Honor an earlier decline in the current conversation. The offer is optional for the developer, not optional for the agent when this branch applies. Do not create an adoption record or consent marker merely to remember an offer.
 
+For the substantive-development branch, minimal pre-offer inspection means the
+supplied design, existing instructions, contract presence and repository state.
+Checking installed language runtimes or package managers to choose a stack is
+implementation investigation: offer first, then continue that investigation
+without OpDev if the user has not opted in. This ordering does not apply to
+routine operations, explicit adoption, or an already-configured project.
+
 ## Resolve runtime after activation
 
 Before the first OpDev action in each task, resolve `../../` relative to this

@@ -118,6 +118,100 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 2d2b05d5d530b447f2ddaf2bab4c9631a1beea2a896a969a918e139a770004fd
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/39
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 39 and the owner request authorize the remaining activation qualification and narrow correction; no consumer adoption or installed-plugin mutation is included."
+        evidence:
+          - kind: work
+            summary: "Issue 39 and the owner request authorize the remaining activation qualification and narrow correction; no consumer adoption or installed-plugin mutation is included."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/39"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Pre-offer applicability inspection is limited to design, instructions, contract presence and repository state; stack-selection probes follow the offer without making adoption mandatory."
+        evidence:
+          - kind: specification
+            summary: "Pre-offer applicability inspection is limited to design, instructions, contract presence and repository state; stack-selection probes follow the offer without making adoption mandatory."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "main remains the sole trunk; this follow-up uses the required GitLab CI and reviewed merge path."
+        evidence:
+          - kind: policy
+            summary: "main remains the sole trunk; this follow-up uses the required GitLab CI and reviewed merge path."
+            location: "release/README.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The short-lived follow-up starts at merged maintenance trunk ce14ab6226d618520c0c521ff132db1d000e3502 after MR31 passed all eight jobs."
+        evidence:
+          - kind: ci
+            summary: "The short-lived follow-up starts at merged maintenance trunk ce14ab6226d618520c0c521ff132db1d000e3502 after MR31 passed all eight jobs."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2855896007"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "There is one implementation branch after maintenance MR31 merged; host trials are isolated test fixtures, not competing product branches."
+        evidence:
+          - kind: work
+            summary: "There is one implementation branch after maintenance MR31 merged; host trials are isolated test fixtures, not competing product branches."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/31"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "The prior trunk and MR31 pipelines were green; post-merge pipeline 2855909981 is being qualified without a known red trunk."
+        evidence:
+          - kind: ci
+            summary: "The prior trunk and MR31 pipelines were green; post-merge pipeline 2855909981 is being qualified without a known red trunk."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2855909981"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "The correction changes only offer timing guidance and its report. Consent rules, routine exclusions, CLI/schema versions and experimental defaults are unchanged; both plugin validators passed."
+        evidence:
+          - kind: test
+            summary: "The correction changes only offer timing guidance and its report. Consent rules, routine exclusions, CLI/schema versions and experimental defaults are unchanged; both plugin validators passed."
+            location: "benchmarks/adoption/expanded-activation-results-2026-09-16.md"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Seven hook regressions and both plugin validators passed after correction. Fresh corrected Codex and Claude timing trials passed; the earlier timing failure and runtime permission limits remain recorded. Canonical suites remain required."
+        evidence:
+          - kind: test
+            summary: "Seven hook regressions and both plugin validators passed after correction. Fresh corrected Codex and Claude timing trials passed; the earlier timing failure and runtime permission limits remain recorded. Canonical suites remain required."
+            location: "benchmarks/adoption/expanded-activation-results-2026-09-16.md"
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The existing neutral plain-chat or host-question offer remains available with no required UI, color or formatting dependency. Fresh trials visibly present the choice."
+        evidence:
+          - kind: test
+            summary: "The existing neutral plain-chat or host-question offer remains available with no required UI, color or formatting dependency. Fresh trials visibly present the choice."
+            location: "benchmarks/adoption/expanded-activation-results-2026-09-16.md"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "No CLI/bootstrap execution behavior changed in this guidance follow-up. The report distinguishes attempted/denied runtime actions from verified compatibility and retains unknown outcomes."
+        evidence:
+          - kind: documentation
+            summary: "No CLI/bootstrap execution behavior changed in this guidance follow-up. The report distinguishes attempted/denied runtime actions from verified compatibility and retains unknown outcomes."
+            location: "benchmarks/adoption/expanded-activation-results-2026-09-16.md"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored guidance and qualification evidence remain subject to required CI and source-bound tests; no gate is weakened by the behavior report."
+        evidence:
+          - kind: policy
+            summary: "Agent-authored guidance and qualification evidence remain subject to required CI and source-bound tests; no gate is weakened by the behavior report."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The expanded trials exposed pre-offer language-version probes. A focused wording correction was retested on both hosts; the original failure is retained rather than overwritten."
+        evidence:
+          - kind: test
+            summary: "The expanded trials exposed pre-offer language-version probes. A focused wording correction was retested on both hosts; the original failure is retained rather than overwritten."
+            location: "benchmarks/adoption/expanded-activation-results-2026-09-16.md"
+      - rule_id: OPDEV-EVAL-001
+        outcome: passed
+        summary: "Twenty-four completed turns in eighteen synthetic conversations evaluate activation choices only. End-to-end writable adoption, runtime compatibility under denied execution, real upstream pulls and general reliability remain unverified."
+        evidence:
+          - kind: documentation
+            summary: "Twenty-four completed turns in eighteen synthetic conversations evaluate activation choices only. End-to-end writable adoption, runtime compatibility under denied execution, real upstream pulls and general reliability remain unverified."
+            location: "benchmarks/adoption/expanded-activation-results-2026-09-16.md"
   - fingerprint: 708a4c9e41fc15622ccc339b0d3020dfa78ed070ef434a83523b2658f74b97ff
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/42
     assertions:

@@ -35,7 +35,8 @@ inspection establishes applicability, before substantive research, planning or
 edits. The choice is optional for the developer, not the offer for the agent.
 A folder containing only a supplied design qualifies, even without Git. Reading
 that design, local instructions and repository state is permitted before the
-offer; upstream browsing, dependency investigation and architecture selection
+offer; language/runtime availability probes for stack selection, upstream
+browsing, dependency investigation and architecture selection
 must not precede it. Do not initialize Git merely to check applicability.
 Use a brief neutral question through a permitted host tool or plain chat.
 Honor a prior decline in the current conversation. Without acceptance, continue
