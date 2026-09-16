@@ -59,6 +59,10 @@ Local raw-event SHA-256 identities, in table order:
 
 ## Remaining boundaries
 
+See [expanded activation qualification](expanded-activation-results-2026-09-16.md)
+for later continuation/control trials, a retained timing failure and correction.
+The results below describe this original candidate and are not rewritten by it.
+
 Interactive acceptance/decline/unanswered continuation rounds, live no-Git
 folders, pull-and-start, unrelated prompts and configured-project controls were
 not run in this targeted host evaluation: **unverified**. Their review procedure
