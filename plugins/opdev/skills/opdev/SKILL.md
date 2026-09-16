@@ -1,6 +1,6 @@
 ---
 name: opdev
-description: Follow OpDev for software work in projects configured with .opdev/project.yaml, or when the user explicitly requests adoption. In uninitialized projects, only suggest adoption for substantive development; wait for consent before following the workflow or setting up its runtime. Routine pull, status, or dev-server requests do not warrant a suggestion. Loading this skill checks applicability, not consent.
+description: Follow OpDev for configured projects or explicit adoption. For substantive software planning or implementation in uninitialized projects, including design-only folders, offer adoption early before research or planning; do not activate without consent. Routine pull, status, dev-server and unrelated requests need no offer. Loading this skill checks applicability, not consent.
 ---
 
 # OpDev
@@ -18,15 +18,17 @@ Apply the workflow only after the project-state and consent gate below. Loading 
 
 ## Establish state
 
-First identify the target repository (not an unrelated current workspace) and look for `.opdev/project.yaml` at its Git root, including when working in a subdirectory or worktree. This applicability inspection does not require an OpDev CLI.
+First identify the target repository (not an unrelated current workspace) and look for `.opdev/project.yaml` at its Git root, including when working in a subdirectory or worktree. If Git is not initialized, inspect the target project directory without creating a repository. This applicability inspection does not require an OpDev CLI.
 
 - **Configured project:** read the contract and project instructions, then resolve the runtime and apply OpDev seamlessly. A malformed or unreadable contract is an error, not an uninitialized project. Configuration is not proof of complete adoption.
 - **Explicit adoption request:** consent to assessment is already supplied. Resolve the runtime, then follow [adoption.md](references/adoption.md). This is not blanket permission for installation or other material changes.
-- **Uninitialized, substantive development:** offer adoption once, without blocking the requested work. Wait for affirmative consent before applying the workflow, probing its runtime, or initializing. If declined or unanswered, continue the original task without OpDev; do not repeatedly ask in the same task.
+- **Uninitialized, substantive development:** offer adoption once in the first response after minimal local inspection establishes applicability, before substantive research, planning, or edits. Implementing a supplied design in an otherwise empty folder qualifies. Reading that design, existing instructions and repository state is allowed first; do not defer the offer until after upstream browsing, dependency investigation, architecture selection or a completed plan. Wait for affirmative consent before applying the workflow, probing its runtime, or initializing. If declined or unanswered, continue the original task without OpDev; do not repeatedly ask in the same task or make adoption a prerequisite for ordinary work.
 - **Uninitialized, routine repository operation:** handle the request directly without an OpDev announcement, suggestion, runtime lookup, installation, or gate. For example, "Pull down the most recent changes to the courses repo and start the dev server" needs ordinary repository safety and project instructions, not adoption. Inspecting status or running an existing command alone is also not a reason to adopt. If later work becomes substantive development, reassess then.
 - **Unrelated task:** do not interrupt it with OpDev.
 
 An explicit runtime-setup request uses the packaged setup skill without adopting any repository. An OpDev upgrade request follows [upgrades.md](references/upgrades.md), including read-only inspection of incompatible installations for repair; it does not authorize project adoption. For mixed requests, judge the actual development scope rather than matching words such as "repo" or "server".
+
+Keep the offer short and neutral, for example: "OpDev is installed and this is a new software project. Would you like to use it for planning and development? Otherwise, I'll proceed normally." Use an available, permitted host question tool or plain chat; a missing question tool is not a blocker. Honor an earlier decline in the current conversation. The offer is optional for the developer, not optional for the agent when this branch applies. Do not create an adoption record or consent marker merely to remember an offer.
 
 ## Resolve runtime after activation
 

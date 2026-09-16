@@ -66,6 +66,42 @@ class HookTests(unittest.TestCase):
         nested.mkdir()
         self.assertIn('has an OpDev contract', self.hook(nested))
 
+    def test_design_only_git_repository_is_unchanged_by_detection(self):
+        design = self.repo / 'tmp.md'
+        content = '# Design\nBuild a small local checklist CLI.\n'
+        design.write_text(content)
+        before = self.git_status()
+        self.assertIn('no OpDev contract', self.hook(
+            self.repo, 'I want to implement the design in tmp.md in this repo'))
+        self.assertEqual(design.read_text(), content)
+        self.assertEqual(self.git_status(), before)
+        self.assertEqual({p.name for p in self.repo.iterdir()}, {'.git', 'tmp.md'})
+
+    def git_status(self):
+        return subprocess.run(['git', '-C', str(self.repo), 'status', '--porcelain'],
+                              check=True, capture_output=True, text=True).stdout
+
+    def test_design_only_folder_needs_neither_git_nor_runtime(self):
+        folder = self.root / 'new project'
+        folder.mkdir()
+        design = folder / 'design.txt'
+        design.write_text('Build a small local checklist CLI.\n')
+        before = design.read_bytes()
+        self.assertIn('no OpDev contract', self.hook(
+            folder, 'Implement the design in design.txt'))
+        self.assertEqual(design.read_bytes(), before)
+        self.assertEqual({p.name for p in folder.iterdir()}, {'design.txt'})
+
+    def test_hook_routes_state_without_keyword_classification_or_consent_memory(self):
+        # Identical context leaves intent/consent to the agent, not a shell keyword
+        # classifier. Repeated hooks must not write an offer/adoption marker.
+        prompts = ['Implement tmp.md', 'No, do not use OpDev',
+                   'Use Python for the first slice', 'Yes, use OpDev',
+                   'Check git status', 'Explain the word development']
+        outputs = [self.hook(self.repo, prompt) for prompt in prompts]
+        self.assertEqual(len(set(outputs)), 1)
+        self.assertEqual({p.name for p in self.repo.iterdir()}, {'.git'})
+
     def test_target_repository_does_not_inherit_callers_contract(self):
         self.configure(self.root)
         self.assertIn('no OpDev contract', self.hook(self.repo))

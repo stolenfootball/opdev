@@ -118,6 +118,103 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 69385bb4bee08ca556f51da25dbf2fce77652c0a5984506e787823fd0cae6927
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/39
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: Issue 39 scopes the user-approved early optional-offer fix, exclusions and behavioral evidence.
+        evidence:
+          - kind: work
+            summary: The user authorized implementation after reviewing the timing proposal and sample neutral question; no release or installed-plugin update was requested.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/39
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: Minimal local inspection precedes a required early offer; research and planning follow it, while workflow activation still requires consent.
+        evidence:
+          - kind: specification
+            summary: The activation contract covers design-only folders without Git, routine exclusions, prior declines, non-answers and no consent-marker writes.
+            location: spec/installation.md
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: main remains the single integration trunk; the focused fix uses the existing required CI path.
+        evidence:
+          - kind: policy
+            summary: No branch roles, publication paths or CI gates change.
+            location: release/README.md
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: The short-lived branch starts from current qualified trunk c2bac47fdde950ff404e8309425dc673b6bfede9.
+        evidence:
+          - kind: git
+            summary: Trunk identity and clean working state were checked before creating the focused branch.
+            location: codex/early-adoption-offer
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: There is one implementation branch, with isolated local canaries rather than parallel product branches.
+        evidence:
+          - kind: work
+            summary: Issue 39 scopes a single activation correction and no consumer project implementation.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/39
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: Trunk was green before this change; no known red trunk required repair.
+        evidence:
+          - kind: ci
+            summary: Pipeline 2855679273 passed at the branch base revision.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2855679273
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: The fix preserves opt-in activation, routine-task exclusions, runtime pins, CLI schemas and experimental defaults.
+        evidence:
+          - kind: test
+            summary: Both fresh-host git-status controls avoided OpDev; seven hook tests preserved state routing and non-execution, and workspace compatibility tests passed.
+            location: benchmarks/adoption/early-offer-results-2026-09-16.md
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: Formatting, strict clippy, enabled workspace tests, seven hook tests, the skill validator and both plugin validators passed locally.
+        evidence:
+          - kind: test
+            summary: Added regression tests cover design-only Git/no-Git folders, repeated prompts and absence of runtime or project-state mutation. Model behavior is evaluated separately.
+            location: tests/hook_test.py
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: The user reviewed the proposed short text question and authorized implementation; supported question tools retain a plain-chat fallback with no silent default consent.
+        evidence:
+          - kind: review
+            summary: The implementation request followed a proposal including the neutral adoption question; both fresh-host trials visibly offered a choice. No broader accessibility certification is claimed.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/39
+          - kind: test
+            summary: Existing CLI process-level text, help, error and report tests passed unchanged.
+            location: crates/opdev-cli/tests/consumer_interface.rs
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: CLI diagnostics and runtime reporting are unchanged; the canary report retains host warnings, permissions and unverified boundaries.
+        evidence:
+          - kind: test
+            summary: Existing consumer-interface tests passed and the fresh-host traces distinguish observations from absent runtime or installation evidence.
+            location: benchmarks/adoption/early-offer-results-2026-09-16.md
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: Agent-authored guidance and hook edits passed validators, regression checks and fresh-host review, with integration CI still required.
+        evidence:
+          - kind: test
+            summary: Candidate source hashes and local trace hashes bind the four reviewed host observations to the tested instructions.
+            location: benchmarks/adoption/early-offer-results-2026-09-16.md
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: The escaped late-offer failure is addressed at the shared guidance, hook and normative contract boundaries rather than a project-specific exception.
+        evidence:
+          - kind: work
+            summary: Issue 39 and the canary scenario preserve the failure class and require visible offer ordering instead of counting apologies or asserted intentions.
+            location: benchmarks/adoption/early-offer-canary.md
+      - rule_id: OPDEV-EVAL-001
+        outcome: passed
+        summary: Four targeted fresh-host observations are separated from deterministic tests and unrun interactive and environment cases.
+        evidence:
+          - kind: evaluation
+            summary: Both design-only trials offered before substantive work; both routine controls avoided offers. Full matrix reliability and installed-marketplace behavior remain unverified.
+            location: benchmarks/adoption/early-offer-results-2026-09-16.md
   - fingerprint: 2e934b0bd80f7156ebe9251c43aaffbb473e5686a318b4c21d017e85cb056ac3
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/37
     assertions:
