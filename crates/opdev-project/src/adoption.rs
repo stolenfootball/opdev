@@ -6,6 +6,7 @@ use std::io::Write;
 use std::path::Path;
 
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 use thiserror::Error;
 
 use crate::{ProjectManifest, TestStage};
@@ -55,8 +56,10 @@ pub struct Practice {
 #[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum AdoptionState {
-    /// No satisfying decision yet.
+    /// Implementation is unfinished; choices may already have plan-bound approval.
     Pending,
+    /// An approved implementation is underway, not verified.
+    InProgress,
     /// Implementation is claimed, subject to verification.
     Implemented,
     /// An optional practice was deliberately declined.
@@ -95,6 +98,53 @@ pub struct AdoptionRecord {
     pub scope: String,
     /// Complete set of catalog decisions.
     pub practices: BTreeMap<String, AdoptionDecision>,
+    /// Review of choices, independent of implementation and acceptance evidence.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review: Option<AdoptionReview>,
+    /// Reviewed branch roles; branch names alone do not establish trunk workflow.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub workflow: Option<AdoptionWorkflow>,
+}
+
+/// A reviewable claim of approval, not authentication of a human identity.
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct AdoptionReview {
+    /// Hash of the exact choices and project contract presented for approval.
+    pub plan_id: String,
+    /// Actual decision maker, not an invented owner label.
+    pub reviewer: String,
+    /// User response or independent review authorizing these choices.
+    pub reference: String,
+    /// Explicit bounded delegation, when choices were delegated rather than selected.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub delegation: Option<String>,
+}
+
+/// Developer's branch-name choice, separate from workflow compliance.
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum MainOption {
+    /// The trunk was already named main.
+    AlreadyMain,
+    /// The developer chose to retain a non-main name.
+    KeepName,
+    /// The developer chose a completed rename to main.
+    RenameToMain,
+}
+
+/// Audited branch roles, backed by project instructions and CI references.
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct AdoptionWorkflow {
+    /// All ongoing integration branches, not all branches in the repository.
+    pub integration_branches: Vec<String>,
+    /// Source branch for the consumer release path (tags point to this trunk).
+    pub release_source: String,
+    /// Retaining a non-main name is a first-class choice.
+    pub main_option: MainOption,
+    /// Reviewed branch policy, CI and protection locations.
+    pub references: Vec<String>,
 }
 
 /// Errors loading or safely creating adoption state.
@@ -133,9 +183,11 @@ impl AdoptionRecord {
     pub fn pending() -> Result<Self, AdoptionError> {
         let catalog = adoption_catalog()?;
         Ok(Self {
-            schema: 1,
+            schema: 2,
             catalog_version: catalog.version,
             scope: String::new(),
+            review: None,
+            workflow: None,
             practices: catalog
                 .practices
                 .into_iter()
@@ -251,6 +303,8 @@ impl AdoptionRecord {
     pub fn blockers(&self, manifest: &ProjectManifest) -> Result<Vec<String>, AdoptionError> {
         self.to_yaml()?;
         let mut blockers = Vec::new();
+        blockers.extend(self.approval_blockers(manifest)?);
+        blockers.extend(self.workflow_blockers(manifest));
         if self.scope.trim().is_empty() {
             blockers.push("scope: assess all relevant components".into());
         }
@@ -258,7 +312,10 @@ impl AdoptionRecord {
             let decision = &self.practices[&practice.id];
             let mut reasons = Vec::new();
             match decision.state {
-                AdoptionState::Pending => reasons.push("pending decision".into()),
+                AdoptionState::Pending => {
+                    reasons.push("implementation pending; approval is separate".into());
+                }
+                AdoptionState::InProgress => reasons.push("implementation in progress".into()),
                 AdoptionState::Ignored if practice.requirement != Requirement::Optional => {
                     reasons.push("mandatory/conditional practice cannot be ignored".into());
                 }
@@ -304,5 +361,70 @@ impl AdoptionRecord {
             );
         }
         Ok(blockers)
+    }
+
+    /// Hashes choices and the full contract, excluding approval and implementation progress.
+    /// Pending/in-progress/implemented all propose implementation; exclusions are distinct choices.
+    ///
+    /// # Errors
+    /// Returns serialization errors.
+    pub fn plan_id(&self, manifest: &ProjectManifest) -> Result<String, AdoptionError> {
+        let mut proposal = self.clone();
+        proposal.review = None;
+        for decision in proposal.practices.values_mut() {
+            if matches!(
+                decision.state,
+                AdoptionState::Pending | AdoptionState::InProgress
+            ) {
+                decision.state = AdoptionState::Implemented;
+            }
+        }
+        let bytes = serde_json::to_vec(&(proposal, manifest))?;
+        Ok(format!("{:x}", Sha256::digest(bytes)))
+    }
+
+    /// Distinguishes missing approval from stale approval without treating implementation as consent.
+    ///
+    /// # Errors
+    /// Returns serialization errors.
+    pub fn approval_blockers(
+        &self,
+        manifest: &ProjectManifest,
+    ) -> Result<Vec<String>, AdoptionError> {
+        if self.schema == 1 {
+            return Ok(vec!["migration_required: adoption schema 1 has no approval provenance; preview adoption migrate".into()]);
+        }
+        let Some(review) = &self.review else {
+            return Ok(vec![
+                "approval: proposed choices need explicit developer review or bounded delegation"
+                    .into(),
+            ]);
+        };
+        if review.plan_id != self.plan_id(manifest)? {
+            return Ok(vec!["approval: stale plan; choices or project contract changed, present the revised plan for review".into()]);
+        }
+        Ok(Vec::new())
+    }
+
+    /// Checks roles, never requiring a particular trunk spelling.
+    #[must_use]
+    pub fn workflow_blockers(&self, manifest: &ProjectManifest) -> Vec<String> {
+        let Some(workflow) = &self.workflow else {
+            return vec!["workflow: review integration and release branch roles, CI and protections; offer main or keeping the current name".into()];
+        };
+        let mut blockers = Vec::new();
+        if workflow.integration_branches != [manifest.project.trunk.clone()]
+            || workflow.release_source != manifest.project.trunk
+        {
+            blockers.push("workflow: migration_required; use one integration trunk and release from it, not a develop-to-main promotion branch".into());
+        }
+        if workflow.references.is_empty() {
+            blockers
+                .push("workflow: branch roles require reviewed policy and CI references".into());
+        }
+        if (manifest.project.trunk == "main") == (workflow.main_option == MainOption::KeepName) {
+            blockers.push("workflow: main_option contradicts the declared trunk name".into());
+        }
+        blockers
     }
 }

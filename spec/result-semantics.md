@@ -54,6 +54,17 @@ Results that execute a command also record the argument vector, exit
 classification, duration, and redacted output reference. Secrets and sensitive
 values MUST NOT be embedded in result records.
 
+## Reporting execution
+
+Agent reports MUST distinguish unattempted actions and predicted permission
+requirements from observed denials and completed execution. A denial claim MUST
+be supported by the matching invocation's tool result. An incomplete invocation
+has an unknown result, not an inferred pass or failure. Before reporting actions
+or blockers, reconcile claims with available execution evidence; preserve retry
+history and qualify missing context. This is a reporting obligation, not a new
+rule outcome, user approval step or project ledger. Do not execute mutations or
+bypass permissions merely to obtain evidence for a report.
+
 ## Aggregation
 
 A required rule contributes to an aggregate verdict as follows:
@@ -85,6 +96,18 @@ development checks would otherwise pass. Repair, diagnosis, rollback, and work
 needed to restore the pipeline remain permitted.
 
 ## Freshness and identity
+
+The CLI's default exit follows development; `check --ci` follows integration.
+`check --ci --delivery` executes the delivery stage and follows the delivery gate;
+it cannot be combined with `--no-exec`. Inspect all reported gates before making
+broader claims. An integration-only baseline does not enforce the release path.
+
+Declaring a trunk name or matching a provider default branch does not establish
+the single-trunk workflow. Review branch roles and release source. A known
+contradiction in the adoption workflow remains `migration_required` despite a
+generic evidence assertion. Likewise project kind or omitted effectiveness risk
+metadata cannot establish accessibility, operations or effectiveness exclusions;
+absent reviewed capability evidence these rules remain `unverified`.
 
 Evidence is valid only for the subject it identifies. Artifact qualification
 MUST identify the artifact digest. Revision-only evidence cannot be silently

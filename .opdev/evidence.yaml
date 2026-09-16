@@ -118,6 +118,109 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: b238968515f4dad30e493e594dc2ed8e5efaedc8614803505f001f9f51740ef4
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/37
+    assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: The approved OpDev-specific text/keyboard interface target combines passing process tests with the maintainer's review of representative help, errors, blocked output and adoption decision interaction. No WCAG or assistive-technology certification is claimed.
+        evidence:
+          - kind: specification
+            summary: Scope, automated checks, required human review and limitations are declared for OpDev's own interface, not consumer projects or host applications.
+            location: spec/consumer-interface.md
+          - kind: test
+            summary: Closed-stdin help and version, actionable invalid-argument errors, textual blocked identifiers, full JSON retention and overwrite refusal passed in real CLI processes.
+            location: crates/opdev-cli/tests/consumer_interface.rs
+          - kind: review
+            summary: After reviewing representative output and the decision interaction requirement, the maintainer confirmed it was fine as is and authorized release. This records a limited normal-interface review, not universal accessibility.
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/work_items/37#note_3844075180
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: The approved on-demand CLI diagnostic target is covered by real process tests for runtime identity, actionable parse errors, blocked gates, retained JSON reports and overwrite refusal; existing tests cover failing tools, timeout and bounded output.
+        evidence:
+          - kind: specification
+            summary: The target scopes operational signals to the CLI, preserves privacy and separates diagnostics from release recovery. No telemetry service or hosted uptime claim is made.
+            location: spec/consumer-interface.md
+          - kind: test
+            summary: Both consumer_interface process tests and the full enabled workspace suite passed on Windows after this change; platform/live skips remain explicit. Human accessibility review is recorded separately.
+            location: crates/opdev-cli/tests/consumer_interface.rs
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "The user authorized the adoption fixes and patch release; issue 37 defines the regression scope and qualification boundaries."
+        evidence:
+          - kind: work
+            summary: "The user authorized the adoption fixes and patch release; issue 37 defines the regression scope and qualification boundaries."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/37"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The adoption specification defines plan-bound approval, explicit legacy migration, meaningful decision review and evidence limits; no automatic consumer migration is authorized."
+        evidence:
+          - kind: specification
+            summary: "The adoption specification defines plan-bound approval, explicit legacy migration, meaningful decision review and evidence limits; no automatic consumer migration is authorized."
+            location: "spec/adoption.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "main is the single integration and release source; the release procedure requires candidate and final tags on the qualified trunk revision."
+        evidence:
+          - kind: policy
+            summary: "main is the single integration and release source; the release procedure requires candidate and final tags on the qualified trunk revision."
+            location: "release/README.md"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The patch branch was created from current origin/main 84543127e88b69e0a8eee9cfb617fa4021a0405e; integration and branch cleanup remain subject to the normal CI workflow."
+        evidence:
+          - kind: git
+            summary: "The patch branch was created from current origin/main 84543127e88b69e0a8eee9cfb617fa4021a0405e; integration and branch cleanup remain subject to the normal CI workflow."
+            location: "codex/adoption-patch-021"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "This work has one active integration branch; no parallel implementation streams are being integrated."
+        evidence:
+          - kind: work
+            summary: "This work has one active integration branch; no parallel implementation streams are being integrated."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/37"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2853022718 at the fetched trunk revision passed; there is no known red trunk requiring repair."
+        evidence:
+          - kind: ci
+            summary: "Trunk pipeline 2853022718 at the fetched trunk revision passed; there is no known red trunk requiring repair."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2853022718"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "The canonical test suite passed legacy preservation, explicit schema migration, stale approval rejection and compact opt-in tests. Release notes require CLI 0.2.1 before schema-2 migration and retain the published runtime pin."
+        evidence:
+          - kind: test
+            summary: "The canonical test suite passed legacy preservation, explicit schema migration, stale approval rejection and compact opt-in tests. Release notes require CLI 0.2.1 before schema-2 migration and retain the published runtime pin."
+            location: "crates/opdev-cli/tests/adoption.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "The exact patch-version candidate passed cargo fmt, strict clippy and all enabled workspace tests on Windows. Documented platform/live tests remain ignored; live release qualification is not claimed."
+        evidence:
+          - kind: test
+            summary: "The exact patch-version candidate passed cargo fmt, strict clippy and all enabled workspace tests on Windows. Documented platform/live tests remain ignored; live release qualification is not claimed."
+            location: "crates/opdev-cli/tests"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored changes passed canonical automated checks and both host plugin validators and remain subject to required CI; no release qualification is inferred from agent assertions."
+        evidence:
+          - kind: test
+            summary: "Agent-authored changes passed canonical automated checks and both host plugin validators and remain subject to required CI; no release qualification is inferred from agent assertions."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Retained canary reports preserve failed attempts and limitations; the new decision-review scenario covers inherited approval and partial or absent responses without claiming a fresh-host pass."
+        evidence:
+          - kind: work
+            summary: "Retained canary reports preserve failed attempts and limitations; the new decision-review scenario covers inherited approval and partial or absent responses without claiming a fresh-host pass."
+            location: "benchmarks/adoption/README.md"
+      - rule_id: OPDEV-EVAL-001
+        outcome: passed
+        summary: "Correctness tests, targeted host conversation observations and delivery qualification remain separately reported. General agent reliability and token savings are not inferred from passing unit tests."
+        evidence:
+          - kind: evaluation
+            summary: "Correctness tests, targeted host conversation observations and delivery qualification remain separately reported. General agent reliability and token savings are not inferred from passing unit tests."
+            location: "benchmarks/adoption/correction-2026-09-16.md"
   - fingerprint: 999544fb78794a110d31e8a44ba55fb596901bd7c8e37d849773509bc692f363
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/35
     assertions:

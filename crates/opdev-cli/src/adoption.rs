@@ -8,7 +8,7 @@ use clap::{Args, Subcommand};
 use opdev_core::{Gate, Outcome, embedded_catalog};
 use opdev_engine::{CheckOptions, evaluate};
 use opdev_project::{
-    ADOPTION_PATH, AdoptionRecord, EVIDENCE_PATH, EvidenceLedger, adoption_catalog,
+    ADOPTION_PATH, AdoptionRecord, AdoptionReview, EVIDENCE_PATH, EvidenceLedger, adoption_catalog,
     staged_fingerprint,
 };
 
@@ -24,6 +24,37 @@ pub(super) struct AdoptionArgs {
 
 #[derive(Debug, Subcommand)]
 enum AdoptionCommand {
+    /// Print the exact choices and contract identifier for developer review; writes nothing.
+    Plan {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+    },
+    /// Record an actual developer response or bounded delegation for an unchanged plan.
+    Approve {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        #[arg(long)]
+        plan: String,
+        #[arg(long)]
+        reviewer: String,
+        #[arg(long)]
+        reference: String,
+        /// Actual scope/limits of a user grant, not permission inferred from an adoption request.
+        #[arg(long)]
+        delegation: Option<String>,
+    },
+    /// Preview schema 1 to 2 migration; preserves dispositions but never fabricates approval.
+    Migrate {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        #[arg(long)]
+        write: bool,
+    },
+    /// Print unresolved, fingerprint-bound adoption evidence with the correct kind/location.
+    PrepareEvidence {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+    },
     /// Inspect the versioned, tool-neutral practice catalog.
     Catalog,
     /// Explicitly start assessment for an existing initialized project; preserve existing decisions.
@@ -58,6 +89,24 @@ enum AdoptionCommand {
 
 pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
     match &args.command {
+        AdoptionCommand::Plan { root } => plan(root)?,
+        AdoptionCommand::Approve {
+            root,
+            plan,
+            reviewer,
+            reference,
+            delegation,
+        } => approve(
+            root,
+            AdoptionReview {
+                plan_id: plan.clone(),
+                reviewer: reviewer.clone(),
+                reference: reference.clone(),
+                delegation: delegation.clone(),
+            },
+        )?,
+        AdoptionCommand::Migrate { root, write } => migrate(root, *write)?,
+        AdoptionCommand::PrepareEvidence { root } => prepare_evidence(root)?,
         AdoptionCommand::Catalog => {
             println!("{}", serde_json::to_string_pretty(&adoption_catalog()?)?);
         }
@@ -85,7 +134,9 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                 .map(|r| r.blockers(&manifest))
                 .transpose()?
                 .unwrap_or_default();
-            let status = if record.is_none() {
+            let status = if record.as_ref().is_some_and(|r| r.schema == 1) {
+                "migration_required"
+            } else if record.is_none() {
                 "legacy_unassessed"
             } else if blockers.is_empty() {
                 "decisions_ready_for_verification"
@@ -96,7 +147,9 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                 println!(
                     "{}",
                     serde_json::to_string_pretty(
-                        &serde_json::json!({"schema":1,"status":status,"blockers":blockers,"record":record})
+                        &serde_json::json!({"schema":1,"status":status,"complete":false,
+                            "approval": if record.as_ref().is_some_and(|r| r.approval_blockers(&manifest).is_ok_and(|b| b.is_empty())) { "approved" } else { "review_required" },
+                            "verification":"not_run","blockers":blockers,"record":record})
                     )?
                 );
             } else {
@@ -126,6 +179,111 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
         } => return check(root, *remote, report.as_ref(), *format),
     }
     Ok(ExitCode::SUCCESS)
+}
+
+fn approve(root: &std::path::Path, review: AdoptionReview) -> Result<()> {
+    let (root, manifest) = load_project(root)?;
+    let before = std::fs::read(root.join(ADOPTION_PATH))?;
+    let mut record = AdoptionRecord::load(&root)?.context("no adoption record")?;
+    if record.schema != 2 {
+        bail!("migration_required: preview adoption migrate first");
+    }
+    if record.plan_id(&manifest)? != review.plan_id {
+        bail!("stale adoption plan; present the current plan for review");
+    }
+    if record.scope.trim().is_empty()
+        || record.practices.values().any(|d| {
+            d.owner.trim().is_empty() || d.reason.trim().is_empty() || d.references.is_empty()
+        })
+    {
+        bail!("assess scope and every proposed choice before requesting approval");
+    }
+    record.review = Some(review);
+    replace_record(&root, &before, &record)?;
+    println!(
+        "Recorded approval claim; implementation and adoption completion remain separately verified. This does not authenticate reviewer identity."
+    );
+    Ok(())
+}
+
+fn plan(root: &std::path::Path) -> Result<()> {
+    let (root, manifest) = load_project(root)?;
+    let record = AdoptionRecord::load(&root)?.context("no adoption record")?;
+    let branch_choices = if manifest.project.trunk == "main" {
+        vec!["Keep main as the single integration and release source".to_string()]
+    } else {
+        vec![
+            format!(
+                "Keep {} as the single integration and release source",
+                manifest.project.trunk
+            ),
+            "Rename the trunk to main after reviewing CI, protection and documentation changes"
+                .into(),
+        ]
+    };
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&serde_json::json!({
+            "schema": 1, "plan_id": record.plan_id(&manifest)?, "record": record,
+            "contract": manifest, "approval": "review_required",
+            "branch_choices": branch_choices,
+            "notice": "Present preserve/change/ignore/unresolved choices and wait for an actual response. A plan hash is not consent."
+        }))?
+    );
+    Ok(())
+}
+
+fn migrate(root: &std::path::Path, write: bool) -> Result<()> {
+    let (root, _) = load_project(root)?;
+    let before = std::fs::read(root.join(ADOPTION_PATH))?;
+    let mut record = AdoptionRecord::load(&root)?.context("no adoption record")?;
+    if record.schema == 1 {
+        record.schema = 2;
+        record.review = None;
+    }
+    if write {
+        replace_record(&root, &before, &record)?;
+    } else {
+        print!("{}", record.to_yaml()?);
+    }
+    Ok(())
+}
+
+fn prepare_evidence(root: &std::path::Path) -> Result<()> {
+    let (root, _) = load_project(root)?;
+    AdoptionRecord::load(&root)?.context("no adoption record")?;
+    let mut questionnaire = opdev_project::EvidenceBootstrap::new(
+        staged_fingerprint(&root)?,
+        [],
+        ["OPDEV-WORK-001".into(), "OPDEV-TEST-002".into()],
+    );
+    questionnaire.change.evidence.push(opdev_core::Evidence {
+        kind: "adoption_review".into(),
+        summary: String::new(),
+        location: Some(ADOPTION_PATH.into()),
+    });
+    print!("{}", questionnaire.to_yaml()?);
+    eprintln!(
+        "Review-required preparation only; writes no ledger and asserts no pass. Fill the actual review summary/work reference, then merge reviewed assertions into the current ledger. This partial worksheet is not a full evidence bootstrap answers file."
+    );
+    Ok(())
+}
+
+fn replace_record(root: &std::path::Path, before: &[u8], record: &AdoptionRecord) -> Result<()> {
+    use std::io::Write;
+    let path = root.join(ADOPTION_PATH);
+    if path.is_symlink() || root.join(".opdev").is_symlink() {
+        bail!("refusing to replace adoption state through a symlink");
+    }
+    let yaml = record.to_yaml()?;
+    let mut file = tempfile::NamedTempFile::new_in(root.join(".opdev"))?;
+    file.write_all(yaml.as_bytes())?;
+    file.as_file().sync_all()?;
+    if std::fs::read(&path)? != before {
+        bail!("adoption record changed during review; retry from a fresh plan");
+    }
+    file.persist(&path)?;
+    Ok(())
 }
 
 fn check(
@@ -161,6 +319,16 @@ fn check(
         apply_local_ci(&root, &manifest, &mut report)?;
         if remote {
             apply_remote_audit(&manifest, &mut report)?;
+        }
+        if !report.rules.iter().any(|rule| {
+            rule.rule_id.as_str() == "MCD-PIPELINE-001"
+                && rule.outcome == Outcome::Passed
+                && rule.evidence.iter().any(|e| {
+                    e.kind == "delivery_gate"
+                        && e.location.as_ref().is_some_and(|p| !p.trim().is_empty())
+                })
+        }) {
+            blockers.push("delivery: review the actual release/tag publication dependency path and provide MCD-PIPELINE-001 delivery_gate evidence; integration-only CI is insufficient".into());
         }
         for gate in [
             Gate::Development,
@@ -231,6 +399,12 @@ fn review_blockers(root: &std::path::Path, fingerprint: Option<&str>) -> Result<
     let reviewed =
         fingerprint.and_then(|fingerprint| ledger.as_ref()?.matching_change(fingerprint));
     let mut blockers = Vec::new();
+    if fingerprint.is_none() {
+        return Ok(vec!["adoption review: staged fingerprint unavailable; resolve the reported unstaged/untracked inputs first".into()]);
+    }
+    if reviewed.is_none() {
+        return Ok(vec!["adoption review: no ledger change matches the current staged fingerprint; review this state rather than copying old assertions".into()]);
+    }
     for id in ["OPDEV-WORK-001", "OPDEV-TEST-002"] {
         if !reviewed.is_some_and(|change| {
             change.assertions.iter().any(|assertion| {
@@ -243,7 +417,7 @@ fn review_blockers(root: &std::path::Path, fingerprint: Option<&str>) -> Result<
             })
         }) {
             blockers.push(format!(
-                "{id}: needs a current fingerprint-bound adoption_review of {ADOPTION_PATH}"
+                "{id}: needs a current fingerprint-bound adoption_review of {ADOPTION_PATH}; check fingerprint separately from evidence kind/location; use adoption prepare-evidence for an unresolved worksheet"
             ));
         }
     }

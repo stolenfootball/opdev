@@ -139,6 +139,7 @@ struct InitArgs {
 }
 
 #[derive(Debug, Args)]
+#[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]
@@ -146,6 +147,9 @@ struct CheckArgs {
     /// Evaluate CI-specific requirements.
     #[arg(long)]
     ci: bool,
+    /// Require the delivery gate and execute declared delivery suites; use before publication.
+    #[arg(long, requires = "ci", conflicts_with = "no_exec")]
+    delivery: bool,
     /// Include read-only remote provider auditing.
     #[arg(long)]
     remote: bool,
@@ -781,6 +785,14 @@ fn generate_ci(args: &CiGenerateArgs) -> Result<()> {
         trunk: discovery.manifest.project.trunk,
         job_image,
     };
+    eprintln!(
+        "This is an integration baseline, not release qualification. Review inherited CI settings and wire `opdev check --ci --delivery` (on a capable CLI) as a required predecessor of publication in the same release path."
+    );
+    if let Some(image) = &context.job_image {
+        eprintln!(
+            "Proposed OpDev job image: {image}; published GNU binaries require glibc >= 2.39 and this template targets x86_64. Preserve product images. The OpDev job disables inherited caches; any opt-in compiled cache must separate OS/libc, architecture and toolchain. Review before applying."
+        );
+    }
     if args.write {
         let path = write_new(adapter, &discovery.root, &context)?;
         println!("created {}", path.display());
@@ -826,6 +838,10 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     } else {
         CheckOptions::local()
     };
+    if args.delivery {
+        options.test_stage = opdev_project::TestStage::Delivery;
+        options.extension_stage = opdev_project::ExtensionStage::Deliver;
+    }
     options.execute_checks = !args.no_exec;
     let mut report = evaluate(&root, &manifest, options).context("project evaluation failed")?;
     if args.ci {
@@ -846,7 +862,9 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
             views::print_summary(&report, source.context("summary requires a saved report")?)?;
         }
     }
-    let gate = if args.ci {
+    let gate = if args.delivery {
+        Gate::Delivery
+    } else if args.ci {
         Gate::Integration
     } else {
         Gate::Development
@@ -906,7 +924,11 @@ fn apply_capability(report: &mut CheckReport, rule_id: &str, capability: &Capabi
 fn apply_remote_audit(manifest: &ProjectManifest, report: &mut CheckReport) -> Result<()> {
     let audit = audit(manifest).context("read-only remote audit could not start")?;
     apply_remote_capability(report, "MCD-CI-001", &audit.ci);
-    apply_remote_capability(report, "MCD-TRUNK-001", &audit.trunk);
+    // Matching provider/default branch names is supporting evidence, not proof
+    // that no intermediate integration or release-promotion branch exists.
+    if audit.trunk.outcome != Outcome::Passed {
+        apply_remote_capability(report, "MCD-TRUNK-001", &audit.trunk);
+    }
     apply_remote_capability(report, "MCD-TEST-002", &audit.trunk_pipeline);
 
     let mut flow = audit.trunk_pipeline.clone();

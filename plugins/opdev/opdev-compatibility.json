@@ -2,7 +2,7 @@
   "schema": 1,
   "plugin": {
     "name": "opdev",
-    "version": "0.2.1"
+    "version": "0.2.2"
   },
   "requires": {
     "cli": ">=0.2.0, <0.3.0"

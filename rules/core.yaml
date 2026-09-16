@@ -61,7 +61,7 @@ rules:
     statement: The project MUST have one trunk that is the integration source of truth.
     applicability: all initialized projects
     gates: [development, integration, delivery, compliance]
-    verification: [manifest, git, remote]
+    verification: [manifest, git, remote, evidence]
     sources:
       - name: MinimumCD
         url: https://minimumcd.org/

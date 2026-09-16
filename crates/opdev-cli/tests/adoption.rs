@@ -6,10 +6,10 @@ use std::process::{Command, Output};
 
 use opdev_core::{Evidence, Outcome, VerificationMethod, embedded_catalog};
 use opdev_project::{
-    ADOPTION_PATH, AdoptionRecord, AdoptionState, ChangeEvidence, CiProvider, CommandSpec,
-    DeliveryStatus, EVIDENCE_PATH, Environment, EvidenceAssertion, EvidenceLedger, MANIFEST_PATH,
-    RecoveryStrategy, Requirement, TestStage, TestSuite, adoption_catalog, discover,
-    staged_fingerprint,
+    ADOPTION_PATH, AdoptionRecord, AdoptionReview, AdoptionState, AdoptionWorkflow, ChangeEvidence,
+    CiProvider, CommandSpec, DeliveryStatus, EVIDENCE_PATH, Environment, EvidenceAssertion,
+    EvidenceLedger, MANIFEST_PATH, MainOption, RecoveryStrategy, Requirement, TestStage, TestSuite,
+    adoption_catalog, discover, staged_fingerprint,
 };
 use serde_json::Value;
 
@@ -46,6 +46,13 @@ fn initialization_is_unresolved_read_only_on_preview_and_resumable()
     assert!(String::from_utf8(preview.stderr)?.contains("formatting"));
     assert!(cli(root, &["init"])?.status.success());
     let mut record = AdoptionRecord::load(root)?.ok_or("missing record")?;
+    assert_eq!(record.schema, 2);
+    let project: Value = serde_saphyr::from_slice(&fs::read(root.join(MANIFEST_PATH))?)?;
+    assert_eq!(project["schema"], 1);
+    // New adoption is already current even though the project contract is v1.
+    let before_migration = fs::read(root.join(ADOPTION_PATH))?;
+    assert!(cli(root, &["adoption", "migrate"])?.status.success());
+    assert_eq!(fs::read(root.join(ADOPTION_PATH))?, before_migration);
     assert!(
         record
             .practices
@@ -239,6 +246,26 @@ fn ready_fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
 }
 
 fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    // Synthetic reviewer authorization; never used as a real project attestation.
+    let manifest = discover(root)?.manifest;
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    record.workflow = Some(AdoptionWorkflow {
+        integration_branches: vec![manifest.project.trunk.clone()],
+        release_source: manifest.project.trunk.clone(),
+        main_option: if manifest.project.trunk == "main" {
+            MainOption::AlreadyMain
+        } else {
+            MainOption::KeepName
+        },
+        references: vec!["fixture-review.md".into()],
+    });
+    record.review = Some(AdoptionReview {
+        plan_id: record.plan_id(&manifest)?,
+        reviewer: "synthetic reviewer".into(),
+        reference: "fixture-review.md".into(),
+        delegation: None,
+    });
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
     assert!(git(root, &["add", "."])?.status.success());
     let catalog = embedded_catalog()?;
     let ledger = EvidenceLedger {
@@ -259,7 +286,11 @@ fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
                     outcome: Outcome::Passed,
                     summary: "Synthetic reviewed test evidence".into(),
                     evidence: vec![Evidence {
-                        kind: "adoption_review".into(),
+                        kind: if rule.id.as_str() == "MCD-PIPELINE-001" {
+                            "delivery_gate".into()
+                        } else {
+                            "adoption_review".into()
+                        },
                         summary:
                             "All fixture decisions and acceptance evidence reviewed for this state"
                                 .into(),
@@ -271,6 +302,315 @@ fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
     };
     fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
     assert!(git(root, &["add", "."])?.status.success());
+    Ok(())
+}
+
+#[test]
+fn approval_is_separate_stale_choices_fail_and_progress_preserves_approval()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let manifest = discover(root)?.manifest;
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    let original_id = record.plan_id(&manifest)?;
+    record
+        .practices
+        .get_mut("integration")
+        .ok_or("integration")?
+        .state = AdoptionState::InProgress;
+    assert_eq!(original_id, record.plan_id(&manifest)?);
+    assert!(record.approval_blockers(&manifest)?.is_empty());
+    assert!(
+        record
+            .blockers(&manifest)?
+            .iter()
+            .any(|b| b.contains("in progress"))
+    );
+    record
+        .practices
+        .get_mut("coverage")
+        .ok_or("coverage")?
+        .reason = "Different proposed policy".into();
+    assert!(!record.approval_blockers(&manifest)?.is_empty());
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    let before = fs::read(root.join(ADOPTION_PATH))?;
+    let stale = cli(
+        root,
+        &[
+            "adoption",
+            "approve",
+            "--plan",
+            &original_id,
+            "--reviewer",
+            "test",
+            "--reference",
+            "fixture-review.md",
+        ],
+    )?;
+    assert_eq!(stale.status.code(), Some(2));
+    assert_eq!(before, fs::read(root.join(ADOPTION_PATH))?);
+    let fresh = record.plan_id(&manifest)?;
+    assert!(
+        cli(
+            root,
+            &[
+                "adoption",
+                "approve",
+                "--plan",
+                &fresh,
+                "--reviewer",
+                "test",
+                "--reference",
+                "fixture-review.md",
+                "--delegation",
+                "Only the reviewed fixture choices; no publication"
+            ]
+        )?
+        .status
+        .success()
+    );
+    assert!(
+        AdoptionRecord::load(root)?
+            .ok_or("record")?
+            .review
+            .ok_or("review")?
+            .delegation
+            .is_some()
+    );
+    let status: Value =
+        serde_json::from_slice(&cli(root, &["adoption", "status", "--format", "json"])?.stdout)?;
+    assert_eq!(status["approval"], "approved");
+    assert_eq!(status["complete"], false);
+    assert_eq!(status["verification"], "not_run");
+    Ok(())
+}
+
+#[test]
+fn migration_preserves_decisions_without_inventing_consent()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    record.schema = 1;
+    record.review = None;
+    record.workflow = None;
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    let before = fs::read(root.join(ADOPTION_PATH))?;
+    let preview = cli(root, &["adoption", "migrate"])?;
+    assert!(preview.status.success());
+    assert_eq!(before, fs::read(root.join(ADOPTION_PATH))?);
+    assert_eq!(cli(root, &["adoption", "check"])?.status.code(), Some(1));
+    assert!(
+        cli(root, &["adoption", "migrate", "--write"])?
+            .status
+            .success()
+    );
+    let migrated = AdoptionRecord::load(root)?.ok_or("record")?;
+    assert_eq!(migrated.schema, 2);
+    assert!(migrated.review.is_none());
+    assert_eq!(
+        serde_json::to_value(record.practices)?,
+        serde_json::to_value(migrated.practices)?
+    );
+    Ok(())
+}
+
+#[test]
+fn a_non_main_trunk_is_valid_but_gitflow_roles_are_not() -> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let mut manifest = discover(repo.path())?.manifest;
+    manifest.project.trunk = "develop".into();
+    let mut record = AdoptionRecord::load(repo.path())?.ok_or("record")?;
+    let workflow = record.workflow.as_mut().ok_or("workflow")?;
+    workflow.integration_branches = vec!["develop".into()];
+    workflow.release_source = "develop".into();
+    workflow.main_option = MainOption::KeepName;
+    assert!(record.workflow_blockers(&manifest).is_empty());
+    fs::write(repo.path().join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    fs::write(repo.path().join(ADOPTION_PATH), record.to_yaml()?)?;
+    let before = fs::read(repo.path().join(ADOPTION_PATH))?;
+    let proposal = cli(repo.path(), &["adoption", "plan"])?;
+    assert!(proposal.status.success());
+    let proposal: Value = serde_json::from_slice(&proposal.stdout)?;
+    assert_eq!(
+        proposal["branch_choices"]
+            .as_array()
+            .ok_or("choices")?
+            .len(),
+        2
+    );
+    assert!(
+        proposal["branch_choices"][0]
+            .as_str()
+            .ok_or("keep")?
+            .contains("develop")
+    );
+    assert!(
+        proposal["branch_choices"][1]
+            .as_str()
+            .ok_or("rename")?
+            .contains("main")
+    );
+    assert_eq!(before, fs::read(repo.path().join(ADOPTION_PATH))?);
+    record.workflow.as_mut().ok_or("workflow")?.release_source = "main".into();
+    assert!(
+        record
+            .workflow_blockers(&manifest)
+            .iter()
+            .any(|b| b.contains("migration_required"))
+    );
+    record
+        .workflow
+        .as_mut()
+        .ok_or("workflow")?
+        .integration_branches
+        .push("main".into());
+    assert!(!record.workflow_blockers(&manifest).is_empty());
+    // Renaming is also valid, but only when both roles move together.
+    manifest.project.trunk = "main".into();
+    let workflow = record.workflow.as_mut().ok_or("workflow")?;
+    workflow.integration_branches = vec!["main".into()];
+    workflow.release_source = "main".into();
+    workflow.main_option = MainOption::RenameToMain;
+    assert!(record.workflow_blockers(&manifest).is_empty());
+    Ok(())
+}
+
+#[test]
+fn evidence_preparation_is_unresolved_read_only_and_correctly_scoped()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let before = fs::read(root.join(EVIDENCE_PATH))?;
+    let output = cli(root, &["adoption", "prepare-evidence"])?;
+    assert!(output.status.success());
+    let review: opdev_project::EvidenceBootstrap = serde_saphyr::from_slice(&output.stdout)?;
+    assert_eq!(review.change.fingerprint, staged_fingerprint(root)?);
+    assert_eq!(review.change.evidence[0].kind, "adoption_review");
+    assert_eq!(
+        review.change.evidence[0].location.as_deref(),
+        Some(ADOPTION_PATH)
+    );
+    assert!(
+        review
+            .change
+            .decisions
+            .values()
+            .all(|d| *d == opdev_project::ReviewDecision::ReviewRequired)
+    );
+    assert_eq!(before, fs::read(root.join(EVIDENCE_PATH))?);
+    Ok(())
+}
+
+#[test]
+fn implemented_labels_do_not_authorize_commands_or_complete_adoption()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    record.review = None;
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    assert!(git(root, &["add", "."])?.status.success());
+    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    assert!(report["core_report"].is_null());
+    assert_eq!(report["complete"], false);
+    assert!(report["blockers"].to_string().contains("approval"));
+    Ok(())
+}
+
+#[test]
+fn integration_success_does_not_qualify_delivery_and_delivery_suites_execute()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.delivery.status = DeliveryStatus::MigrationRequired;
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    bind_review(root)?;
+    assert!(cli(root, &["check", "--ci"])?.status.success());
+    assert_eq!(
+        cli(root, &["check", "--ci", "--delivery"])?.status.code(),
+        Some(1)
+    );
+    assert_eq!(
+        cli(root, &["check", "--ci", "--delivery", "--no-exec"])?
+            .status
+            .code(),
+        Some(2)
+    );
+    manifest.delivery.status = DeliveryStatus::Configured;
+    manifest.commands.insert(
+        "delivery-probe".into(),
+        CommandSpec {
+            argv: vec![
+                "git".into(),
+                "rev-parse".into(),
+                "--verify".into(),
+                "missing-ref".into(),
+            ],
+            working_directory: None,
+            timeout_seconds: Some(30),
+        },
+    );
+    manifest.testing.suites.push(TestSuite {
+        id: "delivery-probe".into(),
+        command: "delivery-probe".into(),
+        stages: vec![TestStage::Delivery],
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    bind_review(root)?;
+    let output = cli(root, &["check", "--ci", "--delivery", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    assert_eq!(report["checks"][0]["id"], "delivery-probe");
+    assert_eq!(report["checks"][0]["outcome"], "failed");
+    Ok(())
+}
+
+#[test]
+fn adoption_requires_release_path_review_not_a_generic_pipeline_pass()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut ledger = EvidenceLedger::load_optional(root, &embedded_catalog()?)?.ok_or("ledger")?;
+    let pipeline = ledger.changes[0]
+        .assertions
+        .iter_mut()
+        .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+        .ok_or("pipeline")?;
+    pipeline.evidence[0].kind = "generic_pipeline".into();
+    fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    let result: Value = serde_json::from_slice(&output.stdout)?;
+    assert!(result["blockers"].to_string().contains("delivery_gate"));
+    Ok(())
+}
+
+#[test]
+fn known_gitflow_conflict_cannot_be_hidden_by_an_evidence_pass()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    record.workflow.as_mut().ok_or("workflow")?.release_source = "release-promotion".into();
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    assert!(git(root, &["add", "."])?.status.success());
+    let mut ledger = EvidenceLedger::load_optional(root, &embedded_catalog()?)?.ok_or("ledger")?;
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+    let output = cli(root, &["check", "--ci", "--format", "json"])?;
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    let trunk = report["rules"]
+        .as_array()
+        .ok_or("rules")?
+        .iter()
+        .find(|r| r["rule_id"] == "MCD-TRUNK-001")
+        .ok_or("trunk")?;
+    assert_eq!(trunk["outcome"], "migration_required");
+    assert_eq!(output.status.code(), Some(1));
     Ok(())
 }
 

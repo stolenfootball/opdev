@@ -122,8 +122,9 @@ a migration gap is not delivery approval. See [result semantics](../spec/result-
 
 ## Complete adoption in development builds
 
-Check `opdev adoption --help` first. These commands are not yet available in
-published 0.1.2 or the plugin's pinned 0.1.1 runtime. If unavailable, select a
+Check `opdev adoption --help` first. Published 0.2.0 has the original assessment;
+schema-2 plan/approve/migrate/prepare-evidence are development capabilities.
+If unavailable, select a
 compatible source-built CLI or leave adoption explicitly incomplete; do not
 report older scaffolding as completed assessment.
 
@@ -141,6 +142,19 @@ repositories. Preserve adequate tools and conventions. For unresolved gaps,
 research suitable options using current primary documentation and project
 constraints, then agree on the proposal before implementation. OpDev supplies
 a consistent checklist, not a prescribed ecosystem tool stack.
+
+The agent presents preserve/change/ignore/unresolved choices and waits for your
+response. You can explicitly delegate bounded choices; asking to adopt is not
+blanket delegation. For a non-main trunk, choose whether to keep the name or
+rename it to main. Both are supported; a separate integration-to-release branch
+promotion workflow still needs migration to one trunk.
+
+With a capable CLI, preview an old record using `opdev adoption migrate`, then
+apply the reviewed migration with `--write`. Fill proposed choices and workflow
+roles, run `opdev adoption plan`, and review its exact ID before recording your
+actual response using `opdev adoption approve --plan ID --reviewer NAME --reference
+REF`. Approval does not mark implementation complete. Changed choices need a new
+review; `pending` and `in_progress` remain unfinished after approval.
 
 Record an owner, rationale, and evidence references for each disposition in
 `.opdev/adoption.yaml`. Implemented automated practices must reference declared
@@ -237,6 +251,17 @@ opdev ci generate --provider gitlab --write
 Generation refuses to overwrite an existing provider file. Review and commit
 the output. It installs a pinned CLI and evaluates the integration gate; it is
 not a complete application build, deployment, or recovery pipeline.
+
+Generated GitLab jobs isolate caches and require a compatible x86-64/glibc 2.39+
+environment for OpDev. Preserve product images; review inheritance and test cold
+and warm caches when composing with existing CI. Both providers verify the CLI's
+signature with a pinned verifier before extraction.
+
+For release qualification, a capable CLI supports `opdev check --ci --delivery`.
+It executes delivery-stage suites/extensions and uses the delivery gate for its
+exit code; `--no-exec` cannot be combined with it. Wire it as a required predecessor
+of publication in the actual release/tag pipeline, with artifact-bound evidence.
+A successful integration check alone does not permit publishing or complete adoption.
 
 GitLab generation can infer a toolchain image from supported Rust, Go, Node.js,
 or Python version files. For mixed/custom stacks or ambiguous metadata, select

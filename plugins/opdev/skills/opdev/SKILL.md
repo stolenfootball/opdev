@@ -5,6 +5,15 @@ description: Follow OpDev for software work in projects configured with .opdev/p
 
 # OpDev
 
+Report actions from execution evidence, not from plans or permission assumptions.
+Distinguish not attempted, expected to require approval, attempted and denied,
+and executed with an observed result. A denial for one invocation proves nothing
+about unattempted commands. Before progress or final summaries, reconcile claimed
+actions and blockers with the actual tool record; keep unknown results unknown.
+Use [reporting evidence](references/results.md#reporting-actions-and-blockers)
+when a command is blocked, fails, or has an uncertain result. These are action
+descriptions, not new OpDev rule outcomes or an extra project ledger.
+
 Apply the workflow only after the project-state and consent gate below. Loading this skill, installing the plugin, or a host requiring skill inspection does not authorize following OpDev in an uninitialized project. Do not announce "using OpDev" merely because this skill was loaded.
 
 ## Establish state
@@ -66,6 +75,12 @@ For initialization, conversion to OpDev, or resolving incomplete adoption, read
 [adoption.md](references/adoption.md). Assess every supplied practice, preserve
 existing choices, research only project-specific gaps, and verify completion.
 An explicit adoption request supplies consent to assess; do not ask again.
+It does not authorize choosing policies for the developer. Present material
+choices and wait for their response or explicit bounded delegation before
+implementation. Follow the adoption reference's approval and completion gates.
+Use its [decision review](references/decision-review.md) before requesting plan
+approval: resolve material choices in relevant question rounds, verify inherited
+consent, and keep implementation authorization separate from policy selection.
 
 For experimental features or releases that must exclude unfinished behavior, read
 [experiments.md](references/experiments.md). Keep stable behavior releasable and
