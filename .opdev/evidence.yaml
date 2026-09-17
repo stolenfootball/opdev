@@ -121,6 +121,16 @@ changes:
   - fingerprint: 5d80951daf5d4d0da42bc2638dd48814423f16ec55d875aedf2b5e4147e3f2d2
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
     assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the presented CLI outcome wording with 'You have permission, go ahead' on 2026-09-17; automated process tests verify plain text, JSON, error exits and explicit qualification limits."
+        evidence:
+          - kind: review
+            summary: "Approval covers the presented report-inspection wording, not universal accessibility or broad effectiveness. Issue 44 retains the actual response and review scope."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+          - kind: test
+            summary: "The process acceptance suite verifies noninteractive text/JSON output, read-only behavior and verifier-error exits."
+            location: "crates/opdev-cli/tests/test_reports.rs"
       - rule_id: OPDEV-WORK-001
         outcome: passed
         summary: "Issue 44 records the authorized outcome, first inspection slice, exclusions, risks, research and remaining execution-binding acceptance."
