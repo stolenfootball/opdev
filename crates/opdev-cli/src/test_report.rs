@@ -16,6 +16,18 @@ pub(crate) struct TestReportArgs {
 
 #[derive(Debug, Subcommand)]
 enum TestReportCommand {
+    /// Run one canonical suite and emit JSON execution evidence, not gate qualification.
+    Run {
+        /// Directory in an initialized repository with clean, committed source.
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        /// Existing suite identifier; its argv, working directory and timeout are preserved.
+        #[arg(long)]
+        suite: String,
+        /// Previously absent `JUnit` output, relative to the Git root or absolute.
+        #[arg(long)]
+        junit: PathBuf,
+    },
     /// Inspect one `JUnit` XML file; does not verify execution, freshness or any gate.
     Inspect {
         /// UTF-8 `JUnit` XML file (maximum 8 MiB).
@@ -27,7 +39,15 @@ enum TestReportCommand {
 }
 
 pub(crate) fn run(args: &TestReportArgs) -> Result<ExitCode> {
-    let TestReportCommand::Inspect { path, format } = &args.command;
+    match &args.command {
+        TestReportCommand::Run { root, suite, junit } => {
+            crate::test_execution::run(root, suite, junit)
+        }
+        TestReportCommand::Inspect { path, format } => inspect(path, *format),
+    }
+}
+
+fn inspect(path: &std::path::Path, format: OutputFormat) -> Result<ExitCode> {
     anyhow::ensure!(
         std::fs::metadata(path)
             .context("could not inspect JUnit input")?

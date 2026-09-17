@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/test-execution-receipt-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "suite", "command_key", "command_sha256", "started_at_unix_ms", "revision_before", "revision_after", "source_unchanged", "command_outcome", "report_outcome", "outcome", "exit_code", "duration_ms", "report", "qualification", "diagnostics"],
+  "properties": {
+    "schema": { "const": 1 },
+    "suite": { "type": "string", "minLength": 1 },
+    "command_key": { "type": "string", "minLength": 1 },
+    "command_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "started_at_unix_ms": { "type": "integer", "minimum": 0 },
+    "revision_before": { "$ref": "#/$defs/revision" },
+    "revision_after": { "anyOf": [{ "$ref": "#/$defs/revision" }, { "type": "null" }] },
+    "source_unchanged": { "type": "boolean" },
+    "command_outcome": { "enum": ["passed", "failed", "error"] },
+    "report_outcome": { "enum": ["passed", "failed", "unverified", "error"] },
+    "outcome": { "enum": ["passed", "failed", "unverified", "error"] },
+    "exit_code": { "type": ["integer", "null"] },
+    "duration_ms": { "type": ["integer", "null"], "minimum": 0 },
+    "report": { "anyOf": [{ "type": "null" }, { "$ref": "https://opdev.dev/schema/test-report-inspection-v1.json" }] },
+    "qualification": { "const": "unverified" },
+    "diagnostics": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  },
+  "$defs": {
+    "revision": { "type": "string", "pattern": "^([0-9a-f]{40}|[0-9a-f]{64})$" }
+  }
+}

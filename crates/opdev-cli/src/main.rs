@@ -25,6 +25,7 @@ use semver::{Version, VersionReq};
 use serde::Deserialize;
 
 mod adoption;
+mod test_execution;
 mod test_report;
 mod upgrade;
 mod views;

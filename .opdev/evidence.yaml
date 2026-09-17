@@ -118,6 +118,86 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: e474ef28a255d63bd105556d6a7b1c620302b4cf0865249155fa9246beb27322
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 44 and its next-slice plan define canonical execution, absent-report preconditions, source identity checks, acceptance and exclusions."
+        evidence:
+          - kind: review
+            summary: "Issue 44 and its next-slice plan define canonical execution, absent-report preconditions, source identity checks, acceptance and exclusions."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The specification defines a separate timestamped execution receipt and its provenance limits without changing existing manifest, check or gate contracts."
+        evidence:
+          - kind: review
+            summary: "The specification defines a separate timestamped execution receipt and its provenance limits without changing existing manifest, check or gate contracts."
+            location: "spec/test-reports.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "main remains the sole integration trunk and the existing CI-exclusive delivery path is unchanged."
+        evidence:
+          - kind: review
+            summary: "main remains the sole integration trunk and the existing CI-exclusive delivery path is unchanged."
+            location: ".opdev/project.yaml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The next focused issue 44 branch starts from merged trunk 6d358b7d02cb4c5fc54cece405815bdd1423588d; MR 35 is integrated and its post-merge CI passed."
+        evidence:
+          - kind: review
+            summary: "The next focused issue 44 branch starts from merged trunk 6d358b7d02cb4c5fc54cece405815bdd1423588d; MR 35 is integrated and its post-merge CI passed."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/35"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only the execution-receipt slice is under implementation. The preceding inspector is integrated; issues 45-48 remain queued."
+        evidence:
+          - kind: review
+            summary: "Only the execution-receipt slice is under implementation. The preceding inspector is integrated; issues 45-48 remain queued."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Post-merge trunk pipeline 2859510114 passed all seven jobs at 6d358b7; there is no known red trunk requiring restoration."
+        evidence:
+          - kind: review
+            summary: "Post-merge trunk pipeline 2859510114 passed all seven jobs at 6d358b7; there is no known red trunk requiring restoration."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2859510114"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "This additive command preserves the existing inspector and project schemas. Canonical workspace tests passed, including existing consumer-interface and report tests."
+        evidence:
+          - kind: review
+            summary: "This additive command preserves the existing inspector and project schemas. Canonical workspace tests passed, including existing consumer-interface and report tests."
+            location: "crates/opdev-cli/tests/test_reports.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical format, lint and workspace checks passed for this staged state. Thirteen receipt scenarios cover command/report failures, stale or missing outputs, source mutation, timeouts, spawn errors, dirty source and declared working directories. Existing ignored environment tests remain unverified."
+        evidence:
+          - kind: review
+            summary: "Canonical format, lint and workspace checks passed for this staged state. Thirteen receipt scenarios cover command/report failures, stale or missing outputs, source mutation, timeouts, spawn errors, dirty source and declared working directories. Existing ignored environment tests remain unverified."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "The JSON receipt retains component and combined outcomes, exit, duration, local start time and source/report identities. Process tests verify pre-execution refusal and exits 0/1/2; unknown qualification is explicit."
+        evidence:
+          - kind: review
+            summary: "The JSON receipt retains component and combined outcomes, exit, duration, local start time and source/report identities. Process tests verify pre-execution refusal and exits 0/1/2; unknown qualification is explicit."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored work remains subject to unchanged canonical tests, fingerprint-bound evidence and MR CI. Human interface review and broad effectiveness are not inferred from implementation authorization."
+        evidence:
+          - kind: review
+            summary: "Agent-authored work remains subject to unchanged canonical tests, fingerprint-bound evidence and MR CI. Human interface review and broad effectiveness are not inferred from implementation authorization."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Initial lint requested if-let structure; the correction passed. Acceptance tests preserve concurrent command/parser failures and distinguish command timeouts from report absence."
+        evidence:
+          - kind: review
+            summary: "Initial lint requested if-let structure; the correction passed. Acceptance tests preserve concurrent command/parser failures and distinguish command timeouts from report absence."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
   - fingerprint: 5d80951daf5d4d0da42bc2638dd48814423f16ec55d875aedf2b5e4147e3f2d2
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
     assertions:
