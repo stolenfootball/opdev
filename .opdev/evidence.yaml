@@ -118,6 +118,100 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 9e30cecaa7b7fc838df12aea87fc90e5c4348371ff2757c4601274b57e56d314
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/43
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "The maintainer authorized publishing the merged maintenance patch; issue 43 defines candidate, final and subsequent managed-pin qualification."
+        evidence:
+          - kind: review
+            summary: "The maintainer authorized publishing the merged maintenance patch; issue 43 defines candidate, final and subsequent managed-pin qualification."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/43"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "This increment changes release metadata only: CLI 0.2.2 and plugin 0.2.4; published CLI 0.2.1 remains the managed pin until the new immutable release qualifies."
+        evidence:
+          - kind: review
+            summary: "This increment changes release metadata only: CLI 0.2.2 and plugin 0.2.4; published CLI 0.2.1 remains the managed pin until the new immutable release qualifies."
+            location: "release/README.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "main remains the sole integration and release-source trunk; protected tag CI remains the sole publisher."
+        evidence:
+          - kind: review
+            summary: "main remains the sole integration and release-source trunk; protected tag CI remains the sole publisher."
+            location: ".gitlab-ci.yml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The short-lived release preparation branch starts at green main a39dd1bda3d49eecb9a3988d5da6e76828360307; merge and post-merge checks precede tags."
+        evidence:
+          - kind: review
+            summary: "The short-lived release preparation branch starts at green main a39dd1bda3d49eecb9a3988d5da6e76828360307; merge and post-merge checks precede tags."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/43"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "There is one release-preparation branch and no concurrent implementation stream requiring coordination."
+        evidence:
+          - kind: review
+            summary: "There is one release-preparation branch and no concurrent implementation stream requiring coordination."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/43"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2855934618 is successful; no red trunk requires recovery."
+        evidence:
+          - kind: review
+            summary: "Trunk pipeline 2855934618 is successful; no red trunk requires recovery."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2855934618"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Workspace and host metadata agree, the compatibility range and schemas are unchanged, and compact output remains opt-in. Full workspace tests pass."
+        evidence:
+          - kind: review
+            summary: "Workspace and host metadata agree, the compatibility range and schemas are unchanged, and compact output remains opt-in. Full workspace tests pass."
+            location: "crates/opdev-cli/src/main.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical formatting, strict clippy and full enabled workspace tests pass for the version increment. Existing platform/live test skips remain explicit; tag qualification is still required."
+        evidence:
+          - kind: review
+            summary: "Canonical formatting, strict clippy and full enabled workspace tests pass for the version increment. Existing platform/live test skips remain explicit; tag qualification is still required."
+            location: "crates"
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "Metadata-only preparation preserves the reviewed textual CLI and agent interaction targets and passing consumer interface tests."
+        evidence:
+          - kind: review
+            summary: "Metadata-only preparation preserves the reviewed textual CLI and agent interaction targets and passing consumer interface tests."
+            location: "spec/consumer-interface.md"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "No operational behavior changes in this version increment; existing diagnostic and report retention regressions pass."
+        evidence:
+          - kind: review
+            summary: "No operational behavior changes in this version increment; existing diagnostic and report retention regressions pass."
+            location: "crates/opdev-cli/tests/consumer_interface.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored release changes retain all required review, canonical suites and protected CI gates."
+        evidence:
+          - kind: review
+            summary: "Agent-authored release changes retain all required review, canonical suites and protected CI gates."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The release includes the separately tested escaped pnpx, cleanup, symlink, line-ending and offer timing fixes; their failed attempts and limitations remain recorded."
+        evidence:
+          - kind: review
+            summary: "The release includes the separately tested escaped pnpx, cleanup, symlink, line-ending and offer timing fixes; their failed attempts and limitations remain recorded."
+            location: "release/CHANGELOG.md"
+      - rule_id: OPDEV-EVAL-001
+        outcome: passed
+        summary: "This metadata-only increment packages the previously evaluated maintenance behavior without extending effectiveness claims. Full permission-blocked interactive adoption remains unverified."
+        evidence:
+          - kind: review
+            summary: "This metadata-only increment packages the previously evaluated maintenance behavior without extending effectiveness claims. Full permission-blocked interactive adoption remains unverified."
+            location: "benchmarks/adoption/expanded-activation-results-2026-09-16.md"
   - fingerprint: 2d2b05d5d530b447f2ddaf2bab4c9631a1beea2a896a969a918e139a770004fd
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/39
     assertions:
