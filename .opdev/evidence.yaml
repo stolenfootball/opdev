@@ -121,6 +121,16 @@ changes:
   - fingerprint: e474ef28a255d63bd105556d6a7b1c620302b4cf0865249155fa9246beb27322
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
     assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the presented JSON execution-receipt outcomes with 'Yes, I approve' on 2026-09-17. Command, report and combined outcomes remain separate from unverified release qualification."
+        evidence:
+          - kind: review
+            summary: "The approval covers the new JSON presentation. It does not establish broader effectiveness or universal accessibility; issue 44 retains the actual response and scope."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+          - kind: test
+            summary: "Schema-backed process tests verify noninteractive JSON, explicit outcome distinctions and exit codes without changing the previously reviewed inspector."
+            location: "crates/opdev-cli/tests/test_execution.rs"
       - rule_id: OPDEV-WORK-001
         outcome: passed
         summary: "Issue 44 and its next-slice plan define canonical execution, absent-report preconditions, source identity checks, acceptance and exclusions."
