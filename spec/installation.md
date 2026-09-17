@@ -2,7 +2,7 @@
 
 The plugin can install a compatible native CLI from the canonical release host
 without requiring a Rust toolchain or a global signature-verifier installation.
-Plugin 0.2.3 pins the qualified, immutable CLI 0.2.1 GitHub release. The
+Plugin 0.2.4 pins the qualified, immutable CLI 0.2.1 GitHub release. The
 pin is deliberately separate from the plugin version so a source-marketplace
 update never depends on an unpublished archive. The declared CLI compatibility
 range MUST accept the pin. Updating the pin is a reviewed source change.

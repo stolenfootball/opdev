@@ -3,7 +3,11 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
-## Unreleased
+## 0.2.2 / Plugin 0.2.4
+
+- Keep compact/token-reduction views behind explicit experimental opt-in.
+  The bundled plugin retains its qualified CLI 0.2.1 pin during publication;
+  the CLI 0.2.2 managed pin follows only after independent release qualification.
 
 - Use a supported, non-downloading `pnpx --help` smoke probe on Windows.
 - Bound and report Windows temporary-cleanup retries, release the install lock
