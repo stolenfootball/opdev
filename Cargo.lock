@@ -1106,6 +1106,7 @@ version = "0.2.2"
 dependencies = [
  "anyhow",
  "clap",
+ "jsonschema",
  "opdev-ci",
  "opdev-core",
  "opdev-engine",
