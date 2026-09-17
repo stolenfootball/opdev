@@ -18,7 +18,7 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.2.4 pins qualified CLI 0.2.1 and requires
+0.2.5 pins qualified CLI 0.2.2 and requires
 CLI >=0.2.0, <0.3.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
