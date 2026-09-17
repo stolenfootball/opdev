@@ -3,6 +3,13 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
+## Plugin 0.2.5
+
+- Pin published and independently qualified CLI 0.2.2 with its exact GitLab
+  signature identity. Preserve older cached runtimes and project-owned state.
+- This source-plugin update leaves immutable v0.2.2 archives intact and keeps
+  compact/token-reduction views behind explicit experimental opt-in.
+
 ## 0.2.2 / Plugin 0.2.4
 
 - Keep compact/token-reduction views behind explicit experimental opt-in.

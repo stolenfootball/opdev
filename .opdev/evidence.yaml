@@ -118,6 +118,100 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: b8dba18191435ad75ef7ac18f8eb352cf039aa39eecc3b03886aee1fba2a942b
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/43
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 43 and the authorized release workflow include this follow-up managed pin to independently qualified CLI 0.2.2."
+        evidence:
+          - kind: review
+            summary: "Issue 43 and the authorized release workflow include this follow-up managed pin to independently qualified CLI 0.2.2."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/43"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "Plugin 0.2.5 changes only version metadata and the exact published runtime/tag/signing identity. Verifier digests and compatibility range remain unchanged."
+        evidence:
+          - kind: review
+            summary: "Plugin 0.2.5 changes only version metadata and the exact published runtime/tag/signing identity. Verifier digests and compatibility range remain unchanged."
+            location: "spec/installation.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "main remains the sole trunk; source-plugin delivery uses the existing reviewed GitLab path."
+        evidence:
+          - kind: review
+            summary: "main remains the sole trunk; source-plugin delivery uses the existing reviewed GitLab path."
+            location: ".gitlab-ci.yml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The short-lived pin branch starts at release trunk 48525f5ad775f93f6eca96dc8c408653c63049ab after successful candidate and final qualification."
+        evidence:
+          - kind: review
+            summary: "The short-lived pin branch starts at release trunk 48525f5ad775f93f6eca96dc8c408653c63049ab after successful candidate and final qualification."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/43"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only this pin follow-up is under implementation; release preparation is already integrated."
+        evidence:
+          - kind: review
+            summary: "Only this pin follow-up is under implementation; release preparation is already integrated."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/43"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2856723086 and final tag pipeline 2856788592 passed; no known red trunk requires recovery."
+        evidence:
+          - kind: review
+            summary: "Trunk pipeline 2856723086 and final tag pipeline 2856788592 passed; no known red trunk requires recovery."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2856788592"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Canonical tests and both host validators passed. Live Windows install, run and immutable reuse of published 0.2.2 passed; old cached runtimes and project records are not modified."
+        evidence:
+          - kind: review
+            summary: "Canonical tests and both host validators passed. Live Windows install, run and immutable reuse of published 0.2.2 passed; old cached runtimes and project records are not modified."
+            location: "tests/runtime_smoke.ps1"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Format, strict clippy and workspace suites passed. Thirteen Windows and eleven POSIX offline installer cases passed; the live Windows signed-release installation and reuse passed."
+        evidence:
+          - kind: review
+            summary: "Format, strict clippy and workspace suites passed. Thirteen Windows and eleven POSIX offline installer cases passed; the live Windows signed-release installation and reuse passed."
+            location: "tests"
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "Version/pin-only update preserves the reviewed textual interface and passing consumer-interface tests."
+        evidence:
+          - kind: review
+            summary: "Version/pin-only update preserves the reviewed textual interface and passing consumer-interface tests."
+            location: "spec/consumer-interface.md"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Live installation verified the exact version and compatibility; bootstrap diagnostics and bounded-cleanup failure tests remain passing."
+        evidence:
+          - kind: review
+            summary: "Live installation verified the exact version and compatibility; bootstrap diagnostics and bounded-cleanup failure tests remain passing."
+            location: "tests/runtime_test.ps1"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "The pin is subject to unchanged canonical checks, platform installer qualification and MR/trunk CI."
+        evidence:
+          - kind: review
+            summary: "The pin is subject to unchanged canonical checks, platform installer qualification and MR/trunk CI."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The final release was verified independently before changing the pin. The candidate consumer-helper assertion error and corrected rerun are retained in issue 43."
+        evidence:
+          - kind: review
+            summary: "The final release was verified independently before changing the pin. The candidate consumer-helper assertion error and corrected rerun are retained in issue 43."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/43"
+      - rule_id: OPDEV-EVAL-001
+        outcome: passed
+        summary: "This narrowly scoped consumer outcome is tested by live signed installation, version execution and repeat-install reuse. No new general adoption or token-efficiency effectiveness claim is made."
+        evidence:
+          - kind: review
+            summary: "This narrowly scoped consumer outcome is tested by live signed installation, version execution and repeat-install reuse. No new general adoption or token-efficiency effectiveness claim is made."
+            location: "tests/runtime_smoke.ps1"
   - fingerprint: 9e30cecaa7b7fc838df12aea87fc90e5c4348371ff2757c4601274b57e56d314
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/43
     assertions:
