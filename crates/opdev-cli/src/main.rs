@@ -25,6 +25,7 @@ use semver::{Version, VersionReq};
 use serde::Deserialize;
 
 mod adoption;
+mod test_report;
 mod upgrade;
 mod views;
 
@@ -46,6 +47,8 @@ enum Command {
     Check(CheckArgs),
     /// Inspect a saved check report without executing project commands.
     Report(ReportArgs),
+    /// Inspect structured test evidence without qualifying a change.
+    TestReport(test_report::TestReportArgs),
     /// Explain missing, contradictory, or unverified capabilities.
     Doctor(DoctorArgs),
     /// Generate or inspect a first-class CI configuration.
@@ -426,6 +429,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
             Ok(ExitCode::SUCCESS)
         }
         Command::Rules(args) => show_rules(args).map(|()| ExitCode::SUCCESS),
+        Command::TestReport(args) => test_report::run(&args),
         Command::Profiles(args) => show_profiles(args).map(|()| ExitCode::SUCCESS),
         Command::Release(args) => release_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Evidence(args) => evidence_command(&args).map(|()| ExitCode::SUCCESS),
