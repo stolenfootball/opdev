@@ -118,6 +118,96 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 5d80951daf5d4d0da42bc2638dd48814423f16ec55d875aedf2b5e4147e3f2d2
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
+    assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the presented CLI outcome wording with 'You have permission, go ahead' on 2026-09-17; automated process tests verify plain text, JSON, error exits and explicit qualification limits."
+        evidence:
+          - kind: review
+            summary: "Approval covers the presented report-inspection wording, not universal accessibility or broad effectiveness. Issue 44 retains the actual response and review scope."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+          - kind: test
+            summary: "The process acceptance suite verifies noninteractive text/JSON output, read-only behavior and verifier-error exits."
+            location: "crates/opdev-cli/tests/test_reports.rs"
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 44 records the authorized outcome, first inspection slice, exclusions, risks, research and remaining execution-binding acceptance."
+        evidence:
+          - kind: review
+            summary: "Issue 44 records the authorized outcome, first inspection slice, exclusions, risks, research and remaining execution-binding acceptance."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The new specification records supported JUnit interpretation, independent schema, resource limits, privacy boundaries, alternatives and reversal trigger; no core gate or project schema changes."
+        evidence:
+          - kind: review
+            summary: "The new specification records supported JUnit interpretation, independent schema, resource limits, privacy boundaries, alternatives and reversal trigger; no core gate or project schema changes."
+            location: "spec/test-reports.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "main remains the sole integration trunk and the existing CI release path is unchanged; this branch is implementation only."
+        evidence:
+          - kind: review
+            summary: "main remains the sole integration trunk and the existing CI release path is unchanged; this branch is implementation only."
+            location: ".opdev/project.yaml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused issue 44 branch was created from current green trunk 85263bddc833594158c381543686a83578dfe4c3 on 2026-09-17; integration remains subject to MR CI."
+        evidence:
+          - kind: review
+            summary: "The focused issue 44 branch was created from current green trunk 85263bddc833594158c381543686a83578dfe4c3 on 2026-09-17; integration remains subject to MR CI."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only the first issue 44 slice is under implementation; issues 45-48 are queued with no concurrent feature branches from this task."
+        evidence:
+          - kind: review
+            summary: "Only the first issue 44 slice is under implementation; issues 45-48 are queued with no concurrent feature branches from this task."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Required trunk pipeline 2856835754 passed at source 85263bddc833594158c381543686a83578dfe4c3 before feature work."
+        evidence:
+          - kind: review
+            summary: "Required trunk pipeline 2856835754 passed at source 85263bddc833594158c381543686a83578dfe4c3 before feature work."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2856835754"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "The CLI subcommand is additive. Existing project/check/extension formats, default gates and runtime pins remain unchanged; the full canonical workspace suite passed on Windows."
+        evidence:
+          - kind: review
+            summary: "The CLI subcommand is additive. Existing project/check/extension formats, default gates and runtime pins remain unchanged; the full canonical workspace suite passed on Windows."
+            location: "spec/test-reports.md"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical format, strict clippy and workspace tests passed after implementation, including four parser tests and two process acceptance tests. Three pre-existing Docker/live-provider tests remain ignored, not verified."
+        evidence:
+          - kind: review
+            summary: "Canonical format, strict clippy and workspace tests passed after implementation, including four parser tests and two process acceptance tests. Three pre-existing Docker/live-provider tests remain ignored, not verified."
+            location: "crates/opdev-cli/tests/test_reports.rs"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Process tests demonstrate textual diagnostics, JSON outcomes, read-only behavior and exit 0/1/2; malformed/oversized reports are verifier errors without copied input contents."
+        evidence:
+          - kind: review
+            summary: "Process tests demonstrate textual diagnostics, JSON outcomes, read-only behavior and exit 0/1/2; malformed/oversized reports are verifier errors without copied input contents."
+            location: "crates/opdev-cli/tests/test_reports.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored code is subject to unchanged canonical commands, fingerprint-bound evidence and required MR CI; unknown human-review and effectiveness evidence are not marked passed."
+        evidence:
+          - kind: review
+            summary: "Agent-authored code is subject to unchanged canonical commands, fingerprint-bound evidence and required MR CI; unknown human-review and effectiveness evidence are not marked passed."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Initial lint attempts found doc formatting and function length; fixes and successful reruns are recorded in issue 44. Ambiguous case/suite formats remain unverified rather than being silently accepted."
+        evidence:
+          - kind: review
+            summary: "Initial lint attempts found doc formatting and function length; fixes and successful reruns are recorded in issue 44. Ambiguous case/suite formats remain unverified rather than being silently accepted."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
   - fingerprint: b8dba18191435ad75ef7ac18f8eb352cf039aa39eecc3b03886aee1fba2a942b
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/43
     assertions:

@@ -39,6 +39,9 @@ authority placement and conflict handling.
 See [compact report and evidence views](compact-views.md) for read-only
 projections, retained diagnostics, freshness, and compatibility.
 
+See [structured test report inspection](test-reports.md) for bounded JUnit
+observations and their explicit separation from execution and qualification.
+
 See [token-efficiency evaluation](token-efficiency.md) for the benchmark's
 measurement, acceptance, and effectiveness boundaries.
 
