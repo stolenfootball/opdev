@@ -25,6 +25,7 @@ use semver::{Version, VersionReq};
 use serde::Deserialize;
 
 mod adoption;
+mod ci_run;
 mod test_execution;
 mod test_report;
 mod upgrade;
@@ -203,6 +204,8 @@ struct CiArgs {
 
 #[derive(Debug, Subcommand)]
 enum CiCommand {
+    /// Verify an explicitly selected remote CI run, not whole-project qualification.
+    VerifyRun(ci_run::VerifyRunArgs),
     /// Render a pinned baseline configuration.
     Generate(CiGenerateArgs),
     /// Inspect the initialized project's local CI configuration.
@@ -446,7 +449,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
             ReportCommand::Summarize { path } => views::summarize_file(&path),
         },
         Command::Doctor(args) => doctor(&args).map(|()| ExitCode::SUCCESS),
-        Command::Ci(args) => ci_command(&args).map(|()| ExitCode::SUCCESS),
+        Command::Ci(args) => ci_command(&args),
         Command::Upgrade(args) => upgrade::run(&args),
     }
 }
@@ -769,10 +772,11 @@ fn report_agent_changes(changes: &[opdev_project::ManagedFile]) {
     }
 }
 
-fn ci_command(args: &CiArgs) -> Result<()> {
+fn ci_command(args: &CiArgs) -> Result<ExitCode> {
     match &args.command {
-        CiCommand::Generate(args) => generate_ci(args),
-        CiCommand::Inspect(args) => inspect_ci(args),
+        CiCommand::Generate(args) => generate_ci(args).map(|()| ExitCode::SUCCESS),
+        CiCommand::Inspect(args) => inspect_ci(args).map(|()| ExitCode::SUCCESS),
+        CiCommand::VerifyRun(args) => ci_run::run(args),
     }
 }
 

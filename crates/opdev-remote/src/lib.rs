@@ -2,6 +2,9 @@
 
 #![forbid(unsafe_code)]
 
+mod run;
+pub use run::{RunExpectation, RunObservation, RunVerification, verify_run};
+
 use std::env;
 use std::process::{Command, Stdio};
 use std::time::Duration;
@@ -44,6 +47,9 @@ pub struct RemoteAudit {
 /// Failures that prevent a remote audit from being attempted safely.
 #[derive(Debug, Error)]
 pub enum RemoteError {
+    /// Expected run identity is missing or invalid.
+    #[error("invalid expected CI run: {0}")]
+    InvalidExpectation(String),
     /// The initialized project has no remote URL.
     #[error("the project contract does not declare a remote repository")]
     MissingRemote,
