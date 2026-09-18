@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opdev.dev/schema/project-v1.json",
+  "$id": "https://opdev.dev/schema/project.json",
   "title": "OpDev project contract",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "project", "authorities", "commands", "quality", "testing", "delivery", "assurance", "context"],
   "properties": {
-    "schema": { "const": 1 },
+    "schema": { "enum": [1, 2] },
     "project": { "$ref": "#/$defs/project" },
     "authorities": {
       "type": "object",
@@ -24,7 +24,39 @@
     "extensions": { "$ref": "#/$defs/extensions" },
     "context": { "$ref": "#/$defs/context" }
   },
+  "if": { "properties": { "schema": { "const": 1 } } },
+  "then": { "properties": { "project": { "properties": { "ci": { "not": { "required": ["qualification"] } } } } } },
   "$defs": {
+    "qualification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["review_reference", "source", "required_jobs", "required_checks", "protection"],
+      "properties": {
+        "review_reference": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "minLength": 1 },
+        "workflow_id": { "type": "integer", "minimum": 1 },
+        "required_jobs": { "type": "array", "minItems": 1, "maxItems": 100, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "required_checks": { "type": "array", "maxItems": 100, "uniqueItems": true, "items": {
+          "type": "object", "additionalProperties": false, "required": ["name", "producer_id"],
+          "properties": { "name": { "type": "string", "minLength": 1 }, "producer_id": { "type": "integer", "minimum": 1 } }
+        } },
+        "protection": { "oneOf": [
+          { "type": "object", "additionalProperties": false, "required": ["kind", "strict"], "properties": { "kind": { "const": "github_branch" }, "strict": { "type": "boolean" } } },
+          { "type": "object", "additionalProperties": false, "required": ["kind", "ids", "strict"], "properties": { "kind": { "const": "github_rulesets" }, "strict": { "type": "boolean" }, "ids": { "type": "array", "minItems": 1, "maxItems": 20, "uniqueItems": true, "items": { "type": "integer", "minimum": 1 } } } },
+          { "type": "object", "additionalProperties": false, "required": ["kind", "rules"], "properties": { "kind": { "const": "gitlab" }, "rules": { "type": "array", "minItems": 1, "maxItems": 100, "items": {
+            "type": "object", "additionalProperties": false, "required": ["name", "push", "merge"], "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "push": { "$ref": "#/$defs/access_principals" }, "merge": { "$ref": "#/$defs/access_principals" }
+            }
+          } } } }
+        ] }
+      }
+    },
+    "access_principals": {
+      "type": "array", "minItems": 1, "maxItems": 100, "uniqueItems": true,
+      "items": { "type": "object", "additionalProperties": false, "required": ["kind", "id"],
+        "properties": { "kind": { "enum": ["role", "user", "group", "deploy_key", "member_role"] }, "id": { "type": "integer", "minimum": 0 } }
+      }
+    },
     "project": {
       "type": "object",
       "additionalProperties": false,
@@ -40,7 +72,8 @@
           "required": ["provider"],
           "properties": {
             "provider": { "enum": ["github", "gitlab", "other", "unconfigured"] },
-            "remote": { "type": "string", "minLength": 1 }
+            "remote": { "type": "string", "minLength": 1 },
+            "qualification": { "$ref": "#/$defs/qualification" }
           }
         }
       }

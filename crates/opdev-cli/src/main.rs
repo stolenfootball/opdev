@@ -850,6 +850,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     } else {
         CheckOptions::local()
     };
+    let remote_revision = args.remote.then(|| clean_remote_revision(&root)).flatten();
     if args.delivery {
         options.test_stage = opdev_project::TestStage::Delivery;
         options.extension_stage = opdev_project::ExtensionStage::Deliver;
@@ -860,7 +861,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         apply_local_ci(&root, &manifest, &mut report)?;
     }
     if args.remote {
-        apply_remote_audit(&manifest, &mut report)?;
+        apply_remote_audit(&root, &manifest, &mut report, remote_revision.as_deref())?;
     }
     let source = args
         .report
@@ -933,7 +934,12 @@ fn apply_capability(report: &mut CheckReport, rule_id: &str, capability: &Capabi
     }
 }
 
-fn apply_remote_audit(manifest: &ProjectManifest, report: &mut CheckReport) -> Result<()> {
+fn apply_remote_audit(
+    root: &Path,
+    manifest: &ProjectManifest,
+    report: &mut CheckReport,
+    revision: Option<&str>,
+) -> Result<()> {
     let audit = audit(manifest).context("read-only remote audit could not start")?;
     apply_remote_capability(report, "MCD-CI-001", &audit.ci);
     // Matching provider/default branch names is supporting evidence, not proof
@@ -941,21 +947,6 @@ fn apply_remote_audit(manifest: &ProjectManifest, report: &mut CheckReport) -> R
     if audit.trunk.outcome != Outcome::Passed {
         apply_remote_capability(report, "MCD-TRUNK-001", &audit.trunk);
     }
-    apply_remote_capability(report, "MCD-TEST-002", &audit.trunk_pipeline);
-
-    let mut flow = audit.trunk_pipeline.clone();
-    if flow.outcome == Outcome::Passed {
-        flow.outcome = Outcome::NotApplicable;
-        flow.diagnostic = None;
-        flow.evidence.push(opdev_core::Evidence {
-            kind: "applicability".into(),
-            summary:
-                "The latest trunk pipeline is green, so the red-trunk stop rule does not apply"
-                    .into(),
-            location: None,
-        });
-    }
-    apply_remote_capability(report, "MCD-FLOW-001", &flow);
 
     let mut lifecycle_evidence = audit.branch_lifecycle.evidence.clone();
     lifecycle_evidence.extend(audit.trunk_protection.evidence.clone());
@@ -968,6 +959,50 @@ fn apply_remote_audit(manifest: &ProjectManifest, report: &mut CheckReport) -> R
         ),
     };
     apply_remote_capability(report, "MCD-TRUNK-002", &lifecycle);
+    let mut qualification = RemoteCapability {
+        outcome: Outcome::Unverified, evidence: Vec::new(),
+        diagnostic: Some("Remote CI qualification: Unverified. Source must be clean and unchanged; artifact qualification remains separate.".into()),
+    };
+    let mut flow = qualification.clone();
+    if let Some(revision) = revision
+        && clean_remote_revision(root).as_deref() == Some(revision)
+    {
+        let result = opdev_remote::qualify_trunk(manifest, revision)?;
+        qualification.outcome = result.outcome;
+        qualification.evidence.push(opdev_core::Evidence {
+            kind: "remote_ci_qualification".into(),
+            summary: serde_json::to_string(&result)?,
+            location: None,
+        });
+        qualification.diagnostic = Some(format!(
+            "Remote CI qualification for {revision}: {:?}. Covers the selected run, required checks and reviewed merge policy; artifact qualification remains separate. Pipeline: {:?}; checks: {:?}; policy: {:?}",
+            result.outcome,
+            result.pipeline.diagnostic,
+            result.checks.diagnostic,
+            result.protection.diagnostic
+        ));
+        flow = qualification.clone();
+        flow.outcome = match (result.pipeline.outcome, result.checks.outcome) {
+            (Outcome::Failed, _) | (_, Outcome::Failed) => Outcome::Failed,
+            (Outcome::Passed, Outcome::Passed) => Outcome::NotApplicable,
+            _ => Outcome::Unverified,
+        };
+        if clean_remote_revision(root).as_deref() != Some(revision) {
+            if qualification.outcome != Outcome::Failed {
+                qualification.outcome = Outcome::Unverified;
+            }
+            if flow.outcome != Outcome::Failed {
+                flow.outcome = Outcome::Unverified;
+            }
+            qualification.diagnostic = Some("Source changed during remote qualification; the remote snapshot cannot qualify this working tree".into());
+            flow.diagnostic.clone_from(&qualification.diagnostic);
+        }
+    }
+    // Requested remote qualification is mandatory evidence. Generic local or
+    // historical assertions must not hide its absence; concrete failures survive.
+    apply_required_remote(report, "MCD-CI-001", &qualification);
+    apply_required_remote(report, "MCD-TEST-002", &qualification);
+    apply_required_remote(report, "MCD-FLOW-001", &flow);
     reaggregate(report)?;
     Ok(())
 }
@@ -989,11 +1024,87 @@ fn apply_remote_capability(report: &mut CheckReport, rule_id: &str, capability: 
 }
 
 fn remote_capability_should_replace(current: Outcome, remote: Outcome) -> bool {
-    remote != Outcome::Unverified || !current.satisfies_required_rule()
+    !matches!(
+        current,
+        Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+    ) && (remote != Outcome::Unverified || !current.satisfies_required_rule())
+}
+
+fn apply_required_remote(report: &mut CheckReport, rule_id: &str, capability: &RemoteCapability) {
+    if let Some(result) = report
+        .rules
+        .iter_mut()
+        .find(|result| result.rule_id.as_str() == rule_id)
+    {
+        if matches!(
+            result.outcome,
+            Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+        ) {
+            result.evidence.extend(capability.evidence.clone());
+            if let Some(remote) = &capability.diagnostic {
+                result.diagnostic = Some(format!(
+                    "{}; {remote}",
+                    result
+                        .diagnostic
+                        .as_deref()
+                        .unwrap_or("Existing blocker retained")
+                ));
+            }
+            return;
+        }
+        result.outcome = capability.outcome;
+        result.verifier = opdev_core::VerificationSource::Remote;
+        result.evidence.clone_from(&capability.evidence);
+        result.diagnostic.clone_from(&capability.diagnostic);
+    }
+}
+
+fn clean_remote_revision(root: &Path) -> Option<String> {
+    use std::process::{Command, Stdio};
+    let status = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args([
+            "status",
+            "--porcelain=v1",
+            "--untracked-files=all",
+            "--ignore-submodules=none",
+        ])
+        .stdin(Stdio::null())
+        .stderr(Stdio::null())
+        .output()
+        .ok()?;
+    if !status.status.success() || !status.stdout.is_empty() {
+        return None;
+    }
+    let head = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["rev-parse", "--verify", "HEAD^{commit}"])
+        .stdin(Stdio::null())
+        .stderr(Stdio::null())
+        .output()
+        .ok()?;
+    if !head.status.success() {
+        return None;
+    }
+    let sha = String::from_utf8(head.stdout).ok()?.trim().to_owned();
+    (matches!(sha.len(), 40 | 64) && sha.bytes().all(|b| b.is_ascii_hexdigit())).then_some(sha)
 }
 
 fn print_human_report(report: &CheckReport) {
     println!("OpDev report for {}", report.subject);
+    if let Some(result) = report.rules.iter().find(|rule| {
+        rule.rule_id.as_str() == "MCD-TEST-002"
+            && (rule.verifier == opdev_core::VerificationSource::Remote
+                || rule
+                    .diagnostic
+                    .as_ref()
+                    .is_some_and(|text| text.contains("Remote CI qualification")))
+    }) && let Some(diagnostic) = &result.diagnostic
+    {
+        println!("{diagnostic}");
+    }
     for check in &report.checks {
         println!(
             "check {}: {:?} — {}",
@@ -1331,6 +1442,102 @@ mod tests {
     }
 
     #[test]
+    fn mandatory_remote_evidence_cannot_be_hidden_or_erase_concrete_failures() -> Result<()> {
+        for current in [
+            Outcome::Passed,
+            Outcome::NotApplicable,
+            Outcome::Unverified,
+            Outcome::Failed,
+            Outcome::Error,
+            Outcome::MigrationRequired,
+        ] {
+            let mut report = CheckReport {
+                schema: 1,
+                catalog_version: 1,
+                subject: "fixture".into(),
+                evaluated_at: 0,
+                checks: Vec::new(),
+                gates: Vec::new(),
+                rules: vec![opdev_core::RuleResult {
+                    rule_id: "MCD-TEST-002".parse()?,
+                    catalog_version: 1,
+                    outcome: current,
+                    subject: "fixture".into(),
+                    verifier: opdev_core::VerificationSource::Evidence,
+                    evaluated_at: 0,
+                    evidence: Vec::new(),
+                    diagnostic: Some("existing".into()),
+                }],
+            };
+            let remote = RemoteCapability {
+                outcome: Outcome::Unverified,
+                evidence: Vec::new(),
+                diagnostic: Some("missing reviewed policy".into()),
+            };
+            apply_required_remote(&mut report, "MCD-TEST-002", &remote);
+            let hard_failure = matches!(
+                current,
+                Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+            );
+            assert_eq!(
+                report.rules[0].outcome,
+                if hard_failure {
+                    current
+                } else {
+                    Outcome::Unverified
+                }
+            );
+            assert_eq!(
+                report.rules[0].diagnostic.as_deref(),
+                Some(if hard_failure {
+                    "existing; missing reviewed policy"
+                } else {
+                    "missing reviewed policy"
+                })
+            );
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn remote_revision_requires_a_clean_committed_source_tree() -> Result<()> {
+        let directory = tempfile::tempdir()?;
+        let root = directory.path();
+        let git = |args: &[&str]| -> Result<()> {
+            anyhow::ensure!(
+                std::process::Command::new("git")
+                    .arg("-C")
+                    .arg(root)
+                    .args(args)
+                    .output()?
+                    .status
+                    .success()
+            );
+            Ok(())
+        };
+        git(&["init"])?;
+        assert!(clean_remote_revision(root).is_none());
+        git(&[
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.test",
+            "-c",
+            "commit.gpgsign=false",
+            "commit",
+            "--allow-empty",
+            "-m",
+            "fixture",
+        ])?;
+        assert!(clean_remote_revision(root).is_some());
+        std::fs::write(root.join("change.txt"), "untracked")?;
+        assert!(clean_remote_revision(root).is_none());
+        git(&["add", "change.txt"])?;
+        assert!(clean_remote_revision(root).is_none());
+        Ok(())
+    }
+
+    #[test]
     fn inconclusive_remote_audit_does_not_erase_satisfying_evidence() {
         assert!(!remote_capability_should_replace(
             Outcome::Passed,
@@ -1344,7 +1551,7 @@ mod tests {
             Outcome::Passed,
             Outcome::Failed
         ));
-        assert!(remote_capability_should_replace(
+        assert!(!remote_capability_should_replace(
             Outcome::MigrationRequired,
             Outcome::Unverified
         ));

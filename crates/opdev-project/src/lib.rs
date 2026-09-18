@@ -8,6 +8,10 @@ mod discovery;
 mod evidence;
 mod experiment;
 mod manifest;
+mod qualification;
+pub use qualification::{
+    AccessPrincipal, GitlabBranchPolicy, ProtectionPolicy, QualificationPolicy, RequiredCheck,
+};
 
 pub use adoption::{
     ADOPTION_PATH, AdoptionCatalog, AdoptionDecision, AdoptionError, AdoptionRecord,

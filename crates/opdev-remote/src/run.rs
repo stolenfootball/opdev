@@ -129,7 +129,10 @@ pub fn verify_run(
     Ok(reconcile(&repository, expected, observation))
 }
 
-fn validate(repository: &Repository, expected: &RunExpectation) -> Result<(), RemoteError> {
+pub(super) fn validate(
+    repository: &Repository,
+    expected: &RunExpectation,
+) -> Result<(), RemoteError> {
     let safe = |value: &str| {
         !value.is_empty() && value.len() <= 1024 && !value.chars().any(char::is_control)
     };

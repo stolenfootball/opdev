@@ -6,6 +6,8 @@ mod run;
 pub use run::{RunExpectation, RunObservation, RunVerification, verify_run};
 mod jobs;
 pub use jobs::{JobObservation, JobVerification, verify_run_with_jobs};
+mod qualification;
+pub use qualification::{QualifiedTrunk, qualify_trunk};
 
 use std::env;
 use std::process::{Command, Stdio};
@@ -19,7 +21,7 @@ use serde::de::DeserializeOwned;
 use thiserror::Error;
 
 /// One remote capability and the evidence supporting it.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
 pub struct RemoteCapability {
     /// Exhaustive audit outcome.
     pub outcome: Outcome,
@@ -476,13 +478,15 @@ fn protection_capability(result: Result<(), String>, location: &str) -> RemoteCa
     }
 }
 
-fn pipeline_capability(status: &str, conclusion: Option<&str>, location: &str) -> RemoteCapability {
+fn pipeline_capability(
+    status: &str,
+    conclusion: Option<&str>,
+    _location: &str,
+) -> RemoteCapability {
     let verdict = conclusion.unwrap_or(status);
     match verdict {
-        "success" | "successful" => passed(
-            "remote_pipeline",
-            "The latest trunk pipeline succeeded",
-            Some(location),
+        "success" | "successful" => unverified(
+            "A branch-latest run succeeded, but its revision, workflow and required checks are not qualified; use check --remote with reviewed qualification policy",
         ),
         "failure" | "failed" | "cancelled" | "canceled" | "timed_out" => {
             failed(&format!("The latest trunk pipeline concluded `{verdict}`"))
@@ -598,7 +602,7 @@ mod tests {
     fn pipeline_states_never_turn_unknown_into_passed() {
         assert_eq!(
             pipeline_capability("completed", Some("success"), "run").outcome,
-            Outcome::Passed
+            Outcome::Unverified
         );
         assert_eq!(
             pipeline_capability("in_progress", None, "run").outcome,

@@ -47,6 +47,24 @@ application, host/runtime boundaries and separate project verification. Bare
 The first stable CLI will read its current schema and at least one previous
 schema when a deterministic migration exists.
 
+Development CLIs now read project schemas 1 and 2. Schema 2 enables an optional
+reviewed `project.ci.qualification` policy; schema 1 rejects that field. Discovery
+still emits schema 1, and neither initialization nor upgrade chooses a workflow,
+check producer or protection policy. Opt-in requires a developer-reviewed diff
+to the existing manifest, preserving unrelated fields, and an actual decision
+reference. There is no automatic migration or extra policy file. Older CLIs
+reject schema 2 rather than silently ignore its meaning. See
+[remote audits](remote-audits.md) for fields and API limitations.
+
+`check --remote` now requires exact current-trunk qualification: a schema-1
+manifest remains readable, but missing reviewed policy produces unverified remote
+qualification, even if generic historical/local evidence passed. Ordinary checks
+without `--remote` retain their behavior. CLI capability/version review and
+explicit policy adoption must precede changing CI invocations to require this
+stronger verification. Returning to schema 1 requires explicitly removing the
+new policy and acknowledging that remote qualification is again unverified; it
+does not waive required gates.
+
 Adoption decisions now write separate record schema 2 and retain practice catalog 1. Existing
 projects without a record are legacy-unassessed, not silently migrated or blocked
 by new ordinary-check requirements. New development CLIs distinguish successful

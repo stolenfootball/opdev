@@ -165,11 +165,19 @@ impl ProjectManifest {
     }
 
     fn validate_semantics(&self) -> Result<(), ManifestError> {
-        if self.schema != PROJECT_SCHEMA_VERSION {
+        if !matches!(self.schema, 1 | PROJECT_SCHEMA_VERSION) {
             return Err(ManifestError::UnsupportedSchema {
                 found: self.schema,
                 supported: PROJECT_SCHEMA_VERSION,
             });
+        }
+        if let Some(policy) = &self.project.ci.qualification {
+            if self.schema < 2 {
+                return Err(ManifestError::Semantic(
+                    "remote qualification requires explicit project schema 2 migration".into(),
+                ));
+            }
+            policy.validate(self.project.ci.provider)?;
         }
         if self.project.trunk.trim() != self.project.trunk
             || self.project.trunk.chars().any(char::is_whitespace)
@@ -398,6 +406,9 @@ pub struct CiConfig {
     /// Git remote used for read-only audits.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub remote: Option<String>,
+    /// Explicitly reviewed remote qualification expectations (schema 2 only).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub qualification: Option<super::qualification::QualificationPolicy>,
 }
 
 /// Supported CI provider families.
@@ -831,6 +842,7 @@ mod tests {
                 ci: CiConfig {
                     provider: CiProvider::Gitlab,
                     remote: Some("git@gitlab.com:example/project.git".into()),
+                    qualification: None,
                 },
             },
             authorities,
@@ -890,6 +902,48 @@ mod tests {
         let manifest = minimal_manifest();
         let yaml = manifest.to_yaml()?;
         assert_eq!(ProjectManifest::from_yaml(&yaml)?, manifest);
+        Ok(())
+    }
+
+    #[test]
+    fn qualification_requires_explicit_migration_and_preserves_existing_fields()
+    -> Result<(), Box<dyn std::error::Error>> {
+        use crate::{AccessPrincipal, GitlabBranchPolicy, ProtectionPolicy, QualificationPolicy};
+        let mut manifest = minimal_manifest();
+        let original = manifest.clone();
+        manifest.project.ci.qualification = Some(QualificationPolicy {
+            review_reference: "issue:45 developer decision".into(),
+            source: "push".into(),
+            workflow_id: None,
+            required_jobs: vec!["test".into()],
+            required_checks: vec![],
+            protection: ProtectionPolicy::Gitlab {
+                rules: vec![GitlabBranchPolicy {
+                    name: "main".into(),
+                    push: vec![AccessPrincipal::Role(0)],
+                    merge: vec![AccessPrincipal::Role(40)],
+                }],
+            },
+        });
+        assert!(manifest.to_yaml().is_err());
+        manifest.schema = 2;
+        let yaml = manifest.to_yaml()?;
+        assert_eq!(ProjectManifest::from_yaml(&yaml)?, manifest);
+        assert!(ProjectManifest::from_yaml(&yaml.replacen("schema: 2", "schema: 1", 1)).is_err());
+        assert!(
+            ProjectManifest::from_yaml(&yaml.replace("required_jobs:", "unknown_jobs:")).is_err()
+        );
+        let policy = manifest
+            .project
+            .ci
+            .qualification
+            .as_mut()
+            .ok_or("missing policy")?;
+        policy.required_jobs.push("test".into());
+        assert!(manifest.to_yaml().is_err());
+        manifest.project.ci.qualification = None;
+        manifest.schema = 1;
+        assert_eq!(manifest, original);
         Ok(())
     }
 
