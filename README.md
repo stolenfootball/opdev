@@ -237,6 +237,9 @@ See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are p
 - [Test execution evidence](spec/test-reports.md): development builds can record
   tool-neutral canonical command/source observations without requiring a reporter.
   Optional JUnit inspection remains separate from checks and gate qualification.
+- [Remote CI evidence](spec/remote-audits.md): development builds can verify an
+  explicitly selected GitHub/GitLab run against expected revision and run identity.
+  This observation does not establish required-check or branch-policy compliance.
 - [Experiments](spec/experiments.md): keep stable releases independent of opt-in
   work, with a standard record, configuration tests, and a cleanup decision.
 - [Extensions](spec/extensions.md) and [assurance profiles](spec/assurance-profiles.md):

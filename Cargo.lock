@@ -1182,11 +1182,13 @@ dependencies = [
 name = "opdev-remote"
 version = "0.2.2"
 dependencies = [
+ "jsonschema",
  "opdev-core",
  "opdev-project",
  "reqwest",
  "rustls",
  "serde",
+ "serde_json",
  "thiserror",
  "url",
 ]

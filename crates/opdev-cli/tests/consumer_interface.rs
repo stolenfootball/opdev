@@ -39,6 +39,7 @@ fn help_and_errors_are_textual_without_interactive_input() -> Result<(), Box<dyn
     for args in [
         vec!["--help"],
         vec!["check", "--help"],
+        vec!["ci", "verify-run", "--help"],
         vec!["test-execution", "--help"],
         vec!["test-report", "inspect", "--help"],
         vec!["adoption", "approve", "--help"],

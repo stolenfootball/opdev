@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/ci-run-verification-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "repository",
+    "provider",
+    "expected",
+    "observed",
+    "outcome",
+    "qualification",
+    "diagnostics"
+  ],
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider": {
+      "enum": [
+        "github",
+        "gitlab"
+      ]
+    },
+    "expected": {
+      "$ref": "#/$defs/identity"
+    },
+    "observed": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "identity",
+            "status",
+            "conclusion",
+            "attempt"
+          ],
+          "properties": {
+            "identity": {
+              "$ref": "#/$defs/identity"
+            },
+            "status": {
+              "type": "string",
+              "minLength": 1
+            },
+            "conclusion": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "attempt": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            }
+          }
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "passed",
+        "failed",
+        "unverified"
+      ]
+    },
+    "qualification": {
+      "const": "unverified"
+    },
+    "diagnostics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision",
+        "run_id",
+        "reference",
+        "source",
+        "workflow_id"
+      ],
+      "properties": {
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

@@ -118,6 +118,103 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: b6f97d43c0588479b55b714f32848c1d1b20a43564f1901097797e0ad2c8348d
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
+    assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the presented verify-run wording distinguishing a passed run observation from unverified qualification; automated help/error checks pass. This is a scoped text review, not universal accessibility certification."
+        evidence:
+          - kind: review
+            summary: 'Actual response: "Wording is approved then. Go ahead and implement it". The reviewed output retains explicit qualification limitations and identity-mismatch diagnostics.'
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3860074690"
+          - kind: test
+            summary: "Argument-driven help and validation tests exercise readable output without interactive input; live public canaries exercised matching and mismatched identities."
+            location: "crates/opdev-cli/tests/ci_run.rs"
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 45 records a bounded explicit-run verification slice, its tests and exclusions. Required checks, trusted sources, policy drift and core integration remain open; no release is requested."
+        evidence:
+          - kind: review
+            summary: "Issue 45 records a bounded explicit-run verification slice, its tests and exclusions. Required checks, trusted sources, policy drift and core integration remain open; no release is requested."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The remote-audit contract explains direct run-detail selection, caller-owned expectations, identity/status semantics, GET-only limits and why this snapshot does not establish whole-project qualification."
+        evidence:
+          - kind: review
+            summary: "The remote-audit contract explains direct run-detail selection, caller-owned expectations, identity/status semantics, GET-only limits and why this snapshot does not establish whole-project qualification."
+            location: "spec/remote-audits.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "Main remains the sole integration/release-source trunk; the project contract and publication/recovery paths are unchanged."
+        evidence:
+          - kind: review
+            summary: "Main remains the sole integration/release-source trunk; the project contract and publication/recovery paths are unchanged."
+            location: ".opdev/project.yaml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "This focused branch starts at merged main 5d2ae7a816c9baf2c326600a365e094938719bf0 with successful trunk pipeline 2860303382. Integration requires reviewed output and new exact-head CI."
+        evidence:
+          - kind: review
+            summary: "This focused branch starts at merged main 5d2ae7a816c9baf2c326600a365e094938719bf0 with successful trunk pipeline 2860303382. Integration requires reviewed output and new exact-head CI."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2860303382"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only the explicit-run slice of issue 45 is active; issues 46-48 and later policy-drift increments are not implemented in parallel."
+        evidence:
+          - kind: review
+            summary: "Only the explicit-run slice of issue 45 is active; issues 46-48 and later policy-drift increments are not implemented in parallel."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Trunk pipeline 2860303382 was verified successful before starting this work; no known red trunk required restoration."
+        evidence:
+          - kind: review
+            summary: "Trunk pipeline 2860303382 was verified successful before starting this work; no known red trunk required restoration."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2860303382"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "The new command and independent output schema are additive. Existing project/check contracts, branch-latest audits, runtime pins and core gate semantics are unchanged; the new command explicitly cannot replace qualification."
+        evidence:
+          - kind: review
+            summary: "The new command and independent output schema are additive. Existing project/check contracts, branch-latest audits, runtime pins and core gate semantics are unchanged; the new command explicitly cannot replace qualification."
+            location: "spec/remote-audits.md"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical formatting, clippy and workspace tests passed. Five new remote tests cover both-provider identity/state parsing, invalid expectations, wrong repositories, HTTP 401/403/404/429/302, malformed/oversized bodies and schema output; CLI tests cover noninteractive help, validation exits and no evidence mutation. Three external-environment tests remain ignored; the timeout helper is executed by its parent test."
+        evidence:
+          - kind: review
+            summary: "Canonical formatting, clippy and workspace tests passed. Five new remote tests cover both-provider identity/state parsing, invalid expectations, wrong repositories, HTTP 401/403/404/429/302, malformed/oversized bodies and schema output; CLI tests cover noninteractive help, validation exits and no evidence mutation. Three external-environment tests remain ignored; the timeout helper is executed by its parent test."
+            location: "crates/opdev-remote/src/run.rs"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Human and JSON output retain expected and observed identities, explicit outcome and unverified qualification. Live read-only OpDev GitLab pipeline 2860303382 and GitHub run 35309469575 passed matching expectations; wrong revision and workflow produced failed observations and exit 1."
+        evidence:
+          - kind: review
+            summary: "Human and JSON output retain expected and observed identities, explicit outcome and unverified qualification. Live read-only OpDev GitLab pipeline 2860303382 and GitHub run 35309469575 passed matching expectations; wrong revision and workflow produced failed observations and exit 1."
+            location: "crates/opdev-cli/src/ci_run.rs"
+      - rule_id: OPDEV-SEC-001
+        outcome: passed
+        summary: "The new verifier uses fixed first-class API origins, existing credentials in headers, GET only, no redirects, validated repository paths and bounded response bodies. Mock HTTP tests assert GET and ensure error bodies are not disclosed."
+        evidence:
+          - kind: review
+            summary: "The new verifier uses fixed first-class API origins, existing credentials in headers, GET only, no redirects, validated repository paths and bounded response bodies. Mock HTTP tests assert GET and ensure error bodies are not disclosed."
+            location: "crates/opdev-remote/src/run.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent implementation retains canonical verification, fingerprint-bound evidence and required CI. New output wording was presented for separate maintainer review; no approval is inferred from authorization to work on issue 45."
+        evidence:
+          - kind: review
+            summary: "Agent implementation retains canonical verification, fingerprint-bound evidence and required CI. New output wording was presented for separate maintainer review; no approval is inferred from authorization to work on issue 45."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Official provider run-detail APIs support explicit run selection without list pagination. Live positive and negative public canaries demonstrate the identity boundary; this is not evidence that required jobs or provider-policy drift are solved."
+        evidence:
+          - kind: review
+            summary: "Official provider run-detail APIs support explicit run selection without list pagination. Live positive and negative public canaries demonstrate the identity boundary; this is not evidence that required jobs or provider-policy drift are solved."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45"
   - fingerprint: d741f574ef56207104f8d4e6fce361d9596ff4e0751b0a5ee9077d7b83298641
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
     assertions:
