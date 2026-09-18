@@ -8,6 +8,7 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
+anyhow.workspace = true
 command-group.workspace = true
 opdev-core = { path = "../opdev-core" }
 opdev-project = { path = "../opdev-project" }

@@ -118,6 +118,96 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 580a56e476e4424825eb131646f00aab373278bcb134fb4a42f485de0b148ac0
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
+    assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer answered 'Yes, I approve' after reviewing the new check presentation: clean observations remain Unverified when retry/quarantine history is unknown; failures remain Failed."
+        evidence:
+          - kind: review
+            summary: "Approval covers the presented noninteractive outcome wording and separate JSON component outcomes, including no-exec and precondition diagnostics. It is not release authorization, universal accessibility proof or effectiveness evidence."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+          - kind: test
+            summary: "Process tests verify component outcomes, blocked gates, retained JSON, precondition refusal and default compatibility; local and Linux CI canonical suites passed before this ledger-only approval update."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 44 records the completion plan, acceptance cases, conservative unknown-history behavior and exclusion of releases and provider-wide auditing."
+        evidence:
+          - kind: review
+            summary: "Issue 44 records the completion plan, acceptance cases, conservative unknown-history behavior and exclusion of releases and provider-wide auditing."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The structured-test specification records opt-in invocation bindings, unchanged schemas, one execution per suite, retained receipts, trust limits, alternatives and reversal triggers."
+        evidence:
+          - kind: review
+            summary: "The structured-test specification records opt-in invocation bindings, unchanged schemas, one execution per suite, retained receipts, trust limits, alternatives and reversal triggers."
+            location: "spec/test-reports.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "The reviewed contract still declares main as the sole integration trunk; this change leaves CI-exclusive publication and recovery untouched."
+        evidence:
+          - kind: review
+            summary: "The reviewed contract still declares main as the sole integration trunk; this change leaves CI-exclusive publication and recovery untouched."
+            location: ".opdev/project.yaml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "The focused completion branch starts from ecd5ea0278e50ff10e795be0effa750f8240faa5 after MR 36 and successful post-merge pipeline 2859749031; integration requires the new MR CI."
+        evidence:
+          - kind: review
+            summary: "The focused completion branch starts from ecd5ea0278e50ff10e795be0effa750f8240faa5 after MR 36 and successful post-merge pipeline 2859749031; integration requires the new MR CI."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2859749031"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only issue 44 completion is in progress. Prior increments are integrated; no other feature branch is being implemented in parallel."
+        evidence:
+          - kind: review
+            summary: "Only issue 44 completion is in progress. Prior increments are integrated; no other feature branch is being implemented in parallel."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "The latest main pipeline 2859749031 was rechecked successfully before this change; no known red trunk requires restoration."
+        evidence:
+          - kind: review
+            summary: "The latest main pipeline 2859749031 was rechecked successfully before this change; no known red trunk requires restoration."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2859749031"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Default checks, standalone inspection and receipt schemas remain supported. Regression tests cover no-binding behavior and existing consumer/report contracts; unknown CLI flags fail closed on older runtimes."
+        evidence:
+          - kind: review
+            summary: "Default checks, standalone inspection and receipt schemas remain supported. Regression tests cover no-binding behavior and existing consumer/report contracts; unknown CLI flags fail closed on older runtimes."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical format, lint and workspace tests passed locally. Process tests cover fresh and stale outputs, failed and ambiguous reports, command failures, changed source/contract, stages, no-exec, multiple suites, exact retained bytes and default compatibility. Existing three external-environment ignored tests remain unverified; the ignored timeout helper is exercised by its parent test."
+        evidence:
+          - kind: review
+            summary: "Canonical format, lint and workspace tests passed locally. Process tests cover fresh and stale outputs, failed and ambiguous reports, command failures, changed source/contract, stages, no-exec, multiple suites, exact retained bytes and default compatibility. Existing three external-environment ignored tests remain unverified; the ignored timeout helper is exercised by its parent test."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Bound checks retain separate command/report outcomes, revision/digest evidence and opaque observation identities, with fixed diagnostics. Tests verify blocked exit 1, invalid-input exit 2 and no execution on stale/dirty preconditions."
+        evidence:
+          - kind: review
+            summary: "Bound checks retain separate command/report outcomes, revision/digest evidence and opaque observation identities, with fixed diagnostics. Tests verify blocked exit 1, invalid-input exit 2 and no execution on stale/dirty preconditions."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored changes retain mandatory canonical tests, staged evidence and MR gates. Implementation authorization is not substituted for the separately requested human interface review."
+        evidence:
+          - kind: review
+            summary: "Agent-authored changes retain mandatory canonical tests, staged evidence and MR gates. Implementation authorization is not substituted for the separately requested human interface review."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The initial new fixture assertion failed on Windows CRLF rather than duplicate execution; it now compares logical lines and the canonical suite passed. Current GitLab state was reconciled and prematurely closed issue 44 reopened."
+        evidence:
+          - kind: review
+            summary: "The initial new fixture assertion failed on Windows CRLF rather than duplicate execution; it now compares logical lines and the canonical suite passed. Current GitLab state was reconciled and prematurely closed issue 44 reopened."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
   - fingerprint: e474ef28a255d63bd105556d6a7b1c620302b4cf0865249155fa9246beb27322
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
     assertions:

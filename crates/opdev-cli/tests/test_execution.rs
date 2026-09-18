@@ -12,7 +12,7 @@ import pathlib, sys, time
 mode = sys.argv[1]
 target = pathlib.Path('target')
 target.mkdir(exist_ok=True)
-(target / 'executed').write_text('yes')
+with (target / 'executed').open('a') as marker: marker.write('yes\n')
 if mode == 'timeout':
     time.sleep(10)
 elif mode != 'missing':
@@ -20,6 +20,8 @@ elif mode != 'missing':
     if mode == 'failure': xml = "<testsuite><testcase name='bad'><failure/></testcase></testsuite>"
     if mode in ('malformed', 'nonzero-malformed'): xml = '<testsuite>'
     if mode == 'empty': xml = '<testsuite/>'
+    if mode == 'skipped': xml = "<testsuite><testcase name='skip'><skipped/></testcase></testsuite>"
+    if mode == 'retry': xml = "<testsuite><testcase name='flaky'><flakyFailure/></testcase></testsuite>"
     (target / 'junit.xml').write_text(xml)
 if mode == 'mutate':
     pathlib.Path('source.txt').write_text('changed')
@@ -175,6 +177,249 @@ fn stale_report_or_dirty_source_prevents_execution() -> Result<(), Box<dyn std::
                 "old report"
             );
         }
+    }
+    Ok(())
+}
+
+#[test]
+fn stage_gates_and_contract_snapshot_are_enforced() -> Result<(), Box<dyn std::error::Error>> {
+    for (stage, args, gate) in [
+        (TestStage::PreMerge, vec!["--ci"], "integration"),
+        (TestStage::Delivery, vec!["--ci", "--delivery"], "delivery"),
+    ] {
+        let project = project("pass")?;
+        let root = project.path();
+        let manifest_path = root.join(MANIFEST_PATH);
+        let mut manifest = opdev_project::ProjectManifest::load(&manifest_path)?;
+        manifest.testing.suites[0].stages = vec![stage];
+        fs::write(&manifest_path, manifest.to_yaml()?)?;
+        git(root, &["add", "."])?;
+        git(root, &["commit", "--quiet", "-m", "stage selection"])?;
+        let mut args = args;
+        args.extend(["--junit", "tests=target/junit.xml"]);
+        let output = check(root, &args)?;
+        assert_eq!(output.status.code(), Some(1));
+        let value: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(value["checks"][0]["gates"], serde_json::json!([gate]));
+        assert_eq!(value["checks"][0]["outcome"], "unverified");
+    }
+    let project = project("pass")?;
+    let root = project.path();
+    let mut stale_manifest = opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    stale_manifest
+        .commands
+        .get_mut("verify")
+        .ok_or("missing command")?
+        .timeout_seconds = Some(31);
+    let report = opdev_engine::evaluate_with_junit(
+        root,
+        &stale_manifest,
+        opdev_engine::CheckOptions::local(),
+        &[opdev_engine::JunitBinding {
+            suite: "tests".into(),
+            path: "target/junit.xml".into(),
+        }],
+    )?;
+    assert_eq!(report.checks[0].outcome, opdev_core::Outcome::Error);
+    assert!(!root.join("target/executed").exists());
+    Ok(())
+}
+
+fn check(root: &Path, arguments: &[&str]) -> Result<Output, std::io::Error> {
+    Command::new(env!("CARGO_BIN_EXE_opdev"))
+        .args(["check", "--format", "json", "--root"])
+        .arg(root)
+        .args(arguments)
+        .output()
+}
+
+#[test]
+fn check_ingests_once_and_blocks_incomplete_or_failed_evidence()
+-> Result<(), Box<dyn std::error::Error>> {
+    for (mode, expected, observations) in [
+        ("pass", "unverified", "passed"),
+        ("nonzero", "failed", "failed"),
+        ("nonzero-malformed", "failed", "failed"),
+        ("failure", "failed", "failed"),
+        ("missing", "unverified", "unverified"),
+        ("empty", "unverified", "unverified"),
+        ("malformed", "error", "error"),
+        ("mutate", "unverified", "unverified"),
+        ("skipped", "unverified", "unverified"),
+        ("retry", "unverified", "unverified"),
+        ("timeout", "error", "error"),
+        ("spawn", "error", "error"),
+    ] {
+        let project = project(mode)?;
+        let output = check(project.path(), &["--junit", "tests=target/junit.xml"])?;
+        assert_eq!(
+            output.status.code(),
+            Some(1),
+            "{mode}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let value: Value = serde_json::from_slice(&output.stdout)?;
+        let report_schema: Value =
+            serde_json::from_str(include_str!("../../../schema/report.schema.json"))?;
+        assert!(jsonschema::is_valid(&report_schema, &value), "{mode}");
+        let checks = value["checks"].as_array().ok_or("missing checks")?;
+        assert_eq!(checks.len(), 1);
+        assert_eq!(checks[0]["outcome"], expected, "{mode}");
+        assert_eq!(checks[0]["blocking"], true);
+        let flake_rule = value["rules"]
+            .as_array()
+            .ok_or("missing rules")?
+            .iter()
+            .find(|rule| rule["rule_id"] == "OPDEV-TEST-005")
+            .ok_or("missing flake rule")?;
+        assert_eq!(flake_rule["outcome"], "unverified");
+        assert!(checks[0]["stdout"].is_null());
+        let evidence = checks[0]["evidence"].as_array().ok_or("missing evidence")?;
+        assert_eq!(evidence[0]["kind"], "test_execution_attempt");
+        assert_eq!(evidence[1]["kind"], "test_execution_receipt_v1");
+        let receipt: Value =
+            serde_json::from_str(evidence[1]["summary"].as_str().ok_or("missing receipt")?)?;
+        assert_eq!(receipt["outcome"], observations);
+        assert_eq!(receipt["qualification"], "unverified");
+        for gate in value["gates"].as_array().ok_or("missing gates")? {
+            if checks[0]["gates"]
+                .as_array()
+                .ok_or("missing check gates")?
+                .contains(&gate["gate"])
+            {
+                assert_eq!(gate["verdict"], "blocked", "{mode}: {gate}");
+            }
+        }
+        if mode != "spawn" {
+            assert_eq!(
+                fs::read_to_string(project.path().join("target/executed"))?
+                    .lines()
+                    .collect::<Vec<_>>(),
+                vec!["yes"],
+                "command must run exactly once"
+            );
+        }
+    }
+    Ok(())
+}
+
+#[test]
+fn binding_validation_and_no_exec_cannot_drop_required_evidence()
+-> Result<(), Box<dyn std::error::Error>> {
+    for args in [
+        vec!["--junit", "missing=target/junit.xml"],
+        vec!["--junit", "tests="],
+        vec!["--junit", "=target/junit.xml"],
+        vec!["--junit", "tests"],
+        vec![
+            "--junit",
+            "tests=target/junit.xml",
+            "--junit",
+            "tests=target/other.xml",
+        ],
+        vec!["--ci", "--junit", "tests=target/junit.xml"],
+    ] {
+        let project = project("pass")?;
+        let output = check(project.path(), &args)?;
+        assert_eq!(output.status.code(), Some(2), "{args:?}");
+        assert!(output.stdout.is_empty());
+        assert!(!project.path().join("target/executed").exists());
+    }
+    let project = project("pass")?;
+    let output = check(
+        project.path(),
+        &["--no-exec", "--junit", "tests=target/junit.xml"],
+    )?;
+    let value: Value = serde_json::from_slice(&output.stdout)?;
+    assert_eq!(output.status.code(), Some(1));
+    assert_eq!(value["checks"][0]["outcome"], "unverified");
+    assert!(!project.path().join("target/executed").exists());
+    Ok(())
+}
+
+#[test]
+fn check_refuses_stale_or_dirty_execution_and_preserves_default_behavior()
+-> Result<(), Box<dyn std::error::Error>> {
+    for stale in [true, false] {
+        let project = project("pass")?;
+        if stale {
+            fs::create_dir(project.path().join("target"))?;
+            fs::write(project.path().join("target/junit.xml"), "old report")?;
+        } else {
+            fs::write(project.path().join("source.txt"), "dirty")?;
+        }
+        let output = check(project.path(), &["--junit", "tests=target/junit.xml"])?;
+        let value: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(output.status.code(), Some(1));
+        assert_eq!(value["checks"][0]["outcome"], "error");
+        assert!(!project.path().join("target/executed").exists());
+        if stale {
+            assert_eq!(
+                fs::read_to_string(project.path().join("target/junit.xml"))?,
+                "old report"
+            );
+        }
+    }
+    let project = project("pass")?;
+    let output = check(project.path(), &[])?;
+    let value: Value = serde_json::from_slice(&output.stdout)?;
+    assert_eq!(value["checks"][0]["outcome"], "passed");
+    assert_eq!(value["checks"][0]["evidence"][0]["kind"], "command");
+    Ok(())
+}
+
+#[test]
+fn repeated_bindings_retain_independent_attempts_and_exact_report_bytes()
+-> Result<(), Box<dyn std::error::Error>> {
+    let project = project("pass")?;
+    let root = project.path();
+    fs::create_dir(root.join("nested"))?;
+    fs::write(root.join("nested/writer.py"), WRITER)?;
+    let manifest_path = root.join(MANIFEST_PATH);
+    let mut manifest = opdev_project::ProjectManifest::load(&manifest_path)?;
+    let mut nested = manifest.commands["verify"].clone();
+    nested.working_directory = Some("nested".into());
+    manifest.commands.insert("nested".into(), nested);
+    manifest.testing.suites.push(TestSuite {
+        id: "nested".into(),
+        command: "nested".into(),
+        stages: vec![TestStage::Local],
+    });
+    // Fixtures deliberately rewrite their own temp manifest, never user state.
+    fs::write(&manifest_path, manifest.to_yaml()?)?;
+    git(root, &["add", "."])?;
+    git(root, &["commit", "--quiet", "-m", "second suite"])?;
+    fs::create_dir(root.join("target"))?;
+    let output = check(
+        root,
+        &[
+            "--junit",
+            "tests=target/junit.xml",
+            "--junit",
+            "nested=nested/target/junit.xml",
+            "--report",
+            root.join("target/check.json")
+                .to_str()
+                .ok_or("non-UTF8 fixture path")?,
+        ],
+    )?;
+    assert_eq!(output.status.code(), Some(1));
+    assert_eq!(fs::read(root.join("target/check.json"))?, output.stdout);
+    let value: Value = serde_json::from_slice(&output.stdout)?;
+    let checks = value["checks"].as_array().ok_or("missing checks")?;
+    assert_eq!(checks.len(), 2);
+    assert_ne!(
+        checks[0]["evidence"][0]["summary"],
+        checks[1]["evidence"][0]["summary"]
+    );
+    for (index, directory) in ["target", "nested/target"].iter().enumerate() {
+        assert_eq!(checks[index]["outcome"], "unverified");
+        assert_eq!(
+            fs::read_to_string(root.join(directory).join("executed"))?
+                .lines()
+                .count(),
+            1
+        );
     }
     Ok(())
 }

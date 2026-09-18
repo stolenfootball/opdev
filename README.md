@@ -234,8 +234,9 @@ See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are p
   initialization, a first change, evidence review, and CI.
 - [Normative specification](spec/README.md): lifecycle, rules, and authority order.
 - [Evidence ledger](spec/evidence-ledger.md): review and freshness requirements.
-- [Test report inspection](spec/test-reports.md): development builds can inspect
-  JUnit XML without treating saved reports as execution or gate qualification.
+- [Structured test evidence](spec/test-reports.md): development builds can inspect
+  JUnit XML and bind fresh canonical executions to checks with `--junit SUITE=PATH`.
+  Missing retry/quarantine history remains unverified, not successful qualification.
 - [Experiments](spec/experiments.md): keep stable releases independent of opt-in
   work, with a standard record, configuration tests, and a cleanup decision.
 - [Extensions](spec/extensions.md) and [assurance profiles](spec/assurance-profiles.md):
