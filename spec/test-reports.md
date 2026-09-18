@@ -1,4 +1,4 @@
-# Structured test report inspection
+# Structured test evidence
 
 `opdev test-report inspect report.xml [--format json]` is a read-only inspection
 of one UTF-8 JUnit file. It works without initializing a project and never runs
@@ -49,9 +49,9 @@ diagnosis; the digest permits identifying its bytes without echoing them.
 Use the established `roxmltree` parser with explicit resource limits rather than
 hand-written XML recognition. A bounded tree permits structural checks across
 common JUnit variants; streaming would be preferable if larger input becomes a
-demonstrated requirement. Avoid changing manifest/report schema semantics or
-existing gates until execution identity and freshness are implemented and tested.
-The existing check report is not this inspection format and remains unchanged.
+demonstrated requirement. The existing check report is not this inspection format.
+Explicit check bindings reuse its evidence envelope; neither its schema nor the
+project manifest changes.
 
 Sources: [GitLab JUnit reporting](https://docs.gitlab.com/ci/testing/unit_test_reports/)
 and [roxmltree parsing options](https://docs.rs/roxmltree/0.21.1/roxmltree/struct.ParsingOptions.html).
@@ -99,6 +99,71 @@ command or another process can write old content to a new file; absent-before
 and present-after is not proof of authorship. Source checks do not detect changes
 made and reverted during execution, ignored dependencies or environment drift.
 Clock accuracy, internal retries, CI identity and full delivery qualification remain unverified.
-The receipt never updates core gates or evidence ledgers, and old saved receipts
-are not accepted as current qualification. Automatic check ingestion and provider
-verification remain separate work.
+The standalone receipt never updates core gates or evidence ledgers, and old saved
+receipts are not accepted as current qualification. Check ingestion below runs
+the command itself; provider verification is a separate capability.
+
+## Opt-in check integration
+
+Development builds accept repeatable `--junit SUITE=PATH` bindings:
+
+```sh
+opdev check --ci --junit unit=target/unit.xml --format json --report target/check.json
+```
+
+The named suite must already be declared for the selected stage (`local` by
+default, `pre_merge` with `--ci`, `delivery` with `--ci --delivery`). Configure
+its canonical command to write that JUnit path using the project's chosen test
+runner. Paths are relative to the Git root, not the command's working directory.
+Bindings do not install reporters or change argv, cwd, timeout or retry policy.
+For a persistent requirement, commit the invocation in the project's CI job;
+omitting the flag keeps existing command-only checks, so a one-off local binding
+does not establish CI enforcement. Old CLIs reject the unknown flag rather than
+silently claiming support. No automatic project migration is performed.
+
+Before any commands, duplicate/unknown suite IDs, empty paths and bindings for
+another stage are errors. A bound suite is executed once by the same observation
+path as `test-report run`, never once for the suite and again for the report.
+Clean committed source, absent-before output and unchanged-after revision are
+required. Existing output is not deleted or overwritten. Give each attempt fresh
+output paths in an ignored directory or an ephemeral CI checkout. A stale path
+or dirty source prevents that suite from running and produces a blocking `error`;
+other eligible checks may still run. `--no-exec` retains a blocking `unverified`
+check rather than dropping the required evidence.
+
+Each bound suite retains an opaque `test_execution_attempt` ID and a
+`test_execution_receipt_v1` evidence item. The latter's `summary` is a JSON-encoded
+schema-1 receipt, not a path to mutable external evidence. Original stdout/stderr
+and private test names are omitted; retain producer logs privately. Receipt
+digests, command/source identity, counts and fixed diagnostics survive `--report`
+and ordinary full JSON output. A failed command or report stays `failed`;
+tool/parser errors stay `error`; missing/empty/ambiguous reports remain
+`unverified`. Check exits follow existing semantics: 1 for a blocked selected
+gate (including errors in a suite); invalid CLI/bindings exit 2 before evaluation.
+
+**A clean JUnit report is not sufficient to pass this opt-in qualification.**
+Internal retry and omitted/quarantined-test completeness are not standardized
+by this supported format. Its observations may be `passed`, but its bound check
+remains `unverified`. `OPDEV-TEST-005` is also `unverified`: a manifest policy or
+saved assertion cannot turn unknown history from this execution into a pass.
+Recognized retry signals and skips remain visible; no automatic waiver is added.
+This integration is useful for retaining observed evidence and blocking known
+failures, not as a turnkey green qualification path for arbitrary JUnit producers.
+
+The attempt ID distinguishes this observation inside the retained report. It is
+not a GitHub/GitLab run ID or cryptographic attestation. No CI environment variable
+or remote pipeline status is promoted to verified source/run identity. The
+trusted canonical command and local Git/filesystem observations are the boundary;
+the earlier ignored-input, concurrent-writer and source-change limitations apply.
+Provider-wide exact-revision CI policy auditing is separate from this collector.
+
+### Compatibility decision and reversal trigger
+
+Use explicit invocation bindings and the existing evidence envelope rather than
+introducing manifest fields that older strict schema-1 readers cannot understand,
+importing replayable saved receipts, or executing a second extension command.
+This preserves existing projects while offering a concrete failing-evidence path.
+Revisit the interface when a producer-specific adapter can demonstrate complete
+attempt/quarantine evidence, or repeated CI configuration warrants a reviewed,
+versioned project-contract migration. Neither future extension may erase a known
+command failure or convert unavailable history into successful qualification.

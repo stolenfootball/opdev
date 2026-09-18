@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use opdev_core::{
@@ -51,6 +51,9 @@ impl CheckOptions {
 /// Failures that prevent creation of a complete check report.
 #[derive(Debug, Error)]
 pub enum EvaluationError {
+    /// An explicit test-report binding is invalid.
+    #[error("invalid JUnit binding: {0}")]
+    JunitBinding(String),
     /// The embedded rule catalog is invalid.
     #[error("could not load the embedded rule catalog: {0}")]
     Catalog(#[from] opdev_core::CatalogError),
@@ -77,6 +80,46 @@ pub fn evaluate(
     manifest: &ProjectManifest,
     options: CheckOptions,
 ) -> Result<CheckReport, EvaluationError> {
+    evaluate_with_junit(root, manifest, options, &[])
+}
+
+/// An explicitly required `JUnit` report for an existing canonical suite.
+#[derive(Debug, Clone)]
+pub struct JunitBinding {
+    /// Existing suite identifier; it must run at the selected stage.
+    pub suite: String,
+    /// Output path relative to the Git root (absolute paths are also accepted).
+    pub path: PathBuf,
+}
+
+/// Evaluates checks with fresh, revision-bound reports for explicitly selected suites.
+///
+/// Existing projects and unbound suites keep their command-only behavior. `JUnit`
+/// alone cannot qualify unknown internal retry or quarantine history.
+///
+/// # Errors
+/// Returns an error for invalid bindings before running any command, or for the
+/// same policy/ledger errors as [`evaluate`].
+pub fn evaluate_with_junit(
+    root: &Path,
+    manifest: &ProjectManifest,
+    options: CheckOptions,
+    junit: &[JunitBinding],
+) -> Result<CheckReport, EvaluationError> {
+    let mut bound = std::collections::BTreeSet::new();
+    for binding in junit {
+        if binding.path.as_os_str().is_empty()
+            || !bound.insert(&binding.suite)
+            || !manifest.testing.suites.iter().any(|suite| {
+                suite.id == binding.suite && suite.stages.contains(&options.test_stage)
+            })
+        {
+            return Err(EvaluationError::JunitBinding(
+                "each binding needs a unique suite at the selected stage and a nonempty path"
+                    .into(),
+            ));
+        }
+    }
     let catalog = embedded_catalog()?;
     let evaluated_at = unix_timestamp();
     let subject = root.display().to_string();
@@ -111,12 +154,27 @@ pub fn evaluate(
         }
     }
     let checks = if options.execute_checks {
-        let mut checks = run_suites(root, manifest, options.test_stage);
+        let mut checks = run_suites(root, manifest, options.test_stage, junit);
         checks.extend(run_extensions(root, manifest, options.extension_stage)?);
         checks
     } else {
-        Vec::new()
+        junit
+            .iter()
+            .map(|binding| junit_not_run(binding, options.test_stage))
+            .collect()
     };
+    if !junit.is_empty()
+        && let Some(rule) = rules
+            .iter_mut()
+            .find(|rule| rule.rule_id.as_str() == "OPDEV-TEST-005")
+    {
+        // A policy or saved assertion cannot establish the internal history of
+        // newly observed executions, even when their report observations passed.
+        rule.outcome = Outcome::Unverified;
+        rule.verifier = VerificationSource::Command;
+        rule.evidence.clear();
+        rule.diagnostic = Some("Required JUnit evidence cannot establish complete producer-internal retry/quarantine history; inspect the bound suite results".into());
+    }
     let gates = aggregate_gates(&catalog, &rules, &checks);
     Ok(CheckReport {
         schema: 1,
@@ -401,13 +459,21 @@ fn is_delivery_rule(id: &str) -> bool {
     )
 }
 
-fn run_suites(root: &Path, manifest: &ProjectManifest, stage: TestStage) -> Vec<CheckResult> {
+fn run_suites(
+    root: &Path,
+    manifest: &ProjectManifest,
+    stage: TestStage,
+    junit: &[JunitBinding],
+) -> Vec<CheckResult> {
     manifest
         .testing
         .suites
         .iter()
         .filter(|suite| suite.stages.contains(&stage))
         .map(|suite| {
+            if let Some(binding) = junit.iter().find(|binding| binding.suite == suite.id) {
+                return run_junit_suite(root, manifest, binding, stage);
+            }
             let command = &manifest.commands[&suite.command];
             execution_result(
                 suite.id.clone(),
@@ -418,6 +484,84 @@ fn run_suites(root: &Path, manifest: &ProjectManifest, stage: TestStage) -> Vec<
             )
         })
         .collect()
+}
+
+fn junit_not_run(binding: &JunitBinding, stage: TestStage) -> CheckResult {
+    CheckResult {
+        id: binding.suite.clone(),
+        kind: CheckKind::Suite,
+        blocking: true,
+        gates: gates_for_test_stage(stage),
+        outcome: Outcome::Unverified,
+        summary: "Required JUnit execution evidence was not collected; qualification is unverified"
+            .into(),
+        evidence: vec![],
+        stdout: None,
+        stderr: None,
+        duration_ms: None,
+    }
+}
+
+fn run_junit_suite(
+    root: &Path,
+    manifest: &ProjectManifest,
+    binding: &JunitBinding,
+    stage: TestStage,
+) -> CheckResult {
+    let mut result = junit_not_run(binding, stage);
+    // Unique process-local observation identity; not a CI identity or an attestation.
+    let identity = tempfile::Builder::new()
+        .prefix("opdev-attempt-")
+        .rand_bytes(24)
+        .tempfile();
+    let Ok(identity) = identity else {
+        result.outcome = Outcome::Error;
+        result.summary = "Could not allocate an execution identity; no command was run".into();
+        return result;
+    };
+    result.evidence.push(Evidence {
+        kind: "test_execution_attempt".into(),
+        summary: identity
+            .path()
+            .file_name()
+            .unwrap_or_default()
+            .to_string_lossy()
+            .into_owned(),
+        location: None,
+    });
+    match crate::test_execution::observe_with_manifest(
+        root,
+        &binding.suite,
+        &binding.path,
+        Some(manifest),
+    ) {
+        Ok(receipt) => {
+            result.outcome = match receipt.outcome {
+                Outcome::Passed => Outcome::Unverified,
+                other => other,
+            };
+            result.duration_ms = receipt.duration_ms;
+            result.summary = "Command/report observations retained; complete retry/quarantine history and CI identity remain unverified".into();
+            if let Ok(summary) = serde_json::to_string(&receipt) {
+                result.evidence.push(Evidence {
+                    kind: "test_execution_receipt_v1".into(),
+                    summary,
+                    location: None,
+                });
+            } else {
+                if result.outcome != Outcome::Failed {
+                    result.outcome = Outcome::Error;
+                }
+                result.stderr = Some("Could not encode the execution receipt".into());
+            }
+        }
+        Err(error) => {
+            result.outcome = Outcome::Error;
+            result.summary = "JUnit execution precondition failed; no command was run".into();
+            result.stderr = Some(format!("{error:#}"));
+        }
+    }
+    result
 }
 
 fn run_extensions(

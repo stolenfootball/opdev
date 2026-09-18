@@ -1136,6 +1136,7 @@ dependencies = [
 name = "opdev-engine"
 version = "0.2.2"
 dependencies = [
+ "anyhow",
  "command-group",
  "jsonschema",
  "opdev-core",
