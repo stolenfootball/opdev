@@ -121,6 +121,16 @@ changes:
   - fingerprint: d741f574ef56207104f8d4e6fce361d9596ff4e0751b0a5ee9077d7b83298641
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
     assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer answered 'Yes, that wording is fine' after reviewing tool-neutral execution help/errors and passed observations with explicitly unverified qualification."
+        evidence:
+          - kind: review
+            summary: "Approval covers the presented noninteractive wording and the distinction between command/source observations and test completeness or gate qualification. It is not release authorization, universal accessibility proof or effectiveness evidence."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+          - kind: test
+            summary: "Local and Linux CI format, lint and workspace suites passed for the unchanged implementation. Process tests cover textual help, error exits, schema-2 receipts, source identity and retained qualification limits."
+            location: "crates/opdev-cli/tests/consumer_interface.rs"
       - rule_id: OPDEV-WORK-001
         outcome: passed
         summary: "Issue 44 and draft MR 38 record the developer-approved replan: tool-neutral execution evidence, optional inspection, deferred JUnit gates and no release."
@@ -186,10 +196,10 @@ changes:
             location: "crates/opdev-cli/tests/consumer_interface.rs"
       - rule_id: OPDEV-AI-001
         outcome: passed
-        summary: "Agent-authored work retains canonical checks, fingerprint-bound evidence and required CI. Actual output review was requested separately; no A11Y pass is asserted from implementation authorization."
+        summary: "Agent-authored work retains canonical checks, fingerprint-bound evidence and required CI. The maintainer's actual wording approval is recorded separately from implementation authorization."
         evidence:
           - kind: review
-            summary: "Agent-authored work retains canonical checks, fingerprint-bound evidence and required CI. Actual output review was requested separately; no A11Y pass is asserted from implementation authorization."
+            summary: "Agent-authored work retains canonical checks, fingerprint-bound evidence and required CI. The maintainer's actual wording approval is recorded separately from implementation authorization."
             location: ".gitlab-ci.yml"
       - rule_id: OPDEV-LEARN-001
         outcome: passed
