@@ -54,6 +54,10 @@ host permission denial, and do not describe every command as a write.
 
 ## Assess and recommend
 
+For testing, follow [testing.md](testing.md#proportionate-report-evidence) to review
+existing retry, test-selection and quarantine controls without requiring custom
+runner adapters. Preserve adequate controls and record actual developer decisions.
+
 Use `opdev init --dry-run` for a new project. For an existing contract without an
 adoption record, explicitly preview `opdev adoption start --dry-run`. Read
 `opdev adoption catalog`: every supplied practice needs a disposition, including

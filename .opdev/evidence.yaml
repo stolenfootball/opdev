@@ -118,6 +118,86 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: aa98787e9681bbffe950ca4ee66d27c40ad23fc4c056df32475881e720cde4ad
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
+    assertions:
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Reopened issue 44 records the developer-requested lightweight policy correction, scope, acceptance and no-release boundary."
+        evidence:
+          - kind: review
+            summary: "Reopened issue 44 records the developer-requested lightweight policy correction, scope, acceptance and no-release boundary."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The specification distinguishes successful command-plus-report evidence from exhaustive producer history, retains stronger selected checks and documents the deliberate change from the unreleased preview."
+        evidence:
+          - kind: review
+            summary: "The specification distinguishes successful command-plus-report evidence from exhaustive producer history, retains stronger selected checks and documents the deliberate change from the unreleased preview."
+            location: "spec/test-reports.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "The project still uses main as its sole integration trunk and the existing CI-exclusive delivery and recovery path is unchanged."
+        evidence:
+          - kind: review
+            summary: "The project still uses main as its sole integration trunk and the existing CI-exclusive delivery and recovery path is unchanged."
+            location: ".opdev/project.yaml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "This focused branch starts from merged main 3740fc52c35fc85bd685830681cee0165d345fb9 after successful post-merge pipeline 2859934578. Integration will require new MR CI."
+        evidence:
+          - kind: review
+            summary: "This focused branch starts from merged main 3740fc52c35fc85bd685830681cee0165d345fb9 after successful post-merge pipeline 2859934578. Integration will require new MR CI."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2859934578"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only the requested lightweight correction is active; issues 45-48 are not being implemented in parallel."
+        evidence:
+          - kind: review
+            summary: "Only the requested lightweight correction is active; issues 45-48 are not being implemented in parallel."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "Latest trunk pipeline 2859934578 was rechecked green before implementation; no known broken trunk required restoration."
+        evidence:
+          - kind: review
+            summary: "Latest trunk pipeline 2859934578 was rechecked green before implementation; no known broken trunk required restoration."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2859934578"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "No published schema, runtime pin or default unbound check changes. The unreleased JUnit check policy changes explicitly at developer request; existing receipt qualification and provenance limits are retained."
+        evidence:
+          - kind: review
+            summary: "No published schema, runtime pin or default unbound check changes. The unreleased JUnit check policy changes explicitly at developer request; existing receipt qualification and provenance limits are retained."
+            location: "spec/test-reports.md"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical format, clippy and workspace tests passed locally. Eight process tests include successful gate qualification with synthetic prerequisites and preservation of failed/error/unverified stronger extension blockers, plus previous failure/freshness/stage/identity regressions. Three external-environment ignored tests remain unverified; the ignored timeout helper is covered by its parent test."
+        evidence:
+          - kind: review
+            summary: "Canonical format, clippy and workspace tests passed locally. Eight process tests include successful gate qualification with synthetic prerequisites and preservation of failed/error/unverified stronger extension blockers, plus previous failure/freshness/stage/identity regressions. Three external-environment ignored tests remain unverified; the ignored timeout helper is covered by its parent test."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Human summaries disclose that exhaustive history and CI identity are not established; retained JSON preserves component outcomes and diagnostics. Process tests verify actual success exit 0 and blocked extension exit 1."
+        evidence:
+          - kind: review
+            summary: "Human summaries disclose that exhaustive history and CI identity are not established; retained JSON preserves component outcomes and diagnostics. Process tests verify actual success exit 0 and blocked extension exit 1."
+            location: "crates/opdev-cli/tests/test_execution.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent work retains canonical checks, fingerprint-bound evidence and MR CI. The new wording has been presented for review; implementation authorization is not treated as that review."
+        evidence:
+          - kind: review
+            summary: "Agent work retains canonical checks, fingerprint-bound evidence and MR CI. The new wording has been presented for review; implementation authorization is not treated as that review."
+            location: ".gitlab-ci.yml"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "The previous always-unverified path was impractical for the desired lightweight workflow. New acceptance proves a useful positive path without waiving observed problems or stronger checks. Codex plugin validator passed; optional skill quick validator could not run under either available Python because PyYAML is absent."
+        evidence:
+          - kind: review
+            summary: "The previous always-unverified path was impractical for the desired lightweight workflow. New acceptance proves a useful positive path without waiving observed problems or stronger checks. Codex plugin validator passed; optional skill quick validator could not run under either available Python because PyYAML is absent."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/44"
   - fingerprint: 580a56e476e4424825eb131646f00aab373278bcb134fb4a42f485de0b148ac0
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/44
     assertions:

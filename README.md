@@ -236,7 +236,8 @@ See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are p
 - [Evidence ledger](spec/evidence-ledger.md): review and freshness requirements.
 - [Structured test evidence](spec/test-reports.md): development builds can inspect
   JUnit XML and bind fresh canonical executions to checks with `--junit SUITE=PATH`.
-  Missing retry/quarantine history remains unverified, not successful qualification.
+  Reports supplement command results; known problems block, while exhaustive
+  retry/quarantine history is explicitly not claimed.
 - [Experiments](spec/experiments.md): keep stable releases independent of opt-in
   work, with a standard record, configuration tests, and a cleanup decision.
 - [Extensions](spec/extensions.md) and [assurance profiles](spec/assurance-profiles.md):

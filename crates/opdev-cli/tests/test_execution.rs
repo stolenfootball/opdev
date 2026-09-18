@@ -201,7 +201,7 @@ fn stage_gates_and_contract_snapshot_are_enforced() -> Result<(), Box<dyn std::e
         assert_eq!(output.status.code(), Some(1));
         let value: Value = serde_json::from_slice(&output.stdout)?;
         assert_eq!(value["checks"][0]["gates"], serde_json::json!([gate]));
-        assert_eq!(value["checks"][0]["outcome"], "unverified");
+        assert_eq!(value["checks"][0]["outcome"], "passed");
     }
     let project = project("pass")?;
     let root = project.path();
@@ -234,10 +234,114 @@ fn check(root: &Path, arguments: &[&str]) -> Result<Output, std::io::Error> {
 }
 
 #[test]
+fn lightweight_evidence_can_pass_a_gate_but_never_overrides_required_extensions()
+-> Result<(), Box<dyn std::error::Error>> {
+    use opdev_core::{Evidence, Outcome, VerificationMethod, embedded_catalog};
+    use opdev_project::{
+        ChangeEvidence, EVIDENCE_PATH, EvidenceAssertion, EvidenceLedger, ExtensionCheck,
+        ExtensionStage, staged_fingerprint,
+    };
+    for extension in [None, Some("unverified"), Some("failed"), Some("error")] {
+        let project = project("pass")?;
+        let root = project.path();
+        if let Some(outcome) = extension {
+            let path = root.join(MANIFEST_PATH);
+            let mut manifest = opdev_project::ProjectManifest::load(&path)?;
+            let response = serde_json::json!({
+                "protocol_version": opdev_core::EXTENSION_PROTOCOL_VERSION,
+                "outcome": outcome, "summary": "Synthetic required complete-history check", "evidence": []
+            });
+            manifest.commands.insert(
+                "history".into(),
+                CommandSpec {
+                    argv: vec![
+                        manifest.commands["verify"].argv[0].clone(),
+                        "-c".into(),
+                        format!("print({:?})", response.to_string()),
+                    ],
+                    working_directory: None,
+                    timeout_seconds: Some(30),
+                },
+            );
+            manifest.extensions.checks.push(ExtensionCheck {
+                id: "complete-history".into(),
+                stage: ExtensionStage::Verify,
+                command: "history".into(),
+                blocking: true,
+                authority: None,
+                timeout_seconds: None,
+            });
+            fs::write(path, manifest.to_yaml()?)?;
+        }
+        git(root, &["add", "."])?;
+        let ledger = EvidenceLedger {
+            schema: 1,
+            project: vec![],
+            changes: vec![ChangeEvidence {
+                fingerprint: staged_fingerprint(root)?,
+                work: "synthetic gate fixture".into(),
+                assertions: embedded_catalog()?
+                    .rules
+                    .iter()
+                    .filter(|rule| {
+                        rule.verification.contains(&VerificationMethod::Evidence)
+                            || rule.verification.contains(&VerificationMethod::Agent)
+                    })
+                    .map(|rule| EvidenceAssertion {
+                        rule_id: rule.id.clone(),
+                        outcome: Outcome::Passed,
+                        summary: "Synthetic unrelated gate prerequisites".into(),
+                        evidence: vec![Evidence {
+                            kind: "fixture".into(),
+                            summary: "Synthetic fixture evidence, not a real project attestation"
+                                .into(),
+                            location: None,
+                        }],
+                    })
+                    .collect(),
+            }],
+        };
+        fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+        git(root, &["add", "."])?;
+        git(
+            root,
+            &["commit", "--quiet", "-m", "synthetic gate prerequisites"],
+        )?;
+        let output = check(root, &["--junit", "tests=target/junit.xml"])?;
+        let value: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(value["checks"][0]["outcome"], "passed");
+        let gate = value["gates"]
+            .as_array()
+            .ok_or("missing gates")?
+            .iter()
+            .find(|gate| gate["gate"] == "development")
+            .ok_or("development gate")?;
+        assert_eq!(
+            gate["verdict"],
+            if extension.is_none() {
+                "passed"
+            } else {
+                "blocked"
+            },
+            "{value}"
+        );
+        assert_eq!(output.status.code(), Some(i32::from(extension.is_some())));
+        if let Some(outcome) = extension {
+            assert_eq!(value["checks"][1]["outcome"], outcome);
+            assert_eq!(
+                gate["blocking_checks"],
+                serde_json::json!(["complete-history"])
+            );
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn check_ingests_once_and_blocks_incomplete_or_failed_evidence()
 -> Result<(), Box<dyn std::error::Error>> {
     for (mode, expected, observations) in [
-        ("pass", "unverified", "passed"),
+        ("pass", "passed", "passed"),
         ("nonzero", "failed", "failed"),
         ("nonzero-malformed", "failed", "failed"),
         ("failure", "failed", "failed"),
@@ -272,7 +376,20 @@ fn check_ingests_once_and_blocks_incomplete_or_failed_evidence()
             .iter()
             .find(|rule| rule["rule_id"] == "OPDEV-TEST-005")
             .ok_or("missing flake rule")?;
-        assert_eq!(flake_rule["outcome"], "unverified");
+        assert_eq!(
+            flake_rule["outcome"],
+            if expected == "passed" {
+                "passed"
+            } else {
+                "unverified"
+            }
+        );
+        assert!(
+            checks[0]["summary"]
+                .as_str()
+                .ok_or("missing summary")?
+                .contains("not established")
+        );
         assert!(checks[0]["stdout"].is_null());
         let evidence = checks[0]["evidence"].as_array().ok_or("missing evidence")?;
         assert_eq!(evidence[0]["kind"], "test_execution_attempt");
@@ -413,7 +530,7 @@ fn repeated_bindings_retain_independent_attempts_and_exact_report_bytes()
         checks[1]["evidence"][0]["summary"]
     );
     for (index, directory) in ["target", "nested/target"].iter().enumerate() {
-        assert_eq!(checks[index]["outcome"], "unverified");
+        assert_eq!(checks[index]["outcome"], "passed");
         assert_eq!(
             fs::read_to_string(root.join(directory).join("executed"))?
                 .lines()

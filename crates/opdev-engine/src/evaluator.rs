@@ -95,7 +95,7 @@ pub struct JunitBinding {
 /// Evaluates checks with fresh, revision-bound reports for explicitly selected suites.
 ///
 /// Existing projects and unbound suites keep their command-only behavior. `JUnit`
-/// alone cannot qualify unknown internal retry or quarantine history.
+/// supplements command outcomes without claiming exhaustive producer history.
 ///
 /// # Errors
 /// Returns an error for invalid bindings before running any command, or for the
@@ -163,17 +163,21 @@ pub fn evaluate_with_junit(
             .map(|binding| junit_not_run(binding, options.test_stage))
             .collect()
     };
-    if !junit.is_empty()
-        && let Some(rule) = rules
-            .iter_mut()
-            .find(|rule| rule.rule_id.as_str() == "OPDEV-TEST-005")
+    if checks.iter().any(|check| {
+        check.kind == CheckKind::Suite
+            && junit.iter().any(|binding| binding.suite == check.id)
+            && check.outcome != Outcome::Passed
+    }) && let Some(rule) = rules
+        .iter_mut()
+        .find(|rule| rule.rule_id.as_str() == "OPDEV-TEST-005")
     {
-        // A policy or saved assertion cannot establish the internal history of
-        // newly observed executions, even when their report observations passed.
+        // Concrete missing, ambiguous or adverse observations cannot be hidden
+        // behind the declared policy. Mere lack of exhaustive history is not
+        // itself an observed violation or a default completeness requirement.
         rule.outcome = Outcome::Unverified;
         rule.verifier = VerificationSource::Command;
         rule.evidence.clear();
-        rule.diagnostic = Some("Required JUnit evidence cannot establish complete producer-internal retry/quarantine history; inspect the bound suite results".into());
+        rule.diagnostic = Some("Required test execution/report evidence is unsuccessful or incomplete; inspect the bound suite results".into());
     }
     let gates = aggregate_gates(&catalog, &rules, &checks);
     Ok(CheckReport {
@@ -536,12 +540,13 @@ fn run_junit_suite(
         Some(manifest),
     ) {
         Ok(receipt) => {
-            result.outcome = match receipt.outcome {
-                Outcome::Passed => Outcome::Unverified,
-                other => other,
-            };
+            result.outcome = receipt.outcome;
             result.duration_ms = receipt.duration_ms;
-            result.summary = "Command/report observations retained; complete retry/quarantine history and CI identity remain unverified".into();
+            result.summary = if receipt.outcome == Outcome::Passed {
+                "Canonical command and required report observations passed. Exhaustive retry/quarantine history and CI identity are not established."
+            } else {
+                "Canonical command or required report evidence did not pass; inspect the retained receipt. Exhaustive retry/quarantine history and CI identity are not established."
+            }.into();
             if let Ok(summary) = serde_json::to_string(&receipt) {
                 result.evidence.push(Evidence {
                     kind: "test_execution_receipt_v1".into(),

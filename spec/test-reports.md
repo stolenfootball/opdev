@@ -141,14 +141,34 @@ tool/parser errors stay `error`; missing/empty/ambiguous reports remain
 `unverified`. Check exits follow existing semantics: 1 for a blocked selected
 gate (including errors in a suite); invalid CLI/bindings exit 2 before evaluation.
 
-**A clean JUnit report is not sufficient to pass this opt-in qualification.**
-Internal retry and omitted/quarantined-test completeness are not standardized
-by this supported format. Its observations may be `passed`, but its bound check
-remains `unverified`. `OPDEV-TEST-005` is also `unverified`: a manifest policy or
-saved assertion cannot turn unknown history from this execution into a pass.
-Recognized retry signals and skips remain visible; no automatic waiver is added.
-This integration is useful for retaining observed evidence and blocking known
-failures, not as a turnkey green qualification path for arbitrary JUnit producers.
+**JUnit supplements canonical execution; it does not certify exhaustive history.**
+A successful command plus fresh, nonempty, unambiguous report observations at
+unchanged source yields a `passed` suite check. Failure/error precedence and all
+freshness checks still apply. Recognized retries, skips, conflicting counts,
+unknown dialect features and missing required evidence still block. No report
+can turn a failed command into a pass.
+
+Lack of exhaustive internal retry or omitted/quarantined-test history is disclosed,
+not inferred to be an observed violation or made a universal extra requirement.
+The standalone receipt's `qualification: unverified` remains unchanged: the
+receipt alone does not qualify a whole project or release. The enclosing check
+assesses the narrower command-plus-report obligation, and all other applicable
+rules and blocking extensions must still pass.
+
+`OPDEV-TEST-005` retains its existing declared-policy evaluation for clean
+observations. Its manifest result is evidence of a requirement, not automated
+proof that runner configuration implements it. During adoption, review retry,
+test-selection, allowed-failure and quarantine controls in the existing runner
+and CI configuration; retain developer decisions and references in the existing
+testing authority/adoption record. Revisit when those controls change or observed
+behavior contradicts them. Known unsuccessful/incomplete bound executions still
+make this rule `unverified`, in addition to their own blocking suite outcomes.
+
+Stronger complete-history requirements must be explicitly selected and enforced
+through the existing blocking extension mechanism. Missing stronger evidence
+remains unverified; this lighter default cannot waive it. No runner-specific
+adapter framework, blanket no-retries attestation or additional policy file is
+required by default.
 
 The attempt ID distinguishes this observation inside the retained report. It is
 not a GitHub/GitLab run ID or cryptographic attestation. No CI environment variable
@@ -162,8 +182,11 @@ Provider-wide exact-revision CI policy auditing is separate from this collector.
 Use explicit invocation bindings and the existing evidence envelope rather than
 introducing manifest fields that older strict schema-1 readers cannot understand,
 importing replayable saved receipts, or executing a second extension command.
-This preserves existing projects while offering a concrete failing-evidence path.
-Revisit the interface when a producer-specific adapter can demonstrate complete
-attempt/quarantine evidence, or repeated CI configuration warrants a reviewed,
-versioned project-contract migration. Neither future extension may erase a known
-command failure or convert unavailable history into successful qualification.
+This preserves existing projects while offering useful supplemental evidence.
+The earlier unreleased preview always blocked JUnit-bound checks because generic
+reports cannot prove complete history; the developer explicitly selected this
+lighter policy instead. Inspection/receipt schemas and their provenance limits
+are unchanged; no published manifest migration is needed. Do not build custom
+adapters without demonstrated recurring need. Revisit the interface if existing
+extensions cannot express an explicitly required assurance level or repeated CI
+configuration warrants a reviewed, versioned project-contract migration.
