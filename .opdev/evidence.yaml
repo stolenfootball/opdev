@@ -121,6 +121,13 @@ changes:
   - fingerprint: 5a7408986759bee3c30511ea3dc88d1d3f24066ef22ee2c5f4d846b456c433c6
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
     assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the presented combined CI qualification wording, explicitly separating revision/run/check/policy qualification from artifact qualification. Automated textual CLI checks pass; this is scoped review, not universal accessibility certification."
+        evidence:
+          - kind: review
+            summary: 'Actual response: "Wording is approved, go ahead" to the displayed wording and merge-after-CI request. Earlier observation approvals are not substituted for this review.'
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3862697589
       - rule_id: OPDEV-WORK-001
         outcome: passed
         summary: "Issue 45 records this final qualification increment and its acceptance tests. Its premature automatic closure was corrected; integration, human review and post-merge verification remain pending. No release."
@@ -193,10 +200,10 @@ changes:
             location: crates/opdev-remote/src/qualification.rs
       - rule_id: OPDEV-AI-001
         outcome: passed
-        summary: "Agent-authored changes retain canonical checks, exact staged evidence and required CI. Neither adoption nor human wording approval is invented."
+        summary: "Agent-authored changes retain canonical checks, exact staged evidence and required CI. The actual maintainer response supplies scoped wording review; no adoption decision is invented."
         evidence:
           - kind: review
-            summary: "The repository policy remains unchanged and OPDEV-A11Y-001 remains unverified pending actual review."
+            summary: "The repository policy remains unchanged. The new wording was explicitly approved before integration."
             location: spec/consumer-interface.md
       - rule_id: OPDEV-LEARN-001
         outcome: passed
