@@ -121,6 +121,16 @@ changes:
   - fingerprint: b6f97d43c0588479b55b714f32848c1d1b20a43564f1901097797e0ad2c8348d
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
     assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the presented verify-run wording distinguishing a passed run observation from unverified qualification; automated help/error checks pass. This is a scoped text review, not universal accessibility certification."
+        evidence:
+          - kind: review
+            summary: 'Actual response: "Wording is approved then. Go ahead and implement it". The reviewed output retains explicit qualification limitations and identity-mismatch diagnostics.'
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3860074690"
+          - kind: test
+            summary: "Argument-driven help and validation tests exercise readable output without interactive input; live public canaries exercised matching and mismatched identities."
+            location: "crates/opdev-cli/tests/ci_run.rs"
       - rule_id: OPDEV-WORK-001
         outcome: passed
         summary: "Issue 45 records a bounded explicit-run verification slice, its tests and exclusions. Required checks, trusted sources, policy drift and core integration remain open; no release is requested."
