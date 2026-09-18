@@ -9,6 +9,11 @@ fn invalid_run_expectations_do_not_execute_commands_or_write_evidence()
         (CiProvider::Github, vec![]),
         (CiProvider::Gitlab, vec!["--workflow", "456"]),
         (CiProvider::Gitlab, vec!["--run", "0"]),
+        (CiProvider::Gitlab, vec!["--require-job", ""]),
+        (
+            CiProvider::Gitlab,
+            vec!["--require-job", "test", "--require-job", "test"],
+        ),
     ] {
         let root = tempfile::tempdir()?;
         assert!(

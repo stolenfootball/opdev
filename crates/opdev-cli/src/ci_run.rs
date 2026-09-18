@@ -4,7 +4,7 @@ use std::process::ExitCode;
 use anyhow::Result;
 use clap::Args;
 use opdev_core::Outcome;
-use opdev_remote::{RunExpectation, verify_run};
+use opdev_remote::{RunExpectation, verify_run_with_jobs};
 
 use crate::OutputFormat;
 
@@ -28,6 +28,9 @@ pub(crate) struct VerifyRunArgs {
     /// Expected numeric workflow ID: required for GitHub, unsupported for GitLab.
     #[arg(long)]
     workflow: Option<u64>,
+    /// Exact required job name; repeat for each job (opts into schema-2 output).
+    #[arg(long = "require-job")]
+    required_jobs: Vec<String>,
     /// Full human or JSON observations, including remaining uncertainty.
     #[arg(long, value_enum, default_value_t = OutputFormat::Human)]
     format: OutputFormat,
@@ -35,7 +38,7 @@ pub(crate) struct VerifyRunArgs {
 
 pub(crate) fn run(args: &VerifyRunArgs) -> Result<ExitCode> {
     let (_, manifest) = crate::load_project(&args.root)?;
-    let result = verify_run(
+    let result = verify_run_with_jobs(
         &manifest,
         &RunExpectation {
             revision: args.revision.clone(),
@@ -44,6 +47,7 @@ pub(crate) fn run(args: &VerifyRunArgs) -> Result<ExitCode> {
             source: args.source.clone(),
             workflow_id: args.workflow,
         },
+        &args.required_jobs,
     )?;
     match args.format {
         OutputFormat::Json => println!("{}", serde_json::to_string_pretty(&result)?),
@@ -58,14 +62,25 @@ pub(crate) fn run(args: &VerifyRunArgs) -> Result<ExitCode> {
                 println!("Observed: {}", serde_json::to_string(observed)?);
             }
             println!("Qualification: {:?}", result.qualification);
+            if let Some(jobs) = &result.jobs {
+                println!("Required jobs observation: {:?}", jobs.outcome);
+                println!("Jobs: {}", serde_json::to_string(jobs)?);
+            }
             for diagnostic in &result.diagnostics {
                 println!("{diagnostic}");
             }
         }
     }
-    Ok(if result.outcome == Outcome::Passed {
-        ExitCode::SUCCESS
-    } else {
-        ExitCode::from(1)
-    })
+    Ok(
+        if result.outcome == Outcome::Passed
+            && result
+                .jobs
+                .as_ref()
+                .is_none_or(|jobs| jobs.outcome == Outcome::Passed)
+        {
+            ExitCode::SUCCESS
+        } else {
+            ExitCode::from(1)
+        },
+    )
 }

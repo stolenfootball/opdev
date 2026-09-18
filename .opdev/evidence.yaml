@@ -118,6 +118,103 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: fedec1172eaa60b57f0b518348be3108d5fe482996c46c1230fbdd7ffb8fed1d
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
+    assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the added required-jobs outcome wording alongside unverified qualification. Automated textual help/error checks and both provider canaries passed; this is a scoped review, not universal accessibility certification."
+        evidence:
+          - kind: review
+            summary: 'Actual response: "You have approval" to the explicit wording and merge questions. The approved label is Required jobs observation with Passed/Failed/Unverified outcomes, alongside Qualification Unverified.'
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3860354733"
+          - kind: test
+            summary: "CLI process tests cover noninteractive help and validation; live GitHub/GitLab observations retain job identities and explicit missing-job diagnostics."
+            location: "crates/opdev-cli/tests/ci_run.rs"
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 45 records the bounded required-jobs increment. Source trust, reviewed protection policy and core qualification remain open; no release is requested."
+        evidence:
+          - kind: review
+            summary: "The recorded plan covers explicit names, pagination, retry visibility, consistency checks and fail-closed output without inferring project policy."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3860099333"
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The existing remote-audit authority documents opt-in job observation, provider differences, bounded snapshots, report compatibility and qualification exclusions."
+        evidence:
+          - kind: architecture
+            summary: "The existing command gains explicit job names instead of introducing a project policy file, adapter framework or automatic adoption decisions."
+            location: "spec/remote-audits.md"
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "Main remains the only integration/release-source branch; no project, CI or delivery policy is changed."
+        evidence:
+          - kind: review
+            summary: "The staged diff affects run/job observation, tests, documentation and evidence only."
+            location: ".opdev/project.yaml"
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "This short-lived follow-up is based on the first issue-45 increment, whose exact-head CI passed. Both increments await explicit protected-trunk merge authorization; neither is claimed integrated."
+        evidence:
+          - kind: ci
+            summary: "Parent 80d34f6 passed GitLab pipeline 2861952757 and GitHub ARM run 35361202365. The second increment requires its own CI before merging."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/39"
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only issue 45 is being implemented; the parent branch is awaiting merge authorization, not a separate parallel feature."
+        evidence:
+          - kind: review
+            summary: "Issues 46-48 and subsequent policy-drift increments were not implemented concurrently."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45"
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "The unchanged trunk has no known red pipeline requiring restoration."
+        evidence:
+          - kind: ci
+            summary: "Main at 5d2ae7a passed pipeline 2860303382; the failed first-slice review gate was confined to its feature branch and passed after actual approval."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2860303382"
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Default run observations retain schema 1 and their original exit behavior; only explicit --require-job opts into schema 2 and additional exit requirements. No persistent project/check schema changes."
+        evidence:
+          - kind: test
+            summary: "Schema tests accept default and opt-in reports and reject mismatched version/job combinations; old CLI invocation remains supported."
+            location: "crates/opdev-remote/src/jobs/tests.rs"
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical formatting, lint and full workspace tests passed. Three external-environment tests remain ignored; the ignored timeout helper is exercised by its parent test."
+        evidence:
+          - kind: test
+            summary: "Seven job tests cover pagination, incomplete inventories, duplicates, missing/pending/failed jobs, retries, snapshot changes, invalid names and schema compatibility. CLI tests cover read-only validation."
+            location: "crates/opdev-remote/src/jobs/tests.rs"
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Both public-provider live canaries passed matching jobs and returned unverified/exit 1 for a nonexistent required job despite green runs. Qualification remained unverified."
+        evidence:
+          - kind: validation
+            summary: "GitLab pipeline 2860303382: quality and plugin-validation. GitHub run 35361202365: installer-arm64. No provider writes or remote repository creation/deletion."
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45"
+      - rule_id: OPDEV-SEC-001
+        outcome: passed
+        summary: "Job enumeration uses fixed first-class origins and GET only, does not follow pagination links or redirects, bounds response size/page count/time, and retains no logs, actors or credentials."
+        evidence:
+          - kind: review
+            summary: "Uses the existing bounded response reader and header-only credentials. Unit tests reject incomplete pages and identity mismatches; existing HTTP tests cover permissions and malformed/oversized bodies."
+            location: "crates/opdev-remote/src/jobs.rs"
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored work retains canonical tests, staged-fingerprint evidence and required CI. The earlier wording approval is not reused to approve new output."
+        evidence:
+          - kind: review
+            summary: "Additional job wording was presented separately; no A11Y pass is asserted without a response. The denied merge was not bypassed."
+            location: "spec/consumer-interface.md"
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Official job APIs and live public canaries support exact-name observations without a new policy file; neither establishes policy sufficiency, source trust or merge protection."
+        evidence:
+          - kind: review
+            summary: "The next issue-45 increment still needs reviewed required-check/source and protection expectations; no completion claim or release is made."
+            location: "spec/remote-audits.md"
   - fingerprint: b6f97d43c0588479b55b714f32848c1d1b20a43564f1901097797e0ad2c8348d
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
     assertions:
