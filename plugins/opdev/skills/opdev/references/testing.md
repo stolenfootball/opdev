@@ -19,13 +19,17 @@ record; do not add a parallel policy file. Reuse that review on ordinary tasks,
 but revisit affected controls when runner configuration, selection, retries,
 quarantine or CI behavior changes, or new failures contradict the review.
 
-Canonical command outcomes are primary; JUnit reports supplement them. On a CLI
-whose `check --help` includes `--junit`, a successful command with fresh, nonempty,
-unambiguous report observations may pass the bound suite check. Failure, skips,
-visible retries, conflicting or missing required evidence must still block;
-do not delete a binding or relabel a required test to make it green. A missing
-exhaustive producer history is a disclosed limitation, not proof of a violation
-or proof that no retries occurred. Report the scope of a pass accurately.
+Canonical command outcomes are primary. Do not require a particular test runner
+or report format. A successful command exit alone does not establish test
+counts, complete selection or hidden retry history; review actual controls and
+report the scope of the evidence accurately. Do not waive a known failure.
+
+On a CLI that supports `test-execution --help`, `test-execution --suite SUITE`
+can collect tool-neutral command/source observations from clean committed source.
+It runs the suite once, is separate from ordinary checks, and does not qualify
+a gate. Do not run it redundantly merely to generate more paperwork.
+`test-report inspect` is an optional read-only JUnit diagnostic, not required
+evidence or gate enforcement. Neither command establishes complete retry history.
 
 Do not build runner-specific adapters or demand complete-history attestations
 by default. If the project explicitly requires stronger evidence, use its existing

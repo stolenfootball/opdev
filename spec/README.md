@@ -39,8 +39,8 @@ authority placement and conflict handling.
 See [compact report and evidence views](compact-views.md) for read-only
 projections, retained diagnostics, freshness, and compatibility.
 
-See [structured test evidence](test-reports.md) for bounded JUnit observations,
-canonical execution receipts and opt-in checks that block incomplete qualification.
+See [test execution evidence](test-reports.md) for tool-neutral canonical
+execution receipts and optional read-only JUnit inspection, separate from gates.
 
 See [token-efficiency evaluation](token-efficiency.md) for the benchmark's
 measurement, acceptance, and effectiveness boundaries.
