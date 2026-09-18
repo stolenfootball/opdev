@@ -11,7 +11,7 @@ use super::{
 };
 
 /// Caller-selected identity, not an inferred project qualification policy.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RunExpectation {
     /// Full expected Git commit ID.
     pub revision: String,
@@ -26,7 +26,7 @@ pub struct RunExpectation {
 }
 
 /// Provider-returned metadata; no job names, logs, actors or credentials.
-#[derive(Debug, Serialize)]
+#[derive(Debug, PartialEq, Eq, Serialize)]
 pub struct RunObservation {
     /// Observed revision, run, ref, event and workflow.
     pub identity: RunExpectation,
@@ -57,6 +57,9 @@ pub struct RunVerification {
     pub qualification: Outcome,
     /// Scope and unavailable/mismatched evidence.
     pub diagnostics: Vec<String>,
+    /// Opt-in required-job snapshot; absent from the schema-1 observation.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub jobs: Option<super::JobVerification>,
 }
 
 /// Verifies one explicitly selected run through GET-only provider APIs.
@@ -155,7 +158,7 @@ fn validate(repository: &Repository, expected: &RunExpectation) -> Result<(), Re
     Ok(())
 }
 
-fn read_response(request: RequestBuilder) -> Result<Value, String> {
+pub(super) fn read_response(request: RequestBuilder) -> Result<Value, String> {
     let response = request
         .send()
         .map_err(|_| "Provider request could not complete".to_owned())?;
@@ -176,7 +179,7 @@ fn read_response(request: RequestBuilder) -> Result<Value, String> {
     serde_json::from_slice(&bytes).map_err(|_| "Provider response was not valid JSON".into())
 }
 
-fn string(value: &Value, key: &str) -> Result<String, String> {
+pub(super) fn string(value: &Value, key: &str) -> Result<String, String> {
     value
         .get(key)
         .and_then(Value::as_str)
@@ -185,7 +188,7 @@ fn string(value: &Value, key: &str) -> Result<String, String> {
         .ok_or_else(|| format!("Provider omitted or invalidated {key}"))
 }
 
-fn number(value: &Value, key: &str) -> Result<u64, String> {
+pub(super) fn number(value: &Value, key: &str) -> Result<u64, String> {
     value
         .get(key)
         .and_then(Value::as_u64)
@@ -241,7 +244,7 @@ fn reconcile(
     let mut result = RunVerification {
         schema: 1, repository: repository.slug(), provider: repository.provider,
         expected: expected.clone(), observed: None, outcome: Outcome::Unverified,
-        qualification: Outcome::Unverified,
+        qualification: Outcome::Unverified, jobs: None,
         diagnostics: vec!["Run identity/status observation only. Required jobs, trusted check sources, merge protection, latest attempt freshness and artifact qualification are not established. No gate or provider setting was changed.".into()],
     };
     match observed {

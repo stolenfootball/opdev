@@ -4,6 +4,8 @@
 
 mod run;
 pub use run::{RunExpectation, RunObservation, RunVerification, verify_run};
+mod jobs;
+pub use jobs::{JobObservation, JobVerification, verify_run_with_jobs};
 
 use std::env;
 use std::process::{Command, Stdio};

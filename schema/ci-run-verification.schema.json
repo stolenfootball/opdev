@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opdev.dev/schema/ci-run-verification-v1.json",
+  "$id": "https://opdev.dev/schema/ci-run-verification.json",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -15,8 +15,9 @@
   ],
   "properties": {
     "schema": {
-      "const": 1
+      "enum": [1, 2]
     },
+    "jobs": { "$ref": "#/$defs/jobs" },
     "repository": {
       "type": "string",
       "minLength": 1
@@ -88,7 +89,31 @@
       }
     }
   },
+  "if": { "properties": { "schema": { "const": 2 } } },
+  "then": { "required": ["jobs"] },
+  "else": { "not": { "required": ["jobs"] } },
   "$defs": {
+    "job": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "status", "conclusion"],
+      "properties": {
+        "id": { "type": "integer", "minimum": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "conclusion": { "type": ["string", "null"] }
+      }
+    },
+    "jobs": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required", "current", "prior", "outcome", "diagnostics"],
+      "properties": {
+        "required": { "type": "array", "minItems": 1, "maxItems": 100, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "current": { "type": "array", "items": { "$ref": "#/$defs/job" } },
+        "prior": { "type": "array", "items": { "$ref": "#/$defs/job" } },
+        "outcome": { "enum": ["passed", "failed", "unverified"] },
+        "diagnostics": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
     "identity": {
       "type": "object",
       "additionalProperties": false,

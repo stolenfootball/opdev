@@ -73,10 +73,58 @@ observation for a historical run does not imply current branch health. Do not us
 this command alone as a replacement for required gates or the red-trunk policy.
 
 The existing `--remote` branch-latest audit is not upgraded by this addition: it
-does not establish the exact-run claims above. Required-check/source inventories,
-rulesets/protection comparison, pagination for those collections and connection of
-reviewed expectations to core qualification remain tracked in issue #45. No
+does not establish the exact-run claims above. Beyond the opt-in job inventory
+below, external required-check/source inventories, rulesets/protection comparison,
+pagination for those collections and connection of reviewed expectations to core
+qualification remain tracked in issue #45. No
 project/check schema migration is introduced in this increment.
+
+## Explicit required-job observations
+
+Add one `--require-job NAME` per required provider-owned job to `ci verify-run`:
+
+```sh
+opdev ci verify-run --revision FULL_SHA --run RUN_ID --ref main --source push --require-job test --require-job lint --format json
+```
+
+GitHub still requires `--workflow WORKFLOW_ID`. Names match exactly, including
+matrix suffixes. Declare expectations in the existing work/CI authority; the CLI
+does not infer required names, create a policy file or approve their sufficiency.
+At most 100 distinct names may be supplied. Missing or duplicate current names
+are `unverified`; a failed current match is `failed` even if another match passed.
+Only a unique successful current job satisfies its requested name. Skipped,
+neutral, manual, pending and unknown states do not satisfy it. `allow_failure`
+does not waive a caller's explicit requirement.
+
+GitHub enumerates the observed run attempt's jobs and validates their run and
+revision. The attempt number remains visible; prior attempts are not collected.
+GitLab enumerates the pipeline's current jobs and retry history, validating
+run/revision/ref. Superseded matching jobs are retained under `prior` but never
+satisfy a current requirement. Child/downstream pipelines, trigger bridges,
+external checks and third-party producer trust are outside this inventory; they
+cannot be silently substituted for missing jobs.
+
+Enumeration constructs page URLs on the fixed provider API origin, never follows
+response links or redirects, and does not filter by success. Each response is
+limited to 1 MiB, each collection to 10 pages of 100 jobs. Enumeration stops
+starting new page requests after one minute; an in-flight request may consume its
+20-second timeout and the final run recheck has its own existing bounds. Duplicate
+IDs, inconsistent totals, incomplete collections, HTTP errors and limits produce
+`unverified`, not a partial-inventory pass. The current inventory is read again,
+then run identity/status/attempt are rechecked. Observed changes or missing retry
+history invalidate the job snapshot. These checks detect observed races, not an
+atomic provider attestation or proof that no future run/retry occurs.
+
+Without `--require-job`, schema-1 output and exit behavior remain unchanged. With
+it, [schema-2 output](../schema/ci-run-verification.schema.json) adds `jobs` with
+requested names, current/prior observations, outcome and diagnostics. Run
+`outcome` retains its original meaning; exit 0 additionally requires a passed job
+observation. `qualification` remains `unverified`. No core gate, provider setting,
+project manifest, ledger or policy is changed. Consumers must opt into and support
+the new report shape; older CLIs reject the new argument rather than migrate data.
+
+Sources: [GitHub workflow jobs](https://docs.github.com/en/rest/actions/workflow-jobs)
+and [GitLab jobs](https://docs.gitlab.com/api/jobs/).
 
 ### Design decision and follow-up criterion
 
