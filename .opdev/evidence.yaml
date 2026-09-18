@@ -121,6 +121,16 @@ changes:
   - fingerprint: fedec1172eaa60b57f0b518348be3108d5fe482996c46c1230fbdd7ffb8fed1d
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
     assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the added required-jobs outcome wording alongside unverified qualification. Automated textual help/error checks and both provider canaries passed; this is a scoped review, not universal accessibility certification."
+        evidence:
+          - kind: review
+            summary: 'Actual response: "You have approval" to the explicit wording and merge questions. The approved label is Required jobs observation with Passed/Failed/Unverified outcomes, alongside Qualification Unverified.'
+            location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3860354733"
+          - kind: test
+            summary: "CLI process tests cover noninteractive help and validation; live GitHub/GitLab observations retain job identities and explicit missing-job diagnostics."
+            location: "crates/opdev-cli/tests/ci_run.rs"
       - rule_id: OPDEV-WORK-001
         outcome: passed
         summary: "Issue 45 records the bounded required-jobs increment. Source trust, reviewed protection policy and core qualification remain open; no release is requested."
