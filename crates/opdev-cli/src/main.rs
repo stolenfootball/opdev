@@ -50,6 +50,8 @@ enum Command {
     Report(ReportArgs),
     /// Inspect structured test evidence without qualifying a change.
     TestReport(test_report::TestReportArgs),
+    /// Run one canonical suite and emit tool-neutral JSON execution evidence.
+    TestExecution(test_execution::TestExecutionArgs),
     /// Explain missing, contradictory, or unverified capabilities.
     Doctor(DoctorArgs),
     /// Generate or inspect a first-class CI configuration.
@@ -145,9 +147,6 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
-    /// Require fresh `JUnit` execution evidence for a suite; repeat as SUITE=PATH.
-    #[arg(long, value_name = "SUITE=PATH")]
-    junit: Vec<String>,
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]
     root: PathBuf,
@@ -434,6 +433,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         }
         Command::Rules(args) => show_rules(args).map(|()| ExitCode::SUCCESS),
         Command::TestReport(args) => test_report::run(&args),
+        Command::TestExecution(args) => test_execution::run(&args),
         Command::Profiles(args) => show_profiles(args).map(|()| ExitCode::SUCCESS),
         Command::Release(args) => release_command(&args).map(|()| ExitCode::SUCCESS),
         Command::Evidence(args) => evidence_command(&args).map(|()| ExitCode::SUCCESS),
@@ -851,25 +851,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         options.extension_stage = opdev_project::ExtensionStage::Deliver;
     }
     options.execute_checks = !args.no_exec;
-    let junit = args
-        .junit
-        .iter()
-        .map(|value| {
-            let (suite, path) = value
-                .split_once('=')
-                .context("--junit requires SUITE=PATH")?;
-            anyhow::ensure!(
-                !suite.is_empty() && !path.is_empty(),
-                "--junit requires a nonempty suite and path"
-            );
-            Ok(opdev_engine::JunitBinding {
-                suite: suite.into(),
-                path: path.into(),
-            })
-        })
-        .collect::<Result<Vec<_>>>()?;
-    let mut report = opdev_engine::evaluate_with_junit(&root, &manifest, options, &junit)
-        .context("project evaluation failed")?;
+    let mut report = evaluate(&root, &manifest, options).context("project evaluation failed")?;
     if args.ci {
         apply_local_ci(&root, &manifest, &mut report)?;
     }
