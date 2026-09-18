@@ -21,7 +21,7 @@ pub use evidence::{
 pub use outcome::{AggregateVerdict, Outcome};
 
 /// Project-manifest schema understood by this release.
-pub const PROJECT_SCHEMA_VERSION: u32 = 1;
+pub const PROJECT_SCHEMA_VERSION: u32 = 2;
 
 /// Project-command extension protocol understood by this release.
 pub const EXTENSION_PROTOCOL_VERSION: &str = "1.0.0";

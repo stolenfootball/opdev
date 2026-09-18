@@ -3,7 +3,6 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-use opdev_core::PROJECT_SCHEMA_VERSION;
 use thiserror::Error;
 
 use crate::manifest::{
@@ -118,11 +117,16 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
     Ok(Discovery {
         root,
         manifest: ProjectManifest {
-            schema: PROJECT_SCHEMA_VERSION,
+            // Keep ordinary initialization compatible; qualification is an explicit migration.
+            schema: 1,
             project: Project {
                 kind,
                 trunk,
-                ci: CiConfig { provider, remote },
+                ci: CiConfig {
+                    provider,
+                    remote,
+                    qualification: None,
+                },
             },
             authorities,
             commands,

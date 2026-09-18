@@ -286,6 +286,20 @@ fn replace_record(root: &std::path::Path, before: &[u8], record: &AdoptionRecord
     Ok(())
 }
 
+fn adoption_core_report(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    remote: bool,
+) -> Result<opdev_engine::CheckReport> {
+    let revision = remote.then(|| crate::clean_remote_revision(root)).flatten();
+    let mut report = evaluate(root, manifest, CheckOptions::pre_merge())?;
+    apply_local_ci(root, manifest, &mut report)?;
+    if remote {
+        apply_remote_audit(root, manifest, &mut report, revision.as_deref())?;
+    }
+    Ok(report)
+}
+
 fn check(
     root: &std::path::Path,
     remote: bool,
@@ -315,11 +329,7 @@ fn check(
     // Never run project commands until decisions and their explicit review are ready.
     let core_report = if blockers.is_empty() {
         let evidence_before = std::fs::read(root.join(EVIDENCE_PATH))?;
-        let mut report = evaluate(&root, &manifest, CheckOptions::pre_merge())?;
-        apply_local_ci(&root, &manifest, &mut report)?;
-        if remote {
-            apply_remote_audit(&manifest, &mut report)?;
-        }
+        let report = adoption_core_report(&root, &manifest, remote)?;
         if !report.rules.iter().any(|rule| {
             rule.rule_id.as_str() == "MCD-PIPELINE-001"
                 && rule.outcome == Outcome::Passed

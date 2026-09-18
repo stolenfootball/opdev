@@ -30,7 +30,12 @@ unavailable fields, HTTP failures, and non-definitive pipeline states produce
 back to public evidence. A missing trunk pipeline is `migration_required`,
 while a definitive failing trunk pipeline is `failed`.
 
-The audit verifies the provider default branch, trunk protection visibility, the existence and latest verdict of a trunk pipeline, and merged-branch cleanup settings. Provider settings alone do not prove branch origin, lifetime, daily integration, or deletion in every case, so branch-lifecycle evidence remains `unverified` until history supplies the missing facts.
+`doctor --remote` observes the provider default branch, protection visibility,
+pipeline existence and merged-branch cleanup settings. A latest green pipeline
+is supporting information, **not qualification**; its capability is `unverified`.
+Provider settings alone cannot prove branch origin, lifetime, daily integration,
+or deletion. `check --remote` additionally requires the reviewed exact-trunk
+qualification below; generic passing ledger assertions cannot hide its absence.
 
 ## Explicit CI run observations
 
@@ -72,12 +77,8 @@ reviewed policy, no newer/retried run exists, or an artifact is qualified. A pas
 observation for a historical run does not imply current branch health. Do not use
 this command alone as a replacement for required gates or the red-trunk policy.
 
-The existing `--remote` branch-latest audit is not upgraded by this addition: it
-does not establish the exact-run claims above. Beyond the opt-in job inventory
-below, external required-check/source inventories, rulesets/protection comparison,
-pagination for those collections and connection of reviewed expectations to core
-qualification remain tracked in issue #45. No
-project/check schema migration is introduced in this increment.
+This observation command remains separate from the policy-backed core audit.
+It does not select project policy or migrate the project contract.
 
 ## Explicit required-job observations
 
@@ -126,14 +127,126 @@ the new report shape; older CLIs reject the new argument rather than migrate dat
 Sources: [GitHub workflow jobs](https://docs.github.com/en/rest/actions/workflow-jobs)
 and [GitLab jobs](https://docs.gitlab.com/api/jobs/).
 
-### Design decision and follow-up criterion
+## Reviewed current-trunk qualification
 
-Prefer explicitly selected run-detail endpoints over arbitrary latest-success
-selection. This gives a bounded consumer outcome without choosing every project's
-workflow policy or depending on paid provider features. Do not add a parallel
-policy language. Revisit persistent configuration and automatic selection when
-the next increment establishes how reviewed required checks and policy drift can
-be represented without weakening existing requirements.
+Development CLIs support optional `project.ci.qualification` in **project schema
+2**. Ordinary initialization still emits schema 1, and upgrades do not select or
+write qualification policy. Before opting in, present the project's actual CI
+jobs, sources and protection choices to its developer. Record the actual decision
+in an existing authority, then explicitly review a manifest diff changing `schema`
+and adding this section. Preserve all unrelated fields. A review reference is a
+pointer to that decision, not proof of consent manufactured by the CLI.
+
+Example GitHub section (replace all example identities with reviewed provider
+values; this is not a recommended policy for every project):
+
+```yaml
+schema: 2
+project:
+  # Preserve existing kind, trunk, provider and remote.
+  ci:
+    qualification:
+      review_reference: "existing work item containing the developer decision"
+      source: push
+      workflow_id: 1234
+      required_jobs: [test, lint]
+      required_checks:
+        - name: test
+          producer_id: 5678
+      protection:
+        kind: github_branch
+        strict: true
+```
+
+GitHub requires a numeric workflow ID, at least one exact job name and at least
+one check name bound to its GitHub App ID. Classic branch protection must enforce
+pull requests and administrator restrictions, disallow force-push/deletion and
+configured pull-request bypass, and expose the exact reviewed check/producer set
+and `strict` value. Legacy commit-status contexts without App-bound check runs
+are not supported by this adapter and cannot produce a pass.
+
+Alternatively use `protection: {kind: github_rulesets, ids: [123], strict: true}`.
+All selected rulesets must actively apply to trunk, expose an empty bypass list,
+and collectively enforce pull requests, no force-push/deletion and the exact
+producer-bound check set. Active branch rules must agree with ruleset details.
+Unselected additional restrictions are outside this selected-policy comparison.
+Missing bypass visibility (including insufficient API permissions) is unverified;
+OpDev never requests a paid feature or changes settings to obtain a pass.
+
+GitLab omits `workflow_id`. Required jobs belong to the selected pipeline;
+`required_checks` may be empty, or pin additional commit-status names to numeric
+creator IDs. Its protection section lists **every** matching protected-branch
+rule, including overlapping `*` wildcard rules:
+
+```yaml
+protection:
+  kind: gitlab
+  rules:
+    - name: main
+      push: [{kind: role, id: 0}]
+      merge: [{kind: role, id: 40}]
+```
+
+Access principals may be `role`, `user`, `group`, `deploy_key` or `member_role`.
+Roles support explicit no-access (0), Developer (30), Maintainer (40) and Admin
+(60). Compare exact identities, not display names or API row IDs. New matching
+rules, force-push, missing rules or changed access are drift. The project must
+require successful pipelines and explicitly disallow skipped ones; absent/null
+booleans remain unverified. A reviewed direct-push permission is not proof that
+all delivery uses CI; the other core delivery/trunk requirements still apply.
+
+### Selection, freshness and result meaning
+
+`check --remote` captures clean local HEAD before canonical checks, rechecks it
+before/after remote observation, and requires it to equal current remote trunk.
+Dirty, historical and change-branch sources cannot qualify current trunk. Among
+runs matching revision/ref/source/workflow, select the newest numeric provider ID
+without filtering for success. Direct run detail and required jobs must agree.
+Newer pending/failed evidence never falls back to an old green run. Checks use
+the newest identity for each required name, not a success/trusted-producer filter.
+
+Remote collections use fixed-origin GETs, bounded pagination (10 pages of 100,
+1 MiB per response), no redirects and 20-second request timeouts. Qualification
+metadata stops starting requests after two minutes; the existing run/job verifier
+has its own documented bounds. Recheck check identities/statuses, protection,
+latest run, selected attempt and trunk. Changes, truncated collections, missing
+fields, HTTP errors and unsupported provider capabilities remain unverified.
+These observations detect visible races, not an atomic provider attestation or
+a promise that policy, runs or source cannot change afterward.
+
+Human output identifies the revision and separates CI qualification from artifact
+qualification. Full check JSON retains reviewed expectations, selected run/jobs,
+check identities/producers/statuses and policy uncertainty inside
+`remote_ci_qualification` evidence. The embedded standalone run's `qualification`
+remains unverified by design; the enclosing combined result carries the stronger
+CI-only verdict. No new check-report schema is needed: evidence remains in its
+existing extensible envelope.
+
+Missing reviewed policy or remote evidence blocks the requested remote
+qualification for `MCD-CI-001`, `MCD-TEST-002` and the red-trunk decision, even when
+generic local evidence passed. Existing failed/error/migration-required rules
+are preserved. This does not qualify artifacts, delivery/recovery, all branch
+history, policy adequacy or full compliance. Checks without `--remote` retain
+their existing local behavior. See [schema migration](compatibility.md).
+
+### Verification
+
+Offline fixtures cover run selection, wrong producers, pending/missing/failed
+checks, pagination, permissions, classic/ruleset distinctions, wildcard/access
+drift, snapshot disagreement, migration and preservation of existing failures.
+The ignored `live_remote_qualification` test accepts explicit environment inputs
+(`OPDEV_TEST_QUALIFICATION_ROOT`, `TRUNK`, `REVISION`, `CI`, `OUTCOME`, each with
+the same `OPDEV_TEST_QUALIFICATION_` prefix). `CI` is JSON for an in-memory
+`project.ci` override; this is a read-only canary, never an adoption write. It
+requires passed run/jobs/check observations and the caller's expected overall
+outcome. Ordinary tests never access a live provider.
 
 Sources: [GitHub workflow-run API](https://docs.github.com/en/rest/actions/workflow-runs#get-a-workflow-run)
 and [GitLab pipeline API](https://docs.gitlab.com/api/pipelines/).
+
+Policy sources: [GitHub branch protection](https://docs.github.com/en/rest/branches/branch-protection),
+[rules and rulesets](https://docs.github.com/en/rest/repos/rules),
+[check runs](https://docs.github.com/en/rest/checks/runs),
+[GitLab projects](https://docs.gitlab.com/api/projects/),
+[protected branches](https://docs.gitlab.com/api/protected_branches/) and
+[commit statuses](https://docs.gitlab.com/api/commits/#list-commit-statuses).

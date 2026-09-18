@@ -734,6 +734,7 @@ mod tests {
                 ci: CiConfig {
                     provider: CiProvider::Gitlab,
                     remote: None,
+                    qualification: None,
                 },
             },
             authorities: BTreeMap::from([(

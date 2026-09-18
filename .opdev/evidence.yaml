@@ -118,6 +118,100 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - fingerprint: 5a7408986759bee3c30511ea3dc88d1d3f24066ef22ee2c5f4d846b456c433c6
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
+    assertions:
+      - rule_id: OPDEV-A11Y-001
+        outcome: passed
+        summary: "The maintainer approved the presented combined CI qualification wording, explicitly separating revision/run/check/policy qualification from artifact qualification. Automated textual CLI checks pass; this is scoped review, not universal accessibility certification."
+        evidence:
+          - kind: review
+            summary: 'Actual response: "Wording is approved, go ahead" to the displayed wording and merge-after-CI request. Earlier observation approvals are not substituted for this review.'
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3862697589
+      - rule_id: OPDEV-WORK-001
+        outcome: passed
+        summary: "Issue 45 records this final qualification increment and its acceptance tests. Its premature automatic closure was corrected; integration, human review and post-merge verification remain pending. No release."
+        evidence:
+          - kind: work
+            summary: "Final scope and boundaries are recorded in the existing work authority."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45#note_3861120599
+      - rule_id: OPDEV-DESIGN-001
+        outcome: passed
+        summary: "The existing remote-audit and compatibility authorities define schema-2 opt-in, provider policy adapters, freshness limits, source binding, uncertainty and unchanged artifact qualification requirements."
+        evidence:
+          - kind: architecture
+            summary: "No extra policy file, custom project tooling or automatic adoption decisions are introduced."
+            location: spec/remote-audits.md
+      - rule_id: MCD-TRUNK-001
+        outcome: passed
+        summary: "Main remains the sole integration and release-source trunk. The repository's actual schema-1 project policy and CI publication path are unchanged."
+        evidence:
+          - kind: review
+            summary: "No project policy, provider settings, versions, runtime pins or release behavior are changed by this diff."
+            location: .opdev/project.yaml
+      - rule_id: MCD-TRUNK-002
+        outcome: passed
+        summary: "This focused branch starts from integrated main f4c97676e62ea0ca474a63fefd2956d5eccf60b5. It remains subject to exact-head CI and post-merge checks."
+        evidence:
+          - kind: ci
+            summary: "The live read-only canary reconfirmed trunk pipeline 2862295773 and all seven required jobs passed."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2862295773
+      - rule_id: MCD-TRUNK-003
+        outcome: not_applicable
+        summary: "Only issue 45 is active; no parallel feature or release is being implemented."
+        evidence:
+          - kind: work
+            summary: "The preceding two issue-45 increments are already integrated."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
+      - rule_id: MCD-FLOW-001
+        outcome: not_applicable
+        summary: "No known required failing trunk pipeline needs restoration. Missing remote policy visibility is not mislabeled a failed pipeline."
+        evidence:
+          - kind: ci
+            summary: "Exact current trunk pipeline and required jobs passed in the live canary; overall policy qualification remained unverified."
+            location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2862295773
+      - rule_id: MCD-COMPAT-001
+        outcome: passed
+        summary: "Schemas 1 and 2 are readable; schema 1 rejects qualification policy and discovery remains schema 1. The stronger --remote requirement is explicitly documented, not silently adopted."
+        evidence:
+          - kind: test
+            summary: "Migration round-trip, unchanged unrelated fields, invalid policy/provider identities and core failure preservation have regression tests. Existing standalone observation behavior is retained."
+            location: spec/compatibility.md
+      - rule_id: OPDEV-TEST-002
+        outcome: passed
+        summary: "Canonical format, clippy and complete workspace tests passed. Three pre-existing external-environment tests remain ignored. The new live canary is ignored in ordinary tests but was run explicitly against both public providers."
+        evidence:
+          - kind: test
+            summary: "Fixtures cover newest matching runs, stale/unrelated evidence, producer binding, failures, missing/pending checks, permissions, pagination, classic/ruleset drift, wildcard access, inconsistent snapshots, clean source binding and preserved blockers."
+            location: crates/opdev-remote/src/qualification/tests.rs
+      - rule_id: OPDEV-OPS-001
+        outcome: passed
+        summary: "Public read-only canaries passed their exact run/jobs/check observations and honestly reported policy uncertainty. Human and full JSON retain revision and scope; no delivery-readiness claim is made."
+        evidence:
+          - kind: validation
+            summary: "GitLab run 2862295773 exposed a null skipped-pipeline flag; GitHub run 35183686149 and quality check producer 15368 passed, while protection returned 404. Both overall outcomes were unverified as expected."
+            location: spec/remote-audits.md
+      - rule_id: OPDEV-SEC-001
+        outcome: passed
+        summary: "Provider qualification uses fixed-origin GET-only requests, bounded responses/pagination/time, no redirects and header-only existing credentials. No logs or credential values are retained."
+        evidence:
+          - kind: review
+            summary: "The shared bounded response reader and existing HTTP permission/malformed-response tests are retained; extra checks and policies fail closed on unavailable observations."
+            location: crates/opdev-remote/src/qualification.rs
+      - rule_id: OPDEV-AI-001
+        outcome: passed
+        summary: "Agent-authored changes retain canonical checks, exact staged evidence and required CI. The actual maintainer response supplies scoped wording review; no adoption decision is invented."
+        evidence:
+          - kind: review
+            summary: "The repository policy remains unchanged. The new wording was explicitly approved before integration."
+            location: spec/consumer-interface.md
+      - rule_id: OPDEV-LEARN-001
+        outcome: passed
+        summary: "Primary provider API research and live canaries informed explicit unsupported-field handling, check producer identities and protection differences without requiring provider mutations."
+        evidence:
+          - kind: review
+            summary: "A successful run is separated from CI policy qualification and artifact qualification; missing paid/permission capabilities do not become passes."
+            location: spec/remote-audits.md
   - fingerprint: fedec1172eaa60b57f0b518348be3108d5fe482996c46c1230fbdd7ffb8fed1d
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
     assertions:
