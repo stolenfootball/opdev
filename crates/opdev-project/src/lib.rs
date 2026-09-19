@@ -2,7 +2,12 @@
 
 #![forbid(unsafe_code)]
 
+mod acceptance;
 mod adoption;
+pub use acceptance::{
+    AcceptanceCondition, AcceptanceEvidence, AcceptanceMethod, AcceptanceReview, AcceptanceScope,
+    AcceptanceVerification, TrackedEvidence,
+};
 mod bootstrap;
 mod discovery;
 mod evidence;

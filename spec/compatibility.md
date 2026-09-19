@@ -84,6 +84,23 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ## Rule catalog
 
+### Acceptance evidence capability
+
+Development CLIs with `evidence acceptance-digest` read ledger/bootstrap schemas
+1 and 2 and generate schema-2 bootstrap. Older CLIs reject schema 2; do not rename
+the version to obtain an old-client pass. TEST-002/003 require typed current-change
+acceptance evidence on capable CLIs even when the ledger is schema 1. Missing
+migration remains unverified, not a policy-only pass. This strengthens the
+verifier for existing requirements; their rule IDs are unchanged. No other core
+rule is relaxed, and there is no automatic project-state rewrite.
+
+Review migration and the CLI/CI runtime capability explicitly. Keep unrelated
+assertions/history intact, add the current inventory/mappings, then review and
+execute applicable suites. Reverting to a legacy ledger does not waive the
+strengthened checks on a capable CLI. Saved execution/report schemas are unchanged
+and remain diagnostic rather than new qualification inputs. Release/runtime pins
+must be qualified separately before distributing this development capability.
+
 The catalog has its own integer `catalog_version`. Rule IDs are permanent.
 
 - Clarifications that do not change required behavior keep the rule ID.

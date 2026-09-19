@@ -80,6 +80,9 @@ pub fn evaluate(
     let catalog = embedded_catalog()?;
     let evaluated_at = unix_timestamp();
     let subject = root.display().to_string();
+    let acceptance_ledger = EvidenceLedger::load_optional(root, &catalog)?;
+    let initial_fingerprint = staged_fingerprint(root);
+    let acceptance_fingerprint = initial_fingerprint.as_ref().ok();
     let mut rules: Vec<_> = catalog
         .rules
         .iter()
@@ -117,6 +120,50 @@ pub fn evaluate(
     } else {
         Vec::new()
     };
+    let final_fingerprint = staged_fingerprint(root);
+    let fresh = acceptance_fingerprint.is_some()
+        && acceptance_fingerprint == final_fingerprint.as_ref().ok()
+        && acceptance_ledger == EvidenceLedger::load_optional(root, &catalog)?;
+    let (acceptance_outcome, scope, diagnostic) = if matches!(
+        &initial_fingerprint,
+        Err(opdev_project::EvidenceError::Git(_))
+    ) || matches!(
+        &final_fingerprint,
+        Err(opdev_project::EvidenceError::Git(_))
+    ) {
+        (Outcome::Error, opdev_project::AcceptanceScope::Behavioral,
+            "Git could not establish acceptance source identity; inspect repository/index availability and rerun the check".into())
+    } else {
+        crate::acceptance::evaluate(
+            root,
+            manifest,
+            &checks,
+            acceptance_ledger.as_ref(),
+            acceptance_fingerprint.map(String::as_str),
+            fresh,
+        )
+    };
+    for result in rules
+        .iter_mut()
+        .filter(|result| matches!(result.rule_id.as_str(), "OPDEV-TEST-002" | "OPDEV-TEST-003"))
+    {
+        result.outcome = if result.rule_id.as_str() == "OPDEV-TEST-003"
+            && acceptance_outcome == Outcome::Passed
+            && scope != opdev_project::AcceptanceScope::Behavioral
+        {
+            Outcome::NotApplicable
+        } else {
+            acceptance_outcome
+        };
+        result.verifier = VerificationSource::Evidence;
+        result.diagnostic = Some(diagnostic.clone());
+        result.evidence.clear();
+        if let Some(fingerprint) = &acceptance_fingerprint {
+            result.evidence.push(Evidence { kind: "acceptance_subject".into(),
+                summary: format!("Evaluated staged fingerprint {fingerprint}; inspect the diagnostic for review status and checks for suite execution"),
+                location: Some(EVIDENCE_PATH.into()) });
+        }
+    }
     let gates = aggregate_gates(&catalog, &rules, &checks);
     Ok(CheckReport {
         schema: 1,
@@ -284,10 +331,6 @@ fn evaluate_testing_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Ev
             Some(".opdev/project.yaml"),
         ),
         "OPDEV-TEST-001" => migration("Declare the quality risks that drive verification"),
-        "OPDEV-TEST-003" => manifest_pass(
-            "The project contract requires tests for behavioral changes".into(),
-            Some(".opdev/project.yaml"),
-        ),
         "OPDEV-TEST-004" => manifest_pass(
             "The project contract requires regression protection or a specific justification"
                 .into(),

@@ -105,6 +105,9 @@ not accepted as saved qualification by `opdev check`.
 
 Ordinary checks continue to execute declared stage-specific commands and
 aggregate their outcomes with core rules and selected blocking extensions.
+The [schema-2 acceptance verifier](evidence-ledger.md#schema-2-acceptance-evidence)
+uses these current-check suite outcomes alongside reviewed change-bound mappings.
+It does not consume saved execution receipts or JUnit observations as qualification.
 They do not interpret JUnit or require report-producing tools. Review actual
 runner/CI test selection, failure propagation, retries and quarantine controls
 during adoption and relevant configuration changes; reuse adequate existing

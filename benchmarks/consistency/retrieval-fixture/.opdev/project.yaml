@@ -1,0 +1,36 @@
+schema: 1
+project:
+  kind: library
+  trunk: main
+authorities:
+  contracts:
+    kind: path
+    location: agreement/current.md
+  work:
+    kind: path
+    location: decisions/accepted.md
+  documentation:
+    kind: path
+    location: public/manual.md
+  delivery:
+    kind: path
+    location: distribution/history.md
+  implementation:
+    kind: path
+    location: package/capacity.js
+  testing:
+    kind: path
+    location: verification/capacity.test.js
+context:
+  always:
+  - contracts
+  - work
+  routes:
+    documentation_change:
+    - documentation
+    - delivery
+    code_change:
+    - implementation
+    - testing
+    - documentation
+    - delivery

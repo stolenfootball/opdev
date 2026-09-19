@@ -42,6 +42,12 @@ projections, retained diagnostics, freshness, and compatibility.
 See [test execution evidence](test-reports.md) for tool-neutral canonical
 execution receipts and optional read-only JUnit inspection, separate from gates.
 
+See [consistency review](consistency-review.md) for advisory comparison of accepted
+requirements, implementation, tests and documentation using existing authorities.
+Routine substantive development also requires
+[change-scoped acceptance evidence](evidence-ledger.md#schema-2-acceptance-evidence)
+on capable CLIs; passing suite execution alone does not establish assertion adequacy.
+
 See [token-efficiency evaluation](token-efficiency.md) for the benchmark's
 measurement, acceptance, and effectiveness boundaries.
 

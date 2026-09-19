@@ -234,6 +234,12 @@ See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are p
   initialization, a first change, evidence review, and CI.
 - [Normative specification](spec/README.md): lifecycle, rules, and authority order.
 - [Evidence ledger](spec/evidence-ledger.md): review and freshness requirements.
+- [Acceptance evidence](spec/evidence-ledger.md#schema-2-acceptance-evidence): development
+  CLIs bind reviewed requirements and assertions to the current change and suite
+  execution; older ledgers need explicit migration before these checks qualify.
+- [Consistency review](spec/consistency-review.md): ask whether implementation,
+  tests and documentation agree with accepted requirements. Advisory findings
+  reuse your existing authorities and do not authorize edits or gate approval.
 - [Test execution evidence](spec/test-reports.md): development builds can record
   tool-neutral canonical command/source observations without requiring a reporter.
   Optional JUnit inspection remains separate from checks and gate qualification.

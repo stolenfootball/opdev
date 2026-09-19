@@ -1,6 +1,7 @@
 //! Evidence collection, safe command execution, and strict gate aggregation.
 
 #![forbid(unsafe_code)]
+mod acceptance;
 
 mod command;
 mod evaluator;

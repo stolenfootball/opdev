@@ -1,5 +1,98 @@
 # Project evidence ledger
 
+## Schema-2 acceptance evidence
+
+Development CLIs read ledger schemas 1 and 2 and emit bootstrap schema 2. Version
+1 remains readable; it is not silently rewritten. TEST-002/003 now require typed
+current-change evidence rather than generic rule assertions or a declared testing
+policy. Old ledgers therefore leave those checks unverified until explicitly
+reviewed migration. Other rules retain their existing interpretation. Bootstrap
+does not offer boolean decisions for these two rules; its separate acceptance
+template begins unresolved and cannot qualify a gate.
+
+Each schema-2 change may contain `acceptance`. It inventories material conditions
+and selected risk objectives and maps each exactly once to verification evidence.
+Multiple conditions may reference the same test, but each needs its own explanation.
+The shape is defined by `$defs/acceptance` in the ledger and bootstrap schemas;
+unknown fields, duplicate IDs/mappings, unknown condition references, invalid
+outcomes and incompatible methods are rejected. Partial inventories/mappings may
+be retained with unverified results; they are not silently considered complete.
+
+Required fields:
+
+| Object | Fields and meaning |
+| --- | --- |
+| `acceptance` | `scope`, `rationale`, `conditions`, `verifications`, `review` |
+| condition | `id`, accepted `statement`, original `authority`, tracked `source` |
+| verification | `condition` ID, `method`, tracked `target`, actual `assertion`, `discriminating_case`, `outcome` |
+| automated method | A declared `suite`; no automation-limitation field |
+| review method | Specific `automation_limitation`; no suite; appropriate reviewed evidence |
+| tracked reference | Repository-relative `path`, SHA-256 of staged Git blob bytes in `sha256`, exact nonempty `excerpt` |
+| review | `outcome`, actual `reviewer`, `reference`, `rationale`, `subject_sha256` |
+
+Review/mapping outcomes are `passed`, `failed`, `unverified`. These are reviewed
+claims, not saved execution results. `behavioral` and `non_behavioral` scopes need
+a nonempty condition inventory. `no_material_conditions` requires an empty
+inventory/mapping set plus an exact-change reviewed justification, not an inferred
+extension-based exclusion. Nonbehavioral evidence may satisfy TEST-002 while
+TEST-003 is not applicable. A reviewed automation limitation can use appropriate
+non-executable evidence; it never waives another core requirement.
+
+The CLI verifies sources from Git's index, accepting only regular stage-zero
+blobs, each at most 8 MiB. It does not follow symlinks, retrieve URLs, accept path
+traversal or permit references to the ledger itself. Excerpts must match UTF-8
+blob content exactly and the whole blob digest must match. Hash Git blob bytes,
+not a Windows checkout with transformed line endings. External requirements need
+an explicitly attributed versioned capture at an appropriate existing authority;
+the original location remains recorded. Authority authenticity/currency remains
+a review obligation, not a network verifier.
+
+### Review binding and execution
+
+1. Identify accepted conditions and expected results before implementation.
+2. Prepare/reuse actual assertions, meaningful boundary/counterexamples and their
+   source references. Record unknowns or contradictions, not optimistic passes.
+3. Stage material files and obtain `evidence fingerprint`. Prepare the schema-2
+   ledger with the current work reference and `review.outcome: unverified`.
+4. `evidence acceptance-digest` prints the review subject without executing tests,
+   changing files or granting approval. After review, record the actual reviewer,
+   reference, rationale, outcome and that digest. Do not infer developer consent
+   from an agent reviewer or hash-generation command.
+5. Run the applicable normal check. Automated methods require the named canonical
+   suite's actual outcome in this check, not a saved receipt, extension result
+   with the same ID or JUnit file. Missing/skipped-stage execution is unverified;
+   a suite failure is failed and an execution failure is error.
+
+The review digest is SHA-256 of compact `serde_json::Value` serialization of
+`{protocol: 1, fingerprint, work, scope, rationale, conditions, verifications}`.
+Object keys use serde_json's sorted map representation; array order is retained.
+It excludes `review` to avoid circularity. Changing any subject field invalidates
+the review. Identity does not authenticate the person or establish that their
+review was competent. The CLI rechecks staged source and ledger before/after
+executing commands. Edits made and reverted during execution and ignored inputs
+are outside that observation, as with existing execution receipts.
+
+### Evidence boundary and rationale
+
+The gate establishes coverage **relative to a reviewed inventory**, exact-source
+references, review binding and current canonical execution. It cannot discover
+omitted requirements, understand arbitrary assertion semantics, prove individual
+test selection from a suite exit code, or authenticate human/agent claims. These
+limits are explicit in the passing diagnostic. A deliberately false semantic
+claim with mechanically valid evidence remains a regression test of this limit.
+Wrong assertions must be identified by actual review, not by matching keywords.
+
+Compared with a mandatory second model call, this provides deterministic rejection
+of missing/stale bindings and missing execution while keeping tooling generic.
+Stronger projects may require targeted red/green or mutation evidence and review;
+no language adapter, reporter format, mutation score or universal second agent is
+mandated. Record demonstrated errors and the limits of this evidence. Revisit the
+design if independent consumer trials show unacceptable setup, missed semantic
+contradictions or misleading qualification. Normal reviewed CI and roll-forward
+apply; neither schema migration nor release is automatic.
+
+## Generic rule assertions (schemas 1 and 2)
+
 `.opdev/evidence.yaml` is an optional, schema-validated ingress for facts the
 CLI cannot infer safely. It is not a waiver file. It can assert only `passed` or
 `not_applicable`, must include concrete evidence, and can address only rules
