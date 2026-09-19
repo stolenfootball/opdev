@@ -2,6 +2,12 @@
 
 Derive tests from behavior, acceptance conditions, and declared quality risks rather than from language-specific quotas.
 
+Follow [acceptance evidence](acceptance.md) before implementation and at
+verification. Review actual assertions, not just suite success. The schema-2
+ledger records the scoped inventory/mappings without another project file.
+Capable CLIs require reviewed mappings and current suite execution for TEST-002/003;
+a declared policy is not current-change evidence.
+
 - Every behavioral change needs automated verification unless existing coverage is demonstrated or a specific limitation is recorded.
 - Every escaped defect needs regression protection unless a specific justification explains why it is impractical or harmful.
 - Required suites run before integration and again on integrated trunk. Delivery, package, recovery, scheduled, and evaluation suites run at their declared stages.

@@ -268,11 +268,24 @@ fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
     fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
     assert!(git(root, &["add", "."])?.status.success());
     let catalog = embedded_catalog()?;
+    // Synthetic gate plumbing, not a behavioral product acceptance assessment.
+    let fingerprint = staged_fingerprint(root)?;
+    let mut acceptance = opdev_project::AcceptanceEvidence {
+        scope: opdev_project::AcceptanceScope::NoMaterialConditions,
+        rationale: "Synthetic adoption fixture with no product acceptance conditions".into(),
+        ..Default::default()
+    };
+    acceptance.review.outcome = Outcome::Passed;
+    acceptance.review.reviewer = "synthetic fixture reviewer".into();
+    acceptance.review.reference = "fixture-review.md".into();
+    acceptance.review.rationale = "Only unrelated gate prerequisites are modeled here".into();
+    acceptance.review.subject_sha256 = acceptance.digest(&fingerprint, "synthetic fixture")?;
     let ledger = EvidenceLedger {
-        schema: 1,
+        schema: 2,
         project: vec![],
         changes: vec![ChangeEvidence {
-            fingerprint: staged_fingerprint(root)?,
+            acceptance: Some(acceptance),
+            fingerprint,
             work: "synthetic fixture".into(),
             assertions: catalog
                 .rules

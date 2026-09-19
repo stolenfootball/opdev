@@ -278,17 +278,20 @@ fn current_evidence(root: &Path, rule: Option<&RuleId>) -> Result<CurrentEvidenc
     project.retain(selected);
     if let Some(change) = &mut change {
         change.assertions.retain(selected);
+        if rule.is_some_and(|rule| !matches!(rule.as_str(), "OPDEV-TEST-002" | "OPDEV-TEST-003")) {
+            change.acceptance = None;
+        }
     }
     let missing_requested_rule = rule
         .filter(|_| {
             project.is_empty()
-                && change
-                    .as_ref()
-                    .is_none_or(|change| change.assertions.is_empty())
+                && change.as_ref().is_none_or(|change| {
+                    change.assertions.is_empty() && change.acceptance.is_none()
+                })
         })
         .cloned();
     Ok(CurrentEvidence {
-        schema: 1,
+        schema: ledger.as_ref().map_or(1, |ledger| ledger.schema),
         kind: "current_evidence",
         subject: root.to_path_buf(),
         fingerprint,
@@ -525,11 +528,13 @@ mod tests {
             changes: vec![
                 ChangeEvidence {
                     fingerprint: fingerprint.clone(),
+                    acceptance: None,
                     work: "https://example.test/1".into(),
                     assertions: vec![assertion("OPDEV-WORK-001")?],
                 },
                 ChangeEvidence {
                     fingerprint: "0".repeat(64),
+                    acceptance: None,
                     work: "https://example.test/old".into(),
                     assertions: vec![assertion("OPDEV-WORK-001")?],
                 },

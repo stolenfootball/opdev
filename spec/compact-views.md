@@ -85,12 +85,18 @@ material, malformed ledgers, unsupported schemas, duplicate assertions, and
 unknown requested rule IDs are errors. `--current` is required to make the
 query scope explicit; historical selection is not implemented.
 
-The JSON view has `kind: current_evidence`, schema 1, the root, ledger path,
+The JSON view has `kind: current_evidence`, the source ledger's schema version
+(1 when no ledger exists), the root, ledger path,
 current fingerprint, and separate `project` and `change` scopes. Only the exact
 matching change is included; ledger order does not establish freshness. Rule
 filtering applies to both scopes after validation and fingerprint selection.
 It never merges change assertions with durable facts or turns them into final
 rule results.
+
+Schema-2 views retain the exact current change's typed acceptance section when
+unfiltered or filtered to TEST-002/003. Other rule filters omit that section.
+Presence is not qualification: pending or incomplete acceptance stays visible as
+input, and only the evaluator applies the strengthened checks.
 
 An absent ledger is represented by `ledger_present: false`, empty project
 assertions and `change: null`. A valid ledger without matching change evidence

@@ -1,0 +1,90 @@
+{
+  "cases": [
+    {
+      "id": "tasktray-r8",
+      "request": "Review whether TaskTray 1.4 at TT-R8 agrees with the accepted shortlist requirements, its supplied tests, and its revision-specific release notes. Use only this snapshot. Return an advisory answer with supporting references and limits; do not edit files, run code or tests, contact services, change work items, or approve delivery. Static reasoning from the supplied source is sufficient. Do not require setup or infer missing requirements for inputs outside the accepted scope.",
+      "subject": "TaskTray 1.4 candidate TT-R8; complete public implementation, current test source, and selected versioned authorities captured 2026-08-12",
+      "documents": [
+        {
+          "id": "tt-accepted",
+          "path": "agreement/shortlist.md",
+          "revision": "requirements-3, applicable to TT-R8",
+          "content": "# Accepted TaskTray 1.4 slice\nTaskTray is an in-memory Python helper for displaying an open-task shortlist. The sole public API for this release is shortlist(items, limit), returning task IDs. The supplied package/tasktray.py is the complete public implementation.\nR1: Omit tasks whose done value is true.\nR2: Preserve the relative order of the remaining tasks from the caller's list; do not sort by title.\nR3: Return at most limit IDs. If more open tasks exist, return the first limit open tasks.\nR4: Do not mutate the caller's list or records.\nThe supported input domain is a list of records with distinct string IDs, string titles, and Boolean done fields, plus an integer limit from 1 through 5. Invalid-input handling is outside this slice.\nApproval recorded verbatim from developer Mira Chen on 2026-08-10: 'I approve R1-R4 and the 1-through-5 limit for 1.4. This replaces my earlier draft allowing limits through 10. CSV export belongs in the separately approved 1.5 slice, not 1.4.' This is an actual recorded response, not approval inferred from Mira's owner role.\nThe earlier range proposal is superseded. No CSV API or command is accepted for 1.4."
+        },
+        {
+          "id": "tt-source",
+          "path": "package/tasktray.py",
+          "revision": "TT-R8",
+          "content": "def shortlist(items, limit):\n    active = [item for item in items if not item['done']]\n    ordered = sorted(active, key=lambda item: item['title'])\n    return [item['id'] for item in ordered[:limit + 1]]\n"
+        },
+        {
+          "id": "tt-tests",
+          "path": "verification/test_tasktray.py",
+          "revision": "TT-R8",
+          "content": "import unittest\nfrom tasktray import shortlist\n\nclass ShortlistTests(unittest.TestCase):\n    def test_selection(self):\n        items = [\n            {'id': 'c', 'title': 'Cedar', 'done': False},\n            {'id': 'a', 'title': 'Amber', 'done': False},\n            {'id': 'b', 'title': 'Birch', 'done': False},\n        ]\n        self.assertEqual(shortlist(items, 2), ['a', 'b', 'c'])\n\n    def test_done_is_excluded(self):\n        items = [{'id': 'x', 'title': 'Elm', 'done': True}]\n        self.assertEqual(shortlist(items, 2), [])\n"
+        },
+        {
+          "id": "tt-release",
+          "path": "distribution/1.4.md",
+          "revision": "notes-4, explicitly for TT-R8",
+          "content": "# TaskTray 1.4 candidate TT-R8\nThe shortlist returns at most the requested count of open tasks in their original order. CSV export is also available now through tasktray.export_csv(items); it returns a CSV string.\nVerification: the current TT-R8 test suite has passed. Evidence for that statement: verification/receipt-17.txt, job 17. This is the only execution evidence attached to this candidate. These notes do not claim that publication has occurred."
+        },
+        {
+          "id": "tt-receipt",
+          "path": "verification/receipt-17.txt",
+          "revision": "immutable job-17 receipt for TT-R7",
+          "content": "TaskTray verification job 17\nSubject revision: TT-R7\nCommand: python -m unittest discover -s verification\nResult: 2 tests, exit 0\nFinished: 2026-08-11T10:00:00Z\nThis receipt identifies TT-R7 only. TT-R8 was created afterward and changed package/tasktray.py and verification/test_tasktray.py. No TT-R8 execution receipt is supplied."
+        },
+        {
+          "id": "tt-future",
+          "path": "work/csv-export.md",
+          "revision": "work-29 revision 2",
+          "content": "# CSV export, future 1.5 increment\nOwner: Mira Chen. Review date: 2026-08-20. Status: scoped, not implemented.\nDeveloper response on 2026-08-10: 'Approve a separate 1.5 increment to return CSV text from selected tasks. Keep 1.4 limited to shortlist.'\nAcceptance for that later increment: exported IDs match the selected order, CSV quoting round-trips, and existing shortlist behavior stays compatible. This approval neither makes CSV a 1.4 requirement nor says it has shipped."
+        }
+      ]
+    },
+    {
+      "id": "papermap-guide-d12",
+      "request": "Check only whether PaperMap's current 2.0 quickstart and its 2.0 release notes at GUIDE-D12 agree with the accepted editorial decision. Use the supplied historical and future documents only to establish version and scope. This is a documentation-only review: do not audit application code, execute checks, edit anything, contact services, update work items, or approve a release. State any actual inconsistency and the limits of the review; a scoped no-inconsistencies result is acceptable.",
+      "subject": "PaperMap documentation candidate GUIDE-D12 for product 2.0; accepted editorial scope plus current, historical, and future documents captured 2026-07-08",
+      "documents": [
+        {
+          "id": "pm-decision",
+          "path": "editorial/accepted-2.0.md",
+          "revision": "decision-6, applicable to GUIDE-D12",
+          "content": "# Accepted 2.0 editorial correction\nThe existing PaperMap 2.0 interface already labels its grouping feature 'Collections'. This change updates documentation only.\nE1: The current 2.0 quickstart must call the feature a collection and use the existing menu label New collection. Describe creating a collection, then using Add note.\nE2: State that one collection may contain multiple notes. Do not claim that a note can belong to multiple collections in product 2.0.\nE3: The 2.0 release note must identify this as a wording correction, with no new application capability.\nActual developer response from Noor Patel, 2026-07-06: 'Approved: use collection and New collection in the current 2.0 guide. This supersedes my July 2 instruction to keep saying folder. Preserve the frozen 1.9 guide as historical documentation. Multi-collection notes remain a later 2.1 proposal.'\nScope: editorial accuracy of the two current documents. Application source, runtime qualification, and release publication are not part of this review."
+        },
+        {
+          "id": "pm-current-guide",
+          "path": "manual/2.0/quickstart.md",
+          "revision": "GUIDE-D12",
+          "content": "# PaperMap 2.0 quickstart\nCreate a collection to group related notes. A collection may contain multiple notes; in 2.0 each note belongs to one collection.\n1. Choose New collection and enter a name.\n2. Open that collection and choose Add note.\nFor the old product's terminology, see manual/1.9/quickstart.md, the frozen 1.9 guide. Future proposals are listed separately in planning/2.1.md and are not current capabilities."
+        },
+        {
+          "id": "pm-current-release",
+          "path": "distribution/2.0-guide-notes.md",
+          "revision": "GUIDE-D12",
+          "content": "# Documentation candidate GUIDE-D12 for PaperMap 2.0\nCorrects the quickstart's wording from folder to collection and uses the existing New collection and Add note menu labels. This documentation correction adds no application capability. Each note still belongs to one collection in 2.0.\nThe frozen 1.9 guide is unchanged. Multi-collection notes are a separate future proposal, not part of this candidate. Publication and runtime qualification are not asserted by these notes."
+        },
+        {
+          "id": "pm-old-decision",
+          "path": "editorial/archive/decision-4.md",
+          "revision": "decision-4, 2026-07-02; superseded by decision-6",
+          "content": "# Historical editorial instruction\nOn July 2 Noor Patel instructed the editor to retain 'folder' in the upcoming guide. This instruction was superseded on July 6 by decision-6 after checking the existing 2.0 menu labels. Retained for decision history; it is not the current wording authority."
+        },
+        {
+          "id": "pm-historical-guide",
+          "path": "manual/1.9/quickstart.md",
+          "revision": "GUIDE-19-FINAL; frozen historical release",
+          "content": "# PaperMap 1.9 quickstart — historical version\nFor product 1.9 only. Choose New folder to create a folder, then choose Add note. A folder may contain several notes. This page describes 1.9's labels, is retained unchanged, and is not the current 2.0 guide."
+        },
+        {
+          "id": "pm-future",
+          "path": "planning/2.1.md",
+          "revision": "proposal-2; not accepted product behavior",
+          "content": "# PaperMap 2.1 proposal: multi-collection notes\nFuture proposal, not implemented or shipped. Possible outcome: a note can appear in two collections without duplicating its text.\nNoor Patel's actual response, July 7: 'Approve researching this proposal, not implementing it. Do not include it in the 2.0 guide correction.'\nOwner: Noor Patel. Review date: July 21. Research exit evidence: user feedback on the proposed workflow and a draft compatibility approach. Product acceptance and implementation remain undecided."
+        }
+      ]
+    }
+  ]
+}

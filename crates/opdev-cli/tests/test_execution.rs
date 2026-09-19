@@ -379,6 +379,7 @@ fn ordinary_checks_preserve_required_extension_blockers() -> Result<(), Box<dyn 
             schema: 1,
             project: vec![],
             changes: vec![ChangeEvidence {
+                acceptance: None,
                 fingerprint: staged_fingerprint(root)?,
                 work: "synthetic gate fixture".into(),
                 assertions: embedded_catalog()?

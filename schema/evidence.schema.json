@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://opdev.dev/schema/evidence-v1.json",
+  "$id": "https://opdev.dev/schema/evidence-v2.json",
   "title": "OpDev evidence ledger",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema"],
   "properties": {
-    "schema": { "const": 1 },
+    "schema": { "enum": [1, 2] },
     "project": { "type": "array", "items": { "$ref": "#/$defs/assertion" } },
     "changes": {
       "type": "array",
@@ -17,12 +17,181 @@
         "properties": {
           "fingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
           "work": { "type": "string", "minLength": 1 },
-          "assertions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/assertion" } }
+          "assertions": { "type": "array", "items": { "$ref": "#/$defs/assertion" } },
+          "acceptance": { "$ref": "#/$defs/acceptance" }
         }
       }
     }
   },
+  "if": { "properties": { "schema": { "const": 1 } } },
+  "then": { "properties": { "changes": { "items": { "properties": {
+    "acceptance": false, "assertions": { "minItems": 1 }
+  } } } } },
   "$defs": {
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope",
+        "rationale",
+        "conditions",
+        "verifications",
+        "review"
+      ],
+      "properties": {
+        "scope": {
+          "enum": [
+            "behavioral",
+            "non_behavioral",
+            "no_material_conditions"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "statement",
+              "authority",
+              "source"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 1
+              },
+              "authority": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source": {
+                "$ref": "#/$defs/acceptance/$defs/tracked"
+              }
+            }
+          }
+        },
+        "verifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "condition",
+              "method",
+              "target",
+              "assertion",
+              "discriminating_case",
+              "outcome"
+            ],
+            "properties": {
+              "condition": {
+                "type": "string",
+                "minLength": 1
+              },
+              "method": {
+                "enum": [
+                  "automated",
+                  "review"
+                ]
+              },
+              "target": {
+                "$ref": "#/$defs/acceptance/$defs/tracked"
+              },
+              "assertion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "discriminating_case": {
+                "type": "string",
+                "minLength": 1
+              },
+              "suite": {
+                "type": "string",
+                "minLength": 1
+              },
+              "automation_limitation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "outcome": {
+                "enum": [
+                  "passed",
+                  "failed",
+                  "unverified"
+                ]
+              }
+            }
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "outcome",
+            "reviewer",
+            "reference",
+            "rationale",
+            "subject_sha256"
+          ],
+          "properties": {
+            "outcome": {
+              "enum": [
+                "passed",
+                "failed",
+                "unverified"
+              ]
+            },
+            "reviewer": {
+              "type": "string"
+            },
+            "reference": {
+              "type": "string"
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "subject_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            }
+          }
+        }
+      },
+      "$defs": {
+        "tracked": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "sha256",
+            "excerpt"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "excerpt": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
     "assertion": {
       "type": "object",
       "additionalProperties": false,

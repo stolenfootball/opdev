@@ -363,6 +363,8 @@ struct EvidenceArgs {
 enum EvidenceCommand {
     /// Print the staged index fingerprint used by change evidence.
     Fingerprint(EvidenceFingerprintArgs),
+    /// Print the current acceptance review's subject digest without approving it.
+    AcceptanceDigest(EvidenceFingerprintArgs),
     /// Generate or apply a fail-closed review questionnaire for a new evidence ledger.
     Bootstrap(EvidenceBootstrapArgs),
     /// Show durable and exact-current evidence without modifying the ledger.
@@ -531,6 +533,21 @@ fn evidence_command(args: &EvidenceArgs) -> Result<()> {
             println!("{}", staged_fingerprint(&root)?);
         }
         EvidenceCommand::Bootstrap(args) => bootstrap_evidence(args)?,
+        EvidenceCommand::AcceptanceDigest(args) => {
+            let (root, _) = load_project(&args.root)?;
+            let fingerprint = staged_fingerprint(&root)?;
+            let catalog = embedded_catalog()?;
+            let ledger = opdev_project::EvidenceLedger::load_optional(&root, &catalog)?
+                .context("acceptance digest needs a schema-2 evidence ledger")?;
+            let change = ledger
+                .matching_change(&fingerprint)
+                .context("no evidence for the current staged change")?;
+            let acceptance = change
+                .acceptance
+                .as_ref()
+                .context("current change has no acceptance section")?;
+            println!("{}", acceptance.digest(&fingerprint, &change.work)?);
+        }
         EvidenceCommand::Show(args) => {
             let (root, _) = load_project(&args.root)?;
             views::show_evidence(&root, args.rule.as_ref())?;
@@ -597,6 +614,10 @@ fn evidence_candidates(
     let mut project = Vec::new();
     let mut change = Vec::new();
     for rule in &catalog.rules {
+        // These change rules require typed acceptance evidence, not boolean assertions.
+        if matches!(rule.id.as_str(), "OPDEV-TEST-002" | "OPDEV-TEST-003") {
+            continue;
+        }
         let unverified = report
             .rules
             .iter()

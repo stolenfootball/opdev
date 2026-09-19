@@ -1,5 +1,10 @@
 # Reviewable evidence
 
+For TEST-002/003 use typed schema-2 [acceptance evidence](acceptance.md), not
+generic rule assertions. Capable bootstrap includes an unresolved acceptance
+section. Schema-1 ledgers remain readable but cannot satisfy those strengthened
+checks. Migration is explicit and reviewed; preserve history and unrelated rules.
+
 Use `.opdev/evidence.yaml` only when a core rule accepts evidence and the CLI
 cannot infer the fact safely. It is not a waiver or override mechanism.
 

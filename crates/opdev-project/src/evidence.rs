@@ -55,6 +55,9 @@ pub enum EvidenceError {
     /// Git could not produce an index fingerprint.
     #[error("could not fingerprint the staged Git index: {0}")]
     Git(String),
+    /// Material working-tree content is not represented in the staged index.
+    #[error("could not fingerprint the staged Git index: {0}")]
+    Unindexed(String),
 }
 
 /// Explicit reviewer decision for a bootstrap candidate.
@@ -91,6 +94,9 @@ pub struct ChangeEvidenceReview {
     pub evidence: Vec<Evidence>,
     /// One explicit decision for every generated change-rule candidate.
     pub decisions: BTreeMap<String, ReviewDecision>,
+    /// Reviewed acceptance inventory and mappings (bootstrap schema 2 only).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub acceptance: Option<crate::AcceptanceEvidence>,
 }
 
 /// Compact, schema-validated review input for a new evidence ledger.
@@ -120,7 +126,7 @@ impl EvidenceBootstrap {
                 .collect()
         };
         Self {
-            schema: 1,
+            schema: 2,
             project: EvidenceReview {
                 evidence: Vec::new(),
                 decisions: unresolved(project_rules.into_iter().collect()),
@@ -130,6 +136,7 @@ impl EvidenceBootstrap {
                 work: String::new(),
                 evidence: Vec::new(),
                 decisions: unresolved(change_rules.into_iter().collect()),
+                acceptance: Some(crate::AcceptanceEvidence::default()),
             },
         }
     }
@@ -204,9 +211,9 @@ impl EvidenceBootstrap {
         change_rules: &[String],
         fingerprint: &str,
     ) -> Result<(), EvidenceError> {
-        if self.schema != 1 {
+        if !matches!(self.schema, 1 | 2) || (self.schema == 1 && self.change.acceptance.is_some()) {
             return Err(EvidenceError::Semantic(format!(
-                "unsupported bootstrap schema {}; expected 1",
+                "unsupported bootstrap schema {}; expected 1 or 2 (acceptance requires 2)",
                 self.schema
             )));
         }
@@ -245,28 +252,32 @@ impl EvidenceBootstrap {
             &self.change.evidence,
             catalog,
         )?;
-        if project.is_empty() && change_assertions.is_empty() {
+        let has_acceptance = self.change.acceptance.as_ref().is_some_and(|acceptance| {
+            !acceptance.conditions.is_empty() || acceptance.review.outcome != Outcome::Unverified
+        });
+        if project.is_empty() && change_assertions.is_empty() && !has_acceptance {
             return Err(EvidenceError::Semantic(
                 "the bootstrap review has no accepted decisions; review_required is intentionally not evidence"
                     .into(),
             ));
         }
-        if !change_assertions.is_empty() && self.change.work.trim().is_empty() {
+        if (!change_assertions.is_empty() || has_acceptance) && self.change.work.trim().is_empty() {
             return Err(EvidenceError::Semantic(
                 "accepted change decisions need a concrete work authority".into(),
             ));
         }
-        let changes = if change_assertions.is_empty() {
+        let changes = if change_assertions.is_empty() && !has_acceptance {
             Vec::new()
         } else {
             vec![ChangeEvidence {
                 fingerprint: self.change.fingerprint.clone(),
                 work: self.change.work.trim().to_owned(),
                 assertions: change_assertions,
+                acceptance: self.change.acceptance.clone(),
             }]
         };
         let ledger = EvidenceLedger {
-            schema: 1,
+            schema: self.schema,
             project,
             changes,
         };
@@ -299,6 +310,9 @@ pub struct ChangeEvidence {
     pub work: String,
     /// Assertions that apply only to this fingerprint.
     pub assertions: Vec<EvidenceAssertion>,
+    /// Change-scoped requirement/assertion evidence, available in ledger schema 2.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub acceptance: Option<crate::AcceptanceEvidence>,
 }
 
 /// Optional evidence supplied by an initialized project.
@@ -372,15 +386,24 @@ impl EvidenceLedger {
     }
 
     fn validate(&self, catalog: &RuleCatalog) -> Result<(), EvidenceError> {
-        if self.schema != 1 {
+        validate_schema_document(&serde_json::to_value(self)?, EVIDENCE_SCHEMA, "ledger")?;
+        if !matches!(self.schema, 1 | 2) {
             return Err(EvidenceError::Semantic(format!(
-                "unsupported schema {}; expected 1",
+                "unsupported schema {}; expected 1 or 2",
                 self.schema
             )));
         }
         validate_assertions("project", &self.project, catalog)?;
         let mut fingerprints = HashSet::new();
         for change in &self.changes {
+            if let Some(acceptance) = &change.acceptance {
+                if self.schema != 2 {
+                    return Err(EvidenceError::Semantic(
+                        "acceptance evidence requires ledger schema 2".into(),
+                    ));
+                }
+                acceptance.validate()?;
+            }
             if !fingerprints.insert(change.fingerprint.as_str()) {
                 return Err(EvidenceError::Semantic(format!(
                     "duplicate change fingerprint `{}`",
@@ -415,8 +438,8 @@ impl EvidenceLedger {
 ///
 /// # Errors
 ///
-/// Returns [`EvidenceError::Git`] when Git fails or the working tree contains
-/// content not represented by the staged index.
+/// Returns [`EvidenceError::Git`] when Git fails, or [`EvidenceError::Unindexed`]
+/// when material working-tree content is not represented by the staged index.
 pub fn staged_fingerprint(root: &Path) -> Result<String, EvidenceError> {
     reject_unindexed_content(root)?;
     let output = git_output(root, &["ls-files", "--stage", "-z"])?;
@@ -451,14 +474,14 @@ fn reject_unindexed_content(root: &Path) -> Result<(), EvidenceError> {
     if omitted.is_empty() {
         Ok(())
     } else {
-        Err(EvidenceError::Git(format!(
+        Err(EvidenceError::Unindexed(format!(
             "stage all material changes before binding evidence; unindexed: {}",
             omitted.join(", ")
         )))
     }
 }
 
-fn git_output(root: &Path, arguments: &[&str]) -> Result<Vec<u8>, EvidenceError> {
+pub(crate) fn git_output(root: &Path, arguments: &[&str]) -> Result<Vec<u8>, EvidenceError> {
     let output = Command::new("git")
         .arg("-C")
         .arg(root)

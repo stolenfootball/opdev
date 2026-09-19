@@ -1,4 +1,4 @@
-schema: 1
+schema: 2
 project:
   - rule_id: MCD-CONFIG-001
     outcome: passed
@@ -118,6 +118,493 @@ project:
         summary: Public installer install/reinstall and CLI version, initialization dry-run, initialization, and check fixtures passed on macOS ARM64 and Ubuntu 24.04 ARM64. The downloaded macOS x86-64 CLI passed under Rosetta. The empty fixture correctly reports missing assurance as unverified. Post-download Windows installation was not exercised.
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
+  - {
+      "fingerprint": "60cc72ee4be106a19b0e171d725bccdf3d996029aa2e8263b0f05009ed6a68cf",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Issue 46 and the approved revised plan scope authority-aware advisory review plus typed change acceptance. The maintainer approved wording and directed completion; MR/CI and post-merge verification remain required.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Issue 46 and the approved revised plan scope authority-aware advisory review plus typed change acceptance. The maintainer approved wording and directed completion; MR/CI and post-merge verification remain required.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "The existing authorities define schema-2 migration, exact-source evidence, payload review binding, current suite execution and explicit semantic limits. The measured staged-model prototype was not promoted.",
+          "evidence": [
+            {
+              "kind": "architecture",
+              "summary": "The existing authorities define schema-2 migration, exact-source evidence, payload review binding, current suite execution and explicit semantic limits. The measured staged-model prototype was not promoted.",
+              "location": "spec/evidence-ledger.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Main remains the sole integration and release-source trunk; project policy and publication paths are unchanged.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Main remains the sole integration and release-source trunk; project policy and publication paths are unchanged.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "This focused issue-46 branch is based on current origin/main 0bfbef64ad215fd2af2ae4d75f364840a8c7f943, freshly fetched before integration. Exact-head MR/CI and post-merge checks remain required.",
+          "evidence": [
+            {
+              "kind": "git",
+              "summary": "This focused issue-46 branch is based on current origin/main 0bfbef64ad215fd2af2ae4d75f364840a8c7f943, freshly fetched before integration. Exact-head MR/CI and post-merge checks remain required.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "Only issue 46 is being integrated in this work; historical synthetic comparison arms are evaluation fixtures, not concurrent product integration branches.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Only issue 46 is being integrated in this work; historical synthetic comparison arms are evaluation fixtures, not concurrent product integration branches.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Fresh read-only inspection confirmed latest main pipeline 2862697486 succeeded at 0bfbef64ad215fd2af2ae4d75f364840a8c7f943. No required red trunk was observed.",
+          "evidence": [
+            {
+              "kind": "ci",
+              "summary": "Fresh read-only inspection confirmed latest main pipeline 2862697486 succeeded at 0bfbef64ad215fd2af2ae4d75f364840a8c7f943. No required red trunk was observed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2862697486"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "The deliberate migration keeps ledger schema 1 readable but requires schema-2 current acceptance for TEST-002/003. Capability detection and explicit migration are documented/tested; other rule IDs, saved reports, runtime pins and delivery behavior are unchanged.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The deliberate migration keeps ledger schema 1 readable but requires schema-2 current acceptance for TEST-002/003. Capability detection and explicit migration are documented/tested; other rule IDs, saved reports, runtime pins and delivery behavior are unchanged.",
+              "location": "spec/compatibility.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Correctness is assessed by deterministic regression checks; semantic effectiveness is assessed separately through retained synthetic trials with explicit failures and limits. Staged review added cost without root-finding gain and was not promoted. The new acceptance workflow has no universal reliability claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Correctness is assessed by deterministic regression checks; semantic effectiveness is assessed separately through retained synthetic trials with explicit failures and limits. Staged review added cost without root-finding gain and was not promoted. The new acceptance workflow has no universal reliability claim.",
+              "location": "benchmarks/consistency/acceptance-results-2026-09-19.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "The maintainer approved the three presented diagnostic/help messages with the actual response That's fine. Output remains textual and outcomes explicit. This is representative wording review, not universal accessibility certification.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The maintainer approved the three presented diagnostic/help messages with the actual response That's fine. Output remains textual and outcomes explicit. This is representative wording review, not universal accessibility certification.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46#note_3866668136"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "The CLI exposes pending/stale acceptance, failed assertions/suites and verifier errors distinctly in human/JSON reports. Regression tests exercise outcomes and semantic-limit wording; no operational telemetry or release qualification is claimed.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "The CLI exposes pending/stale acceptance, failed assertions/suites and verifier errors distinctly in human/JSON reports. Regression tests exercise outcomes and semantic-limit wording; no operational telemetry or release qualification is claimed.",
+              "location": "crates/opdev-cli/tests/acceptance.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored work retains canonical suites, exact staged evidence and required CI. Agent assertion review is explicitly identified and separated from the actual maintainer wording response; no developer approval is fabricated.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored work retains canonical suites, exact staged evidence and required CI. Agent assertion review is explicitly identified and separated from the actual maintainer wording response; no developer approval is fabricated.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46#note_3866668136"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Earlier semantic precision failures, blocked retrieval, staged-review overhead and implementation-test failures are retained. The revised approach enforces mechanical consistency without misrepresenting semantic guarantees; targeted regressions cover the observed implementation corrections.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Earlier semantic precision failures, blocked retrieval, staged-review overhead and implementation-test failures are retained. The revised approach enforces mechanical consistency without misrepresenting semantic guarantees; targeted regressions cover the observed implementation corrections.",
+              "location": "benchmarks/consistency/acceptance-results-2026-09-19.md"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "Issue 46's approved revised increment includes deterministic acceptance evidence and shared advisory guidance, not automatic semantic proof. Inventory covers schema/identity/execution/outcome/compatibility/output/routing risks. Earlier synthetic comparisons are historical evaluation evidence, not a promoted staged-review runtime. No release, installed-plugin change, consumer migration, new test framework or mandatory second model is included.",
+        "conditions": [
+          {
+            "id": "AE1",
+            "statement": "Only current typed acceptance plus current canonical automated execution qualifies TEST-002/003.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "TEST-002/003 now require typed"
+            }
+          },
+          {
+            "id": "AE2",
+            "statement": "Missing, pending or contradictory mappings cannot be hidden by a green suite.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "Partial inventories/mappings may"
+            }
+          },
+          {
+            "id": "AE3",
+            "statement": "Change identity, source references, inventory, mapping and work changes invalidate prior review.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "Changing any subject field invalidates"
+            }
+          },
+          {
+            "id": "AE4",
+            "statement": "Legacy ledgers remain readable but generic legacy assertions cannot satisfy the strengthened checks.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "Version\n1 remains readable"
+            }
+          },
+          {
+            "id": "AE5",
+            "statement": "Invalid identities, shapes, references and schema combinations are rejected.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "unknown fields, duplicate IDs/mappings"
+            }
+          },
+          {
+            "id": "AE6",
+            "statement": "Appropriate reviewed nonbehavioral evidence does not falsely imply automated execution.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "Nonbehavioral evidence may satisfy TEST-002"
+            }
+          },
+          {
+            "id": "AE7",
+            "statement": "Suite failure, verifier failure, skipped execution and source mutation retain distinct blocking outcomes.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "a suite failure is failed and an execution failure is error."
+            }
+          },
+          {
+            "id": "AE8",
+            "statement": "Bootstrap remains unresolved and current views preserve typed schema-2 evidence.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "template begins unresolved and cannot qualify a gate."
+            }
+          },
+          {
+            "id": "AE9",
+            "statement": "Mechanically valid evidence must not be advertised as proof of semantic completeness.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "A deliberately false semantic"
+            }
+          },
+          {
+            "id": "AE10",
+            "statement": "Meaningful expected results and reviewed contradictions remain distinct from green tests.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "Wrong assertions must be identified by actual review"
+            }
+          },
+          {
+            "id": "AE11",
+            "statement": "Both shared-host skill routes retain packaged acceptance and advisory review references.",
+            "authority": "spec/consistency-review.md",
+            "source": {
+              "path": "spec/consistency-review.md",
+              "sha256": "e91c60ef57b4984ce1429d691b4feb08491d0d17474e9e3609b59789e7d82025",
+              "excerpt": "Both Codex and Claude Code use the same reference"
+            }
+          },
+          {
+            "id": "AE12",
+            "statement": "Routine guidance derives assertions from actual approved requirements, with proportional discriminating evidence and honest review boundaries.",
+            "authority": "spec/evidence-ledger.md",
+            "source": {
+              "path": "spec/evidence-ledger.md",
+              "sha256": "20182acd4ff2f4bc50a9e1d8ef06ef772e8228fdbff04c8c60d3fbaf5389a7e1",
+              "excerpt": "Identify accepted conditions and expected results before implementation."
+            }
+          },
+          {
+            "id": "AE13",
+            "statement": "Requested advisory reviews preserve scope, authority conflicts, version boundaries, and read-only authorization.",
+            "authority": "spec/consistency-review.md",
+            "source": {
+              "path": "spec/consistency-review.md",
+              "sha256": "e91c60ef57b4984ce1429d691b4feb08491d0d17474e9e3609b59789e7d82025",
+              "excerpt": "Review requests authorize reading and an answer"
+            }
+          },
+          {
+            "id": "AE14",
+            "statement": "Changed consumer wording receives actual maintainer review with scoped limitations.",
+            "authority": "spec/consumer-interface.md",
+            "source": {
+              "path": "spec/consumer-interface.md",
+              "sha256": "74d8d3a72802c82467a8b51b5f28d91fe933e5f9f7df7e4007ac303ca3fcbadf",
+              "excerpt": "Human review is required"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "AE1",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn current_review_and_actual_suite_execution_are_both_required()"
+            },
+            "assertion": "The same real fixture yields passed with execution and unverified with --no-exec; its digest equals the reviewed payload.",
+            "discriminating_case": "With identical valid mappings, removing execution must change passed to unverified.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE2",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn green_suite_cannot_hide_missing_pending_or_contradicted_mappings()"
+            },
+            "assertion": "The process loop checks the suite passed but verifies missing/pending/empty/unknown/stale evidence stays unverified and reviewed contradictions fail; integration stays blocked.",
+            "discriminating_case": "A green suite plus failed mapping must produce failed, not passed.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE3",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn changed_inventory_mapping_work_or_source_invalidates_review()"
+            },
+            "assertion": "The process test independently changes conditions, assertion text, work, digest and unstaged/staged requirement bytes and asserts unverified.",
+            "discriminating_case": "An edited ledger mapping must invalidate the review even though the ledger is excluded from the staged fingerprint.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE4",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn legacy_and_generic_pass_assertions_do_not_satisfy_acceptance()"
+            },
+            "assertion": "The real CLI reads a schema-1 ledger with both project and change pass assertions and a green suite, but returns unverified for both acceptance rules.",
+            "discriminating_case": "A blanket legacy pass must not substitute for typed current evidence.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE5",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn invalid_shapes_and_untrusted_paths_fail_before_suite_execution()"
+            },
+            "assertion": "The strict loader rejects duplicate conditions, unknown mapping IDs/fields, invalid paths, ledger self-reference, schema-1 acceptance and not_applicable mapping outcomes.",
+            "discriminating_case": "Replacing a valid target with a parent-relative path must reject the record rather than grant evidence.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE6",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn non_code_review_requires_specific_evidence_and_limits()"
+            },
+            "assertion": "A reviewed nonbehavioral fixture with an explicit automation limitation qualifies TEST-002 without execution and marks behavioral TEST-003 not_applicable.",
+            "discriminating_case": "A review-only mapping with --no-exec must not be misreported as a suite execution failure or behavioral-test pass.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE7",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn failing_unavailable_skipped_or_source_mutating_suites_do_not_qualify()"
+            },
+            "assertion": "Real CLI invocations assert failed for failing test, error for missing executable and unverified for skipped stage or source mutation during a passing command.",
+            "discriminating_case": "A missing executable is error rather than product failure; a source-mutating green command cannot qualify.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE8",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn bootstrap_is_unresolved_and_compact_views_preserve_typed_acceptance()"
+            },
+            "assertion": "Process assertions check schema 2, exact acceptance equality in filtered views, unverified default review, no boolean TEST-002/003 decisions and no ledger write.",
+            "discriminating_case": "Generating bootstrap must not write a ledger or grant an acceptance pass.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE9",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn semantic_truth_is_not_established_by_a_mechanically_valid_record()"
+            },
+            "assertion": "A deliberately false interpretation remains mechanically passable; the diagnostic is asserted to retain reviewer-claim limits.",
+            "discriminating_case": "Changing a statement to an unsupported universal claim does not establish truth; the boundary must remain explicit.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE10",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "703472b56cd723c3d0ab964e5e04216f849619f6c6ce947509a240d260eb4592",
+              "excerpt": "fn wrong_green_assertion_then_meaningful_red_green_is_observed()"
+            },
+            "assertion": "The loop executes actual code and asserts wrong-green/review-failed, meaningful-red and corrected-green outcomes for both acceptance rules.",
+            "discriminating_case": "Caller order c,a,b and limit 2 distinguish correct c,a from sorted extra-item a,b,c; review supplies the first contradiction.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE11",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/planning_guidance.rs",
+              "sha256": "391f5a03ae494d4835659815ff40a8d56ff16842b3a3feefa5ea1d1962de7087",
+              "excerpt": "fn acceptance_reference_is_reachable_in_copied_plugin()"
+            },
+            "assertion": "Copied-plugin tests resolve acceptance and consistency references from shared guidance and compare bytes; generated AGENTS guidance matches the repository and CLAUDE imports it once.",
+            "discriminating_case": "Copying the plugin away from the repository must retain reachable references; these tests do not establish semantic host reliability.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE12",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/acceptance.md",
+              "sha256": "461790a24eafecaefd4646e14acaf57ab2b9dbfcc44f26cf105017f716c88863",
+              "excerpt": "expected results from requirements, not current code."
+            },
+            "assertion": "Reviewed guidance requires requirements-first expected results, actual assertion inspection, appropriate red/green evidence, exact-source mappings and agent identity without manufactured developer consent.",
+            "discriminating_case": "A green truthiness test or reviewer agreement alone cannot prove a requirement; no second model or runner-specific adapter is mandated.",
+            "automation_limitation": "The behavior of arbitrary future agents cannot be established by text packaging tests; this mapping verifies guidance content, with the bounded forward review recorded separately.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE13",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/consistency-review.md",
+              "sha256": "756fa1d6b6b6adda7a34f7cd551df49f3c6b743951a51e1dc301faf2bed3bbf0",
+              "excerpt": "Return the review in the conversation by default."
+            },
+            "assertion": "Reviewed reference explicitly separates expected/inferred/observed claims, current requirements from deferred features, authority conflict from consent, and advice from mutations. Prior host failures remain recorded.",
+            "discriminating_case": "A frozen historical guide or deferred feature is not a current defect; a request for review must not become permission to execute or close work.",
+            "automation_limitation": "Text review establishes the protocol, not universal model compliance. Historical host trials contain failures and retrieval gaps; no general semantic reliability claim is made.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "AE14",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/consistency/acceptance-results-2026-09-19.md",
+              "sha256": "261ce028189a9f140385c2dd8194c3d193631795bfb835c22694f19fc8b023f3",
+              "excerpt": "The maintainer subsequently reviewed the three messages reproduced above"
+            },
+            "assertion": "The actual conversation presented the three messages and received approval, recorded in issue note 3866668136; claims remain limited to those messages.",
+            "discriminating_case": "Approval of the policy target alone would not count; this is approval after presentation of the actual diagnostic/help text.",
+            "automation_limitation": "Human consent and readability judgment are not inferred from test results; the recorded actual response supplies the required representative review.",
+            "outcome": "passed"
+          }
+        ],
+        "review": {
+        "outcome": "passed",
+        "reviewer": "Codex implementation agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46#note_3866668136",
+          "rationale": "Reviewed actual requirement excerpts against process assertions and guidance. Counterexamples expose missing/stale bindings, wrong green assertions and absent execution. Packaging tests are not semantic host validation. Agent review is identified separately from the maintainer's wording approval. Current canonical execution remains required.",
+        "subject_sha256": "715a9dfe9c32e9ce7e0eb4d9f1f6ecd50300eb2559efbadaddd2dc614cbad36c"
+        }
+      }
+    }
   - fingerprint: 5a7408986759bee3c30511ea3dc88d1d3f24066ef22ee2c5f4d846b456c433c6
     work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/45
     assertions:

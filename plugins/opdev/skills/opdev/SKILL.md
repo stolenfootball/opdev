@@ -73,12 +73,19 @@ The Claude Code prompt hook may provide the same state as additional context. Tr
 3. Use the declared work authority for active status, sequencing, and decisions. Keep static specifications free of roadmap drift.
 4. Establish the outcome, scope, exclusions, acceptance conditions, risks, and evidence before substantive edits. For every planning objective, including "what is the next step?", follow [planning.md](references/planning.md): prefer demonstrable consumer increments, keep distant steps provisional, and honor specific user requests. Scale design work to risk and reversibility.
 5. Make small, reviewable changes. Preserve supported behavior unless the accepted change deliberately migrates it.
-6. Apply the testing policy in [testing.md](references/testing.md). Run canonical command argument vectors directly; do not reinterpret them through a shell.
+6. Apply [testing.md](references/testing.md) and [acceptance evidence](references/acceptance.md) for substantive changes: derive expected results from accepted requirements, review actual assertions, and bind the inventory/mappings to the current change. Run canonical command argument vectors directly; do not reinterpret them through a shell.
 7. For facts the CLI cannot infer, follow [evidence.md](references/evidence.md). When a new ledger is needed, prefer the schema-backed `opdev evidence bootstrap` review flow; it starts every decision unresolved and keeps durable project facts separate from fingerprint-bound change facts. Never reuse an assertion after the repository state changes without rechecking it.
 8. Use `opdev check` for local evidence. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Use full human/JSON output by default. Follow [results.md](references/results.md) for retained reports; compact views require explicit experimental opt-in from the user or project, never just a capable runtime. Report blocked or unavailable evidence honestly.
 9. Reconcile implementation, tests, declared authorities, delivery behavior, and tracked work before completion.
 
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
+
+For a requested requirements-to-implementation consistency review (for example,
+"does this satisfy the agreed plan?"), use
+[consistency-review.md](references/consistency-review.md). It reuses declared
+authorities and returns advisory findings without edits, tracker updates or gate
+approval. Do not expand ordinary questions or narrow code reviews into a full
+project audit.
 
 For initialization, conversion to OpDev, or resolving incomplete adoption, read
 [adoption.md](references/adoption.md). Assess every supplied practice, preserve
