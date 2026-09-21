@@ -9,7 +9,7 @@ mod report;
 mod test_execution;
 mod test_report;
 
-pub use command::{CommandError, Execution, execute};
+pub use command::{CommandError, Execution, ProgramLocation, execute, inspect_program};
 pub use evaluator::{CheckOptions, EvaluationError, evaluate, reaggregate};
 pub use report::{CheckKind, CheckReport, CheckResult};
 pub use test_execution::{TestExecutionReceipt, observe_test_execution};

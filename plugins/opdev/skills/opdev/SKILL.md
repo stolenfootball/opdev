@@ -68,6 +68,17 @@ The Claude Code prompt hook may provide the same state as additional context. Tr
 
 ## Work in an initialized project
 
+After activation/runtime resolution, use read-only `doctor` before substantial
+implementation or verification in a new or changed execution environment, or
+when diagnosing setup failures; do not rerun it for every turn or routine task.
+Check `doctor --help` for `--format` and `--plugin-root` first. On capable CLIs,
+pass the actual package root and use human/JSON findings to separate local
+prerequisites, adoption gaps and qualification. Missing capabilities need an
+explicit upgrade offer, not a fabricated pass or automatic installation. Older
+doctor's success exit is not readiness. Use `--remote` only for relevant,
+authorized provider inspection. Never execute suggested repairs automatically
+or treat doctor as adoption consent, completed tests or gate evidence.
+
 1. Read `AGENTS.md` and the project contract. `CLAUDE.md` imports the same project guidance for Claude Code.
 2. Load authorities selected by `context.always` and by every relevant task route. Follow [project-contract.md](references/project-contract.md) when interpreting fields. Do not assume design material belongs in `docs/`. Follow [documentation ownership](references/project-contract.md#documentation-locations-and-ownership) before choosing or changing authority locations.
 3. Use the declared work authority for active status, sequencing, and decisions. Keep static specifications free of roadmap drift.

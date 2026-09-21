@@ -12,20 +12,21 @@ use opdev_core::{
 };
 use opdev_engine::{CheckOptions, CheckReport, evaluate, reaggregate};
 use opdev_project::{
-    CiProvider, CoverageMode, DeliveryStatus, EVIDENCE_PATH, EvidenceBootstrap, FileChange,
-    MANIFEST_PATH, ProjectManifest, RecoveryStrategy, discover, reconcile_agent_files,
-    staged_fingerprint, validate_experiment,
+    CiProvider, EVIDENCE_PATH, EvidenceBootstrap, FileChange, MANIFEST_PATH, ProjectManifest,
+    discover, reconcile_agent_files, staged_fingerprint, validate_experiment,
 };
 use opdev_release::{
     EvidenceRequest, PackageFormat, PackageInput, PackageRequest, generate_evidence,
     package_release,
 };
-use opdev_remote::{RemoteAudit, RemoteCapability, audit};
+use opdev_remote::{RemoteCapability, audit};
 use semver::{Version, VersionReq};
 use serde::Deserialize;
 
 mod adoption;
 mod ci_run;
+mod doctor;
+mod inspection;
 mod test_execution;
 mod test_report;
 mod upgrade;
@@ -54,7 +55,7 @@ enum Command {
     /// Run one canonical suite and emit tool-neutral JSON execution evidence.
     TestExecution(test_execution::TestExecutionArgs),
     /// Explain missing, contradictory, or unverified capabilities.
-    Doctor(DoctorArgs),
+    Doctor(doctor::DoctorArgs),
     /// Generate or inspect a first-class CI configuration.
     Ci(CiArgs),
     /// Preview an upgrade, or apply an explicitly reviewed guidance plan.
@@ -254,16 +255,6 @@ impl From<ProviderArg> for CiProvider {
 }
 
 #[derive(Debug, Args)]
-struct DoctorArgs {
-    /// Directory inside the initialized Git repository.
-    #[arg(long, default_value = ".")]
-    root: PathBuf,
-    /// Include read-only remote provider diagnostics.
-    #[arg(long)]
-    remote: bool,
-}
-
-#[derive(Debug, Args)]
 struct RulesArgs {
     /// Show one stable rule ID instead of listing the catalog.
     #[arg(long)]
@@ -450,7 +441,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         Command::Report(args) => match args.command {
             ReportCommand::Summarize { path } => views::summarize_file(&path),
         },
-        Command::Doctor(args) => doctor(&args).map(|()| ExitCode::SUCCESS),
+        Command::Doctor(args) => doctor::run(&args),
         Command::Ci(args) => ci_command(&args),
         Command::Upgrade(args) => upgrade::run(&args),
     }
@@ -1178,56 +1169,6 @@ const fn outcome_index(outcome: Outcome) -> usize {
         Outcome::NotApplicable => 3,
         Outcome::Error => 4,
         Outcome::MigrationRequired => 5,
-    }
-}
-
-fn doctor(args: &DoctorArgs) -> Result<()> {
-    let (root, manifest) = load_project(&args.root)?;
-    let mut findings = Vec::new();
-    if manifest.project.ci.provider == CiProvider::Unconfigured {
-        findings.push("CI provider is unconfigured");
-    }
-    if manifest.testing.coverage.mode == CoverageMode::Unconfigured {
-        findings.push("coverage evidence is unconfigured");
-    }
-    if manifest.delivery.status == DeliveryStatus::MigrationRequired {
-        findings.push("delivery qualification is migration_required");
-    }
-    if manifest.delivery.recovery.strategy == RecoveryStrategy::Unconfigured {
-        findings.push("automated recovery is unconfigured");
-    }
-    if manifest.commands.is_empty() {
-        findings.push("no canonical project commands are declared");
-    }
-
-    println!("Project: {}", root.display());
-    if findings.is_empty() {
-        println!("No project-contract gaps detected.");
-    } else {
-        for finding in findings {
-            println!("- {finding}");
-        }
-    }
-    if args.remote {
-        let audit = audit(&manifest).context("read-only remote audit could not start")?;
-        print_remote_audit(&audit);
-    }
-    Ok(())
-}
-
-fn print_remote_audit(audit: &RemoteAudit) {
-    println!("Remote: {}", audit.repository);
-    for (name, capability) in [
-        ("ci", &audit.ci),
-        ("trunk", &audit.trunk),
-        ("trunk_protection", &audit.trunk_protection),
-        ("trunk_pipeline", &audit.trunk_pipeline),
-        ("branch_lifecycle", &audit.branch_lifecycle),
-    ] {
-        println!("- {name}: {:?}", capability.outcome);
-        if let Some(diagnostic) = &capability.diagnostic {
-            println!("  {diagnostic}");
-        }
     }
 }
 

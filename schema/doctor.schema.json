@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpDev doctor observations",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "root",
+    "runtime",
+    "remote_requested",
+    "exit_code",
+    "project_verification",
+    "limits",
+    "findings"
+  ],
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "root": {
+      "type": "string"
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "version",
+        "sha256",
+        "os",
+        "arch",
+        "wsl_environment_hint",
+        "project_schemas",
+        "evidence_schemas",
+        "capabilities"
+      ],
+      "properties": {
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "os": {
+          "type": "string"
+        },
+        "arch": {
+          "type": "string"
+        },
+        "wsl_environment_hint": {
+          "type": "boolean"
+        },
+        "project_schemas": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "evidence_schemas": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "remote_requested": {
+      "type": "boolean"
+    },
+    "exit_code": {
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "project_verification": {
+      "const": "unverified"
+    },
+    "limits": {
+      "type": "string"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "scope",
+          "subject",
+          "outcome",
+          "required",
+          "observation",
+          "next_step"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "passed",
+              "failed",
+              "unverified",
+              "not_applicable",
+              "error",
+              "migration_required"
+            ]
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "observation": {
+            "type": "string"
+          },
+          "next_step": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
