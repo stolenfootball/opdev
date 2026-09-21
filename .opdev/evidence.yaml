@@ -119,6 +119,297 @@ project:
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
   - {
+      "fingerprint": "496cd54325754355238a41b5d551db88f9b99f76a92864ffc08a09b44afd9fb7",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Maintainer authorized the proposed bounded #48 implementation on 2026-09-21. Scope and acceptance were recorded before edits; no release or installed-plugin update is included.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Maintainer authorized the proposed bounded #48 implementation on 2026-09-21. Scope and acceptance were recorded before edits; no release or installed-plugin update is included.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48#note_3874457642"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "The existing extension specification records TS-01 through TS-06, consumer scope, alternatives, existing stage limitations, producer isolation, evidence limits and reversal criteria.",
+          "evidence": [
+            {
+              "kind": "architecture",
+              "summary": "The existing extension specification records TS-01 through TS-06, consumer scope, alternatives, existing stage limitations, producer isolation, evidence limits and reversal criteria.",
+              "location": "spec/extensions.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Reviewed unchanged project and CI configuration: main remains the sole integration/release-source trunk. The canary creates only a synthetic local test repository.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed unchanged project and CI configuration: main remains the sole integration/release-source trunk. The canary creates only a synthetic local test repository.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "Focused feat/48-test-strength branch starts at current main a92ebaabb65ee60ead4454475f15bf9b3b445e54. Integration has not occurred; normal MR/CI and post-merge verification remain pending.",
+          "evidence": [
+            {
+              "kind": "git",
+              "summary": "Focused feat/48-test-strength branch starts at current main a92ebaabb65ee60ead4454475f15bf9b3b445e54. Integration has not occurred; normal MR/CI and post-merge verification remain pending.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "This increment has one short-lived feature branch and no multi-branch product integration workflow.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "This increment has one short-lived feature branch and no multi-branch product integration workflow.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "The main pipeline 2866393070 was successful before feature work. Recheck current trunk before integration; no known red trunk was bypassed.",
+          "evidence": [
+            {
+              "kind": "ci",
+              "summary": "The main pipeline 2866393070 was successful before feature work. Recheck current trunk before integration; no known red trunk was bypassed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2866393070"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "No project schema, mandatory configuration, default tool or protocol version changes. Extension nonzero exit is corrected from failed to the specified error; either blocks required checks. Ordinary suite failure remains failed; no-extension and stage behavior have regression coverage.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "No project schema, mandatory configuration, default tool or protocol version changes. Extension nonzero exit is corrected from failed to the specified error; either blocks required checks. Ordinary suite failure remains failed; no-extension and stage behavior have regression coverage.",
+              "location": "crates/opdev-cli/tests/extensions.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Windows local real-tool canaries 4 and 5 demonstrated passing ordinary tests, an escaped strict-boundary mutation, and detection after a discriminating assertion. Full checks took roughly three seconds; evidence is narrow and not a universal performance/quality claim.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "Windows local real-tool canaries 4 and 5 demonstrated passing ordinary tests, an escaped strict-boundary mutation, and detection after a discriminating assertion. Full checks took roughly three seconds; evidence is narrow and not a universal performance/quality claim.",
+              "location": "examples/test-strength/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "Extension result fixtures preserve evidence, explicit error/unverified classifications, timeout outcomes and advisory/blocking behavior. Reference logs use fresh retained directories; no telemetry or automatic artifact upload is introduced.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "Extension result fixtures preserve evidence, explicit error/unverified classifications, timeout outcomes and advisory/blocking behavior. Reference logs use fresh retained directories; no telemetry or automatic artifact upload is introduced.",
+              "location": "crates/opdev-cli/tests/extensions.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored changes remain subject to canonical commands, exact staged acceptance and normal CI. Actual maintainer wording approval remains pending and is not inferred from implementation authorization.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored changes remain subject to canonical commands, exact staged acceptance and normal CI. Actual maintainer wording approval remains pending and is not inferred from implementation authorization.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Both new core regression tests failed on the original assertions and passed after fixes. Visible canary failures exposed Windows root aliases, an empty selector and selection-only diff metadata; corrections and regressions preceded successful repeats. Lint helper-size issues were corrected. Skill validator passed after its missing dependency was provisioned only in an ignored virtual environment.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "Both new core regression tests failed on the original assertions and passed after fixes. Visible canary failures exposed Windows root aliases, an empty selector and selection-only diff metadata; corrections and regressions preceded successful repeats. Lint helper-size issues were corrected. Skill validator passed after its missing dependency was provisioned only in an ignored virtual environment.",
+              "location": "tests/test_strength_test.py"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "Approved #48 implementation: one opt-in reference adapter, extension error/capture corrections, bounded useful real-tool demonstration, preserved generic core and conditional shared guidance. No tool fleet, score quota, scheduler, automatic adoption, release or installed-plugin changes. Canonical tests are offline; the real pinned producer canary is explicit. Wording review is separate and pending.",
+        "conditions": [
+          {
+            "id": "TS-01",
+            "statement": "Additive extension behavior preserves core rules and no-extension defaults.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
+            "source": {
+              "path": "spec/extensions.md",
+              "sha256": "f12b511a9829c0839e8dc455d0e3e15c630aa2962542d9a30c9dcc88b2ccc127",
+              "excerpt": "- TS-01:"
+            }
+          },
+          {
+            "id": "TS-02",
+            "statement": "Extension process errors, completed verdicts and advisory/blocking policy remain distinct.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
+            "source": {
+              "path": "spec/extensions.md",
+              "sha256": "f12b511a9829c0839e8dc455d0e3e15c630aa2962542d9a30c9dcc88b2ccc127",
+              "excerpt": "- TS-02:"
+            }
+          },
+          {
+            "id": "TS-03",
+            "statement": "Only fresh supported complete viable test evidence can satisfy the selected test-strength policy.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
+            "source": {
+              "path": "spec/extensions.md",
+              "sha256": "f12b511a9829c0839e8dc455d0e3e15c630aa2962542d9a30c9dcc88b2ccc127",
+              "excerpt": "- TS-03:"
+            }
+          },
+          {
+            "id": "TS-04",
+            "statement": "Execution and retained processing are bounded, isolated and inspectable.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
+            "source": {
+              "path": "spec/extensions.md",
+              "sha256": "f12b511a9829c0839e8dc455d0e3e15c630aa2962542d9a30c9dcc88b2ccc127",
+              "excerpt": "- TS-04:"
+            }
+          },
+          {
+            "id": "TS-05",
+            "statement": "A real consumer demonstration finds a meaningful gap and validates the improved assertion with feedback cost reported.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
+            "source": {
+              "path": "spec/extensions.md",
+              "sha256": "f12b511a9829c0839e8dc455d0e3e15c630aa2962542d9a30c9dcc88b2ccc127",
+              "excerpt": "- TS-05:"
+            }
+          },
+          {
+            "id": "TS-06",
+            "statement": "Optional guidance is risk-based, developer-selected and does not mandate additional setup.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
+            "source": {
+              "path": "spec/extensions.md",
+              "sha256": "f12b511a9829c0839e8dc455d0e3e15c630aa2962542d9a30c9dcc88b2ccc127",
+              "excerpt": "- TS-06:"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "TS-01",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/extensions.rs",
+              "sha256": "74c4e7cb6fa2ea3ff6493f106d8e6167da2e65cde33419efaadb683cc5cd0145",
+              "excerpt": "assert_core_outcomes_unchanged(&report, &baseline);"
+            },
+            "assertion": "The process test compares TEST-002/003 and trunk outcomes to the no-extension baseline; the engine passing_extension_cannot_clear_a_core_failure test also creates a concrete core failure.",
+            "discriminating_case": "A passing extension cannot turn an unresolved acceptance rule into passed or erase the explicit failed core rule.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "TS-02",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-engine/src/evaluator.rs",
+              "sha256": "ec883d91cf03b854e0a36c33e7c740a5174fad44eb59b047e8fb8ed8dac3a8a6",
+              "excerpt": "fn extension_process_failure_is_not_a_test_failure()"
+            },
+            "assertion": "Nonzero and signal-like termination must be error for extensions but failed for canonical suites, with diagnostics/duration retained. CLI fixtures separately exercise valid failed/unverified/error responses and blocking flags.",
+            "discriminating_case": "The original implementation returned Failed for an extension exit 7; the new assertion failed red before the correction.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "TS-03",
+            "method": "automated",
+            "target": {
+              "path": "tests/test_strength_test.py",
+              "sha256": "41cde7f6d3f5a3426e68d3c606f3796f74b992455b56031156338b7881c1e1ce",
+              "excerpt": "def test_fresh_directories_and_source_change(self):"
+            },
+            "assertion": "Reviewed the fixture assertions for version/count/exit contradictions, actual test phases, empty/incomplete/changed selection, baseline failure, fresh directories, absent new reports and changed source.",
+            "discriminating_case": "A prior successful report is not reused when the next producer invocation writes none; changed source and empty/no-viable analysis remain unverified.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "TS-04",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-engine/src/command.rs",
+              "sha256": "fa70b38ac51f4cfc8334822b3c3b7b2fbff005a9a4214d09d326f570bcfaf365",
+              "excerpt": "assert_eq!(bytes.len(), MAX_CAPTURE_BYTES + 1);"
+            },
+            "assertion": "Capture reads only a bounded prefix, including invalid-UTF8 output-size protection. Adapter tests bound JSON size and selection before execution, check single-worker/offline/no-in-place invocation; CLI fixtures exercise declared timeouts and retained evidence.",
+            "discriminating_case": "Original capture read 262144 bytes instead of 65537 and failed the red test. Oversized selection must prevent the mutation execution call.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "TS-05",
+            "method": "review",
+            "target": {
+              "path": "examples/test-strength/canary.py",
+              "sha256": "1d5dff0825c6acf55301d142bd84c2e791a908534da3d3888bd32cfc436b17d5",
+              "excerpt": "assert check[\"outcome\"] == expected, check"
+            },
+            "assertion": "Reviewed actual local real-tool canaries 4 and 5: ordinary tests passed both times; weak extension failed, strong extension passed, original fixture source stayed clean, unrelated core gates stayed blocked. Retained JSON and producer logs are in ignored target/issue48-canary-4 and -5.",
+            "discriminating_case": "Strict less-than ten versus less-than-or-equal survives tests for nine/eleven, but the explicit rejection assertion at ten catches it.",
+            "outcome": "passed",
+            "automation_limitation": "Live mutation execution needs the explicitly provisioned optional pinned producer and is intentionally not required by the offline canonical suite. Actual bounded canaries were executed and reviewed separately; this review does not claim current canonical live-producer execution."
+          },
+          {
+            "condition": "TS-06",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/testing.md",
+              "sha256": "0254cb48b2e709209ac25a940b65dfcbb517e2d32d2532e44391c03b5df182a9",
+              "excerpt": "## Optional test-strength checks"
+            },
+            "assertion": "Reviewed the conditional guidance against the accepted scope: preserve adequate tooling; agree on scope/budget/stage/policy; no auto-install/activation, universal score, or new questionnaire/ledger; no replacement of acceptance/core evidence.",
+            "discriminating_case": "Routine adequate tests should not trigger a new adapter/adoption mandate. An explicitly selected higher-risk check can use an existing suite or additive extension.",
+            "outcome": "passed",
+            "automation_limitation": "Instruction meaning and appropriateness cannot be established by wording-matching tests. Source review and plugin/skill validation were performed; no model-session usability trial or maintainer wording approval is claimed."
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48#note_3874457642",
+          "rationale": "Reviewed the accepted six-condition scope against the staged implementation, actual discriminating assertions, core red/green observations and retained live canaries. Automated mappings still require the current canonical check to execute. Live evidence and guidance use explicitly limited source review; this agent review neither authenticates all requirements nor grants maintainer wording approval. OPDEV-A11Y-001 remains unresolved until an actual response.",
+          "subject_sha256": "847fb0b077780fc30f6bc32a90f8582a69410a56b57eb87a4c1fc5c446035328"
+        }
+      }
+    }
+  - {
       "fingerprint": "cb821774fc99df4bd1eaa006ec1b1251445ac84bb81c56cda816d0544936b5ce",
       "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47",
       "assertions": [

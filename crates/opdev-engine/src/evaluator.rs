@@ -575,6 +575,8 @@ fn execution_result(
                 Outcome::Error
             } else if execution.exit_code == Some(0) {
                 Outcome::Passed
+            } else if kind == CheckKind::Extension {
+                Outcome::Error
             } else {
                 Outcome::Failed
             };
@@ -736,6 +738,82 @@ mod tests {
         DeliveryMode, Environment, EscapedDefectRegressions, Extensions, FlakePolicy, Operations,
         Profile, Project, Quality, QualityRisk, Recovery, RecoveryStrategy, Testing,
     };
+
+    #[test]
+    fn extension_process_failure_is_not_a_test_failure() {
+        for exit in [Some(7), None] {
+            for (kind, expected) in [
+                (CheckKind::Extension, Outcome::Error),
+                (CheckKind::Suite, Outcome::Failed),
+            ] {
+                let result = execution_result(
+                    "selected".into(),
+                    kind,
+                    true,
+                    vec![Gate::Integration],
+                    Ok(Execution {
+                        exit_code: exit,
+                        timed_out: false,
+                        stdout: "partial output".into(),
+                        stderr: "producer failed".into(),
+                        duration_ms: 12,
+                    }),
+                );
+                assert_eq!(result.outcome, expected);
+                assert_eq!(result.stdout.as_deref(), Some("partial output"));
+                assert_eq!(result.stderr.as_deref(), Some("producer failed"));
+                assert_eq!(result.duration_ms, Some(12));
+                assert!(!result.evidence.is_empty());
+            }
+        }
+    }
+
+    #[test]
+    fn passing_extension_cannot_clear_a_core_failure() -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        let mut report = evaluate(
+            root.path(),
+            &manifest(),
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::local()
+            },
+        )?;
+        let catalog = embedded_catalog()?;
+        let rule = catalog
+            .rules
+            .iter()
+            .find(|r| r.gates.contains(&Gate::Integration))
+            .ok_or("rule")?;
+        report
+            .rules
+            .iter_mut()
+            .find(|r| r.rule_id == rule.id)
+            .ok_or("result")?
+            .outcome = Outcome::Failed;
+        let extension = execution_result(
+            "additional".into(),
+            CheckKind::Extension,
+            true,
+            vec![Gate::Integration],
+            Ok(Execution {
+                exit_code: Some(0),
+                timed_out: false,
+                stdout: String::new(),
+                stderr: String::new(),
+                duration_ms: 1,
+            }),
+        );
+        let gates = aggregate_gates(&catalog, &report.rules, &[extension]);
+        let gate = gates
+            .iter()
+            .find(|g| g.gate == Gate::Integration)
+            .ok_or("gate")?;
+        assert_eq!(gate.verdict, AggregateVerdict::Blocked);
+        assert!(gate.blocking_rules.contains(&rule.id));
+        assert!(gate.blocking_checks.is_empty());
+        Ok(())
+    }
 
     #[test]
     fn software_kind_and_missing_configuration_do_not_prove_inapplicability()
