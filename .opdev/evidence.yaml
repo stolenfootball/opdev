@@ -123,6 +123,18 @@ changes:
       "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
       "assertions": [
         {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "Maintainer explicitly approved the representative test-strength messages and optional risk-based guidance: Yes, approved (2026-09-21). This is scoped wording review, not universal accessibility certification.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Actual maintainer response followed presentation of passed, failed, unverified and error wording and the developer-selected opt-in guidance.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48#note_3876624483"
+            }
+          ]
+        },
+        {
           "rule_id": "OPDEV-WORK-001",
           "outcome": "passed",
           "summary": "Maintainer authorized the proposed bounded #48 implementation on 2026-09-21. Scope and acceptance were recorded before edits; no release or installed-plugin update is included.",
@@ -233,11 +245,11 @@ changes:
         {
           "rule_id": "OPDEV-AI-001",
           "outcome": "passed",
-          "summary": "Agent-authored changes remain subject to canonical commands, exact staged acceptance and normal CI. Actual maintainer wording approval remains pending and is not inferred from implementation authorization.",
+          "summary": "Agent-authored changes remain subject to canonical commands, exact staged acceptance and normal CI. Actual maintainer wording approval on 2026-09-21 is recorded separately from agent source review.",
           "evidence": [
             {
               "kind": "review",
-              "summary": "Agent-authored changes remain subject to canonical commands, exact staged acceptance and normal CI. Actual maintainer wording approval remains pending and is not inferred from implementation authorization.",
+              "summary": "Agent-authored changes remain subject to canonical commands, exact staged acceptance and normal CI. Actual maintainer wording approval on 2026-09-21 is recorded separately from agent source review.",
               "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48"
             }
           ]
@@ -257,7 +269,7 @@ changes:
       ],
       "acceptance": {
         "scope": "behavioral",
-        "rationale": "Approved #48 implementation: one opt-in reference adapter, extension error/capture corrections, bounded useful real-tool demonstration, preserved generic core and conditional shared guidance. No tool fleet, score quota, scheduler, automatic adoption, release or installed-plugin changes. Canonical tests are offline; the real pinned producer canary is explicit. Wording review is separate and pending.",
+        "rationale": "Approved #48 implementation: one opt-in reference adapter, extension error/capture corrections, bounded useful real-tool demonstration, preserved generic core and conditional shared guidance. No tool fleet, score quota, scheduler, automatic adoption, release or installed-plugin changes. Canonical tests are offline; the real pinned producer canary is explicit. Maintainer wording approval on 2026-09-21 is recorded separately from source/assertion review.",
         "conditions": [
           {
             "id": "TS-01",
@@ -397,15 +409,15 @@ changes:
             "assertion": "Reviewed the conditional guidance against the accepted scope: preserve adequate tooling; agree on scope/budget/stage/policy; no auto-install/activation, universal score, or new questionnaire/ledger; no replacement of acceptance/core evidence.",
             "discriminating_case": "Routine adequate tests should not trigger a new adapter/adoption mandate. An explicitly selected higher-risk check can use an existing suite or additive extension.",
             "outcome": "passed",
-            "automation_limitation": "Instruction meaning and appropriateness cannot be established by wording-matching tests. Source review and plugin/skill validation were performed; no model-session usability trial or maintainer wording approval is claimed."
+            "automation_limitation": "Instruction meaning and appropriateness cannot be established by wording-matching tests. Source review and plugin/skill validation were performed; the maintainer separately approved representative wording on 2026-09-21. No model-session usability trial is claimed."
           }
         ],
         "review": {
           "outcome": "passed",
           "reviewer": "Codex agent",
           "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48#note_3874457642",
-          "rationale": "Reviewed the accepted six-condition scope against the staged implementation, actual discriminating assertions, core red/green observations and retained live canaries. Automated mappings still require the current canonical check to execute. Live evidence and guidance use explicitly limited source review; this agent review neither authenticates all requirements nor grants maintainer wording approval. OPDEV-A11Y-001 remains unresolved until an actual response.",
-          "subject_sha256": "847fb0b077780fc30f6bc32a90f8582a69410a56b57eb87a4c1fc5c446035328"
+          "rationale": "Rechecked the six-condition inventory, unchanged staged implementation/assertions and revised approval references. Automated mappings still require current canonical execution. Live evidence and guidance retain their limited source review; the agent review does not authenticate all requirements. Actual maintainer wording approval is independently recorded in note 3876624483.",
+          "subject_sha256": "006000b4845b3eb26b0625706e625817dfe6a2d5f4504544e3a28ec7af59a973"
         }
       }
     }
