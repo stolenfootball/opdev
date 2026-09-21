@@ -350,21 +350,26 @@ fn read_capture(file: &mut File, stream: &'static str) -> Result<Vec<u8>, Comman
     file.rewind()
         .and_then(|()| {
             let mut bytes = Vec::new();
-            file.read_to_end(&mut bytes)?;
+            // One extra byte distinguishes exact-limit output from truncation.
+            // This bounds memory, not the on-disk producer log or disk usage.
+            file.take((MAX_CAPTURE_BYTES + 1) as u64)
+                .read_to_end(&mut bytes)?;
             Ok(bytes)
         })
         .map_err(|source| CommandError::Read { stream, source })
 }
 
 fn bounded_text(bytes: &[u8]) -> String {
-    let suffix = b"\n[output truncated by OpDev]";
-    if bytes.len() <= MAX_CAPTURE_BYTES {
-        String::from_utf8_lossy(bytes).into_owned()
+    let suffix = "\n[output truncated by OpDev]";
+    let text = String::from_utf8_lossy(bytes);
+    if text.len() <= MAX_CAPTURE_BYTES {
+        text.into_owned()
     } else {
-        let retained = MAX_CAPTURE_BYTES.saturating_sub(suffix.len());
-        let mut bounded = bytes[..retained].to_vec();
-        bounded.extend_from_slice(suffix);
-        String::from_utf8_lossy(&bounded).into_owned()
+        let mut retained = MAX_CAPTURE_BYTES.saturating_sub(suffix.len());
+        while !text.is_char_boundary(retained) {
+            retained -= 1;
+        }
+        format!("{}{suffix}", &text[..retained])
     }
 }
 
@@ -391,6 +396,17 @@ mod tests {
         let bounded = bounded_text(&oversized);
         assert!(bounded.len() <= MAX_CAPTURE_BYTES);
         assert!(bounded.ends_with("[output truncated by OpDev]"));
+    }
+
+    #[test]
+    fn capture_reads_only_a_bounded_prefix() -> Result<(), Box<dyn std::error::Error>> {
+        let mut file = tempfile::tempfile()?;
+        file.write_all(&vec![b'a'; MAX_CAPTURE_BYTES * 4])?;
+        let bytes = read_capture(&mut file, "stdout")?;
+        assert_eq!(bytes.len(), MAX_CAPTURE_BYTES + 1);
+        assert!(bounded_text(&bytes).ends_with("[output truncated by OpDev]"));
+        assert!(bounded_text(&vec![0xff; MAX_CAPTURE_BYTES]).len() <= MAX_CAPTURE_BYTES);
+        Ok(())
     }
 
     #[cfg(windows)]

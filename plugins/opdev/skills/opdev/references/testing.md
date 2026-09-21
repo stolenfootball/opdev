@@ -16,6 +16,24 @@ a declared policy is not current-change evidence.
 - Tests that depend on live services, devices, stores, fleets, models, or other external systems must state dependencies, environment, variability, freshness, and whether their result affects deployability or effectiveness.
 - Keep deterministic correctness and deployability separate from effectiveness evaluation.
 
+## Optional test-strength checks
+
+When a concrete risk or evidence gap warrants stronger tests, propose a bounded
+mutation, property-based or compatibility check using project-selected tooling.
+Preserve adequate existing choices. Agree on the behavior/scope, compute budget,
+execution stage, evidence and advisory/blocking policy before configuring it;
+reuse the existing testing authority and project commands. Do not auto-install,
+auto-enable, demand a universal score, or add another mandatory adoption
+questionnaire or ledger. Ordinary tasks need no additional assessment ceremony.
+
+Use canonical suites when ordinary command outcomes suffice; use existing
+additive extensions for richer results. A surviving mutation is a testing finding,
+not automatically a defect in the original product. Equivalent mutations, flaky
+baselines, incomplete selection and timeouts limit conclusions. Demonstrate a
+meaningful missed behavior and its improved assertion; measure feedback cost.
+Require fresh supported evidence for any selected blocking policy. An optional
+pass never replaces core rules or current-change acceptance evidence.
+
 ## Proportionate report evidence
 
 During adoption, review the existing runner and CI retry settings, test-selection
