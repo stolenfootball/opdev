@@ -119,6 +119,297 @@ project:
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
   - {
+      "fingerprint": "37d167bf4fa40df3c83f6758d2e66259af937775e78ca8b3732229625304c6bc",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Maintainer said Implement it after reviewing the research-based proposal. Issue 49 captured outcome, six acceptance conditions, scope, exclusions, risks and verification plan before edits.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Maintainer said Implement it after reviewing the research-based proposal. Issue 49 captured outcome, six acceptance conditions, scope, exclusions, risks and verification plan before edits.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "The existing planning authority records RC-01 through RC-06, the risk-based decision, rejected blanket research/automatic-gate alternatives, supporting sources, authority boundaries and reversal criteria.",
+          "evidence": [
+            {
+              "kind": "architecture",
+              "summary": "The existing planning authority records RC-01 through RC-06, the risk-based decision, rejected blanket research/automatic-gate alternatives, supporting sources, authority boundaries and reversal criteria.",
+              "location": "spec/planning.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Reviewed unchanged project/CI contract: main remains the sole integration and release-source trunk. This change adds no branch roles or delivery path.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed unchanged project/CI contract: main remains the sole integration and release-source trunk. This change adds no branch roles or delivery path.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "Focused feat/49-research-checkpoint branch starts at freshly fetched main f2eefc2c1d064ede99356151724df7ee4d5ad08c. Integration and post-merge verification remain pending; no bypass is claimed.",
+          "evidence": [
+            {
+              "kind": "git",
+              "summary": "Focused feat/49-research-checkpoint branch starts at freshly fetched main f2eefc2c1d064ede99356151724df7ee4d5ad08c. Integration and post-merge verification remain pending; no bypass is claimed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "One short-lived feature branch is used for this change; no parallel product integration or release branch workflow is introduced.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "One short-lived feature branch is used for this change; no parallel product integration or release branch workflow is introduced.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Trunk pipeline 2867655857 succeeded at the branch base before feature work; no red trunk was observed. Recheck current trunk before integration.",
+          "evidence": [
+            {
+              "kind": "ci",
+              "summary": "Trunk pipeline 2867655857 succeeded at the branch base before feature work; no red trunk was observed. Recheck current trunk before integration.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2867655857"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "The intended planning-guidance change uses existing plugin references and managed bootstrap blocks. No CLI command, manifest/evidence schema, catalog, default tool, release pin or provider behavior changes. Tests preserve project-owned agent content and repeat application.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "The intended planning-guidance change uses existing plugin references and managed bootstrap blocks. No CLI command, manifest/evidence schema, catalog, default tool, release pin or provider behavior changes. Tests preserve project-owned agent content and repeat application.",
+              "location": "crates/opdev-cli/tests/planning_guidance.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Reviewed 20 fresh-context answer-only trials (10 scenarios per host), then four targeted repeats after two narrow refinements. Responses distinguish risky-small from settled-large work and preserve bounded learning/reuse. Logs and scope limits are recorded; no live browsing, installed-plugin discovery or universal reliability claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed 20 fresh-context answer-only trials (10 scenarios per host), then four targeted repeats after two narrow refinements. Responses distinguish risky-small from settled-large work and preserve bounded learning/reuse. Logs and scope limits are recorded; no live browsing, installed-plugin discovery or universal reliability claim.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49#note_3880023958"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "No executable outcome/help/report format or runtime behavior changed beyond generated instructions. Existing consumer-interface tests passed in the canonical suite; guidance explicitly retains unresolved observations rather than inventing execution or approval.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "No executable outcome/help/report format or runtime behavior changed beyond generated instructions. Existing consumer-interface tests passed in the canonical suite; guidance explicitly retains unresolved observations rather than inventing execution or approval.",
+              "location": "spec/consumer-interface.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored work uses the same canonical tests, staged acceptance mappings and integration gates. Maintainer wording approval is still pending and is not supplied by this agent review.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored work uses the same canonical tests, staged acceptance mappings and integration gates. Maintainer wording approval is still pending and is not supplied by this agent review.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "The generated-guidance regression failed before the template change and passed afterward. Initial Claude R5/R6 responses exposed redundant permission and overbroad inference wording; original transcripts are retained and targeted repeats were reviewed after focused guidance corrections.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The generated-guidance regression failed before the template change and passed afterward. Initial Claude R5/R6 responses exposed redundant permission and overbroad inference wording; original transcripts are retained and targeted repeats were reviewed after focused guidance corrections.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49#note_3880023958"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "Scoped approved research-checkpoint implementation, including shared planning semantics, generated entry points, packaging/preservation regressions and answer-only qualitative evaluation. No new schema/gate/CLI command, no release or installed-plugin updates. Actual maintainer wording review remains a separate outstanding requirement.",
+        "conditions": [
+          {
+            "id": "RC-01",
+            "statement": "Assess uncertainty before consequential approach commitments, preserving provisional planning and user scope.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
+            "source": {
+              "path": "spec/planning.md",
+              "sha256": "a871d6f4b5e2a0cebca9bdfff16bd386feb22799d85785aa1f433bb7a28fbbd1",
+              "excerpt": "- RC-01:"
+            }
+          },
+          {
+            "id": "RC-02",
+            "statement": "Reuse sufficient current evidence, revisit changed assumptions, and honor explicit research requests.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
+            "source": {
+              "path": "spec/planning.md",
+              "sha256": "a871d6f4b5e2a0cebca9bdfff16bd386feb22799d85785aa1f433bb7a28fbbd1",
+              "excerpt": "- RC-02:"
+            }
+          },
+          {
+            "id": "RC-03",
+            "statement": "Bound investigations by decision, appropriate evidence, effort/scope, findings and limitations.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
+            "source": {
+              "path": "spec/planning.md",
+              "sha256": "a871d6f4b5e2a0cebca9bdfff16bd386feb22799d85785aa1f433bb7a28fbbd1",
+              "excerpt": "- RC-03:"
+            }
+          },
+          {
+            "id": "RC-04",
+            "statement": "Keep consequential unknowns unresolved, preserve consent/core rules and select a justified next step.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
+            "source": {
+              "path": "spec/planning.md",
+              "sha256": "a871d6f4b5e2a0cebca9bdfff16bd386feb22799d85785aa1f433bb7a28fbbd1",
+              "excerpt": "- RC-04:"
+            }
+          },
+          {
+            "id": "RC-05",
+            "statement": "Reuse existing authorities and acceptance evidence without a new research gate or required file.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
+            "source": {
+              "path": "spec/planning.md",
+              "sha256": "a871d6f4b5e2a0cebca9bdfff16bd386feb22799d85785aa1f433bb7a28fbbd1",
+              "excerpt": "- RC-05:"
+            }
+          },
+          {
+            "id": "RC-06",
+            "statement": "Distribute the shared checkpoint and preserve project-owned content through fresh and repeated guidance reconciliation.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
+            "source": {
+              "path": "spec/planning.md",
+              "sha256": "a871d6f4b5e2a0cebca9bdfff16bd386feb22799d85785aa1f433bb7a28fbbd1",
+              "excerpt": "- RC-06:"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "RC-01",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/planning.md",
+              "sha256": "2f926015dd1c0335ba6206375774e69a115d819212d3e5f2343fe13f6e2cb44c",
+              "excerpt": "For substantial requests and milestone boundaries"
+            },
+            "assertion": "Reviewed the trigger/timing against R1 (migration) and R3 (tiny durability edit), with R9 routine exclusion and R10 restoration priority; both hosts proposed risk-bounded next steps without executing tools.",
+            "discriminating_case": "A large safe replacement needs no new research, while a three-line durability change requires investigation.",
+            "outcome": "passed",
+            "automation_limitation": "Evidence adequacy, scope and conversational choices require semantic review, not keyword matching. Candidate source and retained fresh-context answers were reviewed in issue 49; answer-only trials cannot establish actual browsing, production behavior or universal host compliance."
+          },
+          {
+            "condition": "RC-02",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/planning.md",
+              "sha256": "2f926015dd1c0335ba6206375774e69a115d819212d3e5f2343fe13f6e2cb44c",
+              "excerpt": "Inspect existing requirements, accepted decisions"
+            },
+            "assertion": "Reviewed R2 reuse, R4 changed dialect scope, R5 explicit research and R7 concise next step. R5 repeats no longer ask for another research go-ahead and disclose unavailable methods.",
+            "discriminating_case": "An accepted prior decision suffices for unchanged repetitive work but cannot replace an explicitly requested current-upstream check.",
+            "outcome": "passed",
+            "automation_limitation": "Evidence adequacy, scope and conversational choices require semantic review, not keyword matching. Candidate source and retained fresh-context answers were reviewed in issue 49; answer-only trials cannot establish actual browsing, production behavior or universal host compliance."
+          },
+          {
+            "condition": "RC-03",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/planning.md",
+              "sha256": "2f926015dd1c0335ba6206375774e69a115d819212d3e5f2343fe13f6e2cb44c",
+              "excerpt": "For material unknowns, identify the decision at stake"
+            },
+            "assertion": "Reviewed R1/R3/R4/R8 methods and bounds; source refinements limit representative probes to observed scope. No documentation-only claim of local performance or demand is prescribed.",
+            "discriminating_case": "An uncertain storage guarantee needs scoped empirical evidence, whereas owner intent needs clarification or authorized user research.",
+            "outcome": "passed",
+            "automation_limitation": "Evidence adequacy, scope and conversational choices require semantic review, not keyword matching. Candidate source and retained fresh-context answers were reviewed in issue 49; answer-only trials cannot establish actual browsing, production behavior or universal host compliance."
+          },
+          {
+            "condition": "RC-04",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/planning.md",
+              "sha256": "2f926015dd1c0335ba6206375774e69a115d819212d3e5f2343fe13f6e2cb44c",
+              "excerpt": "Conclude with a justified approach"
+            },
+            "assertion": "Reviewed R6 originals and repeats: no budget-expiry pass, scoped ordering evidence and unresolved dependent work. Source review also confirms consent/privacy/access constraints and no automatic external actions.",
+            "discriminating_case": "The allotted investigation ending with ordering unknown cannot qualify the migration; a single sample does not prove universal order preservation.",
+            "outcome": "passed",
+            "automation_limitation": "Evidence adequacy, scope and conversational choices require semantic review, not keyword matching. Candidate source and retained fresh-context answers were reviewed in issue 49; answer-only trials cannot establish actual browsing, production behavior or universal host compliance."
+          },
+          {
+            "condition": "RC-05",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/planning.md",
+              "sha256": "2f926015dd1c0335ba6206375774e69a115d819212d3e5f2343fe13f6e2cb44c",
+              "excerpt": "Keep useful findings, references and limitations"
+            },
+            "assertion": "Reviewed source against RC-05 and the existing adoption/evidence process: ordinary advice stays an answer, accepted findings map to existing conditions, no compulsory new records or gate. The diff adds no command/schema/catalog entry.",
+            "discriminating_case": "A one-sentence next-step request remains concise; research notes do not become a new required ledger or evidence of implementation.",
+            "outcome": "passed",
+            "automation_limitation": "Evidence adequacy, scope and conversational choices require semantic review, not keyword matching. Candidate source and retained fresh-context answers were reviewed in issue 49; answer-only trials cannot establish actual browsing, production behavior or universal host compliance."
+          },
+          {
+            "condition": "RC-06",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/planning_guidance.rs",
+              "sha256": "1db6d1e07445e75582876df921bd001190d37be0ced0e851b590a9a06601a9d5",
+              "excerpt": "fn fresh_and_upgraded_guidance_matches_repository_contract()"
+            },
+            "assertion": "Actual generated blocks must match maintained AGENTS guidance for fresh and old-block inputs while preserving AGENTS and CLAUDE prefix/suffix content, retaining one shared import, and remaining identical after repeat reconciliation. The companion isolated-copy test resolves planning routes inside the copied plugin and compares complete reference bytes.",
+            "discriminating_case": "An old generator with the updated maintained instructions failed the equality assertion; an implementation that drops a project suffix, duplicates imports or links outside the copied plugin also fails.",
+            "outcome": "passed",
+            "suite": "check"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49#note_3880023958",
+          "rationale": "Reviewed the six accepted conditions against the staged specification, practical guidance, generation template, actual test assertions and retained trial responses. Scope, version/source binding, contrary cases and limits are explicit. Automated RC-06 still requires current check-stage execution. This agent review neither authenticates maintainer consent nor supplies the outstanding representative-wording approval.",
+          "subject_sha256": "d0fa40613d843baa00d6e84ac3ac52f8dd19bdc6d06dee7433b21e3786262f58"
+        }
+      }
+    }
+  - {
       "fingerprint": "496cd54325754355238a41b5d551db88f9b99f76a92864ffc08a09b44afd9fb7",
       "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/48",
       "assertions": [

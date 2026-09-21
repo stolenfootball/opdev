@@ -11,6 +11,10 @@ Identify the problem, intended outcome, affected consumers, scope, exclusions, a
 
 ## Design
 
+Apply the [planning checkpoint](planning.md) before committing to consequential
+approaches: reuse current evidence or investigate material unknowns within a
+useful bound. Provisional planning and justified learning increments remain valid.
+
 Scale design to novelty, reversibility, blast radius, data and security consequences, and operational risk. Durable architecture or contract decisions record the generalized problem, alternatives, rationale, evidence, canonical authority update, and reversal trigger.
 
 ## Implement and integrate
