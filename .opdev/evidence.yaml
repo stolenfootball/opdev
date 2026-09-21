@@ -119,6 +119,240 @@ project:
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
   - {
+      "fingerprint": "88500988befaf8cc8ab152ebd38093c5a15205d930106439faa1bdd9da46be00",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/50",
+      "assertions": [
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Reviewed project.yaml and CI: main remains the sole integration/release-source trunk; the release preparation branch creates no permanent branch role.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed project.yaml and CI: main remains the sole integration/release-source trunk; the release preparation branch creates no permanent branch role.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "Canonical consumer-interface and doctor tests passed in premerge.json. Release preparation preserves diagnostic help/outcome behavior except version identity; the changed doctor contract was already integrated and is now disclosed in migration notes.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Canonical consumer-interface and doctor tests passed in premerge.json. Release preparation preserves diagnostic help/outcome behavior except version identity; the changed doctor contract was already integrated and is now disclosed in migration notes.",
+              "location": "crates/opdev-cli/tests/consumer_interface.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Release preparation does not change agent behavior. Reviewed unchanged #49 guidance and its recorded 20 initial plus four focused trials, with explicit scope limits. Existing #48 assertion-strength evaluation is retained; this release claims neither universal reliability nor equivalent-quality token savings.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Release preparation does not change agent behavior. Reviewed unchanged #49 guidance and its recorded 20 initial plus four focused trials, with explicit scope limits. Existing #48 assertion-strength evaluation is retained; this release claims neither universal reliability nor equivalent-quality token savings.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49#note_3880023958"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Issue 50 records the maintainer's Cut a release request, release scope, migration risks and candidate/final acceptance.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Issue 50 records the maintainer's Cut a release request, release scope, migration risks and candidate/final acceptance.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/50"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "Reuse the established candidate/final protected-tag path; minor 0.3.0 signals the already-reviewed strengthened acceptance, remote and doctor contracts. No delivery architecture is changed.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reuse the established candidate/final protected-tag path; minor 0.3.0 signals the already-reviewed strengthened acceptance, remote and doctor contracts. No delivery architecture is changed.",
+              "location": "spec/compatibility.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "One short-lived release-preparation branch starts from c7ee066 on green main; MR and resulting trunk verification precede tagging.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "One short-lived release-preparation branch starts from c7ee066 on green main; MR and resulting trunk verification precede tagging.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/50"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "One release-preparation increment is active; no parallel unintegrated feature dependencies.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "One release-preparation increment is active; no parallel unintegrated feature dependencies.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/50"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Main pipeline 2869127132 passed before release preparation; publication waits for fresh integration evidence.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Main pipeline 2869127132 passed before release preparation; publication waits for fresh integration evidence.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2869127132"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Release notes expose acceptance/schema and doctor exit migrations, retain runtime 0.2.2 and opt-in compact views. The 0.3.0 plugin verifies with both CLI 0.2.2 and 0.3.0; historical assets remain unchanged.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Release notes expose acceptance/schema and doctor exit migrations, retain runtime 0.2.2 and opt-in compact views. The 0.3.0 plugin verifies with both CLI 0.2.2 and 0.3.0; historical assets remain unchanged.",
+              "location": "release/CHANGELOG.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored release metadata and tests use canonical checks, reviewed source-bound mappings and required CI; no bypass of publisher or approvals.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored release metadata and tests use canonical checks, reviewed source-bound mappings and required CI; no bypass of publisher or approvals.",
+              "location": ".gitlab-ci.yml"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Fixed stale release documentation and a test fixture's fixed minor ceiling. The new metadata assertion failed when the old CLI range was restored and passed after restoring the intended range. The skill validator's missing system YAML dependency was resolved using the existing isolated environment, without installation.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Fixed stale release documentation and a test fixture's fixed minor ceiling. The new metadata assertion failed when the old CLI range was restored and passed after restoring the intended range. The skill validator's missing system YAML dependency was resolved using the existing isolated environment, without installation.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/50"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "This preparation changes version strings and release/migration documentation, not CLI presentation or adoption/research question behavior. Prior feature wording approvals remain scoped to their unchanged interfaces; no new human review or universal accessibility claim is invented.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "This preparation changes version strings and release/migration documentation, not CLI presentation or adoption/research question behavior. Prior feature wording approvals remain scoped to their unchanged interfaces; no new human review or universal accessibility claim is invented.",
+              "location": "spec/consumer-interface.md"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "non_behavioral",
+        "rationale": "Release preparation of already-reviewed #44-49 features: align version identities, retain runtime/experiment defaults, document migrations and preserve canonical delivery. Only version metadata, documentation and tests change. Candidate/final publication and download evidence remain pending external outcomes at issue 50; an integration pass is not a release qualification.",
+        "conditions": [
+          {
+            "id": "REL-01",
+            "statement": "Align host plugin versions, CI/Cargo identity and compatibility of both current CLI and retained managed pin.",
+            "authority": "contracts",
+            "source": {
+              "path": "spec/compatibility.md",
+              "sha256": "72c60ef39e9cdc9e8a2140295bd90c4a899b92b7d447ec8a49b63b2d43a8c42c",
+              "excerpt": "Both host\nmanifests and the packaged compatibility contract must agree on the plugin\nversion; the current CLI and managed pin must satisfy its CLI range."
+            }
+          },
+          {
+            "id": "REL-02",
+            "statement": "Document material migration and capability limits without silent project rewrites or experiment activation.",
+            "authority": "delivery",
+            "source": {
+              "path": "release/CHANGELOG.md",
+              "sha256": "2d0173ded501ff597939929a9c3ad9b327872f90e49a2908d59691ac31b7c008",
+              "excerpt": "This minor release strengthens verification of existing requirements. It does\nnot silently migrate project-owned records or activate experimental features."
+            }
+          },
+          {
+            "id": "REL-03",
+            "statement": "Preserve the sole protected-tag candidate/final publication path and existing recovery controls.",
+            "authority": "delivery",
+            "source": {
+              "path": "release/README.md",
+              "sha256": "c4b2788d29cf91f152c49993637bdecca168762bfd12dc5a89444dd0d1af966e",
+              "excerpt": "The protected GitLab tag pipeline is the only supported way to publish OpDev."
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "REL-01",
+            "method": "automated",
+            "suite": "check",
+            "target": {
+              "path": "crates/opdev-cli/tests/release_metadata.rs",
+              "sha256": "e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933",
+              "excerpt": "assert_eq!(ci[\"variables\"][\"OPDEV_VERSION\"], cli.to_string());"
+            },
+            "assertion": "Compares CI identity with the compiled package, all plugin version surfaces, and actual semver inclusion of current CLI and managed runtime pin. Plugin and CLI may have independent versions.",
+            "discriminating_case": "With CLI 0.3.0 and the old <0.3.0 ceiling, this test failed specifically at source CLI is outside the plugin range; the intended <0.4.0 range passes. Published CLI 0.2.2 also verified the candidate plugin.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "REL-02",
+            "method": "review",
+            "target": {
+              "path": "release/CHANGELOG.md",
+              "sha256": "2d0173ded501ff597939929a9c3ad9b327872f90e49a2908d59691ac31b7c008",
+              "excerpt": "## 0.3.0 / Plugin 0.3.0"
+            },
+            "assertion": "Reviewed notes against unchanged spec contracts and merged #44-49 implementations: schema-1 readability versus strengthened acceptance, optional remote policy, doctor exit migration, diagnostic-only receipts, advisory review, bounded research, old managed pin and compact opt-in are distinguished.",
+            "discriminating_case": "A claim that old ledgers qualify, a plugin-only update supplies new CLI capabilities, or all token savings are established would contradict the contracts. None is claimed.",
+            "automation_limitation": "Version tests cannot judge the completeness and meaning of migration prose. Existing feature tests cover behavior; this review does not replace them.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "REL-03",
+            "method": "review",
+            "target": {
+              "path": "release/README.md",
+              "sha256": "c4b2788d29cf91f152c49993637bdecca168762bfd12dc5a89444dd0d1af966e",
+              "excerpt": "The protected GitLab tag pipeline is the only supported way to publish OpDev."
+            },
+            "assertion": "Diff inspection confirms only OPDEV_VERSION changed in CI; builder/signing/publisher/recovery implementations and runtime.lock are unchanged. Candidate then final qualification remains required, not claimed by this integration record.",
+            "discriminating_case": "Manual publication, skipping a candidate, replacing a historical asset, or treating green integration as final release evidence would violate the unchanged procedure.",
+            "automation_limitation": "Pre-merge review cannot establish future hosted release/download results. Those must be separately observed and recorded in issue 50.",
+            "outcome": "passed"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/50",
+          "rationale": "Reviewed all thirteen material preparation files and the unchanged feature authorities. Inventory covers identity, migration disclosure and delivery preservation; the actual metadata assertion discriminates an incompatible source CLI. No human consent or future release qualification is inferred. Canonical execution remains required by the automated mapping.",
+          "subject_sha256": "7af5e68c2be292ad6ad99ba5bf4b9746b068c6256debceec41c936317fdcee44"
+        }
+      }
+    }
+  - {
       "fingerprint": "37d167bf4fa40df3c83f6758d2e66259af937775e78ca8b3732229625304c6bc",
       "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
       "assertions": [

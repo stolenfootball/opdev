@@ -284,7 +284,7 @@ fn compatible_different_pin_and_incompatible_plugin_are_distinct() -> TestResult
     let plugin_arg = plugin.path().to_str().ok_or("plugin path")?;
     fs::write(
         plugin.path().join("opdev-compatibility.json"),
-        contract(">=0.2.0, <0.3.0"),
+        contract(&format!(">=0.2.0, <={}", env!("CARGO_PKG_VERSION"))),
     )?;
     let before = snapshot(plugin.path())?;
     let report = json(
