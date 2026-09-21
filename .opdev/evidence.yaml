@@ -123,6 +123,18 @@ changes:
       "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49",
       "assertions": [
         {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "Maintainer explicitly approved the representative research-checkpoint guidance: Wording approved (2026-09-21). This is scoped wording review, not universal accessibility certification.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Actual maintainer response followed presentation of the new trigger, evidence-reuse and bounded-investigation wording. Existing interface tests passed; no CLI presentation format changed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49#note_3880390513"
+            }
+          ]
+        },
+        {
           "rule_id": "OPDEV-WORK-001",
           "outcome": "passed",
           "summary": "Maintainer said Implement it after reviewing the research-based proposal. Issue 49 captured outcome, six acceptance conditions, scope, exclusions, risks and verification plan before edits.",
@@ -233,11 +245,11 @@ changes:
         {
           "rule_id": "OPDEV-AI-001",
           "outcome": "passed",
-          "summary": "Agent-authored work uses the same canonical tests, staged acceptance mappings and integration gates. Maintainer wording approval is still pending and is not supplied by this agent review.",
+          "summary": "Agent-authored work uses the same canonical tests, staged acceptance mappings and integration gates. Actual maintainer wording approval on 2026-09-21 is recorded separately from agent review.",
           "evidence": [
             {
               "kind": "review",
-              "summary": "Agent-authored work uses the same canonical tests, staged acceptance mappings and integration gates. Maintainer wording approval is still pending and is not supplied by this agent review.",
+              "summary": "Agent-authored work uses the same canonical tests, staged acceptance mappings and integration gates. Actual maintainer wording approval on 2026-09-21 is recorded separately from agent review.",
               "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49"
             }
           ]
@@ -257,7 +269,7 @@ changes:
       ],
       "acceptance": {
         "scope": "behavioral",
-        "rationale": "Scoped approved research-checkpoint implementation, including shared planning semantics, generated entry points, packaging/preservation regressions and answer-only qualitative evaluation. No new schema/gate/CLI command, no release or installed-plugin updates. Actual maintainer wording review remains a separate outstanding requirement.",
+        "rationale": "Scoped approved research-checkpoint implementation, including shared planning semantics, generated entry points, packaging/preservation regressions and answer-only qualitative evaluation. No new schema/gate/CLI command, no release or installed-plugin updates. Actual maintainer wording approval on 2026-09-21 is recorded separately from source/assertion review.",
         "conditions": [
           {
             "id": "RC-01",
@@ -404,8 +416,8 @@ changes:
           "outcome": "passed",
           "reviewer": "Codex agent",
           "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/49#note_3880023958",
-          "rationale": "Reviewed the six accepted conditions against the staged specification, practical guidance, generation template, actual test assertions and retained trial responses. Scope, version/source binding, contrary cases and limits are explicit. Automated RC-06 still requires current check-stage execution. This agent review neither authenticates maintainer consent nor supplies the outstanding representative-wording approval.",
-          "subject_sha256": "d0fa40613d843baa00d6e84ac3ac52f8dd19bdc6d06dee7433b21e3786262f58"
+          "rationale": "Rechecked the six accepted conditions, unchanged material source, actual test assertions and retained trial responses. Scope, source binding, contrary cases and limits are explicit. Automated RC-06 still requires current check-stage execution. Actual maintainer wording approval is separately recorded in note 3880390513; this agent source review does not authenticate human identity.",
+          "subject_sha256": "cbac2d06c52d3ddc7f4a63fca01fa375a454750f091b80cdd6b3ba091770ed90"
         }
       }
     }
