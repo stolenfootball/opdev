@@ -14,6 +14,66 @@ migration, research report or specific repair MUST NOT be replaced with an
 unrequested product increment. Surface conflicts and material risks explicitly.
 No preference overrides an applicable core requirement.
 
+## Research checkpoint
+
+Before committing to an implementation approach for a substantial request or
+milestone, the agent MUST assess material uncertainty. Smaller changes also
+require this check when novelty, impact or difficult reversal makes an unsupported
+assumption consequential. Examples include unfamiliar dependencies, public
+contracts, data migration, recovery feasibility, performance or consumer needs.
+Size, file count and the word "milestone" alone do not require external research.
+Provisional planning is permitted to identify the questions; this is not a
+project-wide research phase or a prerequisite to urgent restoration.
+
+The checkpoint has these acceptance conditions:
+
+- RC-01: Assess consequential uncertainty before approach commitment for
+  substantial requests, milestones and smaller high-risk changes. Preserve
+  explicit user scope, including detailed supplied plans and advice-only requests.
+- RC-02: Inspect and reuse accepted requirements, decisions, implementation,
+  tests and previous findings when still current and applicable. Briefly explain
+  why they suffice if no further investigation is needed. At later milestones,
+  revisit changed assumptions, not settled choices. Honor explicit requests for
+  research; do not substitute a sufficiency claim for the requested investigation.
+- RC-03: Investigate questions whose answers could change the next approach or
+  acceptance conditions. Identify the decision/assumption, evidence needed,
+  scope or effort bound, observed findings and remaining uncertainty. Select
+  evidence proportionately: current primary documentation for external facts,
+  inspected code/tests or bounded experiments for behavior, and developer input
+  for preferences and unresolved requirements. Sources must support the actual
+  claim and relevant version/context; distinguish observation from inference.
+  A representative probe establishes only its observed scope, not a general
+  guarantee. Do not require renewed consent for already-authorized read-only
+  research or describe unavailable tooling as missing consent.
+- RC-04: Conclude with a justified approach, a bounded learning step, reduced
+  scope or a focused decision question. A time/effort limit, unavailable source
+  or inconclusive experiment MUST NOT become a pass. Do not commit dependent
+  work to an unsupported consequential assumption; independent authorized work
+  may continue. Reversible assumptions may be made explicit with validation and
+  a revisit condition, but never waive a core requirement or required consent.
+- RC-05: Keep findings and decisions in existing work/design authorities, with
+  supporting references and limitations; an advice-only answer need not write
+  anything. Feed accepted findings into applicable acceptance conditions and
+  verification. No new mandatory document, schema, citation count, research
+  command or completion flag is required. Evidence of research is not evidence
+  of implementation, user approval, effectiveness or release qualification.
+- RC-06: Shared skill guidance and fresh/upgraded project entry points carry the
+  checkpoint while preserving project-owned content. Validate distribution and
+  bootstrap mechanically, and assess decision quality through separate scenarios.
+
+Research MUST NOT expand authority to install tools, contact people, disclose
+private material, mutate external systems or perform production experiments.
+Respect explicit access/browsing constraints and report their consequences;
+missing evidence remains unresolved. Do not ask a developer to restate
+discoverable facts, silently change accepted policy, or delay routine repository
+operations with a questionnaire. Research needed for a later slice may remain
+provisional until that decision becomes relevant.
+
+Use the existing OPDEV-WORK-001 and applicable OPDEV-DESIGN-001 review mechanisms;
+there is no new automatic research gate. Links or a well-formed record cannot
+establish that the right questions were answered. Accepted behavioral findings
+use the existing change-bound acceptance process, not a parallel research ledger.
+
 ## Planning contract
 
 Default milestones SHOULD be thin, demonstrable consumer outcomes crossing the
@@ -64,6 +124,13 @@ automatically passing gate. No schema/catalog version or runtime pin changes.
 
 Revisit this guidance if recorded planning reviews show excessive ceremony,
 neglected cross-cutting risks, missed user constraints, or delayed useful evidence.
+The checkpoint makes an existing risk-review responsibility explicit rather than
+adding a universal browsing phase. Reject size-only triggers, source quotas and
+automatic completion flags: they reward activity rather than decision quality.
+Reuse existing records to avoid project-specific setup; retain human/agent review
+because uncertainty and evidence adequacy are semantic judgments. Revisit this
+choice if fresh-context trials miss consequential unknowns or repeatedly
+investigate settled work; do not treat more paperwork as stronger assurance.
 Evaluate actual recommendations with the scenarios in
 [planning review cases](../tests/planning-review.md), not just document shape.
 
@@ -74,3 +141,7 @@ Evaluate actual recommendations with the scenarios in
 - [DORA: small batches](https://dora.dev/capabilities/working-in-small-batches/): preserve feedback through delivery, not just smaller upstream tickets.
 - [Fowler: Keystone Interface](https://martinfowler.com/bliki/KeystoneInterface.html): integrate tested changes without premature activation, within an overall thin-slice approach.
 - [MinimumCD](https://minimumcd.org/): preserve CI, testing, deployability and recovery constraints.
+- [GOV.UK alpha](https://www.gov.uk/service-manual/agile-delivery/how-the-alpha-phase-works): investigate risky assumptions with the smallest useful probe, not the whole product.
+- [GOV.UK research planning](https://www.gov.uk/service-manual/user-research/plan-user-research-for-your-service): choose evidence methods for the question and proportionate effort.
+- [Shape Up: risks and rabbit holes](https://basecamp.com/shapeup/1.4-chapter-05): examine consequential unknowns before committing substantial work.
+- [AWS decision records](https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html): preserve decision context and consequences for later review.

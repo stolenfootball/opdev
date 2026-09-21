@@ -19,6 +19,54 @@ uncertainty. Reuse current project/work facts; ask only questions that materiall
 affect the next decision. Consumers may be people, API clients, library callers,
 operators, downstream pipelines or hardware. A visible UI is not required.
 
+## Check uncertainty before committing to an approach
+
+For substantial requests and milestone boundaries, assess what is known and
+which unsupported assumptions could materially change the approach. Do the same
+for a smaller high-risk change: unfamiliar dependencies, public contracts,
+migrations, recovery, performance and consumer needs are common signals. A
+provisional plan can expose these questions. Do not impose a research phase
+because a task is large, or postpone urgent restoration or routine operations.
+
+Inspect existing requirements, accepted decisions, implementation, tests and
+prior findings first. Reuse them when still current and applicable; briefly
+explain their sufficiency when no further investigation is needed. At later
+milestones revisit changed assumptions, not every settled decision. An explicit
+research request still requires investigation, within the user's constraints;
+do not ask again for permission to perform that already-authorized read-only
+research. If the needed method is unavailable, report that limitation rather than
+mislabeling it as missing consent.
+
+For material unknowns, identify the decision at stake, evidence that would resolve
+it, a scope or effort bound, the findings and what remains uncertain. These are
+reasoning prompts, not a form or required new file. Use current primary sources
+for external compatibility/behavior claims, inspected code and tests or bounded
+experiments for local behavior, and developer input for unresolved needs or
+preferences. Check that sources support the claim in the relevant version and
+context. Distinguish observed facts from inference; documentation alone cannot
+establish local performance or actual user demand. Limit conclusions to the
+tested/observed scope: a representative probe is not proof of a general guarantee.
+Avoid source-count quotas.
+
+Conclude with a justified approach, a bounded learning step, narrower scope or a
+focused question. Budget expiry, unavailable evidence or an inconclusive result
+does not settle the question. Do not commit dependent work to a consequential
+unsupported assumption; independent authorized work may continue. If an assumption
+is safely reversible, state it with its validation and revisit condition, without
+waiving a core requirement or substituting for required developer consent.
+
+Keep useful findings, references and limitations in the existing work authority;
+durable decisions belong in the routed design authority. Advice-only work may
+remain in the answer. Carry accepted findings into applicable acceptance conditions
+and tests using the existing evidence process. No new ledger, schema, blanket
+approval round or research-complete flag is required. Research is not implementation,
+approval or release evidence. Defer unrelated later-slice research until useful.
+
+Research does not grant permission to install tools, contact users, disclose
+private code/data, mutate external systems or experiment on production. Respect
+access/browsing restrictions and report unresolved consequences. Do not repeat
+discoverable questions or silently override the developer's supplied plan/policy.
+
 ## Choose the next meaningful increment
 
 Prefer a thin, demonstrable end-to-end capability across the technical boundaries

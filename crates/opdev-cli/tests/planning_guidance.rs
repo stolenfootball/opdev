@@ -66,6 +66,51 @@ fn planning_routes_are_local_and_resolve() -> Result<(), Box<dyn std::error::Err
 }
 
 #[test]
+fn planning_reference_survives_isolated_plugin_copy() -> Result<(), Box<dyn std::error::Error>> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let skill = root.join("plugins/opdev/skills/opdev");
+    let directory = tempfile::tempdir()?;
+    let copied = directory.path().join("skills/opdev");
+    fs::create_dir_all(copied.join("references"))?;
+    for relative in [
+        "SKILL.md",
+        "references/workflow.md",
+        "references/adoption.md",
+        "references/planning.md",
+    ] {
+        fs::copy(skill.join(relative), copied.join(relative))?;
+    }
+    for relative in [
+        "SKILL.md",
+        "references/workflow.md",
+        "references/adoption.md",
+    ] {
+        let source = copied.join(relative);
+        let text = fs::read_to_string(&source)?;
+        let links: Vec<_> = text
+            .split("](")
+            .skip(1)
+            .filter_map(|part| part.split_once(')').map(|(target, _)| target))
+            .filter(|target| target.ends_with("planning.md"))
+            .collect();
+        assert!(!links.is_empty(), "missing planning route from {relative}");
+        for target in links {
+            let resolved = source
+                .parent()
+                .ok_or("parent")?
+                .join(target)
+                .canonicalize()?;
+            assert!(resolved.starts_with(copied.canonicalize()?));
+            assert_eq!(
+                fs::read(resolved)?,
+                fs::read(skill.join("references/planning.md"))?
+            );
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn adoption_decision_review_routes_survive_plugin_copy() -> Result<(), Box<dyn std::error::Error>> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let skill = root.join("plugins/opdev/skills/opdev");
@@ -126,13 +171,20 @@ fn fresh_and_upgraded_guidance_matches_repository_contract()
     let directory = tempfile::tempdir()?;
     for original in [
         "project-owned guidance\n",
-        "project-owned guidance\n<!-- opdev:start -->\nold\n<!-- opdev:end -->\n",
+        "project-owned guidance\n<!-- opdev:start -->\nold\n<!-- opdev:end -->\nproject-owned suffix\n",
     ] {
         fs::write(directory.path().join("AGENTS.md"), original)?;
+        fs::write(
+            directory.path().join("CLAUDE.md"),
+            "claude-owned prefix\n<!-- opdev:start -->\nold\n<!-- opdev:end -->\nclaude-owned suffix\n",
+        )?;
         opdev_project::reconcile_agent_files(directory.path())?;
         let generated =
             fs::read_to_string(directory.path().join("AGENTS.md"))?.replace("\r\n", "\n");
         assert!(generated.starts_with("project-owned guidance\n"));
+        if original.contains("project-owned suffix") {
+            assert!(generated.ends_with("project-owned suffix\n"));
+        }
         assert_eq!(
             generated
                 .split_once(start)
@@ -145,6 +197,17 @@ fn fresh_and_upgraded_guidance_matches_repository_contract()
         );
         let claude = fs::read_to_string(directory.path().join("CLAUDE.md"))?;
         assert_eq!(claude.matches("@AGENTS.md").count(), 1);
+        assert!(claude.starts_with("claude-owned prefix\n"));
+        assert!(claude.ends_with("claude-owned suffix\n"));
+        opdev_project::reconcile_agent_files(directory.path())?;
+        assert_eq!(
+            fs::read_to_string(directory.path().join("AGENTS.md"))?.replace("\r\n", "\n"),
+            generated
+        );
+        assert_eq!(
+            fs::read_to_string(directory.path().join("CLAUDE.md"))?,
+            claude
+        );
     }
     Ok(())
 }

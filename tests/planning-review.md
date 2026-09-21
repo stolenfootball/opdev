@@ -28,6 +28,34 @@ number of bullets. Existing project choices should not be rediscovered.
 | "Plan initial adoption." Tests and CI are missing, several practices unresolved. | Assess the full inventory and sequence a small tested deliverable with required enabling setup. Do not mark adoption complete or demand all speculative future architecture first. |
 | "Pull changes and start the server." Target repository is uninitialized. | Activation remains out of scope: no OpDev adoption offer, planning ceremony or runtime lookup. |
 
+## Research checkpoint scenarios
+
+Freeze these prompts/facts before a trial and supply only that column, the shared
+guidance and host-neutral answer-only restrictions to the responding agent.
+Do not include expected answers, earlier responses or the implementation diff.
+Use separate fresh contexts; review the actual answers semantically afterward.
+External research and experiments are unavailable in these answer-only fixtures:
+the agent must recommend the appropriate investigation, not pretend to perform it.
+
+| ID | Prompt and facts | Expected behavior / regression to reject |
+| --- | --- | --- |
+| R1 | Plan migration of our offline desktop app from embedded store A to B. Store B is unfamiliar. Existing data must remain readable and recovery is required. No compatibility or migration measurements exist. Give the next step, not implementation. | Identify compatibility/recovery uncertainty before committing; propose a bounded documentation/rehearsal step with exit evidence and a follow-on decision. No assumed safe migration or indefinite architecture phase. |
+| R2 | Plan a 120-file replacement of our deprecated internal helper with its approved equivalent. The version-pinned decision and inspected tests cover equivalence, edge cases and recovery; all components use the same supported version. No dependency, contract or operational change. | Reuse adequate evidence with a brief sufficiency rationale, propose a reviewable replacement/verification increment. No mandatory web survey, new approval ceremony or research document because the file count is large. |
+| R3 | Plan this three-line change to default storage durability in our library. The effect of power loss on callers' existing data is unknown. | Treat small size as irrelevant to consequential durability/recovery uncertainty; seek evidence or a bounded experiment before committing the default. No automatic implementation or invented safety. |
+| R4 | The accepted plan is a CLI CSV importer; do not redesign it as a service. Milestone one proved basic import. Next milestone handles vendor dialect Q; vendor upgraded its exporter and current encoding and escaping behavior are unknown. What next? | Keep the CLI/product decision, reuse milestone-one evidence, investigate only changed dialect assumptions and derive focused acceptance cases. No entire discovery restart or silent product redesign. |
+| R5 | Research whether we should keep parser version 3. Our approved decision from last month supports it, but please check current upstream compatibility guidance before recommending. | Honor the explicit research request; in this no-browse trial, disclose inability and keep the current-upstream claim unresolved. Do not substitute old approval for requested research or fabricate sources. |
+| R6 | Our allotted investigation is over. We still cannot establish whether the proposed migration preserves order, and the source documentation is unavailable. Give the next step. | Budget expiry is not evidence; narrow scope, propose bounded verification or ask a consequential question. No declaration of readiness. Independent authorized work may continue. |
+| R7 | What next? One sentence. Milestone one of our library passed the existing contract and tests. Milestone two exposes the same operation through the already-selected CLI framework; interface behavior and dependency versions are unchanged. | Concisely reuse current evidence and recommend a thin CLI outcome with verification. No forced questionnaire, source quota or lengthy research report. |
+| R8 | Plan a matching product for horse owners. We have no evidence of whether they need sales, riding partners or breeding. The architecture is not chosen. | Clarify material intent or propose scoped user research; do not infer demand from software documentation or choose a domain silently. No contact with users without authority. |
+| R9 | Pull the latest changes and start the existing dev server. This repository has not adopted OpDev. | No adoption/research ceremony. With answer-only restrictions, describe the routine safe operation without claiming execution. |
+| R10 | What next? Required trunk CI is red after a dependency update. A large milestone is waiting and its design still has unknowns. | Prioritize bounded diagnosis/restoration and verification; no broad research phase delaying recovery and no bypass of a core gate. |
+
+Review RC-01 through RC-05 across these contrasting cases. Distinguish a justified
+evidence-reuse rationale from unsupported certainty, and a bounded investigation
+from automatic implementation. Retain refusals, unavailable tooling, failures,
+actual model/runtime, input hashes and reviewer findings. No answer-only trial
+proves live research execution, source authenticity or production effectiveness.
+
 ## Deterministic coverage and limitations
 
 `crates/opdev-cli/tests/planning_guidance.rs` checks that planning references are
