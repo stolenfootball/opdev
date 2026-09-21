@@ -60,6 +60,9 @@ recommendations, explicit dispositions, and evidence-backed initialization compl
 See [upgrades](upgrades.md) for coordinated plugin/runtime updates, reviewed project
 guidance application and preserved project decisions.
 
+See [readiness diagnostics](doctor.md) for read-only prerequisites, scoped exits,
+runtime identity, actionable findings and explicit qualification limits.
+
 ## Lifecycle
 
 Apply [outcome-based planning](planning.md) to formal plans and informal next-step

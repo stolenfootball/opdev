@@ -149,6 +149,106 @@ pub fn execute(
     })
 }
 
+/// Read-only executable-location observation, not launch or behavior verification.
+#[derive(Debug, PartialEq, Eq)]
+pub enum ProgramLocation {
+    /// A file was found; architecture, dependencies and actual launch remain unchecked.
+    Located(std::path::PathBuf),
+    /// A complete, unambiguous lookup found no executable file.
+    Missing,
+    /// Lookup cannot establish availability without executing code or guessing context.
+    Unverified(&'static str),
+    /// A filesystem inspection failed for a reason other than absence.
+    Error(std::io::ErrorKind),
+}
+
+/// Inspect the current environment without executing the program or its arguments.
+/// Shares the Windows package-manager resolver used by canonical execution.
+/// Relative paths and incomplete platform searches remain explicitly uncertain.
+#[must_use]
+pub fn inspect_program(program: &str) -> ProgramLocation {
+    let requested = Path::new(program);
+    if requested.is_absolute() {
+        return inspect_candidate(requested);
+    }
+    if requested.components().count() != 1 || program.contains(['/', '\\', ':']) {
+        return ProgramLocation::Unverified(
+            "Relative executable paths depend on the launch environment; inspect an absolute executable or verify in the intended environment.",
+        );
+    }
+    #[cfg(windows)]
+    if let Some(path) = resolve_package_manager_shim(
+        program,
+        std::env::var_os("PATH").as_deref(),
+        std::env::var_os("PATHEXT").as_deref(),
+    ) {
+        return if path.is_absolute() {
+            inspect_candidate(&path)
+        } else {
+            ProgramLocation::Unverified(
+                "Package-manager shim resolves through a relative PATH entry; working-directory semantics are not verified.",
+            )
+        };
+    }
+    let Some(search_path) = std::env::var_os("PATH") else {
+        return ProgramLocation::Unverified(
+            "PATH is unavailable; platform default search is not inferred.",
+        );
+    };
+    let mut uncertain = false;
+    for directory in std::env::split_paths(&search_path) {
+        if !directory.is_absolute() {
+            uncertain = true;
+            continue;
+        }
+        let candidate = directory.join(program);
+        #[cfg(windows)]
+        let candidate = if requested.extension().is_none() {
+            candidate.with_extension("exe")
+        } else if requested
+            .extension()
+            .is_some_and(|ext| ext.eq_ignore_ascii_case("exe"))
+        {
+            candidate
+        } else {
+            return ProgramLocation::Unverified(
+                "Non-native command lookup is not inferred outside the supported package-manager shims.",
+            );
+        };
+        match inspect_candidate(&candidate) {
+            ProgramLocation::Missing => {}
+            found @ ProgramLocation::Located(_) if !uncertain => return found,
+            ProgramLocation::Error(kind) => return ProgramLocation::Error(kind),
+            _ => uncertain = true,
+        }
+    }
+    if cfg!(windows) || uncertain {
+        ProgramLocation::Unverified(
+            "No executable resolved in absolute PATH entries; platform fallback or relative PATH search remains unchecked.",
+        )
+    } else {
+        ProgramLocation::Missing
+    }
+}
+
+fn inspect_candidate(path: &Path) -> ProgramLocation {
+    match std::fs::metadata(path) {
+        Ok(metadata) if metadata.is_file() => {
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt;
+                if metadata.permissions().mode() & 0o111 == 0 {
+                    return ProgramLocation::Missing;
+                }
+            }
+            ProgramLocation::Located(path.to_path_buf())
+        }
+        Ok(_) => ProgramLocation::Missing,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => ProgramLocation::Missing,
+        Err(error) => ProgramLocation::Error(error.kind()),
+    }
+}
+
 fn command_for(program: &str, arguments: &[String]) -> Command {
     #[cfg(windows)]
     let executable = resolve_package_manager_shim(

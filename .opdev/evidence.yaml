@@ -119,6 +119,378 @@ project:
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
   - {
+      "fingerprint": "cb821774fc99df4bd1eaa006ec1b1251445ac84bb81c56cda816d0544936b5ce",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Maintainer approved the researched #47 design and explicitly requested implementation; work scope and acceptance recorded on issue 47. No release or installed-plugin change included.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Maintainer approved the researched #47 design and explicitly requested implementation; work scope and acceptance recorded on issue 47. No release or installed-plugin change included.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "Accepted read-only design, shared inventory rationale, scoped exits, preservation/qualification boundaries and regression conditions are recorded in the existing specification authority.",
+          "evidence": [
+            {
+              "kind": "architecture",
+              "summary": "Accepted read-only design, shared inventory rationale, scoped exits, preservation/qualification boundaries and regression conditions are recorded in the existing specification authority.",
+              "location": "spec/doctor.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Reviewed unchanged project/CI contract: main remains the sole integration and release-source trunk; doctor does not create or modify integration/release branches.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed unchanged project/CI contract: main remains the sole integration and release-source trunk; doctor does not create or modify integration/release branches.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "Focused feat/47-readiness-doctor branch started at freshly fetched main 6615e8e1bfb1b77ca41d91585a9b283a216e3e68. No integration has occurred; required MR/CI and post-merge checks remain pending.",
+          "evidence": [
+            {
+              "kind": "git",
+              "summary": "Focused feat/47-readiness-doctor branch started at freshly fetched main 6615e8e1bfb1b77ca41d91585a9b283a216e3e68. No integration has occurred; required MR/CI and post-merge checks remain pending.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "This change is one short-lived feature branch from main; no concurrent product integration branch is involved.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "This change is one short-lived feature branch from main; no concurrent product integration branch is involved.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Read-only provider inspection before feature work observed main pipeline 2863390697 successful at the branch base. Integration must recheck current trunk; no red trunk was observed.",
+          "evidence": [
+            {
+              "kind": "ci",
+              "summary": "Read-only provider inspection before feature work observed main pipeline 2863390697 successful at the branch base. Integration must recheck current trunk; no red trunk was observed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2863390697"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Doctor exit behavior deliberately migrates from unconditional 0 to scoped 0/1/2; help capability checks, human/JSON semantics and unchanged qualification are documented. Historical installed CLI returns 0 for a missing tool while new doctor returns 1 in an explicitly run disposable comparison.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "Doctor exit behavior deliberately migrates from unconditional 0 to scoped 0/1/2; help capability checks, human/JSON semantics and unchanged qualification are documented. Historical installed CLI returns 0 for a missing tool while new doctor returns 1 in an explicitly run disposable comparison.",
+              "location": "spec/doctor.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Deterministic doctor/upgrade fixtures and actual local report review assess scoped correctness. Maintainer approved representative wording on 2026-09-21; no usability study, complete agent-session evaluation or universal readiness claim is made.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Deterministic doctor/upgrade fixtures and actual local report review assess scoped correctness. Maintainer approved representative wording on 2026-09-21; no usability study, complete agent-session evaluation or universal readiness claim is made.",
+              "location": "spec/doctor.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "Process tests demonstrate structured partial reports, named actionable failures, exit distinctions and explicit environment/qualification limits. No telemetry or repair service is introduced.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "Process tests demonstrate structured partial reports, named actionable failures, exit distinctions and explicit environment/qualification limits. No telemetry or repair service is introduced.",
+              "location": "crates/opdev-cli/tests/doctor.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored changes remain subject to unchanged canonical suites and CI. Actual maintainer wording approval is recorded separately from the Codex agent's source/assertion review; no release or installed-plugin update is authorized.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored changes remain subject to unchanged canonical suites and CI. Actual maintainer wording approval is recorded separately from the Codex agent's source/assertion review; no release or installed-plugin update is authorized.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Initial compile/lint failures and a CI test selecting the wrong subject were corrected and rerun visibly. Report subject was strengthened for per-file errors; historical-vs-new exit demonstration passed. Auxiliary skill validator cannot run without PyYAML; repository plugin validator passed.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Initial compile/lint failures and a CI test selecting the wrong subject were corrected and rerun visibly. Report subject was strengthened for per-file errors; historical-vs-new exit demonstration passed. Auxiliary skill validator cannot run without PyYAML; repository plugin validator passed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "Maintainer explicitly approved the representative missing-tool/error/exit/qualification-limit wording: Yes, wording approved (2026-09-21). Plain-text and structured diagnostics remain covered by process tests; this is scoped wording review, not universal accessibility certification.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Actual maintainer response recorded after the representative CLI messages were presented.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47#note_3874246089"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "Issue 47's approved read-only diagnostics. Covers local identity, schema/exit semantics, commands/authorities, shared upgrade observations, explicit remote limits, preservation and shared agent guidance. No installation, release, new project policy or qualification is authorized by doctor. Maintainer wording review is recorded separately from source/assertion review; no general project-readiness or delivery-qualification claim is made.",
+        "conditions": [
+          {
+            "id": "D47-1",
+            "statement": "Exact selected binary identity and capabilities, not version-only readiness.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-1 Identity:**"
+            }
+          },
+          {
+            "id": "D47-2",
+            "statement": "Human/JSON outcomes and exits are consistent and never qualify the project.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-2 Scope and outcomes:**"
+            }
+          },
+          {
+            "id": "D47-3",
+            "statement": "Invalid/unsupported/missing contracts preserve independent diagnostics without adopting or inventing failures.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-3 Partial inspection:**"
+            }
+          },
+          {
+            "id": "D47-4",
+            "statement": "Inspect actual declared executable/path prerequisites without guessing relative/nested environments.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-4 Commands and authorities:**"
+            }
+          },
+          {
+            "id": "D47-5",
+            "statement": "Shared plugin/CI observations permit compatible standalone/different pins and preserve upgrade behavior.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-5 Inventory:**"
+            }
+          },
+          {
+            "id": "D47-6",
+            "statement": "Explicit remote inspection preserves permission uncertainty and concrete failure without qualification.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-6 Remote:**"
+            }
+          },
+          {
+            "id": "D47-7",
+            "statement": "Read-only inspection executes no project tool/helper and preserves project/package inputs.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-7 Preservation:**"
+            }
+          },
+          {
+            "id": "D47-8",
+            "statement": "Shared agent guidance uses doctor only after activation when relevant, preserves consent and handles older capabilities.",
+            "authority": "spec/doctor.md",
+            "source": {
+              "path": "spec/doctor.md",
+              "sha256": "112c739fd865eb99465ebe5a652454454045861793bc12b5fa8358051eb367a7",
+              "excerpt": "**D47-8 Agent use:**"
+            }
+          },
+          {
+            "id": "D47-9",
+            "statement": "Actual new CLI wording receives maintainer review before integration.",
+            "authority": "spec/consumer-interface.md",
+            "source": {
+              "path": "spec/consumer-interface.md",
+              "sha256": "74d8d3a72802c82467a8b51b5f28d91fe933e5f9f7df7e4007ac303ca3fcbadf",
+              "excerpt": "Human review is required"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "D47-1",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/doctor.rs",
+              "sha256": "a2447d0f2c76be9e72a2587457dab467ae6448e5f967a9f7735aafb5f0ac8b59",
+              "excerpt": "fn runtime_only_is_not_adoption_and_same_version_is_not_build_identity()"
+            },
+            "assertion": "Assert reported SHA-256 equals actual binary bytes and capability/schema lists include acceptance support; blank root remains uninitialized.",
+            "discriminating_case": "A same-version binary lacking acceptance support cannot be identified from SemVer alone; hash and explicit capabilities remain separate.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "D47-2",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/doctor.rs",
+              "sha256": "a2447d0f2c76be9e72a2587457dab467ae6448e5f967a9f7735aafb5f0ac8b59",
+              "excerpt": "fn missing_executable_directory_and_authority_have_specific_next_actions()"
+            },
+            "assertion": "Assert missing absolute executable/path yield exit 1 in human and JSON; every JSON fixture validates schema and unverified project verdict; parse errors yield 2 and standalone observations yield 0.",
+            "discriminating_case": "A missing tool must not inherit historical unconditional exit 0; the explicitly run baseline/new comparison also established this transition.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "D47-3",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/doctor.rs",
+              "sha256": "a2447d0f2c76be9e72a2587457dab467ae6448e5f967a9f7735aafb5f0ac8b59",
+              "excerpt": "fn invalid_and_unsupported_contracts_keep_independent_observations()"
+            },
+            "assertion": "Assert invalid and unsupported inputs retain runtime passed, contract error, dependents unverified, no executable findings and unchanged input; related fixtures cover runtime-only, roots and oversized files.",
+            "discriminating_case": "Invalid YAML with a sentinel secret must yield useful structured error without echoing input or claiming a missing executable.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "D47-4",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/doctor.rs",
+              "sha256": "a2447d0f2c76be9e72a2587457dab467ae6448e5f967a9f7735aafb5f0ac8b59",
+              "excerpt": "fn missing_executable_directory_and_authority_have_specific_next_actions()"
+            },
+            "assertion": "Assert exact subjects and failed/missing versus unverified-dependent outcomes. Companion relative-path fixture asserts unverified and retains WSL boundary; sentinel fixture exercises Windows shim resolution without executing it.",
+            "discriminating_case": "Bad cwd must not fabricate a separate missing-tool failure; relative runner path must not be reported as launch verified.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "D47-5",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/doctor.rs",
+              "sha256": "a2447d0f2c76be9e72a2587457dab467ae6448e5f967a9f7735aafb5f0ac8b59",
+              "excerpt": "fn compatible_different_pin_and_incompatible_plugin_are_distinct()"
+            },
+            "assertion": "Assert compatible package with different compatible pin succeeds diagnostically while pin stays unverified; incompatible contract/pin exits 1 and files stay unchanged. CI fixture checks both provider files remain unverified and malformed file is error; all seven existing upgrade regressions passed.",
+            "discriminating_case": "A different compatible pin must not fail; an incompatible pin must fail; matching CI declaration must not qualify effective CI.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "D47-6",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/src/doctor.rs",
+              "sha256": "18fd6a1a22ca234e69ac0396d75a2dc0321f19a4083d2ad2a5626090d723f590",
+              "excerpt": "fn remote_permission_unknown_red_and_green_keep_distinct_exits()"
+            },
+            "assertion": "Offline provider observations assert settings unknown => 1, concrete red => 1, passed settings plus unqualified latest snapshot => 0, parser error => 2; project verification stays unverified. Process fixture separately asserts default remote omitted and requested missing config => 1.",
+            "discriminating_case": "Unavailable protection visibility must not pass just because other settings or a latest-green snapshot are available.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "D47-7",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/doctor.rs",
+              "sha256": "a2447d0f2c76be9e72a2587457dab467ae6448e5f967a9f7735aafb5f0ac8b59",
+              "excerpt": "fn project_commands_version_probes_and_local_helpers_are_never_invoked()"
+            },
+            "assertion": "Fixture PATH contains executable marker-writing pnpm/git/glab/gh/wsl/docker helpers, declared pnpm --version, and paths with spaces. Assert found executable, absent marker, and byte-identical recursive snapshot; other fixtures cover CI/package preservation, bounded malformed data and Unix links.",
+            "discriminating_case": "Running even a version probe would create EXECUTED and fail the preservation assertions. Unix linked-input coverage is in CI, not claimed exercised locally on Windows.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "D47-8",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/SKILL.md",
+              "sha256": "1c98fa23293bc67b2d5c705b5ca4d28486dda85c9bee4aa0f6b7354bd2bda149",
+              "excerpt": "After activation/runtime resolution, use read-only `doctor`"
+            },
+            "assertion": "Reviewed narrow shared skill insertion retains activation/runtime resolution, new/changed-environment relevance, no per-turn/routine invocation, capability detection, explicit remote and no automatic repairs/upgrades.",
+            "discriminating_case": "An uninitialized routine pull or a substantive task without adoption consent must not invoke doctor; older runtime success cannot fabricate readiness.",
+            "outcome": "passed",
+            "automation_limitation": "Instruction-scope/consent semantics require source review; static lint and copied-plugin route tests cannot prove every future agent decision. No live host session trial is claimed."
+          },
+          {
+            "condition": "D47-9",
+            "method": "review",
+            "target": {
+              "path": "crates/opdev-cli/src/doctor.rs",
+              "sha256": "18fd6a1a22ca234e69ac0396d75a2dc0321f19a4083d2ad2a5626090d723f590",
+              "excerpt": "OpDev doctor: read-only readiness observations"
+            },
+            "assertion": "Actual maintainer response on 2026-09-21: Yes, wording approved, after the representative missing-tool, unreadable/malformed input, scoped exit and qualification-limit messages were presented. Reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/47#note_3874246089. This is scoped wording review, not universal accessibility certification.",
+            "discriminating_case": "A pending or absent human response must remain unverified even while automated suites pass.",
+            "automation_limitation": "Only the maintainer can provide the required actual wording response; automated text/schema tests do not supply human accessibility review.",
+            "outcome": "passed"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent (source and assertion review); maintainer (representative wording approval)",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/47#note_3874246089",
+          "rationale": "Reviewed accepted D47 conditions against actual implementation and discriminating process/unit assertions, verified exact staged source/excerpt bindings, and recorded the actual maintainer wording response separately. No semantic completeness or universal agent behavior guarantee; canonical execution and CI remain independently required.",
+          "subject_sha256": "4a620e198b215ab205dbf8a5e77e304c16aca1fdf2bd99ca5a428d0e5281cc62"
+        }
+      }
+    }
+  - {
       "fingerprint": "60cc72ee4be106a19b0e171d725bccdf3d996029aa2e8263b0f05009ed6a68cf",
       "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/46",
       "assertions": [

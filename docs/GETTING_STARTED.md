@@ -116,7 +116,15 @@ A new adoption often has blockers:
 | `migration_required` | Track and implement the missing capability, then verify it. |
 | `error` | Repair the evaluation, configuration, or tooling problem and run the check again. |
 
-Use `opdev doctor` for diagnostics and `opdev rules` to inspect requirements.
+Use `opdev doctor` for read-only prerequisite diagnostics and `opdev rules` to
+inspect requirements. Capable CLIs support `doctor --format json` and optional
+`--plugin-root PATH`; `--remote` explicitly includes provider observations using
+existing credentials. Doctor never executes project commands or repairs setup.
+Its exit is 0 for clear inspected prerequisites, 1 for blockers/required unknowns,
+and 2 for inspection errors. Passing doctor is not passing tests, completed
+adoption or release readiness. Older doctor exits were unconditional: check
+`doctor --help` before relying on these flags/semantics. See
+[scope and limits](../spec/doctor.md).
 Only `passed` and justified `not_applicable` satisfy required rules. Recording
 a migration gap is not delivery approval. See [result semantics](../spec/result-semantics.md).
 

@@ -3,6 +3,17 @@
 All notable changes will be recorded here. OpDev follows Semantic Versioning once
 the public compatibility boundary stabilizes.
 
+## Unreleased
+
+- Expand read-only `doctor` with actionable scoped findings, schema-1 JSON,
+  exact executable identity/capabilities, local command/authority prerequisites
+  and shared upgrade plugin/CI inspection. Remote observations remain explicit;
+  no project command, repair or adoption is performed.
+- **Doctor exit migration:** previously returned 0 after printing gaps. It now
+  returns 1 for blocked selected prerequisites and 2 for inspection errors in
+  both output formats. Adoption/delivery gaps remain separate; 0 never qualifies
+  a project. Capability-check `doctor --help` on older runtimes.
+
 ## Plugin 0.2.5
 
 - Pin published and independently qualified CLI 0.2.2 with its exact GitLab
