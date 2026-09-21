@@ -18,11 +18,17 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.2.5 pins qualified CLI 0.2.2 and requires
-CLI >=0.2.0, <0.3.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
+0.3.0 retains qualified CLI 0.2.2 and requires
+CLI >=0.2.0, <0.4.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
 version; the current CLI and managed pin must satisfy its CLI range.
+
+CLI 0.3.0 introduces the strengthened acceptance/remote qualification and doctor
+exit contracts described below and in `release/CHANGELOG.md`. A plugin-only
+update does not provide those CLI capabilities. The managed pin changes only
+after independent publication and qualification; use an explicitly selected
+standalone 0.3.0 CLI when those capabilities are required in the meantime.
 
 Pre-1.0 releases may change command-line and plugin behavior between minor
 versions, but migrations and diagnostics are still required for project-owned
@@ -47,7 +53,7 @@ application, host/runtime boundaries and separate project verification. Bare
 The first stable CLI will read its current schema and at least one previous
 schema when a deterministic migration exists.
 
-Development CLIs now read project schemas 1 and 2. Schema 2 enables an optional
+CLI 0.3.0 reads project schemas 1 and 2. Schema 2 enables an optional
 reviewed `project.ci.qualification` policy; schema 1 rejects that field. Discovery
 still emits schema 1, and neither initialization nor upgrade chooses a workflow,
 check producer or protection policy. Opt-in requires a developer-reviewed diff
@@ -86,7 +92,7 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ### Acceptance evidence capability
 
-Development CLIs with `evidence acceptance-digest` read ledger/bootstrap schemas
+CLI 0.3.0 and development CLIs with `evidence acceptance-digest` read ledger/bootstrap schemas
 1 and 2 and generate schema-2 bootstrap. Older CLIs reject schema 2; do not rename
 the version to obtain an old-client pass. TEST-002/003 require typed current-change
 acceptance evidence on capable CLIs even when the ledger is schema 1. Missing

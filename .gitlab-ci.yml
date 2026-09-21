@@ -11,7 +11,7 @@ default:
 
 variables:
   CARGO_TERM_COLOR: always
-  OPDEV_VERSION: "0.2.2"
+  OPDEV_VERSION: "0.3.0"
   RUST_IMAGE: rust:1.97.0-bookworm
   RUST_VERSION: "1.97.0"
   RUSTUP_VERSION: "1.29.0"

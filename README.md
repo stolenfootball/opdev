@@ -203,16 +203,19 @@ Review the contract before running checks in an untrusted repository. Remote
 audits are read-only, and extensions cannot replace core verdicts. OpDev does
 not certify software or replace engineering judgment.
 
-**Status:** OpDev is pre-1.0. The standalone release is
-[0.2.1](https://github.com/stolenfootball/opdev/releases/tag/v0.2.1); source
-plugin 0.2.3 pins qualified CLI 0.2.1. The
+**Status:** OpDev is pre-1.0. See [published releases](https://github.com/stolenfootball/opdev/releases)
+for available binaries. This source targets CLI/plugin 0.3.0; the plugin retains
+qualified CLI 0.2.2 until a separate managed-runtime pin update. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.
 
-Release 0.2.1 adds explicit adoption decision review and plan-bound approval,
-with reviewed migration for older adoption records. It retains reviewed upgrades,
-adoption completion checks,
-outcome-based planning and compact report and evidence views behind the explicit
+The 0.3.0 line adds change-bound acceptance evidence, advisory consistency review,
+test-execution receipts, exact remote CI qualification, readiness diagnostics and
+proportionate planning research. Review the [migration notes](release/CHANGELOG.md)
+before upgrading required CI: acceptance ledgers need explicit schema-2 review,
+remote qualification needs a reviewed policy, and `doctor` exit codes changed.
+Existing project files are not silently migrated. Compact report and evidence
+views remain behind the explicit
 `--experimental-compact` flag, disabled by default. Agents use full output unless
 you or your project explicitly opt in; omit the flag to return to stable behavior.
 Older CLIs do not have this flag. The

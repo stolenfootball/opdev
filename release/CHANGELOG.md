@@ -5,6 +5,29 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## 0.3.0 / Plugin 0.3.0
+
+This minor release strengthens verification of existing requirements. It does
+not silently migrate project-owned records or activate experimental features.
+
+- Add tool-neutral test-execution receipts and optional read-only JUnit
+  inspection. Neither substitutes for acceptance review or qualifies gates.
+- Bind remote CI inspection to an explicit run and required jobs. Optional,
+  reviewed project-schema-2 policy binds `check --remote` to current trunk,
+  expected check producers and merge protection; missing policy is unverified.
+  Ordinary checks without `--remote` do not require this policy migration.
+- Add advisory requirements/implementation/test consistency review using
+  existing authorities, with no automatic edits or gate approval.
+- Require schema-2, change-bound acceptance evidence for TEST-002/003, including
+  reviewed condition/assertion mappings and source digests. Schema-1 ledgers stay
+  readable but cannot satisfy these strengthened checks. Explicitly review and
+  migrate the ledger before upgrading a required CI gate; preserve history.
+- Review assertion strength with discriminating cases and proportionate
+  red/green or isolated mutation evidence. No mandatory testing framework,
+  producer-specific integration or universal mutation score is introduced.
+- Assess material uncertainty before consequential planning commitments. Reuse
+  current evidence or investigate a defined question within a useful bound;
+  routine operations do not acquire a research phase or questionnaire.
 - Expand read-only `doctor` with actionable scoped findings, schema-1 JSON,
   exact executable identity/capabilities, local command/authority prerequisites
   and shared upgrade plugin/CI inspection. Remote observations remain explicit;
@@ -13,6 +36,13 @@ the public compatibility boundary stabilizes.
   returns 1 for blocked selected prerequisites and 2 for inspection errors in
   both output formats. Adoption/delivery gaps remain separate; 0 never qualifies
   a project. Capability-check `doctor --help` on older runtimes.
+- Keep compact/token-reduction views disabled unless explicitly opted in with
+  `--experimental-compact`; general equivalent-quality token savings remain
+  unverified. No experiment is promoted by this release.
+- Plugin 0.3.0 supports CLI >=0.2.0, <0.4.0 and retains its published CLI 0.2.2
+  managed pin while 0.3.0 is qualified. The new CLI capabilities require
+  standalone 0.3.0 until a separate qualified managed-pin update. Capability
+  detection must report missing support, never invent acceptance qualification.
 
 ## Plugin 0.2.5
 
