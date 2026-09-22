@@ -119,6 +119,240 @@ project:
         location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/21
 changes:
   - {
+      "fingerprint": "0db1674540f8b8a374192c1d624a3e05d9f1e5e283a72dcecdf8b9fa354d05ed",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/51",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Maintainer requested updating the managed CLI pin. Issue 51 bounds this to plugin 0.3.1 selecting qualified CLI 0.3.0, with test/compatibility and preservation criteria.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Maintainer requested updating the managed CLI pin. Issue 51 bounds this to plugin 0.3.1 selecting qualified CLI 0.3.0, with test/compatibility and preservation criteria.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/51"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "Reuse the unchanged verified-bootstrap architecture. Only the CLI release identity and plugin version metadata change; immutable v0.3.0 release qualification was independently completed in issue 50.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reuse the unchanged verified-bootstrap architecture. Only the CLI release identity and plugin version metadata change; immutable v0.3.0 release qualification was independently completed in issue 50.",
+              "location": "spec/installation.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Reviewed project contract and unchanged CI: main is the sole integration/release-source trunk. No permanent branch role is added.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed project contract and unchanged CI: main is the sole integration/release-source trunk. No permanent branch role is added.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "One short-lived pin branch starts from current green main 1f13761267720ca2d3082fe726a57e83d46c572f. Required source and postmerge checks precede completion.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "One short-lived pin branch starts from current green main 1f13761267720ca2d3082fe726a57e83d46c572f. Required source and postmerge checks precede completion.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/51"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "This is one plugin-only pin increment; no concurrent product branches or release rebuild are introduced.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "This is one plugin-only pin increment; no concurrent product branches or release rebuild are introduced.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/51"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Main pipeline 2869306297 and final release pipeline 2869356108 were confirmed successful before pin changes; no known red trunk is deferred.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Main pipeline 2869306297 and final release pipeline 2869356108 were confirmed successful before pin changes; no known red trunk is deferred.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2869356108"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Unchanged CLI range accepts 0.3.0; version metadata tests pass for independently versioned plugin 0.3.1. Notes preserve explicit schema/CI migration cautions, old cache preservation and experimental-off defaults.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Unchanged CLI range accepts 0.3.0; version metadata tests pass for independently versioned plugin 0.3.1. Notes preserve explicit schema/CI migration cautions, old cache preservation and experimental-off defaults.",
+              "location": "release/CHANGELOG.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "No help/outcome/consent wording implementation changes; previously reviewed 0.3.0 interfaces are selected by the pin. Updated version/migration documentation does not claim project qualification or new human review.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "No help/outcome/consent wording implementation changes; previously reviewed 0.3.0 interfaces are selected by the pin. Updated version/migration documentation does not claim project qualification or new human review.",
+              "location": "spec/consumer-interface.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "Live Windows managed install reported exact CLI 0.3.0, schema/catalog/protocol identity and valid signature, then reused the same runtime path. Error/report implementation is unchanged from the qualified release.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Live Windows managed install reported exact CLI 0.3.0, schema/catalog/protocol identity and valid signature, then reused the same runtime path. Error/report implementation is unchanged from the qualified release.",
+              "location": "tests/runtime_smoke.ps1"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Scope is runtime selection, not changed agent behavior. Existing bounded #48/#49 evaluation evidence and limitations remain applicable; no token-saving promotion or new general effectiveness claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Scope is runtime selection, not changed agent behavior. Existing bounded #48/#49 evaluation evidence and limitations remain applicable; no token-saving promotion or new general effectiveness claim.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/51"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored pin and metadata use the same required CI, source-bound review and canonical checks. No release asset replacement or bootstrap trust bypass.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored pin and metadata use the same required CI, source-bound review and canonical checks. No release asset replacement or bootstrap trust bypass.",
+              "location": ".gitlab-ci.yml"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Reviewed pin version/tag/signing identity together; verifier digests and compatibility range are unchanged. Existing metadata test explicitly supports independent plugin/CLI versions. Windows offline/live verification passed; supplementary platform evidence remains separately recorded.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed pin version/tag/signing identity together; verifier digests and compatibility range are unchanged. Existing metadata test explicitly supports independent plugin/CLI versions. Windows offline/live verification passed; supplementary platform evidence remains separately recorded.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/51"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "Managed selection advances to already-qualified CLI 0.3.0; no executable/bootstrap/skill logic changes. Inventory covers exact trusted identity, coherent independent versions, install/reuse and preservation. Hosting and native release evidence are reused from issue 50; this does not migrate consumer records or replace release assets.",
+        "conditions": [
+          {
+            "id": "PIN-01",
+            "statement": "Select the published qualified 0.3.0 identity while retaining the verifier trust anchor.",
+            "authority": "contracts",
+            "source": {
+              "path": "spec/installation.md",
+              "sha256": "927b336aae12a9cf61cd05fe8439ada68fa6d4bdcdc21ab76c628bb8d8085717",
+              "excerpt": "Plugin 0.3.1 pins the qualified, immutable CLI 0.3.0 GitHub release."
+            }
+          },
+          {
+            "id": "PIN-02",
+            "statement": "Keep plugin version surfaces coherent and accept both source CLI and managed pin.",
+            "authority": "contracts",
+            "source": {
+              "path": "spec/compatibility.md",
+              "sha256": "60c1909258440222877261bb30a588df24016d179fd6b7c0260272e930cf877e",
+              "excerpt": "Both host\nmanifests and the packaged compatibility contract must agree on the plugin\nversion; the current CLI and managed pin must satisfy its CLI range."
+            }
+          },
+          {
+            "id": "PIN-03",
+            "statement": "Install and reuse verified native runtime without migrating consumer state or removing older caches.",
+            "authority": "delivery",
+            "source": {
+              "path": "release/CHANGELOG.md",
+              "sha256": "94952411e26625df91a9d905a0792e29dd8801a4f85c5a2ee455626e99dfa48d",
+              "excerpt": "- Pin independently published and qualified CLI 0.3.0 with its exact GitLab\n  signature identity. Preserve older cached runtimes and immutable v0.3.0 assets."
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "PIN-01",
+            "method": "review",
+            "target": {
+              "path": "spec/installation.md",
+              "sha256": "927b336aae12a9cf61cd05fe8439ada68fa6d4bdcdc21ab76c628bb8d8085717",
+              "excerpt": "pins the CLI version/tag, exact GitLab signing identity, platform mapping, cosign\nversion, and each verifier's SHA-256 digest."
+            },
+            "assertion": "Reviewed staged lock diff: only version/tag/identity advance to 0.3.0. All verifier bytes/digests/platform mappings remain unchanged. v0.3.0 is public/immutable with 43 assets; prior complete inventory/signature verification and live Windows bootstrap both validate its identity.",
+            "discriminating_case": "A stale signing tag with a new version would reject the real published archive; an unpublished pin cannot pass the live installer. The actual candidate installed 0.3.0 and verified its signature.",
+            "automation_limitation": "Remote immutable publication and downloaded-identity observations are external facts, not inferred by the local canonical metadata suite. CI live installer jobs provide additional observations.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "PIN-02",
+            "method": "automated",
+            "suite": "check",
+            "target": {
+              "path": "crates/opdev-cli/tests/release_metadata.rs",
+              "sha256": "e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933",
+              "excerpt": "assert_eq!(codex[\"version\"], contract[\"plugin\"][\"version\"]);"
+            },
+            "assertion": "Existing metadata test compares host/compatibility/marketplace versions, CI versus compiled CLI, and semver inclusion for current CLI and actual lock pin, while allowing plugin 0.3.1 to differ from CLI 0.3.0.",
+            "discriminating_case": "Changing one manifest version or excluding the lock pin from the supported range fails exact equality/inclusion. The test already demonstrated a real failure for an incompatible source range in issue 50; current independently versioned pair passes.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "PIN-03",
+            "method": "review",
+            "target": {
+              "path": "tests/runtime_smoke.ps1",
+              "sha256": "b84dc332619ba1c3cd6451b62b10cbbe5345f7b01cfb5fbe3a40c53fe8d6898e",
+              "excerpt": "if ($LASTEXITCODE -ne 0 -or $again -cne $binary) { throw 'Repeated install changed runtime' }"
+            },
+            "assertion": "Executed unchanged live Windows script against staged lock: verified 0.3.0 install/version and second install returned the same path. OPDEV_DATA_DIR confines test writes to disposable storage and is restored; no global host cache or project is upgraded. All 13 offline PowerShell installer cases passed.",
+            "discriminating_case": "Failed signature, wrong executable version, unsuccessful first/repeated install or changed reused path fails the script. Offline cases also exercise trust/corruption/cleanup failures; injected cleanup errors were visible.",
+            "automation_limitation": "Live network install is a separately executed test, not a suite declared in the local project contract. Record actual execution rather than claiming local acceptance metadata establishes every OS bootstrap. Required Linux/ARM64/Windows CI and supplementary macOS observations follow before merge.",
+            "outcome": "passed"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/51",
+          "rationale": "Reviewed all material pin/metadata/documentation diffs against accepted installation/compatibility authorities, the actual metadata assertions and live Windows install/reuse results. No release or project migration is inferred; additional platform execution is separately required before completion. This is agent review, not manufactured human approval.",
+          "subject_sha256": "42c01df9574c8904bd376ca12f4c5fb7b618be732f03d0fb07a9a65b0560c4fe"
+        }
+      }
+    }
+  - {
       "fingerprint": "88500988befaf8cc8ab152ebd38093c5a15205d930106439faa1bdd9da46be00",
       "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/50",
       "assertions": [

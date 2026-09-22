@@ -18,17 +18,17 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.3.0 retains qualified CLI 0.2.2 and requires
+0.3.1 pins qualified CLI 0.3.0 and requires
 CLI >=0.2.0, <0.4.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
 version; the current CLI and managed pin must satisfy its CLI range.
 
 CLI 0.3.0 introduces the strengthened acceptance/remote qualification and doctor
-exit contracts described below and in `release/CHANGELOG.md`. A plugin-only
-update does not provide those CLI capabilities. The managed pin changes only
-after independent publication and qualification; use an explicitly selected
-standalone 0.3.0 CLI when those capabilities are required in the meantime.
+exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.3.1's
+managed setup selects the independently published and qualified CLI 0.3.0.
+Updating the plugin alone does not migrate project records or CI pins; review
+the documented migrations before relying on the strengthened gates.
 
 Pre-1.0 releases may change command-line and plugin behavior between minor
 versions, but migrations and diagnostics are still required for project-owned
