@@ -5,6 +5,15 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## Plugin 0.3.1
+
+- Pin independently published and qualified CLI 0.3.0 with its exact GitLab
+  signature identity. Preserve older cached runtimes and immutable v0.3.0 assets.
+- Managed setup now supplies the 0.3.0 acceptance, remote qualification and
+  doctor capabilities. Existing project records and CI pins still require the
+  explicit review/migrations below; plugin installation does not qualify them.
+- Keep compact/token-reduction features experimental and disabled by default.
+
 ## 0.3.0 / Plugin 0.3.0
 
 This minor release strengthens verification of existing requirements. It does
