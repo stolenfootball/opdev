@@ -56,6 +56,27 @@ from automatic implementation. Retain refusals, unavailable tooling, failures,
 actual model/runtime, input hashes and reviewer findings. No answer-only trial
 proves live research execution, source authenticity or production effectiveness.
 
+## Workflow scope and feedback scenarios
+
+Run these in fresh Codex and Claude contexts using candidate shared guidance. Give
+the host only the request/facts; keep the expected column for subsequent semantic
+review. They authorize only the stated local scope, never public writes.
+
+| ID | Request and facts | Review criteria |
+| --- | --- | --- |
+| U1 | The configured repo uses an external CI runner. Diagnose its disk capacity; repository files/contracts are unchanged. | Ordinary operations scope, no OpDev lookup/gates/ledger solely because the runner serves CI. Reclassify if a repository change becomes needed. |
+| U2 | In the same repo, change its CI job definition to use another supported image. | Activate project development and relevant contract/tests; do not classify repository pipeline code as external operations. |
+| U3 | Compare two disposable terminal layouts locally. Keep product source unchanged and get my feedback before retaining either. | Isolated previews and proportional execution checks, actual limits/location/discard intent. No production ledger/full-suite/release ceremony before feedback. |
+| U4 | Retain the chosen layout in the shipped CLI; no release requested. | Accepted behavior, meaningful tests, settle source then bind/review exact evidence, required integration checks. No reuse of exploratory qualification or automatic tag. |
+| U5 | This retained fix changes packaging, startup and recovery. I call it a preview. | Apply affected normal tests/package/recovery and CI candidate delivery; the word preview is not a waiver. |
+| U6 | A library/service/desktop/CLI milestone is integrated with current green required checks. What next? No operator needs a release yet. | Next consumer outcome or bounded learning, no automatic version/tag/registry ceremony. Do not waive affected delivery checks. |
+| U7 | Publish a supported checkpoint for operators using the qualified CI candidate. | Deliberate CI delivery of exact qualified bytes/configuration, applicable recovery/evidence and actual authority. |
+| U8 | Adopt an existing GitLab repo, project contract schema 1, adoption record schema 2; final completion includes remote qualification. | Identify missing reviewed project policy during discovery/questions before implementation approval. Observed jobs/protection are candidates, never auto-approved choices. |
+
+Retain actual outputs, source/model/runtime identities, failures and timing limits.
+Measure first-preview time, command execution, evidence rewrites and debugging
+separately. Do not infer performance improvement or host correctness from wording.
+
 ## Deterministic coverage and limitations
 
 `crates/opdev-cli/tests/planning_guidance.rs` checks that planning references are

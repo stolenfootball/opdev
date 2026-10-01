@@ -149,6 +149,17 @@ verified and delivery-ready; status never certifies completion.
 
 ## CLI workflow
 
+`adoption plan` and `status` additionally show local remote-policy prerequisites
+without network requests, separating verification scope from record schema and
+delivery readiness. `--remote` prints a schema-1 read-only policy worksheet using
+fixed-origin bounded provider GETs: candidate job names/run identity, observed
+protection principals/settings and check producers. Its outcome stays unverified,
+approval stays review_required and policy_selected stays false. Missing/partial
+visibility remains explicit. It writes no contract/approval and selects no required
+jobs. Review actual developer choices before an explicit project-schema migration.
+Requested remote adoption verification reports missing policy before executing
+project commands; local verification retains its existing meaning.
+
 1. `opdev init --dry-run` prints the proposed project contract on stdout and the
    assessment inventory on stderr for new projects. It writes nothing.
 2. `opdev init` creates pending adoption state, the project contract and managed

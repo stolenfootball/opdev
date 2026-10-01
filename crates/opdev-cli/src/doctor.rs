@@ -358,6 +358,10 @@ fn inspect_authorities(report: &mut Report, manifest: &ProjectManifest) {
 }
 
 fn inspect_gaps(report: &mut Report, manifest: &ProjectManifest) {
+    if let Some(gap) = manifest.remote_qualification_gap() {
+        report.add("gap.remote_qualification", "adoption_delivery", "project.ci.qualification", Outcome::MigrationRequired, report.remote_requested,
+            gap, "Review remote qualification during adoption planning before implementation/merge; adoption plan --remote observes candidates without selecting policy. Local adoption verification does not establish remote qualification.");
+    }
     for (id, missing, observation, next) in [
         (
             "ci",

@@ -7,7 +7,7 @@ pub use run::{RunExpectation, RunObservation, RunVerification, verify_run};
 mod jobs;
 pub use jobs::{JobObservation, JobVerification, verify_run_with_jobs};
 mod qualification;
-pub use qualification::{QualifiedTrunk, qualify_trunk};
+pub use qualification::{QualifiedTrunk, observe_qualification_policy, qualify_trunk};
 
 use std::env;
 use std::process::{Command, Stdio};

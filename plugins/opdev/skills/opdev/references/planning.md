@@ -116,6 +116,31 @@ invent user validation or force a production release.
 
 ## Build, verify, learn, revise
 
+Distinguish disposable local exploration, retained implementation, CI candidates
+and publication when choosing the next outcome. For an isolated disposable probe,
+capture purpose, temporary location, actual checks and discard/promotion intent in
+the existing conversation/work context. Use only checks needed to execute and
+safely evaluate it; obtain feedback before production polish, full suites or
+acceptance-ledger assembly. No exploration schema or release-bound experiment
+record is required. Ordinary authorization, secrets, data and process safety
+apply. Temporary work cannot become another production path or qualify gates.
+
+For retained work, identify expected behavior before implementation and use
+focused checks during iteration. After feedback settles the intended source,
+prepare exact-source acceptance bindings and run required canonical checks at
+integration handoff. Material edits still require fresh review/execution. Reuse
+current context; reread authorities when relevant facts or assumptions change.
+
+Milestones normally close on a demonstrated consumer outcome and appropriate
+integration/candidate evidence. Do not automatically add version bumps, release
+notes, tags, registry verification or publication to every issue. Use CI-built
+candidates when consumers need package bytes or affected packaging/native assets
+need qualification. Publish a supported checkpoint for an identified consumer
+need or an explicit release request. Package/recovery tests follow affected
+behavior and actual delivery; reuse observations only for the same unchanged
+artifact/configuration and required freshness. Explicit releases retain the
+declared delivery path and immutable-artifact requirements.
+
 Plan tests and safety within each increment, not a final testing/hardening phase.
 Use the narrow tests and integration/consumer-path checks needed to establish
 its behavior. User feedback establishes usefulness, not test correctness.

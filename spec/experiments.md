@@ -1,5 +1,10 @@
 # Experiments without blocking unrelated releases
 
+Disposable isolated local mockups and learning probes use the
+[workflow exploration boundary](workflow-usability.md), without the production
+experiment record below. Retained, integrated or distributed experimental behavior
+uses this lifecycle. Exploratory observations never satisfy production gates.
+
 OpDev separates integration, artifact delivery, and feature activation. An
 experiment MAY integrate on the single trunk while unrelated, qualified behavior
 is released. Experimental effectiveness may remain unverified; correctness and

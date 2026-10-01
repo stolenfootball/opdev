@@ -34,10 +34,14 @@ pub enum CommandError {
     #[error("canonical command has an empty argument vector")]
     Empty,
     /// The command could not be started.
-    #[error("could not start `{program}`: {source}")]
+    #[error(
+        "could not start `{program}` in `{directory}`: {source}; inspect executable access and the host's child-process permissions in this environment; no broader-permission retry was attempted"
+    )]
     Spawn {
         /// Requested executable.
         program: String,
+        /// Exact declared working directory.
+        directory: std::path::PathBuf,
         /// Operating-system error.
         source: std::io::Error,
     },
@@ -109,7 +113,7 @@ pub fn execute(
 
     let mut process = command_for(program, arguments);
     process
-        .current_dir(working_directory)
+        .current_dir(&working_directory)
         .stdin(if input.is_some() {
             Stdio::piped()
         } else {
@@ -122,7 +126,8 @@ pub fn execute(
     let mut child = process
         .group_spawn()
         .map_err(|source| CommandError::Spawn {
-            program: program.clone(),
+            program: process.get_program().to_string_lossy().into_owned(),
+            directory: working_directory,
             source,
         })?;
     if let Some(input) = input {
@@ -378,16 +383,27 @@ mod tests {
     use super::*;
 
     #[test]
-    fn reports_missing_program_without_a_shell_fallback() {
+    fn reports_missing_program_without_a_shell_fallback() -> Result<(), Box<dyn std::error::Error>>
+    {
+        let root = tempfile::tempdir()?;
+        std::fs::create_dir(root.path().join("checks"))?;
         let command = CommandSpec {
             argv: vec!["opdev-program-that-cannot-exist-7e26a8".into(), "&&".into()],
-            working_directory: None,
+            working_directory: Some("checks".into()),
             timeout_seconds: Some(1),
         };
-        assert!(matches!(
-            execute(Path::new("."), &command, None),
-            Err(CommandError::Spawn { .. })
-        ));
+        let error = execute(root.path(), &command, None)
+            .err()
+            .ok_or("unexpected execution")?;
+        assert!(
+            matches!(&error, CommandError::Spawn { directory, program, .. }
+            if directory == &root.path().join("checks") && program == &command.argv[0])
+        );
+        let text = error.to_string();
+        assert!(text.contains(&command.argv[0]));
+        assert!(text.contains(&root.path().join("checks").display().to_string()));
+        assert!(text.contains("no broader-permission retry was attempted"));
+        Ok(())
     }
 
     #[test]

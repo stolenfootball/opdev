@@ -80,6 +80,52 @@ fn initialization_is_unresolved_read_only_on_preview_and_resumable()
 }
 
 #[test]
+fn remote_policy_gap_is_visible_before_commands_or_migration()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.project.ci.remote = Some("git@gitlab.com:example/opdev-fixture.git".into());
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    bind_review(root)?;
+    let before = fs::read(root.join(MANIFEST_PATH))?;
+    let adoption_before = fs::read(root.join(ADOPTION_PATH))?;
+    for args in [
+        vec!["adoption", "plan"],
+        vec!["adoption", "status", "--format", "json"],
+    ] {
+        let output = cli(root, &args)?;
+        assert!(output.status.success());
+        let value: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(value["remote_qualification"]["policy_ready"], false);
+        assert_eq!(value["remote_qualification"]["verification"], "not_run");
+        assert!(value["remote_qualification"]["worksheet"].is_null());
+        let gap = value["remote_qualification"]["gap"].as_str().ok_or("gap")?;
+        assert!(gap.contains("project schema 2") && gap.contains("adoption-record schema"));
+        assert_eq!(value["delivery_readiness"], "not_run");
+    }
+    let checked = cli(root, &["adoption", "check", "--remote", "--format", "json"])?;
+    assert_eq!(checked.status.code(), Some(1));
+    let report: Value = serde_json::from_slice(&checked.stdout)?;
+    assert!(
+        report["core_report"].is_null(),
+        "project commands must not run before policy choice"
+    );
+    assert!(
+        report["blockers"]
+            .as_array()
+            .ok_or("blockers")?
+            .iter()
+            .any(|b| b
+                .as_str()
+                .is_some_and(|s| s.starts_with("remote qualification:")))
+    );
+    assert_eq!(fs::read(root.join(MANIFEST_PATH))?, before);
+    assert_eq!(fs::read(root.join(ADOPTION_PATH))?, adoption_before);
+    Ok(())
+}
+
+#[test]
 fn legacy_projects_are_not_silently_migrated() -> Result<(), Box<dyn std::error::Error>> {
     let repo = repo()?;
     let root = repo.path();

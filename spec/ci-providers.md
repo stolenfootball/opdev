@@ -51,3 +51,15 @@ decision: test every target and native dependency before changing published plat
 promises. This repair retains the existing baseline and isolates its consequences.
 
 Additional providers implement the same Rust trait or, in a future external rule-pack protocol, contribute equivalent evidence without altering core rule IDs. Unknown providers remain `unverified`; they never inherit a pass from GitHub or GitLab assumptions.
+
+GitLab local inspection supports a single pipeline document or a separate `spec`
+header followed by the pipeline. Explicit local includes (string, mapping or
+array) are resolved recursively from the repository root, in provider merge
+order; root overrides apply last, maps merge and arrays replace. Repeated includes
+are applied in order; recursion cycles are errors. Reads reject linked children,
+escaping paths, nonregular files and files above 1 MiB, with at most 150 includes
+and depth 32, with an 8 MiB total-input budget. Dynamic/conditional/parameterized, glob, external/template/component
+includes and input interpolation remain unverified. Missing/malformed inputs are
+errors, never false reports of absent controls. Doctor and upgrade inventory use
+the same interpretation and bind included files to upgrade previews. This remains
+supporting syntax/string evidence, not a GitLab compiler or proof of job execution.

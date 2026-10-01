@@ -7,6 +7,12 @@ outcomes or bounded enabling work. An advice request does not authorize executio
 
 ## Specify
 
+Apply the [planning boundary](planning.md#build-verify-learn-revise) before retained
+development. Disposable local exploration reaches feedback with appropriate
+execution checks; retained code then enters this lifecycle. Ordinary integration,
+CI candidates and published checkpoints have different acceptance needs. A
+milestone does not itself request publication.
+
 Identify the problem, intended outcome, affected consumers, scope, exclusions, acceptance conditions, evidence, authorities, dependencies, and material risks. Put active status in the declared work system.
 
 ## Design

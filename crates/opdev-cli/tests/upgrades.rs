@@ -205,7 +205,11 @@ fn detects_ci_pins_but_never_claims_qualification_or_rewrites_ci() -> TestResult
     let repo = fixture()?;
     fs::write(
         repo.path().join(".gitlab-ci.yml"),
-        "include: remote.yml\nvariables:\n  OPDEV_VERSION: '0.1.1'\ncustom:\n  script: echo untouched\n",
+        "spec: {}\n---\ninclude: remote.yml\ncustom:\n  script: echo untouched\n",
+    )?;
+    fs::write(
+        repo.path().join("remote.yml"),
+        "variables:\n  OPDEV_VERSION: '0.1.1'\n",
     )?;
     fs::create_dir_all(repo.path().join(".github/workflows"))?;
     fs::write(
@@ -238,6 +242,33 @@ fn detects_ci_pins_but_never_claims_qualification_or_rewrites_ci() -> TestResult
         .success()
     );
     assert_eq!(fs::read(repo.path().join(".gitlab-ci.yml"))?, before);
+    Ok(())
+}
+
+#[test]
+fn included_ci_changes_invalidate_review_without_writes() -> TestResult {
+    let repo = fixture()?;
+    fs::create_dir_all(repo.path().join("ci"))?;
+    fs::write(
+        repo.path().join(".gitlab-ci.yml"),
+        "include: ci/version.yml\n",
+    )?;
+    let included = repo.path().join("ci/version.yml");
+    fs::write(&included, "variables: {OPDEV_VERSION: '0.1.1'}\n")?;
+    let plan = preview(repo.path())?;
+    fs::write(&included, "variables: {OPDEV_VERSION: '0.1.2'}\n")?;
+    let before = snapshot(repo.path())?;
+    let output = cli(
+        repo.path(),
+        &[
+            "upgrade",
+            "--apply",
+            plan["plan_id"].as_str().ok_or("plan")?,
+        ],
+    )?;
+    assert!(!output.status.success());
+    assert_eq!(snapshot(repo.path())?, before);
+    assert_ne!(preview(repo.path())?["plan_id"], plan["plan_id"]);
     Ok(())
 }
 

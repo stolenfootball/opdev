@@ -1,5 +1,11 @@
 # Experimental work
 
+Isolated disposable local mockups/probes use the
+[planning exploration boundary](planning.md#build-verify-learn-revise), without
+this production-experiment record. Apply this lifecycle when uncertain behavior
+is retained, integrated or distributed. Calling retained work a preview does not
+remove its applicable tests, isolation or delivery obligations.
+
 Read this when introducing, changing, evaluating, promoting, or abandoning an
 experiment, or when a release must exclude unfinished behavior. Do not require
 an experiment record for ordinary changes or initialize empty registries.

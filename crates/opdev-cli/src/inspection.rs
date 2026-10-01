@@ -89,7 +89,36 @@ pub(super) fn inspect_ci(plan: &mut impl Inventory) -> Result<()> {
     for relative in files {
         let key = relative.to_string_lossy().replace('\\', "/");
         if let Some(source) = plan.read(&key, &plan.root().join(&relative))? {
-            match serde_saphyr::from_str::<Value>(&source) {
+            let parsed = if key == ".gitlab-ci.yml" {
+                opdev_ci::gitlab::resolve(&source, |relative| {
+                    let bounded = opdev_ci::gitlab::read_local(plan.root(), relative)?;
+                    let recorded =
+                        plan.read(relative, &plan.root().join(relative))
+                            .map_err(|_| opdev_ci::gitlab::ConfigurationProblem {
+                                outcome: Outcome::Error,
+                                diagnostic: format!(
+                                    "Could not record included CI file `{relative}`"
+                                ),
+                            })?;
+                    if recorded.as_deref() != Some(bounded.as_str()) {
+                        return Err(opdev_ci::gitlab::ConfigurationProblem {
+                            outcome: Outcome::Unverified,
+                            diagnostic: format!(
+                                "Included CI file `{relative}` changed during inspection"
+                            ),
+                        });
+                    }
+                    Ok(bounded)
+                })
+            } else {
+                serde_saphyr::from_str::<Value>(&source).map_err(|_| {
+                    opdev_ci::gitlab::ConfigurationProblem {
+                        outcome: Outcome::Error,
+                        diagnostic: "Invalid GitHub workflow YAML".into(),
+                    }
+                })
+            };
+            match parsed {
                 Ok(value) => {
                     let mut pins = Vec::new();
                     collect_pins(&value, &mut pins);
@@ -98,13 +127,13 @@ pub(super) fn inspect_ci(plan: &mut impl Inventory) -> Result<()> {
                 Err(error) => plan.source_finding(
                     "ci_pins",
                     &key,
-                    Outcome::Error,
-                    format!("{key}: {error}; left untouched"),
+                    error.outcome,
+                    format!("{key}: {}; left untouched", error.diagnostic),
                 ),
             }
         }
     }
-    plan.finding("ci_qualification", Outcome::Unverified, "CI is never rewritten by upgrade. Included/remote/custom configuration is not resolved; matching version declarations alone do not qualify CI.");
+    plan.finding("ci_qualification", Outcome::Unverified, "CI is never rewritten by upgrade. Explicit local GitLab includes are interpreted; unsupported dynamic/external configuration remains unresolved. Matching version declarations alone do not qualify CI.");
     Ok(())
 }
 

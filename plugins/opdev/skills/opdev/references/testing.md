@@ -16,6 +16,13 @@ a declared policy is not current-change evidence.
 - Tests that depend on live services, devices, stores, fleets, models, or other external systems must state dependencies, environment, variability, freshness, and whether their result affects deployability or effectiveness.
 - Keep deterministic correctness and deployability separate from effectiveness evaluation.
 
+Use focused checks during retained implementation and required canonical suites
+at integration handoff. Do not repeat full suites merely to generate receipts or
+bind unsettled source. Disposable isolated local exploration follows the planning
+boundary; its checks establish only observed prototype behavior. Package/recovery
+suites follow affected behavior and applicable delivery, not an automatic release
+after each milestone.
+
 ## Optional test-strength checks
 
 When a concrete risk or evidence gap warrants stronger tests, propose a bounded

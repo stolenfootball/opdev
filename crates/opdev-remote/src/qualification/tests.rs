@@ -359,3 +359,12 @@ fn live_remote_qualification() -> Result<(), Box<dyn std::error::Error>> {
     assert_eq!(result.checks.outcome, Outcome::Passed);
     Ok(())
 }
+#[test]
+fn policy_worksheet_projection_omits_unrelated_provider_content() {
+    let row = serde_json::json!({"name":"main", "allow_force_push":false, "secret":"do not retain", "push_access_levels":[{"access_level":0,"user_id":null,"access_level_description":"do not retain"}], "merge_access_levels":[{"access_level":40,"group_id":7}]});
+    let value = super::project_gitlab_protection(&row);
+    assert_eq!(value["name"], "main");
+    assert_eq!(value["push_access_levels"][0]["access_level"], 0);
+    assert_eq!(value["merge_access_levels"][0]["group_id"], 7);
+    assert!(!value.to_string().contains("do not retain"));
+}

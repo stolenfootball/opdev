@@ -28,6 +28,9 @@ enum AdoptionCommand {
     Plan {
         #[arg(long, default_value = ".")]
         root: PathBuf,
+        /// Populate a read-only policy worksheet from provider observations.
+        #[arg(long)]
+        remote: bool,
     },
     /// Record an actual developer response or bounded delegation for an unchanged plan.
     Approve {
@@ -71,6 +74,9 @@ enum AdoptionCommand {
         root: PathBuf,
         #[arg(long, value_enum, default_value_t = OutputFormat::Human)]
         format: OutputFormat,
+        /// Include read-only policy observations; never select or approve policy.
+        #[arg(long)]
+        remote: bool,
     },
     /// Verify all decisions, fresh reviewed evidence, executable checks and all core gates.
     Check {
@@ -89,7 +95,7 @@ enum AdoptionCommand {
 
 pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
     match &args.command {
-        AdoptionCommand::Plan { root } => plan(root)?,
+        AdoptionCommand::Plan { root, remote } => plan(root, *remote)?,
         AdoptionCommand::Approve {
             root,
             plan,
@@ -110,25 +116,16 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
         AdoptionCommand::Catalog => {
             println!("{}", serde_json::to_string_pretty(&adoption_catalog()?)?);
         }
-        AdoptionCommand::Start { root, dry_run } => {
-            let (root, _) = load_project(root)?;
-            let existing = AdoptionRecord::load(&root)?;
-            let exists = existing.is_some();
-            let record = existing.map_or_else(AdoptionRecord::pending, Ok)?;
-            if *dry_run {
-                print!("{}", record.to_yaml()?);
-            } else if exists {
-                println!("Existing adoption decisions preserved; use adoption status.");
-            } else {
-                record.write_new(&root)?;
-                println!(
-                    "Created {ADOPTION_PATH}; all practices are pending. Adoption is not complete."
-                );
-            }
-        }
-        AdoptionCommand::Status { root, format } => {
+        AdoptionCommand::Start { root, dry_run } => start(root, *dry_run)?,
+        AdoptionCommand::Status {
+            root,
+            format,
+            remote,
+        } => {
             let (root, manifest) = load_project(root)?;
             let record = AdoptionRecord::load(&root)?;
+            let remote_gap = manifest.remote_qualification_gap();
+            let worksheet = policy_worksheet(&manifest, *remote)?;
             let blockers = record
                 .as_ref()
                 .map(|r| r.blockers(&manifest))
@@ -149,11 +146,25 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                     serde_json::to_string_pretty(
                         &serde_json::json!({"schema":1,"status":status,"complete":false,
                             "approval": if record.as_ref().is_some_and(|r| r.approval_blockers(&manifest).is_ok_and(|b| b.is_empty())) { "approved" } else { "review_required" },
-                            "verification":"not_run","blockers":blockers,"record":record})
+                            "verification":"not_run","blockers":blockers,"record":record,
+                            "remote_qualification": {"verification":"not_run", "policy_ready":remote_gap.is_none(), "gap":remote_gap, "worksheet":worksheet},
+                            "delivery_readiness":"not_run"})
                     )?
                 );
             } else {
                 println!("Adoption: {status} (status does not run checks or certify completion)");
+                println!(
+                    "Remote qualification: not run; {}",
+                    remote_gap
+                        .unwrap_or("reviewed policy present; provider verification still required")
+                );
+                println!("Delivery readiness: not run");
+                if let Some(worksheet) = worksheet {
+                    println!(
+                        "Policy observations for developer review: {}",
+                        serde_json::to_string_pretty(&worksheet)?
+                    );
+                }
                 if let Some(record) = record {
                     for practice in adoption_catalog()?.practices {
                         println!(
@@ -181,6 +192,22 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
+fn start(root: &std::path::Path, dry_run: bool) -> Result<()> {
+    let (root, _) = load_project(root)?;
+    let existing = AdoptionRecord::load(&root)?;
+    let exists = existing.is_some();
+    let record = existing.map_or_else(AdoptionRecord::pending, Ok)?;
+    if dry_run {
+        print!("{}", record.to_yaml()?);
+    } else if exists {
+        println!("Existing adoption decisions preserved; use adoption status.");
+    } else {
+        record.write_new(&root)?;
+        println!("Created {ADOPTION_PATH}; all practices are pending. Adoption is not complete.");
+    }
+    Ok(())
+}
+
 fn approve(root: &std::path::Path, review: AdoptionReview) -> Result<()> {
     let (root, manifest) = load_project(root)?;
     let before = std::fs::read(root.join(ADOPTION_PATH))?;
@@ -206,7 +233,7 @@ fn approve(root: &std::path::Path, review: AdoptionReview) -> Result<()> {
     Ok(())
 }
 
-fn plan(root: &std::path::Path) -> Result<()> {
+fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
     let (root, manifest) = load_project(root)?;
     let record = AdoptionRecord::load(&root)?.context("no adoption record")?;
     let branch_choices = if manifest.project.trunk == "main" {
@@ -227,10 +254,23 @@ fn plan(root: &std::path::Path) -> Result<()> {
             "schema": 1, "plan_id": record.plan_id(&manifest)?, "record": record,
             "contract": manifest, "approval": "review_required",
             "branch_choices": branch_choices,
+            "remote_qualification": {"verification":"not_run", "policy_ready":manifest.remote_qualification_gap().is_none(), "gap":manifest.remote_qualification_gap(), "worksheet":policy_worksheet(&manifest, remote)?},
+            "delivery_readiness":"not_run",
             "notice": "Present preserve/change/ignore/unresolved choices and wait for an actual response. A plan hash is not consent."
         }))?
     );
     Ok(())
+}
+
+fn policy_worksheet(
+    manifest: &opdev_project::ProjectManifest,
+    remote: bool,
+) -> Result<Option<serde_json::Value>> {
+    if remote {
+        Ok(Some(opdev_remote::observe_qualification_policy(manifest)?))
+    } else {
+        Ok(None)
+    }
 }
 
 fn migrate(root: &std::path::Path, write: bool) -> Result<()> {
@@ -313,6 +353,9 @@ fn check(
     let record = AdoptionRecord::load(&root)?
         .context("no adoption assessment; run opdev adoption start explicitly")?;
     let mut blockers = record.blockers(&manifest)?;
+    if remote && let Some(gap) = manifest.remote_qualification_gap() {
+        blockers.push(format!("remote qualification: {gap}; resolve developer choices before running adoption verification"));
+    }
     let fingerprint = match staged_fingerprint(&root) {
         Ok(value) => Some(value),
         Err(error) => {

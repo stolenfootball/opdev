@@ -94,6 +94,28 @@ pub struct ProjectManifest {
 }
 
 impl ProjectManifest {
+    /// Missing local policy input for a requested remote qualification.
+    /// This observation neither contacts a provider nor selects policy.
+    #[must_use]
+    pub fn remote_qualification_gap(&self) -> Option<&'static str> {
+        if !matches!(
+            self.project.ci.provider,
+            CiProvider::Github | CiProvider::Gitlab
+        ) {
+            Some("Remote qualification needs a first-class CI provider")
+        } else if self.project.ci.remote.is_none() {
+            Some("Remote qualification needs the reviewed repository remote")
+        } else if self.project.ci.qualification.is_none() {
+            Some(
+                "Reviewed remote qualification policy is missing; project schema 1 remains readable but remote qualification needs explicitly reviewed project schema 2 policy (independent of adoption-record schema)",
+            )
+        } else {
+            None
+        }
+    }
+}
+
+impl ProjectManifest {
     /// Loads and validates a project contract from disk.
     ///
     /// # Errors
