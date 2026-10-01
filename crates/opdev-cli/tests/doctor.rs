@@ -338,7 +338,11 @@ fn ci_pins_are_observations_and_malformed_inventory_is_an_error() -> TestResult 
     let (root, _) = fixture()?;
     fs::write(
         root.path().join(".gitlab-ci.yml"),
-        "variables:\n  OPDEV_VERSION: '0.2.2'\ninclude: 'elsewhere.yml'\n",
+        "spec:\n  inputs:\n    channel:\n      default: stable\n---\ninclude: 'elsewhere.yml'\n",
+    )?;
+    fs::write(
+        root.path().join("elsewhere.yml"),
+        "variables:\n  OPDEV_VERSION: '0.2.2'\n",
     )?;
     fs::create_dir_all(root.path().join(".github/workflows"))?;
     fs::write(
@@ -354,6 +358,12 @@ fn ci_pins_are_observations_and_malformed_inventory_is_an_error() -> TestResult 
         .filter(|f| f["id"] == "inventory.ci_pins")
         .collect();
     assert_eq!(pins.len(), 2);
+    assert!(pins.iter().any(|finding| {
+        finding["observation"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("0.2.2")
+    }));
     assert!(
         pins.iter()
             .all(|f| f["outcome"] == "unverified" && f["required"] == false)

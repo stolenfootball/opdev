@@ -5577,3 +5577,329 @@ changes:
           - kind: work
             summary: "Both branches appended fingerprint evidence and specification links at the same positions. Resolution preserved each history and authority, then bound this combined state to a new fingerprint instead of reusing either parent assertion."
             location: "https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/19"
+  - {
+      "fingerprint": "bbd23b290a14e660cbfddc8e9df1f040be9a967ccb8aa29f47a954662d3bac77",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Issue 52 records the approved seven-increment scope, acceptance, test limits and exclusion of consumer data and release/pin changes.",
+          "evidence": [
+            {
+              "kind": "work",
+              "summary": "Issue 52 records the approved seven-increment scope, acceptance, test limits and exclusion of consumer data and release/pin changes.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "The workflow usability contract records task/exploration/publication boundaries, shared bounded include interpretation and rejection of skip switches/custom launch frameworks; actual tests and source-informed alternatives support the design.",
+          "evidence": [
+            {
+              "kind": "specification",
+              "summary": "The workflow usability contract records task/exploration/publication boundaries, shared bounded include interpretation and rejection of skip switches/custom launch frameworks; actual tests and source-informed alternatives support the design.",
+              "location": "spec/workflow-usability.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "The reviewed repository contract keeps main as the sole integration and release source; this branch adds no develop/release integration branch and no delivery-path change.",
+          "evidence": [
+            {
+              "kind": "manifest",
+              "summary": "The reviewed repository contract keeps main as the sole integration and release source; this branch adds no develop/release integration branch and no delivery-path change.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "codex/workflow-friction started from main 7c8413637fb22129fe5c8b756e42d524bd61016c and remains current with origin/main after fetch; required CI will govern integration.",
+          "evidence": [
+            {
+              "kind": "git",
+              "summary": "codex/workflow-friction started from main 7c8413637fb22129fe5c8b756e42d524bd61016c and remains current with origin/main after fetch; required CI will govern integration.",
+              "location": "codex/workflow-friction"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "One bounded seven-part repair is active, with no concurrent unintegrated feature work; integration is the next step after current checks.",
+          "evidence": [
+            {
+              "kind": "work",
+              "summary": "One bounded seven-part repair is active, with no concurrent unintegrated feature work; integration is the next step after current checks.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Required main pipeline 2869617356 at the branch base was successful before work and at the pre-integration recheck; no known red trunk is being bypassed.",
+          "evidence": [
+            {
+              "kind": "ci",
+              "summary": "Required main pipeline 2869617356 at the branch base was successful before work and at the pre-integration recheck; no known red trunk is being bypassed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2869617356"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Changes are additive CLI flags/diagnostics and support for valid CI layouts; existing schemas, consent, GitHub behavior, fail-closed unsupported interpretation and project-owned guidance preservation remain tested. No release/runtime pin changes.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "Changes are additive CLI flags/diagnostics and support for valid CI layouts; existing schemas, consent, GitHub behavior, fail-closed unsupported interpretation and project-owned guidance preservation remain tested. No release/runtime pin changes.",
+              "location": "crates/opdev-cli/tests/upgrades.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Deterministic correctness is separate from actual host interpretation: scoped fresh Codex answers and a two-step local canary are reviewed independently; no speedup, live Claude success or original just reproduction is claimed.",
+          "evidence": [
+            {
+              "kind": "evaluation",
+              "summary": "Deterministic correctness is separate from actual host interpretation: scoped fresh Codex answers and a two-step local canary are reviewed independently; no speedup, live Claude success or original just reproduction is claimed.",
+              "location": "benchmarks/workflow-usability/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "The existing plain-text/keyboard target remains applicable. Process-level interface tests passed; the maintainer approved not-run/local-versus-remote/delivery labels and condition/suite/stage wording in the implementation conversation on 2026-10-01. No host/assistive-technology conformance claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The existing plain-text/keyboard target remains applicable. Process-level interface tests passed; the maintainer approved not-run/local-versus-remote/delivery labels and condition/suite/stage wording in the implementation conversation on 2026-10-01. No host/assistive-technology conformance claim.",
+              "location": "benchmarks/workflow-usability/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "Actionable source, suite/stage and process launch diagnostics identify repair needs without masking failures or retrying permissions. Process tests and scoped Windows observations support the CLI's existing operational target.",
+          "evidence": [
+            {
+              "kind": "test",
+              "summary": "Actionable source, suite/stage and process launch diagnostics identify repair needs without masking failures or retrying permissions. Process tests and scoped Windows observations support the CLI's existing operational target.",
+              "location": "crates/opdev-cli/tests/acceptance.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored work is checked by concrete red/green regressions, assertion review, canonical suites, plugin validation, scoped host observations and required pre/post-merge CI; the producer's summary alone is insufficient.",
+          "evidence": [
+            {
+              "kind": "policy",
+              "summary": "Agent-authored work is checked by concrete red/green regressions, assertion review, canonical suites, plugin validation, scoped host observations and required pre/post-merge CI; the producer's summary alone is insufficient.",
+              "location": "AGENTS.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Reported friction was generalized into issue 52, bounded shared capabilities and regression/host scenarios. Unreproduced just failure and unavailable live Claude are retained as limits rather than manufactured successes.",
+          "evidence": [
+            {
+              "kind": "evaluation",
+              "summary": "Reported friction was generalized into issue 52, bounded shared capabilities and regression/host scenarios. Unreproduced just failure and unavailable live Claude are retained as limits rather than manufactured successes.",
+              "location": "benchmarks/workflow-usability/README.md"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "All seven accepted usability conditions affect CLI or shared workflow behavior. Tests cover executable semantics; scoped reviewed host observations cover intent and timing without replacing core gates. No product-specific data, release/pin change or permission expansion is included.",
+        "conditions": [
+          {
+            "id": "UX-01",
+            "statement": "Blocked source and missing execution diagnostics retain the actual failure, condition, suite and stage without waiving gates.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "c5f31844e53f531273cb807a8552a61c9d44fbd203464b24a6b90ef2488ae4ad",
+              "excerpt": "- UX-01: Blocked acceptance diagnostics MUST retain underlying index/source"
+            }
+          },
+          {
+            "id": "UX-02",
+            "statement": "GitLab headers and bounded local includes share truthful effective inspection and snapshot-bound upgrade inventory.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "c5f31844e53f531273cb807a8552a61c9d44fbd203464b24a6b90ef2488ae4ad",
+              "excerpt": "- UX-02: GitLab inspection MUST support an optional spec header and explicit"
+            }
+          },
+          {
+            "id": "UX-03",
+            "statement": "Windows lookup reports policy blocking distinctly, and spawn failures expose actual program/directory without broader retry.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "c5f31844e53f531273cb807a8552a61c9d44fbd203464b24a6b90ef2488ae4ad",
+              "excerpt": "- UX-03: Windows lookup MUST distinguish absent, policy-blocked, damaged and"
+            }
+          },
+          {
+            "id": "UX-04",
+            "statement": "Adoption exposes missing project qualification before approval and commands; remote worksheets are observations, not selected policy.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "c5f31844e53f531273cb807a8552a61c9d44fbd203464b24a6b90ef2488ae4ad",
+              "excerpt": "- UX-04: Adoption plan/status MUST expose remote qualification prerequisites"
+            }
+          },
+          {
+            "id": "UX-05",
+            "statement": "External maintenance alone avoids development activation; repository-owned changes activate it.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "c5f31844e53f531273cb807a8552a61c9d44fbd203464b24a6b90ef2488ae4ad",
+              "excerpt": "- UX-05: Determine requested task scope before resolving the runtime."
+            }
+          },
+          {
+            "id": "UX-06",
+            "statement": "Disposable prototypes reach feedback proportionately; retention needs real tests and current gates, with final bindings after source settles.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "c5f31844e53f531273cb807a8552a61c9d44fbd203464b24a6b90ef2488ae4ad",
+              "excerpt": "- UX-06: Isolated disposable local exploration MAY reach feedback using only"
+            }
+          },
+          {
+            "id": "UX-07",
+            "statement": "Milestones do not automatically publish; candidates/publication keep applicable artifact and recovery qualification.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/52",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "c5f31844e53f531273cb807a8552a61c9d44fbd203464b24a6b90ef2488ae4ad",
+              "excerpt": "- UX-07: Milestone completion MUST NOT automatically request a version bump,"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "UX-01",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/acceptance.rs",
+              "sha256": "8ee5734f6f018158ee2443a80087d79a847c0f653d4f40804d8bdb95ced78239",
+              "excerpt": "fn source_and_stage_blockers_explain_the_required_repair"
+            },
+            "assertion": "The process fixtures name the unindexed archive in WORK/TEST rules, identify wrong-stage mapping, and distinguish undeclared/no-execution cases; existing stale, failed, error and source-mutation tests remain required.",
+            "discriminating_case": "An unindexed downloaded-package.zip must block and be named; a suite not assigned to delivery must be identified, not run or passed.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "UX-02",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-ci/src/lib.rs",
+              "sha256": "0d63fd9728f24866c0617aa38377658d6bca0cbaec830421b5c07e1e821e9605",
+              "excerpt": "fn gitlab_headers_and_nested_includes_preserve_effective_controls"
+            },
+            "assertion": "Header/nested/repeated include fixtures preserve required controls, root script/setup replacement removes them, and module bounds/shape tests plus doctor/upgrade process tests cover failures and stale snapshots.",
+            "discriminating_case": "Equivalent supported layouts pass local inspection; replacing required inherited arrays removes controls; cycles/missing/malformed inputs error and unsupported forms remain unverified.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "UX-03",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/workflow-usability/README.md",
+              "sha256": "a407fe03991b4b6a1bcaacdf058e7baf2775c5154c55dd7ffb46174484deb8bb",
+              "excerpt": "## Windows observations, 2026-10-01"
+            },
+            "assertion": "Review of observed Restricted exit 1 versus process-scoped Bypass exit 0, unchanged persistent policy, offline installer cases and missing-program diagnostics. The representative sandbox git probe succeeded; original just failure was not reproduced.",
+            "discriminating_case": "Policy denial is not absence and must not trigger silent installation/fallback. A different successful executable cannot establish just sandbox compatibility.",
+            "automation_limitation": "Host intent, actual consent, runtime policy and operational context cannot be established by keyword/schema tests. Reviewed scoped observations support this condition; live Claude is explicitly deferred, original just failure remains unreproduced, and no universal speed or host claim is made.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "UX-04",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/adoption.rs",
+              "sha256": "ce6e055226396aa0b56a5f0bf4f4377a197fed2e6eaf7ce641bf83eb7b254b94",
+              "excerpt": "fn remote_policy_gap_is_visible_before_commands_or_migration"
+            },
+            "assertion": "The reviewed synthetic fixture uses adoption schema 2/project schema 1: plan/status expose the policy gap, no worksheet is fetched by default, files remain unchanged and --remote check returns no core report/commands. Projection tests and live read-only worksheets separately retain unverified policy status.",
+            "discriminating_case": "Adoption schema 2 must not hide missing project schema 2 policy or allow suites before developer choices; worksheet HTTP gaps do not become passes.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "UX-05",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/workflow-usability/README.md",
+              "sha256": "a407fe03991b4b6a1bcaacdf058e7baf2775c5154c55dd7ffb46174484deb8bb",
+              "excerpt": "| External runner diagnosis |"
+            },
+            "assertion": "Actual contrasting fresh Codex answers classify runner operations separately from repository-owned CI changes. Shared skill/hook/bootstrap instructions agree; copied-guidance and hook tests only establish reachability/state routing.",
+            "discriminating_case": "A runner supporting CI is not itself a reason to prepare production evidence, but a repository CI definition change is retained development.",
+            "automation_limitation": "Host intent, actual consent, runtime policy and operational context cannot be established by keyword/schema tests. Reviewed scoped observations support this condition; live Claude is explicitly deferred, original just failure remains unreproduced, and no universal speed or host claim is made.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "UX-06",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/workflow-usability/README.md",
+              "sha256": "a407fe03991b4b6a1bcaacdf058e7baf2775c5154c55dd7ffb46174484deb8bb",
+              "excerpt": "## Coding-session canary"
+            },
+            "assertion": "Reviewed two-step local Codex trial: previews were isolated and executed before feedback with product/tests unchanged; retention observed six meaningful red/green tests and honest blocked gates. Existing acceptance tests enforce source freshness independently.",
+            "discriminating_case": "Calling retained packaging/startup/recovery a preview cannot waive affected qualification; denied staging remains unverified, not a fabricated reviewed ledger.",
+            "automation_limitation": "Host intent, actual consent, runtime policy and operational context cannot be established by keyword/schema tests. Reviewed scoped observations support this condition; live Claude is explicitly deferred, original just failure remains unreproduced, and no universal speed or host claim is made.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "UX-07",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/workflow-usability/README.md",
+              "sha256": "a407fe03991b4b6a1bcaacdf058e7baf2775c5154c55dd7ffb46174484deb8bb",
+              "excerpt": "| Library/service/desktop/CLI milestone without release demand |"
+            },
+            "assertion": "Actual fresh answers for four product kinds prefer consumer outcomes/feedback with applicable CI candidates. The retained preview answer requires package/startup/recovery and exact-byte CI delivery, while the coding canary does not tag/publish.",
+            "discriminating_case": "Integrated milestones without consumer release demand must not automatically tag or publish; changed package/recovery behavior still needs affected checks.",
+            "automation_limitation": "Host intent, actual consent, runtime policy and operational context cannot be established by keyword/schema tests. Reviewed scoped observations support this condition; live Claude is explicitly deferred, original just failure remains unreproduced, and no universal speed or host claim is made.",
+            "outcome": "passed"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex assertion and scope review",
+          "reference": "benchmarks/workflow-usability/README.md",
+          "rationale": "Reviewed approved inventory against changed code and real assertions: wrong-stage/unindexed/override/policy-before-command negatives discriminate the requirements; exact included-file snapshots and existing freshness/consent tests remain enforced. Actual Codex output is distinct from deterministic checks. Human wording approval is actual user response; live Claude is excluded by explicit request, original just launch is unreproduced and no universal performance claim is made.",
+          "subject_sha256": "b5b2b2fda8df89b1af076cbe47a96bf8e08f10b20304ad242f56f1574a8f9387"
+        }
+      }
+    }

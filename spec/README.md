@@ -96,6 +96,10 @@ missing, stale, or unverified.
 
 ## Proportional evidence
 
+See [workflow usability](workflow-usability.md) for disposable exploration,
+retained-work handoff, external operations, deliberate publication cadence,
+actionable diagnostics and early remote-adoption policy decisions.
+
 OpDev scales evidence to the risk and durability of a change:
 
 - Routine changes use an executable work item, automated tests, and merge

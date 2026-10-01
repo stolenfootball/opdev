@@ -25,13 +25,18 @@ sh <plugin-root>/scripts/runtime.sh --install
 On Windows, run:
 
 ```powershell
-powershell -NoProfile -File <plugin-root>/scripts/runtime.ps1 -Mode Install
+powershell -NoProfile -ExecutionPolicy Bypass -File <plugin-root>/scripts/runtime.ps1 -Mode Install
 ```
 
 The command prints the installed executable's absolute path on success. Run that
 path with `version`, then `plugin verify --contract <plugin-root>/opdev-compatibility.json`.
 Use that exact executable in the OpDev workflow. Do not run `opdev init` as part
 of setup or install the project's compilers or test runners.
+
+The Windows override is process-scoped for this reviewed installed plugin script;
+it does not change user or machine policy and cannot override organization Group
+Policy. Do not change persistent settings to make setup work. A policy denial is
+a blocked lookup/setup attempt, never evidence that the runtime is missing.
 
 For a read-only lookup, use `--path` or `-Mode Path`. To forward CLI arguments,
 use `--run <arguments>` or `-Mode Run <arguments>`. A repeat install verifies the

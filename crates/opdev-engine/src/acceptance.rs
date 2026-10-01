@@ -4,7 +4,7 @@ use std::path::Path;
 
 use opdev_core::Outcome;
 use opdev_project::{
-    AcceptanceMethod, AcceptanceScope, EvidenceError, EvidenceLedger, ProjectManifest,
+    AcceptanceMethod, AcceptanceScope, EvidenceError, EvidenceLedger, ProjectManifest, TestStage,
 };
 
 use crate::report::{CheckKind, CheckResult};
@@ -24,6 +24,7 @@ pub(crate) fn evaluate(
     ledger: Option<&EvidenceLedger>,
     fingerprint: Option<&str>,
     fresh: bool,
+    stage: TestStage,
 ) -> (Outcome, AcceptanceScope, String) {
     if !fresh {
         return incomplete(
@@ -74,6 +75,7 @@ pub(crate) fn evaluate(
     let mut missing = acceptance.conditions.len() != acceptance.verifications.len();
     let mut failed = false;
     let mut error = false;
+    let mut diagnostics = Vec::new();
     for condition in &acceptance.conditions {
         let status = reference_outcome(&condition.source.verify(root));
         missing |= status == Outcome::Unverified;
@@ -89,20 +91,39 @@ pub(crate) fn evaluate(
                 .testing
                 .suites
                 .iter()
-                .any(|suite| Some(&suite.id) == mapping.suite.as_ref());
+                .find(|suite| Some(&suite.id) == mapping.suite.as_ref());
             let run = checks.iter().find(|check| {
                 check.kind == CheckKind::Suite && Some(&check.id) == mapping.suite.as_ref()
             });
-            match run.filter(|_| declared) {
+            match run.filter(|_| declared.is_some()) {
                 Some(check) if check.outcome == Outcome::Passed => (),
                 Some(check) if check.outcome == Outcome::Failed => failed = true,
                 Some(check) if check.outcome == Outcome::Error => error = true,
-                _ => missing = true,
+                _ => {
+                    missing = true;
+                    let stage_name = serde_json::to_value(stage).unwrap_or_default();
+                    diagnostics.push(format!(
+                        "Condition `{}` maps to suite `{}`: {}; selected stage {stage_name}",
+                        mapping.condition,
+                        mapping.suite.as_deref().unwrap_or("<missing>"),
+                        match declared {
+                            None => "suite is not declared",
+                            Some(suite) if !suite.stages.contains(&stage) =>
+                                "suite is not assigned to this stage",
+                            Some(_) => "suite did not execute in this evaluation",
+                        }
+                    ));
+                }
             }
         }
     }
     let (outcome, reason) = result(failed, error, missing);
-    (outcome, acceptance.scope, reason.into())
+    let reason = if diagnostics.is_empty() {
+        reason.into()
+    } else {
+        format!("{reason}; {}", diagnostics.join("; "))
+    };
+    (outcome, acceptance.scope, reason)
 }
 
 fn reference_outcome(result: &Result<(), EvidenceError>) -> Outcome {

@@ -197,6 +197,18 @@ all delivery uses CI; the other core delivery/trunk requirements still apply.
 
 ### Selection, freshness and result meaning
 
+Adoption plan/status report missing project-policy prerequisites independently
+of adoption-record schema, before implementation approval. Their optional
+`--remote` worksheet uses the fixed-origin GET client to observe trunk revision,
+the latest candidate run/jobs, protection and check producer IDs. It always
+remains unverified, with policy unselected and approval review-required. The
+worksheet is not an effective-policy compiler: overlapping rules, candidate
+adequacy, unavailable fields and collection limits still need review. It rechecks
+trunk but does not certify an atomic provider snapshot. No network is used by
+default; no project file, approval or provider setting is written. A requested
+remote adoption check with missing policy blocks before canonical commands.
+Local verification, remote qualification and delivery readiness stay distinct.
+
 `check --remote` captures clean local HEAD before canonical checks, rechecks it
 before/after remote observation, and requires it to equal current remote trunk.
 Dirty, historical and change-branch sources cannot qualify current trunk. Among

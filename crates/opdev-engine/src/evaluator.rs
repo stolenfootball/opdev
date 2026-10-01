@@ -97,6 +97,7 @@ pub fn evaluate(
         })
         .collect();
     apply_evidence_ledger(root, &catalog, &mut rules)?;
+    explain_source_gap(&mut rules, initial_fingerprint.as_ref().err());
     // A known workflow contradiction must not be hidden behind a generic ledger pass.
     if let Some(record) = opdev_project::AdoptionRecord::load(root)
         .map_err(|error| opdev_project::EvidenceError::Semantic(error.to_string()))?
@@ -124,15 +125,12 @@ pub fn evaluate(
     let fresh = acceptance_fingerprint.is_some()
         && acceptance_fingerprint == final_fingerprint.as_ref().ok()
         && acceptance_ledger == EvidenceLedger::load_optional(root, &catalog)?;
-    let (acceptance_outcome, scope, diagnostic) = if matches!(
-        &initial_fingerprint,
-        Err(opdev_project::EvidenceError::Git(_))
-    ) || matches!(
-        &final_fingerprint,
-        Err(opdev_project::EvidenceError::Git(_))
-    ) {
-        (Outcome::Error, opdev_project::AcceptanceScope::Behavioral,
-            "Git could not establish acceptance source identity; inspect repository/index availability and rerun the check".into())
+    let source_error = initial_fingerprint
+        .as_ref()
+        .err()
+        .or_else(|| final_fingerprint.as_ref().err());
+    let (acceptance_outcome, scope, diagnostic) = if let Some(error) = source_error {
+        source_failure(error)
     } else {
         crate::acceptance::evaluate(
             root,
@@ -141,6 +139,7 @@ pub fn evaluate(
             acceptance_ledger.as_ref(),
             acceptance_fingerprint.map(String::as_str),
             fresh,
+            options.test_stage,
         )
     };
     for result in rules
@@ -174,6 +173,40 @@ pub fn evaluate(
         checks,
         gates,
     })
+}
+
+fn explain_source_gap(rules: &mut [RuleResult], error: Option<&opdev_project::EvidenceError>) {
+    if let Some(error) = error {
+        for rule in rules
+            .iter_mut()
+            .filter(|rule| rule.outcome == Outcome::Unverified)
+        {
+            rule.diagnostic = Some(format!(
+                "{}; change evidence unavailable: {error}",
+                rule.diagnostic.as_deref().unwrap_or("Evidence unavailable")
+            ));
+        }
+    }
+}
+
+fn source_failure(
+    error: &opdev_project::EvidenceError,
+) -> (Outcome, opdev_project::AcceptanceScope, String) {
+    let outcome = if matches!(
+        error,
+        opdev_project::EvidenceError::Git(_) | opdev_project::EvidenceError::Read { .. }
+    ) {
+        Outcome::Error
+    } else {
+        Outcome::Unverified
+    };
+    (
+        outcome,
+        opdev_project::AcceptanceScope::Behavioral,
+        format!(
+            "Acceptance source identity unavailable: {error}; stage material source or keep generated artifacts outside the checkout, then review evidence"
+        ),
+    )
 }
 
 fn apply_evidence_ledger(

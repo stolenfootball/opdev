@@ -74,6 +74,11 @@ are outside that observation, as with existing execution receipts.
 
 ### Evidence boundary and rationale
 
+Blocked checks retain the underlying staged-source error (including unindexed
+paths) and identify a mapped suite missing from the selected stage. These facts
+appear in both human diagnostics and the existing structured rule diagnostics;
+they do not authorize auto-ignoring files or changing suite assignments.
+
 The gate establishes coverage **relative to a reviewed inventory**, exact-source
 references, review binding and current canonical execution. It cannot discover
 omitted requirements, understand arbitrary assertion semantics, prove individual

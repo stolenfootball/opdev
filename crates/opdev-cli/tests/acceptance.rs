@@ -145,6 +145,95 @@ fn outcome(report: &Value, id: &str) -> Result<String> {
 }
 
 #[test]
+fn missing_suite_diagnostics_distinguish_absence_from_no_execution() -> Result {
+    let (temp, mut ledger) = project()?;
+    let root = temp.path();
+    let report = check(root, &["--no-exec"])?;
+    let rule = report["rules"]
+        .as_array()
+        .ok_or("rules")?
+        .iter()
+        .find(|rule| rule["rule_id"] == "OPDEV-TEST-002")
+        .ok_or("rule")?;
+    assert!(
+        rule["diagnostic"]
+            .as_str()
+            .ok_or("diagnostic")?
+            .contains("suite did not execute")
+    );
+    ledger.changes[0]
+        .acceptance
+        .as_mut()
+        .ok_or("acceptance")?
+        .verifications[0]
+        .suite = Some("undeclared".into());
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    let report = check(root, &[])?;
+    let rule = report["rules"]
+        .as_array()
+        .ok_or("rules")?
+        .iter()
+        .find(|rule| rule["rule_id"] == "OPDEV-TEST-002")
+        .ok_or("rule")?;
+    let diagnostic = rule["diagnostic"].as_str().ok_or("diagnostic")?;
+    assert!(diagnostic.contains("undeclared") && diagnostic.contains("suite is not declared"));
+    assert_ne!(rule["outcome"], "passed");
+    Ok(())
+}
+
+#[test]
+fn source_and_stage_blockers_explain_the_required_repair() -> Result {
+    let (temp, mut ledger) = project()?;
+    let root = temp.path();
+    fs::write(root.join("downloaded-package.zip"), "release bytes")?;
+    let report = check(root, &["--delivery"])?;
+    for id in ["OPDEV-WORK-001", "OPDEV-TEST-002", "OPDEV-TEST-003"] {
+        let rule = report["rules"]
+            .as_array()
+            .ok_or("rules")?
+            .iter()
+            .find(|rule| rule["rule_id"] == id)
+            .ok_or("rule")?;
+        assert!(
+            rule["diagnostic"]
+                .as_str()
+                .unwrap_or_default()
+                .contains("downloaded-package.zip"),
+            "{id}: {rule}"
+        );
+        assert_ne!(rule["outcome"], "passed");
+    }
+    fs::remove_file(root.join("downloaded-package.zip"))?;
+    let mut manifest = opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    manifest.testing.suites[0]
+        .stages
+        .retain(|stage| *stage != TestStage::Delivery);
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    git(root, &["add", MANIFEST_PATH])?;
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    let report = check(root, &["--delivery"])?;
+    let rule = report["rules"]
+        .as_array()
+        .ok_or("rules")?
+        .iter()
+        .find(|rule| rule["rule_id"] == "OPDEV-TEST-002")
+        .ok_or("rule")?;
+    let diagnostic = rule["diagnostic"].as_str().ok_or("diagnostic")?;
+    assert!(
+        diagnostic.contains("R1")
+            && diagnostic.contains("acceptance")
+            && diagnostic.contains("delivery"),
+        "{diagnostic}"
+    );
+    assert_eq!(rule["outcome"], "unverified");
+    assert!(report["checks"].as_array().ok_or("checks")?.is_empty());
+    Ok(())
+}
+
+#[test]
 fn current_review_and_actual_suite_execution_are_both_required() -> Result {
     let (temp, ledger) = project()?;
     let root = temp.path();

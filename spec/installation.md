@@ -51,6 +51,27 @@ project or runtime-installation consent. The prompt hook only inspects project
 state, never probes or executes a runtime. The skill classifies user intent;
 the hook does not attempt natural-language classification with keyword rules.
 
+Classify actual scope before looking up the runtime: external resource maintenance
+alone is not repository development, even when it supports CI. Isolated disposable
+local exploration may use proportional execution checks before feedback; retained
+source/configuration and distributed candidates use their normal gates. See
+[workflow usability](workflow-usability.md) for these boundaries.
+
+On Windows, invoke the reviewed plugin script using a child-process-only policy:
+`powershell -NoProfile -ExecutionPolicy Bypass -File <plugin-root>/scripts/runtime.ps1 -Mode Path`.
+This does not alter persistent policy, override organization Group Policy, install
+anything or grant project consent. A policy denial is an error, not a missing
+runtime; do not fall back silently. Lookup's exit 3 means absent; damage and
+incompatibility remain errors. Use an already verified compatible native CLI only
+with an explicit explanation if script invocation is blocked.
+
+A canonical child-process startup failure reports its resolved program, working
+directory and OS error. Diagnose by comparing that same argument vector/directory
+directly and through OpDev in the affected host permission context. A successful
+unrestricted or different-executable probe does not establish sandbox support.
+Do not retry with broader permissions automatically, substitute a shell command
+or change security policy merely to make verification appear green.
+
 Regression scenarios: uninitialized pull-and-start, status, unrelated requests,
 substantive feature work with acceptance/decline/no answer, explicit adoption,
 explicit setup, configured work, nested directories and worktrees. Deterministic

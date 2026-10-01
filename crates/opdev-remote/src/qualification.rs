@@ -19,6 +19,223 @@ mod protection;
 #[cfg(test)]
 mod tests;
 
+/// Observe candidate jobs/protection inputs for developer review, never choose policy.
+/// Uses the same fixed-origin bounded GET client as qualification. Partial snapshots
+/// retain diagnostics and remain unverified; they cannot qualify a gate.
+///
+/// # Errors
+/// Returns an error for unsupported repository identity or client startup failure.
+pub fn observe_qualification_policy(manifest: &ProjectManifest) -> Result<Value, RemoteError> {
+    let repository = Repository::parse(
+        manifest
+            .project
+            .ci
+            .remote
+            .as_deref()
+            .ok_or(RemoteError::MissingRemote)?,
+    )?;
+    if repository.provider != manifest.project.ci.provider {
+        return Err(RemoteError::ProviderMismatch {
+            declared: manifest.project.ci.provider,
+            detected: repository.provider,
+        });
+    }
+    let api = Api::new(&repository)?;
+    let trunk = &manifest.project.trunk;
+    let mut worksheet = serde_json::json!({"schema":1, "outcome":"unverified", "policy_selected":false, "approval":"review_required", "provider":repository.provider, "trunk":trunk,
+        "revision":null, "run":null, "jobs":[], "protection":null, "checks":[], "diagnostics":[],
+        "choices":["Select adequate required jobs and pipeline source", "Review provider protection and producer identities", "Record the actual developer decision and explicitly review project schema 2 migration"],
+        "limits":"Observed candidates only; no policy selection, approval, source write or qualification. Review paths/names before sharing. Missing fields and collection limits remain unresolved."});
+    let mut diagnostics = Vec::new();
+    match api.branch_revision(trunk) {
+        Ok(revision) => worksheet["revision"] = revision.into(),
+        Err(reason) => diagnostics.push(reason),
+    }
+    let github = repository.provider == CiProvider::Github;
+    observe_candidate_run(&api, trunk, github, &mut worksheet, &mut diagnostics);
+    observe_candidate_protection(&api, trunk, github, &mut worksheet, &mut diagnostics);
+    if let Some(revision) = worksheet["revision"].as_str().map(str::to_owned) {
+        let path = if github {
+            format!("/commits/{}/check-runs?filter=all", encode(&revision))
+        } else {
+            format!("/repository/commits/{}/statuses", encode(&revision))
+        };
+        match api.list(&path, github.then_some("check_runs")) {
+            Ok(rows) => worksheet["checks"] = Value::Array(rows.iter().map(|row| serde_json::json!({"id":row["id"], "name":row["name"], "producer_id":if github { &row["app"]["id"] } else { &row["creator"]["id"] }, "status":row["status"], "conclusion":row["conclusion"]})).collect()),
+            Err(reason) => diagnostics.push(reason),
+        }
+        match api.branch_revision(trunk) {
+            Ok(after) if after == revision => (),
+            _ => diagnostics.push("Trunk changed or became unavailable during policy observation; review a fresh worksheet".into()),
+        }
+    }
+    worksheet["diagnostics"] = serde_json::to_value(diagnostics).unwrap_or(Value::Null);
+    Ok(worksheet)
+}
+
+fn observe_candidate_run(
+    api: &Api,
+    trunk: &str,
+    github: bool,
+    worksheet: &mut Value,
+    diagnostics: &mut Vec<String>,
+) {
+    let runs = api.list(
+        &if github {
+            format!("/actions/runs?branch={}", encode(trunk))
+        } else {
+            format!("/pipelines?ref={}&order_by=id&sort=desc", encode(trunk))
+        },
+        github.then_some("workflow_runs"),
+    );
+    match runs {
+        Ok(rows) => {
+            if let Some(run) = rows
+                .iter()
+                .max_by_key(|row| row["id"].as_u64().unwrap_or(0))
+            {
+                worksheet["run"] = project_fields(
+                    run,
+                    &[
+                        "id",
+                        "head_sha",
+                        "sha",
+                        "head_branch",
+                        "ref",
+                        "event",
+                        "source",
+                        "workflow_id",
+                        "status",
+                        "conclusion",
+                    ],
+                );
+                if let Some(id) = run["id"].as_u64().filter(|id| *id > 0) {
+                    let path = if github {
+                        format!("/actions/runs/{id}/jobs?filter=latest")
+                    } else {
+                        format!("/pipelines/{id}/jobs")
+                    };
+                    match api.list(&path, github.then_some("jobs")) {
+                        Ok(jobs) => {
+                            worksheet["jobs"] = Value::Array(
+                                jobs.iter()
+                                    .map(|row| {
+                                        project_fields(
+                                            row,
+                                            &[
+                                                "id",
+                                                "name",
+                                                "status",
+                                                "conclusion",
+                                                "allow_failure",
+                                            ],
+                                        )
+                                    })
+                                    .collect(),
+                            );
+                        }
+                        Err(reason) => diagnostics.push(reason),
+                    }
+                } else {
+                    diagnostics.push("Latest candidate run identity is missing".into());
+                }
+            } else {
+                diagnostics.push("No trunk run candidates observed".into());
+            }
+        }
+        Err(reason) => diagnostics.push(reason),
+    }
+}
+
+fn observe_candidate_protection(
+    api: &Api,
+    trunk: &str,
+    github: bool,
+    worksheet: &mut Value,
+    diagnostics: &mut Vec<String>,
+) {
+    if github {
+        match api.get(&format!("/branches/{}/protection", encode(trunk))) {
+            Ok(value) => {
+                worksheet["protection"] = serde_json::json!({
+                "kind":"github_branch", "strict":value["required_status_checks"]["strict"],
+                "checks":value["required_status_checks"]["checks"].as_array().map(|rows| rows.iter().map(|row| project_fields(row, &["context", "app_id"])).collect::<Vec<_>>()),
+                "allow_force_pushes":value["allow_force_pushes"]["enabled"], "allow_deletions":value["allow_deletions"]["enabled"], "enforce_admins":value["enforce_admins"]["enabled"],
+                "pull_requests_required":value["required_pull_request_reviews"].is_object()});
+            }
+            Err(reason) => diagnostics.push(reason),
+        }
+        match api.list(&format!("/rules/branches/{}", encode(trunk)), None) {
+            Ok(rows) => {
+                worksheet["active_rules"] = Value::Array(
+                    rows.iter()
+                        .map(|row| project_fields(row, &["type", "ruleset_id"]))
+                        .collect(),
+                );
+            }
+            Err(reason) => diagnostics.push(reason),
+        }
+    } else {
+        match api.list("/protected_branches", None) {
+            Ok(rows) => {
+                worksheet["protection"] =
+                    Value::Array(rows.iter().map(project_gitlab_protection).collect());
+            }
+            Err(reason) => diagnostics.push(reason),
+        }
+        match api.get("") {
+            Ok(value) => {
+                worksheet["merge_settings"] = project_fields(
+                    &value,
+                    &[
+                        "only_allow_merge_if_pipeline_succeeds",
+                        "allow_merge_on_skipped_pipeline",
+                    ],
+                );
+            }
+            Err(reason) => diagnostics.push(reason),
+        }
+    }
+}
+
+fn project_fields(value: &Value, names: &[&str]) -> Value {
+    Value::Object(
+        names
+            .iter()
+            .filter_map(|name| {
+                value
+                    .get(*name)
+                    .map(|value| ((*name).into(), value.clone()))
+            })
+            .collect(),
+    )
+}
+
+fn project_gitlab_protection(value: &Value) -> Value {
+    let mut projected = project_fields(value, &["name", "allow_force_push"]);
+    for field in ["push_access_levels", "merge_access_levels"] {
+        projected[field] = value[field].as_array().map_or(Value::Null, |rows| {
+            Value::Array(
+                rows.iter()
+                    .map(|row| {
+                        project_fields(
+                            row,
+                            &[
+                                "access_level",
+                                "user_id",
+                                "group_id",
+                                "deploy_key_id",
+                                "member_role_id",
+                            ],
+                        )
+                    })
+                    .collect(),
+            )
+        });
+    }
+    projected
+}
+
 /// Provider-neutral evidence for the exact current trunk revision.
 #[derive(Debug, Serialize)]
 pub struct QualifiedTrunk {

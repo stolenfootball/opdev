@@ -24,6 +24,13 @@ framework or universal score is required; the CLI does not authenticate this evi
 
 ## Record and review
 
+While retained source and assertions change, keep expected conditions and focused
+checks current without repeatedly finalizing staged hashes/review digests. After
+feedback settles the intended increment, stage and review exact source, then run
+required checks. Further material edits invalidate bindings as before. Isolated
+disposable exploration uses the planning boundary; its results are not production
+qualification.
+
 Capability-check `opdev evidence acceptance-digest --help`. Older CLIs can support
 semantic review but cannot enforce this contract. Report that gap and offer an
 appropriate runtime upgrade; do not call policy-only passes acceptance qualification.

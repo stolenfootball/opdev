@@ -112,6 +112,15 @@ decisions and core evidence semantics remain unchanged.
 
 ## Decision, alternatives and reversal
 
+Apply the accepted [workflow usability boundaries](workflow-usability.md): isolated
+disposable local exploration reaches feedback with proportional execution checks;
+retained implementation finalizes source-bound evidence at integration handoff;
+CI candidates and publication follow their actual consumer need. An issue or
+milestone does not itself request tags, registry publication or release notes.
+Required integration checks and affected package/recovery qualification remain
+applicable. Reuse observations only for the same unchanged artifact/configuration
+and required freshness.
+
 The risk is that detailed AI-generated component lists delay useful feedback
 while appearing complete. Adopt consumer-outcome decomposition with bounded
 enabling work; reject both mandatory layer-first roadmaps and a rigid demand for

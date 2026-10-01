@@ -2,6 +2,8 @@
 
 #![forbid(unsafe_code)]
 
+pub mod gitlab;
+
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -207,7 +209,7 @@ impl CiAdapter for GitlabAdapter {
     }
 
     fn inspect(&self, root: &Path) -> Result<CiInspection, CiError> {
-        inspect_file(
+        inspect_gitlab(
             &root.join(self.configuration_path()),
             &ProviderRequirements {
                 pre_merge: &["merge_request_event", "opdev check --ci"],
@@ -380,6 +382,37 @@ struct ProviderRequirements {
     integrity: &'static [&'static str],
 }
 
+fn inspect_gitlab(
+    path: &Path,
+    requirements: &ProviderRequirements,
+) -> Result<CiInspection, CiError> {
+    if !path.try_exists().map_err(|source| CiError::Read {
+        path: path.into(),
+        source,
+    })? {
+        return Ok(missing_inspection(path));
+    }
+    let root = path.parent().unwrap_or(Path::new("."));
+    let parsed = gitlab::read_local(root, ".gitlab-ci.yml")
+        .and_then(|source| gitlab::resolve(&source, |relative| gitlab::read_local(root, relative)));
+    match parsed {
+        Ok(value) => inspect_value(path, &value, requirements),
+        Err(problem) => {
+            let capability = Capability {
+                outcome: problem.outcome,
+                evidence: Vec::new(),
+                diagnostic: Some(problem.diagnostic),
+            };
+            Ok(CiInspection {
+                configuration: capability.clone(),
+                pre_merge: capability.clone(),
+                post_merge: capability.clone(),
+                integrity: capability,
+            })
+        }
+    }
+}
+
 fn inspect_file(path: &Path, requirements: &ProviderRequirements) -> Result<CiInspection, CiError> {
     let content = match fs::read_to_string(path) {
         Ok(content) => content,
@@ -408,7 +441,15 @@ fn inspect_file(path: &Path, requirements: &ProviderRequirements) -> Result<CiIn
             integrity: error,
         });
     };
-    let searchable = serde_json::to_string(&parsed).map_err(|source| CiError::Read {
+    inspect_value(path, &parsed, requirements)
+}
+
+fn inspect_value(
+    path: &Path,
+    parsed: &serde_json::Value,
+    requirements: &ProviderRequirements,
+) -> Result<CiInspection, CiError> {
+    let searchable = serde_json::to_string(parsed).map_err(|source| CiError::Read {
         path: path.to_path_buf(),
         source: std::io::Error::other(source),
     })?;
@@ -488,6 +529,42 @@ mod tests {
 
     fn rendered(provider: CiProvider) -> Result<String, Box<dyn std::error::Error>> {
         Ok(adapter_for(provider)?.render(&context())?)
+    }
+
+    #[test]
+    fn gitlab_headers_and_nested_includes_preserve_effective_controls()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        let adapter = adapter_for(CiProvider::Gitlab)?;
+        let baseline = adapter.render(&context())?;
+        fs::write(
+            root.path().join(".gitlab-ci.yml"),
+            format!("spec:\n  inputs:\n    channel:\n      default: stable\n---\n{baseline}"),
+        )?;
+        assert_eq!(
+            adapter.inspect(root.path())?.integrity.outcome,
+            Outcome::Passed
+        );
+        fs::create_dir(root.path().join("ci"))?;
+        fs::write(root.path().join("ci/jobs.yml"), &baseline)?;
+        fs::write(root.path().join("ci/nested.yml"), "include: /ci/jobs.yml\n")?;
+        fs::write(
+            root.path().join(".gitlab-ci.yml"),
+            "include:\n  - local: ci/nested.yml\n  - local: ci/jobs.yml\n",
+        )?;
+        let result = adapter.inspect(root.path())?;
+        assert_eq!(result.pre_merge.outcome, Outcome::Passed);
+        assert_eq!(result.post_merge.outcome, Outcome::Passed);
+        assert_eq!(result.integrity.outcome, Outcome::Passed);
+        // Root arrays replace included arrays: old verification cannot qualify removed steps.
+        fs::write(
+            root.path().join(".gitlab-ci.yml"),
+            "include: ci/jobs.yml\nopdev:\n  before_script: []\n  script: [echo disabled]\n",
+        )?;
+        let result = adapter.inspect(root.path())?;
+        assert_ne!(result.pre_merge.outcome, Outcome::Passed);
+        assert_ne!(result.integrity.outcome, Outcome::Passed);
+        Ok(())
     }
 
     #[test]

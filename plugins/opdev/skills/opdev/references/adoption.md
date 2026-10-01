@@ -11,6 +11,16 @@ agent-selected plan does not substitute for resolving material developer choices
 
 ## Validate recommendations before asking for approval
 
+Resolve intended completion scope during discovery. Capable `adoption plan` and
+`status` expose remote policy gaps without contacting a provider. `--remote` adds
+a read-only worksheet of candidate jobs, producer identities and protection
+principals for developer review; none are automatically required or approved.
+Project schema 1 is readable but insufficient for remote qualification without
+reviewed schema 2 policy, independently of the adoption-record schema. Surface
+that choice before implementation approval/merge, rather than after local checks.
+Check capability before promising the worksheet on an older runtime. Local
+verification, remote qualification and delivery readiness are separate claims.
+
 Preserving existing choices means preserving **adequate** choices, not blessing
 an existing violation. Developer consent selects an implementation; it cannot
 waive core requirements. Apply these constraints to the proposal itself, before

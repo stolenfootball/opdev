@@ -1,6 +1,6 @@
 ---
 name: opdev
-description: Follow OpDev for configured projects or explicit adoption. For substantive software planning or implementation in uninitialized projects, including design-only folders, offer adoption early before research or planning; do not activate without consent. Routine pull, status, dev-server and unrelated requests need no offer. Loading this skill checks applicability, not consent.
+description: Follow OpDev for project software development or explicit adoption. Offer adoption early for substantive work in uninitialized projects. External infrastructure operations and routine pull/status/dev-server tasks need no activation. Disposable local exploration uses proportional preview checks; retained work uses normal gates. Loading this skill checks applicability, not consent.
 ---
 
 # OpDev
@@ -18,9 +18,11 @@ Apply the workflow only after the project-state and consent gate below. Loading 
 
 ## Establish state
 
-First identify the target repository (not an unrelated current workspace) and look for `.opdev/project.yaml` at its Git root, including when working in a subdirectory or worktree. If Git is not initialized, inspect the target project directory without creating a repository. This applicability inspection does not require an OpDev CLI.
+First identify the requested task scope, then the target repository (not an unrelated current workspace). External host, runner, storage, network or account maintenance alone needs ordinary operations guidance, even when the resource serves a configured project's CI. Consulting job names does not activate the development lifecycle. Activate at the point work changes project-owned software, repository configuration, contracts or delivery definitions. Mixed tasks may use both scopes; do not substitute development evidence for operational verification.
 
-- **Configured project:** read the contract and project instructions, then resolve the runtime and apply OpDev seamlessly. A malformed or unreadable contract is an error, not an uninitialized project. Configuration is not proof of complete adoption.
+For project work, look for `.opdev/project.yaml` at its Git root, including when working in a subdirectory or worktree. If Git is not initialized, inspect the target project directory without creating a repository. This applicability inspection does not require an OpDev CLI.
+
+- **Configured project:** read the contract and project instructions and classify the work. For retained development, resolve the runtime and apply OpDev seamlessly. For isolated disposable local exploration, use the boundary below and load only relevant authorities; no production runtime/gate/evidence preparation is needed merely to obtain feedback. A malformed or unreadable contract is an error, not an uninitialized project. Configuration is not proof of complete adoption.
 - **Explicit adoption request:** consent to assessment is already supplied. Resolve the runtime, then follow [adoption.md](references/adoption.md). This is not blanket permission for installation or other material changes.
 - **Uninitialized, substantive development:** offer adoption once in the first response after minimal local inspection establishes applicability, before substantive research, planning, or edits. Implementing a supplied design in an otherwise empty folder qualifies. Reading that design, existing instructions and repository state is allowed first; do not defer the offer until after upstream browsing, dependency investigation, architecture selection or a completed plan. Wait for affirmative consent before applying the workflow, probing its runtime, or initializing. If declined or unanswered, continue the original task without OpDev; do not repeatedly ask in the same task or make adoption a prerequisite for ordinary work.
 - **Uninitialized, routine repository operation:** handle the request directly without an OpDev announcement, suggestion, runtime lookup, installation, or gate. For example, "Pull down the most recent changes to the courses repo and start the dev server" needs ordinary repository safety and project instructions, not adoption. Inspecting status or running an existing command alone is also not a reason to adopt. If later work becomes substantive development, reassess then.
@@ -39,12 +41,32 @@ routine operations, explicit adoption, or an already-configured project.
 
 ## Resolve runtime after activation
 
+For an explicit mockup, alternative layout or disposable feasibility probe, use
+the [planning exploration boundary](references/planning.md#build-verify-learn-revise).
+Keep prototypes isolated from retained source/configuration and live data. Use
+existing work/conversation context for purpose, temporary location, actual checks
+and discard-or-promote intent. Obtain feedback with the checks needed to execute
+and safely assess the prototype; no production ledger, full suite, release docs
+or exploration registry is required. Ask only if retention/distribution materially
+changes the scope. Retained product edits are ordinary development even if called
+a preview. Promotion brings retained code/dependencies through accepted conditions,
+meaningful tests, current review bindings and integration gates. Distributed
+previews use CI and applicable delivery checks. Exploration cannot satisfy a
+production gate or authorize publication/merge; ordinary safety still applies.
+
+Resolve the runtime below for retained development and applicable qualification.
+
 Before the first OpDev action in each task, resolve `../../` relative to this
 skill directory to find the plugin root and select a CLI:
 
 1. Prefer the plugin-managed CLI: run `sh <plugin-root>/scripts/runtime.sh --path`
-   on macOS/Linux, or `powershell -NoProfile -File <plugin-root>/scripts/runtime.ps1
+   on macOS/Linux, or `powershell -NoProfile -ExecutionPolicy Bypass -File <plugin-root>/scripts/runtime.ps1
    -Mode Path` on Windows. This lookup has no network or installation side effects.
+   The Windows override applies only to this child process and the installed,
+   reviewed plugin script. Never change persistent execution policy or work around
+   organization Group Policy. Policy denial is a lookup error, not runtime absence;
+   report it and use an already verified compatible native CLI only with an explicit
+   explanation of the selection.
 2. Only if lookup exits 3 (no managed CLI), check whether `opdev` on PATH verifies against the
    packaged `opdev-compatibility.json`. A compatible standalone installation is
    sufficient; do not replace it. Any other lookup failure must be reported
