@@ -5,6 +5,32 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## 0.3.1 / Plugin 0.3.2
+
+- Explain blocked acceptance checks with the underlying source/index error,
+  acceptance condition, mapped suite and selected stage. Missing execution,
+  stale evidence and wrong-stage mappings remain blocking.
+- Interpret GitLab `spec` header/pipeline documents and bounded, explicit
+  repository-local includes consistently in gates and doctor/upgrade inventory.
+  Unsupported include forms remain unverified; malformed, escaping or cyclic
+  inputs are errors. Included-file changes invalidate upgrade previews.
+- Surface remote-qualification policy gaps early in adoption plan/status.
+  Optional provider observations are read-only candidates for developer review,
+  not policy selection, adoption completion or delivery verification.
+- Improve Windows process-launch diagnostics and document reviewed,
+  child-process-scoped PowerShell runtime lookup. No automatic broader-permission
+  retry or persistent execution-policy change is introduced. The original `just`
+  sandbox failure remains unreproduced.
+- Scope external operations separately from repository development. Disposable
+  local exploration reaches feedback with proportional execution checks;
+  retained work still requires meaningful tests, current source-bound evidence
+  and its normal gates. Milestones do not automatically trigger publication.
+- Preserve project-owned guidance during upgrades. Live Claude behavior testing
+  was deferred by the maintainer; static Claude validation and shared tests pass.
+- Keep compact/token-reduction features experimental and disabled by default.
+  Plugin 0.3.2 retains the independently qualified CLI 0.3.0 managed pin during
+  publication; CLI 0.3.1 pinning follows only after separate release qualification.
+
 ## Plugin 0.3.1
 
 - Pin independently published and qualified CLI 0.3.0 with its exact GitLab

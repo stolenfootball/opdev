@@ -5903,3 +5903,214 @@ changes:
         }
       }
     }
+  - {
+      "fingerprint": "5129570008a31d4ce4c4e708901f1924b9fc2fb048a7f2f9ca9263c32aa122cb",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/53",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Issue 53 records the maintainer-requested patch publication, source-preparation acceptance, candidate/final verification and explicit exclusions.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Issue 53 records the maintainer-requested patch publication, source-preparation acceptance, candidate/final verification and explicit exclusions.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/53"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "Reuse established protected-tag publication, signed immutable artifacts and safe roll-forward. This increment changes versions and accurate release documentation, not release tooling or product logic.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reuse established protected-tag publication, signed immutable artifacts and safe roll-forward. This increment changes versions and accurate release documentation, not release tooling or product logic.",
+              "location": "release/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Reviewed project contract retains main as the sole integration and release source; publication uses exact trunk tags, not a second integration branch.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed project contract retains main as the sole integration and release source; publication uses exact trunk tags, not a second integration branch.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "One short-lived codex/release-0.3.1 branch starts at current main c7bca8faaeefcd246cce51b2292863cba01592de; fetch confirmed no divergence before preparation.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "One short-lived codex/release-0.3.1 branch starts at current main c7bca8faaeefcd246cce51b2292863cba01592de; fetch confirmed no divergence before preparation.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/53"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "not_applicable",
+          "summary": "One release-preparation increment is active; issue 52 is merged, and no concurrent unintegrated implementation is part of this work.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "One release-preparation increment is active; issue 52 is merged, and no concurrent unintegrated implementation is part of this work.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/53"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Main pipeline 2904594500 was rechecked successful on exact c7bca8f before release preparation; no known red trunk is bypassed.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Main pipeline 2904594500 was rechecked successful on exact c7bca8f before release preparation; no known red trunk is bypassed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2904594500"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Existing metadata assertions passed for CLI 0.3.1/plugin 0.3.2 and retained qualified 0.3.0 pin. No schemas, executable logic, approval semantics or experimental defaults change in preparation.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Existing metadata assertions passed for CLI 0.3.1/plugin 0.3.2 and retained qualified 0.3.0 pin. No schemas, executable logic, approval semantics or experimental defaults change in preparation.",
+              "location": "crates/opdev-cli/tests/release_metadata.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Source preparation adds no host behavior. Reuse the reviewed issue-52 Codex trials and canary with live Claude deferred and original just failure unreproduced; no new general effectiveness or token-saving claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Source preparation adds no host behavior. Reuse the reviewed issue-52 Codex trials and canary with live Claude deferred and original just failure unreproduced; no new general effectiveness or token-saving claim.",
+              "location": "benchmarks/workflow-usability/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "No interface implementation changes. Release notes retain accurate readiness/compatibility limits and the maintainer-approved issue-52 wording; no assistive-technology conformance claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "No interface implementation changes. Release notes retain accurate readiness/compatibility limits and the maintainer-approved issue-52 wording; no assistive-technology conformance claim.",
+              "location": "release/CHANGELOG.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "Operational/error behavior is unchanged from tested issue-52 implementation. Version metadata and documentation preserve exact identity and distinguish publication from qualification.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Operational/error behavior is unchanged from tested issue-52 implementation. Version metadata and documentation preserve exact identity and distinguish publication from qualification.",
+              "location": "spec/compatibility.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored metadata and documentation require canonical checks, actual assertion review, current source binding and required CI. Publication cannot follow a local summary alone.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored metadata and documentation require canonical checks, actual assertion review, current source binding and required CI. Publication cannot follow a local summary alone.",
+              "location": ".gitlab-ci.yml"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Release notes preserve private-use generalized repairs, unsupported include limitations, original just reproduction gap and deferred live Claude rather than inflating success.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Release notes preserve private-use generalized repairs, unsupported include limitations, original just reproduction gap and deferred live Claude rather than inflating success.",
+              "location": "release/CHANGELOG.md"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "non_behavioral",
+        "rationale": "This change prepares release identities and accurate documentation only; product fixes are already merged and reviewed under issue 52. Candidate and final artifact publication/consumer verification are separate external operations tracked in issue 53 and must pass before release completion, not inferred from this ledger.",
+        "conditions": [
+          {
+            "id": "REL-01",
+            "statement": "Align independent CLI/plugin/CI identities and retain a compatible already-qualified managed pin.",
+            "authority": "contracts",
+            "source": {
+              "path": "spec/compatibility.md",
+              "sha256": "477fb9caa1266bbdeb16f0a7bcfe6af73c867f8dd9e54684dacc0ba1f0f9a0db",
+              "excerpt": "Both host\nmanifests and the packaged compatibility contract must agree on the plugin\nversion; the current CLI and managed pin must satisfy its CLI range."
+            }
+          },
+          {
+            "id": "REL-02",
+            "statement": "Document the patch accurately without promoting experimental features or claiming unperformed verification.",
+            "authority": "delivery",
+            "source": {
+              "path": "release/CHANGELOG.md",
+              "sha256": "d3ca1c04951b63e6d5e09ecde6f376ef8b4699297c3679ec7c9578b5df624edf",
+              "excerpt": "## 0.3.1 / Plugin 0.3.2"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "REL-01",
+            "method": "automated",
+            "suite": "check",
+            "target": {
+              "path": "crates/opdev-cli/tests/release_metadata.rs",
+              "sha256": "e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933",
+              "excerpt": "assert_eq!(codex[\"version\"], contract[\"plugin\"][\"version\"]);"
+            },
+            "assertion": "Reviewed existing exact equality checks for CI/compiled CLI, both host manifests, compatibility and marketplace; semver checks include both source CLI and actual retained lock pin. Focused metadata test passed for independent 0.3.1/0.3.2 versions.",
+            "discriminating_case": "A single stale host/CI version or range excluding 0.3.0 fails equality or inclusion while deliberately different plugin and CLI versions are allowed.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "REL-02",
+            "method": "review",
+            "target": {
+              "path": "release/CHANGELOG.md",
+              "sha256": "d3ca1c04951b63e6d5e09ecde6f376ef8b4699297c3679ec7c9578b5df624edf",
+              "excerpt": "- Keep compact/token-reduction features experimental and disabled by default."
+            },
+            "assertion": "Reviewed release notes against merged issue-52 code, tests and actual scoped host evidence: unsupported includes remain unverified, no permission retry/migration is implied, original just and live Claude limits are explicit, and the qualified pin remains 0.3.0 pending independent qualification.",
+            "discriminating_case": "A claim that original just failure was fixed, Claude trials passed, the new CLI is already managed-pinned, or compact features are promoted would contradict actual source/evidence. None is stated.",
+            "automation_limitation": "Accuracy of prose scope and host/external observations requires semantic review; metadata equality cannot establish actual publication or reproduce unavailable host behavior.",
+            "outcome": "passed"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/53",
+          "rationale": "Reviewed complete material release-preparation diff, actual equality/inclusion assertions and semantic changelog limits against unchanged release/compatibility authorities and issue-52 observations. CLI 0.3.1 and plugin 0.3.2 are independently aligned; qualified pin, verifier digests, schemas and experimental defaults remain unchanged. Candidate/final qualification is still required separately. This is agent review, not manufactured developer approval.",
+          "subject_sha256": "cec12bd4ed4fd692c3b5469519cc7a5663404ea5226196f7d91218699448cf7d"
+        }
+      }
+    }
