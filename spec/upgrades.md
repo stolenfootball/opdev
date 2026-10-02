@@ -22,8 +22,9 @@ actually installed. The CLI reports its exact executable path.
 The preview includes exact before/after guidance text, supported project schema,
 adoption gaps, selected assurance profiles, plugin compatibility and locally
 declared CI `OPDEV_VERSION` values. It checks root GitLab configuration and all
-root GitHub workflow YAML files. It does not resolve includes, provider variables,
-custom script version selection or remote configuration. CI pins are observations,
+root GitHub workflow YAML files. Explicit local GitLab includes are resolved;
+dynamic/external includes, provider variables, custom script version selection and
+remote configuration remain unresolved. CI pins are observations,
 never a compatibility/qualification pass, and are never rewritten automatically.
 Changing an old download version alone may also require changing its release host
 and verification metadata. Custom providers remain explicitly unverified.
@@ -42,6 +43,17 @@ Agents MUST capability-check `upgrade --help` before relying on preview semantic
 on an older runtime. Do not probe an old CLI by invoking bare `upgrade`.
 
 ## Preservation and failure behavior
+
+UV-01: Doctor/upgrade distinguish selected package path/version/skill digest,
+running CLI identity, pin compatibility versus exact version alignment, project
+guidance relative to that CLI, and CI declarations. A supplied package is not
+proof of installation. A compatible older executable is allowed; do not force a
+runtime update merely because versions differ. Same-version source builds can
+have different guidance, so use content comparison, not version equality.
+UV-02: Session-loaded guidance remains unverified without host evidence. Disk
+inspection cannot establish it; after a package change use the host's reload or
+fresh context when needed. No automatic restart, network/latest lookup, cache
+edit or update occurs. Guidance preview/apply remains a separately reviewed action.
 
 - Preserve project content outside managed markers and existing Claude imports.
   Malformed/duplicate markers, linked targets and stale inputs fail closed.

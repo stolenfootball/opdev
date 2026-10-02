@@ -42,6 +42,12 @@ projections, retained diagnostics, freshness, and compatibility.
 See [test execution evidence](test-reports.md) for tool-neutral canonical
 execution receipts and optional read-only JUnit inspection, separate from gates.
 
+See [execution preview](check-plan.md) to inspect the commands a check selects
+without running them or qualifying a gate.
+
+See [acceptance preparation](evidence-preparation.md) for mechanical draft,
+preview and reviewed application to an existing schema-2 ledger.
+
 See [consistency review](consistency-review.md) for advisory comparison of accepted
 requirements, implementation, tests and documentation using existing authorities.
 Routine substantive development also requires

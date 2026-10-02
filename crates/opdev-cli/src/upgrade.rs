@@ -231,6 +231,7 @@ fn assess(args: &UpgradeArgs) -> Result<(UpgradeReport, Vec<AgentFilePreview>)> 
         }
     }
     crate::inspection::inspect_plugin(&mut plan, args.plugin_root.as_deref())?;
+    crate::inspection::inspect_guidance(&mut plan)?;
     crate::inspection::inspect_ci(&mut plan)?;
     plan.finding("release_discovery", Outcome::Unverified, "Target is the running CLI, not a claim about the newest published release. No network or project commands executed.");
     // Includes target guidance, root, executable path, versions, inspection results

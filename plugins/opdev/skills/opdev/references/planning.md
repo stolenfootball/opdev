@@ -125,6 +125,15 @@ acceptance-ledger assembly. No exploration schema or release-bound experiment
 record is required. Ordinary authorization, secrets, data and process safety
 apply. Temporary work cannot become another production path or qualify gates.
 
+For an environment-specific unknown, a bounded CI/remote diagnostic can obtain
+feedback before another merge/package cycle using existing authorized tooling.
+State the question, environment, effort bound, side effects and next decision in
+current work context. Review source trust, runner privileges, inherited secrets
+and log/artifact exposure; prefer observation. For isolated temporary resources,
+record ownership, verify it before cleanup and check removal. Preserve failures
+and report observations as diagnostics, not integration/delivery qualification.
+This adds no automatic remote execution, runner mutation or blanket approval step.
+
 For retained work, identify expected behavior before implementation and use
 focused checks during iteration. After feedback settles the intended source,
 prepare exact-source acceptance bindings and run required canonical checks at
@@ -148,6 +157,17 @@ Preserve existing behavior, integrate frequently, and retain all core gates.
 Integration need not activate incomplete behavior; apply the experiment guidance
 when warranted. Smaller scope is not a waiver of privacy, security, compatibility,
 CI, qualification or recovery requirements.
+
+Reassess when supporting work becomes the bottleneck: repeated harness repairs, a growing matrix,
+duplicate full checks or fragmented MRs can delay the consumer observation the
+work was meant to enable. Name the distinct risk each remaining check resolves
+and the feedback currently missing. Consolidate tightly coupled repairs into the
+smallest coherent increment, or use a bounded diagnostic before adding machinery.
+Preserve genuinely distinct platform/configuration coverage; matching command
+text does not prove equivalent environments. If a required policy should change,
+propose that change with evidence and tradeoffs instead of silently skipping it.
+No fixed failure count, new ledger, questionnaire or fresh permission round is
+needed within existing authorization.
 
 After acceptance checks and meaningful feedback, revisit the next recommendation:
 continue, revise, stop, or take a bounded enabling step. Do not automatically

@@ -1,0 +1,26 @@
+stages: [verify, candidate, consume]
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+default:
+  image: python:3.13-bookworm
+verify:
+  stage: verify
+  script: [python3 examples/feedback/fixture.py verify]
+  artifacts:
+    paths: [feedback-artifacts/verification.json]
+candidate:
+  stage: candidate
+  needs: [{job: verify, artifacts: true}]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script: [python3 examples/feedback/fixture.py candidate]
+  artifacts:
+    paths: [feedback-artifacts/]
+consume:
+  stage: consume
+  needs: [{job: candidate, artifacts: true}]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script: [python3 examples/feedback/fixture.py consume]

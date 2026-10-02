@@ -385,7 +385,11 @@ impl EvidenceLedger {
         Ok(path)
     }
 
-    fn validate(&self, catalog: &RuleCatalog) -> Result<(), EvidenceError> {
+    /// Validates a candidate without executing checks or writing a ledger.
+    ///
+    /// # Errors
+    /// Rejects schema and catalog inconsistencies; this is not qualification.
+    pub fn validate(&self, catalog: &RuleCatalog) -> Result<(), EvidenceError> {
         validate_schema_document(&serde_json::to_value(self)?, EVIDENCE_SCHEMA, "ledger")?;
         if !matches!(self.schema, 1 | 2) {
             return Err(EvidenceError::Semantic(format!(

@@ -1,0 +1,218 @@
+//! Mechanical preparation of an existing schema-2 ledger; never approval.
+use anyhow::{Context, Result, bail};
+use clap::Args;
+use opdev_core::{Outcome, embedded_catalog};
+use opdev_project::{
+    AcceptanceEvidence, ChangeEvidence, EVIDENCE_PATH, EvidenceLedger, TrackedEvidence,
+    staged_fingerprint,
+};
+use serde::{Deserialize, Serialize};
+use serde_json::{Value, json};
+use sha2::{Digest, Sha256};
+use std::{
+    fs,
+    io::Write,
+    path::{Path, PathBuf},
+};
+
+#[derive(Debug, Args)]
+pub(super) struct PrepareArgs {
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Acceptance YAML: explicit conditions/mappings, with mechanical fields omitted.
+    #[arg(long, required_unless_present = "draft", conflicts_with = "draft")]
+    input: Option<PathBuf>,
+    /// Work authority for a new draft; must agree with an existing current entry.
+    #[arg(long, requires = "input", required_unless_present = "draft")]
+    work: Option<String>,
+    /// Previously prepared draft; preview by default, never silently refresh bindings.
+    #[arg(long)]
+    draft: Option<PathBuf>,
+    /// Atomically replace the ledger after explicit review of this draft.
+    #[arg(long, requires = "draft")]
+    write: bool,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Draft {
+    schema: u32,
+    fingerprint: String,
+    ledger_sha256: String,
+    work: String,
+    acceptance: AcceptanceEvidence,
+}
+
+fn read(path: &Path) -> Result<Vec<u8>> {
+    let meta = fs::symlink_metadata(path)?;
+    if !meta.is_file() || meta.file_type().is_symlink() || meta.len() > 8 * 1024 * 1024 {
+        bail!("input must be a regular file of at most 8 MiB");
+    }
+    Ok(fs::read(path)?)
+}
+
+fn ledger_bytes(root: &Path) -> Result<Vec<u8>> {
+    let parent = fs::symlink_metadata(root.join(".opdev"))?;
+    if !parent.is_dir() || parent.file_type().is_symlink() {
+        bail!("evidence directory must be an unlinked directory");
+    }
+    read(&root.join(EVIDENCE_PATH))
+}
+
+fn sha(bytes: &[u8]) -> String {
+    format!("{:x}", Sha256::digest(bytes))
+}
+
+fn bind(root: &Path, reference: &mut Value) -> Result<()> {
+    let path = reference["path"]
+        .as_str()
+        .context("reference needs a path")?
+        .to_owned();
+    let excerpt = reference["excerpt"]
+        .as_str()
+        .context("reference needs an excerpt")?
+        .to_owned();
+    // Unknown fields are rejected, not silently discarded when filling the hash.
+    reference["sha256"] = Value::String("0".repeat(64));
+    let _: TrackedEvidence = serde_json::from_value(reference.clone())?;
+    *reference = serde_json::to_value(TrackedEvidence::bind(root, path, excerpt)?)?;
+    Ok(())
+}
+
+fn prepare(root: &Path, path: &Path) -> Result<AcceptanceEvidence> {
+    let mut input: Value = serde_saphyr::from_slice(&read(path)?)?;
+    input
+        .as_object_mut()
+        .context("acceptance input must be an object")?;
+    for condition in input["conditions"]
+        .as_array_mut()
+        .context("conditions must be an array")?
+    {
+        condition
+            .as_object_mut()
+            .context("condition must be an object")?;
+        bind(root, &mut condition["source"])?;
+    }
+    for mapping in input["verifications"]
+        .as_array_mut()
+        .context("verifications must be an array")?
+    {
+        mapping
+            .as_object_mut()
+            .context("mapping must be an object")?;
+        bind(root, &mut mapping["target"])?;
+        mapping["outcome"] = json!("unverified");
+    }
+    input["review"] = serde_json::to_value(AcceptanceEvidence::default().review)?;
+    Ok(serde_json::from_value(input)?)
+}
+
+fn candidate(root: &Path, draft: &Draft, bytes: &[u8]) -> Result<EvidenceLedger> {
+    if draft.schema != 1
+        || draft.ledger_sha256 != sha(bytes)
+        || draft.fingerprint != staged_fingerprint(root)?
+        || draft.work.trim().is_empty()
+    {
+        bail!("stale or invalid draft; inspect changes and prepare/review again, nothing written");
+    }
+    let mut ledger: EvidenceLedger = serde_saphyr::from_slice(bytes)?;
+    let catalog = embedded_catalog()?;
+    ledger.validate(&catalog)?;
+    if ledger.schema != 2 {
+        bail!("schema-2 ledger required; review migration separately");
+    }
+    for condition in &draft.acceptance.conditions {
+        condition.source.verify(root)?;
+    }
+    for mapping in &draft.acceptance.verifications {
+        mapping.target.verify(root)?;
+    }
+    if let Some(change) = ledger
+        .changes
+        .iter_mut()
+        .find(|c| c.fingerprint == draft.fingerprint)
+    {
+        if change.work != draft.work {
+            bail!("current entry has a different work authority; reconcile explicitly");
+        }
+        change.acceptance = Some(draft.acceptance.clone());
+    } else {
+        ledger.changes.push(ChangeEvidence {
+            fingerprint: draft.fingerprint.clone(),
+            work: draft.work.clone(),
+            assertions: vec![],
+            acceptance: Some(draft.acceptance.clone()),
+        });
+    }
+    ledger.validate(&catalog)?;
+    Ok(ledger)
+}
+
+fn reviewed(draft: &Draft) -> Result<()> {
+    let review = &draft.acceptance.review;
+    if !matches!(review.outcome, Outcome::Passed | Outcome::Failed)
+        || [&review.reviewer, &review.reference, &review.rationale]
+            .iter()
+            .any(|s| s.trim().is_empty())
+        || review.subject_sha256 != draft.acceptance.digest(&draft.fingerprint, &draft.work)?
+    {
+        bail!(
+            "explicit current review required; preview supplies the subject digest but approves nothing"
+        );
+    }
+    Ok(())
+}
+
+pub(super) fn run(args: &PrepareArgs) -> Result<()> {
+    let (root, _) = crate::load_project(&args.root)?;
+    let before = ledger_bytes(&root)?;
+    let draft = if let Some(path) = &args.draft {
+        serde_saphyr::from_slice::<Draft>(&read(path)?)?
+    } else {
+        Draft {
+            schema: 1,
+            fingerprint: staged_fingerprint(&root)?,
+            ledger_sha256: sha(&before),
+            work: args.work.clone().context("work required")?,
+            acceptance: prepare(&root, args.input.as_deref().context("input required")?)?,
+        }
+    };
+    let ledger = candidate(&root, &draft, &before)?;
+    if args.draft.is_none() {
+        print!("{}", serde_saphyr::to_string(&draft)?);
+        eprintln!(
+            "Draft only; mappings and review are unverified. No suites ran and ledger unchanged."
+        );
+    } else if args.write {
+        reviewed(&draft)?;
+        // Git-owned temporary storage does not become unindexed product content.
+        let git_dir = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&root)
+            .args(["rev-parse", "--absolute-git-dir"])
+            .output()?;
+        if !git_dir.status.success() {
+            bail!("cannot locate Git storage for atomic apply");
+        }
+        let git_dir = String::from_utf8(git_dir.stdout)?;
+        let mut file = tempfile::NamedTempFile::new_in(git_dir.trim())?;
+        file.write_all(ledger.to_yaml()?.as_bytes())?;
+        file.as_file().sync_all()?;
+        if ledger_bytes(&root)? != before || staged_fingerprint(&root)? != draft.fingerprint {
+            bail!("inputs changed before apply; nothing written");
+        }
+        file.persist(root.join(EVIDENCE_PATH))?;
+        println!(
+            "Acceptance updated; history/assertions preserved. Qualification unverified: no checks ran."
+        );
+    } else {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&json!({
+                "schema": 1, "qualification": "unverified", "subject_sha256": draft.acceptance.digest(&draft.fingerprint, &draft.work)?,
+                "review_current": reviewed(&draft).is_ok(), "candidate": ledger,
+            }))?
+        );
+    }
+    Ok(())
+}

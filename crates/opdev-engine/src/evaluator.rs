@@ -13,6 +13,7 @@ use opdev_project::{
 use thiserror::Error;
 
 use crate::command::{CommandError, Execution, execute};
+use crate::plan::{extension_command, selected_extensions, selected_suites};
 use crate::report::{CheckKind, CheckReport, CheckResult};
 
 /// Selection of executable checks for one evaluation.
@@ -478,11 +479,7 @@ fn is_delivery_rule(id: &str) -> bool {
 }
 
 fn run_suites(root: &Path, manifest: &ProjectManifest, stage: TestStage) -> Vec<CheckResult> {
-    manifest
-        .testing
-        .suites
-        .iter()
-        .filter(|suite| suite.stages.contains(&stage))
+    selected_suites(manifest, stage)
         .map(|suite| {
             let command = &manifest.commands[&suite.command];
             execution_result(
@@ -501,11 +498,7 @@ fn run_extensions(
     manifest: &ProjectManifest,
     stage: ExtensionStage,
 ) -> Result<Vec<CheckResult>, EvaluationError> {
-    manifest
-        .extensions
-        .checks
-        .iter()
-        .filter(|check| check.stage == stage)
+    selected_extensions(manifest, stage)
         .map(|check| run_extension(root, manifest, check))
         .collect()
 }
@@ -522,10 +515,7 @@ fn run_extension(
         stage: extension_stage_name(check.stage).into(),
     };
     let input = serde_json::to_vec(&request)?;
-    let mut command = manifest.commands[&check.command].clone();
-    if check.timeout_seconds.is_some() {
-        command.timeout_seconds = check.timeout_seconds;
-    }
+    let command = extension_command(manifest, check);
     let gates = gates_for_extension_stage(check.stage);
     let execution = match execute(root, &command, Some(&input)) {
         Ok(execution) => execution,

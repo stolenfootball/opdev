@@ -35,8 +35,12 @@ For an initialized project with a capable CLI, run:
 <selected-cli> upgrade --root <project> --plugin-root <actual-package> --dry-run
 ```
 
-This is offline and does not run project commands. Explain the guidance diff,
-plugin/runtime differences, unsupported migrations, preserved profile/adoption
+This is offline and does not run project commands. Explain the inspected package
+identity and unknown session-loaded instructions. The
+guidance target is the running executable, not inferred from the package version.
+Compatible selection and exact pin alignment are different observations.
+
+Explain the guidance diff, plugin/runtime differences, unsupported migrations, preserved profile/adoption
 choices, CI pins, opt-ins left unchanged and outstanding verification. Show the
 exact target and material changes before asking approval. No new project document
 or questionnaire is required; use existing work authorities when appropriate.

@@ -1,5 +1,22 @@
 # CI provider boundary
 
+## Coordinated feedback examples
+
+`examples/feedback/` provides opt-in neutral GitHub/GitLab wiring examples, not
+automatic replacements for custom project YAML. Proposed changes run one
+verification path; integrated trunk runs its own verification and builds a
+candidate once, with downstream jobs consuming those exact bytes. GitLab rules
+exclude ordinary feature pushes, including the first push before an MR exists.
+GitHub push triggers are trunk-only. Existing required checks remain distinct;
+source/environment changes can legitimately require further verification.
+
+Standalone explicit diagnostics collect scoped environment observations without
+producing qualification or release artifacts. See the example README for source
+trust, runner/secret policy, ownership and cleanup requirements. Syntax checks
+alone do not prove provider behavior; use actual isolated pipeline observations.
+
+## Provider adapters
+
 GitHub Actions and GitLab CI are first-class providers in OpDev 0.1. Each adapter owns four responsibilities: the canonical configuration path, baseline rendering, read-only local inspection, and evidence describing change and trunk qualification. Provider-specific syntax remains behind the `CiAdapter` boundary; the rule engine consumes provider-neutral outcomes.
 
 `opdev ci generate` prints a configuration by default and writes only with `--write`. A write uses create-new semantics and refuses to replace an existing CI file. This makes adoption reviewable in brownfield projects. `opdev ci inspect` parses configuration as YAML without executing it. `opdev check --ci` folds those findings into the relevant MinimumCD rule results before recomputing the integration gate.

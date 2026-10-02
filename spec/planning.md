@@ -143,6 +143,18 @@ investigate settled work; do not treat more paperwork as stronger assurance.
 Evaluate actual recommendations with the scenarios in
 [planning review cases](../tests/planning-review.md), not just document shape.
 
+## Supporting-work bottlenecks
+
+SB-01: When repeated tool repairs, expanding matrices, duplicate verification or
+fragmented work delays useful feedback, planning SHOULD reassess the supported
+outcome, distinct risks and smallest coherent increment. Prefer bounded diagnosis
+or consolidate coupled changes when appropriate; do not respond by automatically
+adding more infrastructure. There is no fixed retry threshold or required form.
+SB-02: Distinct native platforms and supported configurations MUST retain their
+required evidence. Policy simplification is a proposed reviewed change, not an
+implicit waiver. Existing scope/authorization remains sufficient for routine
+replanning; material scope changes still require developer direction.
+
 ## Basis
 
 - [Kniberg: earliest testable/usable/lovable](https://blog.crisp.se/2016/01/25/henrikkniberg/making-sense-of-mvp): learn from usable increments rather than assume the final solution.

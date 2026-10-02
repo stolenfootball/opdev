@@ -104,3 +104,45 @@ condition/suite/stage diagnostic wording in the implementation conversation on
 2026-10-01. This is a plain-text clarity review, not assistive-technology or host
 interface conformance. Required canonical and pre/post-integration CI checks
 remain separate evidence. No release or managed-runtime pin change is requested.
+
+## Faster-feedback follow-up, 2026-10-02
+
+Roadmap #61 tracks issues #55–#60. Deterministic CLI canaries now verify that
+execution previews do not launch commands, that selected distinct checks execute
+once even with identical argv, and that stage/failure semantics are preserved.
+Existing-ledger preparation tests cover unresolved reviews, changed mappings,
+source/excerpt/ledger staleness, malformed input, history and current-assertion
+preservation. Doctor/upgrade fixtures distinguish disk guidance from unknown
+session state and preserve compatible selection and custom content.
+
+Private neutral provider fixtures exercise `examples/feedback/`, never consumer
+code. GitHub run 36973345884 passed verify/candidate/consume on the same initial
+revision; PR run 36973477055 ran verification with candidate/consume skipped and
+no separate feature-push run. GitLab pipeline 2905587103 passed the same three-job
+flow; MR pipeline 2905589439 passed verification with no ordinary feature-push
+pipeline. GitLab initial job execution/queue seconds were respectively
+47.43/6.86 (verify), 48.16/20.33 (candidate), 4.29/35.47 (consume). Post-merge
+trunk runs GitHub 36973740215 and GitLab 2905594760 passed the full chain again
+for the integrated revision. These are job observations including setup, not
+total agent time or a comparison speedup.
+
+Explicit diagnostic GitHub run 36973470538 observed Linux/Python 3.12.3 and
+`alpha beta`; its result remained `qualification: unverified`. GitLab diagnostic
+pipeline 2905591609 succeeded before any diagnostic-branch integration/package
+cycle, observing Linux/Python 3.13.16 and the same unverified diagnostic result.
+The first GitLab attempt was rejected for an omitted stage (failed push
+pipeline 2905590697 and HTTP 400 on manual creation); the explicit stage and a
+regression were added before retrying. No product qualification was inferred.
+The probe creates no resources; cleanup is not simulated as if resources existed.
+
+The fresh-context Codex baseline pilot used CLI 0.154.0 and its configured model,
+with frozen baseline source d19cd393faf831fe404ebb30788e911aee38ee17 and candidate
+planning input. It failed before an answer because the CLI's ChatGPT login rejects
+configured `gpt-6-sol`. Elapsed time 3.12s is a failed launch, not feedback latency.
+The failed event hash is
+`8b68014d52374fe2cf8731c265cbccd032b120160d2b68b7c646ae7c920e2562`.
+No candidate trial or performance comparison ran; model choice was requested,
+not silently substituted. Live Claude remains deferred. Planning scenarios F1–F4
+and the separate feedback report protocol are prepared; live semantic and complete
+coding-session acceptance remain unverified until access/model selection permits
+a fresh baseline. Historical compact results and defaults are unchanged.

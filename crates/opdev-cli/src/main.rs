@@ -10,7 +10,7 @@ use opdev_core::{
     AggregateVerdict, EXTENSION_PROTOCOL_VERSION, Gate, Outcome, PROJECT_SCHEMA_VERSION, RuleId,
     VerificationMethod, embedded_catalog, embedded_profiles, resolve_profile,
 };
-use opdev_engine::{CheckOptions, CheckReport, evaluate, reaggregate};
+use opdev_engine::{CheckOptions, CheckReport, evaluate, plan_checks, reaggregate};
 use opdev_project::{
     CiProvider, EVIDENCE_PATH, EvidenceBootstrap, FileChange, MANIFEST_PATH, ProjectManifest,
     discover, reconcile_agent_files, staged_fingerprint, validate_experiment,
@@ -26,6 +26,7 @@ use serde::Deserialize;
 mod adoption;
 mod ci_run;
 mod doctor;
+mod evidence_prepare;
 mod inspection;
 mod test_execution;
 mod test_report;
@@ -152,6 +153,9 @@ struct CheckArgs {
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]
     root: PathBuf,
+    /// Preview selected invocations without execution, remote access or qualification.
+    #[arg(long, conflicts_with_all = ["remote", "no_exec", "report"])]
+    plan: bool,
     /// Evaluate CI-specific requirements.
     #[arg(long)]
     ci: bool,
@@ -352,6 +356,8 @@ struct EvidenceArgs {
 
 #[derive(Debug, Subcommand)]
 enum EvidenceCommand {
+    /// Prepare, preview or apply a reviewed acceptance update to an existing ledger.
+    Prepare(evidence_prepare::PrepareArgs),
     /// Print the staged index fingerprint used by change evidence.
     Fingerprint(EvidenceFingerprintArgs),
     /// Print the current acceptance review's subject digest without approving it.
@@ -519,6 +525,7 @@ fn verify_plugin_compatibility(args: &PluginVerifyArgs) -> Result<ExitCode> {
 
 fn evidence_command(args: &EvidenceArgs) -> Result<()> {
     match &args.command {
+        EvidenceCommand::Prepare(args) => evidence_prepare::run(args)?,
         EvidenceCommand::Fingerprint(args) => {
             let (root, _) = load_project(&args.root)?;
             println!("{}", staged_fingerprint(&root)?);
@@ -868,6 +875,32 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         options.extension_stage = opdev_project::ExtensionStage::Deliver;
     }
     options.execute_checks = !args.no_exec;
+    if args.plan {
+        let plan = plan_checks(&root, &manifest, options);
+        if args.format == CheckFormat::Json {
+            println!("{}", serde_json::to_string_pretty(&plan)?);
+        } else {
+            println!(
+                "Execution plan: {:?} suites; {:?} extensions",
+                plan.test_stage, plan.extension_stage
+            );
+            println!(
+                "Qualification: unverified. No commands ran. Arguments may contain private project values."
+            );
+            for command in plan.commands {
+                println!(
+                    "{} ({:?}, blocking={}): {}\n  directory: {}\n  timeout: {}s",
+                    command.id,
+                    command.kind,
+                    command.blocking,
+                    serde_json::to_string(&command.argv)?,
+                    command.working_directory,
+                    command.timeout_seconds
+                );
+            }
+        }
+        return Ok(ExitCode::SUCCESS);
+    }
     let mut report = evaluate(&root, &manifest, options).context("project evaluation failed")?;
     if args.ci {
         apply_local_ci(&root, &manifest, &mut report)?;

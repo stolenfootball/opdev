@@ -10,6 +10,50 @@ use std::{
 
 type TestResult = Result<(), Box<dyn std::error::Error>>;
 
+#[test]
+fn partial_guidance_upgrade_is_observed_without_claiming_session_activation() -> TestResult {
+    let repo = fixture()?;
+    let before = snapshot(repo.path())?;
+    let first = preview(repo.path())?;
+    let repeated = preview(repo.path())?;
+    assert_eq!(first, repeated);
+    let findings = first["findings"].as_array().ok_or("findings")?;
+    assert!(
+        findings
+            .iter()
+            .any(|f| f["component"] == "session_guidance" && f["outcome"] == "unverified")
+    );
+    assert!(
+        findings
+            .iter()
+            .any(|f| f["component"] == "project_guidance" && f["outcome"] == "migration_required")
+    );
+    assert_eq!(snapshot(repo.path())?, before);
+    assert!(
+        cli(
+            repo.path(),
+            &["upgrade", "--apply", first["plan_id"].as_str().ok_or("id")?]
+        )?
+        .status
+        .success()
+    );
+    let applied = preview(repo.path())?;
+    let findings = applied["findings"].as_array().ok_or("findings")?;
+    assert!(
+        findings
+            .iter()
+            .filter(|f| f["component"] == "project_guidance")
+            .all(|f| f["outcome"] == "passed")
+    );
+    assert!(
+        findings
+            .iter()
+            .any(|f| f["component"] == "session_guidance" && f["outcome"] == "unverified")
+    );
+    assert!(fs::read_to_string(repo.path().join("AGENTS.md"))?.starts_with("before\r\n"));
+    Ok(())
+}
+
 fn cli(root: &Path, args: &[&str]) -> Result<Output, std::io::Error> {
     Command::new(env!("CARGO_BIN_EXE_opdev"))
         .args(args)

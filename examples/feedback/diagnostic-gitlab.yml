@@ -1,0 +1,10 @@
+# Standalone scratch-project example, not a replacement for required CI.
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" || $CI_PIPELINE_SOURCE == "api"'
+stages: [diagnose]
+diagnose:
+  stage: diagnose
+  image: python:3.13-bookworm
+  script:
+    - python3 examples/feedback/fixture.py diagnose Linux

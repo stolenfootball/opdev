@@ -38,7 +38,17 @@ appropriate runtime upgrade; do not call policy-only passes acceptance qualifica
 Use schema 2 of `.opdev/evidence.yaml`, under the exact current change's
 `acceptance`. New bootstrap includes an unresolved template. Existing ledgers need
 an explicit reviewed schema-2 edit preserving history and unrelated assertions,
-not create-new bootstrap or automatic migration. No extra policy file is required.
+not create-new bootstrap or automatic migration. On a CLI supporting
+`evidence prepare --help`, supply the explicit acceptance inventory/mappings with
+path/excerpt references using `--input FILE --work AUTHORITY`. Hashes and outcomes
+may be omitted: it calculates bindings and resets all review decisions to
+unverified. Keep the emitted draft outside the worktree or in existing ignored
+scratch space. `--draft FILE` previews the candidate and subject digest; review
+the actual mappings, record reviewer/reference/rationale/outcome and the exact
+digest, then use `--draft FILE --write`. Changed source, mappings or ledger need
+fresh preparation/review. It preserves semantic history and unrelated assertions,
+not YAML comments/formatting; it runs no suites and approves nothing. Manual edits
+remain supported. No extra project policy file is required.
 
 - `scope`: `behavioral`, `non_behavioral`, or justified `no_material_conditions`;
   explain applicability/exclusions in `rationale`, not by filename heuristics.

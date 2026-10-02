@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import statistics
 import subprocess
@@ -134,7 +135,13 @@ def main():
     parser.add_argument('source', type=Path)
     parser.add_argument('--output', type=Path)
     parser.add_argument('--verify-checkouts', action='store_true')
+    parser.add_argument('--feedback', action='store_true', help='Read a separate preregistered workflow feedback experiment')
     args = parser.parse_args()
+    if args.feedback:
+        if args.output or args.verify_checkouts:
+            raise ValueError('feedback mode prints reviewed aggregates only; retain raw observations privately')
+        print(json.dumps(feedback_report(args.source), indent=2))
+        return
     summary, records, manifest, schedule = report(args.source, args.verify_checkouts)
     if args.output:
         if not summary['complete']:
@@ -143,6 +150,80 @@ def main():
         for name, value in [('summary', summary), ('records', records), ('manifest', manifest), ('schedule', schedule)]:
             (args.output / (name + '.json')).write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(summary, indent=2))
+
+
+FEEDBACK_METRICS = ('first_feedback_seconds', 'completion_seconds', 'agent_seconds',
+                    'command_seconds', 'queue_seconds', 'commands', 'pipelines',
+                    'evidence_edits', 'failed_attempts')
+
+
+def feedback_report(source):
+    """Separate protocol; never reinterpret the historical compact experiment."""
+    protocol_path = source / 'feedback-protocol.json'
+    protocol = json.loads(protocol_path.read_text())
+    if protocol.get('schema') != 1 or not protocol.get('identities'):
+        raise ValueError('missing frozen workflow identities')
+    schedule = protocol['schedule']
+    planned = [(s['case'], s['context'], s['arm'], s['repeat']) for s in schedule]
+    if len(set(planned)) != len(planned) or any(s[2] not in ('baseline', 'candidate') for s in planned):
+        raise ValueError('invalid or duplicate trial schedule')
+    criteria = protocol['criteria']
+    for key in ('feedback_ratio_max', 'completion_ratio_max'):
+        if type(criteria.get(key)) not in (int, float) or not math.isfinite(criteria[key]) or criteria[key] <= 0:
+            raise ValueError('invalid comparison threshold')
+    rows = [json.loads(line) for line in (source / 'feedback-records.jsonl').read_text().splitlines() if line.strip()]
+    actual = [(r['case'], r['context'], r['arm'], r['repeat']) for r in rows]
+    if actual != planned[:len(rows)] or len(set(actual)) != len(actual):
+        raise ValueError('records differ from the frozen schedule')
+    protocol_digest = digest(protocol_path)
+    for row in rows:
+        if row.get('protocol_sha256') != protocol_digest:
+            raise ValueError('protocol changed after observation')
+        if row['outcome'] not in ('passed', 'failed', 'error', 'unverified'):
+            raise ValueError('invalid trial outcome')
+        if set(row.get('oracles', {})) != {'behavior', 'test_preservation', 'gate_honesty'}:
+            raise ValueError('independent oracles missing')
+        if any(value is not None and type(value) is not bool for value in row['oracles'].values()):
+            raise ValueError('oracle results must be true, false or unknown')
+        for key in FEEDBACK_METRICS:
+            value = row.get('metrics', {}).get(key)
+            if value is not None and (type(value) not in (int, float) or not math.isfinite(value) or value < 0):
+                raise ValueError('invalid measurement: ' + key)
+        evidence = row.get('observation_file')
+        if not evidence or Path(evidence).name != evidence or evidence in ('.', '..') or any(c in evidence for c in '/\\:'):
+            raise ValueError('observation must be a local basename')
+        if digest(source / evidence) != row.get('observation_sha256'):
+            raise ValueError('observation changed after review')
+    groups = {}
+    for arm in ('baseline', 'candidate'):
+        selected = [r for r in rows if r['arm'] == arm]
+        groups[arm] = {'attempts': len(selected), 'accepted': sum(
+            r['outcome'] == 'passed' and all(v is True for v in r['oracles'].values()) for r in selected), 'metrics': {}}
+        for metric in FEEDBACK_METRICS:
+            observed = [r.get('metrics', {}).get(metric) for r in selected]
+            known = [v for v in observed if v is not None]
+            groups[arm]['metrics'][metric] = {'observed': len(known), 'missing': len(observed) - len(known),
+                                            'median': statistics.median(known) if known else None}
+    pairs = {}
+    for case, context, arm, repeat in planned:
+        pairs.setdefault((case, context, repeat), set()).add(arm)
+    balanced = bool(pairs) and all(arms == {'baseline', 'candidate'} for arms in pairs.values())
+    complete = len(rows) == len(planned) and bool(rows)
+    valid = complete and balanced and all(r['outcome'] == 'passed' and all(v is True for v in r['oracles'].values()) for r in rows)
+    ratios = {}
+    for metric in ('first_feedback_seconds', 'completion_seconds'):
+        b = groups['baseline']['metrics'][metric]
+        c = groups['candidate']['metrics'][metric]
+        ratios[metric] = c['median'] / b['median'] if valid and not b['missing'] and not c['missing'] and b['median'] else None
+    improved = all(value is not None for value in ratios.values())
+    improved = improved and ratios['first_feedback_seconds'] <= criteria['feedback_ratio_max'] and ratios['completion_seconds'] <= criteria['completion_ratio_max']
+    return {'schema': 1, 'planned': len(planned), 'completed': len(rows), 'complete': complete,
+            'acceptance_equivalent': valid, 'arms': groups, 'ratios': ratios,
+            'measured_improvement': bool(improved), 'general_effectiveness': 'unverified',
+            'limitations': ['Missing observations remain unknown, not zero.',
+                            'Queue, command and agent intervals can overlap; never add them as disjoint time.',
+                            'Caller-supplied review claims are not authenticated or automatically proved.',
+                            'This protocol does not establish cross-model, cross-host or production effectiveness.']}
 
 
 if __name__ == '__main__':

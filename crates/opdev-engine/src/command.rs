@@ -9,7 +9,7 @@ use command_group::{CommandGroup, GroupChild};
 use opdev_project::CommandSpec;
 use thiserror::Error;
 
-const DEFAULT_TIMEOUT_SECONDS: u64 = 900;
+pub(crate) const DEFAULT_TIMEOUT_SECONDS: u64 = 900;
 const MAX_CAPTURE_BYTES: usize = 64 * 1024;
 
 /// Captured result of one shell-free command execution.

@@ -23,6 +23,13 @@ boundary; its checks establish only observed prototype behavior. Package/recover
 suites follow affected behavior and applicable delivery, not an automatic release
 after each milestone.
 
+`opdev check` executes the declared suites; do not run the same full suite just
+before it merely to obtain a second verification record. When execution scope is
+unclear, capability-check `check --help` for `--plan` and preview with the same
+CI/delivery flags. The preview lists literal arguments, directories, timeouts and
+extensions without execution or qualification. Preserve distinct stages and
+intentional repeated checks; do not infer equivalence from matching command text.
+
 ## Optional test-strength checks
 
 When a concrete risk or evidence gap warrants stronger tests, propose a bounded
