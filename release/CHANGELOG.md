@@ -5,6 +5,16 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## Plugin 0.3.3
+
+- Pin independently published and qualified CLI 0.3.1 with its exact GitLab
+  signature identity. Keep verifier digests, older cached runtimes and immutable
+  v0.3.1 release assets unchanged.
+- Managed setup supplies the 0.3.1 workflow-diagnostic, supported GitLab
+  local-include and adoption-readiness capabilities. Updating the plugin does not
+  migrate project records or CI pins, or edit already-installed plugin caches.
+- Keep compact/token-reduction features experimental and disabled by default.
+
 ## 0.3.1 / Plugin 0.3.2
 
 - Explain blocked acceptance checks with the underlying source/index error,
