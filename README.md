@@ -32,10 +32,16 @@ making every new agent rediscover them.
   without an agent.
 
 OpDev is opinionated about delivery: [MinimumCD](https://minimumcd.org/)
-requirements are mandatory. Use one integration trunk, restore red CI first,
+delivery and testing requirements remain mandatory. Use one integration trunk, restore red CI first,
 deliver through CI, build an immutable artifact once, and have a tested recovery
 strategy. You choose how your project meets those requirements. Extensions can
 add checks, but cannot waive core rules.
+
+In the unreleased catalog 2, daily merging is a monitored target, not a deadline
+that blocks a later merge. Delays prompt replanning; required tests still have
+to pass. The daily requirement remains part of compliance reporting, so a green
+merge check alone does not establish full MinimumCD compliance. Released CLIs
+continue to use their own catalog until explicitly upgraded.
 
 ## Quick start
 

@@ -82,6 +82,10 @@ fn blocked_reports_are_named_retained_and_never_overwritten()
     let text = plain(&human.stdout)?;
     assert!(text.contains("Blocked"));
     assert!(text.contains("OPDEV-WORK-001"));
+    assert!(text.contains("merging into the main development branch"));
+    assert!(text.contains("evidence is missing or stale"));
+    assert!(text.contains("record what this change should achieve"));
+    assert!(text.contains("Daily merging is a target, not a development or merge blocker"));
     let report = artifacts.path().join("full report.json");
     let path = report.to_str().ok_or("non-UTF8 fixture path")?;
     let output = cli(

@@ -1139,6 +1139,32 @@ fn clean_remote_revision(root: &Path) -> Option<String> {
 
 fn print_human_report(report: &CheckReport) {
     println!("OpDev report for {}", report.subject);
+    println!(
+        "A gate is a decision about what may happen next. Blocked means at least one required check or review is not satisfied."
+    );
+    println!(
+        "Results: failed = a requirement was not met; unverified = evidence is missing or stale; error = a tool could not complete; migration_required = setup is incomplete. None means passed."
+    );
+    if let Ok(catalog) = embedded_catalog() {
+        for result in &report.rules {
+            if result.outcome.satisfies_required_rule() {
+                continue;
+            }
+            if let Some(rule) = catalog.find(&result.rule_id) {
+                println!("{} [{}]: {:?}", rule.title, rule.id, result.outcome);
+                if let Some(diagnostic) = &result.diagnostic {
+                    println!("  {diagnostic}");
+                }
+                if !result
+                    .diagnostic
+                    .as_deref()
+                    .is_some_and(|text| text.contains(rule.next_step()))
+                {
+                    println!("  {}", rule.next_step());
+                }
+            }
+        }
+    }
     if let Some(result) = report.rules.iter().find(|rule| {
         rule.rule_id.as_str() == "MCD-TEST-002"
             && (rule.verifier == opdev_core::VerificationSource::Remote
@@ -1170,6 +1196,15 @@ fn print_human_report(report: &CheckReport) {
         counts[0], counts[1], counts[2], counts[3], counts[4], counts[5]
     );
     for gate in &report.gates {
+        let meaning = match gate.gate {
+            Gate::Development => {
+                "continuing ordinary implementation (diagnosis and repair remain allowed)"
+            }
+            Gate::Integration => "merging into the main development branch",
+            Gate::Delivery => "publishing or deploying the software",
+            Gate::Compliance => "claiming the evaluated requirements are met",
+        };
+        println!("Decision: {meaning}");
         println!(
             "gate {:?}: {:?} ({} rules, {} checks blocking)",
             gate.gate,
@@ -1206,7 +1241,7 @@ const fn outcome_index(outcome: Outcome) -> usize {
 }
 
 fn load_project(start: &Path) -> Result<(PathBuf, ProjectManifest)> {
-    let discovery = discover(start).context("could not locate the Git repository")?;
+    let discovery = discover(start).context("could not locate the Git repository; run this command from the project folder, or pass --root with its path")?;
     let manifest_path = discovery.root.join(MANIFEST_PATH);
     if !manifest_path.exists() {
         bail!(

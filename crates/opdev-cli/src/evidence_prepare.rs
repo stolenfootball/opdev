@@ -54,7 +54,9 @@ fn read(path: &Path) -> Result<Vec<u8>> {
 fn ledger_bytes(root: &Path) -> Result<Vec<u8>> {
     let parent = fs::symlink_metadata(root.join(".opdev"))?;
     if !parent.is_dir() || parent.file_type().is_symlink() {
-        bail!("evidence directory must be an unlinked directory");
+        bail!(
+            ".opdev must be a real directory, not a symbolic link; choose the actual project directory with --root. Nothing written"
+        );
     }
     read(&root.join(EVIDENCE_PATH))
 }
@@ -113,13 +115,17 @@ fn candidate(root: &Path, draft: &Draft, bytes: &[u8]) -> Result<EvidenceLedger>
         || draft.fingerprint != staged_fingerprint(root)?
         || draft.work.trim().is_empty()
     {
-        bail!("stale or invalid draft; inspect changes and prepare/review again, nothing written");
+        bail!(
+            "stale or invalid draft: the staged files, evidence record, draft version, or work reference no longer match. Nothing written. Inspect what changed, prepare a new draft with --input and --work, and review it before using --write"
+        );
     }
     let mut ledger: EvidenceLedger = serde_saphyr::from_slice(bytes)?;
     let catalog = embedded_catalog()?;
     ledger.validate(&catalog)?;
     if ledger.schema != 2 {
-        bail!("schema-2 ledger required; review migration separately");
+        bail!(
+            "schema-2 ledger required: .opdev/evidence.yaml uses an older record format. Review a migration to format 2 before preparing change evidence; do not just change the schema number. Nothing written"
+        );
     }
     for condition in &draft.acceptance.conditions {
         condition.source.verify(root)?;
@@ -133,7 +139,9 @@ fn candidate(root: &Path, draft: &Draft, bytes: &[u8]) -> Result<EvidenceLedger>
         .find(|c| c.fingerprint == draft.fingerprint)
     {
         if change.work != draft.work {
-            bail!("current entry has a different work authority; reconcile explicitly");
+            bail!(
+                "current entry has a different work authority: this change is already linked to another work item. Compare that link with --work and resolve which item owns the change; nothing written"
+            );
         }
         change.acceptance = Some(draft.acceptance.clone());
     } else {
@@ -157,7 +165,7 @@ fn reviewed(draft: &Draft) -> Result<()> {
         || review.subject_sha256 != draft.acceptance.digest(&draft.fingerprint, &draft.work)?
     {
         bail!(
-            "explicit current review required; preview supplies the subject digest but approves nothing"
+            "explicit current review required: review this draft's expected results and test mappings, then record the reviewer, decision reference, rationale and current subject digest (the identifier of the reviewed contents). Previewing calculates the identifier but is not approval; nothing written"
         );
     }
     Ok(())
@@ -181,7 +189,7 @@ pub(super) fn run(args: &PrepareArgs) -> Result<()> {
     if args.draft.is_none() {
         print!("{}", serde_saphyr::to_string(&draft)?);
         eprintln!(
-            "Draft only; mappings and review are unverified. No suites ran and ledger unchanged."
+            "Draft only; mappings and review are unverified. No suites ran and ledger unchanged. This proposes links between expected results and tests; it does not verify them or approve the change."
         );
     } else if args.write {
         reviewed(&draft)?;

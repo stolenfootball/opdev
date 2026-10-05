@@ -15,6 +15,17 @@ Advice is not an integration gate or a reason to delay the requested work.
 
 ## Result meanings
 
+Explain blockers for a developer who has never used OpDev. Lead with the action
+that cannot proceed (for example merging, publishing, or claiming compliance),
+what was observed or is missing, and the smallest useful next step. Keep rule IDs
+as references, not explanations. Define jargon inline: evidence means recorded
+test results or reviewed facts; a stale fingerprint means the review describes
+different file contents. Say which file, test, command or decision matters when
+known. Do not prescribe running all tests for a missing approval or claim a
+software bug when a test tool could not run. Daily cadence is an advisory work
+target in catalog 2, not a merge blocker; explain separately if compliance is
+still unverified. Never fabricate a missing detail just to make an error actionable.
+
 For example, a completed test with a failed assertion is `failed`; an absent or
 unstarted required trial is `unverified`; a launcher that cannot start the test
 is `error`. None satisfies the requirement. A green aggregate pipeline does not

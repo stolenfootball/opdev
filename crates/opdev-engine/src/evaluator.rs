@@ -423,8 +423,9 @@ fn default_evaluation(rule: &Rule, manifest: &ProjectManifest) -> Evaluation {
             VerificationSource::Catalog,
             Vec::new(),
             Some(format!(
-                "This evaluator has no sufficient evidence for: {}",
-                rule.applicability
+                "OpDev could not confirm this requirement: {}. Missing evidence does not mean the software failed. {}",
+                rule.title,
+                rule.next_step()
             )),
         )
     }
@@ -761,6 +762,73 @@ mod tests {
         DeliveryMode, Environment, EscapedDefectRegressions, Extensions, FlakePolicy, Operations,
         Profile, Project, Quality, QualityRisk, Recovery, RecoveryStrategy, Testing,
     };
+
+    #[test]
+    fn cadence_never_blocks_work_or_merge_but_tests_still_do()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        let mut report = evaluate(
+            root.path(),
+            &manifest(),
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::local()
+            },
+        )?;
+        let catalog = embedded_catalog()?;
+        for result in &mut report.rules {
+            result.outcome = Outcome::Passed;
+        }
+        for outcome in [
+            Outcome::Failed,
+            Outcome::Unverified,
+            Outcome::Error,
+            Outcome::MigrationRequired,
+        ] {
+            report
+                .rules
+                .iter_mut()
+                .find(|r| r.rule_id.as_str() == "MCD-TRUNK-003")
+                .ok_or("cadence")?
+                .outcome = outcome;
+            let gates = aggregate_gates(&catalog, &report.rules, &[]);
+            for gate in gates {
+                assert_eq!(
+                    gate.verdict,
+                    if gate.gate == Gate::Compliance {
+                        AggregateVerdict::Blocked
+                    } else {
+                        AggregateVerdict::Passed
+                    }
+                );
+            }
+        }
+        report
+            .rules
+            .iter_mut()
+            .find(|r| r.rule_id.as_str() == "MCD-TEST-001")
+            .ok_or("tests")?
+            .outcome = Outcome::Failed;
+        let gates = aggregate_gates(&catalog, &report.rules, &[]);
+        let integration = gates
+            .iter()
+            .find(|g| g.gate == Gate::Integration)
+            .ok_or("integration")?;
+        assert_eq!(integration.verdict, AggregateVerdict::Blocked);
+        assert!(
+            integration
+                .blocking_rules
+                .iter()
+                .any(|r| r.as_str() == "MCD-TEST-001")
+        );
+        assert!(
+            !integration
+                .blocking_rules
+                .iter()
+                .any(|r| r.as_str() == "MCD-TRUNK-003")
+        );
+        Ok(())
+    }
 
     #[test]
     fn extension_process_failure_is_not_a_test_failure() {

@@ -31,6 +31,13 @@ evaluate it explicitly; plain text alone is not universal accessibility proof.
 
 ## Operational diagnostics
 
+Human check reports explain blocked actions in ordinary language, show the
+requirement name alongside its ID, distinguish missing evidence from failed
+behavior and broken tooling, and provide a concrete next step. A rule ID, an
+unexplained "gate", or an applicability phrase alone is not an explanation.
+Daily-cadence advice must not suggest that a merge is blocked when only compliance
+is unresolved. Machine outcome names remain stable for automation.
+
 OpDev is an on-demand CLI, not a hosted service. Its relevant failures are invalid
 input/configuration, blocked requirements, failed checks, missing tools and
 failed or interrupted report persistence. It must expose:
