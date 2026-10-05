@@ -6,6 +6,12 @@ adoption sequencing, replanning, and questions such as "what is the next step?"
 The activation/consent gate still applies. A planning question authorizes an
 answer, not implementation, tracker writes, installation, or publication.
 
+Before saving a plan, apply the [document placement check](project-contract.md#before-writing-a-document).
+Implementation sequencing and task acceptance belong to the declared work
+authority; durable design belongs to its own authority. Split mixed content and
+reuse existing records. If saving the work portion is unavailable or unauthorized,
+keep it in the answer rather than embedding a substitute backlog in the design.
+
 ## Start from the requested objective
 
 Honor explicit user scope, technology choices, ordering, deliverables, and output

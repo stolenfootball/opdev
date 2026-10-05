@@ -31,6 +31,68 @@ If work is tracked in repository files, explicitly route that existing authority
 rather than imposing a second tracker. Durable specifications describe behavior
 and rationale, not a second copy of the live backlog.
 
+## Prospective placement check
+
+Before creating or substantially expanding a document, agents MUST classify its
+intended purpose: durable knowledge, work tracking, temporary investigation, or
+mixed. Resolve the owner from the contract, inspect adequate existing material
+and apply existing task write authorization. Durable behavior/rationale and
+reusable operational instructions go to their documentation/design authority;
+milestones, task-specific acceptance, sequencing, progress and open implementation
+questions go to `authorities.work`. Split mixed content and cross-link without
+duplicating live tracking. Temporary notes need no mandatory project document.
+Future implementation order remains work tracking when summarized as a product
+rollout or architectural phases; link to it without repeating the sequence.
+Permanent operator steps and enduring behavior/interface constraints, including
+proposed capabilities, are durable knowledge.
+
+Normal review MUST compare actual changed document claims with their source
+requirements and related work record or unsaved proposal. If only implementation
+priority/status changed, a passage that would need updating belongs in work
+tracking, not durable design. Supported interfaces, explicit design exclusions
+and reusable operator sequences remain durable when justified by the source.
+Review MUST NOT invent exclusions, promote provisional work into commitments or
+discard behavior merely to remove sequencing. For mixed content, retain the
+behavior, route the work claims to their owner and check the resulting links.
+Record concrete corrections or source-backed distinctions in existing review
+context, not a new ledger or document. Placement success and author assurances
+do not establish this semantic judgment. No second agent or routine additional
+developer approval is required.
+
+If work access or permission is unavailable, keep the proposal in conversation
+and report that it was not saved. Never invent issue references or quietly make
+a repository backlog. Explicit repository-file trackers remain valid. This is
+prospective: it does not authorize migration or cleanup of existing documents.
+Do not require another approval round for already-authorized writes; ask only
+about a material unresolved choice. Ordered operator phases and enduring
+requirements remain legitimate documentation, regardless of their vocabulary.
+
+`opdev documentation plan --purpose durable --authority architecture --target
+spec/documentation-layout.md` resolves caller-classified ownership without writes,
+project-command execution or provider requests. Purposes are `durable`, `work`,
+`temporary` and `mixed`. Durable/mixed require a declared durable owner; work
+always uses `authorities.work`; mixed returns separate routes rather than accepting
+one combined target. Omit `--target` to inspect declared routes. Inspect concrete
+destinations separately, reusing unchanged observations rather than rerunning for
+every paragraph. CLI capability absence must be disclosed, not silently called a
+validated result; no installation is automatic.
+
+Path checks use component boundaries and inspect existing parents. Traversal,
+conflicting files, links, inaccessible paths and missing authority roots leave
+routing unresolved; no placeholder is created. External authority identifiers
+are preserved without contacting providers. Only an exact identifier matches
+mechanically; membership of an external child item needs authorized inspection,
+not a URL-prefix guess. A declared route does not establish access or permission.
+
+JSON output has `schema: 1`, caller-supplied `purpose`, `routes` (authority,
+declared reference, optional target, resolved flag and next step), aggregate
+`resolved`, `next_step` and `limits`. Human and JSON exits are 0 for resolved
+routing, 1 for unresolved routing and 2 for malformed input/tooling. These are
+inspection results, not rule outcomes or qualification. Reports contain declared
+locations; review private paths/identifiers before sharing. Semantic classification,
+content adequacy and write permission remain review responsibilities. No keyword
+CI gate, document registry or mandatory reviewer is introduced.
+
 These defaults MUST NOT override existing authority locations. Existing
 project-owned files, directories, and symlinks MUST NOT be overwritten, moved,
 or repurposed automatically to match a default. An explicitly configured

@@ -57,6 +57,92 @@ or meaning materially affects that choice. Existing task authorization applies.
 Record selected locations in `authorities` and relevant `context` routes.
 Folder names alone do not establish their contents as authoritative.
 
+### Before writing a document
+
+For a new document or a substantial expansion, classify the intended content
+before choosing a destination. This is a brief reasoning check, not a new file,
+approval ceremony or required reviewer:
+
+- Durable behavior, design rationale, requirements and reusable operator guidance:
+  use the relevant declared documentation/design authority.
+- Milestones, task-specific acceptance, implementation sequence, open work
+  questions and progress: use `authorities.work`, including an explicitly routed
+  repository file. A folder named `spec` does not make a roadmap a specification.
+- Temporary investigation: use proportionate conversation/disposable context;
+  retain only useful durable conclusions or work decisions at their owners.
+- Mixed: split the durable and work portions, reuse existing material at each
+  owner and cross-link. Do not copy live status into the durable document.
+
+For mixed material, route individual claims, not just document titles. Future
+implementation order remains work tracking even when framed as rollout or
+architectural phases. Use the [content review](#review-document-content) on the
+actual changes before handoff, not merely the intended split.
+
+Inspect existing content before adding another document or work item. Check task
+authorization separately from placement: an implementation request may already
+authorize the necessary writes, while advice alone does not. Ask only about a
+material unresolved choice. If tracker access or write permission is unavailable,
+keep that proposal in the conversation and explain what was not saved. Never
+invent tracker identifiers or create a local fallback backlog. Do not move or
+clean up existing documents without that change being in scope.
+
+On a CLI with `documentation plan`, mechanically check the chosen routing before
+the first new/substantially expanded document write; reuse that observation while
+the authority, destination and intended purpose remain unchanged. For example:
+
+```text
+opdev documentation plan --purpose mixed --authority architecture
+opdev documentation plan --purpose durable --authority architecture --target knowledge/system.md
+opdev documentation plan --purpose work
+```
+
+Use the actual declared authority name/path, not these example locations. Mixed
+content returns two routes; check concrete destinations separately when needed.
+The command is read-only and does not contact external providers, classify prose,
+grant permission or satisfy a gate. External item membership needs provider
+inspection, not URL-prefix inference. Exit 1 means unresolved routing, not a
+failed product test; exit 2 means invalid input/tooling. If this capability is
+unavailable, say so and offer a compatible upgrade; retain the semantic check
+without claiming deterministic validation or updating installations automatically.
+
+Ordered operator instructions, migration phases, examples and enduring acceptance
+requirements can be permanent documentation. Classify their purpose and lifetime,
+not words such as "plan", "phase" or "next". Do not add a keyword CI blocker,
+per-document registry, or extra agent merely to perform this check.
+
+### Review document content
+
+During normal review of new or substantially expanded documentation, compare the
+actual changed passages with their source requirements and the related work
+record (or unsaved work proposal). Do not take the author's summary, destination
+name or successful routing command as evidence that the content is correctly
+placed. Limit this review to the affected material; it is not a repository audit.
+
+For a potentially mixed passage, ask: if implementation priority or task status
+changed without changing the accepted product design, would this passage need
+updating? If so, it describes work and belongs at the work authority. This also
+applies to a roadmap disguised as "initial scope" or an architectural rollout.
+By contrast, supported interfaces, explicit design exclusions, enduring behavioral
+requirements and the order an operator must follow remain durable. Check the
+source for that distinction; do not invent a scope restriction just to remove
+sequencing, promote a provisional feature into a commitment, or delete useful
+design constraints. Ambiguous requirements stay unresolved rather than becoming
+an assumed policy change.
+
+When a passage mixes both purposes, preserve its behavioral claim, put only the
+implementation order/status/task acceptance at the work owner, and link instead
+of repeating it. Preserve existing work items. If work writes are unavailable or
+unauthorized, keep the pending portion in the response. Repair only within the
+task's write authority, then reread the affected passages and their links.
+
+In the existing review or handoff, identify a concrete corrected passage and its
+destination, or explain a potentially ambiguous passage that was retained and
+the source-backed reason. A blanket "placement checked" is insufficient for
+mixed material. If no ambiguity exists, ordinary concise review evidence suffices.
+Do not create a per-paragraph ledger, separate report, mandatory second agent or
+new developer approval round. This is a semantic review responsibility, not an
+automated guarantee or another CLI gate.
+
 `opdev init --dry-run` preserves an existing contract and writes no files.
 Uninitialized discovery reports ambiguous candidates without choosing between
 them; review its proposals before treating them as authorities. Initialization

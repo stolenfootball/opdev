@@ -2,9 +2,44 @@
 
 Use the packaged OpDev skill and its planning reference with each scenario.
 Give an evaluator only the prompt and facts first; review its answer against the
-criteria afterward. Keep runs answer-only, with no external actions. Record the
+criteria afterward. Keep runs answer-only unless a scenario explicitly permits
+disposable fixture edits; never authorize external actions. Record the
 model/runtime, actual answer and reviewer findings when running a model trial.
 These scenarios are not a claim that such a trial has already passed.
+
+## Document placement and normal-review scenarios
+
+Use the candidate project-contract and workflow references with a minimal valid
+initialized contract declaring the authorities in each case. Create the supplied
+files in a disposable repository and freeze their bytes, guidance, runtime,
+request, execution bound and review criteria before inference. Give the agent
+only the request/facts, not the expected column or earlier reviewer conclusions.
+Edits below are local documentation only; no network, credentials, installations,
+product implementation, tracker-provider writes or release operations. Read-only
+placement checks may use a frozen candidate CLI. Do not update installed plugins.
+
+Review actual files, links, command effects and final claims, not phrase counts
+or the agent's assertion that separation succeeded. Preserve originals and all
+attempts separately. Repeated successful samples are not a reliability guarantee;
+review-only repair is not proof that fresh writing avoids the defect. A harness
+supplying shared references is not native plugin-activation validation. Keep
+host/model coverage and unavailable access explicit.
+
+| ID | Request and fixture facts | Review criteria |
+| --- | --- | --- |
+| D1 | Write up a queue/worker export redesign: preserve order; deliver text before optional CSV. Architecture is `handbook/system.md`; work is an unavailable external tracker. Only architecture edits are authorized. | Retain queue/order behavior in architecture; keep future implementation sequence in the response with its unsaved status. No replacement repository backlog or invented issue references. |
+| D2 | Same mixed redesign; architecture is `blueprints/system.md` and work is explicitly `tracking/work.md`. Both may be edited. Existing work says preserve archive compatibility. | Preserve existing work, split durable behavior from sequence/task acceptance, resolve cross-links and preserve the source brief. Do not reject a repository tracker. |
+| D3 | In a fresh context, review D2's proposed documents against their source brief. The author says placement is correct, but architecture says "first supported output is text; CSV may be added later" and work repeats that order. Both declared files may be corrected. | Identify and remove duplicated implementation order from architecture, retain durable behavior and provisional CSV at work, and explain the concrete correction. Do not manufacture a permanent CSV exclusion or unconditional commitment. Do not trust the author's claim or a successful routing check. |
+| D4 | Review a permanent migration guide requiring preflight, private tested backup, staged format conversion, verification and restoration if verification fails. Only the guide may be edited. | Keep legitimate ordered operator phases and recovery/private-backup requirements. No extraction to a backlog, keyword objection or gratuitous rewrite. Explain why operational ordering is durable. |
+| D5 | Review design against explicit accepted requirements: UTF-8 text only; binary serialization deliberately excluded; authenticate and authorize before accepting every job. Implementation sequence lives in the work file. Only declared design/work files may be edited. | Preserve supported-interface restrictions, permanent exclusions and per-request execution order. Do not confuse them with implementation priority. Support the distinction from the actual source; no unnecessary edits. |
+| D6 | Design and requirements use custom `knowledge/` paths. Document ordered, immutable UTF-8 archives in the existing architecture. Requirements are read-only. | Reuse custom authority, preserve requirements and compatibility. No conventional `docs/` or `.opdev/design.md` substitute. |
+| D7 | Immutable export IDs, creation/lookup together, pagination later; only `knowledge/architecture.md` may be edited. Declared `tracking/work.md` is absent and writes there are denied. | Only architecture changes; retain enduring identity/compatibility, sequence in response. No tracker creation or hidden work plan in architecture. |
+| D8 | Fresh-context advice only: existing work selects text export with ordering, UTF-8 and immutable-byte acceptance; CSV is provisional after feedback. Ask for next useful step. | Reuse existing outcome/acceptance without edits, duplicate tracking or claims that planning is implemented or verified. |
+
+Automated routing and copied-resource tests establish different facts from these
+semantic trials. Run both for affected behavior; neither substitutes for required
+source-bound acceptance or integration checks. Retain trial findings at the work
+authority rather than embedding active implementation status in this fixture.
 
 ## Shared review criteria
 

@@ -29,6 +29,11 @@ Use one trunk (the branch where changes come together). Keep changes small and b
 
 Run relevant local and pre-merge suites. Preserve supported delivered behavior, or record and test an intentional migration. Agent-authored work meets exactly the same standards as human-authored work.
 
+For new or substantially expanded documentation, include the
+[focused content-placement review](project-contract.md#review-document-content)
+in normal review. Compare actual changed claims with requirements and work
+tracking; a successful path check does not establish semantic separation.
+
 Integration need not enable unfinished behavior. For experiments, apply
 [the experiment lifecycle](experiments.md): explicit isolation and stable defaults,
 bounded configuration tests, accountable review, and promotion or cleanup. No

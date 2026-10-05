@@ -26,6 +26,7 @@ use serde::Deserialize;
 mod adoption;
 mod ci_run;
 mod doctor;
+mod documentation;
 mod evidence_prepare;
 mod inspection;
 mod test_execution;
@@ -57,6 +58,8 @@ enum Command {
     TestExecution(test_execution::TestExecutionArgs),
     /// Explain missing, contradictory, or unverified capabilities.
     Doctor(doctor::DoctorArgs),
+    /// Resolve document ownership without writing files or approving changes.
+    Documentation(documentation::DocumentationArgs),
     /// Generate or inspect a first-class CI configuration.
     Ci(CiArgs),
     /// Preview an upgrade, or apply an explicitly reviewed guidance plan.
@@ -448,6 +451,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
             ReportCommand::Summarize { path } => views::summarize_file(&path),
         },
         Command::Doctor(args) => doctor::run(&args),
+        Command::Documentation(args) => documentation::run(&args),
         Command::Ci(args) => ci_command(&args),
         Command::Upgrade(args) => upgrade::run(&args),
     }
