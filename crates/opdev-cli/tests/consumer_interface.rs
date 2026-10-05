@@ -47,6 +47,9 @@ fn help_and_errors_are_textual_without_interactive_input() -> Result<(), Box<dyn
         vec!["upgrade", "--help"],
         vec!["doctor", "--help"],
         vec!["documentation", "plan", "--help"],
+        vec!["workflow", "inspect", "--help"],
+        vec!["workflow", "append", "--help"],
+        vec!["workflow", "subject", "--help"],
     ] {
         let output = cli(root.path(), &args)?;
         assert!(output.status.success());

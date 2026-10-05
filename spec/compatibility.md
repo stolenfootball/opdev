@@ -155,6 +155,15 @@ OpDev release MUST NOT silently change an existing project's selected profile
 version. Profile upgrades are explicit and report newly applicable or changed
 requirements before modifying the project contract.
 
+## Workflow references
+
+Workflow journal/subject schema 1 and the `workflow.references.v1` capability are
+additive. Their inspection exit is not a core gate verdict; JSON always says
+qualification is unverified. Unknown event fields or journal/subject versions
+are rejected without rewrites. Existing work authorities, evidence ledgers,
+reports, adoption decisions and runtime pins retain their original semantics.
+No installed consumer is automatically migrated to a reference journal.
+
 ## Provider APIs
 
 GitHub and GitLab adapters isolate provider API versions from the core domain

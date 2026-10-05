@@ -223,6 +223,7 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "doctor.v1",
                 "documentation.plan.v1",
                 "execution.same-run.v1",
+                "workflow.references.v1",
                 "upgrade.preview",
                 "evidence.acceptance-digest",
                 "evidence.prepare",

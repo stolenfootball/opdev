@@ -45,6 +45,9 @@ execution receipts and optional read-only JUnit inspection, separate from gates.
 See [same-run execution reuse](execution-reuse.md) for opt-in authenticated
 producer records, evaluation without rerunning checks, and conservative fallback.
 
+See [resumable workflow references](workflow-records.md) for typed observations,
+explicit history-preserving writes and read-only continuation without qualification.
+
 See [execution preview](check-plan.md) to inspect the commands a check selects
 without running them or qualifying a gate.
 

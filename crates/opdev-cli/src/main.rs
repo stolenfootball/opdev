@@ -34,6 +34,8 @@ mod test_execution;
 mod test_report;
 mod upgrade;
 mod views;
+mod workflow;
+mod workflow_records;
 
 #[derive(Debug, Parser)]
 #[command(name = "opdev", version, about = "Evidence-driven software delivery")]
@@ -61,6 +63,8 @@ enum Command {
     Doctor(doctor::DoctorArgs),
     /// Resolve document ownership without writing files or approving changes.
     Documentation(documentation::DocumentationArgs),
+    /// Inspect resumable references or explicitly append an attributed workflow event.
+    Workflow(workflow::WorkflowArgs),
     /// Generate or inspect a first-class CI configuration.
     Ci(CiArgs),
     /// Preview an upgrade, or apply an explicitly reviewed guidance plan.
@@ -464,6 +468,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         },
         Command::Doctor(args) => doctor::run(&args),
         Command::Documentation(args) => documentation::run(&args),
+        Command::Workflow(args) => workflow::run(&args),
         Command::Ci(args) => ci_command(&args),
         Command::Upgrade(args) => upgrade::run(&args),
     }
