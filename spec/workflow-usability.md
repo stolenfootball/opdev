@@ -49,6 +49,16 @@ aggregation, consent and exact-source qualification remain authoritative.
   artifact identity, configuration and applicable freshness; new bytes are not
   qualified by old observations.
 
+- UX-08: A controlled environment-specific diagnostic MAY obtain bounded feedback
+  before integration or packaging, using existing authorized CI/provider tooling.
+  Record purpose, environment, scope/time bound, side effects, observations and
+  promotion decision in existing work context. Review untrusted source, inherited
+  secrets/runner permissions and artifact visibility. Prefer observation; verify
+  ownership before cleanup of isolated resources and verify removal afterward.
+  Diagnostic success MUST NOT qualify unrelated integration or delivery gates.
+  Failed attempts remain visible. No automatic remote execution, runner changes,
+  new registry or blanket approval round is implied.
+
 ## Verification and effectiveness
 
 Regression fixtures exercise source/stage diagnostics, equivalent CI layouts,

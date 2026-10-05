@@ -24,6 +24,55 @@ def events(usage=None, extra=None):
 
 
 class Accounting(unittest.TestCase):
+    def feedback_fixture(self, root):
+        protocol = {'schema': 1, 'identities': {'fixture': 'neutral-test', 'host': 'synthetic'},
+                    'criteria': {'feedback_ratio_max': 0.85, 'completion_ratio_max': 1.05},
+                    'schedule': [{'case': 'small-fix', 'context': 'fresh', 'arm': arm, 'repeat': 0}
+                                 for arm in ('baseline', 'candidate')]}
+        path = root / 'feedback-protocol.json'
+        path.write_text(json.dumps(protocol))
+        observation = root / 'events.jsonl'
+        observation.write_text('synthetic observations, not a live trial')
+        rows = [dict(item, protocol_sha256=reporter.digest(path), outcome='passed',
+                     oracles={'behavior': True, 'test_preservation': True, 'gate_honesty': True},
+                     observation_file=observation.name, observation_sha256=reporter.digest(observation),
+                     metrics={'first_feedback_seconds': 10 if item['arm'] == 'baseline' else 8,
+                              'completion_seconds': 20}) for item in protocol['schedule']]
+        return rows
+
+    def test_feedback_missing_measurements_are_unknown_and_failures_prevent_win(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rows = self.feedback_fixture(root)
+            path = root / 'feedback-records.jsonl'
+            def report():
+                path.write_text('\n'.join(json.dumps(r) for r in rows))
+                return reporter.feedback_report(root)
+            self.assertTrue(report()['measured_improvement'])
+            self.assertIsNone(report()['arms']['candidate']['metrics']['queue_seconds']['median'])
+            rows[1]['metrics']['first_feedback_seconds'] = None
+            self.assertFalse(report()['measured_improvement'])
+            rows[1]['metrics']['first_feedback_seconds'] = 8
+            rows[1]['oracles']['gate_honesty'] = False
+            self.assertFalse(report()['acceptance_equivalent'])
+            self.assertIsNone(report()['ratios']['completion_seconds'])
+            rows[1]['outcome'] = 'failed'
+            self.assertEqual(report()['arms']['candidate']['attempts'], 1)
+            self.assertEqual(report()['arms']['candidate']['accepted'], 0)
+
+    def test_feedback_protocol_observation_and_order_are_bound(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rows = self.feedback_fixture(root)
+            path = root / 'feedback-records.jsonl'
+            path.write_text('\n'.join(json.dumps(r) for r in reversed(rows)))
+            with self.assertRaises(ValueError):
+                reporter.feedback_report(root)
+            path.write_text('\n'.join(json.dumps(r) for r in rows))
+            (root / 'events.jsonl').write_text('changed')
+            with self.assertRaises(ValueError):
+                reporter.feedback_report(root)
+
     def test_counts_terminal_usage_once_with_tools(self):
         got = sessions.parse_session(events())
         self.assertEqual(got['usage']['total_tokens'], 110)

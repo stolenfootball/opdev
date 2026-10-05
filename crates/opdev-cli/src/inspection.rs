@@ -2,6 +2,7 @@
 use anyhow::{Context, Result};
 use opdev_core::Outcome;
 use serde_json::Value;
+use sha2::{Digest, Sha256};
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -24,6 +25,8 @@ pub(super) trait Inventory {
 }
 
 pub(super) fn inspect_plugin(plan: &mut impl Inventory, directory: Option<&Path>) -> Result<()> {
+    plan.finding("session_guidance", Outcome::Unverified,
+        "Session-loaded instructions are unknown: disk/package inspection cannot prove host context. After a package change, use the host's reload or a fresh session and inspect host evidence; no restart is needed merely to inspect.");
     let Some(directory) = directory else {
         plan.finding("plugin", Outcome::Unverified, "No --plugin-root supplied; plugin version, runtime pin and compatibility not inspected. Standalone CLI use is supported.");
         return Ok(());
@@ -39,6 +42,14 @@ pub(super) fn inspect_plugin(plan: &mut impl Inventory, directory: Option<&Path>
         .context("plugin compatibility contract is missing")?;
     let contract: crate::PluginCompatibility =
         serde_json::from_str(&source).context("invalid plugin compatibility contract")?;
+    let skill = plan.read(
+        "plugin:skills/opdev/SKILL.md",
+        &directory.join("skills/opdev/SKILL.md"),
+    )?;
+    plan.finding("package_identity", Outcome::Unverified, format!(
+        "Selected package {} at {}; skill SHA-256 {}. This is inspected disk content, not proof of installation or session activation.",
+        contract.plugin.version, directory.display(), skill.as_ref().map_or_else(|| "unavailable".into(), |s| format!("{:x}", Sha256::digest(s.as_bytes())))
+    ));
     let cli = semver::Version::parse(plan.version())?;
     let compatible = contract.schema == 1
         && contract.plugin.name == "opdev"
@@ -57,6 +68,9 @@ pub(super) fn inspect_plugin(plan: &mut impl Inventory, directory: Option<&Path>
         && let Ok(version) = semver::Version::parse(pin)
     {
         plan.finding("runtime_pin", if contract.requires.cli.matches(&version) { Outcome::Unverified } else { Outcome::Failed }, format!("Packaged pin {pin}; selected CLI {cli}. A different compatible pin is allowed. Use read-only runtime lookup to verify installation/selection; this command never executes package scripts."));
+        plan.finding("runtime_alignment", if version == cli { Outcome::Passed } else { Outcome::Unverified },
+            if version == cli { "Selected CLI version equals the package pin; equal versions do not prove identical bytes, capabilities or active guidance." }
+            else { "Selected CLI version differs from the package pin. Compatibility is reported separately; a compatible difference need not be repaired. For a specific upgrade, select the intended executable and preview again." });
         return Ok(());
     }
     plan.finding(
@@ -134,6 +148,26 @@ pub(super) fn inspect_ci(plan: &mut impl Inventory) -> Result<()> {
         }
     }
     plan.finding("ci_qualification", Outcome::Unverified, "CI is never rewritten by upgrade. Explicit local GitLab includes are interpreted; unsupported dynamic/external configuration remains unresolved. Matching version declarations alone do not qualify CI.");
+    Ok(())
+}
+
+pub(super) fn inspect_guidance(plan: &mut impl Inventory) -> Result<()> {
+    for relative in ["AGENTS.md", "CLAUDE.md"] {
+        plan.read(relative, &plan.root().join(relative))?;
+    }
+    for item in opdev_project::preview_agent_files(plan.root())? {
+        let relative = item
+            .file
+            .path
+            .strip_prefix(plan.root())?
+            .to_string_lossy()
+            .into_owned();
+        let matches = item.file.change == opdev_project::FileChange::Unchanged;
+        plan.source_finding("project_guidance", &relative, if matches { Outcome::Passed } else { Outcome::MigrationRequired },
+            format!("{relative}: {} the running CLI's embedded guidance. This target is not inferred from package SemVer or session state. {}",
+                if matches { "matches" } else { "differs from" },
+                if matches { "No managed edit indicated." } else { "Review upgrade --dry-run with the intended executable before applying; custom content is preserved." }));
+    }
     Ok(())
 }
 

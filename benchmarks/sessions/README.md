@@ -1,5 +1,47 @@
 # Complete coding-session experiment
 
+## Workflow feedback follow-up (separate protocol)
+
+Issue #60 evaluates workflow changes independently of the historical compact-view
+experiment below. Use the existing neutral parcel fixture, session accounting and
+independent behavior oracle; do not change historical results or experimental
+defaults. The existing grader freezes whole original test bodies (#28), so new
+trials must keep those bodies unchanged and add regression tests separately.
+It is intentionally stricter than semantic equivalence; retain that limitation.
+
+Before candidate trials, freeze `feedback-protocol.json` in private experiment
+storage: schema 1, `identities` (baseline/candidate source, CLI/plugin/guidance
+digests, fixture, host/model/effort), `schedule` (case, fresh/resumed context, arm,
+repeat), budgets and criteria. Use small fix, CI-only diagnosis, stale evidence
+and partial-upgrade cases; contrast genuine native platform risk. Preselect a
+maximum feedback-time ratio of 0.85 and completion-time ratio of 1.05, conditional
+on all independent behavior, test-preservation and gate-honesty oracles passing.
+Run/inspect baseline before candidate; failed or incomplete trials stay recorded.
+Do not rerun failures away or pool a pilot into a measured experiment.
+
+Append observations to `feedback-records.jsonl`: schedule identity, exact protocol
+SHA-256, outcome, `oracles` (`behavior`, `test_preservation`, `gate_honesty`, each
+true/false/null), local `observation_file` basename and digest, and `metrics`.
+Metrics are `first_feedback_seconds`, `completion_seconds`, `agent_seconds`,
+`command_seconds`, `queue_seconds`, `commands`, `pipelines`, `evidence_edits` and
+`failed_attempts`. Measure only observable intervals/counts; unavailable values
+are null. Queue, execution and agent intervals can overlap and are not additive.
+Retain raw session events privately; counts from command text are proxies, not
+automatically observed provider jobs. Actual provider observations supply pipeline
+and queue measurements. Review transcripts and changed files independently of
+agent claims. A false pass, weakened test or wrong artifact fails acceptance.
+
+`python scripts/opdev_sessions_report.py PRIVATE_DIRECTORY --feedback` validates
+schedule/protocol/observation bindings and prints aggregate observations. Missing
+comparison metrics, unbalanced/incomplete trials or an oracle failure prevent a
+speedup claim. The exporter does not authenticate reviewer assertions. No new
+agent framework or mandatory project telemetry is introduced. Live Claude remains
+deferred while unavailable; Codex-only findings cannot qualify Claude or general
+software-development effectiveness. Fresh answer-only planning probes establish
+reasoning in those scenarios, not complete coding-session speed.
+
+## Historical compact-view experiment
+
 This opt-in experiment compares the existing OpDev report/evidence workflow with
 compact report and current-evidence guidance. It runs agents against three
 small but executable Python changes, five independent repetitions per arm.

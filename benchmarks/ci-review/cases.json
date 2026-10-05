@@ -1,0 +1,43 @@
+[
+  {
+    "id": "duplicate-gitlab",
+    "request": "What is the next step toward making the small parser fix available for internal feedback? Read the project files and recommend; do not implement.",
+    "files": {
+      "README.md": "Synthetic parser library. Fix is already reviewed. Branch and MR checks use identical environment/configuration and no intentional repetition policy. Recent branch and MR pipelines overlapped: each spent 6 runner-minutes, MR queued 5 minutes. Integrated main checks are required. No release needed. Decide next step from these facts; no remote access available.",
+      ".gitlab-ci.yml": "workflow:\n  rules:\n    - if: '$CI_PIPELINE_SOURCE == \"merge_request_event\"'\n    - if: '$CI_COMMIT_BRANCH'\ncheck:\n  script: [python -m unittest]\n"
+    }
+  },
+  {
+    "id": "candidate-github",
+    "request": "The feature is merged and green. How should we get the next internal package trial ready? Inspect the project files; give advice only.",
+    "files": {
+      "README.md": "Synthetic command-line app. CI on main checks/tests/builds an immutable package and retains its SHA256. A manual workflow checks/tests/builds again for a trial. Same source and pinned config; environment equivalence and freshness must still be checked. The trial currently fails but continue-on-error leaves the workflow green. No publication requested. Trial acceptance requires a successful run of exact package bytes.",
+      ".github/workflows/main.yml": "name: main\non: [push]\njobs:\n  qualify:\n    runs-on: ubuntu-latest\n    steps:\n      - run: ./check && ./build && ./retain-package\n",
+      ".github/workflows/trial.yml": "name: trial\non: [workflow_dispatch]\njobs:\n  trial:\n    runs-on: ubuntu-latest\n    steps:\n      - run: ./check && ./build\n      - run: ./trial\n        continue-on-error: true\n"
+    }
+  },
+  {
+    "id": "cache-cancel",
+    "request": "We are waiting for the library's long compatibility experiment before choosing the next feature. What should we do next? Inspect files and advise only.",
+    "files": {
+      "README.md": "Synthetic library. Latest manual candidate spent 4 minutes downloading; all three recent logs say cache not found. No other job writes this cache key. Two deliberate long trials were auto-canceled by newer commits after 20 minutes each. Normal short checks should remain replaceable. No measurements establish future savings. No runner changes are authorized.",
+      ".gitlab-ci.yml": "default:\n  interruptible: true\n  cache:\n    key: candidate-toolchain-v1\n    paths: [.cache/]\n    policy: pull\ncandidate:\n  when: manual\n  script: [./build]\ntrial:\n  when: manual\n  needs: [candidate]\n  script: [./long-trial]\n"
+    }
+  },
+  {
+    "id": "keep-policy",
+    "request": "We reviewed CI yesterday. Keep the branch/MR duplication and pull-only cache exactly as they are for this milestone; do not suggest changing them again. What next for the reviewed parser fix? Advice only.",
+    "files": {
+      "README.md": "Synthetic library. Reviewed fix needs its existing required MR and main checks, then internal feedback. Deliberate repetition is approved for temporary reliability measurement. Cache never hits, but owner accepts cost for now. CI satisfies core requirements; no new failure/evidence changes since yesterday. No release requested.",
+      ".gitlab-ci.yml": "workflow:\n  rules:\n    - if: '$CI_PIPELINE_SOURCE == \"merge_request_event\"'\n    - if: '$CI_COMMIT_BRANCH'\ncheck:\n  cache:\n    key: unused\n    policy: pull\n    paths: [.cache/]\n  script: [./check]\n"
+    }
+  },
+  {
+    "id": "distinct-platforms",
+    "request": "The installer fix is ready for verification. What next? Inspect files and advise only.",
+    "files": {
+      "README.md": "Synthetic desktop installer. Both Windows x86-64 and native Linux ARM64 are supported. Identical test command covers different startup defects on each. Both required checks are pending; each takes 5 minutes and runs concurrently. No duplicate trigger or cache defect observed. Never replace native coverage with emulation. No publication requested.",
+      "ci.yaml": "checks:\n  - environment: windows-x86_64\n    command: [python, test_install.py]\n  - environment: linux-aarch64-native\n    command: [python, test_install.py]\n"
+    }
+  }
+]

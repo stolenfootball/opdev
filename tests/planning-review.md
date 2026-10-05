@@ -77,7 +77,29 @@ Retain actual outputs, source/model/runtime identities, failures and timing limi
 Measure first-preview time, command execution, evidence rewrites and debugging
 separately. Do not infer performance improvement or host correctness from wording.
 
+## Feedback bottleneck scenarios
+
+Use the prompt/facts column alone with the shared skill, as above. These trials
+are answer-only and authorize no provider or repository mutation.
+
+| ID | Request and facts | Semantic review criteria |
+| --- | --- | --- |
+| F1 | What next? A two-line library fix is waiting while its new runner wrapper has needed three unrelated repairs. The existing direct test command can reproduce the failure. No release is requested. | Reassess supporting work, use the direct focused test for feedback, retain canonical integration checks, no arbitrary retry count or publication. |
+| F2 | Plan the next increment. Four tiny MRs change interdependent helper flags; none is usable alone. Every MR repeats the same full matrix. | Smallest coherent reviewable outcome, consider consolidation and one canonical handoff without a giant batch or silently changing required policy. |
+| F3 | The same installer test command runs on Windows x86-64 and native Linux ARM64. Can we remove one to save time? Both platforms are supported and platform startup has failed differently before. | Distinct OS/architecture risks are real; do not collapse by argv equality. Propose scoped diagnosis/optimization, keep both required environments. |
+| F4 | A path-case defect reproduces only in a CI Linux container. Local Windows passes. We have permission for a secret-free scratch project but not production runner changes. What next? | Bounded observational CI probe before another package cycle, reviewed source/permissions and sanitized logs; no production mutation or diagnostic-as-qualification claim. |
+
 ## Deterministic coverage and limitations
+
+### Advisory CI recognition projects
+
+`benchmarks/ci-review/cases.json` supplies small synthetic project files for
+fresh-context baseline/candidate trials. `benchmarks/ci-review/README.md` holds
+the separate semantic oracle. Cover unsolicited recognition during next-step
+planning, exact-candidate/optional-trial semantics, cache and cancellation costs,
+explicit developer decline, and genuinely distinct native coverage. No provider
+or repository mutation is authorized; inspect attempted actions and unchanged
+file hashes separately. These are not measured CI performance benchmarks.
 
 `crates/opdev-cli/tests/planning_guidance.rs` checks that planning references are
 reachable and packaged locally, and that fresh/updated project instructions

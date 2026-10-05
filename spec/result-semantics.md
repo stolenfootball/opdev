@@ -97,6 +97,27 @@ needed to restore the pipeline remain permitted.
 
 ## Freshness and identity
 
+### Daily integration target (catalog 2)
+
+Daily integration remains the MinimumCD compliance requirement MCD-TRUNK-003,
+but it no longer participates in development or integration decisions. A missed
+or unverified day prompts a review of the blocker and the next small tested
+change, not a retrospective merge prohibition or an approval exception.
+Its actual result remains visible and still blocks a compliance claim when
+unsatisfied. OpDev's operational gates therefore do not enforce every MinimumCD
+practice: a successful merge gate is not proof of MinimumCD compliance.
+
+Keep one integration branch, small changes and short-lived branches. Do not use
+MCD-TRUNK-002 as a substitute one-day timer; assess branch origin, scope, drift,
+reintegration and cleanup. All other applicable checks retain their blocking
+behavior. This change neither executes a merge nor authorizes delivery.
+
+This corrects a deadlock where historical delay prevented the integration needed
+to recover. A generic override mechanism was rejected because it would introduce
+approval and exception machinery without improving test confidence. Revisit the
+policy if observed branch drift or conflicts increase; do not infer improvement
+merely from fewer blocked reports.
+
 The CLI's default exit follows development; `check --ci` follows integration.
 `check --ci --delivery` executes the delivery stage and follows the delivery gate;
 it cannot be combined with `--no-exec`. Inspect all reported gates before making

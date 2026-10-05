@@ -111,6 +111,11 @@ or treat doctor as adoption consent, completed tests or gate evidence.
 8. Use `opdev check` for local evidence. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Use full human/JSON output by default. Follow [results.md](references/results.md) for retained reports; compact views require explicit experimental opt-in from the user or project, never just a capable runtime. Report blocked or unavailable evidence honestly.
 9. Reconcile implementation, tests, declared authorities, delivery behavior, and tracked work before completion.
 
+When CI design/changes or observed repeated waits make verification cost relevant,
+use the planning reference's CI feedback-path review proactively. Recommend
+evidence-backed options; do not optimize CI automatically. Developers may keep
+their existing compliant setup, including deliberate extra checks.
+
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
 
 For a requested requirements-to-implementation consistency review (for example,
@@ -137,6 +142,6 @@ record opt-in, ownership, review, tests, and cleanup at the existing work author
 
 ## Preserve the core
 
-MinimumCD requirements are mandatory for every initialized project. Extensions may add or strengthen checks but cannot disable a core rule, change its applicability, replace its result, or suppress required evidence.
+MinimumCD delivery and testing requirements remain mandatory. Daily integration is a monitored target, not an operational merge deadline in catalog 2: explain delays and replan without inventing a recovery exception. Missed or unverified cadence remains visible and prevents a compliance claim. Keep one trunk and short-lived branches; do not reintroduce a one-day timer under another rule. An older CLI may still block cadence; report its actual result and offer a compatible upgrade rather than bypassing it. Extensions may add or strengthen checks but cannot disable a core rule, change its applicability, replace its result, or suppress required evidence.
 
 Use only these rule outcomes: `passed`, `failed`, `unverified`, `not_applicable`, `error`, and `migration_required`. Only `passed` and justified `not_applicable` satisfy a required rule. Never turn missing evidence, permission failure, tooling failure, or a known migration gap into a pass.

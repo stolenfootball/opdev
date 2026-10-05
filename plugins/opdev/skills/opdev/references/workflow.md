@@ -25,7 +25,7 @@ Scale design to novelty, reversibility, blast radius, data and security conseque
 
 ## Implement and integrate
 
-Use one trunk. Branches originate from trunk, remain short-lived, integrate at least daily during active work, and are removed after merge. Stop feature work while required trunk CI is red; diagnosis and restoration take priority.
+Use one trunk (the branch where changes come together). Keep changes small and branches short-lived; branches start there, merge back there, and are removed afterward. Aim to merge tested work daily. Missing that target prompts reassessment of the blocker and next useful slice, not a merge prohibition or an exception-approval workflow. Do not use branch age alone as a one-day failure under another rule. Catalog 2 keeps daily cadence visible for compliance but removes it from development and integration gates; older CLIs still enforce their own catalog, so explain a version mismatch rather than claiming a blocked check passed. Stop feature work while required trunk CI is red; diagnosis and restoration take priority.
 
 Run relevant local and pre-merge suites. Preserve supported delivered behavior, or record and test an intentional migration. Agent-authored work meets exactly the same standards as human-authored work.
 

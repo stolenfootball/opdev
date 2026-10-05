@@ -21,11 +21,39 @@ pub struct TrackedEvidence {
 }
 
 impl TrackedEvidence {
+    /// Binds an explicitly chosen excerpt to staged bytes without approving it.
+    ///
+    /// # Errors
+    /// Rejects unsafe paths, missing/nonregular/oversized files and absent excerpts.
+    pub fn bind(root: &Path, path: String, excerpt: String) -> Result<Self, EvidenceError> {
+        let mut reference = Self {
+            path,
+            excerpt,
+            sha256: "0".repeat(64),
+        };
+        let bytes = reference.staged_bytes(root)?;
+        reference.sha256 = format!("{:x}", Sha256::digest(&bytes));
+        reference.verify(root)?;
+        Ok(reference)
+    }
+
     /// Checks the referenced staged regular file without following filesystem links.
     ///
     /// # Errors
     /// Returns an evidence error for missing, stale, nonregular or oversized input.
     pub fn verify(&self, root: &Path) -> Result<(), EvidenceError> {
+        let bytes = self.staged_bytes(root)?;
+        if format!("{:x}", Sha256::digest(&bytes)) != self.sha256
+            || !std::str::from_utf8(&bytes).is_ok_and(|text| text.contains(&self.excerpt))
+        {
+            return Err(EvidenceError::Semantic(
+                "acceptance source digest or excerpt does not match the staged file".into(),
+            ));
+        }
+        Ok(())
+    }
+
+    fn staged_bytes(&self, root: &Path) -> Result<Vec<u8>, EvidenceError> {
         self.validate()?;
         let entries = git_output(
             root,
@@ -58,15 +86,7 @@ impl TrackedEvidence {
                 "acceptance source exceeds 8 MiB".into(),
             ));
         }
-        let bytes = git_output(root, &["cat-file", "blob", &object])?;
-        if format!("{:x}", Sha256::digest(&bytes)) != self.sha256
-            || !std::str::from_utf8(&bytes).is_ok_and(|text| text.contains(&self.excerpt))
-        {
-            return Err(EvidenceError::Semantic(
-                "acceptance source digest or excerpt does not match the staged file".into(),
-            ));
-        }
-        Ok(())
+        git_output(root, &["cat-file", "blob", &object])
     }
 
     fn validate(&self) -> Result<(), EvidenceError> {

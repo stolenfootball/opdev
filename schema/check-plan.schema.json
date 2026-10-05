@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpDev verification execution plan",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "kind", "subject", "test_stage", "extension_stage", "qualification", "commands"],
+  "properties": {
+    "schema": {"const": 1}, "kind": {"const": "check_plan"},
+    "subject": {"type": "string"},
+    "test_stage": {"enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"]},
+    "extension_stage": {"enum": ["specify", "design", "verify", "pre_merge", "post_merge", "package", "deliver", "smoke", "recover", "evaluate"]},
+    "qualification": {"const": "unverified"},
+    "commands": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "command", "argv", "working_directory", "timeout_seconds", "blocking"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["suite", "extension"]},
+        "command": {"type": "string", "minLength": 1},
+        "argv": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "working_directory": {"type": "string"},
+        "timeout_seconds": {"type": "integer", "minimum": 1},
+        "blocking": {"type": "boolean"}
+      }
+    }}
+  }
+}

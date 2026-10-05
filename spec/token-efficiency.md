@@ -123,3 +123,17 @@ counters, host errors, and sessions with no successful commands. Failed product
 attempts remain in token totals. A host/accounting failure stops subsequent
 trials; it cannot be silently retried or excluded to produce a savings claim.
 Raw traces are private and the versioned results contain reviewed aggregates.
+
+## Workflow feedback evaluation
+
+WF-01: The separate `--feedback` report mode and workflow protocol in
+`benchmarks/sessions/README.md` MUST retain all attempts, bind the frozen schedule
+and observations, distinguish unknown measurements from zero, and require
+independent behavior/test-preservation/gate-honesty checks. Queue, command and
+agent intervals MUST NOT be assumed disjoint. Freeze baseline/candidate identities,
+budgets and success criteria before comparison; missing or incomplete evidence
+MUST prevent a speedup claim. Historical compact trials and defaults are unchanged.
+WF-02: Semantic planning trials assess actual reasoning, not prescribed phrases.
+Answer-only and deterministic fixtures do not establish complete coding-session
+performance. Unavailable host/model access remains explicit; no cross-host claim
+or model substitution is inferred from another successful environment.

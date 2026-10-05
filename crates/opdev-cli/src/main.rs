@@ -10,7 +10,7 @@ use opdev_core::{
     AggregateVerdict, EXTENSION_PROTOCOL_VERSION, Gate, Outcome, PROJECT_SCHEMA_VERSION, RuleId,
     VerificationMethod, embedded_catalog, embedded_profiles, resolve_profile,
 };
-use opdev_engine::{CheckOptions, CheckReport, evaluate, reaggregate};
+use opdev_engine::{CheckOptions, CheckReport, evaluate, plan_checks, reaggregate};
 use opdev_project::{
     CiProvider, EVIDENCE_PATH, EvidenceBootstrap, FileChange, MANIFEST_PATH, ProjectManifest,
     discover, reconcile_agent_files, staged_fingerprint, validate_experiment,
@@ -26,6 +26,7 @@ use serde::Deserialize;
 mod adoption;
 mod ci_run;
 mod doctor;
+mod evidence_prepare;
 mod inspection;
 mod test_execution;
 mod test_report;
@@ -152,6 +153,9 @@ struct CheckArgs {
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]
     root: PathBuf,
+    /// Preview selected invocations without execution, remote access or qualification.
+    #[arg(long, conflicts_with_all = ["remote", "no_exec", "report"])]
+    plan: bool,
     /// Evaluate CI-specific requirements.
     #[arg(long)]
     ci: bool,
@@ -352,6 +356,8 @@ struct EvidenceArgs {
 
 #[derive(Debug, Subcommand)]
 enum EvidenceCommand {
+    /// Prepare, preview or apply a reviewed acceptance update to an existing ledger.
+    Prepare(evidence_prepare::PrepareArgs),
     /// Print the staged index fingerprint used by change evidence.
     Fingerprint(EvidenceFingerprintArgs),
     /// Print the current acceptance review's subject digest without approving it.
@@ -519,6 +525,7 @@ fn verify_plugin_compatibility(args: &PluginVerifyArgs) -> Result<ExitCode> {
 
 fn evidence_command(args: &EvidenceArgs) -> Result<()> {
     match &args.command {
+        EvidenceCommand::Prepare(args) => evidence_prepare::run(args)?,
         EvidenceCommand::Fingerprint(args) => {
             let (root, _) = load_project(&args.root)?;
             println!("{}", staged_fingerprint(&root)?);
@@ -868,6 +875,32 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         options.extension_stage = opdev_project::ExtensionStage::Deliver;
     }
     options.execute_checks = !args.no_exec;
+    if args.plan {
+        let plan = plan_checks(&root, &manifest, options);
+        if args.format == CheckFormat::Json {
+            println!("{}", serde_json::to_string_pretty(&plan)?);
+        } else {
+            println!(
+                "Execution plan: {:?} suites; {:?} extensions",
+                plan.test_stage, plan.extension_stage
+            );
+            println!(
+                "Qualification: unverified. No commands ran. Arguments may contain private project values."
+            );
+            for command in plan.commands {
+                println!(
+                    "{} ({:?}, blocking={}): {}\n  directory: {}\n  timeout: {}s",
+                    command.id,
+                    command.kind,
+                    command.blocking,
+                    serde_json::to_string(&command.argv)?,
+                    command.working_directory,
+                    command.timeout_seconds
+                );
+            }
+        }
+        return Ok(ExitCode::SUCCESS);
+    }
     let mut report = evaluate(&root, &manifest, options).context("project evaluation failed")?;
     if args.ci {
         apply_local_ci(&root, &manifest, &mut report)?;
@@ -1106,6 +1139,32 @@ fn clean_remote_revision(root: &Path) -> Option<String> {
 
 fn print_human_report(report: &CheckReport) {
     println!("OpDev report for {}", report.subject);
+    println!(
+        "A gate is a decision about what may happen next. Blocked means at least one required check or review is not satisfied."
+    );
+    println!(
+        "Results: failed = a requirement was not met; unverified = evidence is missing or stale; error = a tool could not complete; migration_required = setup is incomplete. None means passed."
+    );
+    if let Ok(catalog) = embedded_catalog() {
+        for result in &report.rules {
+            if result.outcome.satisfies_required_rule() {
+                continue;
+            }
+            if let Some(rule) = catalog.find(&result.rule_id) {
+                println!("{} [{}]: {:?}", rule.title, rule.id, result.outcome);
+                if let Some(diagnostic) = &result.diagnostic {
+                    println!("  {diagnostic}");
+                }
+                if !result
+                    .diagnostic
+                    .as_deref()
+                    .is_some_and(|text| text.contains(rule.next_step()))
+                {
+                    println!("  {}", rule.next_step());
+                }
+            }
+        }
+    }
     if let Some(result) = report.rules.iter().find(|rule| {
         rule.rule_id.as_str() == "MCD-TEST-002"
             && (rule.verifier == opdev_core::VerificationSource::Remote
@@ -1137,6 +1196,15 @@ fn print_human_report(report: &CheckReport) {
         counts[0], counts[1], counts[2], counts[3], counts[4], counts[5]
     );
     for gate in &report.gates {
+        let meaning = match gate.gate {
+            Gate::Development => {
+                "continuing ordinary implementation (diagnosis and repair remain allowed)"
+            }
+            Gate::Integration => "merging into the main development branch",
+            Gate::Delivery => "publishing or deploying the software",
+            Gate::Compliance => "claiming the evaluated requirements are met",
+        };
+        println!("Decision: {meaning}");
         println!(
             "gate {:?}: {:?} ({} rules, {} checks blocking)",
             gate.gate,
@@ -1173,7 +1241,7 @@ const fn outcome_index(outcome: Outcome) -> usize {
 }
 
 fn load_project(start: &Path) -> Result<(PathBuf, ProjectManifest)> {
-    let discovery = discover(start).context("could not locate the Git repository")?;
+    let discovery = discover(start).context("could not locate the Git repository; run this command from the project folder, or pass --root with its path")?;
     let manifest_path = discovery.root.join(MANIFEST_PATH);
     if !manifest_path.exists() {
         bail!(

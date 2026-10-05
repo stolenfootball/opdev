@@ -303,6 +303,14 @@ fn compatible_different_pin_and_incompatible_plugin_are_distinct() -> TestResult
         "unverified"
     );
     assert_eq!(snapshot(plugin.path())?, before);
+    assert_eq!(
+        finding(&report, "inventory.runtime_alignment", None)?["outcome"],
+        "unverified"
+    );
+    assert_eq!(
+        finding(&report, "inventory.session_guidance", None)?["outcome"],
+        "unverified"
+    );
     fs::write(plugin.path().join("runtime.lock"), "version 9.0.0\n")?;
     let bad_pin = json(
         &cli(

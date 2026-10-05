@@ -6348,3 +6348,981 @@ changes:
         }
       }
     }
+  - {
+      "fingerprint": "266a1e7b9e8291854f6e80aaecab670c789ddf58ec37e39c3370461e214df6c7",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Developer authorized roadmap61 and six milestones/issues; source scope and pending live evaluations are explicit.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Developer authorized roadmap61 and six milestones/issues; source scope and pending live evaluations are explicit.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "Use shared selectors and schema-2 evidence, opt-in provider examples and existing report tooling. Reuse known contracts; no result cache, new project registry, automatic permission or source-trust relaxation.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Use shared selectors and schema-2 evidence, opt-in provider examples and existing report tooling. Reuse known contracts; no result cache, new project registry, automatic permission or source-trust relaxation.",
+              "location": "spec/check-plan.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "main remains the sole integration trunk; work is on one short-lived roadmap branch, with required CI unchanged except duplicate invocation removal.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "main remains the sole integration trunk; work is on one short-lived roadmap branch, with required CI unchanged except duplicate invocation removal.",
+              "location": ".gitlab-ci.yml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "Latest inspected main pipeline2904948428 passed before starting. Current work remains unqualified until required verification and pending acceptance are resolved; no delivery was attempted.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Latest inspected main pipeline2904948428 passed before starting. Current work remains unqualified until required verification and pending acceptance are resolved; no delivery was attempted.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2904948428"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-003",
+          "outcome": "passed",
+          "summary": "Feature changes target main; the workflow selects MR and integrated-trunk checks separately. No long-lived integration branch or bypass introduced.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Feature changes target main; the workflow selects MR and integrated-trunk checks separately. No long-lived integration branch or bypass introduced.",
+              "location": ".gitlab-ci.yml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "passed",
+          "summary": "Provider canaries retain one proposed-change verification and a fresh integrated-trunk verification; candidate bytes flow through dependencies, not another redundant dispatch cycle.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Provider canaries retain one proposed-change verification and a fresh integrated-trunk verification; candidate bytes flow through dependencies, not another redundant dispatch cycle.",
+              "location": "benchmarks/workflow-usability/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Existing check semantics, schema-2 manual edits, runtime compatibility and approved upgrade boundary remain. New flags/helpers are additive and experimental compact defaults are unchanged.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Existing check semantics, schema-2 manual edits, runtime compatibility and approved upgrade boundary remain. New flags/helpers are additive and experimental compact defaults are unchanged.",
+              "location": "spec/evidence-preparation.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "New CLI output is plain text/JSON with explicit unverified status and errors, never color-only meaning. Exit behavior and structured output are tested; no assistive-technology conformance claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "New CLI output is plain text/JSON with explicit unverified status and errors, never color-only meaning. Exit behavior and structured output are tested; no assistive-technology conformance claim.",
+              "location": "crates/opdev-cli/tests/check_plan.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "Diagnostics do not create resources or qualify gates. Failures and launch-model blockage are retained. Only private neutral provider fixtures were used; no runner, secrets, product or installed cache changes.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Diagnostics do not create resources or qualify gates. Failures and launch-model blockage are retained. Only private neutral provider fixtures were used; no runner, secrets, product or installed cache changes.",
+              "location": "benchmarks/workflow-usability/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Agent-authored implementation was reviewed against requirements and exact assertion behavior; malformed-input panic path was found and repaired with regression. Live-agent qualification remains unresolved and blocks completion.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Agent-authored implementation was reviewed against requirements and exact assertion behavior; malformed-input panic path was found and repaired with regression. Live-agent qualification remains unresolved and blocks completion.",
+              "location": "crates/opdev-cli/tests/evidence_prepare.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "Live GitLab caught a missing diagnostic stage; fixed and regression added. CLI model launch failed before an answer; retained without model substitution or speedup claim. Prior token experiments untouched.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Live GitLab caught a missing diagnostic stage; fixed and regression added. CLI model launch failed before an answer; retained without model substitution or speedup claim. Prior token experiments untouched.",
+              "location": "benchmarks/workflow-usability/README.md"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "Roadmap 61 implementation covers preview/CI orchestration, controlled diagnostics, evidence preparation, replanning guidance, upgrade observations and workflow reporting. Actual live-agent behavior/performance remains explicitly unverified; no release, cache update or consumer migration. Existing core gates, manual schema-2 editing, distinct environments and experimental defaults remain intact.",
+        "conditions": [
+          {
+            "id": "PLAN",
+            "statement": "Preview is read-only and exactly describes execution, including distinct identical argv, selected stages, timeout overrides and failures.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "spec/check-plan.md",
+              "sha256": "84b4fb668ed9e4b9f4555a933c2d6c5929da97b9a95333527886bbdc447f953b",
+              "excerpt": "- PLAN-01:"
+            }
+          },
+          {
+            "id": "PROVIDER",
+            "statement": "Provider patterns avoid feature-push duplication and consume the qualified candidate bytes through integration.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "spec/ci-providers.md",
+              "sha256": "28f34ec1fb1a7aeb1910c3c129d20dbcd76d18f4c87a059799b07065b84a697b",
+              "excerpt": "Proposed changes run one"
+            }
+          },
+          {
+            "id": "DIAGNOSTIC",
+            "statement": "Bounded diagnostics provide early environment observations without qualification, unexpected resources or hidden failures.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "spec/workflow-usability.md",
+              "sha256": "6a2a72ac5b85a1a8abd1e63467fe032186e0c3b6d7031256b1f0f67199c8582c",
+              "excerpt": "- UX-08:"
+            }
+          },
+          {
+            "id": "PREPARE",
+            "statement": "Prepare existing schema-2 acceptance without manual hashes or automatic approval; reject stale or invalid inputs and preserve history and current assertions.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "spec/evidence-preparation.md",
+              "sha256": "fa4a4f826293bffb4a4032f94f011a3080894c99375f2fb51ed7322e45e6f2b9",
+              "excerpt": "EP-01:"
+            }
+          },
+          {
+            "id": "UPGRADE",
+            "statement": "Partial upgrade observations distinguish compatibility, pin alignment, managed disk guidance and unknown session state without writes.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "spec/upgrades.md",
+              "sha256": "fbc0e112304aefa9c7bca59d6f99b8d4d3f3397e937f3dfb52fb2b85f74c4adb",
+              "excerpt": "UV-01:"
+            }
+          },
+          {
+            "id": "METRICS",
+            "statement": "Feedback reporting preserves attempts, unknown measurements, schedule/observation binding and independent-oracle failures without false speedup claims.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "spec/token-efficiency.md",
+              "sha256": "2cec598b45731fa8ae501ad77723a88f9b21b3cea2f797a12b23077ec7a57593",
+              "excerpt": "WF-01:"
+            }
+          },
+          {
+            "id": "PLANNING-LIVE",
+            "statement": "Fresh-context F1-F4 trials demonstrate outcome-focused replanning while preserving distinct native platform risk and policy boundaries.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "tests/planning-review.md",
+              "sha256": "e9f457b0a2229efa4d5eab83ddd74930c9a08db9528810a5bd2924db29b65fcf",
+              "excerpt": "## Feedback bottleneck scenarios"
+            }
+          },
+          {
+            "id": "SESSION-LIVE",
+            "statement": "Complete-session baseline/candidate observations cover the planned neutral changes and support only justified measured conclusions.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+            "source": {
+              "path": "benchmarks/sessions/README.md",
+              "sha256": "218d2fd71ebd5ffcab4d2f5ccc7c391848a789f53b2fdd50abeb5005acffe0e5",
+              "excerpt": "Use small fix, CI-only diagnosis, stale evidence"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "PLAN",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/check_plan.rs",
+              "sha256": "800738e553c935af9663f2b0a470c106270860dacb950176ae06b68fb10a96cd",
+              "excerpt": "assert_eq!(commands[0][\"timeout_seconds\"], 900);"
+            },
+            "assertion": "Reviewed counting fixture: marker absent and malformed ledger unchanged after preview; actual execution IDs/counts equal selection and CI failure remains failed. Schema and incompatible flags are checked.",
+            "discriminating_case": "Equal argv must execute twice as separate suite IDs; pre-merge selects the failing suite and keeps exit 1 rather than trusting a plan.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "PROVIDER",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/workflow-usability/README.md",
+              "sha256": "7e0c3e01d6455ad19d80a4561c79c6d0019ed034583165a0847400a7983645b5",
+              "excerpt": "trunk runs GitHub 36973740215 and GitLab 2905594760 passed the full chain again"
+            },
+            "assertion": "Observed private GitHub and GitLab initial, PR/MR and post-merge runs; one verification job and downstream candidate/consumer jobs. Reviewed byte-binding fixture and negative local tests.",
+            "discriminating_case": "A stale source or modified candidate fails fixture checks; actual proposed-change runs did not start candidate work or ordinary feature-push pipelines.",
+            "automation_limitation": "External provider observations are not established by local suite parsing; independently inspected exact private fixture pipeline jobs.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "DIAGNOSTIC",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/feedback_fixture.rs",
+              "sha256": "99ad93de44ff74f01d31eceb2e9fa247a410575d2ec5f5511c82a59eb525794f",
+              "excerpt": "assert_eq!(data[\"qualification\"], \"unverified\");"
+            },
+            "assertion": "Assertions distinguish mismatched OS failure from a successful observed-OS probe, require no feedback artifacts and exactly one preexisting fixture file. Actual provider observations and initial rejected stage are retained separately.",
+            "discriminating_case": "A missing expected environment exits nonzero and still reports only an unverified diagnostic, never candidate/gate evidence.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "PREPARE",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/evidence_prepare.rs",
+              "sha256": "649ae9a4db6eaf0516d29b46a455d4ada6be92241b2b9beac4649c7574ebe297",
+              "excerpt": "assert_eq!(after[\"changes\"][0], old[\"changes\"][0]);"
+            },
+            "assertion": "Reviewed positive apply and negative unreviewed, changed mapping/source/ledger and bad-excerpt cases. Current assertions survive acceptance-only updates; failed review remains failed; malformed scalar inputs exit 2 instead of panic.",
+            "discriminating_case": "Old ledger snapshot cannot reapply; altered mapping digest rejects writes even when source fingerprint is unchanged.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "UPGRADE",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/upgrades.rs",
+              "sha256": "4002ac28bdafa5e2d713c8b84f7731f289cb08eb4c39323fb5fee092156a62f7",
+              "excerpt": "assert_eq!(first, repeated);"
+            },
+            "assertion": "Repeated read-only previews agree and preserve snapshots. Explicit application preserves custom content and changes guidance finding while session guidance remains unverified. Doctor tests preserve compatible different pins.",
+            "discriminating_case": "Applying managed guidance must not change unknown active-session guidance to passed; compatible pin difference is not an incompatible-runtime failure.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "METRICS",
+            "method": "automated",
+            "target": {
+              "path": "tests/sessions_test.py",
+              "sha256": "9ef6eec74dec0a98e711cfcea43c68c139427c8320ea20b395c3e2e6bd52eb28",
+              "excerpt": "self.assertFalse(report()['acceptance_equivalent'])"
+            },
+            "assertion": "Python tests run through the canonical Rust benchmark adapter. Missing time prevents improvement, false gate-honesty oracle blocks equivalence, failed trials stay counted and changed observations/order are rejected.",
+            "discriminating_case": "An apparently faster candidate with a false gate claim cannot yield a comparison ratio or accepted improvement.",
+            "suite": "check",
+            "outcome": "passed"
+          },
+          {
+            "condition": "PLANNING-LIVE",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/workflow-usability/README.md",
+              "sha256": "7e0c3e01d6455ad19d80a4561c79c6d0019ed034583165a0847400a7983645b5",
+              "excerpt": "It failed before an answer because the CLI's ChatGPT login rejects"
+            },
+            "assertion": "Unverified: baseline model launch rejected before an answer. No candidate reasoning evaluated; manual guidance/rubric review does not replace the planned fresh-context trial.",
+            "discriminating_case": "Do not replace unknown agent behavior with keyword tests or infer safe platform removal from identical argv.",
+            "automation_limitation": "Live model access unavailable; retained failed baseline and pending model choice. No claim of semantic or complete-session effectiveness.",
+            "outcome": "unverified"
+          },
+          {
+            "condition": "SESSION-LIVE",
+            "method": "review",
+            "target": {
+              "path": "benchmarks/workflow-usability/README.md",
+              "sha256": "7e0c3e01d6455ad19d80a4561c79c6d0019ed034583165a0847400a7983645b5",
+              "excerpt": "No candidate trial or performance comparison ran; model choice was requested,"
+            },
+            "assertion": "Unverified: the local CLI model is unavailable; complete coding-session and resumed trials await a selected supported model and fresh frozen baseline. Historical experiments unchanged.",
+            "discriminating_case": "Missing or failed baseline is not a zero-second success and cannot produce a speedup or cross-host claim.",
+            "automation_limitation": "Live model access unavailable; retained failed baseline and pending model choice. No claim of semantic or complete-session effectiveness.",
+            "outcome": "unverified"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/61",
+          "rationale": "Reviewed current source, contract conditions and actual assertions; focused suites and live neutral provider flows passed. Inventory deliberately retains unresolved live semantic and complete-session conditions after the failed default-model baseline. A passed inventory review is not a passed mapping or integration gate; no developer/model choice is fabricated. No release, installed cache or consumer state changes.",
+          "subject_sha256": "1e4696bfc11e8f97db7e768bd2969551a3d49f45ee43144f4ea920c7cabff9e7"
+        }
+      }
+    }
+  # Cadence and current integration remain unverified; no satisfying assertion is supplied.
+  - fingerprint: eacecedfb854f0e7b3ffdf3baa136bbf7465e85478c7ea4c2794c7c85be18f9f
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+    assertions:
+    - rule_id: OPDEV-A11Y-001
+      outcome: passed
+      summary: Local plain-text/JSON interface checks passed; maintainer explicitly approved the inspection/draft/application
+        wording on 2026-10-05. No assistive-technology conformance claim.
+      evidence:
+      - kind: review
+        summary: 'Actual maintainer response: Looks good to me; recorded separately from gate qualification.'
+        location: benchmarks/workflow-usability/README.md
+    acceptance:
+      scope: behavioral
+      rationale: Roadmap 61 covers preview/CI orchestration, controlled diagnostics, evidence preparation, replanning and advisory
+        CI guidance, upgrade observations and workflow reporting. Neutral live trials and independent checks establish only
+        their observed behavior; no speedup, universal reliability, Claude or release claim. Preserve core gates, manual schema-2
+        editing, distinct environments, historical token trials and experimental defaults.
+      conditions:
+      - id: CI-ADVICE
+        statement: Observed CI bottlenecks receive concrete optional recommendations after requested work, without automatic
+          changes, repeated declined pitches or eliminating distinct risk coverage.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/58
+        source:
+          path: spec/planning.md
+          sha256: f9c42a50376e3fc4169eea23e1288ba98ec3d53aaa595dcd6a6b42d55ece55cb
+          excerpt: 'CF-04: Efficiency is advisory.'
+      - id: TRIAL-ISOLATION
+        statement: Explicit local trials preserve frozen inputs and failures, reject contaminated/read-only context and keep
+          fresh/resumed permission boundaries identical.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/60
+        source:
+          path: benchmarks/ci-review/README.md
+          sha256: 60b2f068bcb6d9d6bc422a3f9048cc3885bf56d355462df224aee5358ab8d3e3
+          excerpt: It refuses to overwrite a trial directory
+      - id: PLAN
+        statement: Preview is read-only and exactly describes execution, including distinct identical argv, selected stages,
+          timeout overrides and failures.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/check-plan.md
+          sha256: 84b4fb668ed9e4b9f4555a933c2d6c5929da97b9a95333527886bbdc447f953b
+          excerpt: '- PLAN-01:'
+      - id: PROVIDER
+        statement: Provider patterns avoid feature-push duplication and consume the qualified candidate bytes through integration.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/ci-providers.md
+          sha256: 28f34ec1fb1a7aeb1910c3c129d20dbcd76d18f4c87a059799b07065b84a697b
+          excerpt: Proposed changes run one
+      - id: DIAGNOSTIC
+        statement: Bounded diagnostics provide early environment observations without qualification, unexpected resources or
+          hidden failures.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/workflow-usability.md
+          sha256: 6a2a72ac5b85a1a8abd1e63467fe032186e0c3b6d7031256b1f0f67199c8582c
+          excerpt: '- UX-08:'
+      - id: PREPARE
+        statement: Prepare existing schema-2 acceptance without manual hashes or automatic approval; reject stale or invalid
+          inputs and preserve history and current assertions.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/evidence-preparation.md
+          sha256: fa4a4f826293bffb4a4032f94f011a3080894c99375f2fb51ed7322e45e6f2b9
+          excerpt: 'EP-01:'
+      - id: UPGRADE
+        statement: Partial upgrade observations distinguish compatibility, pin alignment, managed disk guidance and unknown
+          session state without writes.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/upgrades.md
+          sha256: fbc0e112304aefa9c7bca59d6f99b8d4d3f3397e937f3dfb52fb2b85f74c4adb
+          excerpt: 'UV-01:'
+      - id: METRICS
+        statement: Feedback reporting preserves attempts, unknown measurements, schedule/observation binding and independent-oracle
+          failures without false speedup claims.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/token-efficiency.md
+          sha256: 2cec598b45731fa8ae501ad77723a88f9b21b3cea2f797a12b23077ec7a57593
+          excerpt: 'WF-01:'
+      - id: PLANNING-LIVE
+        statement: Fresh-context F1-F4 trials demonstrate outcome-focused replanning while preserving distinct native platform
+          risk and policy boundaries.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: tests/planning-review.md
+          sha256: 91d1b3cb9c42b5960d6b19b9ddc05e34bb1a41cc8904f133fcb1430b86fa8f5d
+          excerpt: '## Feedback bottleneck scenarios'
+      - id: SESSION-LIVE
+        statement: Complete-session baseline/candidate observations cover the planned neutral changes and support only justified
+          measured conclusions.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: benchmarks/sessions/README.md
+          sha256: 218d2fd71ebd5ffcab4d2f5ccc7c391848a789f53b2fdd50abeb5005acffe0e5
+          excerpt: Use small fix, CI-only diagnosis, stale evidence
+      verifications:
+      - condition: CI-ADVICE
+        method: review
+        target:
+          path: benchmarks/ci-review/2026-10-05-follow-up.md
+          sha256: 682264b7a956c47912699c98ddf2433d8bbcfa7b2cf115b26fdd614903f44747
+          excerpt: The revised inefficient-case answer proposed eliminating duplicate triggers
+        assertion: 'Reviewed separately frozen revised candidate: concrete optional duplicate-trigger recommendation retains
+          MR/main, no CI/provider mutations, no pitch for accepted repetition or adequate CI, no repeated pitch in resumes.
+          Six turns pass independent behavior, original-test preservation and original-defect mutation checks. Earlier missed
+          recommendations and capacity errors remain failures, not hidden passes.'
+        discriminating_case: Feature completion with no optional recommendation failed the prior candidate despite green tests;
+          matching argv with deliberate distinct purpose must not be removed.
+        automation_limitation: Semantic recommendations and attempted actions require actual transcript review; offline phrase
+          matching cannot establish model behavior. Small candidate-only correction trial does not prove causal or universal
+          improvement.
+        outcome: passed
+      - condition: TRIAL-ISOLATION
+        method: automated
+        target:
+          path: tests/ci_trials_test.py
+          sha256: d225d2b3ce6c0894b267fcbfb6ff4793d3c7e27b3db6ac9dcb0c0deabb3472c7
+          excerpt: self.assertEqual(run.call_count, 1)
+        assertion: Read-only/contaminated probes stop before inference; fresh and resumed commands share permission and explicit
+          skill exclusions; changed CI bytes are detected. CLI runner creates exclusive directories, verifies frozen CLI/guidance
+          and retains failed events with no automatic retry. Focused Python checks passed previously; their canonical Rust adapter
+          is POSIX-only, so the Windows canonical run does not establish execution of these mapped Python tests. Leave this
+          mapping unverified pending required POSIX CI.
+        discriminating_case: A successful context probe with read-only permission or installed OpDev must not launch a model;
+          a resumed call must retain the non-Git and approval restrictions.
+        suite: check
+        outcome: unverified
+      - condition: PLAN
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/check_plan.rs
+          sha256: 800738e553c935af9663f2b0a470c106270860dacb950176ae06b68fb10a96cd
+          excerpt: assert_eq!(commands[0]["timeout_seconds"], 900);
+        assertion: 'Reviewed counting fixture: marker absent and malformed ledger unchanged after preview; actual execution
+          IDs/counts equal selection and CI failure remains failed. Schema and incompatible flags are checked.'
+        discriminating_case: Equal argv must execute twice as separate suite IDs; pre-merge selects the failing suite and keeps
+          exit 1 rather than trusting a plan.
+        suite: check
+        outcome: passed
+      - condition: PROVIDER
+        method: review
+        target:
+          path: benchmarks/workflow-usability/README.md
+          sha256: 48d0431422ceb497d6b902bc8bdcc4de5ebd23b51d93c338ee0eb744ec9d3bf2
+          excerpt: trunk runs GitHub 36973740215 and GitLab 2905594760 passed the full chain again
+        assertion: Historical neutral provider canaries are retained in the target report, but this narrow update does not qualify
+          current-source remote integration. Current candidate MR and post-merge verification remain unverified.
+        discriminating_case: A stale source or modified candidate fails fixture checks; actual proposed-change runs did not
+          start candidate work or ordinary feature-push pipelines.
+        automation_limitation: External provider observations are not established by local suite parsing; independently inspected
+          exact private fixture pipeline jobs.
+        outcome: unverified
+      - condition: DIAGNOSTIC
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/feedback_fixture.rs
+          sha256: 99ad93de44ff74f01d31eceb2e9fa247a410575d2ec5f5511c82a59eb525794f
+          excerpt: assert_eq!(data["qualification"], "unverified");
+        assertion: Assertions distinguish mismatched OS failure from a successful observed-OS probe, require no feedback artifacts
+          and exactly one preexisting fixture file. Actual provider observations and initial rejected stage are retained separately.
+        discriminating_case: A missing expected environment exits nonzero and still reports only an unverified diagnostic, never
+          candidate/gate evidence.
+        suite: check
+        outcome: passed
+      - condition: PREPARE
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/evidence_prepare.rs
+          sha256: 649ae9a4db6eaf0516d29b46a455d4ada6be92241b2b9beac4649c7574ebe297
+          excerpt: assert_eq!(after["changes"][0], old["changes"][0]);
+        assertion: Reviewed positive apply and negative unreviewed, changed mapping/source/ledger and bad-excerpt cases. Current
+          assertions survive acceptance-only updates; failed review remains failed; malformed scalar inputs exit 2 instead of
+          panic.
+        discriminating_case: Old ledger snapshot cannot reapply; altered mapping digest rejects writes even when source fingerprint
+          is unchanged.
+        suite: check
+        outcome: passed
+      - condition: UPGRADE
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/upgrades.rs
+          sha256: 4002ac28bdafa5e2d713c8b84f7731f289cb08eb4c39323fb5fee092156a62f7
+          excerpt: assert_eq!(first, repeated);
+        assertion: Repeated read-only previews agree and preserve snapshots. Explicit application preserves custom content and
+          changes guidance finding while session guidance remains unverified. Doctor tests preserve compatible different pins.
+        discriminating_case: Applying managed guidance must not change unknown active-session guidance to passed; compatible
+          pin difference is not an incompatible-runtime failure.
+        suite: check
+        outcome: passed
+      - condition: METRICS
+        method: automated
+        target:
+          path: tests/sessions_test.py
+          sha256: 9ef6eec74dec0a98e711cfcea43c68c139427c8320ea20b395c3e2e6bd52eb28
+          excerpt: self.assertFalse(report()['acceptance_equivalent'])
+        assertion: Python tests run through the canonical Rust benchmark adapter. Missing time prevents improvement, false gate-honesty
+          oracle blocks equivalence, failed trials stay counted and changed observations/order are rejected. Focused Python
+          checks passed previously; their canonical Rust adapter is POSIX-only, so the Windows canonical run does not establish
+          execution of these mapped Python tests. Leave this mapping unverified pending required POSIX CI.
+        discriminating_case: An apparently faster candidate with a false gate claim cannot yield a comparison ratio or accepted
+          improvement.
+        suite: check
+        outcome: unverified
+      - condition: PLANNING-LIVE
+        method: review
+        target:
+          path: benchmarks/workflow-usability/README.md
+          sha256: 48d0431422ceb497d6b902bc8bdcc4de5ebd23b51d93c338ee0eb744ec9d3bf2
+          excerpt: Semantic review of the actual answers found that both arms chose direct focused
+        assertion: 'Reviewed eight completed baseline/candidate F1-F4 answers: direct feedback retains gates, consolidation
+          retains distinct coverage, native platforms remain required, Linux diagnostic is bounded and secret-free. Failed earlier
+          default-model launch remains visible.'
+        discriminating_case: Do not replace unknown agent behavior with keyword tests or infer safe platform removal from identical
+          argv.
+        automation_limitation: Actual reasoning requires semantic transcript review, not keyword tests. Answer-only samples
+          establish interpretation, not universal reliability or executed provider behavior.
+        outcome: passed
+      - condition: SESSION-LIVE
+        method: review
+        target:
+          path: benchmarks/workflow-usability/README.md
+          sha256: 48d0431422ceb497d6b902bc8bdcc4de5ebd23b51d93c338ee0eb744ec9d3bf2
+          excerpt: The planned neutral task coverage now has successful fresh/resumed
+        assertion: Reviewed parcel behavior/tests and in-memory original-defect mutation, read-only case-sensitive CI diagnosis,
+          exact 14/7-day documentation preservation and stale qualification refusal, and compatible runtime/unknown-session
+          partial-upgrade reporting. Both arms have fresh/resumed observations; failed launches and separately authorized retries
+          remain explicit. No performance improvement is inferred from missing feedback/queue intervals.
+        discriminating_case: Missing or failed baseline is not a zero-second success and cannot produce a speedup or cross-host
+          claim.
+        automation_limitation: Controller-owned file/assertion checks and semantic review are independent of agent success claims.
+          Separate later attempts do not establish an uninterrupted paired performance experiment; one host and small fixtures
+          do not establish general effectiveness or Claude behavior.
+        outcome: passed
+      review:
+        outcome: passed
+        reviewer: Codex agent
+        reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        rationale: 'User approved the narrower evidence update after the safety-review rejection. Record reviewed local CLI
+          assertions, scoped neutral semantic/file/mutation observations and explicit unknowns. Inventory review is not a passed
+          gate: provider integration and POSIX-only canonical mappings remain unverified. No cadence, CI, delivery, speedup,
+          Claude or general-reliability claim is approved.'
+        subject_sha256: 3e2c04a1f54f6aefbfc6269d252fb0011fd9c0c6d581466894dcffee86b78084
+  - fingerprint: b4d13328c0771d687d0018119caf74b78ee69af47620d5dd8f902fb48b7aad48
+    work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+    assertions:
+    - rule_id: OPDEV-A11Y-001
+      outcome: passed
+      summary: Plain-text/JSON process checks passed, and the maintainer explicitly approved representative plain-language error
+        messages on 2026-10-05. No assistive-technology conformance claim.
+      evidence:
+      - kind: review
+        summary: 'Actual response: That looks great. Scope is wording, not integration or delivery approval.'
+        location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+      - kind: test
+        summary: consumer_interface process tests preserve blocked/error exits, textual explanations and exact retained JSON.
+        location: crates/opdev-cli/tests/consumer_interface.rs
+    - rule_id: OPDEV-WORK-001
+      outcome: passed
+      summary: Roadmap 61 and issues 55-60 define consumer outcomes, scope, sequencing and acceptance; maintainer approved cadence/wording
+        follow-up. Release and consumer migration excluded.
+      evidence:
+      - kind: review
+        summary: Roadmap 61 and issues 55-60 define consumer outcomes, scope, sequencing and acceptance; maintainer approved
+          cadence/wording follow-up. Release and consumer migration excluded.
+        location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+    - rule_id: OPDEV-DESIGN-001
+      outcome: passed
+      summary: Reviewed contracts define execution preview, evidence preparation and source-bound review. Result semantics records
+        the cadence deadlock, rejected generic override, chosen compliance-only aggregation and reversal trigger. Compatibility
+        documents catalog 2 and old-reader limits.
+      evidence:
+      - kind: review
+        summary: Reviewed contracts define execution preview, evidence preparation and source-bound review. Result semantics
+          records the cadence deadlock, rejected generic override, chosen compliance-only aggregation and reversal trigger.
+          Compatibility documents catalog 2 and old-reader limits.
+        location: spec/result-semantics.md
+    - rule_id: MCD-TRUNK-001
+      outcome: passed
+      summary: GitLab default branch is main. Project contract and CI use it as integration/release source; feature branch is
+        an MR source, not a second integration trunk. Provider setting was inspected 2026-10-05.
+      evidence:
+      - kind: review
+        summary: GitLab default branch is main. Project contract and CI use it as integration/release source; feature branch
+          is an MR source, not a second integration trunk. Provider setting was inspected 2026-10-05.
+        location: .opdev/project.yaml
+    - rule_id: MCD-TRUNK-002
+      outcome: passed
+      summary: Branch merge base equals unchanged current main d19cd393faf831fe404ebb30788e911aee38ee17. MR 51 targets main
+        and source deletion is configured. Scope is the approved coordinated feedback increment, with retained capacity/semantic
+        failures and immediate integration work. Under reviewed catalog-2 semantics branch age alone is not a one-day blocker;
+        no daily-compliance claim.
+      evidence:
+      - kind: review
+        summary: Branch merge base equals unchanged current main d19cd393faf831fe404ebb30788e911aee38ee17. MR 51 targets main
+          and source deletion is configured. Scope is the approved coordinated feedback increment, with retained capacity/semantic
+          failures and immediate integration work. Under reviewed catalog-2 semantics branch age alone is not a one-day blocker;
+          no daily-compliance claim.
+        location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/51
+    - rule_id: MCD-FLOW-001
+      outcome: not_applicable
+      summary: Latest main pipeline 2904948428 at d19cd393faf831fe404ebb30788e911aee38ee17 is successful, inspected 2026-10-05;
+        no failing required trunk pipeline was observed. This is not a claim about the pending MR pipeline.
+      evidence:
+      - kind: review
+        summary: Latest main pipeline 2904948428 at d19cd393faf831fe404ebb30788e911aee38ee17 is successful, inspected 2026-10-05;
+          no failing required trunk pipeline was observed. This is not a claim about the pending MR pipeline.
+        location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2904948428
+    - rule_id: MCD-COMPAT-001
+      outcome: passed
+      summary: Canonical suite passed on the staged source. Tests preserve CLI exits, JSON field/outcome semantics, retained
+        reports, stale-write rejection, plugin/runtime compatibility and custom guidance. Catalog-2 aggregation is a maintainer-approved
+        behavioral change with explicit old-runtime/report limitations, not silent compatibility.
+      evidence:
+      - kind: review
+        summary: Canonical suite passed on the staged source. Tests preserve CLI exits, JSON field/outcome semantics, retained
+          reports, stale-write rejection, plugin/runtime compatibility and custom guidance. Catalog-2 aggregation is a maintainer-approved
+          behavioral change with explicit old-runtime/report limitations, not silent compatibility.
+        location: spec/compatibility.md
+    - rule_id: OPDEV-AI-001
+      outcome: passed
+      summary: Acceptance mappings were reviewed against actual assertions, including counterexamples and independent process/file/mutation
+        observations recorded in the neutral benchmark reports. Green tests or the producing agent claim alone were not used;
+        failed live attempts remain retained and no speedup inferred.
+      evidence:
+      - kind: review
+        summary: Acceptance mappings were reviewed against actual assertions, including counterexamples and independent process/file/mutation
+          observations recorded in the neutral benchmark reports. Green tests or the producing agent claim alone were not used;
+          failed live attempts remain retained and no speedup inferred.
+        location: benchmarks/ci-review/2026-10-05-follow-up.md
+    - rule_id: OPDEV-LEARN-001
+      outcome: passed
+      summary: Retained failed advisory trials led to a bounded handoff correction and separately frozen six-turn confirmation;
+        the cadence deadlock led to a maintainer-approved policy change and discriminating regression. No hidden retries or
+        historical result replacement.
+      evidence:
+      - kind: review
+        summary: Retained failed advisory trials led to a bounded handoff correction and separately frozen six-turn confirmation;
+          the cadence deadlock led to a maintainer-approved policy change and discriminating regression. No hidden retries or
+          historical result replacement.
+        location: benchmarks/ci-review/2026-10-05-follow-up.md
+    - rule_id: OPDEV-EVAL-001
+      outcome: passed
+      summary: 'Reports explicitly distinguish tested behavior from unmeasured effectiveness: missing queue/feedback observations
+        prevent speedup claims; limited neutral trials do not establish general reliability or Claude behavior.'
+      evidence:
+      - kind: review
+        summary: 'Reports explicitly distinguish tested behavior from unmeasured effectiveness: missing queue/feedback observations
+          prevent speedup claims; limited neutral trials do not establish general reliability or Claude behavior.'
+        location: benchmarks/workflow-usability/README.md
+    - rule_id: OPDEV-OPS-001
+      outcome: passed
+      summary: On-demand CLI reports distinguish missing evidence, broken tools, failed behavior and blocked actions. Consumer-interface
+        tests verify textual output, error exits, retained JSON and overwrite refusal; no service telemetry or universal accessibility
+        claim.
+      evidence:
+      - kind: review
+        summary: On-demand CLI reports distinguish missing evidence, broken tools, failed behavior and blocked actions. Consumer-interface
+          tests verify textual output, error exits, retained JSON and overwrite refusal; no service telemetry or universal accessibility
+          claim.
+        location: crates/opdev-cli/tests/consumer_interface.rs
+    acceptance:
+      scope: behavioral
+      rationale: Roadmap 61 covers preview/CI orchestration, controlled diagnostics, evidence preparation, replanning and advisory
+        CI guidance, upgrade observations and workflow reporting. Neutral live trials and independent checks establish only
+        their observed behavior; no speedup, universal reliability, Claude or release claim. Preserve core gates, manual schema-2
+        editing, distinct environments, historical token trials and experimental defaults. Also includes maintainer-approved
+        catalog-2 cadence aggregation and plain-language diagnostics; no recovery override or release.
+      conditions:
+      - id: CI-ADVICE
+        statement: Observed CI bottlenecks receive concrete optional recommendations after requested work, without automatic
+          changes, repeated declined pitches or eliminating distinct risk coverage.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/58
+        source:
+          path: spec/planning.md
+          sha256: f9c42a50376e3fc4169eea23e1288ba98ec3d53aaa595dcd6a6b42d55ece55cb
+          excerpt: 'CF-04: Efficiency is advisory.'
+      - id: TRIAL-ISOLATION
+        statement: Explicit local trials preserve frozen inputs and failures, reject contaminated/read-only context and keep
+          fresh/resumed permission boundaries identical.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/60
+        source:
+          path: benchmarks/ci-review/README.md
+          sha256: 60b2f068bcb6d9d6bc422a3f9048cc3885bf56d355462df224aee5358ab8d3e3
+          excerpt: It refuses to overwrite a trial directory
+      - id: PLAN
+        statement: Preview is read-only and exactly describes execution, including distinct identical argv, selected stages,
+          timeout overrides and failures.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/check-plan.md
+          sha256: 84b4fb668ed9e4b9f4555a933c2d6c5929da97b9a95333527886bbdc447f953b
+          excerpt: '- PLAN-01:'
+      - id: PROVIDER
+        statement: Provider patterns avoid feature-push duplication and consume the qualified candidate bytes through integration.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/ci-providers.md
+          sha256: 28f34ec1fb1a7aeb1910c3c129d20dbcd76d18f4c87a059799b07065b84a697b
+          excerpt: Proposed changes run one
+      - id: DIAGNOSTIC
+        statement: Bounded diagnostics provide early environment observations without qualification, unexpected resources or
+          hidden failures.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/workflow-usability.md
+          sha256: 6a2a72ac5b85a1a8abd1e63467fe032186e0c3b6d7031256b1f0f67199c8582c
+          excerpt: '- UX-08:'
+      - id: PREPARE
+        statement: Prepare existing schema-2 acceptance without manual hashes or automatic approval; reject stale or invalid
+          inputs and preserve history and current assertions.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/evidence-preparation.md
+          sha256: fa4a4f826293bffb4a4032f94f011a3080894c99375f2fb51ed7322e45e6f2b9
+          excerpt: 'EP-01:'
+      - id: UPGRADE
+        statement: Partial upgrade observations distinguish compatibility, pin alignment, managed disk guidance and unknown
+          session state without writes.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/upgrades.md
+          sha256: fbc0e112304aefa9c7bca59d6f99b8d4d3f3397e937f3dfb52fb2b85f74c4adb
+          excerpt: 'UV-01:'
+      - id: METRICS
+        statement: Feedback reporting preserves attempts, unknown measurements, schedule/observation binding and independent-oracle
+          failures without false speedup claims.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/token-efficiency.md
+          sha256: 2cec598b45731fa8ae501ad77723a88f9b21b3cea2f797a12b23077ec7a57593
+          excerpt: 'WF-01:'
+      - id: PLANNING-LIVE
+        statement: Fresh-context F1-F4 trials demonstrate outcome-focused replanning while preserving distinct native platform
+          risk and policy boundaries.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: tests/planning-review.md
+          sha256: 91d1b3cb9c42b5960d6b19b9ddc05e34bb1a41cc8904f133fcb1430b86fa8f5d
+          excerpt: '## Feedback bottleneck scenarios'
+      - id: SESSION-LIVE
+        statement: Complete-session baseline/candidate observations cover the planned neutral changes and support only justified
+          measured conclusions.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: benchmarks/sessions/README.md
+          sha256: 218d2fd71ebd5ffcab4d2f5ccc7c391848a789f53b2fdd50abeb5005acffe0e5
+          excerpt: Use small fix, CI-only diagnosis, stale evidence
+      - id: CADENCE
+        statement: Daily cadence alone does not block work or merging, remains visible for compliance, and required tests still
+          block.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/result-semantics.md
+          sha256: a8ad20a047afd818e629b7543bfe413df4bb4e31250991cad7d96459746afa64
+          excerpt: Daily integration remains the MinimumCD compliance requirement MCD-TRUNK-003,
+      - id: WORDING
+        statement: Human reports explain blocked actions, missing review versus failed behavior and actionable next steps while
+          retaining IDs, exits and JSON records.
+        authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        source:
+          path: spec/consumer-interface.md
+          sha256: 6235e13474cb38f4e566be85cac42bef75346e5889a06e0422f61f4fa49f956c
+          excerpt: Human check reports explain blocked actions in ordinary language, show the
+      verifications:
+      - condition: CI-ADVICE
+        method: review
+        target:
+          path: benchmarks/ci-review/2026-10-05-follow-up.md
+          sha256: 682264b7a956c47912699c98ddf2433d8bbcfa7b2cf115b26fdd614903f44747
+          excerpt: The revised inefficient-case answer proposed eliminating duplicate triggers
+        assertion: 'Reviewed separately frozen revised candidate: concrete optional duplicate-trigger recommendation retains
+          MR/main, no CI/provider mutations, no pitch for accepted repetition or adequate CI, no repeated pitch in resumes.
+          Six turns pass independent behavior, original-test preservation and original-defect mutation checks. Earlier missed
+          recommendations and capacity errors remain failures, not hidden passes.'
+        discriminating_case: Feature completion with no optional recommendation failed the prior candidate despite green tests;
+          matching argv with deliberate distinct purpose must not be removed.
+        automation_limitation: Semantic recommendations and attempted actions require actual transcript review; offline phrase
+          matching cannot establish model behavior. Small candidate-only correction trial does not prove causal or universal
+          improvement.
+        outcome: passed
+      - condition: TRIAL-ISOLATION
+        method: automated
+        target:
+          path: tests/ci_trials_test.py
+          sha256: d225d2b3ce6c0894b267fcbfb6ff4793d3c7e27b3db6ac9dcb0c0deabb3472c7
+          excerpt: self.assertEqual(run.call_count, 1)
+        assertion: 'Read-only/contaminated probes stop before inference; fresh and resumed commands share permission and explicit
+          skill exclusions; changed CI bytes are detected. CLI runner creates exclusive directories, verifies frozen CLI/guidance
+          and retains failed events with no automatic retry. Reviewed unchanged tests/adapter against Linux job 16942575468:
+          token_efficiency_benchmark_regressions actually executed and passed. Windows skips this adapter and is not POSIX qualification.
+          Required current-source Linux CI must run it again before integration.'
+        discriminating_case: A successful context probe with read-only permission or installed OpDev must not launch a model;
+          a resumed call must retain the non-Git and approval restrictions.
+        suite: check
+        outcome: passed
+      - condition: PLAN
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/check_plan.rs
+          sha256: 800738e553c935af9663f2b0a470c106270860dacb950176ae06b68fb10a96cd
+          excerpt: assert_eq!(commands[0]["timeout_seconds"], 900);
+        assertion: 'Reviewed counting fixture: marker absent and malformed ledger unchanged after preview; actual execution
+          IDs/counts equal selection and CI failure remains failed. Schema and incompatible flags are checked.'
+        discriminating_case: Equal argv must execute twice as separate suite IDs; pre-merge selects the failing suite and keeps
+          exit 1 rather than trusting a plan.
+        suite: check
+        outcome: passed
+      - condition: PROVIDER
+        method: review
+        target:
+          path: benchmarks/workflow-usability/README.md
+          sha256: 48d0431422ceb497d6b902bc8bdcc4de5ebd23b51d93c338ee0eb744ec9d3bf2
+          excerpt: trunk runs GitHub 36973740215 and GitLab 2905594760 passed the full chain again
+        assertion: 'Reviewed provider pattern observations in this report: MR/PR runs verified without candidate consumption
+          or duplicate feature pushes; trunk runs built once and consumed those bytes. examples/feedback is unchanged since
+          cbcc616. This supports the unchanged examples, not current OpDev MR qualification; new MR and post-merge checks are
+          still required.'
+        discriminating_case: A stale source or modified candidate fails fixture checks; actual proposed-change runs did not
+          start candidate work or ordinary feature-push pipelines.
+        automation_limitation: External provider observations are not established by local suite parsing; independently inspected
+          exact private fixture pipeline jobs.
+        outcome: passed
+      - condition: DIAGNOSTIC
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/feedback_fixture.rs
+          sha256: 99ad93de44ff74f01d31eceb2e9fa247a410575d2ec5f5511c82a59eb525794f
+          excerpt: assert_eq!(data["qualification"], "unverified");
+        assertion: Assertions distinguish mismatched OS failure from a successful observed-OS probe, require no feedback artifacts
+          and exactly one preexisting fixture file. Actual provider observations and initial rejected stage are retained separately.
+        discriminating_case: A missing expected environment exits nonzero and still reports only an unverified diagnostic, never
+          candidate/gate evidence.
+        suite: check
+        outcome: passed
+      - condition: PREPARE
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/evidence_prepare.rs
+          sha256: 649ae9a4db6eaf0516d29b46a455d4ada6be92241b2b9beac4649c7574ebe297
+          excerpt: assert_eq!(after["changes"][0], old["changes"][0]);
+        assertion: Reviewed positive apply and negative unreviewed, changed mapping/source/ledger and bad-excerpt cases. Current
+          assertions survive acceptance-only updates; failed review remains failed; malformed scalar inputs exit 2 instead of
+          panic.
+        discriminating_case: Old ledger snapshot cannot reapply; altered mapping digest rejects writes even when source fingerprint
+          is unchanged.
+        suite: check
+        outcome: passed
+      - condition: UPGRADE
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/upgrades.rs
+          sha256: 4002ac28bdafa5e2d713c8b84f7731f289cb08eb4c39323fb5fee092156a62f7
+          excerpt: assert_eq!(first, repeated);
+        assertion: Repeated read-only previews agree and preserve snapshots. Explicit application preserves custom content and
+          changes guidance finding while session guidance remains unverified. Doctor tests preserve compatible different pins.
+        discriminating_case: Applying managed guidance must not change unknown active-session guidance to passed; compatible
+          pin difference is not an incompatible-runtime failure.
+        suite: check
+        outcome: passed
+      - condition: METRICS
+        method: automated
+        target:
+          path: tests/sessions_test.py
+          sha256: 9ef6eec74dec0a98e711cfcea43c68c139427c8320ea20b395c3e2e6bd52eb28
+          excerpt: self.assertFalse(report()['acceptance_equivalent'])
+        assertion: 'Python tests run through the canonical Rust benchmark adapter. Missing time prevents improvement, false
+          gate-honesty oracle blocks equivalence, failed trials stay counted and changed observations/order are rejected. Reviewed
+          unchanged tests/adapter against Linux job 16942575468: token_efficiency_benchmark_regressions actually executed and
+          passed. Windows skips this adapter and is not POSIX qualification. Required current-source Linux CI must run it again
+          before integration.'
+        discriminating_case: An apparently faster candidate with a false gate claim cannot yield a comparison ratio or accepted
+          improvement.
+        suite: check
+        outcome: passed
+      - condition: PLANNING-LIVE
+        method: review
+        target:
+          path: benchmarks/workflow-usability/README.md
+          sha256: 48d0431422ceb497d6b902bc8bdcc4de5ebd23b51d93c338ee0eb744ec9d3bf2
+          excerpt: Semantic review of the actual answers found that both arms chose direct focused
+        assertion: 'Reviewed eight completed baseline/candidate F1-F4 answers: direct feedback retains gates, consolidation
+          retains distinct coverage, native platforms remain required, Linux diagnostic is bounded and secret-free. Failed earlier
+          default-model launch remains visible.'
+        discriminating_case: Do not replace unknown agent behavior with keyword tests or infer safe platform removal from identical
+          argv.
+        automation_limitation: Actual reasoning requires semantic transcript review, not keyword tests. Answer-only samples
+          establish interpretation, not universal reliability or executed provider behavior.
+        outcome: passed
+      - condition: SESSION-LIVE
+        method: review
+        target:
+          path: benchmarks/workflow-usability/README.md
+          sha256: 48d0431422ceb497d6b902bc8bdcc4de5ebd23b51d93c338ee0eb744ec9d3bf2
+          excerpt: The planned neutral task coverage now has successful fresh/resumed
+        assertion: Reviewed parcel behavior/tests and in-memory original-defect mutation, read-only case-sensitive CI diagnosis,
+          exact 14/7-day documentation preservation and stale qualification refusal, and compatible runtime/unknown-session
+          partial-upgrade reporting. Both arms have fresh/resumed observations; failed launches and separately authorized retries
+          remain explicit. No performance improvement is inferred from missing feedback/queue intervals.
+        discriminating_case: Missing or failed baseline is not a zero-second success and cannot produce a speedup or cross-host
+          claim.
+        automation_limitation: Controller-owned file/assertion checks and semantic review are independent of agent success claims.
+          Separate later attempts do not establish an uninterrupted paired performance experiment; one host and small fixtures
+          do not establish general effectiveness or Claude behavior.
+        outcome: passed
+      - condition: CADENCE
+        method: automated
+        target:
+          path: crates/opdev-engine/src/evaluator.rs
+          sha256: 1ab54bf20314319a0a7268f65db9284aeaffc9b8b04668e8ed9534c02b1df9cd
+          excerpt: fn cadence_never_blocks_work_or_merge_but_tests_still_do()
+        assertion: Reviewed assertions exercise failed, unverified, error and migration-required cadence with otherwise satisfying
+          rules; only compliance blocks. A failed pre-merge test still blocks integration and cadence is absent from its blockers.
+        discriminating_case: The old catalog blocks development/integration on missing cadence; removing all checks would incorrectly
+          accept a failed pre-merge test.
+        suite: check
+        outcome: passed
+      - condition: WORDING
+        method: automated
+        target:
+          path: crates/opdev-cli/tests/consumer_interface.rs
+          sha256: d35582f39885a987b3764c104d47e15b5c58d64f7c3124180f4d91bc55467160
+          excerpt: fn blocked_reports_are_named_retained_and_never_overwritten()
+        assertion: Process test inspects a genuinely blocked project, requires plain-language action/remedy alongside rule ID,
+          retains exit 1 and exact full JSON, and rejects report overwrite with exit 2. Maintainer approved representative wording
+          on 2026-10-05; evidence-preparation tests independently retain stale-write refusal.
+        discriminating_case: An IDs-only report lacks the required explanation; clearer text must not change a blocked exit
+          to success or overwrite retained evidence.
+        suite: check
+        outcome: passed
+      review:
+        outcome: passed
+        reviewer: Codex agent
+        reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/61
+        rationale: Reviewed the full current inventory and actual assertions. Wording approved by maintainer. Prior Linux adapter
+          execution and unchanged neutral provider examples resolve the three previously pending mapping reviews, not current
+          remote integration. Local format/lint/check passed. Current Linux CI, candidate qualification and post-merge verification
+          remain required. No historical cadence, speedup, release or Claude-live claim.
+        subject_sha256: 2a32ec8ca0e71d12a808577ee761a424bd037ce48ed4335e737186fb425a52b1

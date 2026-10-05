@@ -3,6 +3,70 @@
 use serde_json::{Value, json};
 
 #[test]
+fn diagnostic_examples_are_explicit_and_do_not_publish_candidates()
+-> Result<(), Box<dyn std::error::Error>> {
+    let lab: Value = serde_saphyr::from_str(include_str!(
+        "../../../examples/feedback/diagnostic-gitlab.yml"
+    ))?;
+    assert!(
+        lab["stages"]
+            .as_array()
+            .ok_or("stages")?
+            .contains(&lab["diagnose"]["stage"])
+    );
+    assert_eq!(lab["workflow"]["rules"].as_array().ok_or("rules")?.len(), 1);
+    assert_eq!(
+        lab["workflow"]["rules"][0]["if"],
+        "$CI_PIPELINE_SOURCE == \"web\" || $CI_PIPELINE_SOURCE == \"api\""
+    );
+    assert_eq!(
+        lab["diagnose"]["script"],
+        json!(["python3 examples/feedback/fixture.py diagnose Linux"])
+    );
+    assert!(lab.get("candidate").is_none());
+    let hub: Value = serde_saphyr::from_str(include_str!(
+        "../../../examples/feedback/diagnostic-github.yml"
+    ))?;
+    assert_eq!(hub["on"], "workflow_dispatch");
+    assert_eq!(hub["permissions"], json!({"contents":"read"}));
+    assert_eq!(hub["jobs"].as_object().ok_or("jobs")?.len(), 1);
+    Ok(())
+}
+
+#[test]
+fn quality_has_one_canonical_execution_and_no_feature_push_pipeline()
+-> Result<(), Box<dyn std::error::Error>> {
+    let ci: Value = serde_saphyr::from_str(include_str!("../../../.gitlab-ci.yml"))?;
+    let scripts = ci["quality"]["script"].as_array().ok_or("quality script")?;
+    assert_eq!(
+        scripts
+            .iter()
+            .filter(|s| s.as_str().is_some_and(|s| s.contains("check --ci")))
+            .count(),
+        1
+    );
+    assert!(!scripts.iter().any(|s| s.as_str().is_some_and(|s| {
+        ["cargo fmt", "cargo clippy", "cargo test"]
+            .iter()
+            .any(|command| s.contains(command))
+    })));
+    let rules = ci["workflow"]["rules"].as_array().ok_or("workflow rules")?;
+    assert_eq!(rules.len(), 3);
+    assert!(
+        rules
+            .iter()
+            .any(|rule| rule["if"] == "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH")
+    );
+    assert!(
+        rules
+            .iter()
+            .any(|rule| rule["if"] == "$CI_PIPELINE_SOURCE == \"merge_request_event\"")
+    );
+    assert!(rules.iter().any(|rule| rule["if"] == "$CI_COMMIT_TAG"));
+    Ok(())
+}
+
+#[test]
 fn generic_linux_jobs_use_group_runners_and_platform_jobs_keep_overrides()
 -> Result<(), Box<dyn std::error::Error>> {
     let ci: Value = serde_saphyr::from_str(include_str!("../../../.gitlab-ci.yml"))?;

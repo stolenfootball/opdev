@@ -93,6 +93,20 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ## Rule catalog
 
+Unreleased catalog 2 retains the daily-integration requirement and its ID for
+compliance, but removes it from development and integration gates. Rule results
+are not converted to passes. Existing project manifests and evidence ledgers
+remain readable; there is no automatic ledger rewrite. Older CLIs still enforce
+their embedded catalog, so review the selected local and CI versions before
+expecting the relaxed operational behavior. Plugin guidance must not claim an
+older CLI's blocked gate passed. Historical catalog-1 reports retain their
+original verdicts; the experimental report reader requires the originating CLI
+for a different catalog version rather than reinterpreting old results.
+
+Human report wording adds explanations and next steps without changing JSON
+field names, rule identifiers, outcome values or exit codes. No release or
+managed runtime pin is changed by this source update.
+
 ### Acceptance evidence capability
 
 CLI 0.3.0 and development CLIs with `evidence acceptance-digest` read ledger/bootstrap schemas

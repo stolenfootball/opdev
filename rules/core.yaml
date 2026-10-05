@@ -1,4 +1,4 @@
-catalog_version: 1
+catalog_version: 2
 rules:
   - id: OPDEV-AUTH-001
     kind: opdev
@@ -82,7 +82,7 @@ rules:
     title: Integrate at least daily
     statement: Active software changes MUST integrate into trunk at least once per working day.
     applicability: active multi-change development
-    gates: [development, integration, compliance]
+    gates: [compliance]
     verification: [git, remote, agent]
     sources:
       - name: MinimumCD

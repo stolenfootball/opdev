@@ -177,8 +177,20 @@ impl Inventory for Report {
         if outcome == Outcome::Error {
             self.inspection_error(&format!("inventory.{component}"), subject);
         } else {
-            self.add(&format!("inventory.{component}"), "inventory", subject, outcome, false, detail,
-                "Review this CI file together with includes, variables and signature configuration; no effective runtime or qualification was established.");
+            let next = if component == "project_guidance" {
+                "Review upgrade --dry-run with the intended executable before applying managed guidance; do not infer session activation from disk state."
+            } else {
+                "Review this CI file together with includes, variables and signature configuration; no effective runtime or qualification was established."
+            };
+            self.add(
+                &format!("inventory.{component}"),
+                "inventory",
+                subject,
+                outcome,
+                false,
+                detail,
+                next,
+            );
         }
     }
 }
@@ -207,7 +219,13 @@ fn inspect(args: &DoctorArgs) -> Report {
                 || std::env::var_os("WSL_INTEROP").is_some(),
             project_schemas: (1..=PROJECT_SCHEMA_VERSION).collect(),
             evidence_schemas: vec![1, 2],
-            capabilities: vec!["doctor.v1", "upgrade.preview", "evidence.acceptance-digest"],
+            capabilities: vec![
+                "doctor.v1",
+                "upgrade.preview",
+                "evidence.acceptance-digest",
+                "evidence.prepare",
+                "check.plan",
+            ],
         },
         exit_code: 0,
         project_verification: Outcome::Unverified,
@@ -280,6 +298,9 @@ fn inspect_project(report: &mut Report) {
                 inspect_commands(report, &manifest);
                 inspect_authorities(report, &manifest);
                 inspect_gaps(report, &manifest);
+                if inspection::inspect_guidance(report).is_err() {
+                    report.inspection_error("inventory.project_guidance", "AGENTS.md / CLAUDE.md");
+                }
                 if report.remote_requested {
                     inspect_remote(report, &manifest);
                 }

@@ -1,5 +1,37 @@
 # Inspect check results
 
+## Handoff after development
+
+Report the requested outcome and its actual verification first. If project facts
+read during the task exposed a concrete CI feedback bottleneck, include a brief
+optional recommendation in the final handoff: what to change, the observed cost
+and remaining uncertainty, and how to validate it while retaining required checks.
+Ask whether the developer wants that change; do not implement it or open an issue.
+This applies even when the requested feature is complete and CI optimization was
+not requested. Apply the [planning review boundaries](planning.md#review-the-ci-feedback-path-when-relevant):
+no extra audit merely to find a suggestion, no pitch for adequate CI or a retained
+policy, and no repeated suggestion after a decline without new material evidence.
+Advice is not an integration gate or a reason to delay the requested work.
+
+## Result meanings
+
+Explain blockers for a developer who has never used OpDev. Lead with the action
+that cannot proceed (for example merging, publishing, or claiming compliance),
+what was observed or is missing, and the smallest useful next step. Keep rule IDs
+as references, not explanations. Define jargon inline: evidence means recorded
+test results or reviewed facts; a stale fingerprint means the review describes
+different file contents. Say which file, test, command or decision matters when
+known. Do not prescribe running all tests for a missing approval or claim a
+software bug when a test tool could not run. Daily cadence is an advisory work
+target in catalog 2, not a merge blocker; explain separately if compliance is
+still unverified. Never fabricate a missing detail just to make an error actionable.
+
+For example, a completed test with a failed assertion is `failed`; an absent or
+unstarted required trial is `unverified`; a launcher that cannot start the test
+is `error`. None satisfies the requirement. A green aggregate pipeline does not
+turn any of these into a passed acceptance condition. Report the observed test
+result separately from whether the overall acceptance requirement is satisfied.
+
 ## Reporting actions and blockers
 
 For each action mentioned in a progress update or final summary, use the state

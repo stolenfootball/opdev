@@ -28,7 +28,7 @@ pub(crate) fn evaluate(
 ) -> (Outcome, AcceptanceScope, String) {
     if !fresh {
         return incomplete(
-            "Acceptance evidence needs one unchanged staged source and ledger before and after checks; stage material files and re-review changed evidence",
+            "Acceptance evidence needs one unchanged staged source and ledger before and after checks: the files selected for commit or .opdev/evidence.yaml changed while checking. Stage the intended files, review the affected test links, and check again once those contents are stable",
         );
     }
     let Some(change) = ledger
@@ -36,12 +36,12 @@ pub(crate) fn evaluate(
         .and_then(|ledger| fingerprint.and_then(|fingerprint| ledger.matching_change(fingerprint)))
     else {
         return incomplete(
-            "Current schema-2 change acceptance evidence is missing; generic or schema-1 assertions cannot qualify TEST-002/003",
+            "Current schema-2 change acceptance evidence is missing: OpDev has no reviewed record linking this version of the change's expected results to its tests. Review or prepare those links in .opdev/evidence.yaml using record format 2. Older generic assertions do not establish test adequacy; this is missing review evidence, not a failing software test",
         );
     };
     let Some(acceptance) = &change.acceptance else {
         return incomplete(
-            "The current change needs a reviewed acceptance inventory and assertion mappings",
+            "The current change needs a reviewed acceptance inventory and assertion mappings: list its expected results and identify the test assertions or observations that demonstrate each one in .opdev/evidence.yaml",
         );
     };
     let review = &acceptance.review;
@@ -56,7 +56,7 @@ pub(crate) fn evaluate(
             .is_ok_and(|digest| digest == review.subject_sha256)
     {
         return incomplete(
-            "Acceptance review is pending, incomplete or bound to a different inventory/mapping payload",
+            "Acceptance review is pending, incomplete or bound to different contents: the recorded review does not confirm the current expected results and test links. Review those contents, then record who reviewed them, the decision reference and the current review identifier in .opdev/evidence.yaml",
         );
     }
     if review.outcome == Outcome::Failed {
@@ -148,7 +148,7 @@ fn result(failed: bool, error: bool, missing: bool) -> (Outcome, &'static str) {
     } else if missing {
         (
             Outcome::Unverified,
-            "Acceptance mappings are incomplete, pending, stale, or lack current-stage canonical suite execution",
+            "Acceptance mappings are incomplete, pending, stale, or lack current-stage canonical suite execution: some expected results are not yet supported by reviewed tests for these file contents and this workflow stage. Inspect the condition-specific findings, update only the affected review links, and run any missing required suite",
         )
     } else {
         (
