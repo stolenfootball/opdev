@@ -198,10 +198,9 @@ feedback latency; do not label all repeated work waste or promise a speedup from
 configuration inspection. Generic principles apply across providers; consult
 current provider documentation for proposed syntax/semantics when needed.
 
-When relevant evidence already reveals an opportunity during feature work,
-finish the requested slice and briefly offer the concrete optional improvement
-at handoff. Merely calling CI "out of scope" is not that recommendation. This
-does not justify searching for unrelated improvements or delaying the feature.
+Carry an already observed opportunity into the
+[development handoff](results.md#handoff-after-development), after completing the
+requested slice. Merely calling CI "out of scope" is not a recommendation.
 
 Recommendations are advisory, not a new gate. An implementation request for a
 product feature does not authorize unrelated CI optimization. Do not edit CI,

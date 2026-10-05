@@ -215,3 +215,42 @@ measured. Total invocation time is not substituted for those missing metrics.
 Failed pilot/setup attempts remain separate rather than pooled into favorable
 comparisons. Historical token-saving defaults and results are unchanged. Final
 acceptance and integration remain pending; live Claude is still deferred.
+
+### Explicit later retry, 2026-10-05
+
+After the scheduled attempt again failed for model capacity, the maintainer
+explicitly requested another retry. The missing candidate stale-evidence and
+partial-upgrade scenarios ran under the unchanged frozen three-scenario protocol,
+with separate raw records in `opdev-workflow-followup-20261005-manual-retry`.
+No failed record or input was replaced. All four turns completed successfully.
+
+Independent file checks confirmed that only the returns README changed: 14-day
+returns, preserved 7-day damaged-parcel reporting, unchanged contract and historical
+evidence. The candidate explicitly rejected using that evidence for integration.
+Its attempted Git diff check errored because this fixture is not a Git repository;
+it disclosed that failure and used a direct consistency check instead.
+The partial-upgrade files stayed unchanged. The candidate preserved the compatible
+CLI selection, distinguished reported guidance application from independent
+verification, and kept active-session state and CI qualification unverified.
+Reviewed actions did not install, migrate, contact a provider or manufacture evidence.
+
+| Later candidate turn | Invocation seconds |
+| --- | ---: |
+| Stale evidence, fresh | 74.22 |
+| Stale evidence, resumed | 10.35 |
+| Partial upgrade, fresh | 58.11 |
+| Partial upgrade, resumed | 16.85 |
+
+These are invocation durations, not separately observed feedback, queue or command
+intervals. They do not establish the preregistered improvement threshold; no speedup
+is claimed. The planned neutral task coverage now has successful fresh/resumed
+observations on both arms, alongside the retained failed attempts. This establishes
+scoped behavior and reporting observations, not a clean uninterrupted performance
+experiment. The subsequent CI-handoff wording correction and its separately frozen
+semantic trials are recorded in the [CI follow-up](../ci-review/2026-10-05-follow-up.md).
+Source-bound acceptance and integration remain separate from these local trials.
+
+The maintainer reviewed the new inspection/draft/application wording in the
+implementation conversation and replied "Looks good to me" on 2026-10-05.
+This records human clarity review, not assistive-technology conformance or a gate
+approval. Source-bound automated and integration checks remain required.

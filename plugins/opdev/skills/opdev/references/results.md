@@ -1,5 +1,20 @@
 # Inspect check results
 
+## Handoff after development
+
+Report the requested outcome and its actual verification first. If project facts
+read during the task exposed a concrete CI feedback bottleneck, include a brief
+optional recommendation in the final handoff: what to change, the observed cost
+and remaining uncertainty, and how to validate it while retaining required checks.
+Ask whether the developer wants that change; do not implement it or open an issue.
+This applies even when the requested feature is complete and CI optimization was
+not requested. Apply the [planning review boundaries](planning.md#review-the-ci-feedback-path-when-relevant):
+no extra audit merely to find a suggestion, no pitch for adequate CI or a retained
+policy, and no repeated suggestion after a decline without new material evidence.
+Advice is not an integration gate or a reason to delay the requested work.
+
+## Result meanings
+
 For example, a completed test with a failed assertion is `failed`; an absent or
 unstarted required trial is `unverified`; a launcher that cannot start the test
 is `error`. None satisfies the requirement. A green aggregate pipeline does not
