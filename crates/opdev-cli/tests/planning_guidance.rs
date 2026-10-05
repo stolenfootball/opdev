@@ -3,6 +3,59 @@
 use std::{fs, path::Path};
 
 #[test]
+fn placement_reference_routes_survive_isolated_plugin_copy()
+-> Result<(), Box<dyn std::error::Error>> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let skill = root.join("plugins/opdev/skills/opdev");
+    let directory = tempfile::tempdir()?;
+    let copied = directory.path().join("skills/opdev");
+    fs::create_dir_all(copied.join("references"))?;
+    for relative in [
+        "SKILL.md",
+        "references/planning.md",
+        "references/workflow.md",
+        "references/project-contract.md",
+    ] {
+        fs::copy(skill.join(relative), copied.join(relative))?;
+    }
+    let expected = copied
+        .join("references/project-contract.md")
+        .canonicalize()?;
+    for (relative, anchor) in [
+        ("SKILL.md", "before-writing-a-document"),
+        ("references/planning.md", "before-writing-a-document"),
+        ("SKILL.md", "review-document-content"),
+        ("references/workflow.md", "review-document-content"),
+    ] {
+        let source = copied.join(relative);
+        let text = fs::read_to_string(&source)?;
+        let links: Vec<_> = text
+            .split("](")
+            .skip(1)
+            .filter_map(|part| part.split_once(')').map(|(target, _)| target))
+            .filter_map(|target| target.strip_suffix(&format!("#{anchor}")))
+            .collect();
+        assert!(!links.is_empty(), "missing placement route from {relative}");
+        for link in links {
+            let resolved = source.parent().ok_or("parent")?.join(link).canonicalize()?;
+            assert_eq!(resolved, expected);
+            assert!(resolved.starts_with(copied.canonicalize()?));
+            assert_eq!(
+                fs::read(&resolved)?,
+                fs::read(skill.join("references/project-contract.md"))?
+            );
+            let headings: Vec<_> = fs::read_to_string(resolved)?
+                .lines()
+                .filter_map(|line| line.strip_prefix("### "))
+                .map(|heading| heading.to_lowercase().replace(' ', "-"))
+                .collect();
+            assert!(headings.iter().any(|heading| heading == anchor));
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn consistency_review_reference_survives_plugin_copy() -> Result<(), Box<dyn std::error::Error>> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let skill = root.join("plugins/opdev/skills/opdev");

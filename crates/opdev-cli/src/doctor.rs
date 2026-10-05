@@ -221,6 +221,7 @@ fn inspect(args: &DoctorArgs) -> Report {
             evidence_schemas: vec![1, 2],
             capabilities: vec![
                 "doctor.v1",
+                "documentation.plan.v1",
                 "upgrade.preview",
                 "evidence.acceptance-digest",
                 "evidence.prepare",

@@ -7548,3 +7548,294 @@ changes:
         }
       }
     }
+  - {
+      "fingerprint": "05f50a4ad49f545d8621d5a949657f8b16b3594dbc732e5287b2bfa2ab64d986",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Issue 63 records accepted scope, exclusions, six outcomes, bounded trials and current limitations. The maintainer approved normal content review and subsequently approved the representative CLI messages. Other redesign outcomes remain separate.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Issue 63 records accepted scope, exclusions, six outcomes, bounded trials and current limitations. The maintainer approved normal content review and subsequently approved the representative CLI messages. Other redesign outcomes remain separate.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "Reviewed the additive read-only routing contract and prospective semantic review against declared authority ownership. General path/external-identifier rules preserve custom layouts without schemas, keyword gates, new ledgers or automatic migration. Meaning remains a review responsibility, not a mechanical guarantee.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed the additive read-only routing contract and prospective semantic review against declared authority ownership. General path/external-identifier rules preserve custom layouts without schemas, keyword gates, new ledgers or automatic migration. Meaning remains a review responsibility, not a mechanical guarantee.",
+              "location": "spec/documentation-layout.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "GitLab default_branch and the project contract both select main. Fresh fetch resolves origin/main to a80e0c0ef0ac9298583608ab6d09c56985d989e2; no alternate integration role is introduced.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "GitLab default_branch and the project contract both select main. Fresh fetch resolves origin/main to a80e0c0ef0ac9298583608ab6d09c56985d989e2; no alternate integration role is introduced.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "The bounded codex/63-document-placement branch is based on current main a80e0c0 for this one outcome. Required CI remains mandatory before integration; this is not a long-lived branch role.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The bounded codex/63-document-placement branch is based on current main a80e0c0 for this one outcome. Required CI remains mandatory before integration; this is not a long-lived branch role.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Latest required trunk pipeline 2915143472 for a80e0c0 succeeded on readback. No known red trunk is bypassed; this observation does not qualify the feature candidate.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Latest required trunk pipeline 2915143472 for a80e0c0 succeeded on readback. No known red trunk is bypassed; this observation does not qualify the feature candidate.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915143472"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Additive command and doctor capability; existing schemas, CLI commands, runtime pins and release paths are unchanged. Managed guidance synchronization tests preserve project-owned prefixes/suffixes and CLAUDE import/idempotence. No installed integration or consumer is migrated.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Additive command and doctor capability; existing schemas, CLI commands, runtime pins and release paths are unchanged. Managed guidance synchronization tests preserve project-owned prefixes/suffixes and CLAUDE import/idempotence. No installed integration or consumer is migrated.",
+              "location": "crates/opdev-cli/tests/planning_guidance.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "passed",
+          "summary": "Maintainer explicitly approved the displayed unresolved-placement, outside-authority and routing-only messages: That looks fine. Approved. Process tests exercise help, parse exits and non-ANSI human output including control-character authority labels. This is plain-text clarity, not assistive-technology conformance.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Maintainer explicitly approved the displayed unresolved-placement, outside-authority and routing-only messages: That looks fine. Approved. Process tests exercise help, parse exits and non-ANSI human output including control-character authority labels. This is plain-text clarity, not assistive-technology conformance.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "passed",
+          "summary": "The new on-demand inspection command distinguishes resolved/unresolved routing and invalid input, emits full JSON, states no writes/execution and no qualification, and gives concrete next actions. Tests cover exits and preserved filesystem/config state; no daemon or telemetry is added.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The new on-demand inspection command distinguishes resolved/unresolved routing and invalid input, emits full JSON, states no writes/execution and no qualification, and gives concrete next actions. Tests cover exits and preserved filesystem/config state; no daemon or telemetry is added.",
+              "location": "crates/opdev-cli/tests/documentation.rs"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Reviewed actual CLI paths, test assertions, synchronized host guidance and resulting live-trial files/commands rather than agent success claims. Source/contract/CLI preservation and real cross-links were checked. Controller review is identified as such; no independent reviewer or universal host claim is inferred.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed actual CLI paths, test assertions, synchronized host guidance and resulting live-trial files/commands rather than agent success claims. Source/contract/CLI preservation and real cross-links were checked. Controller review is identified as such; no independent reviewer or universal host claim is inferred.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "The escaped placement defect has deterministic ownership/no-write regressions and reusable semantic scenarios. Earlier failed trials remain retained; approved normal review repaired both seeded failures and supported two fresh writes. No-op design-control fixture limitation remains explicit.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The escaped placement defect has deterministic ownership/no-write regressions and reusable semantic scenarios. Earlier failed trials remain retained; approved normal review repaired both seeded failures and supported two fresh writes. No-op design-control fixture limitation remains explicit.",
+              "location": "tests/planning-review.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "Bounded frozen Codex-only gpt-5.6-sol medium trials separate routing correctness from semantic effectiveness. Two repair and two fresh-writing observations met placement criteria; operator guide unchanged. Another control had a source mismatch and cannot establish clean no-edit behavior. No reliability estimate, speedup, native activation or Claude equivalence claimed.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Bounded frozen Codex-only gpt-5.6-sol medium trials separate routing correctness from semantic effectiveness. Two repair and two fresh-writing observations met placement criteria; operator guide unchanged. Another control had a source mismatch and cannot establish clean no-edit behavior. No reliability estimate, speedup, native activation or Claude equivalence claimed.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "behavioral",
+        "rationale": "Additive read-only document ownership inspection and shared prospective/normal-review guidance. Inventory covers routing, filesystem/external boundaries, no-write behavior, semantic preservation/authorization, packaged/managed host guidance and readable outcomes. No release, schema migration, install or consumer change; no semantic perfection, full native activation, speedup or Claude coverage claim. Canonical execution and CI remain separate required evidence.",
+        "conditions": [
+          {
+            "id": "ROUTES",
+            "statement": "Explicit purposes resolve declared durable/work owners, including custom and repository-file authorities; mixed content has separate destinations.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+            "source": {
+              "path": "spec/documentation-layout.md",
+              "sha256": "85f923bfeb2513603ee0b8f0bd8046181cb329e79d65112b4c547ca8c514db8d",
+              "excerpt": "always uses `authorities.work`; mixed returns separate routes rather than accepting"
+            }
+          },
+          {
+            "id": "BOUNDARIES",
+            "statement": "Unsafe, missing or ambiguous destinations remain unresolved; external child ownership is not guessed and unknown owners are not invented.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+            "source": {
+              "path": "spec/documentation-layout.md",
+              "sha256": "85f923bfeb2513603ee0b8f0bd8046181cb329e79d65112b4c547ca8c514db8d",
+              "excerpt": "Path checks use component boundaries and inspect existing parents. Traversal,"
+            }
+          },
+          {
+            "id": "READONLY",
+            "statement": "Placement inspection never writes documents or trackers, executes project commands, changes config or creates placeholders.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+            "source": {
+              "path": "spec/documentation-layout.md",
+              "sha256": "85f923bfeb2513603ee0b8f0bd8046181cb329e79d65112b4c547ca8c514db8d",
+              "excerpt": "spec/documentation-layout.md` resolves caller-classified ownership without writes,"
+            }
+          },
+          {
+            "id": "SEMANTICS",
+            "statement": "Normal review separates actual mixed claims while preserving enduring behavior, legitimate operator order, provisional choices, existing work and authorization boundaries.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+            "source": {
+              "path": "spec/documentation-layout.md",
+              "sha256": "85f923bfeb2513603ee0b8f0bd8046181cb329e79d65112b4c547ca8c514db8d",
+              "excerpt": "Normal review MUST compare actual changed document claims with their source"
+            }
+          },
+          {
+            "id": "HOSTS",
+            "statement": "Shared placement/review guidance remains reachable in packaged host resources; root managed guidance remains preserved, synchronized and idempotent.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+            "source": {
+              "path": "spec/documentation-layout.md",
+              "sha256": "85f923bfeb2513603ee0b8f0bd8046181cb329e79d65112b4c547ca8c514db8d",
+              "excerpt": "and managed sections of root `AGENTS.md` and `CLAUDE.md`. Legacy projects"
+            }
+          },
+          {
+            "id": "INTERFACE",
+            "statement": "Human/JSON output and exits distinguish inspection from qualification, explain unresolved routing and remain readable without color.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+            "source": {
+              "path": "spec/documentation-layout.md",
+              "sha256": "85f923bfeb2513603ee0b8f0bd8046181cb329e79d65112b4c547ca8c514db8d",
+              "excerpt": "routing, 1 for unresolved routing and 2 for malformed input/tooling. These are"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "ROUTES",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/documentation.rs",
+              "sha256": "da2e6a3312527b2d523073cf616461b5756a83ab16b5b0f0a435752bcbc4ee6c",
+              "excerpt": "fn mixed_routes_preserve_authorities_without_creating_a_local_backlog()"
+            },
+            "assertion": "Assertions inspect two exact route references, preserve opaque external identity and exercise custom directory/file owners, explicit repository trackers, new contained paths, mixed/temporary flag errors and missing-owner outcomes.",
+            "discriminating_case": "A prefix-only external match, forced docs directory, single combined mixed target or rejection of repository work files would fail these cases.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "BOUNDARIES",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/documentation.rs",
+              "sha256": "da2e6a3312527b2d523073cf616461b5756a83ab16b5b0f0a435752bcbc4ee6c",
+              "excerpt": "fn outside_paths_traversal_and_file_children_are_unresolved()"
+            },
+            "assertion": "Process assertions require exit 1 and resolved=false for sibling-prefix paths, traversal in both separator styles, rooted/drive/ADS/trailing-dot paths and children of files; missing authority roots and external item membership remain unresolved. Unix-only link test preserves outside target bytes.",
+            "discriminating_case": "knowledge-other must not match knowledge; tracker:project:1234 must not match tracker:project:123. Link-specific execution remains a Unix CI responsibility.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "READONLY",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/documentation.rs",
+              "sha256": "da2e6a3312527b2d523073cf616461b5756a83ab16b5b0f0a435752bcbc4ee6c",
+              "excerpt": "assert_eq!(git_config, fs::read(dir.path().join(\".git/config\"))?);"
+            },
+            "assertion": "An observable configured git mutation sentinel never runs; contract and original document bytes and root entries remain unchanged after mixed routing. Missing authority/new-child paths are not created.",
+            "discriminating_case": "A command that invokes configured checks or silently scaffolds a fallback tracker would change git config, contract/document bytes or directory entries.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "SEMANTICS",
+            "method": "review",
+            "target": {
+              "path": "plugins/opdev/skills/opdev/references/project-contract.md",
+              "sha256": "845eca86283190390deb1119a21aa08f35034d6274750d244ba2aafc791dcac8",
+              "excerpt": "### Review document content"
+            },
+            "assertion": "Compared actual prospective routing and normal-review guidance with the approved scope, reusable D1-D8 fixtures and preserved trial artifacts. Latest frozen protocol 7a4f9643d84b1e24aa87c93d5407a2c9f67a7bd8bf7b044be007ddae7b22f391: two actual prior-failure repairs and two fresh writes kept implementation order in work; operator guide stayed unchanged. Prior unavailable/denied/custom/fresh-context observations were reviewed separately. Source briefs and work items were preserved; concrete links resolve. Earlier failures and flawed clean-design control remain disclosed in issue 63. No guarantee of universal classification or live Claude behavior is accepted.",
+            "discriminating_case": "Architecture saying first text then CSV repeats task sequencing even if its file route is valid. Operator rollback phases and an explicitly required interface exclusion remain durable; a provisional feature must not become a permanent exclusion or commitment.",
+            "automation_limitation": "Arbitrary prose purpose and requirement meaning require semantic review. Deterministic tests cover routing/side effects, not model understanding. Small supplied-reference trials are not native-host activation or a reliability estimate; the flawed no-edit design control remains unverified and is not counted as a passing sample.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "HOSTS",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/planning_guidance.rs",
+              "sha256": "632790e519c355bcba5ad4ceadb9a5815891b83d8e54dbe47901650288881aa4",
+              "excerpt": "fn placement_reference_routes_survive_isolated_plugin_copy()"
+            },
+            "assertion": "Isolated-copy tests resolve the placement and content-review links and actual section anchors within the copied plugin. Bootstrap tests compare generated managed blocks with repository AGENTS while preserving user prefixes/suffixes, a single CLAUDE import and repeated-application bytes.",
+            "discriminating_case": "A link depending on a source checkout, missing review anchor, mismatched bootstrap text or overwritten project-owned instructions fails.",
+            "outcome": "passed",
+            "suite": "check"
+          },
+          {
+            "condition": "INTERFACE",
+            "method": "automated",
+            "target": {
+              "path": "crates/opdev-cli/tests/documentation.rs",
+              "sha256": "da2e6a3312527b2d523073cf616461b5756a83ab16b5b0f0a435752bcbc4ee6c",
+              "excerpt": "fn invalid_classification_arguments_are_errors_and_temporary_needs_no_document()"
+            },
+            "assertion": "Real CLI calls require malformed combinations to exit 2, temporary routes to be empty, readable routing limits and no ANSI escape output even for malicious authority labels. Consumer-interface tests include documentation plan help. Maintainer message review is recorded separately in the A11Y assertion.",
+            "discriminating_case": "Successful path inspection must not be represented as verification or approval; color-only or raw terminal-control diagnostics and malformed-input success would violate the interface.",
+            "outcome": "passed",
+            "suite": "check"
+          }
+        ],
+        "review": {
+          "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/63",
+        "rationale": "Reviewed accepted scope, current staged implementation, actual test assertions, isolated-copy/bootstrap behavior and semantic trial artifacts. The inventory separates deterministic ownership/no-write guarantees from reviewed prose meaning and explicitly retains prior failures, the flawed control and deferred Claude/native-host coverage. Maintainer approved representative CLI wording, not broader conformance. This review establishes the bounded mappings, not CI or delivery qualification.",
+        "subject_sha256": "18119ad7cc58eff804ab80d0764a2b408ef4437c0e4916a1b93b133a7e0d1df9"
+        }
+      }
+    }
