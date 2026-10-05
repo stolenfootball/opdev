@@ -69,6 +69,16 @@ guidance application and preserved project decisions.
 See [readiness diagnostics](doctor.md) for read-only prerequisites, scoped exits,
 runtime identity, actionable findings and explicit qualification limits.
 
+## Proposed architecture
+
+The [resumable workflow redesign](workflow-redesign.md) consolidates the proposed
+execution/evaluation separation, evidence lifetimes, resumable decisions and
+optional specialist-agent coordination. It is a design proposal, not implemented
+behavior or an amendment to the current versioned contracts. Implementation
+sequencing, milestones and progress belong in the
+[GitLab redesign roadmap](https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62),
+not this specification.
+
 ## Lifecycle
 
 Apply [outcome-based planning](planning.md) to formal plans and informal next-step

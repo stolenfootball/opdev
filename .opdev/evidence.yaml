@@ -7326,3 +7326,225 @@ changes:
           remote integration. Local format/lint/check passed. Current Linux CI, candidate qualification and post-merge verification
           remain required. No historical cadence, speedup, release or Claude-live claim.
         subject_sha256: 2a32ec8ca0e71d12a808577ee761a424bd037ce48ed4335e737186fb425a52b1
+  - {
+      "fingerprint": "1192748716075b2ddedc009da34c3231e8ca40c1ce19a19dafaf2e06ca24e65b",
+      "work": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62",
+      "assertions": [
+        {
+          "rule_id": "OPDEV-WORK-001",
+          "outcome": "passed",
+          "summary": "Roadmap 62 records the approved organization-only scope, exclusions and acceptance. Issues 63-68 and milestones 8-13 were created and read back; feature work is planned, not started.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Roadmap 62 records the approved organization-only scope, exclusions and acceptance. Issues 63-68 and milestones 8-13 were created and read back; feature work is planned, not started.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-DESIGN-001",
+          "outcome": "passed",
+          "summary": "The proposal preserves generalized architecture, guarantees, alternatives, research rationale and reversal triggers. Live sequencing and task acceptance now belong to GitLab; the placement guard is proposed, not activated.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The proposal preserves generalized architecture, guarantees, alternatives, research rationale and reversal triggers. Live sequencing and task acceptance now belong to GitLab; the placement guard is proposed, not activated.",
+              "location": "spec/workflow-redesign.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-001",
+          "outcome": "passed",
+          "summary": "Read-only GitLab and git observations agree on main at af84b0dd9e4ff193211c69bd565d91e5162cd14a. The project contract and integration trunk are unchanged.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Read-only GitLab and git observations agree on main at af84b0dd9e4ff193211c69bd565d91e5162cd14a. The project contract and integration trunk are unchanged.",
+              "location": ".opdev/project.yaml"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-TRUNK-002",
+          "outcome": "passed",
+          "summary": "The documentation-only branch codex/redesign-authorities was created from current main af84b0d for one bounded handoff. Required CI remains necessary before integration; no permanent branch role is introduced.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The documentation-only branch codex/redesign-authorities was created from current main af84b0d for one bounded handoff. Required CI remains necessary before integration; no permanent branch role is introduced.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-FLOW-001",
+          "outcome": "not_applicable",
+          "summary": "Latest main pipeline 2914727452 at af84b0d was successful when inspected on 2026-10-05. No known failing trunk is being bypassed; this observation does not qualify the documentation branch.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Latest main pipeline 2914727452 at af84b0d was successful when inspected on 2026-10-05. No known failing trunk is being bypassed; this observation does not qualify the documentation branch.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2914727452"
+            }
+          ]
+        },
+        {
+          "rule_id": "MCD-COMPAT-001",
+          "outcome": "passed",
+          "summary": "Reviewed staged paths contain only the design proposal and its index, plus this evidence record. No code, active contract, schema, command, CI, runtime pin or installed consumer behavior changes.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed staged paths contain only the design proposal and its index, plus this evidence record. No code, active contract, schema, command, CI, runtime pin or installed consumer behavior changes.",
+              "location": "spec/README.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-A11Y-001",
+          "outcome": "not_applicable",
+          "summary": "This increment adds a plain Markdown architecture proposal and index links, with no executable/user-interface change or new accessibility standard. No new software conformance is claimed.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "This increment adds a plain Markdown architecture proposal and index links, with no executable/user-interface change or new accessibility standard. No new software conformance is claimed.",
+              "location": "spec/workflow-redesign.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-OPS-001",
+          "outcome": "not_applicable",
+          "summary": "No operated runtime or diagnostic behavior changes in this documentation-only increment. Proposed future reporting is explicitly not an implemented capability.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "No operated runtime or diagnostic behavior changes in this documentation-only increment. Proposed future reporting is explicitly not an implemented capability.",
+              "location": "spec/workflow-redesign.md"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-AI-001",
+          "outcome": "passed",
+          "summary": "Reviewed document contents and staged scope against declared ownership, verified local link targets, and read back every created issue and milestone including descriptions and bindings. An agent completion claim alone is not the evidence.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "Reviewed document contents and staged scope against declared ownership, verified local link targets, and read back every created issue and milestone including descriptions and bindings. An agent completion claim alone is not the evidence.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-LEARN-001",
+          "outcome": "passed",
+          "summary": "The misplaced implementation roadmap was preserved in the tracker and removed from the proposal. Issue 63 generalizes the failure into bounded routing and fresh-context regression work; the safeguard itself remains unimplemented.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The misplaced implementation roadmap was preserved in the tracker and removed from the proposal. Issue 63 generalizes the failure into bounded routing and fresh-context regression work; the safeguard itself remains unimplemented.",
+              "location": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/63"
+            }
+          ]
+        },
+        {
+          "rule_id": "OPDEV-EVAL-001",
+          "outcome": "passed",
+          "summary": "The proposal separates correctness, qualification and observed effectiveness, retains unknown usage and failed attempts, and makes no measured speedup or host-equivalence claim.",
+          "evidence": [
+            {
+              "kind": "review",
+              "summary": "The proposal separates correctness, qualification and observed effectiveness, retains unknown usage and failed attempts, and makes no measured speedup or host-equivalence claim.",
+              "location": "spec/workflow-redesign.md"
+            }
+          ]
+        }
+      ],
+      "acceptance": {
+        "scope": "non_behavioral",
+        "rationale": "Approved organization of the redesign only: durable design in spec, implementation tracking in GitLab, proposed placement safeguard and cross-links. No runtime, active policy, schema, CI, release or consumer change. Review addresses document meaning and actual tracker placement; canonical suites remain required independently.",
+        "conditions": [
+          {
+            "id": "AUTHORITY",
+            "statement": "Durable design remains in its declared authority; implementation milestones, sequencing, task acceptance and progress are preserved in the work authority instead of duplicated as a repository backlog.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62",
+            "source": {
+              "path": "spec/documentation-layout.md",
+              "sha256": "b84edb6bc16ac50fd2f5810ab622f3fad85d93660aaecfbb4f0829e59c6be9aa",
+              "excerpt": "remain in the declared work authority. Agents MUST NOT create competing PLAN,"
+            }
+          },
+          {
+            "id": "PLACEMENT",
+            "statement": "The proposed safeguard classifies content, resolves ownership and existing material, respects write authority, splits mixed content and supports legitimate repository trackers without keyword-based blocking.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/63",
+            "source": {
+              "path": "spec/workflow-redesign.md",
+              "sha256": "1c4085de70b4978e1965cb093c71eb9ade5624ae5de0006e37f4161add4cfe03",
+              "excerpt": "### Document placement before writing"
+            }
+          },
+          {
+            "id": "SCOPE",
+            "statement": "The redesign remains a durable proposal with its guarantees and rationale intact, not implementation or activation; no release or consumer migration is performed.",
+            "authority": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62",
+            "source": {
+              "path": "spec/workflow-redesign.md",
+              "sha256": "1c4085de70b4978e1965cb093c71eb9ade5624ae5de0006e37f4161add4cfe03",
+              "excerpt": "discussed with the developer; it does not implement or activate it. Existing"
+            }
+          }
+        ],
+        "verifications": [
+          {
+            "condition": "AUTHORITY",
+            "method": "review",
+            "target": {
+              "path": "spec/workflow-redesign.md",
+              "sha256": "1c4085de70b4978e1965cb093c71eb9ade5624ae5de0006e37f4161add4cfe03",
+              "excerpt": "and its linked issues. They are not duplicated here. This write-up does not"
+            },
+            "assertion": "Read back issues 62-68 and milestones 8-13 from GitLab. All six scope/acceptance descriptions and milestone bindings matched the submitted content. The repository proposal has no delivery-slice backlog, live issue status, task-specific trial matrix or implementation question checklist; index and proposal link the canonical roadmap. Local relative links resolve.",
+            "discriminating_case": "Renaming a roadmap section to architecture while retaining its milestones and exit checklists would still duplicate tracking; a legitimate permanent behavior sequence is not itself a backlog.",
+            "automation_limitation": "Link existence and API readback are mechanically checkable, but durable versus implementation-tracking meaning requires semantic review. No new routing software is being implemented here.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "PLACEMENT",
+            "method": "review",
+            "target": {
+              "path": "spec/workflow-redesign.md",
+              "sha256": "1c4085de70b4978e1965cb093c71eb9ade5624ae5de0006e37f4161add4cfe03",
+              "excerpt": "### Document placement before writing"
+            },
+            "assertion": "Reviewed the four pre-write questions, classification table, mixed-content split, explicit repository-tracker support, inaccessible/unauthorized tracker fallback, prospective-only application and rejection of keyword-only CI or mandatory reviewer agents. Issue 63 retains the implementation and regression obligations.",
+            "discriminating_case": "A blanket no-plan-files rule would reject a legitimate permanent migration guide or declared repository tracker. Writing a local backlog when GitLab is unavailable would violate the proposed boundary.",
+            "automation_limitation": "This is proposed architecture only. Text review does not prove future fresh-agent behavior; live and deterministic implementation trials remain planned in issue 63.",
+            "outcome": "passed"
+          },
+          {
+            "condition": "SCOPE",
+            "method": "review",
+            "target": {
+              "path": "spec/README.md",
+              "sha256": "3bf8a78f4ebe365a87079df80b8599db55b0598c97d602b3efe40b652a3c9caf",
+              "excerpt": "behavior or an amendment to the current versioned contracts. Implementation"
+            },
+            "assertion": "Compared staged paths and full proposal sections: current contracts remain authoritative; execution/evaluation separation, trust/freshness, typed decisions, optional delegation, compatibility, measurement limits and reversal rationale remain. Only the proposal/index and change-bound evidence are part of the repository handoff; six feature issues remain open/planned.",
+            "discriminating_case": "Describing the guard as enforced, changing a CLI pin or closing feature issues because the plan exists would exceed this task. No such action is present.",
+            "automation_limitation": "A documentation-only intent/scope review is not a behavioral test or release qualification. Required canonical and remote checks are reported separately.",
+            "outcome": "passed"
+          }
+        ],
+        "review": {
+        "outcome": "passed",
+          "reviewer": "Codex agent",
+          "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/work_items/62",
+        "rationale": "Reviewed the actual authority split, preserved architecture, prospective safeguard and unchanged implementation scope against the accepted organization request. GitLab readbacks and local document/link inspections support these nonbehavioral mappings. The digest binds this reviewed inventory only; it does not approve feature implementation or establish CI, release or effectiveness results.",
+        "subject_sha256": "fdd2a4c2c6eb8a3d236ad6b650645d373beec64ccf308bf868f4ad056db36389"
+        }
+      }
+    }
