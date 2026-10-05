@@ -39,6 +39,14 @@ state.
 
 ## Project-manifest schema
 
+Source previews advertising `execution.same-run.v1` support the separately
+versioned [same-run execution policy and record](execution-reuse.md). This is
+explicit opt-in, not a reinterpretation of diagnostic receipts or historical
+reports. Unsupported fields/versions are rejected without rewriting them.
+Inspect both producer and evaluator capabilities before changing CI. The legacy
+fresh-execution path remains available; no version or managed pin changes follow
+automatically from this capability.
+
 See [coordinated upgrades](upgrades.md) for read-only assessment, reviewed guidance
 application, host/runtime boundaries and separate project verification. Bare
 `upgrade` now previews; older runtimes require capability detection before use.

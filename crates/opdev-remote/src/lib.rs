@@ -6,6 +6,8 @@ mod run;
 pub use run::{RunExpectation, RunObservation, RunVerification, verify_run};
 mod jobs;
 pub use jobs::{JobObservation, JobVerification, verify_run_with_jobs};
+mod producers;
+pub use producers::{ProducerSnapshot, observe_producers};
 mod qualification;
 pub use qualification::{QualifiedTrunk, observe_qualification_policy, qualify_trunk};
 

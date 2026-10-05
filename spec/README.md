@@ -42,6 +42,9 @@ projections, retained diagnostics, freshness, and compatibility.
 See [test execution evidence](test-reports.md) for tool-neutral canonical
 execution receipts and optional read-only JUnit inspection, separate from gates.
 
+See [same-run execution reuse](execution-reuse.md) for opt-in authenticated
+producer records, evaluation without rerunning checks, and conservative fallback.
+
 See [execution preview](check-plan.md) to inspect the commands a check selects
 without running them or qualifying a gate.
 

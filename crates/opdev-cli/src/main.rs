@@ -28,6 +28,7 @@ mod ci_run;
 mod doctor;
 mod documentation;
 mod evidence_prepare;
+mod execution_reuse;
 mod inspection;
 mod test_execution;
 mod test_report;
@@ -157,7 +158,7 @@ struct CheckArgs {
     #[arg(long, default_value = ".")]
     root: PathBuf,
     /// Preview selected invocations without execution, remote access or qualification.
-    #[arg(long, conflicts_with_all = ["remote", "no_exec", "report"])]
+    #[arg(long, conflicts_with_all = ["remote", "no_exec", "report", "reuse_ci_policy"])]
     plan: bool,
     /// Evaluate CI-specific requirements.
     #[arg(long)]
@@ -171,6 +172,15 @@ struct CheckArgs {
     /// Validate and aggregate without executing project commands.
     #[arg(long)]
     no_exec: bool,
+    /// Reuse provider-authenticated results from this CI run under a reviewed policy (network access).
+    #[arg(long, requires_all = ["ci", "execution_environment"], conflicts_with = "delivery")]
+    reuse_ci_policy: Option<PathBuf>,
+    /// Nonsecret actual environment identity supplied by the reviewed producer configuration.
+    #[arg(long, requires = "reuse_ci_policy")]
+    execution_environment: Option<String>,
+    /// Select integrated-trunk suites and extensions instead of pre-merge checks.
+    #[arg(long, requires = "ci", conflicts_with = "delivery")]
+    post_merge: bool,
     /// Report presentation.
     #[arg(long, value_enum, default_value_t = CheckFormat::Human)]
     format: CheckFormat,
@@ -212,6 +222,8 @@ struct CiArgs {
 
 #[derive(Debug, Subcommand)]
 enum CiCommand {
+    /// Run a reviewed canonical producer once and emit its versioned execution record.
+    Execute(execution_reuse::ExecuteArgs),
     /// Verify an explicitly selected remote CI run, not whole-project qualification.
     VerifyRun(ci_run::VerifyRunArgs),
     /// Render a pinned baseline configuration.
@@ -797,6 +809,7 @@ fn report_agent_changes(changes: &[opdev_project::ManagedFile]) {
 
 fn ci_command(args: &CiArgs) -> Result<ExitCode> {
     match &args.command {
+        CiCommand::Execute(args) => execution_reuse::execute(args),
         CiCommand::Generate(args) => generate_ci(args).map(|()| ExitCode::SUCCESS),
         CiCommand::Inspect(args) => inspect_ci(args).map(|()| ExitCode::SUCCESS),
         CiCommand::VerifyRun(args) => ci_run::run(args),
@@ -879,6 +892,10 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         options.extension_stage = opdev_project::ExtensionStage::Deliver;
     }
     options.execute_checks = !args.no_exec;
+    if args.post_merge {
+        options.test_stage = opdev_project::TestStage::PostMerge;
+        options.extension_stage = opdev_project::ExtensionStage::PostMerge;
+    }
     if args.plan {
         let plan = plan_checks(&root, &manifest, options);
         if args.format == CheckFormat::Json {
@@ -905,7 +922,19 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         }
         return Ok(ExitCode::SUCCESS);
     }
-    let mut report = evaluate(&root, &manifest, options).context("project evaluation failed")?;
+    let mut report = if let Some(policy) = &args.reuse_ci_policy {
+        execution_reuse::evaluate(
+            &root,
+            &manifest,
+            options,
+            policy,
+            args.execution_environment
+                .as_deref()
+                .context("execution environment is required")?,
+        )?
+    } else {
+        evaluate(&root, &manifest, options).context("project evaluation failed")?
+    };
     if args.ci {
         apply_local_ci(&root, &manifest, &mut report)?;
     }
@@ -924,7 +953,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
             views::print_summary(&report, source.context("summary requires a saved report")?)?;
         }
     }
-    let gate = if args.delivery {
+    let gate = if args.delivery || args.post_merge {
         Gate::Delivery
     } else if args.ci {
         Gate::Integration

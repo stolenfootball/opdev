@@ -86,8 +86,11 @@ Use normal authorized canonical checks. Automated mappings need their suite in
 the current `opdev check` stage, with unchanged staged source and ledger before
 and after. Do not rerun suites merely for receipts. Saved reports, `test-execution`
 and JUnit inspection remain diagnostics, not alternate qualification inputs.
-For automated mappings, missing/skipped suites or `--no-exec` leave execution
-unverified. Review-only mappings do not need a suite. Stale sources or pending
+For automated mappings, missing/skipped suites or ordinary `--no-exec` leave
+execution unverified. The explicit same-run reuse path described in
+[testing](testing.md) can supply validated current producer execution instead;
+it does not reuse an old acceptance review or convert diagnostic receipts.
+Review-only mappings do not need a suite. Stale sources or pending
 review remain unverified; suite failure is failed; verifier/execution failure is error.
 
 The gate checks completeness relative to the reviewed inventory, source references,

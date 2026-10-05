@@ -1141,6 +1141,7 @@ dependencies = [
  "jsonschema",
  "opdev-core",
  "opdev-project",
+ "opdev-remote",
  "roxmltree",
  "serde",
  "serde_json",
