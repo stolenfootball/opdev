@@ -113,6 +113,8 @@ pub struct ContentReference {
 pub struct Record {
     pub id: String,
     pub kind: Kind,
+    /// Complete reviewed inventory, separate from execution/source identity.
+    pub acceptance_sha256: Option<String>,
     pub subject: Subject,
     pub scope: String,
     pub origin: Origin,
@@ -188,6 +190,10 @@ impl Journal {
             match event {
                 Event::Record(record) => {
                     record.subject.validate()?;
+                    ensure!(
+                        record.acceptance_sha256.as_deref().is_none_or(digest),
+                        "acceptance identity must be an exact SHA-256 digest"
+                    );
                     validate_origin(&record.origin)?;
                     ensure!(!record.scope.trim().is_empty(), "record scope is missing");
                     ensure!(
@@ -273,14 +279,19 @@ pub struct Finding {
 }
 
 /// Pure projection. File/provider observations are supplied separately, not performed here.
-pub fn project(
+pub fn project_acceptance(
     journal: &Journal,
     subject: &Subject,
     now: u64,
+    acceptance: Option<&str>,
     mut content_matches: impl FnMut(&ContentReference) -> bool,
 ) -> Result<Vec<Finding>> {
     journal.validate()?;
     subject.validate()?;
+    ensure!(
+        acceptance.is_none_or(digest),
+        "current acceptance identity is invalid"
+    );
     let retired: BTreeSet<&str> = journal
         .events
         .iter()
@@ -317,10 +328,32 @@ pub fn project(
                 "conflicting",
                 "Multiple active records describe this scope; resolve their actual authority rather than selecting a favorable result",
             )
-        } else if record.subject != *subject {
+        } else if record.subject.source_sha256 != subject.source_sha256 {
             (
                 "stale",
-                "The supplied source, configuration, stage or artifact changed after this record",
+                "The source changed after this record; review the affected acceptance conditions and obtain evidence for the current source",
+            )
+        } else if record.subject.configuration_sha256 != subject.configuration_sha256 {
+            (
+                "stale",
+                "The project configuration changed; recheck the selected commands, requirements and policy before reusing evidence",
+            )
+        } else if record.subject.stage != subject.stage {
+            (
+                "stale",
+                "This record belongs to another verification stage; pre-merge checks do not establish post-merge verification",
+            )
+        } else if record.subject.artifact_sha256 != subject.artifact_sha256 {
+            (
+                "stale",
+                "The artifact identity changed; locate and qualify the exact bytes intended for this candidate",
+            )
+        } else if record.kind == Kind::AcceptanceReview
+            && (acceptance.is_none() || record.acceptance_sha256.as_deref() != acceptance)
+        {
+            (
+                "stale",
+                "The complete acceptance inventory is missing or changed; review added or changed conditions before integration, without treating old execution as review",
             )
         } else if record.observed_at > now || record.expires_at.is_some_and(|end| now >= end) {
             (
@@ -359,10 +392,20 @@ pub fn project(
 pub(crate) mod tests {
     use super::*;
 
+    fn project(
+        journal: &Journal,
+        subject: &Subject,
+        now: u64,
+        content: impl FnMut(&ContentReference) -> bool,
+    ) -> Result<Vec<Finding>> {
+        project_acceptance(journal, subject, now, None, content)
+    }
+
     pub fn record(id: &str, kind: Kind) -> Record {
         Record {
             id: id.into(),
             kind,
+            acceptance_sha256: None,
             subject: Subject {
                 schema: 1,
                 source_sha256: "a".repeat(64),
@@ -498,6 +541,25 @@ pub(crate) mod tests {
         future = journal.clone();
         future.events.push(future.events[0].clone());
         assert!(future.validate().is_err());
+        Ok(())
+    }
+
+    #[test]
+    fn new_acceptance_invalidates_review_without_relabelling_execution() -> Result<()> {
+        let execution = record("execution", Kind::Execution);
+        let subject = execution.subject.clone();
+        let mut review = record("review", Kind::AcceptanceReview);
+        let accepted = "d".repeat(64);
+        review.acceptance_sha256 = Some(accepted.clone());
+        let journal = journal(vec![execution, review]);
+        let original = project_acceptance(&journal, &subject, 20, Some(&accepted), |_| true)?;
+        assert!(original.iter().all(|f| f.state == "recorded"));
+        for inventory in [None, Some("e".repeat(64))] {
+            let view = project_acceptance(&journal, &subject, 20, inventory.as_deref(), |_| true)?;
+            assert_eq!(view[0].state, "recorded");
+            assert_eq!(view[1].state, "stale");
+            assert!(view[1].explanation.contains("acceptance inventory"));
+        }
         Ok(())
     }
 }

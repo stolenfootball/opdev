@@ -20,6 +20,64 @@ fn subject() -> Value {
         "stage":"pre_merge","artifact_sha256":null})
 }
 
+#[test]
+fn artifact_replacement_and_missing_bytes_never_reuse_old_qualification()
+-> Result<(), Box<dyn std::error::Error>> {
+    let directory = tempfile::tempdir()?;
+    let root = directory.path();
+    let artifact = b"candidate immutable bytes";
+    let proof = b"qualification for that exact candidate";
+    fs::write(root.join("artifact.bin"), artifact)?;
+    fs::write(root.join("proof.json"), proof)?;
+    let mut current = subject();
+    current["artifact_sha256"] = json!(format!("{:x}", Sha256::digest(artifact)));
+    fs::write(root.join("subject.json"), serde_json::to_vec(&current)?)?;
+    let journal = json!({"schema":1,"protocol":"workflow.v1","work":"tracker:neutral/1","events":[{
+        "event":"record","value":{"id":"artifact","kind":"artifact_qualification","subject":current,
+        "scope":"candidate only","origin":{"reference":"ci:neutral/run/1","actor":"CI","human_attributed":false},
+        "evidence":[{"path":"artifact.bin","sha256":format!("{:x}",Sha256::digest(artifact))},
+        {"path":"proof.json","sha256":format!("{:x}",Sha256::digest(proof))}],
+        "observed_at":1,"outcome":"passed"}}]});
+    let schema: Value =
+        serde_json::from_str(include_str!("../../../schema/workflow-journal.schema.json"))?;
+    assert!(jsonschema::is_valid(&schema, &journal));
+    fs::write(root.join("journal.json"), serde_json::to_vec(&journal)?)?;
+    let inspect = || {
+        cli(
+            root,
+            &[
+                "workflow",
+                "inspect",
+                "--journal",
+                "journal.json",
+                "--subject",
+                "subject.json",
+                "--need",
+                "artifact-qualification",
+                "--json",
+            ],
+        )
+    };
+    assert_eq!(inspect()?.status.code(), Some(0));
+    fs::write(root.join("artifact.bin"), b"replacement bytes")?;
+    let changed = inspect()?;
+    assert_eq!(changed.status.code(), Some(1));
+    assert_eq!(
+        serde_json::from_slice::<Value>(&changed.stdout)?["findings"][0]["state"],
+        "unresolved"
+    );
+    fs::remove_file(root.join("artifact.bin"))?;
+    assert_eq!(inspect()?.status.code(), Some(1));
+    fs::write(root.join("artifact.bin"), artifact)?;
+    fs::remove_file(root.join("proof.json"))?;
+    assert_eq!(inspect()?.status.code(), Some(1));
+    assert_eq!(
+        fs::read(root.join("journal.json"))?,
+        serde_json::to_vec(&journal)?
+    );
+    Ok(())
+}
+
 fn fixture(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
     fs::write(
         root.join("original-decision.txt"),

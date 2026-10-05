@@ -25,6 +25,7 @@ use serde::Deserialize;
 
 mod adoption;
 mod ci_run;
+mod delegation;
 mod doctor;
 mod documentation;
 mod evidence_prepare;
@@ -65,6 +66,8 @@ enum Command {
     Documentation(documentation::DocumentationArgs),
     /// Inspect resumable references or explicitly append an attributed workflow event.
     Workflow(workflow::WorkflowArgs),
+    /// Validate a bounded worker assignment/result without dispatch or qualification.
+    Delegation(delegation::DelegationArgs),
     /// Generate or inspect a first-class CI configuration.
     Ci(CiArgs),
     /// Preview an upgrade, or apply an explicitly reviewed guidance plan.
@@ -469,6 +472,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         Command::Doctor(args) => doctor::run(&args),
         Command::Documentation(args) => documentation::run(&args),
         Command::Workflow(args) => workflow::run(&args),
+        Command::Delegation(args) => delegation::run(&args),
         Command::Ci(args) => ci_command(&args),
         Command::Upgrade(args) => upgrade::run(&args),
     }

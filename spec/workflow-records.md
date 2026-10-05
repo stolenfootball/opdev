@@ -40,7 +40,7 @@ pure inspection command, so inspection never starts hidden processes. A subject
 observation is not a promise that the filesystem cannot change afterward.
 
 `opdev workflow inspect --journal PATH --subject PATH --root EVIDENCE_ROOT
-[--need KIND] [--json]` reconstructs the view without executing commands, starting
+[--need KIND] [--acceptance-sha256 DIGEST] [--json]` reconstructs the view without executing commands, starting
 network requests, writing a cache or repairing files. The subject input is an
 explicit current observation supplied by the caller, not a newly authenticated
 source observation. Obtain it using the existing source/configuration evidence
@@ -57,6 +57,12 @@ before reusing completed investigation, verification or a settled decision.
 
 Source/configuration/stage/artifact changes invalidate the conservative full
 subject. Missing/changed evidence and expired/future observations stay visible.
+Acceptance-review records additionally name `acceptance_sha256`, the complete
+reviewed inventory. Missing or changed current inventory leaves that review stale
+even when product source and execution are unchanged. Other record kinds do not
+become stale merely from that inventory edit; this does not qualify their claims.
+Obtain the current digest from the existing acceptance evidence operation, never
+by hashing only the conditions a worker happened to inspect.
 Artifact qualification must reference the exact artifact bytes as well as the
 original qualification evidence. Referenced files are relative to the explicit
 evidence root; traversal, links and unsupported paths do not match. Remote-only

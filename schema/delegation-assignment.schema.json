@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpDev delegation-assignment v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "protocol",
+    "id",
+    "parent_work",
+    "role",
+    "outcome",
+    "original_authorities",
+    "subject",
+    "acceptance_sha256",
+    "owned_paths",
+    "allowed_actions",
+    "checks",
+    "model",
+    "effort",
+    "max_seconds",
+    "stop_condition",
+    "return_contract"
+  ],
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "protocol": {
+      "const": "delegation.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_work": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "enum": [
+        "controller",
+        "investigator",
+        "implementer",
+        "acceptance_reviewer",
+        "ci_analyst"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "original_authorities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "acceptance_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "owned_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "read",
+          "edit",
+          "focused_check"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effort": {
+      "type": "string",
+      "minLength": 1
+    },
+    "max_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "stop_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "return_contract": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "source_sha256",
+        "configuration_sha256",
+        "stage"
+      ],
+      "properties": {
+        "schema": {
+          "const": 1
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "configuration_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -164,6 +164,21 @@ are rejected without rewrites. Existing work authorities, evidence ledgers,
 reports, adoption decisions and runtime pins retain their original semantics.
 No installed consumer is automatically migrated to a reference journal.
 
+Acceptance-review references compare the complete current acceptance digest
+independently of source identity. A reference missing that digest remains readable
+but its review is stale, not implicitly current. Other record kinds retain their
+separate meanings. Optional JSON fields may be omitted or null as the schema
+declares; unknown fields remain errors.
+
+## Optional delegation
+
+Capability `delegation.v1` identifies strict assignment/result schema 1 validation.
+It neither promises host dispatch support nor qualifies worker claims. Unsupported
+versions fail without rewriting records. Older clients and hosts can continue
+single-agent work. Native adapters must disclose missing observed settings and
+permission limitations; no global configuration or consumer agent files are
+installed automatically.
+
 ## Provider APIs
 
 GitHub and GitLab adapters isolate provider API versions from the core domain

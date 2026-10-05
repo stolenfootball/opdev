@@ -61,6 +61,11 @@ If a project already uses the optional `workflow.references.v1` protocol,
 `workflow inspect` can reconstruct its journal against an explicitly supplied
 current subject and retained evidence. It runs no commands or network calls and
 does not refresh the subject, authenticate human attribution or qualify a gate.
+For acceptance-review records, supply the current complete acceptance digest;
+unchanged product source alone does not cover added or revised conditions.
+Missing inventory identity leaves that review stale. Do not clear valid execution
+history or rerun checks merely to repair a review explanation; qualify execution
+only through its supported same-run policy or fresh canonical path.
 Read original scope before relying on a record. Missing or conflicting sources
 are unresolved; locate them before asking the developer to repeat a decision.
 Use explicit append with the inspected previous digest only for authorized

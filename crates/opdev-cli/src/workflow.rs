@@ -11,7 +11,9 @@ use serde::de::DeserializeOwned;
 use serde_json::json;
 use sha2::{Digest, Sha256};
 
-use crate::workflow_records::{ContentReference, Event, Journal, Kind, Subject, project};
+use crate::workflow_records::{
+    ContentReference, Event, Journal, Kind, Subject, project_acceptance,
+};
 
 const LIMIT: u64 = 8 * 1024 * 1024;
 
@@ -35,6 +37,9 @@ enum WorkflowCommand {
     },
     /// Inspect retained references against an explicitly supplied current subject; no commands or network.
     Inspect {
+        /// Current complete acceptance inventory; missing identity leaves review stale.
+        #[arg(long)]
+        acceptance_sha256: Option<String>,
         #[arg(long)]
         journal: PathBuf,
         /// JSON subject observation. This command does not authenticate or refresh that observation.
@@ -210,6 +215,20 @@ fn append(path: &Path, event: Event, expected: &str, work: &str) -> Result<Strin
     Ok(sha(&bytes))
 }
 
+fn missing_kinds(
+    need: &[Kind],
+    findings: &[crate::workflow_records::Finding],
+) -> Vec<serde_json::Value> {
+    need.iter()
+        .filter(|kind| {
+            !findings
+                .iter()
+                .any(|f| f.kind == **kind && f.state == "recorded")
+        })
+        .map(|kind| json!({"kind":kind,"next_action":kind.next_action()}))
+        .collect()
+}
+
 pub fn run(args: &WorkflowArgs) -> Result<ExitCode> {
     match &args.command {
         WorkflowCommand::Subject {
@@ -243,6 +262,7 @@ pub fn run(args: &WorkflowArgs) -> Result<ExitCode> {
             Ok(ExitCode::SUCCESS)
         }
         WorkflowCommand::Inspect {
+            acceptance_sha256,
             journal,
             subject,
             root,
@@ -253,16 +273,11 @@ pub fn run(args: &WorkflowArgs) -> Result<ExitCode> {
             let subject: Subject = decode(&read(subject)?)?;
             let journal: Journal = decode(&bytes)?;
             let now = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs();
-            let findings = project(&journal, &subject, now, |r| evidence_matches(root, r))?;
-            let missing: Vec<_> = need
-                .iter()
-                .filter(|kind| {
-                    !findings
-                        .iter()
-                        .any(|f| f.kind == **kind && f.state == "recorded")
-                })
-                .map(|kind| json!({"kind":kind,"next_action":kind.next_action()}))
-                .collect();
+            let findings =
+                project_acceptance(&journal, &subject, now, acceptance_sha256.as_deref(), |r| {
+                    evidence_matches(root, r)
+                })?;
+            let missing = missing_kinds(need, &findings);
             let unresolved = !missing.is_empty()
                 || findings
                     .iter()

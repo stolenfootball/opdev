@@ -48,6 +48,12 @@ producer records, evaluation without rerunning checks, and conservative fallback
 See [resumable workflow references](workflow-records.md) for typed observations,
 explicit history-preserving writes and read-only continuation without qualification.
 
+See [bounded delegation](delegation.md) for optional native specialist assignments,
+return validation, controller ownership and host limitations.
+
+See [evidence lifetimes](evidence-lifetimes.md) for independent review, execution,
+artifact and decision invalidation with conservative whole-subject defaults.
+
 See [execution preview](check-plan.md) to inspect the commands a check selects
 without running them or qualifying a gate.
 
