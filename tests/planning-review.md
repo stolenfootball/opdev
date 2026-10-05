@@ -91,6 +91,16 @@ are answer-only and authorize no provider or repository mutation.
 
 ## Deterministic coverage and limitations
 
+### Advisory CI recognition projects
+
+`benchmarks/ci-review/cases.json` supplies small synthetic project files for
+fresh-context baseline/candidate trials. `benchmarks/ci-review/README.md` holds
+the separate semantic oracle. Cover unsolicited recognition during next-step
+planning, exact-candidate/optional-trial semantics, cache and cancellation costs,
+explicit developer decline, and genuinely distinct native coverage. No provider
+or repository mutation is authorized; inspect attempted actions and unchanged
+file hashes separately. These are not measured CI performance benchmarks.
+
 `crates/opdev-cli/tests/planning_guidance.rs` checks that planning references are
 reachable and packaged locally, and that fresh/updated project instructions
 match this repository's managed guidance without overwriting user content.

@@ -169,6 +169,51 @@ propose that change with evidence and tradeoffs instead of silently skipping it.
 No fixed failure count, new ledger, questionnaire or fresh permission round is
 needed within existing authorization.
 
+### Review the CI feedback path when relevant
+
+During CI design/change, or when observed repeated checks, queueing or setup delay
+the requested outcome, inspect the relevant path from change to useful feedback.
+Do not wait for the user to explicitly request optimization, but do not turn every
+task into a pipeline audit. Use available configuration and recent observations;
+name missing timings or external includes rather than inventing their behavior.
+
+Look for duplicate branch/MR triggers, repeated full qualification merely to enter
+a candidate pipeline, caches with no compatible producer, and cancellation rules
+that discard deliberately started long trials. Compare checks by the distinct
+risk and execution context they cover, not matching command names. Preserve MR
+and integrated-trunk verification and required native/configuration coverage.
+Candidate continuation must retain the exact source, effective configuration,
+environment, artifact identity, trust boundary and required freshness. A matching
+commit alone is insufficient; a cache hit is not qualification or artifact identity.
+An optional trial's failed/missing result still blocks its acceptance claim even
+when the provider reports a green pipeline. Do not make all jobs non-interruptible.
+Keep outcome labels distinct: an executed test with a failing assertion is
+`failed`; a required result that is absent or not run is `unverified`; a broken
+test launcher/tool invocation is `error`, not a product failure. All three block
+the applicable qualification, but require different next actions.
+
+Offer a small, ranked recommendation with observed cost, uncertainty, tradeoff
+and a way to validate it. Separate summed runner time, queue delay and end-to-end
+feedback latency; do not label all repeated work waste or promise a speedup from
+configuration inspection. Generic principles apply across providers; consult
+current provider documentation for proposed syntax/semantics when needed.
+
+When relevant evidence already reveals an opportunity during feature work,
+finish the requested slice and briefly offer the concrete optional improvement
+at handoff. Merely calling CI "out of scope" is not that recommendation. This
+does not justify searching for unrelated improvements or delaying the feature.
+
+Recommendations are advisory, not a new gate. An implementation request for a
+product feature does not authorize unrelated CI optimization. Do not edit CI,
+cancel jobs, change caches/runner policy, open optimization issues or launch paid
+trials merely because an opportunity was found. Obtain authorization for the
+proposed change. If the developer declines or prefers the existing compliant
+setup, acknowledge that choice, continue the requested work and do not repeatedly
+raise the same suggestion without new material evidence or a request to revisit.
+No mandatory opt-out file, rationale form or new schema is required. A real core
+requirement failure remains a separate finding, never disguised as an optional
+efficiency preference or waived by declining an optimization.
+
 After acceptance checks and meaningful feedback, revisit the next recommendation:
 continue, revise, stop, or take a bounded enabling step. Do not automatically
 execute an entire speculative roadmap. Keep durable contracts/design rationale

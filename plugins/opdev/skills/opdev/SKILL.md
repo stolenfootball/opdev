@@ -111,6 +111,11 @@ or treat doctor as adoption consent, completed tests or gate evidence.
 8. Use `opdev check` for local evidence. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Use full human/JSON output by default. Follow [results.md](references/results.md) for retained reports; compact views require explicit experimental opt-in from the user or project, never just a capable runtime. Report blocked or unavailable evidence honestly.
 9. Reconcile implementation, tests, declared authorities, delivery behavior, and tracked work before completion.
 
+When CI design/changes or observed repeated waits make verification cost relevant,
+use the planning reference's CI feedback-path review proactively. Recommend
+evidence-backed options; do not optimize CI automatically. Developers may keep
+their existing compliant setup, including deliberate extra checks.
+
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
 
 For a requested requirements-to-implementation consistency review (for example,

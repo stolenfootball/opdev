@@ -155,6 +155,27 @@ required evidence. Policy simplification is a proposed reviewed change, not an
 implicit waiver. Existing scope/authorization remains sufficient for routine
 replanning; material scope changes still require developer direction.
 
+## Advisory CI feedback-path review
+
+CF-01: CI design/change or observed verification bottlenecks SHOULD trigger a
+proportional review of the relevant end-to-end feedback path without requiring
+an explicit optimization request. Routine unrelated work MUST NOT trigger a full
+audit. Inspect evidence before identifying redundancy; preserve distinct risks.
+CF-02: Consider trigger duplication, redundant qualification before candidate
+continuation, cache producers/consumers and deliberate long-trial cancellation.
+Preserve required pre/post-integration verification and native coverage. Reuse
+requires source, effective configuration, environment, immutable artifact, trust
+and freshness equivalence, not commit/argv equality. Optional trial failures or
+missing results cannot establish acceptance through a green aggregate pipeline.
+CF-03: Recommendations MUST separate observations from hypotheses and runner cost
+from queue/end-to-end latency. Include a bounded validation and tradeoff; no
+unmeasured speed claims, blanket cache sharing or cancellation policy.
+CF-04: Efficiency is advisory. Do not automatically implement, mutate provider
+state or create work items. A developer may retain a compliant inefficient setup
+without a new record or failing gate; honor declines until materially new evidence
+or explicit reconsideration. Core failures remain separately reported and cannot
+be waived. This introduces no provider optimizer, schema or mandatory checklist.
+
 ## Basis
 
 - [Kniberg: earliest testable/usable/lovable](https://blog.crisp.se/2016/01/25/henrikkniberg/making-sense-of-mvp): learn from usable increments rather than assume the final solution.

@@ -1,5 +1,11 @@
 # Inspect check results
 
+For example, a completed test with a failed assertion is `failed`; an absent or
+unstarted required trial is `unverified`; a launcher that cannot start the test
+is `error`. None satisfies the requirement. A green aggregate pipeline does not
+turn any of these into a passed acceptance condition. Report the observed test
+result separately from whether the overall acceptance requirement is satisfied.
+
 ## Reporting actions and blockers
 
 For each action mentioned in a progress update or final summary, use the state

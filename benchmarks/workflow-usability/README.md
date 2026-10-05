@@ -146,3 +146,72 @@ not silently substituted. Live Claude remains deferred. Planning scenarios F1–
 and the separate feedback report protocol are prepared; live semantic and complete
 coding-session acceptance remain unverified until access/model selection permits
 a fresh baseline. Historical compact results and defaults are unchanged.
+
+### Authorized model follow-up
+
+The maintainer subsequently selected `gpt-5.6-sol`. A separate 90-second,
+zero-retry answer-only protocol ran baseline and candidate F1–F4 once each on
+Codex CLI 0.154.0. All eight turns completed without timeout or tool actions.
+Protocol SHA-256:
+`eb57d993e209a7e3b1b26ad71e467edf50bb6ccddaedb4bb0ce4ffc1c222cccf`.
+Raw prompts, events and records remain in local `opdev-feedback-plan/trials-5-6-sol`.
+The earlier failed default-model attempt remains part of the history above.
+
+Semantic review of the actual answers found that both arms chose direct focused
+feedback for F1, consolidation for F2, preservation of native environments for F3,
+and a bounded secret-free reproduction for F4. Candidate F1 explicitly refused
+silently bypassing a required integration gate; any proposed policy change would
+still need review and could not waive core requirements. Candidate F2 retained
+distinct environment coverage while consolidating interdependent changes. F3 kept
+both platforms despite identical commands. F4 bounded the Linux probe without
+production runner mutation. Wording occasionally described recommendations as
+imperatives, but no implementation was attempted in these advice-only sessions.
+
+These samples support the guidance's interpretation, not a causal improvement,
+perfect planning reliability, actual CI execution or complete-session speedup.
+The separate [CI advisory evaluation](../ci-review/README.md) adds write-authorized
+and resumed-decision probes. Live Claude remains explicitly deferred.
+
+### Fresh/resumed task observations, 2026-10-05
+
+The `follow-up-cases.json` fixtures cover CI-only diagnosis, stale evidence and
+partial upgrades. A separate batch reused the original neutral parcel fixture
+for the small rounding fix. Both freeze baseline `d19cd393faf831fe404ebb30788e911aee38ee17`,
+candidate references, Codex CLI 0.154.0, `gpt-5.6-sol` medium effort, 150 seconds
+per turn, no automatic retries and the 0.85 feedback/1.05 completion thresholds
+before comparison. Fresh/resumed turns share each checkout; a supplied developer
+update in the partial-upgrade resume is distinguished from the older disk snapshot.
+This tests supplied guidance, not installation or automatic skill activation.
+
+The three-scenario protocol SHA-256 is
+`29002f2a7ba3179e09b1b05961b1be3f56a578564c8097255ba7299a13332e76`;
+the parcel protocol is
+`624b124dd7a548a6cc337e6eb36358477e2f2916b308459cc61925e6e0cd166b`.
+Raw inputs, context probes, events and before/after hashes are retained locally
+in `opdev-workflow-followup-20261005` and its `-small` sibling. Installed OpDev
+skills were excluded using child-process settings and checked in fresh context;
+other host instructions were inherited, not claimed hermetic.
+
+Both parcel arms completed fresh and resumed turns. Independent boundary/API
+assertions passed, original test bodies were preserved, final suites passed and
+new tests detected the original rounding defect under an in-memory substitution.
+Candidate resumed reporting explicitly kept integration unverified and delivery
+unqualified without remote evidence. These are complete local task turns, not
+qualified remote integrations or releases.
+
+The baseline completed all six other turns: it diagnosed case-sensitive import
+failure without edits, refused Windows-only Linux qualification, corrected returns
+to 14 days while preserving the 7-day damaged-parcel deadline and historical
+evidence, and distinguished compatible CLI selection, disk guidance and unknown
+session state during partial upgrade. Candidate fresh/resumed CI diagnosis also
+completed. Its next fresh stale-evidence turn failed before work with the model
+capacity error, so the controller stopped. Candidate stale-evidence/resume and
+partial-upgrade coverage remain incomplete. The error is retained, not a zero-time
+success or omitted sample.
+
+No speedup is claimed: these samples are small, the broad schedule is incomplete,
+and first-useful-feedback, queue and command intervals were not independently
+measured. Total invocation time is not substituted for those missing metrics.
+Failed pilot/setup attempts remain separate rather than pooled into favorable
+comparisons. Historical token-saving defaults and results are unchanged. Final
+acceptance and integration remain pending; live Claude is still deferred.
