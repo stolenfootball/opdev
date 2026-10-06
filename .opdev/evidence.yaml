@@ -10911,7 +10911,87 @@ changes:
       subject_sha256: f364878718d4f90988a9c4f9b5318435219223d36863d3ad385ea5f0959831af
 - fingerprint: 06b7eaffdec708bc1295763d4ed6c140791b58a87e3ef8ca21b294e9d5bed719
   work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62
-  assertions: []
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Roadmap 62 and issues 64-68 define the accepted outcomes, scope, exclusions, acceptance conditions, evidence, dependencies and risks for this exact change.
+    evidence:
+    - kind: review
+      summary: Re-read the approved issue descriptions against the fourteen reviewed acceptance conditions. Work tracking remains in GitLab; no release or consumer migration is included. This records work definition, not completion of integration.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: The architecture authority records alternatives, rationale, supporting sources and reversal triggers; concrete protocol specifications bound the implemented semantics.
+    evidence:
+    - kind: review
+      summary: Reviewed same-run producer trust, conservative whole-subject fallback, attributed rather than authenticated decisions, cooperative atomic writes and optional native workers. No general cache or autonomous approval is introduced.
+      location: spec/workflow-redesign.md
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer approved the three presented representative diagnostics; automated noninteractive textual-interface and consent tests passed in current-source CI.
+    evidence:
+    - kind: human_review
+      summary: Actual response was The wording is approved. Review covers the presented reuse, changed-review and permission-versus-feedback messages under the existing CLI target; it is not universal assistive-technology or WCAG certification.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190
+    - kind: ci_observation
+      summary: Job 16954646756 passed the canonical check suite, including consumer-interface tests. The job itself failed on absent rule evidence; that failure is retained and final CI remains required.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/jobs/16954646756
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the single integration and release-source branch; project and CI branch policy are unchanged.
+    evidence:
+    - kind: review
+      summary: Rechecked project trunk main and default-branch/tag CI rules. No separate long-lived development or release-source branch is introduced.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The bounded implementation branch starts from current origin/main and targets it in MR 54 with source-branch removal selected; integration is still pending.
+    evidence:
+    - kind: review
+      summary: Git merge-base is 791ff1e1e6d195e7cba5138a37edba4f7ede05d3, the exact parent of first implementation commit 370a771. MR 54 is the reviewed return path, not a permanent parallel trunk.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/54
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: The latest observed main pipeline succeeded; no known red trunk is being ignored. Recheck before integration and prioritize repair if its state changes.
+    evidence:
+    - kind: ci_observation
+      summary: Read-only GitLab observation confirmed main pipeline 2915326544 at 791ff1e1e6d195e7cba5138a37edba4f7ede05d3 is successful. This is a trunk observation, not candidate qualification.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915326544
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Existing supported fresh execution and diagnostic receipt meanings are preserved; new protocols require explicit capability and policy, without installed pin or consumer migration.
+    evidence:
+    - kind: ci_observation
+      summary: Current-source canonical tests passed in Linux job 16954646756 and local Windows, including upgrade preservation, unknown-schema refusal, legacy receipts and fresh-path controls. Plugin validation and all three installer checks also succeeded. This does not claim the blocked pipeline or skipped packaging passed.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915765496
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: The on-demand CLI retains structured outcomes, explicit exits and actionable unresolved-state diagnostics without hidden execution or a telemetry service.
+    evidence:
+    - kind: test_observation
+      summary: Current canonical process tests cover help, malformed input, blocked reports, retained diagnostics, no-side-effect inspection, stale evidence and interrupted writes. Human wording review was separately approved; no universal environment-support claim is made.
+      location: spec/consumer-interface.md
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Agent-authored changes were evaluated against original requirements and actual assertions, with automated counterexamples and independently inspected trial behavior rather than completion claims alone.
+    evidence:
+    - kind: review
+      summary: Reviewed all inventoried mappings and observed current-source canonical tests. Independently reconciled 48 root sessions and 16 workers with file hashes, behavior probes, commands and host records; one unobservable direct worker inspection is not credited. Required final CI is not replaced by these observations.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/68#note_3959171432
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Observed workflow overhead informed the bounded redesign and repeated evaluation; negative results preserve simpler defaults rather than prompting unsupported performance claims.
+    evidence:
+    - kind: evaluation
+      summary: Both frozen speed thresholds failed. The maintainer explicitly selected single-agent default and optional delegation after reviewing those results. No general cache or unapproved differentiated-effort experiment was added; failed attempts and review limitations remain recorded.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: Correctness, deployability and effectiveness remain distinct. This assertion records that separation, not a speedup, release readiness or completed integration.
+    evidence:
+    - kind: evaluation
+      summary: Completed comparison found candidate-single median 107.0 seconds versus baseline 104.4, with matched-model delegation 51.5 percent slower on the selected complex cases. Three continuation scenarios met their narrow oracles. Statistical generality, live Claude, differentiated effort and full model-driven merge remain unverified.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/68#note_3959177387
   acceptance:
     scope: behavioral
     rationale: "Opt-in same-run CI execution protocol and exact-source evaluation split. Full fresh path and legacy diagnostic meanings remain. No cross-revision cache, default activation, release or consumer migration. Provider fixtures and subprocess counts establish bounded implementation behavior, not live-host effectiveness or universal trust. GitHub push/workflow_dispatch and absolute producer executables are explicit first-version limits. Combined retained core implementation for roadmap 62, issues 64-67: typed read-only continuation, cooperative atomic updates, bounded optional native delegation and independent acceptance lifetimes. Live effectiveness, human wording, required integration and publication are separate evidence; no speedup or release is claimed."
