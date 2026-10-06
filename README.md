@@ -210,8 +210,7 @@ audits are read-only, and extensions cannot replace core verdicts. OpDev does
 not certify software or replace engineering judgment.
 
 **Status:** OpDev is pre-1.0. See [published releases](https://github.com/stolenfootball/opdev/releases)
-for available binaries. Source plugin 0.4.0 retains the qualified CLI 0.3.1 pin;
-new CLI 0.4.0 capabilities require a separately selected 0.4.0 runtime. Updating
+for available binaries. Source plugin 0.4.1 pins qualified CLI 0.4.0. Updating
 the plugin does not migrate existing project records or CI pins. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.

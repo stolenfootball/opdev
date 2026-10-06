@@ -42,6 +42,12 @@ fn runtime_pin_is_compatible_and_covers_supported_platforms()
     };
     let version = semver::Version::parse(value("version")?)?;
     assert_eq!(value("tag")?, format!("v{version}"));
+    assert_eq!(
+        value("identity")?,
+        format!(
+            "https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v{version}"
+        )
+    );
     let contract: serde_json::Value = serde_json::from_str(include_str!(
         "../../../plugins/opdev/opdev-compatibility.json"
     ))?;
