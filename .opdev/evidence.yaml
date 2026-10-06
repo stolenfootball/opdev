@@ -11358,3 +11358,128 @@ changes:
         authorize publication. Whole-subject/fresh execution remains the default; no generic
         cache or silent consumer migration is implemented.
       subject_sha256: 55d06eae34236b6cdc6cfd792988c92b5fc2dff98ef42df56b356c06d85bb4a6
+- fingerprint: b1235c90eaf13f92568f79abb038f71fa3105289cb0e3a86402a31969eb337df
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issue 69 defines release outcome, scope, exclusions, risks, acceptance and candidate/final evidence; publication remains pending.
+    evidence:
+    - kind: work
+      summary: The maintainer requested a release after accepting the completed redesign. Installed plugins and consumer migrations are excluded.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+  - rule_id: OPDEV-DESIGN-001
+    outcome: not_applicable
+    summary: This preparation changes version identity and release prose, not architecture or protocol semantics; prior implemented contracts remain authoritative.
+    evidence:
+    - kind: review
+      summary: Reviewed the diff; only workspace versions, CI version, plugin identities/range and release/compatibility documentation change. The retained runtime lock is unchanged.
+      location: spec/compatibility.md
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration and release-source branch; no branch-role or CI trigger change is made.
+    evidence:
+    - kind: review
+      summary: Rechecked project trunk main and existing default-branch/protected-tag CI definitions.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The bounded release branch starts at current main 499d3b0290040e7da3d9c880d24b0c767b99fe4e and returns through a required green MR with source removal; integration is pending.
+    evidence:
+    - kind: work
+      summary: One release-preparation increment; no long-lived release development branch or alternate trunk is introduced.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Latest observed main pipeline 2915812332 is successful at 499d3b0290040e7da3d9c880d24b0c767b99fe4e; recheck before merge and publication.
+    evidence:
+    - kind: ci_observation
+      summary: Read-only GitLab observation during release preparation confirms green trunk, not a qualified release candidate.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915812332
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Existing behavior and managed pin are preserved; range permits the newly versioned CLI, and explicit upgrade boundaries are documented.
+    evidence:
+    - kind: test_observation
+      summary: Local canonical format, lint and full tests passed after version changes, including release metadata, compatibility, upgrades and legacy execution. A subsequent prose clarification does not change code; final exact-source CI remains required.
+      location: crates/opdev-cli/tests/release_metadata.rs
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: No help, error, outcome presentation or consent interaction changes in this release-preparation diff; the previously approved representative messages and interface target remain unchanged.
+    evidence:
+    - kind: human_review
+      summary: Prior actual maintainer wording approval remains applicable to unchanged output; current canonical consumer-interface tests passed. No universal assistive-technology or live Claude claim is made.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: Version identity advances to 0.4.0; textual/structured diagnostics and retained reports remain unchanged and regression-tested.
+    evidence:
+    - kind: test_observation
+      summary: Canonical consumer-interface and report tests passed; the private source-built verifier reports 0.4.0 without replacing the managed runtime.
+      location: spec/consumer-interface.md
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Reviewed the actual release diff, original feature contracts, metadata assertions and test results rather than relying on author completion claims.
+    evidence:
+    - kind: review
+      summary: Version equality and range membership have discriminating automated assertions; prose review preserves measured limitations. Candidate/final publication, signatures and consumer smoke remain separate required observations.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Release notes retain negative trial findings and the resulting single-agent default, with optional delegation rather than unsupported improvement claims.
+    evidence:
+    - kind: review
+      summary: Compared notes with accepted redesign findings; live Claude and general performance improvement remain unverified.
+      location: release/CHANGELOG.md
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: Correctness checks, publication qualification and effectiveness are explicitly separate; no current check or prior trial is described as proof of all three.
+    evidence:
+    - kind: review
+      summary: Release notes say matched Codex trials did not establish an overall gain; release work item separately requires candidate/final CI and isolated installation.
+      location: release/CHANGELOG.md
+  acceptance:
+    scope: behavioral
+    rationale: Release identity and compatibility metadata for CLI/plugin 0.4.0; no runtime logic changes. Publication remains subject to fresh candidate/final CI, exact artifact verification and isolated installation; this preparation review cannot establish those future outcomes.
+    conditions:
+    - id: IDENTITY
+      statement: CLI and CI versions agree; both plugin hosts and marketplace agree; the supported range includes the source CLI and retained published managed runtime.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+      source:
+        path: spec/compatibility.md
+        sha256: 722f23c20b46da487a75dc9155f2000f282d6d254640d6c984932ec35ef62670
+        excerpt: the current CLI and managed pin must satisfy its CLI range.
+    - id: MIGRATION
+      statement: Release documentation names new capabilities and migration boundaries without claiming speed gains, automatic project migration, new managed runtime availability or completed live Claude qualification.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+      source:
+        path: release/CHANGELOG.md
+        sha256: 2dcadeaf83125fa53bb097a1bbb4a350cf704f9d2bc88ad525d489faa241cd2a
+        excerpt: '## 0.4.0 / Plugin 0.4.0'
+    verifications:
+    - condition: IDENTITY
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/release_metadata.rs
+        sha256: e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933
+        excerpt: fn release_versions_and_runtime_range_are_consistent()
+      assertion: Exact equality and semver membership assertions over actual CI, both manifests, marketplace, compatibility and runtime lock reject inconsistent identities and excluded runtimes.
+      discriminating_case: CI version mismatch, divergent host or marketplace version, or range excluding CLI 0.4.0 or pin 0.3.1 fails an explicit assertion.
+      suite: check
+      outcome: passed
+    - condition: MIGRATION
+      method: review
+      target:
+        path: release/CHANGELOG.md
+        sha256: 2dcadeaf83125fa53bb097a1bbb4a350cf704f9d2bc88ad525d489faa241cd2a
+        excerpt: Matched Codex trials did not establish an overall speed or token improvement;
+      assertion: Compared release bullets with merged work and concrete contracts; notes retain default single-agent/fresh execution, opt-in features, unchanged pin, separate capability checks and live Claude limitations.
+      discriminating_case: Claims of faster execution, default delegation, implicit policy migration or managed CLI 0.4.0 would contradict retained measurements, source lock or contracts.
+      automation_limitation: Semantic accuracy and completeness of release prose require review of original implementation and trial evidence; textual matching cannot establish truth. Metadata and full regression suites remain required separately.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+      rationale: Reviewed both release-preparation conditions against actual metadata assertions, changed prose and original contracts. No runtime logic or project migration changed; publication and consumer qualification remain pending and cannot be inferred from this review.
+      subject_sha256: 9d9f6262d33f198eae69fa7b7bc04dd078ec02ecf2eb45ac7a9211f010fe1a52
