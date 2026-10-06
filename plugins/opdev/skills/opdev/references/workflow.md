@@ -49,6 +49,30 @@ Use one consumer-facing delivery path and an automated, tested recovery strategy
 
 For operated software, collect user-centered health and diagnostic evidence after delivery. Reconcile defects, incidents, decisions, tests, and the project contract. Evaluate intended effectiveness separately from deterministic correctness.
 
+## Resume from existing evidence
+
+At a context handoff, read the current work authority and only the relevant
+decisions/evidence. Do not restart completed research, adoption or settled user
+questions without a changed fact. Distinguish completed work from whether its
+evidence is still current, and distinguish permission to execute from actual
+product feedback or permission to publish.
+
+If a project already uses the optional `workflow.references.v1` protocol,
+`workflow inspect` can reconstruct its journal against an explicitly supplied
+current subject and retained evidence. It runs no commands or network calls and
+does not refresh the subject, authenticate human attribution or qualify a gate.
+For acceptance-review records, supply the current complete acceptance digest;
+unchanged product source alone does not cover added or revised conditions.
+Missing inventory identity leaves that review stale. Do not clear valid execution
+history or rerun checks merely to repair a review explanation; qualify execution
+only through its supported same-run policy or fresh canonical path.
+Read original scope before relying on a record. Missing or conflicting sources
+are unresolved; locate them before asking the developer to repeat a decision.
+Use explicit append with the inspected previous digest only for authorized
+record updates; preserve revoked/superseded history. Existing authority references
+are preferable to another journal when adequate. Do not create a new tracker,
+mandatory cache, private transcript copy or migration just to resume ordinary work.
+
 ## Gates
 
 The four aggregates are development, integration, delivery, and compliance. A gate is blocked when any applicable required rule or blocking project check is not `passed` or justified `not_applicable`. A report may be useful even while blocked; never summarize it as successful.

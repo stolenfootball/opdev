@@ -118,6 +118,11 @@ their existing compliant setup, including deliberate extra checks.
 
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
 
+When the developer enables a controller/specialist strategy, use the optional
+[bounded delegation contract](references/delegation.md) and current host adapter.
+Keep a first-class single-agent path; do not create a team, extra questions or
+per-worker full-suite runs merely because delegation is available.
+
 For a requested requirements-to-implementation consistency review (for example,
 "does this satisfy the agreed plan?"), use
 [consistency-review.md](references/consistency-review.md). It reuses declared

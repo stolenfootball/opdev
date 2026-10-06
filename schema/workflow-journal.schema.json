@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/workflow-journal-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "protocol",
+    "work",
+    "events"
+  ],
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "protocol": {
+      "const": "workflow.v1"
+    },
+    "work": {
+      "type": "string",
+      "minLength": 1
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event",
+              "value"
+            ],
+            "properties": {
+              "event": {
+                "const": "record"
+              },
+              "value": {
+                "$ref": "#/$defs/record"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event",
+              "value"
+            ],
+            "properties": {
+              "event": {
+                "const": "revoke"
+              },
+              "value": {
+                "$ref": "#/$defs/revocation"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "source_sha256",
+        "configuration_sha256",
+        "stage"
+      ],
+      "properties": {
+        "schema": {
+          "const": 1
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "configuration_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference",
+        "actor",
+        "human_attributed"
+      ],
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "human_attributed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "subject",
+        "scope",
+        "origin",
+        "evidence",
+        "observed_at",
+        "outcome"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "acceptance_review",
+            "execution",
+            "artifact_qualification",
+            "policy_decision",
+            "implementation_approval",
+            "execution_permission",
+            "user_feedback",
+            "release_authorization"
+          ]
+        },
+        "acceptance_sha256": {
+          "anyOf": [{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},{"type":"null"}]
+        },
+        "subject": {
+          "$ref": "#/$defs/subject"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "$ref": "#/$defs/origin"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/content"
+          }
+        },
+        "observed_at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expires_at": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "outcome": {
+          "enum": [
+            "passed",
+            "failed",
+            "unverified",
+            "not_applicable",
+            "error",
+            "migration_required"
+          ]
+        },
+        "supersedes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    },
+    "revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "target",
+        "origin",
+        "reason",
+        "observed_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "$ref": "#/$defs/origin"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed_at": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/execution-record-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "binding", "inputs_unchanged", "result"],
+  "properties": {
+    "schema": {"const": 1},
+    "inputs_unchanged": {"type": "boolean"},
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "provider", "run_id", "run_attempt", "revision", "stage", "suite", "producer", "command_sha256", "inputs_sha256", "configuration_sha256", "environment", "executable_sha256", "executor_sha256", "policy_sha256", "ledger_is_input"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/text"},
+        "provider": {"enum": ["github", "gitlab"]},
+        "run_id": {"type": "integer", "minimum": 1},
+        "run_attempt": {"type": ["integer", "null"], "minimum": 1},
+        "revision": {"type": "string", "pattern": "^([a-fA-F0-9]{40}|[a-fA-F0-9]{64})$"},
+        "stage": {"enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"]},
+        "suite": {"$ref": "#/$defs/text"},
+        "producer": {"$ref": "#/$defs/text"},
+        "command_sha256": {"$ref": "#/$defs/digest"},
+        "inputs_sha256": {"$ref": "#/$defs/digest"},
+        "configuration_sha256": {"$ref": "#/$defs/digest"},
+        "environment": {"$ref": "#/$defs/text"},
+        "executable_sha256": {"$ref": "#/$defs/digest"},
+        "executor_sha256": {"$ref": "#/$defs/digest"},
+        "policy_sha256": {"$ref": "#/$defs/digest"},
+        "ledger_is_input": {"type": "boolean"}
+      }
+    },
+    "result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "blocking", "gates", "outcome", "summary", "evidence"],
+      "properties": {
+        "id": {"$ref": "#/$defs/text"}, "kind": {"const": "suite"}, "blocking": {"const": true},
+        "gates": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["development", "integration", "delivery", "compliance"]}},
+        "outcome": {"enum": ["passed", "failed", "error"]},
+        "summary": {"type": "string", "minLength": 1},
+        "evidence": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["kind", "summary"], "properties": {"kind": {"type": "string", "minLength": 1}, "summary": {"type": "string", "minLength": 1}, "location": {"type": "string", "minLength": 1}}}},
+        "stdout": {"type": "string"}, "stderr": {"type": "string"}, "duration_ms": {"type": "integer", "minimum": 0}
+      }
+    }
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "maxLength": 1024},
+    "digest": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}
+  }
+}

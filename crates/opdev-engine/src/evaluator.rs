@@ -52,6 +52,9 @@ impl CheckOptions {
 /// Failures that prevent creation of a complete check report.
 #[derive(Debug, Error)]
 pub enum EvaluationError {
+    /// Authenticated execution no longer describes this evaluation subject.
+    #[error("saved execution cannot qualify this change: {0}")]
+    ExecutionBinding(String),
     /// The embedded rule catalog is invalid.
     #[error("could not load the embedded rule catalog: {0}")]
     Catalog(#[from] opdev_core::CatalogError),
@@ -77,6 +80,33 @@ pub fn evaluate(
     root: &Path,
     manifest: &ProjectManifest,
     options: CheckOptions,
+) -> Result<CheckReport, EvaluationError> {
+    evaluate_inner(root, manifest, options, None)
+}
+
+/// Evaluate with provider-authenticated same-run executions. No provider calls
+/// occur here. With `execute_checks: false`, no canonical/extension commands run.
+/// With execution enabled, only selected checks missing from the validated set run.
+/// Historical diagnostic receipts cannot construct the required sealed input.
+///
+/// # Errors
+/// Rejects changed source, command, configuration or stage before execution.
+pub fn evaluate_with_executions(
+    root: &Path,
+    manifest: &ProjectManifest,
+    options: CheckOptions,
+    executions: &crate::ValidatedExecutions,
+) -> Result<CheckReport, EvaluationError> {
+    crate::execution_record::current_subject(root, manifest, options.test_stage, executions, true)
+        .map_err(EvaluationError::ExecutionBinding)?;
+    evaluate_inner(root, manifest, options, Some(executions))
+}
+
+fn evaluate_inner(
+    root: &Path,
+    manifest: &ProjectManifest,
+    options: CheckOptions,
+    executions: Option<&crate::ValidatedExecutions>,
 ) -> Result<CheckReport, EvaluationError> {
     let catalog = embedded_catalog()?;
     let evaluated_at = unix_timestamp();
@@ -115,13 +145,17 @@ pub fn evaluate(
             result.evidence.clear();
         }
     }
-    let checks = if options.execute_checks {
-        let mut checks = run_suites(root, manifest, options.test_stage);
-        checks.extend(run_extensions(root, manifest, options.extension_stage)?);
-        checks
-    } else {
-        Vec::new()
-    };
+    let checks = collect_checks(root, manifest, options, executions)?;
+    if let Some(executions) = executions {
+        crate::execution_record::current_subject(
+            root,
+            manifest,
+            options.test_stage,
+            executions,
+            false,
+        )
+        .map_err(EvaluationError::ExecutionBinding)?;
+    }
     let final_fingerprint = staged_fingerprint(root);
     let fresh = acceptance_fingerprint.is_some()
         && acceptance_fingerprint == final_fingerprint.as_ref().ok()
@@ -188,6 +222,51 @@ fn explain_source_gap(rules: &mut [RuleResult], error: Option<&opdev_project::Ev
             ));
         }
     }
+}
+
+fn collect_checks(
+    root: &Path,
+    manifest: &ProjectManifest,
+    options: CheckOptions,
+    executions: Option<&crate::ValidatedExecutions>,
+) -> Result<Vec<CheckResult>, EvaluationError> {
+    let mut checks = executions.map_or_else(Vec::new, |record| record.checks.clone());
+    if options.execute_checks {
+        checks.extend(run_missing_suites(
+            root,
+            manifest,
+            options.test_stage,
+            &checks,
+        ));
+        checks.extend(run_extensions(root, manifest, options.extension_stage)?);
+    } else if executions.is_some() {
+        for planned in crate::plan_checks(root, manifest, options).commands {
+            if !checks
+                .iter()
+                .any(|check| check.kind == planned.kind && check.id == planned.id)
+            {
+                checks.push(CheckResult {
+                    id: planned.id,
+                    kind: planned.kind,
+                    blocking: planned.blocking,
+                    gates: if planned.kind == CheckKind::Suite {
+                        gates_for_test_stage(options.test_stage)
+                    } else {
+                        gates_for_extension_stage(options.extension_stage)
+                    },
+                    outcome: Outcome::Unverified,
+                    summary:
+                        "Required check has no verified execution; evaluation-only did not run it"
+                            .into(),
+                    evidence: vec![],
+                    stdout: None,
+                    stderr: None,
+                    duration_ms: None,
+                });
+            }
+        }
+    }
+    Ok(checks)
 }
 
 fn source_failure(
@@ -479,8 +558,18 @@ fn is_delivery_rule(id: &str) -> bool {
     )
 }
 
-fn run_suites(root: &Path, manifest: &ProjectManifest, stage: TestStage) -> Vec<CheckResult> {
+fn run_missing_suites(
+    root: &Path,
+    manifest: &ProjectManifest,
+    stage: TestStage,
+    reused: &[CheckResult],
+) -> Vec<CheckResult> {
     selected_suites(manifest, stage)
+        .filter(|suite| {
+            !reused
+                .iter()
+                .any(|check| check.kind == CheckKind::Suite && check.id == suite.id)
+        })
         .map(|suite| {
             let command = &manifest.commands[&suite.command];
             execution_result(
@@ -586,7 +675,7 @@ fn run_extension(
     })
 }
 
-fn execution_result(
+pub(crate) fn execution_result(
     id: String,
     kind: CheckKind,
     blocking: bool,
@@ -658,7 +747,7 @@ fn optional_text(value: String) -> Option<String> {
     (!value.trim().is_empty()).then_some(value)
 }
 
-fn gates_for_test_stage(stage: TestStage) -> Vec<Gate> {
+pub(crate) fn gates_for_test_stage(stage: TestStage) -> Vec<Gate> {
     match stage {
         TestStage::Local => vec![Gate::Development],
         TestStage::PreMerge => vec![Gate::Integration],
@@ -1021,6 +1110,255 @@ mod tests {
         let report = evaluate(directory.path(), &manifest(), CheckOptions::local())?;
         assert_eq!(report.checks[0].outcome, Outcome::Error);
         assert!(!report.gate_passed(Gate::Development));
+        Ok(())
+    }
+
+    #[test]
+    #[ignore = "spawned only inside an isolated counting fixture"]
+    fn counting_child() -> Result<(), Box<dyn std::error::Error>> {
+        let root = std::env::current_dir()?;
+        assert!(root.join(".opdev-counting-fixture").is_file());
+        let path = root.join(".count");
+        let count = std::fs::read_to_string(&path)
+            .ok()
+            .map(|s| s.parse::<usize>())
+            .transpose()?
+            .unwrap_or(0);
+        std::fs::write(path, (count + 1).to_string())?;
+        Ok(())
+    }
+
+    fn counting_fixture()
+    -> Result<(tempfile::TempDir, ProjectManifest, String), Box<dyn std::error::Error>> {
+        use sha2::{Digest, Sha256};
+        let root = tempfile::tempdir()?;
+        let executable = std::env::current_exe()?;
+        let digest = format!("{:x}", Sha256::digest(std::fs::read(&executable)?));
+        let mut project = manifest();
+        project.commands.get_mut("check").ok_or("command")?.argv = vec![
+            executable.to_string_lossy().into(),
+            "--exact".into(),
+            "evaluator::tests::counting_child".into(),
+            "--ignored".into(),
+        ];
+        project
+            .commands
+            .get_mut("check")
+            .ok_or("command")?
+            .timeout_seconds = Some(20);
+        project.testing.suites = ["first", "second"]
+            .into_iter()
+            .map(|id| opdev_project::TestSuite {
+                id: id.into(),
+                command: "check".into(),
+                stages: vec![TestStage::PreMerge, TestStage::PostMerge],
+            })
+            .collect();
+        std::fs::create_dir(root.path().join(".opdev"))?;
+        std::fs::write(
+            root.path().join(".opdev/project.yaml"),
+            serde_json::to_vec(&project)?,
+        )?;
+        std::fs::write(
+            root.path().join(".opdev-counting-fixture"),
+            "neutral test fixture",
+        )?;
+        std::fs::write(root.path().join(".gitignore"), ".count\n")?;
+        for args in [
+            vec!["init", "-q", "-b", "main"],
+            vec!["add", "."],
+            vec![
+                "-c",
+                "user.name=Neutral Test",
+                "-c",
+                "user.email=test@example.invalid",
+                "commit",
+                "-q",
+                "-m",
+                "fixture",
+            ],
+        ] {
+            let output = std::process::Command::new("git")
+                .arg("-C")
+                .arg(root.path())
+                .args(args)
+                .output()?;
+            assert!(
+                output.status.success(),
+                "{}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+        Ok((root, project, digest))
+    }
+
+    #[test]
+    fn evaluation_only_runs_nothing_and_composition_runs_each_missing_suite_once()
+    -> Result<(), Box<dyn std::error::Error>> {
+        for provider in [
+            opdev_project::CiProvider::Gitlab,
+            opdev_project::CiProvider::Github,
+        ] {
+            counting_scenario(provider)?;
+        }
+        Ok(())
+    }
+
+    #[allow(clippy::too_many_lines)] // One sequential counter scenario proves no hidden reruns across the full path.
+    fn counting_scenario(
+        provider: opdev_project::CiProvider,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let (root, mut project, digest) = counting_fixture()?;
+        project.project.ci.provider = provider;
+        let github = provider == opdev_project::CiProvider::Github;
+        let revision = crate::test_execution::clean_revision(root.path())?;
+        let policy = crate::ExecutionPolicy {
+            schema: 1,
+            review_reference: "neutral controlled test fixture".into(),
+            inputs_complete: true,
+            ledger_is_input: false,
+            environment: "controlled-native-test-process".into(),
+            executor_sha256: digest.clone(),
+            github_workflow_id: github.then_some(9),
+            producers: vec![crate::ProducerPolicy {
+                suite: "first".into(),
+                job: "producer".into(),
+                executable_sha256: digest,
+            }],
+        };
+        let run = opdev_remote::RunExpectation {
+            revision,
+            run_id: 1,
+            reference: "main".into(),
+            source: "push".into(),
+            workflow_id: github.then_some(9),
+        };
+        let bindings = crate::prepare_execution_bindings(
+            root.path(),
+            &project,
+            &policy,
+            &run,
+            "neutral/project",
+            github.then_some(2),
+            TestStage::PreMerge,
+            &policy.environment,
+        )?;
+        let produced = crate::run_canonical_producer(root.path(), &project, &bindings[0])?;
+        assert_eq!(produced.result.outcome, Outcome::Passed);
+        assert!(produced.inputs_unchanged);
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "1");
+        // Private test construction models the already authenticated channel;
+        // provider parsing/race tests separately exercise that trust boundary.
+        let executions = crate::ValidatedExecutions {
+            checks: vec![produced.result],
+            bindings,
+            validated_at: std::time::Instant::now(),
+        };
+        let report = evaluate_with_executions(
+            root.path(),
+            &project,
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::pre_merge()
+            },
+            &executions,
+        )?;
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "1");
+        assert_eq!(
+            report
+                .checks
+                .iter()
+                .find(|c| c.id == "first")
+                .ok_or("first")?
+                .outcome,
+            Outcome::Passed
+        );
+        assert_eq!(
+            report
+                .checks
+                .iter()
+                .find(|c| c.id == "second")
+                .ok_or("second")?
+                .outcome,
+            Outcome::Unverified
+        );
+        assert!(!report.gate_passed(Gate::Integration));
+        let composed = evaluate_with_executions(
+            root.path(),
+            &project,
+            CheckOptions::pre_merge(),
+            &executions,
+        )?;
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "2");
+        assert!(composed.checks.iter().all(|c| c.outcome == Outcome::Passed));
+        let fresh = evaluate(root.path(), &project, CheckOptions::pre_merge())?;
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "4");
+        assert_eq!(composed.gates, fresh.gates);
+        review_correction_does_not_rerun(root.path(), &project, &executions)?;
+        let post_merge = CheckOptions {
+            test_stage: TestStage::PostMerge,
+            extension_stage: ExtensionStage::PostMerge,
+            execute_checks: true,
+        };
+        assert!(evaluate_with_executions(root.path(), &project, post_merge, &executions).is_err());
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "4");
+        std::fs::write(root.path().join("changed-input"), "new input")?;
+        assert!(
+            evaluate_with_executions(
+                root.path(),
+                &project,
+                CheckOptions::pre_merge(),
+                &executions
+            )
+            .is_err()
+        );
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "4");
+        Ok(())
+    }
+
+    fn review_correction_does_not_rerun(
+        root: &Path,
+        project: &ProjectManifest,
+        executions: &crate::ValidatedExecutions,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let path = root.join(opdev_project::EVIDENCE_PATH);
+        for work in [
+            "neutral initial reference",
+            "neutral corrected review reference",
+        ] {
+            let ledger = serde_json::json!({"schema":2,"project":[],"changes":[{
+                "fingerprint":opdev_project::staged_fingerprint(root)?,"work":work,"assertions":[]}]});
+            std::fs::write(&path, serde_json::to_vec(&ledger)?)?;
+            let report = evaluate_with_executions(
+                root,
+                project,
+                CheckOptions {
+                    execute_checks: false,
+                    ..CheckOptions::pre_merge()
+                },
+                executions,
+            )?;
+            assert_eq!(std::fs::read_to_string(root.join(".count"))?, "4");
+            assert_eq!(
+                report
+                    .checks
+                    .iter()
+                    .find(|c| c.id == "first")
+                    .ok_or("first")?
+                    .outcome,
+                Outcome::Passed
+            );
+            assert_eq!(
+                report
+                    .rules
+                    .iter()
+                    .find(|r| r.rule_id.as_str() == "OPDEV-TEST-002")
+                    .ok_or("acceptance")?
+                    .outcome,
+                Outcome::Unverified
+            );
+            assert!(crate::test_execution::clean_execution_revision(root, true).is_err());
+        }
         Ok(())
     }
 

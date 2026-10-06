@@ -101,6 +101,10 @@ Clock accuracy and CI identity are not verified. The receipt retains
 `qualification: unverified`, never updates a gate or evidence ledger, and is
 not accepted as saved qualification by `opdev check`.
 
+The separate [same-run execution protocol](execution-reuse.md) uses reviewed
+producer policy and provider-owned current job logs. It does not upgrade these
+diagnostic receipts, JSON reports or JUnit observations into authenticated inputs.
+
 ## Gate and policy boundary
 
 Ordinary checks continue to execute declared stage-specific commands and

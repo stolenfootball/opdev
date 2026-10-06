@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpDev delegation-result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "assignment_id",
+    "subject",
+    "acceptance_sha256",
+    "status",
+    "changed_paths",
+    "performed_actions",
+    "checks_executed",
+    "evidence",
+    "findings",
+    "limitations",
+    "unresolved_decisions"
+  ],
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "assignment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "acceptance_sha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "partial",
+        "failed",
+        "interrupted",
+        "unavailable"
+      ]
+    },
+    "observed_model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "observed_effort": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "elapsed_seconds": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "input_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "cached_input_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "output_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "changed_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "performed_actions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "read",
+          "edit",
+          "focused_check"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "checks_executed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unresolved_decisions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "source_sha256",
+        "configuration_sha256",
+        "stage"
+      ],
+      "properties": {
+        "schema": {
+          "const": 1
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "configuration_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -119,18 +119,22 @@ fn aggregate(receipt: &TestExecutionReceipt) -> Outcome {
     }
 }
 
-fn clean_revision(root: &Path) -> Result<String> {
-    let status = Command::new("git")
-        .arg("-C")
-        .arg(root)
-        .args([
-            "status",
-            "--porcelain=v1",
-            "--untracked-files=all",
-            "--ignore-submodules=none",
-        ])
-        .output()
-        .context("could not inspect source status")?;
+pub(crate) fn clean_revision(root: &Path) -> Result<String> {
+    clean_execution_revision(root, true)
+}
+
+pub(crate) fn clean_execution_revision(root: &Path, ledger_is_input: bool) -> Result<String> {
+    let mut status = Command::new("git");
+    status.arg("-C").arg(root).args([
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all",
+        "--ignore-submodules=none",
+    ]);
+    if !ledger_is_input {
+        status.args(["--", ".", ":(exclude).opdev/evidence.yaml"]);
+    }
+    let status = status.output().context("could not inspect source status")?;
     ensure!(
         status.status.success() && status.stdout.is_empty(),
         "source is dirty or unavailable"

@@ -30,6 +30,20 @@ CI/delivery flags. The preview lists literal arguments, directories, timeouts an
 extensions without execution or qualification. Preserve distinct stages and
 intentional repeated checks; do not infer equivalence from matching command text.
 
+When the project has explicitly selected same-run CI execution reuse and the
+CLI reports `execution.same-run.v1`, use its reviewed producer policy with
+`check --ci --reuse-ci-policy PATH --execution-environment ID`. This is opt-in,
+not a reason to rewrite an adequate pipeline. `--no-exec` evaluates available
+producer evidence without launching checks, but the explicit reuse option still
+contacts the provider. Missing checks stay unverified; the composed path runs
+only missing checks. Rejected evidence does not trigger an automatic rerun:
+explain the failure and use the existing fresh-execution path when appropriate.
+Never substitute local receipts, caller JSON or an older green job. Pre-merge
+and post-merge subjects remain distinct. Review corrections do not authorize
+reuse unless the reviewed policy explicitly excludes the ledger from execution
+inputs; unknown inputs require fresh execution. No policy, credential permission
+or installed runtime is changed implicitly to enable this option.
+
 ## Optional test-strength checks
 
 When a concrete risk or evidence gap warrants stronger tests, propose a bounded

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/execution-policy-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "review_reference", "inputs_complete", "environment", "executor_sha256", "producers"],
+  "properties": {
+    "schema": {"const": 1},
+    "review_reference": {"type": "string", "minLength": 1},
+    "inputs_complete": {"type": "boolean"},
+    "ledger_is_input": {"type": "boolean", "default": true},
+    "environment": {"type": "string", "minLength": 1},
+    "executor_sha256": {"$ref": "#/$defs/digest"},
+    "github_workflow_id": {"type": ["integer", "null"], "minimum": 1},
+    "producers": {
+      "type": "array", "minItems": 1, "maxItems": 100,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["suite", "job", "executable_sha256"],
+        "properties": {
+          "suite": {"type": "string", "minLength": 1},
+          "job": {"type": "string", "minLength": 1},
+          "executable_sha256": {"$ref": "#/$defs/digest"}
+        }
+      }
+    }
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}}
+}

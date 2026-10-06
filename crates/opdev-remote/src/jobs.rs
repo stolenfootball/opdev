@@ -86,7 +86,7 @@ pub fn verify_run_with_jobs(
     Ok(report)
 }
 
-fn validate_required(required: &[String]) -> Result<(), RemoteError> {
+pub(super) fn validate_required(required: &[String]) -> Result<(), RemoteError> {
     let mut unique = BTreeSet::new();
     if required.len() > 100
         || required.iter().any(|name| {
@@ -195,7 +195,7 @@ fn validate_snapshot(
     Ok(())
 }
 
-fn collect_pages<F>(
+pub(super) fn collect_pages<F>(
     provider: CiProvider,
     expected: &RunExpectation,
     mut get: F,
@@ -276,7 +276,7 @@ fn parse_job(
     })
 }
 
-fn job_outcome(provider: CiProvider, job: &JobObservation) -> Outcome {
+pub(super) fn job_outcome(provider: CiProvider, job: &JobObservation) -> Outcome {
     let verdict = if provider == CiProvider::Github {
         if job.status != "completed" {
             return Outcome::Unverified;
@@ -294,7 +294,7 @@ fn job_outcome(provider: CiProvider, job: &JobObservation) -> Outcome {
     }
 }
 
-fn reconcile_jobs(
+pub(super) fn reconcile_jobs(
     provider: CiProvider,
     required: &[String],
     current: Inventory,

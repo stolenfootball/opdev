@@ -39,6 +39,14 @@ state.
 
 ## Project-manifest schema
 
+Source previews advertising `execution.same-run.v1` support the separately
+versioned [same-run execution policy and record](execution-reuse.md). This is
+explicit opt-in, not a reinterpretation of diagnostic receipts or historical
+reports. Unsupported fields/versions are rejected without rewriting them.
+Inspect both producer and evaluator capabilities before changing CI. The legacy
+fresh-execution path remains available; no version or managed pin changes follow
+automatically from this capability.
+
 See [coordinated upgrades](upgrades.md) for read-only assessment, reviewed guidance
 application, host/runtime boundaries and separate project verification. Bare
 `upgrade` now previews; older runtimes require capability detection before use.
@@ -146,6 +154,30 @@ External standards and profiles are pinned by name and version. Installing a new
 OpDev release MUST NOT silently change an existing project's selected profile
 version. Profile upgrades are explicit and report newly applicable or changed
 requirements before modifying the project contract.
+
+## Workflow references
+
+Workflow journal/subject schema 1 and the `workflow.references.v1` capability are
+additive. Their inspection exit is not a core gate verdict; JSON always says
+qualification is unverified. Unknown event fields or journal/subject versions
+are rejected without rewrites. Existing work authorities, evidence ledgers,
+reports, adoption decisions and runtime pins retain their original semantics.
+No installed consumer is automatically migrated to a reference journal.
+
+Acceptance-review references compare the complete current acceptance digest
+independently of source identity. A reference missing that digest remains readable
+but its review is stale, not implicitly current. Other record kinds retain their
+separate meanings. Optional JSON fields may be omitted or null as the schema
+declares; unknown fields remain errors.
+
+## Optional delegation
+
+Capability `delegation.v1` identifies strict assignment/result schema 1 validation.
+It neither promises host dispatch support nor qualifies worker claims. Unsupported
+versions fail without rewriting records. Older clients and hosts can continue
+single-agent work. Native adapters must disclose missing observed settings and
+permission limitations; no global configuration or consumer agent files are
+installed automatically.
 
 ## Provider APIs
 
