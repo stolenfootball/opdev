@@ -18,14 +18,14 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.3.3 pins qualified CLI 0.3.1 and requires
-CLI >=0.2.0, <0.4.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
+0.4.0 retains the qualified CLI 0.3.1 pin and requires
+CLI >=0.2.0, <0.5.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
 version; the current CLI and managed pin must satisfy its CLI range.
 
 CLI 0.3.0 introduces the strengthened acceptance/remote qualification and doctor
-exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.3.3's
+exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.4.0's
 managed setup selects the independently published and qualified CLI 0.3.1.
 CLI 0.3.1 repairs diagnostics and supported GitLab local-include inspection and
 adds read-only remote-policy readiness/observation to adoption planning. It does
@@ -33,13 +33,24 @@ not select policy, migrate project state, or change the existing schema versions
 Updating the plugin alone does not migrate project records or CI pins; review
 the documented migrations before relying on the strengthened gates.
 
+CLI 0.4.0 adds execution preview and acceptance preparation, advisory CI and
+document-placement review, typed workflow references, optional bounded delegation,
+and independently invalidated evidence subjects. Catalog 2 changes daily-merge
+cadence to a compliance finding rather than a development/integration blocker;
+the finding remains visible and does not claim MinimumCD compliance. Existing
+project schemas 1 and 2 remain readable. New records and policies have their own
+versioned contracts; unsupported versions must not be rewritten or inferred.
+Fresh canonical execution and single-agent operation remain the defaults.
+New CLI capabilities require selecting CLI 0.4.0 separately until a subsequent
+reviewed managed-pin update; updating this plugin alone does not supply them.
+
 Pre-1.0 releases may change command-line and plugin behavior between minor
 versions, but migrations and diagnostics are still required for project-owned
 state.
 
 ## Project-manifest schema
 
-Source previews advertising `execution.same-run.v1` support the separately
+CLI 0.4.0 advertises `execution.same-run.v1` and supports the separately
 versioned [same-run execution policy and record](execution-reuse.md). This is
 explicit opt-in, not a reinterpretation of diagnostic receipts or historical
 reports. Unsupported fields/versions are rejected without rewriting them.
@@ -101,7 +112,7 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ## Rule catalog
 
-Unreleased catalog 2 retains the daily-integration requirement and its ID for
+CLI 0.4.0's catalog 2 retains the daily-integration requirement and its ID for
 compliance, but removes it from development and integration gates. Rule results
 are not converted to passes. Existing project manifests and evidence ledgers
 remain readable; there is no automatic ledger rewrite. Older CLIs still enforce
@@ -112,8 +123,8 @@ original verdicts; the experimental report reader requires the originating CLI
 for a different catalog version rather than reinterpreting old results.
 
 Human report wording adds explanations and next steps without changing JSON
-field names, rule identifiers, outcome values or exit codes. No release or
-managed runtime pin is changed by this source update.
+field names, rule identifiers, outcome values or exit codes. Selecting a new CLI
+does not rewrite historical results or automatically update managed runtime pins.
 
 ### Acceptance evidence capability
 

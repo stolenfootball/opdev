@@ -5,6 +5,35 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## 0.4.0 / Plugin 0.4.0
+
+- Add read-only execution previews and reviewed acceptance preparation to reduce
+  repetitive setup while preserving source-bound acceptance and canonical checks.
+- Make daily-merge cadence advisory for development/integration in rule catalog 2.
+  Compliance findings remain visible; clearer diagnostics explain what is missing,
+  why it matters, and what to do next without requiring OpDev terminology.
+- Add advisory CI review that identifies avoidable work without changing a
+  project's workflow or overriding the developer's decision to retain it.
+- Route permanent documentation to declared authorities and implementation
+  tracking to the work authority; document-placement checks remain advisory.
+- Support opt-in, authenticated same-run execution records for reviewed GitLab
+  and GitHub producer policies. Fresh execution remains the default. Stale,
+  failed or pending attempts cannot be replaced by older successful evidence.
+- Add typed, history-preserving workflow references and read-only continuation.
+  Separate decision, review, execution, artifact and feedback lifetimes; changes
+  to the accepted-condition inventory invalidate the corresponding review.
+- Keep single-agent operation as the default. Optional bounded delegation
+  validates specialist assignments and returns without transferring controller
+  responsibility or granting workers additional authority.
+- Matched Codex trials did not establish an overall speed or token improvement;
+  delegation is an option, not a performance guarantee. Live Claude trials remain
+  unverified; shared automated tests and static plugin validation cover packaging.
+- Preserve existing project records, CI choices and installed plugin caches.
+  New capabilities require CLI 0.4.0 and explicit capability checks. This plugin
+  retains qualified managed CLI 0.3.1 until a separate reviewed pin update after
+  publication; standalone CLI selection can supply the new capabilities.
+- Keep compact/token-reduction features experimental and disabled by default.
+
 ## Plugin 0.3.3
 
 - Pin independently published and qualified CLI 0.3.1 with its exact GitLab

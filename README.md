@@ -37,7 +37,7 @@ deliver through CI, build an immutable artifact once, and have a tested recovery
 strategy. You choose how your project meets those requirements. Extensions can
 add checks, but cannot waive core rules.
 
-In the unreleased catalog 2, daily merging is a monitored target, not a deadline
+In CLI 0.4.0's catalog 2, daily merging is a monitored target, not a deadline
 that blocks a later merge. Delays prompt replanning; required tests still have
 to pass. The daily requirement remains part of compliance reporting, so a green
 merge check alone does not establish full MinimumCD compliance. Released CLIs
@@ -210,7 +210,8 @@ audits are read-only, and extensions cannot replace core verdicts. OpDev does
 not certify software or replace engineering judgment.
 
 **Status:** OpDev is pre-1.0. See [published releases](https://github.com/stolenfootball/opdev/releases)
-for available binaries. Source plugin 0.3.3 pins qualified CLI 0.3.1. Updating
+for available binaries. Source plugin 0.4.0 retains the qualified CLI 0.3.1 pin;
+new CLI 0.4.0 capabilities require a separately selected 0.4.0 runtime. Updating
 the plugin does not migrate existing project records or CI pins. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.
