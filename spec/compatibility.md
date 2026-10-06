@@ -18,15 +18,15 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.4.0 retains the qualified CLI 0.3.1 pin and requires
+0.4.1 pins qualified CLI 0.4.0 and requires
 CLI >=0.2.0, <0.5.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
 version; the current CLI and managed pin must satisfy its CLI range.
 
 CLI 0.3.0 introduces the strengthened acceptance/remote qualification and doctor
-exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.4.0's
-managed setup selects the independently published and qualified CLI 0.3.1.
+exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.4.1's
+managed setup selects the independently published and qualified CLI 0.4.0.
 CLI 0.3.1 repairs diagnostics and supported GitLab local-include inspection and
 adds read-only remote-policy readiness/observation to adoption planning. It does
 not select policy, migrate project state, or change the existing schema versions.
@@ -41,8 +41,8 @@ the finding remains visible and does not claim MinimumCD compliance. Existing
 project schemas 1 and 2 remain readable. New records and policies have their own
 versioned contracts; unsupported versions must not be rewritten or inferred.
 Fresh canonical execution and single-agent operation remain the defaults.
-New CLI capabilities require selecting CLI 0.4.0 separately until a subsequent
-reviewed managed-pin update; updating this plugin alone does not supply them.
+Plugin 0.4.1's managed setup supplies CLI 0.4.0; older standalone selections still
+require capability checks. Updating a pin does not migrate project state or CI.
 
 Pre-1.0 releases may change command-line and plugin behavior between minor
 versions, but migrations and diagnostics are still required for project-owned

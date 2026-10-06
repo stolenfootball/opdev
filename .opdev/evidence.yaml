@@ -11483,3 +11483,106 @@ changes:
       reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
       rationale: Reviewed both release-preparation conditions against actual metadata assertions, changed prose and original contracts. No runtime logic or project migration changed; publication and consumer qualification remain pending and cannot be inferred from this review.
       subject_sha256: 9d9f6262d33f198eae69fa7b7bc04dd078ec02ecf2eb45ac7a9211f010fe1a52
+- fingerprint: 6c308e9b7875dc49df606c3c264e66d86b14a203b08907215ba8d9c6648db491
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issue 70 records the requested pin update, acceptance, risks and exclusions; no new CLI publication or installed-cache migration.
+    evidence:
+    - {kind: work, summary: The user requested the post-publication pin update; source plugin identity advances independently to 0.4.1., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/70'}
+  - rule_id: OPDEV-DESIGN-001
+    outcome: not_applicable
+    summary: Selecting an already qualified runtime changes package configuration, not architecture or protocol; existing installation and compatibility contracts apply.
+    evidence:
+    - {kind: review, summary: 'Only pin identity, plugin metadata, current-version documentation and an exact-identity regression assertion change.', location: spec/installation.md}
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration and release source; branch roles and CI policy are unchanged.
+    evidence:
+    - {kind: review, summary: Rechecked project trunk and unchanged default-branch/tag CI rules., location: .opdev/project.yaml}
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The bounded pin branch starts at current main bc1575d0386694ae259b230cb98893ce14d41289 and returns by green MR with source deletion; integration is pending.
+    evidence:
+    - {kind: work, summary: One plugin-only increment with no parallel release-development branch., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/70'}
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Main pipeline 2916372761 and final release pipeline 2918629349 succeeded at the branch base; recheck before merge.
+    evidence:
+    - {kind: ci_observation, summary: Latest main status was re-read during pin preparation; no known red trunk is ignored., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2916372761'}
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: The selected immutable CLI 0.4.0 was independently qualified; its documented catalog change is intentional, and the supported range accepts both current and prior runtimes.
+    evidence:
+    - {kind: release_observation, summary: Issue 69 records six native targets and exact-source/digest/signature checks. This pin preserves verifier hashes and platform mappings; no project records or CI policies are rewritten., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/69'}
+    - {kind: test_observation, summary: All thirteen offline Windows bootstrap cases and the live 0.4.0 installation/reuse passed in temporary storage; remaining exact-source CI is required., location: tests/runtime_smoke.ps1}
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: No help, diagnostic presentation or consent interaction changes; the previously approved textual interface remains applicable to the qualified runtime.
+    evidence:
+    - {kind: human_review, summary: Existing maintainer approval applies to unchanged output; no new human review or universal accessibility certification is inferred., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190'}
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: The selected runtime reports CLI 0.4.0 and catalog 2; bootstrap verification failures and bounded cleanup diagnostics remain intact.
+    evidence:
+    - {kind: test_observation, summary: Live temporary installation ran version successfully and reused its path; offline corruption/version/cleanup failure cases passed., location: tests/runtime_test.ps1}
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Reviewed actual pin lines, unchanged trust anchors, metadata and discriminating test assertions against the installation contract, not author claims alone.
+    evidence:
+    - {kind: review, summary: Exact-tag signature verification and live bootstrap provide independent observations; new identity assertion rejects a stale signing tag. Canonical execution and CI remain separate requirements., location: crates/opdev-cli/tests/installer.rs}
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: The pin deliberately follows completed immutable release qualification; the identity regression protects against selecting a new version with an old signing tag.
+    evidence:
+    - {kind: review, summary: No unpublished asset dependency or silent cache replacement is introduced; prior negative effectiveness findings preserve single-agent and experimental defaults., location: release/CHANGELOG.md}
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: Installation correctness and prior release qualification are not claims of improved effectiveness or new live Claude coverage.
+    evidence:
+    - {kind: review, summary: The narrow pin update does not alter or reclassify the earlier negative performance findings., location: release/CHANGELOG.md}
+  acceptance:
+    scope: behavioral
+    rationale: Plugin-only pin update to qualified CLI 0.4.0 and coherent plugin 0.4.1 identity. No runtime algorithm, project migration, installed cache, verifier digest or release asset changes.
+    conditions:
+    - id: METADATA
+      statement: Both plugin hosts and marketplace agree on 0.4.1; the range accepts source CLI and managed CLI 0.4.0.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
+      source: {path: spec/compatibility.md, sha256: 2efcfb94ac9d2b3307f42a0e2c08a985233e7989e6290bb48bd234d925bf7a45, excerpt: 'the current CLI and managed pin must satisfy its CLI range.'}
+    - id: PIN
+      statement: Pin version, tag and exact GitLab signing identity agree and retain all six supported targets.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
+      source: {path: spec/installation.md, sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c, excerpt: 'pins the CLI version/tag, exact GitLab signing identity, platform mapping, cosign'}
+    - id: INSTALL
+      statement: Managed bootstrap installs and reuses the qualified release in temporary storage without replacing existing runtimes or changing project state.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
+      source: {path: spec/installation.md, sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c, excerpt: 'Runtime directories are immutable per release tag and target'}
+    verifications:
+    - condition: METADATA
+      method: automated
+      target: {path: crates/opdev-cli/tests/release_metadata.rs, sha256: e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933, excerpt: 'fn release_versions_and_runtime_range_are_consistent()'}
+      assertion: Parsed host manifests, marketplace and compatibility contract agree; source and pin versions satisfy the range.
+      discriminating_case: A mismatched host version or excluded pin fails an equality or semver assertion.
+      suite: check
+      outcome: passed
+    - condition: PIN
+      method: automated
+      target: {path: crates/opdev-cli/tests/installer.rs, sha256: eb21980a91bab01d3b7f174c8155f306a70c1bb3e0f019c2e7a3e6b700b759de, excerpt: 'fn runtime_pin_is_compatible_and_covers_supported_platforms()'}
+      assertion: Parsed version determines expected tag and exact GitLab certificate identity; unique six-target inventory and verifier digest shape are checked.
+      discriminating_case: A leftover 0.3.1 signing identity, missing target or incompatible pin fails explicit assertions.
+      suite: check
+      outcome: passed
+    - condition: INSTALL
+      method: review
+      target: {path: tests/runtime_smoke.ps1, sha256: b84dc332619ba1c3cd6451b62b10cbbe5345f7b01cfb5fbe3a40c53fe8d6898e, excerpt: 'Repeated install changed runtime'}
+      assertion: Observed temporary-root live installation verify 0.4.0, run catalog 2 and reuse the exact path; thirteen offline cases passed. Required Linux and ARM64 live CI remain separately pending.
+      discriminating_case: Bad signature, wrong version or changed reuse path must fail; prior results do not qualify unrun native checks.
+      automation_limitation: Native live installation is a separate required CI job, not the canonical workspace suite. This review records observed Windows execution only and cannot qualify unrun platforms.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
+      rationale: Reviewed all three conditions against the installation contract, actual equality/membership/identity assertions and observed Windows bootstrap results. Preserved earlier evidence and explicit limits; final canonical and native CI execution remain required.
+      subject_sha256: f6955314408f147e9d29a8725c457aba4e6d26dbc62d8e11ca4eefaceef2e6f6

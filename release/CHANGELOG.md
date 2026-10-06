@@ -5,6 +5,16 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## Plugin 0.4.1
+
+- Pin independently published and qualified CLI 0.4.0 with its exact GitLab
+  signing identity. Preserve verifier digests, older cached runtimes and all
+  immutable release assets.
+- Managed setup now supplies catalog 2 and the CLI 0.4.0 workflow capabilities.
+  Existing project records, reviewed CI policies and installed plugin caches are
+  not changed by this source update. Single-agent operation remains the default;
+  compact/token-reduction features remain experimental and disabled by default.
+
 ## 0.4.0 / Plugin 0.4.0
 
 - Add read-only execution previews and reviewed acceptance preparation to reduce
