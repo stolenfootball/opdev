@@ -10568,128 +10568,147 @@ changes:
       subject_sha256: 18119ad7cc58eff804ab80d0764a2b408ef4437c0e4916a1b93b133a7e0d1df9
 - fingerprint: 0c6f654cda30863d65bbbec3ca3bba8cf7658f3a2973bbeb011195866c5aa182
   work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
-  assertions: [
-      {
-        "rule_id": "OPDEV-WORK-001",
-        "outcome": "passed",
-        "summary": "Issue 64 records the accepted execution/evaluation outcome, provider trust investigation, seven acceptance conditions and retained limitations. The user authorized finishing the roadmap without routine permission pauses.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "Issue 64 records the accepted execution/evaluation outcome, provider trust investigation, seven acceptance conditions and retained limitations. The user authorized finishing the roadmap without routine permission pauses.",
-            "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/64"
-          }
-        ]
-      },
-      {
-        "rule_id": "OPDEV-DESIGN-001",
-        "outcome": "passed",
-        "summary": "Reviewed exact same-run producer channel, strict record policy, conservative whole-source binding and explicit ledger-only exception. No arbitrary historical receipt or inferred input exclusions qualify. Trust remains bounded by reviewed CI code and administrator control; consumer environment is not cryptographic location proof.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "Reviewed exact same-run producer channel, strict record policy, conservative whole-source binding and explicit ledger-only exception. No arbitrary historical receipt or inferred input exclusions qualify. Trust remains bounded by reviewed CI code and administrator control; consumer environment is not cryptographic location proof.",
-            "location": "spec/execution-reuse.md"
-          }
-        ]
-      },
-      {
-        "rule_id": "MCD-TRUNK-001",
-        "outcome": "passed",
-        "summary": "The project contract and current origin/main select main at 791ff1e1e6d195e7cba5138a37edba4f7ede05d3. No alternate integration branch role is introduced.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "The project contract and current origin/main select main at 791ff1e1e6d195e7cba5138a37edba4f7ede05d3. No alternate integration branch role is introduced.",
-            "location": ".opdev/project.yaml"
-          }
-        ]
-      },
-      {
-        "rule_id": "MCD-TRUNK-002",
-        "outcome": "passed",
-        "summary": "This bounded codex/64-execution-reuse increment is based on current main and requires normal MR and post-merge CI. No long-lived alternate branch is introduced.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "This bounded codex/64-execution-reuse increment is based on current main and requires normal MR and post-merge CI. No long-lived alternate branch is introduced.",
-            "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/64"
-          }
-        ]
-      },
-      {
-        "rule_id": "MCD-FLOW-001",
-        "outcome": "not_applicable",
-        "summary": "Readback of main pipeline 2915326544 at 791ff1e1e6d195e7cba5138a37edba4f7ede05d3 is success. No known red trunk is bypassed; this observation does not qualify the feature candidate.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "Readback of main pipeline 2915326544 at 791ff1e1e6d195e7cba5138a37edba4f7ede05d3 is success. No known red trunk is bypassed; this observation does not qualify the feature candidate.",
-            "location": "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915326544"
-          }
-        ]
-      },
-      {
-        "rule_id": "MCD-COMPAT-001",
-        "outcome": "passed",
-        "summary": "Additive explicit flags and independent strict execution schemas preserve ordinary fresh execution and legacy diagnostic receipts. Existing manifest/report schemas, runtime pins, installation and release paths are unchanged. No consumer migration.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "Additive explicit flags and independent strict execution schemas preserve ordinary fresh execution and legacy diagnostic receipts. Existing manifest/report schemas, runtime pins, installation and release paths are unchanged. No consumer migration.",
-            "location": "spec/compatibility.md"
-          }
-        ]
-      },
-      {
-        "rule_id": "OPDEV-OPS-001",
-        "outcome": "passed",
-        "summary": "New interfaces distinguish command failure, launch/timeout error, missing execution, provider job failure with unknown test outcome and stale reuse. Diagnostics offer explicit fresh execution and never silently rerun rejected results. Current failures remain visible after final observation.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "New interfaces distinguish command failure, launch/timeout error, missing execution, provider job failure with unknown test outcome and stale reuse. Diagnostics offer explicit fresh execution and never silently rerun rejected results. Current failures remain visible after final observation.",
-            "location": "crates/opdev-cli/src/execution_reuse.rs"
-          }
-        ]
-      },
-      {
-        "rule_id": "OPDEV-AI-001",
-        "outcome": "passed",
-        "summary": "Controller inspected current code, bindings, actual counters, process exits, assertions and documentation rather than relying on generated summaries. Tests are layered deterministic provider fixtures and execution processes, not live provider authentication or human provenance proof.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "Controller inspected current code, bindings, actual counters, process exits, assertions and documentation rather than relying on generated summaries. Tests are layered deterministic provider fixtures and execution processes, not live provider authentication or human provenance proof.",
-            "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/64"
-          }
-        ]
-      },
-      {
-        "rule_id": "OPDEV-LEARN-001",
-        "outcome": "passed",
-        "summary": "Regression cases now preserve failed producer state with missing logs, prevent extension/suite identity collisions and preserve explicit ledger exclusions. Earlier fixture/line-ending/lint failures remain disclosed; tests demonstrate bounded behavior, not universal reliability.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "Regression cases now preserve failed producer state with missing logs, prevent extension/suite identity collisions and preserve explicit ledger exclusions. Earlier fixture/line-ending/lint failures remain disclosed; tests demonstrate bounded behavior, not universal reliability.",
-            "location": "crates/opdev-engine/src/execution_record.rs"
-          }
-        ]
-      },
-      {
-        "rule_id": "OPDEV-EVAL-001",
-        "outcome": "passed",
-        "summary": "The effectiveness protocol retains sixteen fixed-model baseline sessions and frozen pre-candidate criteria in issue 68. Baseline has local-handoff and sandbox limitations; no measured speedup, full workflow completion or Claude equivalence is claimed by this increment.",
-        "evidence": [
-          {
-            "kind": "review",
-            "summary": "The effectiveness protocol retains sixteen fixed-model baseline sessions and frozen pre-candidate criteria in issue 68. Baseline has local-handoff and sandbox limitations; no measured speedup, full workflow completion or Claude equivalence is claimed by this increment.",
-            "location": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/68"
-          }
-        ]
-      }
-    ]
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: >-
+      Issue 64 records the accepted execution/evaluation outcome, provider trust
+      investigation, seven acceptance conditions and retained limitations. The user
+      authorized finishing the roadmap without routine permission pauses.
+    evidence:
+    - kind: review
+      summary: >-
+        Issue 64 records the accepted execution/evaluation outcome, provider trust
+        investigation, seven acceptance conditions and retained limitations. The user
+        authorized finishing the roadmap without routine permission pauses.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: >-
+      Reviewed exact same-run producer channel, strict record policy, conservative
+      whole-source binding and explicit ledger-only exception. No arbitrary historical
+      receipt or inferred input exclusions qualify. Trust remains bounded by reviewed CI
+      code and administrator control; consumer environment is not cryptographic
+      location proof.
+    evidence:
+    - kind: review
+      summary: >-
+        Reviewed exact same-run producer channel, strict record policy, conservative
+        whole-source binding and explicit ledger-only exception. No arbitrary historical
+        receipt or inferred input exclusions qualify. Trust remains bounded by reviewed CI
+        code and administrator control; consumer environment is not cryptographic
+        location proof.
+      location: spec/execution-reuse.md
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: >-
+      The project contract and current origin/main select main at
+      791ff1e1e6d195e7cba5138a37edba4f7ede05d3. No alternate integration branch role is introduced.
+    evidence:
+    - kind: review
+      summary: >-
+        The project contract and current origin/main select main at
+        791ff1e1e6d195e7cba5138a37edba4f7ede05d3. No alternate integration branch role is introduced.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: >-
+      This bounded codex/64-execution-reuse increment is based on current main and
+      requires normal MR and post-merge CI. No long-lived alternate branch is introduced.
+    evidence:
+    - kind: review
+      summary: >-
+        This bounded codex/64-execution-reuse increment is based on current main and
+        requires normal MR and post-merge CI. No long-lived alternate branch is introduced.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+  - rule_id: MCD-FLOW-001
+    outcome: not_applicable
+    summary: >-
+      Readback of main pipeline 2915326544 at
+      791ff1e1e6d195e7cba5138a37edba4f7ede05d3 is success. No known red trunk is bypassed; this observation does not qualify
+      the feature candidate.
+    evidence:
+    - kind: review
+      summary: >-
+        Readback of main pipeline 2915326544 at
+        791ff1e1e6d195e7cba5138a37edba4f7ede05d3 is success. No known red trunk is bypassed; this observation does not qualify
+        the feature candidate.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915326544
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: >-
+      Additive explicit flags and independent strict execution schemas preserve
+      ordinary fresh execution and legacy diagnostic receipts. Existing manifest/report
+      schemas, runtime pins, installation and release paths are unchanged. No consumer
+      migration.
+    evidence:
+    - kind: review
+      summary: >-
+        Additive explicit flags and independent strict execution schemas preserve
+        ordinary fresh execution and legacy diagnostic receipts. Existing manifest/report
+        schemas, runtime pins, installation and release paths are unchanged. No consumer
+        migration.
+      location: spec/compatibility.md
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: >-
+      New interfaces distinguish command failure, launch/timeout error, missing
+      execution, provider job failure with unknown test outcome and stale reuse. Diagnostics
+      offer explicit fresh execution and never silently rerun rejected results.
+      Current failures remain visible after final observation.
+    evidence:
+    - kind: review
+      summary: >-
+        New interfaces distinguish command failure, launch/timeout error, missing
+        execution, provider job failure with unknown test outcome and stale reuse. Diagnostics
+        offer explicit fresh execution and never silently rerun rejected results.
+        Current failures remain visible after final observation.
+      location: crates/opdev-cli/src/execution_reuse.rs
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: >-
+      Controller inspected current code, bindings, actual counters, process exits,
+      assertions and documentation rather than relying on generated summaries. Tests are
+      layered deterministic provider fixtures and execution processes, not live
+      provider authentication or human provenance proof.
+    evidence:
+    - kind: review
+      summary: >-
+        Controller inspected current code, bindings, actual counters, process exits,
+        assertions and documentation rather than relying on generated summaries. Tests are
+        layered deterministic provider fixtures and execution processes, not live
+        provider authentication or human provenance proof.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: >-
+      Regression cases now preserve failed producer state with missing logs, prevent
+      extension/suite identity collisions and preserve explicit ledger exclusions.
+      Earlier fixture/line-ending/lint failures remain disclosed; tests demonstrate bounded
+      behavior, not universal reliability.
+    evidence:
+    - kind: review
+      summary: >-
+        Regression cases now preserve failed producer state with missing logs, prevent
+        extension/suite identity collisions and preserve explicit ledger exclusions.
+        Earlier fixture/line-ending/lint failures remain disclosed; tests demonstrate bounded
+        behavior, not universal reliability.
+      location: crates/opdev-engine/src/execution_record.rs
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: >-
+      The effectiveness protocol retains sixteen fixed-model baseline sessions and
+      frozen pre-candidate criteria in issue 68. Baseline has local-handoff and sandbox
+      limitations; no measured speedup, full workflow completion or Claude equivalence
+      is claimed by this increment.
+    evidence:
+    - kind: review
+      summary: >-
+        The effectiveness protocol retains sixteen fixed-model baseline sessions and
+        frozen pre-candidate criteria in issue 68. Baseline has local-handoff and sandbox
+        limitations; no measured speedup, full workflow completion or Claude equivalence
+        is claimed by this increment.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/68
   acceptance:
     scope: behavioral
     rationale: >-
@@ -10890,3 +10909,372 @@ changes:
         endings and lint placement. Canonical checks and remote integration are still
         required; this review does not claim release or measured speedup.
       subject_sha256: f364878718d4f90988a9c4f9b5318435219223d36863d3ad385ea5f0959831af
+- fingerprint: 06b7eaffdec708bc1295763d4ed6c140791b58a87e3ef8ca21b294e9d5bed719
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62
+  assertions: []
+  acceptance:
+    scope: behavioral
+    rationale: "Opt-in same-run CI execution protocol and exact-source evaluation split. Full fresh path and legacy diagnostic meanings remain. No cross-revision cache, default activation, release or consumer migration. Provider fixtures and subprocess counts establish bounded implementation behavior, not live-host effectiveness or universal trust. GitHub push/workflow_dispatch and absolute producer executables are explicit first-version limits. Combined retained core implementation for roadmap 62, issues 64-67: typed read-only continuation, cooperative atomic updates, bounded optional native delegation and independent acceptance lifetimes. Live effectiveness, human wording, required integration and publication are separate evidence; no speedup or release is claimed."
+    conditions:
+    - id: COUNTS
+      statement: >-
+        Evaluation-only runs zero commands; composition runs each missing canonical
+        check once and agrees with fresh execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+      source:
+        path: spec/execution-reuse.md
+        sha256: 858cfbaa873a329cac3b60ef74d68f46d2dce53c41c766077402221da68f8046
+        excerpt: A completed producer can be consumed while the
+    - id: IDENTITY
+      statement: >-
+        Wrong repository, source, stage, command, environment, schema or policy must
+        not supply a saved pass.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+      source:
+        path: spec/execution-reuse.md
+        sha256: 858cfbaa873a329cac3b60ef74d68f46d2dce53c41c766077402221da68f8046
+        excerpt: No older
+    - id: PROVIDER
+      statement: >-
+        Observe current selected jobs and preserve newer failed/pending/skipped/missing
+        attempts without waiting for the evaluator.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+      source:
+        path: spec/execution-reuse.md
+        sha256: 858cfbaa873a329cac3b60ef74d68f46d2dce53c41c766077402221da68f8046
+        excerpt: selected job inventory and source are checked again after retrieval.
+    - id: PRODUCER
+      statement: >-
+        Canonical producers preserve argv, timeout, failure and own-stage identity
+        without repeating execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+      source:
+        path: spec/execution-reuse.md
+        sha256: 858cfbaa873a329cac3b60ef74d68f46d2dce53c41c766077402221da68f8046
+        excerpt: runs one reviewed canonical producer once.
+    - id: REVIEW
+      statement: >-
+        Only explicit reviewed ledger exclusion permits same-run review correction;
+        unknown policy and stale source remain unverified.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+      source:
+        path: spec/execution-reuse.md
+        sha256: 858cfbaa873a329cac3b60ef74d68f46d2dce53c41c766077402221da68f8046
+        excerpt: "reviewed `ledger_is_input: false` policy permits same-run ledger corrections"
+    - id: REFRESH
+      statement: >-
+        Changed or expired provider evidence cannot retain readiness or hide known
+        failures.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+      source:
+        path: spec/execution-reuse.md
+        sha256: 858cfbaa873a329cac3b60ef74d68f46d2dce53c41c766077402221da68f8046
+        excerpt: Changed/unavailable attempts or changed review data invalidate readiness;
+    - id: COMPATIBILITY
+      statement: >-
+        Existing fresh commands and diagnostic receipts retain meaning; help and
+        version capability make the opt-in boundary discoverable without installation or policy
+        migration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/64
+      source:
+        path: spec/execution-reuse.md
+        sha256: 858cfbaa873a329cac3b60ef74d68f46d2dce53c41c766077402221da68f8046
+        excerpt: Omitting reuse preserves the ordinary canonical execution path.
+    - id: CONTINUATION
+      statement: >-
+        Inspection reads original typed references without commands, network, repair,
+        implicit consent or qualification.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/65
+      source:
+        path: spec/workflow-records.md
+        sha256: 4e147434a7a43c4af2b35ac31ff562b7da2187cb9f9f43d485cf3db6000f0c52
+        excerpt: reconstructs the view without executing commands
+    - id: HISTORY
+      statement: >-
+        Cooperative stale or concurrent writers cannot overwrite history, change record
+        kinds or self-approve.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/65
+      source:
+        path: spec/workflow-records.md
+        sha256: 4e147434a7a43c4af2b35ac31ff562b7da2187cb9f9f43d485cf3db6000f0c52
+        excerpt: Every old attempt remains in history.
+    - id: SUBJECT
+      statement: >-
+        Generate mechanical staged source/configuration/artifact bindings without
+        running checks or staging changes.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/65
+      source:
+        path: spec/workflow-records.md
+        sha256: 4e147434a7a43c4af2b35ac31ff562b7da2187cb9f9f43d485cf3db6000f0c52
+        excerpt: generates
+    - id: DELEGATION
+      statement: >-
+        Optional assignments reject stale or unauthorized returned work; structural
+        consistency never grants qualification.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/66
+      source:
+        path: spec/delegation.md
+        sha256: e526c79a76b08f375b5590b885d3df2dbce2e0f5cf46345d666da638151e91b0
+        excerpt: Semantic checks additionally reject overlapping writers
+    - id: OWNERSHIP
+      statement: >-
+        Concurrent active ownership and incomplete or unobservable worker attempts
+        remain explicit.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/66
+      source:
+        path: spec/delegation.md
+        sha256: e526c79a76b08f375b5590b885d3df2dbce2e0f5cf46345d666da638151e91b0
+        excerpt: Exit 1 reports incomplete work
+    - id: LIFETIMES
+      statement: >-
+        New complete acceptance inventory invalidates review independently of unchanged
+        execution history.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/67
+      source:
+        path: spec/evidence-lifetimes.md
+        sha256: add720e70bfe6671ee1977516c0d8bdcc7f21b5d18db48132dd7dfb9af9379bc
+        excerpt: new conditions invalidate review even when execution is unchanged
+    - id: ARTIFACT
+      statement: Replacement or missing artifact/proof bytes cannot inherit prior qualification.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/67
+      source:
+        path: spec/evidence-lifetimes.md
+        sha256: add720e70bfe6671ee1977516c0d8bdcc7f21b5d18db48132dd7dfb9af9379bc
+        excerpt: replacement or missing bytes cannot inherit old qualification
+    verifications:
+    - condition: COUNTS
+      method: automated
+      target:
+        path: crates/opdev-engine/src/evaluator.rs
+        sha256: 2e2ba7d1dba7ad0c6370a924cf70b325415ddc97b6c4a3c6ef7d9ec84a402234
+        excerpt: fn evaluation_only_runs_nothing_and_composition_runs_each_missing_suite_once()
+      assertion: "Two isolated counting scenarios cover GitLab/GitHub bindings: producer count1, no-exec remains1, composition2, fresh4 and equivalent gate aggregates. Review-only corrections remain4 and missing acceptance remains unverified."
+      discriminating_case: >-
+        Running all suites during composition, interpreting no-exec as success for
+        missing suites or reusing pre-merge for post-merge would fail explicit
+        counters/outcomes.
+      suite: check
+      outcome: passed
+    - condition: IDENTITY
+      method: automated
+      target:
+        path: crates/opdev-engine/src/execution_record.rs
+        sha256: b74dfddf77695a2ae48937529dd58311ee94f56aa3d2a27d6f9f2486a8329280
+        excerpt: fn changed_binding_never_reuses_a_green_record()
+      assertion: >-
+        Exact-binding mutation tests reject wrong
+        repository/producer/revision/suite/digests/environment/stage/run. Strict-schema tests reject old receipts, extra
+        fields, nonblocking/gate spoofing, duplicate markers, changed inputs and unsupported
+        outcomes.
+      discriminating_case: >-
+        Matching only SHA, accepting caller JSON or dropping critical fields would
+        accept a deliberately mismatched record.
+      suite: check
+      outcome: passed
+    - condition: PROVIDER
+      method: automated
+      target:
+        path: crates/opdev-remote/src/producers.rs
+        sha256: 3b80464d0254b61a0bd1c766d00ee5d27094e3b15c8b908ff8589ad0c7f63191
+        excerpt: fn complete_provider_fixtures_never_select_older_green_logs()
+      assertion: >-
+        Provider-shaped neutral inventory/log fixtures retain current attempts and
+        failure/log-expiry diagnostics; identity/history/race tests reject changed subjects
+        and selected jobs while allowing unrelated evaluator progress. Redirect-domain
+        checks reject unsafe locations without echoing query values.
+      discriminating_case: >-
+        Choosing an older green job, using incomplete history or waiting for the entire
+        active run would contradict fixture outcomes.
+      suite: check
+      outcome: passed
+    - condition: PRODUCER
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/execution_reuse.rs
+        sha256: ed171406ec317914dedce8cfcc38c49a4130b2315a1318524ec1b8c4c9817cf3
+        excerpt: fn producer_preserves_failure_timeout_and_source_mutation()
+      assertion: >-
+        Process tests execute neutral Python counting command for both provider
+        contexts, require one record with escaped child markers, preserve failure and timeout
+        exits and detect source mutation. Post-merge has its own stage; incorrect
+        run/job/feature subjects and unsupported policy stop before execution.
+      discriminating_case: >-
+        Success despite nonzero child, repeated command, raw child marker injection,
+        unsupported pull-request reuse or pre/post-merge substitution would fail
+        counts/exits/record assertions.
+      suite: check
+      outcome: passed
+    - condition: REVIEW
+      method: automated
+      target:
+        path: crates/opdev-engine/src/execution_policy.rs
+        sha256: 93915f954350028c12fe7bc68d66d1957860353ebc316c9c95de167776465303
+        excerpt: fn ledger_exclusion_is_explicit_and_unknown_policy_is_not_migrated()
+      assertion: >-
+        Policy tests establish true default, explicit false, optional GitHub field
+        schema alignment, invalid review/identity rejection and unknown-field refusal.
+        Counting scenario separately changes ledger references while retaining suite result but
+        not acceptance pass.
+      discriminating_case: >-
+        Implicit ledger exclusion or interpreting schema parsing as review approval
+        would violate the default and acceptance checks.
+      suite: check
+      outcome: passed
+    - condition: REFRESH
+      method: automated
+      target:
+        path: crates/opdev-cli/src/execution_reuse.rs
+        sha256: 5c38e1a12f3ea7573d29825e1d351284681da9a80548848b25f037b46aa1d84c
+        excerpt: fn expired_observations_invalidate_only_reused_passes_without_hiding_failures()
+      assertion: >-
+        Invalidation assertions preserve failed/error/unverified outcomes and unrelated
+        extension with colliding ID while downgrading reused suite pass. Log tests
+        retain known producer failure even without valid canonical record, clearly
+        distinguishing unknown test outcome.
+      discriminating_case: >-
+        Overwriting failure with unverified or invalidating an unrelated extension of
+        the same name fails; older successful attempts cannot rescue readiness.
+      suite: check
+      outcome: passed
+    - condition: COMPATIBILITY
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/consumer_interface.rs
+        sha256: c992eaae62e62057a57d7b58eac8a55f787a841678a01b602c025a1cf1822a0e
+        excerpt: fn help_and_errors_are_textual_without_interactive_input()
+      assertion: >-
+        Process help checks include ci execute with null stdin and no required
+        ANSI/cursor interaction. Existing command/receipt/plan/doctor tests remain in the
+        canonical suite. Guidance makes new flags conditional and preserves fresh fallback; no
+        runtime pin or existing manifest migration.
+      discriminating_case: >-
+        An unavailable command, interactive help, broken old receipt behavior or
+        implicit reuse would violate interface/compatibility assertions.
+      suite: check
+      outcome: passed
+    - condition: CONTINUATION
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/workflow.rs
+        sha256: 42df28df748ccb7960cdade960ef619eb0136a9405dd08a9607b13fcf127bee7
+        excerpt: fn inspection_has_no_command_or_write_side_effects_and_never_infers_release()
+      assertion: >-
+        PATH-empty native process checks preserve exact journal bytes and directory
+        entries; execution permission does not satisfy missing feedback/publication. Changed
+        subjects and missing original evidence remain visible.
+      discriminating_case: >-
+        Launching hidden checks, repairing files, or treating permission as publication
+        would contradict exit, snapshot and missing-kind assertions.
+      suite: check
+      outcome: passed
+    - condition: HISTORY
+      method: automated
+      target:
+        path: crates/opdev-cli/src/workflow.rs
+        sha256: 82de8955a0d65bda1c7fc42e5e25760eee86c7825faf2e299008315608b50ad0
+        excerpt: fn stale_and_concurrent_writers_cannot_replace_history()
+      assertion: >-
+        Real OS lock and expected-head tests reject concurrent/stale append, ignore
+        partial temp, retain prior history. Typed record tests reject permission-to-feedback
+        supersession, agent-attributed human approvals, unknown versions and conflicts.
+      discriminating_case: >-
+        An old expected digest, held lock, duplicate event or incompatible supersession
+        must not become a new authoritative head.
+      suite: check
+      outcome: passed
+    - condition: SUBJECT
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/workflow.rs
+        sha256: 42df28df748ccb7960cdade960ef619eb0136a9405dd08a9607b13fcf127bee7
+        excerpt: fn subject_helper_generates_real_bindings_without_running_checks()
+      assertion: >-
+        Real Git fixture verifies staged digest, configuration digest and streamed 9
+        MiB artifact identity without project check or index mutation; unstaged source
+        errors.
+      discriminating_case: >-
+        A fake fixed hash, artifact size cutoff, hidden test launch or implicit staging
+        would fail exact bindings, side-effect and dirty-source assertions.
+      suite: check
+      outcome: passed
+    - condition: DELEGATION
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/delegation.rs
+        sha256: 27d2842a222944c3bcec33d9459ac1855464bb19248d8c54da8c5c9a91d974ac
+        excerpt: fn stale_omitted_and_unauthorized_worker_claims_are_rejected()
+      assertion: >-
+        Native tests mutate source/configuration/stage/acceptance identities, file
+        ownership, action reports, check identities and versions; require exit 2. Separate
+        schema/process test runs with empty PATH and checks unchanged files plus unverified
+        qualification.
+      discriminating_case: >-
+        A worker returning a prior inventory, unowned path, publish action or
+        duplicate/full suite cannot be treated as current scoped work.
+      suite: check
+      outcome: passed
+    - condition: OWNERSHIP
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/delegation.rs
+        sha256: 27d2842a222944c3bcec33d9459ac1855464bb19248d8c54da8c5c9a91d974ac
+        excerpt: fn concurrent_writer_ownership_is_checked_across_the_entire_active_set()
+      assertion: >-
+        Overlap tests include current vs active and active vs active, duplicate
+        assignment IDs and directory-boundary nonoverlap. Budget tests keep
+        interrupted/unavailable/model mismatch/unknown time or tokens and absent evidence at exit 1.
+      discriminating_case: >-
+        Checking only the new writer or counting cached input as free could admit
+        conflicting work or an over-budget successful result.
+      suite: check
+      outcome: passed
+    - condition: LIFETIMES
+      method: automated
+      target:
+        path: crates/opdev-cli/src/workflow_records.rs
+        sha256: eb19eaaf6feabb17dcd71f26fb58b8545271913b31d689c930ef31a885c59ad4
+        excerpt: fn new_acceptance_invalidates_review_without_relabelling_execution()
+      assertion: >-
+        Control matching inventory records both facts; missing/changed inventory makes
+        only review stale, preserving execution history. Existing record tests separately
+        mutate source/configuration/stage/artifact and expiry.
+      discriminating_case: >-
+        Whole-source-only review binding would incorrectly keep added conditions
+        reviewed; blanket erasure would incorrectly delete unchanged execution history.
+      suite: check
+      outcome: passed
+    - condition: ARTIFACT
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/workflow.rs
+        sha256: 42df28df748ccb7960cdade960ef619eb0136a9405dd08a9607b13fcf127bee7
+        excerpt: fn artifact_replacement_and_missing_bytes_never_reuse_old_qualification()
+      assertion: >-
+        Native inspect matches exact original artifact and separate proof, then
+        replacement artifact, missing artifact and missing proof each produce unresolved exit 1
+        with unchanged journal. View is always unverified as a gate.
+      discriminating_case: >-
+        Trusting an artifact filename or prior success flag rather than actual retained
+        bytes would falsely accept the replacements.
+      suite: check
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62
+      rationale: >-
+        Reviewed the accepted core redesign against staged implementation, original
+        authorities and actual discriminating assertions. Rechecked counting and provider
+        identity boundaries; pure continuation and native PATH-empty tests distinguish
+        inspection from qualification and permission from feedback. Cooperative lock and
+        stale-head tests preserve history. New acceptance inventory invalidates review
+        independently of execution history. Actual artifact replacement and missing proof
+        remain unresolved. Delegation checks reported scope only and cannot authenticate
+        worker truth or sandbox it; controller verification and original authority are still
+        required. Native Codex and Claude package validation passed; live comparative
+        trials remain separate and do not yet establish effectiveness or complete host
+        support. Human wording review, required canonical execution, CI and post-merge
+        verification remain required; this agent review grants none of those and does not
+        authorize publication. Whole-subject/fresh execution remains the default; no generic
+        cache or silent consumer migration is implemented.
+      subject_sha256: 55d06eae34236b6cdc6cfd792988c92b5fc2dff98ef42df56b356c06d85bb4a6
