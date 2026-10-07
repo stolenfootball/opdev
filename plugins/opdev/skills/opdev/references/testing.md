@@ -17,7 +17,12 @@ a declared policy is not current-change evidence.
 - Keep deterministic correctness and deployability separate from effectiveness evaluation.
 
 Use focused checks during retained implementation and required canonical suites
-at integration handoff. Do not repeat full suites merely to generate receipts or
+at integration handoff. The [ready-for-feedback checkpoint](planning.md#ready-for-feedback)
+does not require the whole integration workflow. Select checks around the next
+question and affected risks; repeat broader evaluations or installed-host trials
+when those behaviors are uncertain, not on every wording or design adjustment.
+Preserve explicit project requirements and disclose failures and untested scope.
+Do not repeat full suites merely to generate receipts or
 bind unsettled source. Disposable isolated local exploration follows the planning
 boundary; its checks establish only observed prototype behavior. Package/recovery
 suites follow affected behavior and applicable delivery, not an automatic release

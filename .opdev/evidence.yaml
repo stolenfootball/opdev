@@ -13154,3 +13154,307 @@ changes:
         behavior or model effectiveness claim. Canonical execution and release
         qualification remain separate.
       subject_sha256: 96e0bc7601b1a64b8837dc93b9cdbce6778dcf14ea5486f1b18acff39d375ddf
+- fingerprint: cbdbcf72f3347280e1da09844d331ba6a2be11dab9823061e02486ef98458f4b
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issue 76 records accepted feedback scope, exclusions, conditions, focused test
+      observations and integration requirements.
+    evidence:
+    - kind: review
+      summary: Issue 76 records accepted feedback scope, exclusions, conditions, focused test
+        observations and integration requirements.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: Reviewed checkpoint distinction reuses existing commands/authorities and avoids
+      a new workflow engine, schema or skip switch; durable rationale and reversal conditions
+      retained.
+    evidence:
+    - kind: review
+      summary: Reviewed checkpoint distinction reuses existing commands/authorities and avoids
+        a new workflow engine, schema or skip switch; durable rationale and reversal conditions
+        retained.
+      location: spec/workflow-usability.md
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the only integration trunk and release source; inspected project and
+      pipeline definitions are unchanged.
+    evidence:
+    - kind: review
+      summary: Main remains the only integration trunk and release source; inspected project
+        and pipeline definitions are unchanged.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: Focused short-lived branch starts at fetched main 89c3cac for one feedback-guidance
+      increment; reintegrate via required MR CI, no parallel trunk.
+    evidence:
+    - kind: review
+      summary: Focused short-lived branch starts at fetched main 89c3cac for one feedback-guidance
+        increment; reintegrate via required MR CI, no parallel trunk.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76#note_3973519837
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Exact base main 89c3cac has successful pipeline 2923765364; new source and merged
+      trunk require independent CI verification.
+    evidence:
+    - kind: review
+      summary: Exact base main 89c3cac has successful pipeline 2923765364; new source and merged
+        trunk require independent CI verification.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2923765364
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: No schema, catalog, CLI execution mode, runtime pin or provider policy change.
+      Managed guidance is explicit/idempotent and preserves host-owned content.
+    evidence:
+    - kind: review
+      summary: No schema, catalog, CLI execution mode, runtime pin or provider policy change.
+        Managed guidance is explicit/idempotent and preserves host-owned content.
+      location: crates/opdev-cli/tests/planning_guidance.rs
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: Results guidance distinguishes observed focused checks and limitations from integration
+      and release readiness; no new machine outcome or gate.
+    evidence:
+    - kind: review
+      summary: Results guidance distinguishes observed focused checks and limitations from integration
+        and release readiness; no new machine outcome or gate.
+      location: plugins/opdev/skills/opdev/references/results.md
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: Maintainer explicitly approved ready-for-feedback wording and explanation; plain
+      text reports retain visible failed/unverified distinctions. This is not assistive-technology
+      conformance.
+    evidence:
+    - kind: review
+      summary: Maintainer explicitly approved ready-for-feedback wording and explanation; plain
+        text reports retain visible failed/unverified distinctions. This is not assistive-technology
+        conformance.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76#note_3973524525
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Reviewed actual shared/hook/managed diffs and tests against accepted scope and
+      B1-B12; source and mapping review, not agent self-certification or independent live trial.
+    evidence:
+    - kind: review
+      summary: Reviewed actual shared/hook/managed diffs and tests against accepted scope and
+        B1-B12; source and mapping review, not agent self-certification or independent live
+        trial.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76#note_3973519837
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Escaped workflow friction has targeted distribution regression plus contrasting
+      retained-feedback semantic cases; no private consumer context is included.
+    evidence:
+    - kind: review
+      summary: Escaped workflow friction has targeted distribution regression plus contrasting
+        retained-feedback semantic cases; no private consumer context is included.
+      location: tests/planning-review.md
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: Evaluation of this guidance change is scoped to semantic B1-B12 review and deterministic
+      distribution/managed-file checks. No live Codex/Claude reliability, speed or token improvement
+      claim; current limits recorded.
+    evidence:
+    - kind: review
+      summary: Evaluation of this guidance change is scoped to semantic B1-B12 review and deterministic
+        distribution/managed-file checks. No live Codex/Claude reliability, speed or token improvement
+        claim; current limits recorded.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76#note_3973519837
+  acceptance:
+    scope: behavioral
+    rationale: Changes shared agent workflow and generated guidance only; resource/bootstrap
+      tests cover distribution and preservation, semantic scenario review covers intended decision
+      boundaries. No live-agent reliability or speedup is claimed; CI topology, schemas, gate
+      execution and installed consumers are unchanged.
+    conditions:
+    - id: FB-01
+      statement: Retained source reaches directional feedback without full completion ceremony.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: '- FB-01:'
+    - id: FB-02
+      statement: Check selection follows the question and risk while failures and unknown scope
+        stay visible.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: '- FB-02:'
+    - id: FB-03
+      statement: Optional feedback selections reuse commands and authority without new setup
+        or qualification semantics.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: '- FB-03:'
+    - id: FB-04
+      statement: Authorized CI previews retain identity, safety, policy and non-qualification
+        boundaries.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: '- FB-04:'
+    - id: FB-05
+      statement: Current-source integration and post-merge checks remain required for settled
+        useful increments.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: '- FB-05:'
+    - id: FB-06
+      statement: Report feedback, merge and release readiness separately without inventing success.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: '- FB-06:'
+    - id: ROUTES
+      statement: All relevant packaged entrypoints reach the exact local feedback guidance.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: carry the distinction for both hosts; older installed guidance is not silently
+    - id: MANAGED
+      statement: Fresh and upgraded project guidance preserves both host entrypoints and unrelated
+        content.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76
+      source:
+        path: spec/workflow-usability.md
+        sha256: 9e61fb63c4c0f816178107b857dadf703a31c932b396a96fb0a1ef8d44cb14e3
+        excerpt: carry the distinction for both hosts; older installed guidance is not silently
+    verifications:
+    - condition: FB-01
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 78c2c6c62a8dd60b0aee14c43ef57bd3e8399919e69acbb9837fdd2c0e711a82
+        excerpt: '| B1 |'
+      assertion: B1-B2 and B10 distinguish real retained iterations from integration and ordinary
+        routine fixes. Shared planning permits prompt focused feedback while preventing a mandatory
+        feedback-approval loop.
+      discriminating_case: A rule restricted to disposable work would fail B1; full qualification
+        on every tweak would fail B2; compulsory user feedback would fail B10.
+      automation_limitation: Natural-language workflow interpretation needs semantic review
+        against accepted scope; copied-resource tests cannot prove model decisions. This review
+        walked the contrasting cases against actual instructions, not an independently executed
+        host trial.
+      outcome: passed
+    - condition: FB-02
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 78c2c6c62a8dd60b0aee14c43ef57bd3e8399919e69acbb9837fdd2c0e711a82
+        excerpt: '| B8 |'
+      assertion: B3, B4, B8 and B12 preserve relevant library/API assertions, targeted plugin
+        trials, unsafe data-loss blocking and qualified reporting of safe partial observations.
+      discriminating_case: An unconditional minimal-test policy would allow unsafe migration;
+        an unconditional full-matrix policy would delay dialogue feedback. Neither is permitted.
+      automation_limitation: Natural-language workflow interpretation needs semantic review
+        against accepted scope; copied-resource tests cannot prove model decisions. This review
+        walked the contrasting cases against actual instructions, not an independently executed
+        host trial.
+      outcome: passed
+    - condition: FB-03
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 78c2c6c62a8dd60b0aee14c43ef57bd3e8399919e69acbb9837fdd2c0e711a82
+        excerpt: '| B3 |'
+      assertion: B3 and actual planning instructions use existing command IDs, purpose and escalation
+        in the testing authority, disclose diagnostic variants and reject empty-selection success.
+      discriminating_case: Inventing a feedback stage/flag or replacing canonical argv with
+        a narrowed test command contradicts explicit instructions. No manifest schema changed.
+      automation_limitation: Natural-language workflow interpretation needs semantic review
+        against accepted scope; copied-resource tests cannot prove model decisions. This review
+        walked the contrasting cases against actual instructions, not an independently executed
+        host trial.
+      outcome: passed
+    - condition: FB-04
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 78c2c6c62a8dd60b0aee14c43ef57bd3e8399919e69acbb9837fdd2c0e711a82
+        excerpt: '| B5 |'
+      assertion: B5-B6 and B9 distinguish a permitted exact-artifact trial from bypassing a
+        policy-required full job or treating subset-green CI as merge qualification.
+      discriminating_case: A preview-only pipeline success cannot satisfy missing integration
+        checks; a consumer need cannot authorize live installation or publication.
+      automation_limitation: Natural-language workflow interpretation needs semantic review
+        against accepted scope; copied-resource tests cannot prove model decisions. This review
+        walked the contrasting cases against actual instructions, not an independently executed
+        host trial.
+      outcome: passed
+    - condition: FB-05
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 78c2c6c62a8dd60b0aee14c43ef57bd3e8399919e69acbb9837fdd2c0e711a82
+        excerpt: '| B7 |'
+      assertion: B7, B10 and B11 require current acceptance and execution before integration,
+        preserve routine completion, and reject indefinite final-product feedback branches.
+        No gate/evaluation implementation changed.
+      discriminating_case: Stale green CI or accepted direction cannot qualify edited source.
+        No universal wait-for-final-design or new daily timer is introduced.
+      automation_limitation: Natural-language workflow interpretation needs semantic review
+        against accepted scope; copied-resource tests cannot prove model decisions. This review
+        walked the contrasting cases against actual instructions, not an independently executed
+        host trial.
+      outcome: passed
+    - condition: FB-06
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 78c2c6c62a8dd60b0aee14c43ef57bd3e8399919e69acbb9837fdd2c0e711a82
+        excerpt: '| B12 |'
+      assertion: Actual results guidance reports observations, checks, limits and next decision;
+        B9/B12 reject preview or partial success as completion. Maintainer separately approved
+        the ready-for-feedback wording.
+      discriminating_case: A failed test or absent integration run cannot become all-checks-passed;
+        feedback usefulness does not prove correctness or authorize release.
+      automation_limitation: Natural-language workflow interpretation needs semantic review
+        against accepted scope; copied-resource tests cannot prove model decisions. This review
+        walked the contrasting cases against actual instructions, not an independently executed
+        host trial.
+      outcome: passed
+    - condition: ROUTES
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: f626daa9d287e046e3042cb034b45cacf086951dad3b1bf90fdf7b5c73af00d2
+        excerpt: fn feedback_checkpoint_routes_survive_isolated_plugin_copy()
+      assertion: Copy only the declared plugin resources; resolve every selected feedback link,
+        require expected target identity within package, identical bytes and a valid anchor.
+      discriminating_case: Missing route failed against original SKILL; wrong/escaping target,
+        changed resource bytes or missing anchor fail independent distribution assertions. This
+        is not phrase-based planning evaluation.
+      suite: check
+      outcome: passed
+    - condition: MANAGED
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: f626daa9d287e046e3042cb034b45cacf086951dad3b1bf90fdf7b5c73af00d2
+        excerpt: fn fresh_and_upgraded_guidance_matches_repository_contract()
+      assertion: Fresh/upgraded AGENTS equals maintained guidance, custom prefix/suffix survives,
+        CLAUDE imports once, repeated reconciliation is idempotent.
+      discriminating_case: Changing repository guidance without bootstrap output or overwriting
+        host-owned content fails equality/preservation checks. Tests run real reconcile logic.
+      suite: check
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/76#note_3973519837
+      rationale: Reviewed actual instructions, semantic B1-B12 contrasts, preserved authority/consent
+        and distribution/bootstrap assertions. Source-bound review distinguishes resource coverage
+        from unmeasured host behavior; canonical execution and provider results remain independent.
+      subject_sha256: caada779845b66267aa107428c0c23caca45155c170a622b53a15f35e9cbcb40

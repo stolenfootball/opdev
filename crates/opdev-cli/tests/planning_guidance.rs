@@ -3,6 +3,57 @@
 use std::{fs, path::Path};
 
 #[test]
+fn feedback_checkpoint_routes_survive_isolated_plugin_copy()
+-> Result<(), Box<dyn std::error::Error>> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let skill = root.join("plugins/opdev/skills/opdev");
+    let directory = tempfile::tempdir()?;
+    let copied = directory.path().join("skills/opdev");
+    fs::create_dir_all(copied.join("references"))?;
+    let sources = [
+        "SKILL.md",
+        "references/workflow.md",
+        "references/testing.md",
+        "references/acceptance.md",
+        "references/results.md",
+    ];
+    for relative in sources.into_iter().chain(["references/planning.md"]) {
+        fs::copy(skill.join(relative), copied.join(relative))?;
+    }
+    let expected = copied.join("references/planning.md").canonicalize()?;
+    for relative in sources {
+        let source = copied.join(relative);
+        let text = fs::read_to_string(&source)?;
+        let routes: Vec<_> = text
+            .split("](")
+            .skip(1)
+            .filter_map(|part| part.split_once(')').map(|(target, _)| target))
+            .filter_map(|target| target.strip_suffix("#ready-for-feedback"))
+            .collect();
+        assert!(!routes.is_empty(), "missing feedback route from {relative}");
+        for route in routes {
+            let resolved = source
+                .parent()
+                .ok_or("parent")?
+                .join(route)
+                .canonicalize()?;
+            assert_eq!(resolved, expected);
+            assert!(resolved.starts_with(copied.canonicalize()?));
+            assert_eq!(
+                fs::read(&resolved)?,
+                fs::read(skill.join("references/planning.md"))?
+            );
+            assert!(
+                fs::read_to_string(resolved)?
+                    .lines()
+                    .any(|line| line == "### Ready for feedback")
+            );
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn delegation_permission_routes_survive_isolated_plugin_copy()
 -> Result<(), Box<dyn std::error::Error>> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");

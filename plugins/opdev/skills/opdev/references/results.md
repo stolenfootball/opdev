@@ -2,6 +2,14 @@
 
 ## Handoff after development
 
+At a [ready-for-feedback checkpoint](planning.md#ready-for-feedback), show the
+observation, actual focused checks, untested scope and the decision needed next.
+Say "Ready for feedback; integration not yet verified" when that is the observed
+state, not "complete" or "all checks passed". If feedback is not yet meaningful
+or safe, explain the relevant failure instead. An accepted direction is not a
+merge/release approval and does not make stale evidence current. Do not delay
+useful feedback to assemble an integration-completion report.
+
 Report the requested outcome and its actual verification first. If project facts
 read during the task exposed a concrete CI feedback bottleneck, include a brief
 optional recommendation in the final handoff: what to change, the observed cost

@@ -1,6 +1,6 @@
 ---
 name: opdev
-description: Follow OpDev for project software development or explicit adoption. Offer adoption early for substantive work in uninitialized projects. External infrastructure operations and routine pull/status/dev-server tasks need no activation. Disposable local exploration uses proportional preview checks; retained work uses normal gates. Loading this skill checks applicability, not consent.
+description: Follow OpDev for project software development or explicit adoption. Offer adoption early for substantive work in uninitialized projects. External infrastructure operations and routine pull/status/dev-server tasks need no activation. Retained work can reach feedback with focused checks; required gates apply at integration. Loading this skill checks applicability, not consent.
 ---
 
 # OpDev
@@ -56,6 +56,14 @@ production gate or authorize publication/merge; ordinary safety still applies.
 
 Resolve the runtime below for retained development and applicable qualification.
 
+For retained work, use the [ready-for-feedback checkpoint](references/planning.md#ready-for-feedback).
+Show a meaningful result after focused tests and safety checks; do not require
+full integration qualification merely to request feedback. Keep real edits and
+tests current without calling them disposable. Finalize source-bound acceptance
+and required canonical checks at integration handoff. Preview success does not
+authorize merging, releasing or changing CI policy. Runtime resolution is not a
+requirement to run every gate on each edit.
+
 Before the first OpDev action in each task, resolve `../../` relative to this
 skill directory to find the plugin root and select a CLI:
 
@@ -108,7 +116,7 @@ or treat doctor as adoption consent, completed tests or gate evidence.
 5. Make small, reviewable changes. Preserve supported behavior unless the accepted change deliberately migrates it.
 6. Apply [testing.md](references/testing.md) and [acceptance evidence](references/acceptance.md) for substantive changes: derive expected results from accepted requirements, review actual assertions, and bind the inventory/mappings to the current change. Run canonical command argument vectors directly; do not reinterpret them through a shell.
 7. For facts the CLI cannot infer, follow [evidence.md](references/evidence.md). When a new ledger is needed, prefer the schema-backed `opdev evidence bootstrap` review flow; it starts every decision unresolved and keeps durable project facts separate from fingerprint-bound change facts. Never reuse an assertion after the repository state changes without rechecking it.
-8. Use `opdev check` for local evidence. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Use full human/JSON output by default. Follow [results.md](references/results.md) for retained reports; compact views require explicit experimental opt-in from the user or project, never just a capable runtime. Report blocked or unavailable evidence honestly.
+8. Use focused checks for feedback and `opdev check` for required local qualification at integration handoff, not automatically on every edit or feedback turn. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Use full human/JSON output by default. Follow [results.md](references/results.md) for retained reports; compact views require explicit experimental opt-in from the user or project, never just a capable runtime. Report blocked or unavailable evidence honestly.
 9. Reconcile implementation, tests, declared authorities, delivery behavior, and tracked work before completion. For new or substantially expanded documents, include the [focused content review](references/project-contract.md#review-document-content) in normal review; inspect actual claims, not just successful routing or the author's summary.
 
 When CI design/changes or observed repeated waits make verification cost relevant,
