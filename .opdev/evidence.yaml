@@ -12425,64 +12425,137 @@ changes:
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Issue 72 records the accepted outcome, scope, exclusions, conditions, evidence, authority and risks for the developer-requested correction; no release or consumer update is authorized.
+    summary: >-
+      Issue 72 records the accepted outcome, scope, exclusions, conditions, evidence,
+      authority and risks for the developer-requested correction; no release or
+      consumer update is authorized.
     evidence:
-    - {kind: work, summary: Restored tracker now contains the previously approved conversation plan and observed local results, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72'}
+    - kind: work
+      summary: >-
+        Restored tracker now contains the previously approved conversation plan and
+        observed local results
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: The result-semantics authority records the coupling problem, reuse of the integration aggregate, rejected fifth gate and blanket waiver alternatives, tests and a risk-based reversal trigger.
+    summary: >-
+      The result-semantics authority records the coupling problem, reuse of the
+      integration aggregate, rejected fifth gate and blanket waiver alternatives, tests and
+      a risk-based reversal trigger.
     evidence:
-    - {kind: review, summary: 'Compared durable rationale with actual stage routing, exit selection, missing-execution handling and explicit release boundary', location: spec/result-semantics.md}
+    - kind: review
+      summary: >-
+        Compared durable rationale with actual stage routing, exit selection,
+        missing-execution handling and explicit release boundary
+      location: spec/result-semantics.md
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: Main remains the sole integration and release-source branch; no branch-role or release path change is introduced.
+    summary: >-
+      Main remains the sole integration and release-source branch; no branch-role or
+      release path change is introduced.
     evidence:
-    - {kind: review, summary: Inspected unchanged project contract and default-branch/tag pipeline rules against the bounded feature branch, location: .opdev/project.yaml}
+    - kind: review
+      summary: >-
+        Inspected unchanged project contract and default-branch/tag pipeline rules
+        against the bounded feature branch
+      location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: The focused branch starts at current main 82962f954d5b8faa5c5864369edae9b6bd66a489 and is intended to return through a qualified MR with source deletion. No trunk drift was found at continuation.
+    summary: >-
+      The focused branch starts at current main
+      82962f954d5b8faa5c5864369edae9b6bd66a489 and is intended to return through a qualified MR with source deletion. No
+      trunk drift was found at continuation.
     evidence:
-    - {kind: review, summary: 'Git fetch and branch history confirmed the current base; this records branch structure, not completed integration', location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205'}
+    - kind: review
+      summary: >-
+        Git fetch and branch history confirmed the current base; this records branch
+        structure, not completed integration
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205"
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: The latest main pipeline 2918771978 at the current branch base was observed successful before continuation; no known red trunk is being deferred.
+    summary: >-
+      The latest main pipeline 2918771978 at the current branch base was observed
+      successful before continuation; no known red trunk is being deferred.
     evidence:
-    - {kind: ci_observation, summary: Read-only GitLab pipeline observation after access was restored returned success for 82962f954d5b8faa5c5864369edae9b6bd66a489, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2918771978'}
+    - kind: ci_observation
+      summary: >-
+        Read-only GitLab pipeline observation after access was restored returned
+        success for 82962f954d5b8faa5c5864369edae9b6bd66a489
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2918771978
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: Selected post-merge integration exit is the deliberate behavioral correction. Existing schemas, catalog, delivery exit, unrelated stages, pins and plugin version remain unchanged; capability discovery identifies corrected source builds.
+    summary: >-
+      Selected post-merge integration exit is the deliberate behavioral correction.
+      Existing schemas, catalog, delivery exit, unrelated stages, pins and plugin
+      version remain unchanged; capability discovery identifies corrected source builds.
     evidence:
-    - {kind: review, summary: 'Reviewed actual enum-stage mappings, doctor capability assertion, CLI flag matrix and older-runtime guidance; no historical report is reinterpreted', location: spec/compatibility.md}
+    - kind: review
+      summary: >-
+        Reviewed actual enum-stage mappings, doctor capability assertion, CLI flag
+        matrix and older-runtime guidance; no historical report is reinterpreted
+      location: spec/compatibility.md
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: The maintainer approved the presented post-merge help and release-consent wording; existing automated noninteractive text and consent checks cover the unchanged interface target.
+    summary: >-
+      The maintainer approved the presented post-merge help and release-consent
+      wording; existing automated noninteractive text and consent checks cover the unchanged
+      interface target.
     evidence:
     - kind: human_review
-      summary: 'Actual response: Yes, approved. Review covers the displayed help and explicit release-authorization boundary, not publication or universal accessibility certification.'
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971996677
+      summary: "Actual response: Yes, approved. Review covers the displayed help and explicit release-authorization boundary, not publication or universal accessibility certification."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971996677"
     - kind: test_review
-      summary: Existing process tests exercise help and errors with closed stdin and redirected plain text; full canonical execution remains required for this evidence state.
+      summary: >-
+        Existing process tests exercise help and errors with closed stdin and
+        redirected plain text; full canonical execution remains required for this evidence state.
       location: crates/opdev-cli/tests/consumer_interface.rs
   - rule_id: OPDEV-OPS-001
     outcome: passed
-    summary: Existing report schemas and diagnostic paths remain intact; post-merge no-exec and rejected reuse retain unverified named checks while full gate reports remain visible.
+    summary: >-
+      Existing report schemas and diagnostic paths remain intact; post-merge no-exec
+      and rejected reuse retain unverified named checks while full gate reports remain
+      visible.
     evidence:
-    - {kind: test_review, summary: 'Actual process-level regressions assert named outcomes, check counts, no-execution markers and blocking behavior; capability is exposed through read-only doctor', location: crates/opdev-cli/tests/check_plan.rs}
+    - kind: test_review
+      summary: >-
+        Actual process-level regressions assert named outcomes, check counts,
+        no-execution markers and blocking behavior; capability is exposed through read-only doctor
+      location: crates/opdev-cli/tests/check_plan.rs
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: The actual gate-selection and routing assertions were reviewed against accepted requirements, with observed red regressions before the fix and a passing final local canonical suite, not only an author correctness claim.
+    summary: >-
+      The actual gate-selection and routing assertions were reviewed against accepted
+      requirements, with observed red regressions before the fix and a passing final
+      local canonical suite, not only an author correctness claim.
     evidence:
-    - {kind: review, summary: 'Reviewed parsed flag exits, all six outcomes, advisory behavior, process failures, unavailable reuse and copied guidance; final source CI remains separately required', location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205'}
+    - kind: review
+      summary: >-
+        Reviewed parsed flag exits, all six outcomes, advisory behavior, process
+        failures, unavailable reuse and copied guidance; final source CI remains separately
+        required
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205"
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: Generalized the observed integration/release coupling into stage-specific regression coverage and a maintained explicit release-consent boundary.
+    summary: >-
+      Generalized the observed integration/release coupling into stage-specific
+      regression coverage and a maintained explicit release-consent boundary.
     evidence:
-    - {kind: regression, summary: Prior implementation failed expected integration membership assertions for fresh and unavailable-reuse post-merge checks; corrected checks passed while delivery-only stages stay unchanged, location: crates/opdev-engine/src/evaluator.rs}
+    - kind: regression
+      summary: >-
+        Prior implementation failed expected integration membership assertions for
+        fresh and unavailable-reuse post-merge checks; corrected checks passed while
+        delivery-only stages stay unchanged
+      location: crates/opdev-engine/src/evaluator.rs
   - rule_id: OPDEV-EVAL-001
     outcome: passed
-    summary: Correctness and instruction review are separated from agent effectiveness; no new host-compliance, speed or token-efficiency improvement is claimed.
+    summary: >-
+      Correctness and instruction review are separated from agent effectiveness; no
+      new host-compliance, speed or token-efficiency improvement is claimed.
     evidence:
-    - {kind: limitation, summary: 'U9-U12 are maintained semantic scenarios, not completed live-agent trials; existing optional delegation and experiment defaults remain unchanged', location: tests/planning-review.md}
+    - kind: limitation
+      summary: >-
+        U9-U12 are maintained semantic scenarios, not completed live-agent trials;
+        existing optional delegation and experiment defaults remain unchanged
+      location: tests/planning-review.md
   acceptance:
     scope: behavioral
     rationale: >-
@@ -12657,3 +12730,225 @@ changes:
         distribution tests do not establish live-agent compliance; human wording review and CI
         qualification remain separate.
       subject_sha256: 5b4839963560af18f5d24a1aed60dec67a415c221441303497561e76bca0b552
+- fingerprint: b3c77893431bb6702010186a5b5957d2999161cd4a05971158587a8ea8f552ec
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issue 74 records the requested scoped-permission correction, accepted outcome, exclusions, conditions, tests and limits; the maintainer has now approved the displayed wording.
+    evidence:
+    - {kind: work, summary: Implementation request authorizes this correction but not live agents or release work, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/74'}
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: Durable delegation design compares scoped reuse with blanket delegation and repeated approval; no schema or dispatcher is warranted for conversational intent.
+    evidence:
+    - {kind: review, summary: Actual changed contract retains single-agent defaults and broad explicit consent with a host-enforcement reversal trigger, location: spec/delegation.md}
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration and release source; delegation clarification changes no branch roles.
+    evidence:
+    - {kind: review, summary: Inspected unchanged project trunk and CI branch/tag rules, location: .opdev/project.yaml}
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: Focused branch starts at fetched main 6d076c180350021549f42cfd6ff3ff10e88a3f85 and is intended for qualified MR integration; no long-lived integration branch was added.
+    evidence:
+    - {kind: review, summary: Local branch history and origin main agree on the current base; integration itself is not yet claimed, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/74#note_3972349932'}
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Latest main pipeline 2923218795 was observed green at the branch base before implementation handoff; its earlier visible failure remains tracked in issue 73.
+    evidence:
+    - {kind: ci_observation, summary: Read-only provider observation returned success for 6d076c180350021549f42cfd6ff3ff10e88a3f85, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2923218795'}
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: No schema, protocol, flags, gate outcomes, version or managed pin changes. Generated guidance deliberately clarifies existing single-agent and explicit-delegation behavior while preserving project-owned text.
+    evidence:
+    - {kind: test_review, summary: Read fresh/update equality and user-content preservation assertions; actual focused and canonical checks passed, location: crates/opdev-cli/tests/planning_guidance.rs}
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: Native diagnostics and report semantics are unchanged. Instructions explain that unresolved delegation scope allows direct authorized work rather than claiming permission or inventing a blocked task.
+    evidence:
+    - {kind: review, summary: Compared actual entry/adapters and G1-G8 with original permission distinctions; no telemetry or new diagnostic surface, location: tests/planning-review.md}
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer approved the displayed scoped-delegation wording; existing plain-text and consent targets remain unchanged.
+    evidence:
+    - kind: human_review
+      summary: 'Actual response on 2026-10-07: Wording is approved, continue. Covers default single-agent work, original-scope permission reuse and the fallback before expansion; not publication or assistive-technology conformance.'
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74#note_3972595082
+    - kind: test_review
+      summary: Existing noninteractive help/error/report assertions remain applicable; generated guidance and copied-resource tests preserve the reviewed instructions without overwriting user content.
+      location: crates/opdev-cli/tests/consumer_interface.rs
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Reviewed actual guidance and contrasting scope scenarios separately from source-route and generated-text assertions; no reliance on an author correctness label.
+    evidence:
+    - {kind: review, summary: Source-bound acceptance identifies semantic limitations and concrete discrimination cases; actual nine focused tests and canonical suites passed, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/74#note_3972349932'}
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Generalized scoped-permission drift into reusable neutral G1-G8 cases and copied guidance protection without retaining private consumer transcripts.
+    evidence:
+    - {kind: regression, summary: 'New permission-route test failed on missing baseline route then passed; semantic cases cover repetition, role disguise, repurposing, broader consent, revocation and review scope creep', location: tests/planning-review.md}
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: Source review and deterministic distribution checks are not live-agent effectiveness evidence. No reliability, speed or token savings claim is made.
+    evidence:
+    - {kind: limitation, summary: No new evaluation agents or Claude/Codex behavioral trials were launched; scenarios and actual review are distinguished, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/74#note_3972349932'}
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Clarify delegation permission scope across shared and generated guidance
+      without new schemas, mandatory approval rounds or live evaluation agents. No release,
+      installed-plugin or consumer changes.
+    conditions:
+    - id: REUSE
+      statement: >-
+        Repetition preserves original purpose, roles, resources and actions; isolated
+        evaluation permission does not enable retained implementation, acceptance or CI
+        specialists. Underlying task approval is separate.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74
+      source:
+        path: spec/delegation.md
+        sha256: 7eae347abd383dc2b8075a4565b1f0fb559f32b29d5eaeaa29d6ab6cbae716cd
+        excerpt: policy and permission to delegate that work are separate decisions.
+    - id: RESUME
+      statement: >-
+        Every new or changed assignment checks actual scope and original authority;
+        summaries, labels and tool availability cannot expand it. Honor
+        narrowing/revocation; unresolved scope means direct work or a focused question, not dispatch.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74
+      source:
+        path: spec/delegation.md
+        sha256: 7eae347abd383dc2b8075a4565b1f0fb559f32b29d5eaeaa29d6ab6cbae716cd
+        excerpt: available tools and a persisted summary cannot widen consent.
+    - id: PROPORTION
+      statement: >-
+        Single-agent is default; genuine broad specialist permission remains reusable
+        without per-worker questions. No new registry/gate or invented milestone/release
+        requirements.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74
+      source:
+        path: spec/delegation.md
+        sha256: 7eae347abd383dc2b8075a4565b1f0fb559f32b29d5eaeaa29d6ab6cbae716cd
+        excerpt: per-worker approval. No extra question is needed to keep working single-agent.
+    - id: ROUTES
+      statement: >-
+        Copied shared skill and both host adapter routes resolve to the same permission
+        guidance without source-checkout dependencies.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74
+      source:
+        path: spec/delegation.md
+        sha256: 7eae347abd383dc2b8075a4565b1f0fb559f32b29d5eaeaa29d6ab6cbae716cd
+        excerpt: >-
+          This boundary belongs in shared guidance, host adapters and managed entry
+          points,
+    - id: MANAGED
+      statement: >-
+        Fresh and updated managed instructions preserve the reviewed default/scope
+        boundary and unrelated user content, including Claude import and idempotent
+        reconciliation.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74
+      source:
+        path: spec/delegation.md
+        sha256: 7eae347abd383dc2b8075a4565b1f0fb559f32b29d5eaeaa29d6ab6cbae716cd
+        excerpt: >-
+          This boundary belongs in shared guidance, host adapters and managed entry
+          points,
+    verifications:
+    - condition: REUSE
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 4a6008d9ba4297799d3527a10feb4f7144d9431637d0b8cad8bab781ecc4dc07
+        excerpt: "| G2 |"
+      assertion: >-
+        Compare G2 allowed repeated trials against G3 retained source review and G4
+        repurposed CI worker. Shared entry, reference, host adapters and specialist reject
+        the latter absent broadened permission, without preventing the approved task
+        itself.
+      discriminating_case: >-
+        Prior unqualified reuse of an approved preference permitted conflating an
+        evaluation worker with acceptance review; current prose explicitly separates purpose
+        and tasks from delegation.
+      automation_limitation: >-
+        Consent interpretation is semantic. Source scenario walkthrough is not a live
+        Codex or Claude run; no new workers or behavioral reliability claims.
+      outcome: passed
+    - condition: RESUME
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 4a6008d9ba4297799d3527a10feb4f7144d9431637d0b8cad8bab781ecc4dc07
+        excerpt: "| G6 |"
+      assertion: >-
+        G3 label/path disguise, G4 existing worker follow-up, G6 conflicting
+        summary/revocation and G7 missing original scope all resolve to no out-of-scope dispatch;
+        the controller can continue authorized work.
+      discriminating_case: >-
+        Checking only spawn-time consent misses a repurposed worker; trusting a blanket
+        saved summary misses original narrow permission and later revocation. Both
+        adapters explicitly route resumed work through the same boundary.
+      automation_limitation: >-
+        Human language attribution cannot be authenticated by local schema or phrase
+        tests; reviewed actual instructions and contrasting scenarios only.
+      outcome: passed
+    - condition: PROPORTION
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 4a6008d9ba4297799d3527a10feb4f7144d9431637d0b8cad8bab781ecc4dc07
+        excerpt: "| G5 |"
+      assertion: >-
+        G1 defaults to one agent without a questionnaire, G5 retains broad approved
+        review specialists without repeated permission requests, and G8 rejects
+        reviewer-added release requirements. No schema, dispatcher or CLI permission gate was added.
+      discriminating_case: >-
+        Blanket denial breaks G5; mandatory per-dispatch consent breaks G1 and G2;
+        treating review output as new acceptance authority breaks G8. Current spec and shared
+        guidance preserve all distinctions.
+      automation_limitation: >-
+        Semantic review of scope and friction, not measured performance or proof that
+        future model decisions comply.
+      outcome: passed
+    - condition: ROUTES
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: 872a69491f969a299a493402cc64c60273457eb13183c75cd64e275e241584c0
+        excerpt: fn delegation_permission_routes_survive_isolated_plugin_copy()
+      assertion: >-
+        Each copied entrypoint/adapter resolves exactly one permission anchor to the
+        identical copied delegation resource within its package; the anchor exists.
+      discriminating_case: >-
+        The new test failed against original guidance with missing SKILL permission
+        route, then passed with candidate links. Missing, escaping or incorrect targets fail
+        path/content assertions; no semantic phrase scoring.
+      suite: check
+      outcome: passed
+    - condition: MANAGED
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: 872a69491f969a299a493402cc64c60273457eb13183c75cd64e275e241584c0
+        excerpt: fn fresh_and_upgraded_guidance_matches_repository_contract()
+      assertion: >-
+        Fresh/updated managed AGENTS output exactly matches reviewed repository
+        guidance while preserving user prefix/suffix; Claude imports AGENTS once and retains its
+        content. Reconciliation is idempotent.
+      discriminating_case: >-
+        Omitting the bootstrap boundary while editing AGENTS makes generated content
+        diverge; overwriting custom text, duplicate imports or unstable rewrites fail
+        independent preservation/equality assertions.
+      suite: check
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/74#note_3972349932"
+      rationale: >-
+        Reviewed actual shared and managed instructions against G1-G8 and accepted
+        A1-A5, including valid repeated experiments, scope expansion, relabeling, follow-up
+        repurposing, explicit broad permission, revocation and unavailable original scope.
+        Actual resource and preservation assertions distinguish package distribution
+        from model interpretation. Canonical local checks and validators passed. Human
+        wording review and required CI remain separate; no live-agent compliance is claimed.
+      subject_sha256: 2fc0e2d2b530e8a32280589288216884890fca2a735285b4ca96217ddc5c6e51

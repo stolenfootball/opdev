@@ -124,10 +124,14 @@ Milestone/implementation approval, preview acceptance and green CI do not grant
 it. Recommend a release when useful; do not make one a prerequisite for ordinary
 milestone completion. Relevant package/recovery regression tests still apply.
 
-When the developer enables a controller/specialist strategy, use the optional
-[bounded delegation contract](references/delegation.md) and current host adapter.
-Keep a first-class single-agent path; do not create a team, extra questions or
-per-worker full-suite runs merely because delegation is available.
+Use one agent by default. Before spawning or repurposing a worker, check the
+[permission scope](references/delegation.md#permission-scope) against the actual
+assignment. Standing permission for isolated evaluation agents does not enable
+implementation, acceptance-review or CI specialists. Approval of the underlying
+task is not permission to delegate it. Reuse permission within its original
+limits; otherwise continue directly or ask before expanding delegation. When
+enabled, use the bounded assignment and current host adapter. Do not create a
+team, extra questions or per-worker full-suite runs merely because tools exist.
 
 For a requested requirements-to-implementation consistency review (for example,
 "does this satisfy the agreed plan?"), use

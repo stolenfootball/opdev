@@ -8,6 +8,33 @@ Read-only investigation and fresh acceptance review are the first supported role
 an implementer requires explicit file ownership. Recursive delegation is not an
 allowed assignment action. Existing host and user permissions still apply.
 
+## Scoped permission reuse
+
+Delegation consent covers the approved purpose, roles, resources and actions,
+not everything related to the parent task. Standing permission for isolated
+evaluation participants does not enable retained implementation, source or
+acceptance reviewers, or CI specialists. Repetition extends the opportunity to
+perform the same authorized kind of work, not its scope. Approval of a task or
+policy and permission to delegate that work are separate decisions.
+
+Before each new or changed assignment, including follow-ups to existing workers,
+compare actual work with original authorization. Role labels, disposable paths,
+available tools and a persisted summary cannot widen consent. Summaries retain
+the original reference and limits; resolve ambiguity from that source and honor
+later narrowing or revocation. If scope is unresolved or outside permission,
+continue authorized work in the controller or ask before the proposed expansion.
+Explicit broader specialist permission remains reusable without per-issue or
+per-worker approval. No extra question is needed to keep working single-agent.
+
+This boundary belongs in shared guidance, host adapters and managed entry points,
+not a new authorization schema or gate: the local validator cannot authenticate
+human intent. Blanket delegation loses scope; asking for every dispatch discards
+valid standing permission. Scoped reuse preserves both control and continuity.
+Revisit this guidance-only choice if a host provides enforceable, scoped consent;
+never present assignment validation or resource tests as proof of consent or
+model compliance. Workers cannot add milestones, release requirements or other
+acceptance conditions merely to satisfy their own review.
+
 ## Validation, not dispatch
 
 `opdev delegation --assignment assignment.json --subject current.json
