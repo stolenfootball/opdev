@@ -106,6 +106,12 @@ fn plan_is_read_only_and_execution_preserves_selection_and_distinct_invocations(
             ExtensionStage::Deliver,
             vec!["delivery", "review"],
         ),
+        (
+            vec!["--ci", "--post-merge"],
+            TestStage::PostMerge,
+            ExtensionStage::PostMerge,
+            vec!["post", "review"],
+        ),
     ] {
         let temp = fixture(extension_stage)?;
         let root = temp.path();
@@ -136,23 +142,7 @@ fn plan_is_read_only_and_execution_preserves_selection_and_distinct_invocations(
             plan["extension_stage"],
             serde_json::to_value(extension_stage)?
         );
-        let commands = plan["commands"].as_array().ok_or("commands")?;
-        assert_eq!(
-            commands
-                .iter()
-                .filter_map(|c| c["id"].as_str())
-                .collect::<Vec<_>>(),
-            expected_ids
-        );
-        assert_eq!(commands[0]["timeout_seconds"], 900);
-        assert_eq!(commands.last().ok_or("extension")?["timeout_seconds"], 12);
-        for command in commands {
-            assert!(
-                Path::new(command["working_directory"].as_str().ok_or("directory")?)
-                    .ends_with("work")
-            );
-            assert_eq!(command["argv"][4], "literal $value; argument with spaces");
-        }
+        assert_planned_commands(&plan, &expected_ids)?;
         fs::remove_file(root.join(".opdev/evidence.yaml"))?;
         let mut run_args = flags;
         run_args.extend(["--format", "json"]);
@@ -186,6 +176,73 @@ fn plan_is_read_only_and_execution_preserves_selection_and_distinct_invocations(
             }
         );
         assert_eq!(checks.last().ok_or("extension")?["outcome"], "passed");
+        if stage == TestStage::PostMerge {
+            for check in checks {
+                assert_eq!(
+                    check["gates"],
+                    serde_json::json!(["integration", "delivery"])
+                );
+            }
+        }
+    }
+    Ok(())
+}
+
+#[test]
+fn post_merge_process_failures_and_skipped_execution_remain_blocking()
+-> Result<(), Box<dyn std::error::Error>> {
+    for mode in ["pass", "suite_failure", "extension_error", "no_exec"] {
+        let temp = fixture(ExtensionStage::PostMerge)?;
+        let root = temp.path();
+        fs::remove_file(root.join(".opdev/evidence.yaml"))?;
+        let path = root.join(MANIFEST_PATH);
+        let mut manifest = opdev_project::ProjectManifest::load(&path)?;
+        if mode == "suite_failure" {
+            manifest
+                .testing
+                .suites
+                .iter_mut()
+                .find(|s| s.id == "post")
+                .ok_or("post suite")?
+                .command = "failure".into();
+        }
+        if mode == "extension_error" {
+            manifest.extensions.checks[0].command = "failure".into();
+        }
+        fs::write(path, manifest.to_yaml()?)?;
+        let mut args = vec!["--ci", "--post-merge", "--format", "json"];
+        if mode == "no_exec" {
+            args.push("--no-exec");
+        }
+        let actual = invoke(root, &args)?;
+        let mut report: opdev_engine::CheckReport = serde_json::from_slice(&actual.stdout)?;
+        assert_eq!(actual.status.code(), Some(1), "fixture lacks core evidence");
+        assert_eq!(report.checks.len(), 2);
+        assert_eq!(
+            report.checks[0].outcome,
+            match mode {
+                "suite_failure" => opdev_core::Outcome::Failed,
+                "no_exec" => opdev_core::Outcome::Unverified,
+                _ => opdev_core::Outcome::Passed,
+            }
+        );
+        assert_eq!(
+            report.checks[1].outcome,
+            match mode {
+                "extension_error" => opdev_core::Outcome::Error,
+                "no_exec" => opdev_core::Outcome::Unverified,
+                _ => opdev_core::Outcome::Passed,
+            }
+        );
+        assert_eq!(root.join("work/executed").exists(), mode != "no_exec");
+        // Isolate actual command results from the fixture's deliberately missing core evidence.
+        for rule in &mut report.rules {
+            rule.outcome = opdev_core::Outcome::Passed;
+        }
+        opdev_engine::reaggregate(&mut report)?;
+        for gate in [opdev_core::Gate::Integration, opdev_core::Gate::Delivery] {
+            assert_eq!(report.gate_passed(gate), mode == "pass", "{mode}: {gate:?}");
+        }
     }
     Ok(())
 }
@@ -210,6 +267,29 @@ fn plan_rejects_misleading_execution_and_remote_options() -> Result<(), Box<dyn 
         Some(2)
     );
     assert!(!temp.path().join("should-not-exist.json").exists());
+    Ok(())
+}
+
+fn assert_planned_commands(
+    plan: &Value,
+    expected_ids: &[&str],
+) -> Result<(), Box<dyn std::error::Error>> {
+    let commands = plan["commands"].as_array().ok_or("commands")?;
+    assert_eq!(
+        commands
+            .iter()
+            .filter_map(|c| c["id"].as_str())
+            .collect::<Vec<_>>(),
+        expected_ids
+    );
+    assert_eq!(commands[0]["timeout_seconds"], 900);
+    assert_eq!(commands.last().ok_or("extension")?["timeout_seconds"], 12);
+    for command in commands {
+        assert!(
+            Path::new(command["working_directory"].as_str().ok_or("directory")?).ends_with("work")
+        );
+        assert_eq!(command["argv"][4], "literal $value; argument with spaces");
+    }
     Ok(())
 }
 

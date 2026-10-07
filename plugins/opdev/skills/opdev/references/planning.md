@@ -150,8 +150,10 @@ Milestones normally close on a demonstrated consumer outcome and appropriate
 integration/candidate evidence. Do not automatically add version bumps, release
 notes, tags, registry verification or publication to every issue. Use CI-built
 candidates when consumers need package bytes or affected packaging/native assets
-need qualification. Publish a supported checkpoint for an identified consumer
-need or an explicit release request. Package/recovery tests follow affected
+need qualification. An identified consumer need is a reason to recommend a
+supported checkpoint, not permission to release it. Follow the explicit
+[release authorization boundary](workflow.md#release-authorization) before
+release-specific preparation or execution. Package/recovery tests follow affected
 behavior and actual delivery; reuse observations only for the same unchanged
 artifact/configuration and required freshness. Explicit releases retain the
 declared delivery path and immutable-artifact requirements.

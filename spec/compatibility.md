@@ -50,6 +50,14 @@ state.
 
 ## Project-manifest schema
 
+The source capability `check.post-merge-integration.v1` identifies the corrected
+post-merge integration exit and dual integration/delivery check routing. Discover
+it through `doctor`; version labels alone do not identify unreleased source builds.
+Earlier CLIs (including released 0.4.0) use the delivery exit for post-merge.
+Report that limitation and offer a compatible upgrade; do not reinterpret old
+reports, ignore failing exits or initiate a release to satisfy that coupling.
+This correction changes no schema, release version or managed runtime pin.
+
 CLI 0.4.0 advertises `execution.same-run.v1` and supports the separately
 versioned [same-run execution policy and record](execution-reuse.md). This is
 explicit opt-in, not a reinterpretation of diagnostic receipts or historical

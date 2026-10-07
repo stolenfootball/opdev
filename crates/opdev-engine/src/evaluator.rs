@@ -239,7 +239,7 @@ fn collect_checks(
             &checks,
         ));
         checks.extend(run_extensions(root, manifest, options.extension_stage)?);
-    } else if executions.is_some() {
+    } else if executions.is_some() || options.test_stage == TestStage::PostMerge {
         for planned in crate::plan_checks(root, manifest, options).commands {
             if !checks
                 .iter()
@@ -751,7 +751,8 @@ pub(crate) fn gates_for_test_stage(stage: TestStage) -> Vec<Gate> {
     match stage {
         TestStage::Local => vec![Gate::Development],
         TestStage::PreMerge => vec![Gate::Integration],
-        TestStage::PostMerge | TestStage::Package | TestStage::Delivery | TestStage::Recovery => {
+        TestStage::PostMerge => vec![Gate::Integration, Gate::Delivery],
+        TestStage::Package | TestStage::Delivery | TestStage::Recovery => {
             vec![Gate::Delivery]
         }
         TestStage::Scheduled | TestStage::Evaluation => vec![Gate::Compliance],
@@ -764,8 +765,8 @@ fn gates_for_extension_stage(stage: ExtensionStage) -> Vec<Gate> {
             vec![Gate::Development]
         }
         ExtensionStage::PreMerge => vec![Gate::Integration],
-        ExtensionStage::PostMerge
-        | ExtensionStage::Package
+        ExtensionStage::PostMerge => vec![Gate::Integration, Gate::Delivery],
+        ExtensionStage::Package
         | ExtensionStage::Deliver
         | ExtensionStage::Smoke
         | ExtensionStage::Recover => vec![Gate::Delivery],
@@ -851,6 +852,80 @@ mod tests {
         DeliveryMode, Environment, EscapedDefectRegressions, Extensions, FlakePolicy, Operations,
         Profile, Project, Quality, QualityRisk, Recovery, RecoveryStrategy, Testing,
     };
+
+    #[test]
+    fn post_merge_checks_block_integration_without_importing_delivery_rules()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        let mut report = evaluate(
+            root.path(),
+            &manifest(),
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::pre_merge()
+            },
+        )?;
+        let catalog = embedded_catalog()?;
+        for (rule, result) in catalog.rules.iter().zip(&mut report.rules) {
+            result.outcome = if rule.gates.contains(&Gate::Delivery)
+                && !rule.gates.contains(&Gate::Integration)
+            {
+                Outcome::Unverified
+            } else {
+                Outcome::Passed
+            };
+        }
+        for (kind, gates) in [
+            (CheckKind::Suite, gates_for_test_stage(TestStage::PostMerge)),
+            (
+                CheckKind::Extension,
+                gates_for_extension_stage(ExtensionStage::PostMerge),
+            ),
+        ] {
+            for outcome in [
+                Outcome::Passed,
+                Outcome::NotApplicable,
+                Outcome::Failed,
+                Outcome::Error,
+                Outcome::Unverified,
+                Outcome::MigrationRequired,
+            ] {
+                report.checks = vec![CheckResult {
+                    id: "post".into(),
+                    kind,
+                    blocking: true,
+                    gates: gates.clone(),
+                    outcome,
+                    summary: "controlled gate aggregation fixture".into(),
+                    evidence: vec![],
+                    stdout: None,
+                    stderr: None,
+                    duration_ms: None,
+                }];
+                reaggregate(&mut report)?;
+                assert_eq!(
+                    report.gate_passed(Gate::Integration),
+                    outcome.satisfies_required_rule()
+                );
+                assert!(!report.gate_passed(Gate::Delivery));
+                report.checks[0].blocking = false;
+                reaggregate(&mut report)?;
+                assert!(report.gate_passed(Gate::Integration));
+            }
+        }
+        for stage in [TestStage::Package, TestStage::Delivery, TestStage::Recovery] {
+            assert_eq!(gates_for_test_stage(stage), vec![Gate::Delivery]);
+        }
+        for stage in [
+            ExtensionStage::Package,
+            ExtensionStage::Deliver,
+            ExtensionStage::Smoke,
+            ExtensionStage::Recover,
+        ] {
+            assert_eq!(gates_for_extension_stage(stage), vec![Gate::Delivery]);
+        }
+        Ok(())
+    }
 
     #[test]
     fn cadence_never_blocks_work_or_merge_but_tests_still_do()

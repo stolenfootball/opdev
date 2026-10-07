@@ -48,6 +48,14 @@ aggregation, consent and exact-source qualification remain authoritative.
   affected behavior and actual delivery. Reuse evidence only for unchanged
   artifact identity, configuration and applicable freshness; new bytes are not
   qualified by old observations.
+  Release-specific preparation and execution MUST require explicit developer
+  release authorization. Consumer need may justify a recommendation but MUST NOT
+  substitute for consent; implementation/milestone approval, preview acceptance,
+  green CI and general completion instructions are not release authorization.
+  Reuse explicit authorization within its scope without per-command approval
+  rounds. Normal affected package/recovery tests and authorized CI candidates
+  remain valid. Milestone completion MUST be reported separately from delivery
+  readiness; delivery-only gaps MUST NOT force an unrequested release workflow.
 
 - UX-08: A controlled environment-specific diagnostic MAY obtain bounded feedback
   before integration or packaging, using existing authorized CI/provider tooling.

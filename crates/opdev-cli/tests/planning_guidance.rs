@@ -3,6 +3,54 @@
 use std::{fs, path::Path};
 
 #[test]
+fn release_authorization_route_survives_isolated_plugin_copy()
+-> Result<(), Box<dyn std::error::Error>> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let skill = root.join("plugins/opdev/skills/opdev");
+    let directory = tempfile::tempdir()?;
+    let copied = directory.path().join("skills/opdev");
+    fs::create_dir_all(copied.join("references"))?;
+    for relative in [
+        "SKILL.md",
+        "references/planning.md",
+        "references/workflow.md",
+    ] {
+        fs::copy(skill.join(relative), copied.join(relative))?;
+    }
+    for relative in ["SKILL.md", "references/planning.md"] {
+        let source = copied.join(relative);
+        let text = fs::read_to_string(&source)?;
+        let links: Vec<_> = text
+            .split("](")
+            .skip(1)
+            .filter_map(|part| part.split_once(')').map(|(target, _)| target))
+            .filter_map(|target| target.strip_suffix("#release-authorization"))
+            .collect();
+        assert_eq!(links.len(), 1);
+        let resolved = source
+            .parent()
+            .ok_or("parent")?
+            .join(links[0])
+            .canonicalize()?;
+        assert_eq!(
+            resolved,
+            copied.join("references/workflow.md").canonicalize()?
+        );
+        assert!(resolved.starts_with(copied.canonicalize()?));
+        assert_eq!(
+            fs::read(&resolved)?,
+            fs::read(skill.join("references/workflow.md"))?
+        );
+        assert!(
+            fs::read_to_string(resolved)?
+                .lines()
+                .any(|line| line == "### Release authorization")
+        );
+    }
+    Ok(())
+}
+
+#[test]
 fn placement_reference_routes_survive_isolated_plugin_copy()
 -> Result<(), Box<dyn std::error::Error>> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");

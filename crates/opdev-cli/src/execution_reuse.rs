@@ -252,14 +252,17 @@ fn unavailable(
 ) -> Result<CheckReport> {
     options.execute_checks = false;
     let mut report = opdev_engine::evaluate(root, manifest, options)?;
-    let gate = if options.test_stage == TestStage::PostMerge {
-        opdev_core::Gate::Delivery
+    let gates = if options.test_stage == TestStage::PostMerge {
+        vec![opdev_core::Gate::Integration, opdev_core::Gate::Delivery]
     } else {
-        opdev_core::Gate::Integration
+        vec![opdev_core::Gate::Integration]
     };
     for command in opdev_engine::plan_checks(root, manifest, options).commands {
+        report
+            .checks
+            .retain(|check| check.kind != command.kind || check.id != command.id);
         report.checks.push(opdev_engine::CheckResult { id: command.id, kind: command.kind,
-            blocking: command.blocking, gates: vec![gate], outcome: opdev_core::Outcome::Unverified,
+            blocking: command.blocking, gates: gates.clone(), outcome: opdev_core::Outcome::Unverified,
             summary: format!("Saved execution could not be verified: {reason}. No project command ran. Omit --reuse-ci-policy to explicitly run fresh checks"),
             evidence: vec![], stdout: None, stderr: None, duration_ms: None });
     }
@@ -272,6 +275,46 @@ mod tests {
     use super::*;
     use opdev_core::{Gate, Outcome};
     use opdev_engine::{CheckKind, CheckResult, ExecutionBinding};
+
+    #[test]
+    fn unavailable_post_merge_execution_blocks_integration_and_delivery() -> Result<()> {
+        let root = tempfile::tempdir()?;
+        std::fs::create_dir(root.path().join(".git"))?;
+        let mut manifest = opdev_project::discover(root.path())?.manifest;
+        manifest.commands.insert(
+            "test".into(),
+            opdev_project::CommandSpec {
+                argv: vec!["must-not-run".into()],
+                working_directory: None,
+                timeout_seconds: None,
+            },
+        );
+        manifest.testing.suites = vec![opdev_project::TestSuite {
+            id: "post".into(),
+            command: "test".into(),
+            stages: vec![TestStage::PostMerge],
+        }];
+        let report = unavailable(
+            root.path(),
+            &manifest,
+            CheckOptions {
+                test_stage: TestStage::PostMerge,
+                extension_stage: opdev_project::ExtensionStage::PostMerge,
+                execute_checks: true,
+            },
+            "controlled unavailable provider",
+        )?;
+        let check = report
+            .checks
+            .iter()
+            .find(|check| check.id == "post")
+            .context("selected check")?;
+        assert_eq!(check.outcome, Outcome::Unverified);
+        assert_eq!(check.gates, vec![Gate::Integration, Gate::Delivery]);
+        assert!(!report.gate_passed(Gate::Integration));
+        assert!(!report.gate_passed(Gate::Delivery));
+        Ok(())
+    }
 
     #[test]
     fn expired_observations_invalidate_only_reused_passes_without_hiding_failures() -> Result<()> {

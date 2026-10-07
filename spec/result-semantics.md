@@ -119,9 +119,18 @@ policy if observed branch drift or conflicts increase; do not infer improvement
 merely from fewer blocked reports.
 
 The CLI's default exit follows development; `check --ci` follows integration.
+With capability `check.post-merge-integration.v1`, `check --ci --post-merge`
+executes the selected integrated-trunk suites/extensions and follows integration,
+not delivery. Selected blocking post-merge checks contribute to both integration
+and delivery, including unavailable reuse evidence. Delivery-only rules remain
+visible and blocking for delivery, without preventing otherwise verified
+integration. Pre-merge and post-merge executions are not interchangeable.
+In post-merge evaluation-only mode, selected checks without verified execution
+are reported as `unverified`, not omitted, even without a reuse policy.
 `check --ci --delivery` executes the delivery stage and follows the delivery gate;
 it cannot be combined with `--no-exec`. Inspect all reported gates before making
 broader claims. An integration-only baseline does not enforce the release path.
+Gate success is evidence, not developer authorization to release.
 
 Declaring a trunk name or matching a provider default branch does not establish
 the single-trunk workflow. Review branch roles and release source. A known

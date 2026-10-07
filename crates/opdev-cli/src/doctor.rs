@@ -229,6 +229,7 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "evidence.acceptance-digest",
                 "evidence.prepare",
                 "check.plan",
+                "check.post-merge-integration.v1",
             ],
         },
         exit_code: 0,
