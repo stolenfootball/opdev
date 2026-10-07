@@ -57,6 +57,9 @@ artifact and decision invalidation with conservative whole-subject defaults.
 See [execution preview](check-plan.md) to inspect the commands a check selects
 without running them or qualifying a gate.
 
+See [CI design and improvement](ci-design.md) for evidence-led recommendations,
+provider patterns, developer choice and the limits of optimization evidence.
+
 See [acceptance preparation](evidence-preparation.md) for mechanical draft,
 preview and reviewed application to an existing schema-2 ledger.
 

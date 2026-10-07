@@ -1,5 +1,9 @@
 # Advisory CI recognition trials
 
+For new-pipeline design and broader existing-pipeline review, use the separate
+[design scenarios](design/README.md). They retain model-visible inputs separately
+from reviewer criteria and distinguish local checks from live evaluation.
+
 These synthetic local projects test recommendation behavior, not execution of
 the abbreviated pipelines. They contain no private consumer information. Their
 README timings are fixture facts, not measured performance of real CI.

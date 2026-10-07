@@ -1,5 +1,8 @@
 # CI provider boundary
 
+Use [CI design and improvement](ci-design.md) when choosing or revising a topology;
+adapter generation and inspection do not establish optimality or authorize edits.
+
 ## Coordinated feedback examples
 
 `examples/feedback/` provides opt-in neutral GitHub/GitLab wiring examples, not

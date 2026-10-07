@@ -64,6 +64,10 @@ host permission denial, and do not describe every command as a write.
 
 ## Assess and recommend
 
+For CI discovery and proposals, use [CI design and improvement](ci-design.md).
+Preserve adequate existing pipelines; distinguish optional efficiency advice from
+missing required verification. Adoption assessment does not authorize optimization.
+
 For testing, follow [testing.md](testing.md#proportionate-report-evidence) to review
 existing retry, test-selection and quarantine controls without requiring custom
 runner adapters. Preserve adequate controls and record actual developer decisions.

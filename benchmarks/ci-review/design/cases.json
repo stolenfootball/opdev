@@ -1,0 +1,72 @@
+[
+  {
+    "id": "new-github",
+    "provider": "github",
+    "kind": "new",
+    "request": "Propose CI for this project. Do not implement it yet.",
+    "facts": "A library has project-owned format, lint and test commands. Linux and Windows are supported; native file permissions matter. A single runner is available at a time. Releases are manual decisions. No pipeline or merge queue exists yet."
+  },
+  {
+    "id": "new-gitlab",
+    "provider": "gitlab",
+    "kind": "new",
+    "request": "Design our initial CI using the existing commands; identify meaningful choices.",
+    "facts": "A service has cheap lint/unit checks and database integration tests. main is trunk; an existing approved image includes the required runtime. Tests take 3 minutes, installation takes 2 minutes in the team's local probe. No measured CI timings exist. The team has not approved publication or a custom image service."
+  },
+  {
+    "id": "duplicate-gitlab",
+    "provider": "gitlab",
+    "kind": "existing",
+    "request": "Our candidate pipeline feels wasteful. What should we change? Advice only.",
+    "facts": "Both branch pushes and MRs trigger full verification. CI_OPEN_MERGE_REQUESTS suppresses later branch pushes but the first push starts before MR creation. candidate calls scripts/all-checks.sh; the OpDev check job selects that same script on the same Linux source and image. The script inputs have not been traced yet. Trunk verification is separate."
+  },
+  {
+    "id": "setup-github",
+    "provider": "github",
+    "kind": "existing",
+    "request": "Recommend a faster pipeline without increasing our compute budget.",
+    "facts": "Three parallel jobs each spend 90 seconds installing dependencies and 5 seconds checking code. There are two runner slots and queue delays vary. The team has not measured cache upload/download costs or cold runs. A fourth job checks a distinct native target."
+  },
+  {
+    "id": "healthy-github",
+    "provider": "github",
+    "kind": "existing",
+    "request": "Review whether this pipeline needs optimization.",
+    "facts": "PR checks and trunk-push checks are separate. Two native operating systems run the same command because platform behavior is supported. Both take five minutes and run concurrently. Setup is small; candidate bytes are built once and consumed downstream. Required status and negative-failure behavior were verified for the current config. No friction is reported."
+  },
+  {
+    "id": "decline-gitlab",
+    "provider": "gitlab",
+    "kind": "existing",
+    "request": "Keep the deliberate repeated checks. We accept the cost. Continue the feature work; do not optimize CI.",
+    "facts": "Earlier review found a potential redundant job but no missing required checks. The pipeline is compliant with reviewed project policy. There is no new evidence."
+  },
+  {
+    "id": "required-github",
+    "provider": "github",
+    "kind": "existing",
+    "request": "Can this faster design safely replace the existing required check? Advice only.",
+    "facts": "The proposed required summary has needs: [test] and if: always(), but its script only prints done. test has a Linux/Windows matrix and a path condition. The workflow lacks merge_group though the repository uses a merge queue. A manual preview is green."
+  },
+  {
+    "id": "cache-gitlab",
+    "provider": "gitlab",
+    "kind": "existing",
+    "request": "Should we enable this shared cache to speed up tests?",
+    "facts": "A single key would hold compiled outputs from x86-64 and ARM runners with different libc/toolchain versions. Untrusted feature branches could write it and protected jobs would consume it. The producer job only runs on tags. Builds must work with an empty cache. No cold/warm timings exist."
+  },
+  {
+    "id": "unknown-gitlab",
+    "provider": "gitlab",
+    "kind": "existing",
+    "request": "Find redundant CI jobs; do not change anything.",
+    "facts": "The local YAML references a remote component and a child pipeline inaccessible with current credentials. Two visible jobs invoke similarly named wrappers. No historical timings or expanded configuration are available."
+  },
+  {
+    "id": "selection-github",
+    "provider": "github",
+    "kind": "existing",
+    "request": "Can we skip backend tests whenever only frontend paths change?",
+    "facts": "The frontend imports generated shared types. Root lockfiles and build scripts affect both sides. No dependency graph, selection history or missed-failure baseline exists. The developer wants a proposal, not implementation or weaker merge requirements."
+  }
+]

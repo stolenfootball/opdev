@@ -1,6 +1,7 @@
 name: Feedback fixture
 on:
   pull_request:
+  merge_group:
   push:
     branches: [main]
 permissions:
@@ -15,9 +16,26 @@ jobs:
         with:
           name: verification
           path: feedback-artifacts/verification.json
+  # Require this check in protection; always() alone does not reject skipped work.
+  integration:
+    if: ${{ always() }}
+    needs: verify
+    runs-on: ubuntu-24.04
+    steps:
+      - shell: python
+        env:
+          VERIFY_RESULT: ${{ needs.verify.result }}
+        run: |
+          import os
+          import sys
+          result = os.environ.get("VERIFY_RESULT", "missing")
+          if result != "success":
+              print(f"Required verification did not succeed: {result}. Merging is not verified.")
+              sys.exit(1)
+          print("Required verification succeeded for this example run.")
   candidate:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: verify
+    needs: integration
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683

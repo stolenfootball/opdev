@@ -25,6 +25,36 @@ changes before applying these patterns; do not replace custom YAML. Provider
 validation/live job observations establish scheduling. Offline parsing and
 dependency assertions are narrower evidence, not a provider emulator.
 
+## Required checks and negative tests
+
+GitHub's `integration` collector runs even if `verify` is unsuccessful, and exits
+nonzero unless that required result is `success`. It does not rerun verification.
+Select this check and its expected producer in branch protection; merely adding
+the job does not make it required. The example also admits `merge_group` for
+repositories using a merge queue. Candidate jobs remain trunk-push-only.
+If adding a matrix or more required jobs, review the complete dependency/result
+inventory; the single-job collector is not a universal matrix verifier.
+
+GitLab runs `verify` unconditionally in admitted MR/trunk pipelines, without
+`allow_failure`. Require successful pipelines and disallow skipped pipelines in
+the reviewed project settings. Do not add path/job rules that omit required work
+and assume pipeline success proves it ran. These examples do not change settings.
+
+In an authorized isolated test project, exercise first feature push, PR/MR update,
+integrated trunk, and any selected merge queue. Deliberately fail required tests,
+skip/omit a required job, cancel a run and alter candidate bytes. Observe the exact
+revision/run/jobs and whether protection blocks merging; do not actually merge
+failing code. Keep permissions/secrets isolated and record cleanup ownership.
+Local `ci_design` tests execute the collector against success, failure, skipped,
+cancelled, neutral, pending, unknown and missing inputs. The tests also inspect
+narrow wiring invariants; they do not prove provider scheduling or protection.
+
+For an existing pipeline, first trace project scripts and OpDev's command plan.
+Avoid a standalone test job plus an evaluator rerunning the same checks when one
+canonical execution would suffice. Keep distinct native targets and integrated
+source checks. Review changes; copying this fixture is not an adoption strategy.
+See [CI design](../../spec/ci-design.md) for choices and research limits.
+
 The check plan (`opdev check --plan --format json`) previews declared invocations.
 It does not qualify a gate or reuse saved results. Keep raw argument/path output
 private when it contains project details.
