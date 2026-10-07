@@ -120,7 +120,7 @@ or treat doctor as adoption consent, completed tests or gate evidence.
 9. Reconcile implementation, tests, declared authorities, delivery behavior, and tracked work before completion. For new or substantially expanded documents, include the [focused content review](references/project-contract.md#review-document-content) in normal review; inspect actual claims, not just successful routing or the author's summary.
 
 When CI design/changes or observed repeated waits make verification cost relevant,
-use the planning reference's CI feedback-path review proactively. Recommend
+use [CI design and improvement](references/ci-design.md) proactively. Recommend
 evidence-backed options; do not optimize CI automatically. Developers may keep
 their existing compliant setup, including deliberate extra checks.
 

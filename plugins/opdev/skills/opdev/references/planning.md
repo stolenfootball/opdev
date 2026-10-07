@@ -250,6 +250,10 @@ needed within existing authorization.
 
 ### Review the CI feedback path when relevant
 
+For new pipelines and improvements to existing ones, load
+[CI design and improvement](ci-design.md). It supplies evidence-led design
+choices and provider failure checks without a mandatory audit on every task.
+
 During CI design/change, or when observed repeated checks, queueing or setup delay
 the requested outcome, inspect the relevant path from change to useful feedback.
 Do not wait for the user to explicitly request optimization, but do not turn every
