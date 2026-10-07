@@ -67,6 +67,56 @@ aggregation, consent and exact-source qualification remain authoritative.
   Failed attempts remain visible. No automatic remote execution, runner changes,
   new registry or blanket approval round is implied.
 
+## Retained-work feedback checkpoints
+
+Accepted scope: [issue 76](https://gitlab.com/stolenfootball-tools/opdev/-/issues/76).
+
+- FB-01: Retained work MAY reach a ready-for-feedback checkpoint on a development
+  branch/worktree after meaningful focused execution and safety checks, without
+  final integration qualification. Agents MUST NOT require full suites, finalized
+  acceptance bindings, broad evaluation matrices or installed-host qualification
+  merely to request directional feedback. Retention is not disposability.
+- FB-02: Check selection MUST follow the current question and material risks,
+  preserve explicit project requirements and expose failures/untested scope.
+  Relevant unsafe or misleading failures prevent a meaningful feedback claim.
+  Broader early checks remain appropriate for unknown impact or consequential
+  risks. Repeated feedback repeats focused checks, not automatic completion work.
+- FB-03: Optional feedback selections reuse existing command IDs and the testing
+  authority, with purpose and escalation conditions. No mandatory manifest field,
+  CLI mode, ledger or approval round is introduced. An empty selection is not a
+  pass. Declared argument vectors remain unchanged; diagnostic variants are
+  disclosed, not substituted for canonical qualification.
+- FB-04: Authorized development previews MUST use the declared CI path and bind
+  observations to source/configuration, artifact identity and environment. Apply
+  safe-use and affected package/startup/recovery checks. Feedback need does not
+  authorize live consumer changes, installation, deployment or publication.
+  Preview success MUST NOT satisfy merge/release requirements. Existing CI policy
+  remains in force until a reviewed change; no skip-CI or allowed-failure bypass.
+- FB-05: A sufficiently settled, small useful increment MUST receive current
+  source-bound acceptance review and required local/pre-merge and post-merge
+  qualification. New source is not qualified by old feedback or green runs.
+  Preserve supported reuse constraints and distinct environments. Integrate
+  frequently rather than waiting for final product design; replan stalled loops.
+  Release remains separately authorized and qualified.
+- FB-06: Reports MUST distinguish ready for feedback, ready to merge and ready to
+  release without creating new machine outcomes or gates. User feedback indicates
+  usefulness, not test correctness. Do not present an early checkpoint as completed
+  implementation or universal validation; a failed trial remains visible.
+
+The shared operational guidance is in the packaged planning reference. This
+extends UX-06's retained-work handoff rather than relaxing the core catalog or
+changing `opdev check` execution. Guidance and generated project instructions
+carry the distinction for both hosts; older installed guidance is not silently
+updated. Existing projects need an explicit guidance upgrade to refresh their
+managed entry points. The plugin and CLI runtime may be updated independently.
+
+Keep work-specific acceptance, observations and progress at the work authority.
+Durable scenarios in `tests/planning-review.md` distinguish repeated local
+feedback, artifact trials and integration; copied-resource tests establish
+distribution, not agent behavior. Revisit this boundary if real sessions still
+delay useful feedback or attempt to promote unqualified work. Prefer this small
+checkpoint distinction over a universal skip switch or a parallel workflow engine.
+
 ## Verification and effectiveness
 
 Regression fixtures exercise source/stage diagnostics, equivalent CI layouts,

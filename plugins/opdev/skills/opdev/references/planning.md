@@ -140,11 +140,82 @@ record ownership, verify it before cleanup and check removal. Preserve failures
 and report observations as diagnostics, not integration/delivery qualification.
 This adds no automatic remote execution, runner mutation or blanket approval step.
 
-For retained work, identify expected behavior before implementation and use
-focused checks during iteration. After feedback settles the intended source,
-prepare exact-source acceptance bindings and run required canonical checks at
-integration handoff. Material edits still require fresh review/execution. Reuse
-current context; reread authorities when relevant facts or assumptions change.
+### Ready for feedback
+
+Ready for feedback is a valid stopping point for retained work, not just disposable
+mockups. Real source edits may remain on a development branch or worktree while
+the developer evaluates the direction. Retention does not make every edit, commit,
+agent turn or accepted tweak an integration handoff. Do not call retained work
+disposable to obtain a lighter workflow.
+
+Identify expected behavior and the question the next observation should answer.
+Run the focused tests, execution and safety checks needed to make that observation
+meaningful, then show the result promptly. Keep assertions current as behavior
+changes. A relevant failure remains visible: repair it when it makes the feedback
+unsafe or misleading; otherwise disclose the limitation without claiming success.
+Unknown impact, data/security risks or changed shared contracts may require broader
+checks before feedback. Proportional does not always mean fewer tests.
+
+Do not require a full suite, finalized acceptance ledger/fingerprint, broad model
+or platform evaluation matrix, plugin installation or release qualification merely
+to ask whether a direction is useful. Use a targeted behavioral trial for the
+changed hypothesis. Test actual installation/host behavior when that is the
+uncertainty; a source-level trial does not establish installed-host behavior.
+Repeat the focused loop after feedback, rather than restarting all completion
+steps. Ask for feedback when it resolves a real uncertainty, not after every edit
+or as a new mandatory approval ceremony for already-authorized routine work.
+
+Reuse project commands and the declared testing authority. A project may record
+an optional feedback selection there as existing command IDs, the question/risk
+they cover and when broader checks are needed. No new manifest field, lifecycle
+stage, CLI flag or required file is introduced. Without a selection, choose and
+explain appropriate focused checks from the existing strategy; missing commands
+or an empty selection are not a pass. Execute declared argv unchanged; disclose
+any narrower diagnostic invocation and do not substitute it for its canonical
+suite. This guidance does not change what `opdev check` executes.
+
+For example, a UI hierarchy question needs a rendered treatment and relevant
+interaction checks; a library parser change needs caller-visible boundary cases;
+an API response change needs representative requests and regressions. A plugin
+instruction adjustment may need one realistic behavior trial before wider
+evaluation. None requires completing unrelated layers first. Keep purpose,
+observations, limits and the next decision in existing work/conversation context,
+not a feedback ledger. Feedback readiness is not milestone completion or a gate.
+
+### Development previews
+
+When feedback needs package bytes or a remote environment, use an authorized
+development preview through the declared CI path. Bind observations to exact
+source/configuration, artifact identity and environment; perform checks required
+for safe preview use and applicable packaging, startup and recovery risks.
+Installation or deployment must be within actual authorization and isolated from
+live consumers/data as appropriate. A need for feedback does not authorize a
+consumer migration, plugin-cache replacement, publication or new remote resource.
+Use a representative local source path when packaging is not the question.
+
+An unqualified development artifact may support a bounded trial, but preview
+success is not integration or release qualification. Preserve existing required
+CI and project policies. If they prevent a useful preview, propose a reviewed
+policy change; do not bypass them with skip-CI directives, allowed failures,
+draft status or a green subset of jobs. A preview-only pipeline must not satisfy
+merge requirements; establish that boundary before changing provider scheduling.
+Separate producer and qualification checks only under reviewed provider policy.
+
+### Ready to merge and ready to release
+
+Once a small useful increment is sufficiently settled, finalize exact-source
+acceptance bindings/review and run required local/pre-merge qualification, then
+required checks on integrated trunk. Material changes invalidate affected evidence;
+feedback observations or older green runs cannot qualify new source or artifacts.
+Retain applicable distinct environments and supported configurations. Reuse
+execution only through the supported reviewed mechanism, not informal receipts.
+
+Do not wait for the whole product's final design or keep indefinite feedback
+branches. Integrate coherent useful slices frequently; replan if feedback stalls,
+and use the experiment guidance for safely isolated unfinished behavior on trunk.
+Ready to release is a separate checkpoint requiring explicit authorization and
+applicable delivery qualification. None of these checkpoints adds an automatic
+approval round. Reuse current context; reread authorities when facts change.
 
 Milestones normally close on a demonstrated consumer outcome and appropriate
 integration/candidate evidence. Do not automatically add version bumps, release

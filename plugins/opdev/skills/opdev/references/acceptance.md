@@ -24,6 +24,9 @@ framework or universal score is required; the CLI does not authenticate this evi
 
 ## Record and review
 
+Use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback) without
+finalized evidence bindings when the next decision is about direction, not merge
+readiness. This is not an exception or a passed acceptance gate.
 While retained source and assertions change, keep expected conditions and focused
 checks current without repeatedly finalizing staged hashes/review digests. After
 feedback settles the intended increment, stage and review exact source, then run
