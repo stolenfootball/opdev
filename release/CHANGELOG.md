@@ -5,6 +5,23 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## 0.4.1 / Plugin 0.4.2
+
+- Separate post-merge integration verification from release readiness. Required
+  post-merge checks still block integration when they fail; missing delivery-only
+  evidence does not. Explicit delivery checks retain their requirements.
+- Require explicit developer authorization for release preparation and execution.
+  Completing a milestone, accepting a preview or passing CI does not authorize
+  version bumps, release notes, tags, publication or release-specific recovery work.
+- Keep delegation permission within its approved purpose, roles, resources and
+  actions. Standing permission for isolated evaluation agents does not authorize
+  implementation or review specialists. Single-agent operation remains the default.
+- Preserve project records, CI policies and installed plugin caches. Plugin 0.4.2
+  retains qualified managed CLI 0.4.0 during publication; the corrected post-merge
+  exit requires CLI 0.4.1 or the matching capability in a verified source build.
+- Keep compact/token-reduction features experimental and disabled by default.
+  No new live-agent effectiveness claim is made by this patch.
+
 ## Plugin 0.4.1
 
 - Pin independently published and qualified CLI 0.4.0 with its exact GitLab

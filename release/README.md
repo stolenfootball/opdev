@@ -128,7 +128,7 @@ candidate and whenever the delivery path materially changes.
 
 ## Managed-runtime pin maintenance
 
-Standalone CLI 0.4.0 is published and qualified; source plugin 0.4.1 pins that
+Standalone CLI 0.4.0 is published and qualified; source plugin 0.4.2 pins that
 immutable GitHub release. No historical release assets or cached runtimes are
 replaced. The plugin and CLI versions are independent. Update the lock's
 version, tag, signing identity, and verifier digests only as a reviewed change,
