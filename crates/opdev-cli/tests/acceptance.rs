@@ -145,6 +145,88 @@ fn outcome(report: &Value, id: &str) -> Result<String> {
 }
 
 #[test]
+fn configured_ci_cannot_qualify_unexecuted_failed_or_unreviewed_tests() -> Result {
+    for mode in ["passed", "not_run", "failed", "stale", "pending"] {
+        let (temp, mut ledger) = project()?;
+        let root = temp.path();
+        let path = root.join(MANIFEST_PATH);
+        let mut manifest = opdev_project::ProjectManifest::load(&path)?;
+        manifest.project.ci.provider = opdev_project::CiProvider::Gitlab;
+        fs::write(path, manifest.to_yaml()?)?;
+        opdev_ci::write_new(
+            opdev_ci::adapter_for(opdev_project::CiProvider::Gitlab)?,
+            root,
+            &opdev_ci::TemplateContext {
+                opdev_version: "0.4.0".into(),
+                trunk: "main".into(),
+                job_image: Some("python:3.13".into()),
+            },
+        )?;
+        if mode == "failed" {
+            fs::write(
+                root.join("tests.py"),
+                "items = ['c', 'a', 'b']\nassert items[:2] == ['c', 'a']\nraise AssertionError('visible failure')\n",
+            )?;
+        }
+        git(root, &["add", "."])?;
+        ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+        let acceptance = ledger.changes[0].acceptance.as_mut().ok_or("acceptance")?;
+        acceptance.verifications[0].target =
+            reference(root, "tests.py", "assert items[:2] == ['c', 'a']")?;
+        if mode == "pending" {
+            acceptance.review.outcome = Outcome::Unverified;
+        }
+        bind(&mut ledger)?;
+        save(root, &ledger)?;
+        if mode == "stale" {
+            fs::write(root.join("new-behavior.py"), "changed = True\n")?;
+            git(root, &["add", "."])?;
+        }
+        let flags = if mode == "not_run" {
+            vec!["--no-exec"]
+        } else {
+            vec![]
+        };
+        let report = check(root, &flags)?;
+        let expected = match mode {
+            "passed" => "passed",
+            "failed" => "failed",
+            _ => "unverified",
+        };
+        assert_eq!(
+            outcome(&report, "MCD-TEST-001")?,
+            expected,
+            "{mode}: {report}"
+        );
+        if mode == "pending" {
+            let rule = report["rules"]
+                .as_array()
+                .ok_or("rules")?
+                .iter()
+                .find(|rule| rule["rule_id"] == "MCD-TEST-001")
+                .ok_or("rule")?;
+            assert!(
+                rule["diagnostic"]
+                    .as_str()
+                    .ok_or("diagnostic")?
+                    .contains("Repeating tests alone cannot repair a review gap")
+            );
+        }
+        assert_ne!(
+            outcome(&report, "MCD-TEST-002")?,
+            "passed",
+            "pre-merge does not prove post-merge"
+        );
+        assert_ne!(
+            outcome(&report, "MCD-CI-001")?,
+            "passed",
+            "a template does not prove CI-exclusive delivery"
+        );
+    }
+    Ok(())
+}
+
+#[test]
 fn missing_suite_diagnostics_distinguish_absence_from_no_execution() -> Result {
     let (temp, mut ledger) = project()?;
     let root = temp.path();

@@ -328,7 +328,13 @@ fn ordinary_checks_remain_command_based_and_respect_stage_and_no_exec()
         let project = project("missing")?;
         let output = check(project.path(), &args)?;
         let value: Value = serde_json::from_slice(&output.stdout)?;
-        assert!(value["checks"].as_array().ok_or("checks")?.is_empty());
+        let checks = value["checks"].as_array().ok_or("checks")?;
+        if args == ["--no-exec"] {
+            assert_eq!(checks.len(), 1);
+            assert_eq!(checks[0]["outcome"], "unverified");
+        } else {
+            assert!(checks.is_empty(), "no suites selected for this stage");
+        }
         assert!(!project.path().join("target/executed").exists());
     }
     Ok(())

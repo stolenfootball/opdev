@@ -138,6 +138,21 @@ does not rewrite historical results or automatically update managed runtime pins
 
 ### Acceptance evidence capability
 
+Development source additionally corrects declaration-only behavioral findings.
+`doctor` advertises `evidence.behavioral-qualification.v1` for this verifier.
+Configured CI/delivery, testing-risk/regression/retry/coverage policies and health
+authorities remain unverified without the required review/observations. Selected
+pre/post-merge testing also requires actual execution and current acceptance.
+Local CI inspection cannot erase that failure or missing verification. Missing
+selected checks remain visible with `--no-exec` at every supported boundary.
+See the [rule-to-evidence map](result-semantics.md#rule-to-evidence-responsibilities).
+This strengthens verification of unchanged catalog-2 requirements; it neither
+removes a rule nor changes existing outcome/report-schema values. Old report
+bytes retain their originating meaning and are not fresh qualification inputs.
+Projects must review missing facts rather than mass-copy policy assertions to
+recover green gates. Shipping this behavior requires normal qualified version
+and migration communication; no managed pin or consumer records change implicitly.
+
 CLI 0.3.0 and development CLIs with `evidence acceptance-digest` read ledger/bootstrap schemas
 1 and 2 and generate schema-2 bootstrap. Older CLIs reject schema 2; do not rename
 the version to obtain an old-client pass. TEST-002/003 require typed current-change

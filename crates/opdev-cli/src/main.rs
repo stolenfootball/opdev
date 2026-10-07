@@ -1018,6 +1018,21 @@ fn apply_capability(report: &mut CheckReport, rule_id: &str, capability: &Capabi
         .iter_mut()
         .find(|result| result.rule_id.as_str() == rule_id)
     {
+        // Inspection proves configuration, not successful execution or review.
+        // In particular, finding an `opdev check` command cannot clear its failure.
+        if matches!(
+            result.outcome,
+            Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+        ) || capability.outcome == Outcome::Passed
+        {
+            result
+                .evidence
+                .extend(capability.evidence.iter().cloned().map(|mut evidence| {
+                    evidence.kind = "configured".into();
+                    evidence
+                }));
+            return;
+        }
         result.outcome = capability.outcome;
         result.verifier = opdev_core::VerificationSource::Ci;
         result.evidence.clone_from(&capability.evidence);
@@ -1557,6 +1572,68 @@ mod tests {
             verify_plugin_compatibility(&PluginVerifyArgs { contract }).is_err(),
             "unknown compatibility schemas must not activate"
         );
+        Ok(())
+    }
+
+    #[test]
+    fn configuration_inspection_preserves_execution_and_review_boundaries() -> Result<()> {
+        for current in [
+            Outcome::Passed,
+            Outcome::Unverified,
+            Outcome::Failed,
+            Outcome::Error,
+            Outcome::MigrationRequired,
+        ] {
+            for inspected in [
+                Outcome::Passed,
+                Outcome::Unverified,
+                Outcome::Failed,
+                Outcome::Error,
+                Outcome::MigrationRequired,
+            ] {
+                let mut report = CheckReport {
+                    schema: 1,
+                    catalog_version: 2,
+                    subject: "fixture".into(),
+                    evaluated_at: 0,
+                    checks: vec![],
+                    gates: vec![],
+                    rules: vec![opdev_core::RuleResult {
+                        rule_id: "MCD-TEST-001".parse()?,
+                        catalog_version: 2,
+                        outcome: current,
+                        subject: "fixture".into(),
+                        verifier: opdev_core::VerificationSource::Command,
+                        evaluated_at: 0,
+                        evidence: vec![],
+                        diagnostic: Some("execution/review finding".into()),
+                    }],
+                };
+                apply_capability(
+                    &mut report,
+                    "MCD-TEST-001",
+                    &Capability {
+                        outcome: inspected,
+                        evidence: vec![],
+                        diagnostic: Some("configuration finding".into()),
+                    },
+                );
+                let preserved = matches!(
+                    current,
+                    Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+                ) || inspected == Outcome::Passed;
+                assert_eq!(
+                    report.rules[0].outcome,
+                    if preserved { current } else { inspected }
+                );
+                if preserved {
+                    assert_eq!(
+                        report.rules[0].diagnostic.as_deref(),
+                        Some("execution/review finding")
+                    );
+                }
+            }
+        }
         Ok(())
     }
 
