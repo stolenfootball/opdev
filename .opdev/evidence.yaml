@@ -12420,3 +12420,230 @@ changes:
         authorized release and relevant tests; no live-agent trial or remote CI is claimed. GitLab
         account access remains blocked.
       subject_sha256: bff9f39e563146ed93dc5ffcb1aaa0aa745e78bebdcc85f177b61b62c2497e72
+- fingerprint: 4ba9c9113a014bdbacf16a301711f05080209607d2020b712a29180299374c11
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issue 72 records the accepted outcome, scope, exclusions, conditions, evidence, authority and risks for the developer-requested correction; no release or consumer update is authorized.
+    evidence:
+    - {kind: work, summary: Restored tracker now contains the previously approved conversation plan and observed local results, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72'}
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: The result-semantics authority records the coupling problem, reuse of the integration aggregate, rejected fifth gate and blanket waiver alternatives, tests and a risk-based reversal trigger.
+    evidence:
+    - {kind: review, summary: 'Compared durable rationale with actual stage routing, exit selection, missing-execution handling and explicit release boundary', location: spec/result-semantics.md}
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration and release-source branch; no branch-role or release path change is introduced.
+    evidence:
+    - {kind: review, summary: Inspected unchanged project contract and default-branch/tag pipeline rules against the bounded feature branch, location: .opdev/project.yaml}
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The focused branch starts at current main 82962f954d5b8faa5c5864369edae9b6bd66a489 and is intended to return through a qualified MR with source deletion. No trunk drift was found at continuation.
+    evidence:
+    - {kind: review, summary: 'Git fetch and branch history confirmed the current base; this records branch structure, not completed integration', location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205'}
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: The latest main pipeline 2918771978 at the current branch base was observed successful before continuation; no known red trunk is being deferred.
+    evidence:
+    - {kind: ci_observation, summary: Read-only GitLab pipeline observation after access was restored returned success for 82962f954d5b8faa5c5864369edae9b6bd66a489, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2918771978'}
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Selected post-merge integration exit is the deliberate behavioral correction. Existing schemas, catalog, delivery exit, unrelated stages, pins and plugin version remain unchanged; capability discovery identifies corrected source builds.
+    evidence:
+    - {kind: review, summary: 'Reviewed actual enum-stage mappings, doctor capability assertion, CLI flag matrix and older-runtime guidance; no historical report is reinterpreted', location: spec/compatibility.md}
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: Existing report schemas and diagnostic paths remain intact; post-merge no-exec and rejected reuse retain unverified named checks while full gate reports remain visible.
+    evidence:
+    - {kind: test_review, summary: 'Actual process-level regressions assert named outcomes, check counts, no-execution markers and blocking behavior; capability is exposed through read-only doctor', location: crates/opdev-cli/tests/check_plan.rs}
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: The actual gate-selection and routing assertions were reviewed against accepted requirements, with observed red regressions before the fix and a passing final local canonical suite, not only an author correctness claim.
+    evidence:
+    - {kind: review, summary: 'Reviewed parsed flag exits, all six outcomes, advisory behavior, process failures, unavailable reuse and copied guidance; final source CI remains separately required', location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205'}
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Generalized the observed integration/release coupling into stage-specific regression coverage and a maintained explicit release-consent boundary.
+    evidence:
+    - {kind: regression, summary: Prior implementation failed expected integration membership assertions for fresh and unavailable-reuse post-merge checks; corrected checks passed while delivery-only stages stay unchanged, location: crates/opdev-engine/src/evaluator.rs}
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: Correctness and instruction review are separated from agent effectiveness; no new host-compliance, speed or token-efficiency improvement is claimed.
+    evidence:
+    - {kind: limitation, summary: 'U9-U12 are maintained semantic scenarios, not completed live-agent trials; existing optional delegation and experiment defaults remain unchanged', location: tests/planning-review.md}
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Separate milestone verification from release readiness while retaining
+      post-merge failures, explicit release consent and ordinary affected testing. No release
+      or installed consumer update is authorized.
+    conditions:
+    - id: EXIT
+      statement: >-
+        Post-merge verification follows integration even when delivery-only evidence is
+        missing; explicit delivery mode still requires delivery.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/result-semantics.md
+        sha256: aab050b9e15d2d801268ccd66825bdda822fc1cdd9d5e67b4f74554727143d36
+        excerpt: not delivery. Selected blocking post-merge checks contribute to both integration
+    - id: CHECKS
+      statement: >-
+        Failed, errored or unverified selected post-merge suites/extensions block
+        integration and delivery; evaluation-only does not omit checks.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/result-semantics.md
+        sha256: aab050b9e15d2d801268ccd66825bdda822fc1cdd9d5e67b4f74554727143d36
+        excerpt: are reported as `unverified`, not omitted, even without a reuse policy.
+    - id: REUSE
+      statement: >-
+        Rejected post-merge reuse remains unverified and blocking without running
+        commands.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/execution-reuse.md
+        sha256: 0f7f064afc7cd2ae6fd9c6452363cdc0bd98dd6e7196ebf9491669df5b02dab8
+        excerpt: results after rejected reuse; delivery-only gaps remain separately visible.
+    - id: CAPABILITY
+      statement: >-
+        Capability discovery distinguishes corrected source builds from older CLIs
+        without changing pins or rewriting old reports.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/compatibility.md
+        sha256: f74b5d70247d13931778939395f813e2e328c7cb7b4547b663e47ea3c7ee411a
+        excerpt: >-
+          it through `doctor`; version labels alone do not identify unreleased source
+          builds.
+    - id: CONSENT
+      statement: >-
+        Explicit developer release permission is required for release-specific work;
+        implementation/preview approval and consumer need are insufficient. Existing scoped
+        permission and ordinary relevant tests remain usable.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/workflow-usability.md
+        sha256: 0dfc90feb26a92580595628425d6b342e3387560a5c48ecd3d0319ee3875d141
+        excerpt: release authorization. Consumer need may justify a recommendation but MUST NOT
+    - id: DISTRIBUTION
+      statement: >-
+        Both source plugin entry routes and generated project instructions carry the
+        boundary without replacing project-owned content.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: plugins/opdev/skills/opdev/SKILL.md
+        sha256: 8d849fe9bca947aa9c628cdfe90f63500cc7827f010647125396f3899ab7c919
+        excerpt: "authorization under the [release boundary](references/workflow.md#release-authorization)."
+    verifications:
+    - condition: EXIT
+      method: automated
+      target:
+        path: crates/opdev-cli/src/main.rs
+        sha256: c2a0c7c20e7b0180cfbe04c43f128218f43e59c4a6cbc1e48cf24f5ba90b6860
+        excerpt: fn post_merge_exit_does_not_require_release_readiness()
+      assertion: >-
+        Real parsed CLI flags select success for local/integration/post-merge and
+        failure for delivery on the same controlled report with integration passed and
+        delivery unverified.
+      discriminating_case: >-
+        Restoring the old post_merge-to-delivery selection fails the post-merge exit
+        assertion. This is a gate-selection fixture, not a claim that synthetic core
+        evidence qualifies a real project.
+      suite: check
+      outcome: passed
+    - condition: CHECKS
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/check_plan.rs
+        sha256: e42c529349ca2732d188e75a1dcee1a325c8650bda99f5e6fce724dbb161b355
+        excerpt: fn post_merge_process_failures_and_skipped_execution_remain_blocking()
+      assertion: >-
+        Real child commands produce suite failure and extension error; no-exec produces
+        exactly two unverified checks and no marker. Isolated aggregation blocks both
+        gates. Engine outcome-matrix regression separately covers all six outcomes and
+        advisory checks.
+      discriminating_case: >-
+        Delivery-only routing or omitted no-exec checks fails gate/count assertions;
+        ordinary pass remains passing after deliberate isolation from missing fixture core
+        evidence.
+      suite: check
+      outcome: passed
+    - condition: REUSE
+      method: automated
+      target:
+        path: crates/opdev-cli/src/execution_reuse.rs
+        sha256: 754856882d749c1f35cfa5c4bcfdb471c90100dc5ef966a85ab85fa70b9c6219
+        excerpt: fn unavailable_post_merge_execution_blocks_integration_and_delivery()
+      assertion: >-
+        Unavailable evidence returns unverified selected check with both gate
+        memberships, not a spawn error from the deliberately nonexistent program; both gates
+        remain blocked.
+      discriminating_case: >-
+        Old delivery-only unavailable routing reproduced an assertion failure before
+        implementation. This fixture does not simulate provider authentication.
+      suite: check
+      outcome: passed
+    - condition: CAPABILITY
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/doctor.rs
+        sha256: 6448649e37e87dd5dbb378eb413ad97dbf68e33401ba805c295d5d6d975f68ad
+        excerpt: .contains(&Value::from("check.post-merge-integration.v1"))
+      assertion: >-
+        Real read-only doctor JSON advertises the corrected capability, retains valid
+        schema and leaves the fixture unchanged.
+      discriminating_case: >-
+        Omitting capability from the runtime inventory fails membership; source and
+        installed CLI remain distinguishable despite shared version label.
+      suite: check
+      outcome: passed
+    - condition: CONSENT
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: b8ba5cf88c72d2dc32fb90b4ffd20090fe356c0b15a803eec2a846fe76702b0f
+        excerpt: "| U9 |"
+      assertion: >-
+        Reviewed U4-U7 and U9-U12 against actual planning/workflow/skill/bootstrap
+        wording. Consumer need now recommends rather than authorizes release; explicit
+        permission is reusable; normal affected package/recovery tests remain required; old CLI
+        mismatch does not authorize ignoring exits or releasing.
+      discriminating_case: >-
+        Original consumer-need-or-explicit-request wording incorrectly allowed U9
+        release; the new boundary rejects it while preserving U7/U11 explicitly authorized
+        publication and U5 affected testing.
+      automation_limitation: >-
+        Semantic instruction review is not live agent execution. No new Codex or Claude
+        behavioral trial was run and future model compliance is not guaranteed by
+        resource checks.
+      outcome: passed
+    - condition: DISTRIBUTION
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: f00d90bd2df43e75c4989629c56efbee975d12227840c30e275fbd11f14cb09f
+        excerpt: fn release_authorization_route_survives_isolated_plugin_copy()
+      assertion: >-
+        Copied entrypoint and planning links resolve to the copied workflow anchor with
+        identical content. Existing fresh-and-upgraded guidance test compares generated
+        managed instructions with AGENTS.md and preserves surrounding user content.
+      discriminating_case: >-
+        Broken relative link, missing anchor or changed generated guidance diverging
+        from AGENTS.md fails assertions. These are packaging invariants, not model behavior
+        tests.
+      suite: check
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205"
+      rationale: >-
+        Rechecked all six conditions against the unchanged behavioral implementation
+        and actual regression assertions. Reviewed the added durable rationale and current
+        restored work authority. Earlier attempts are retained. Semantic review and
+        distribution tests do not establish live-agent compliance; human wording review and CI
+        qualification remain separate.
+      subject_sha256: 5b4839963560af18f5d24a1aed60dec67a415c221441303497561e76bca0b552

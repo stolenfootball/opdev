@@ -132,6 +132,18 @@ it cannot be combined with `--no-exec`. Inspect all reported gates before making
 broader claims. An integration-only baseline does not enforce the release path.
 Gate success is evidence, not developer authorization to release.
 
+This separates integrated-source verification from an artifact's readiness to
+ship: coupling both exits previously forced delivery work into ordinary milestone
+completion. Reusing the integration aggregate with stage-selected checks keeps
+failed post-merge suites and extensions blocking without creating a fifth gate
+or weakening delivery rules. Ignoring the nonzero exit or adding a blanket waiver
+would also hide genuine failures and was rejected. Regression tests cover exit
+selection, all check outcomes, missing execution and rejected reuse; shared
+guidance separately requires explicit release authorization. Revisit this split
+if a required integrated-source risk cannot be represented by the existing
+integration rules and selected post-merge checks, not merely because a delivery
+gate remains blocked when release was not requested.
+
 Declaring a trunk name or matching a provider default branch does not establish
 the single-trunk workflow. Review branch roles and release source. A known
 contradiction in the adoption workflow remains `migration_required` despite a
