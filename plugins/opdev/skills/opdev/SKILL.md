@@ -118,6 +118,12 @@ their existing compliant setup, including deliberate extra checks.
 
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
 
+Release-specific preparation and execution require explicit developer release
+authorization under the [release boundary](references/workflow.md#release-authorization).
+Milestone/implementation approval, preview acceptance and green CI do not grant
+it. Recommend a release when useful; do not make one a prerequisite for ordinary
+milestone completion. Relevant package/recovery regression tests still apply.
+
 When the developer enables a controller/specialist strategy, use the optional
 [bounded delegation contract](references/delegation.md) and current host adapter.
 Keep a first-class single-agent path; do not create a team, extra questions or

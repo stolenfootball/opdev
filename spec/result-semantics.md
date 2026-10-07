@@ -119,9 +119,30 @@ policy if observed branch drift or conflicts increase; do not infer improvement
 merely from fewer blocked reports.
 
 The CLI's default exit follows development; `check --ci` follows integration.
+With capability `check.post-merge-integration.v1`, `check --ci --post-merge`
+executes the selected integrated-trunk suites/extensions and follows integration,
+not delivery. Selected blocking post-merge checks contribute to both integration
+and delivery, including unavailable reuse evidence. Delivery-only rules remain
+visible and blocking for delivery, without preventing otherwise verified
+integration. Pre-merge and post-merge executions are not interchangeable.
+In post-merge evaluation-only mode, selected checks without verified execution
+are reported as `unverified`, not omitted, even without a reuse policy.
 `check --ci --delivery` executes the delivery stage and follows the delivery gate;
 it cannot be combined with `--no-exec`. Inspect all reported gates before making
 broader claims. An integration-only baseline does not enforce the release path.
+Gate success is evidence, not developer authorization to release.
+
+This separates integrated-source verification from an artifact's readiness to
+ship: coupling both exits previously forced delivery work into ordinary milestone
+completion. Reusing the integration aggregate with stage-selected checks keeps
+failed post-merge suites and extensions blocking without creating a fifth gate
+or weakening delivery rules. Ignoring the nonzero exit or adding a blanket waiver
+would also hide genuine failures and was rejected. Regression tests cover exit
+selection, all check outcomes, missing execution and rejected reuse; shared
+guidance separately requires explicit release authorization. Revisit this split
+if a required integrated-source risk cannot be represented by the existing
+integration rules and selected post-merge checks, not merely because a delivery
+gate remains blocked when release was not requested.
 
 Declaring a trunk name or matching a provider default branch does not establish
 the single-trunk workflow. Review branch roles and release source. A known

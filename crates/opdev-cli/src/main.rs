@@ -185,7 +185,7 @@ struct CheckArgs {
     /// Nonsecret actual environment identity supplied by the reviewed producer configuration.
     #[arg(long, requires = "reuse_ci_policy")]
     execution_environment: Option<String>,
-    /// Select integrated-trunk suites and extensions instead of pre-merge checks.
+    /// Verify integrated-trunk suites/extensions using the integration gate, not release readiness.
     #[arg(long, requires = "ci", conflicts_with = "delivery")]
     post_merge: bool,
     /// Report presentation.
@@ -962,18 +962,22 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
             views::print_summary(&report, source.context("summary requires a saved report")?)?;
         }
     }
-    let gate = if args.delivery || args.post_merge {
+    Ok(check_exit(args, &report))
+}
+
+fn check_exit(args: &CheckArgs, report: &CheckReport) -> ExitCode {
+    let gate = if args.delivery {
         Gate::Delivery
     } else if args.ci {
         Gate::Integration
     } else {
         Gate::Development
     };
-    Ok(if report.gate_passed(gate) {
+    if report.gate_passed(gate) {
         ExitCode::SUCCESS
     } else {
         ExitCode::from(1)
-    })
+    }
 }
 
 fn apply_local_ci(root: &Path, manifest: &ProjectManifest, report: &mut CheckReport) -> Result<()> {
@@ -1316,6 +1320,49 @@ fn show_rules(args: RulesArgs) -> Result<()> {
 mod tests {
     use super::*;
     use clap::CommandFactory;
+
+    #[test]
+    fn post_merge_exit_does_not_require_release_readiness() -> Result<()> {
+        let root = tempfile::tempdir()?;
+        std::fs::create_dir(root.path().join(".git"))?;
+        let manifest = discover(root.path())?.manifest;
+        let mut report = evaluate(
+            root.path(),
+            &manifest,
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::pre_merge()
+            },
+        )?;
+        // Isolate gate selection: model reviewed integration with delivery still missing.
+        let catalog = embedded_catalog()?;
+        for (rule, result) in catalog.rules.iter().zip(&mut report.rules) {
+            result.outcome = if rule.gates.contains(&Gate::Delivery)
+                && !rule.gates.contains(&Gate::Integration)
+                && !rule.gates.contains(&Gate::Development)
+            {
+                Outcome::Unverified
+            } else {
+                Outcome::Passed
+            };
+        }
+        reaggregate(&mut report)?;
+        assert!(report.gate_passed(Gate::Integration));
+        assert!(!report.gate_passed(Gate::Delivery));
+        for (flags, expected) in [
+            (vec![], ExitCode::SUCCESS),
+            (vec!["--ci"], ExitCode::SUCCESS),
+            (vec!["--ci", "--post-merge"], ExitCode::SUCCESS),
+            (vec!["--ci", "--delivery"], ExitCode::from(1)),
+        ] {
+            let cli = Cli::try_parse_from(["opdev", "check"].into_iter().chain(flags))?;
+            let Command::Check(args) = cli.command else {
+                bail!("expected check args")
+            };
+            assert_eq!(check_exit(&args, &report), expected);
+        }
+        Ok(())
+    }
 
     #[test]
     fn initialized_dry_run_preserves_contract_and_agent_files() -> Result<()> {

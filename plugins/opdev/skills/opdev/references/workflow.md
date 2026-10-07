@@ -41,6 +41,28 @@ extra record is required for ordinary work.
 
 ## Package and deliver
 
+### Release authorization
+
+Recommend a release when useful, but obtain explicit developer authorization
+before release-specific preparation or execution: choosing/applying a release
+version, writing release notes, creating tags, publishing, deploying, or running
+a release-specific rollback/recovery qualification workflow. Completing a
+milestone, approving implementation, accepting a preview, passing CI, or an
+identified consumer need does not grant that permission. A general instruction
+to finish the work does not expand its scope to release.
+
+Reuse an existing explicit release authorization within its stated scope; do not
+ask again for each routine step. Clarify only material unresolved scope or a new
+side effect. Keep permission in existing conversation/work context, not a new
+approval registry. This boundary does not prohibit authorized CI candidates or
+normal package/recovery regression tests needed for changed behavior; a release
+workflow is not required merely to complete those tests.
+
+When integrated work meets its accepted outcome without a release request,
+report the milestone complete and release not requested. Keep outstanding
+delivery readiness separate and visible; do not declare it passed or start
+release/version/rollback work to make every gate green.
+
 CI is the exclusive supported delivery path. The pipeline gives a definitive verdict, builds a deployable artifact once, identifies it immutably, and promotes the same bytes. Qualify in an environment representative of material destination risks. Version and test behavioral configuration; inject environment-specific values without rebuilding.
 
 Use one consumer-facing delivery path and an automated, tested recovery strategy appropriate to the software: rollback, previous-artifact redeploy, disablement, restoration, safe roll-forward, or a focused forward fix when reversal is unsafe.
@@ -76,3 +98,12 @@ mandatory cache, private transcript copy or migration just to resume ordinary wo
 ## Gates
 
 The four aggregates are development, integration, delivery, and compliance. A gate is blocked when any applicable required rule or blocking project check is not `passed` or justified `not_applicable`. A report may be useful even while blocked; never summarize it as successful.
+
+On a CLI advertising `check.post-merge-integration.v1` in `doctor`,
+`check --ci --post-merge` selects integrated-trunk suites/extensions and follows
+the integration gate. Required post-merge check failures block integration and
+delivery; missing delivery-only evidence does not block integration. All gates
+remain in the report. `check --ci --delivery` still requires delivery readiness;
+neither command grants release permission. Older CLIs select delivery for the
+post-merge exit: explain that mismatch and offer a compatible upgrade, rather
+than ignoring the exit, claiming a pass, or undertaking an unrequested release.

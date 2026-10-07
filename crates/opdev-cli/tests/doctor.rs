@@ -143,6 +143,12 @@ fn runtime_only_is_not_adoption_and_same_version_is_not_build_identity() -> Test
             .ok_or("capabilities")?
             .contains(&Value::from("evidence.acceptance-digest"))
     );
+    assert!(
+        report["runtime"]["capabilities"]
+            .as_array()
+            .ok_or("capabilities")?
+            .contains(&Value::from("check.post-merge-integration.v1"))
+    );
     assert_eq!(
         report["runtime"]["project_schemas"],
         serde_json::json!([1, 2])

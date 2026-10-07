@@ -86,8 +86,11 @@ each policy's environment and executable identity must match its own producers.
   option still performs provider observation; this is not offline evaluation.
   The engine's separate evaluation API takes already validated, non-deserializable
   results and performs no provider calls. Missing checks remain unverified.
-- `--post-merge` selects the declared integrated-trunk suites/extensions and their
-  delivery aggregate rather than treating pre-merge execution as interchangeable.
+- `--post-merge` selects the declared integrated-trunk suites/extensions and follows
+  the integration aggregate on CLIs with `check.post-merge-integration.v1`.
+  Selected blocking checks affect integration and delivery, including unverified
+  results after rejected reuse; delivery-only gaps remain separately visible.
+  This does not treat pre-merge execution as interchangeable.
   It does not authorize release, publication, tagging or consumer migration.
 
 No saved file can construct the engine's validated provider result. The immediate

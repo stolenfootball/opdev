@@ -10914,84 +10914,151 @@ changes:
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Roadmap 62 and issues 64-68 define the accepted outcomes, scope, exclusions, acceptance conditions, evidence, dependencies and risks for this exact change.
+    summary: >-
+      Roadmap 62 and issues 64-68 define the accepted outcomes, scope, exclusions,
+      acceptance conditions, evidence, dependencies and risks for this exact change.
     evidence:
     - kind: review
-      summary: Re-read the approved issue descriptions against the fourteen reviewed acceptance conditions. Work tracking remains in GitLab; no release or consumer migration is included. This records work definition, not completion of integration.
+      summary: >-
+        Re-read the approved issue descriptions against the fourteen reviewed
+        acceptance conditions. Work tracking remains in GitLab; no release or consumer migration
+        is included. This records work definition, not completion of integration.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: The architecture authority records alternatives, rationale, supporting sources and reversal triggers; concrete protocol specifications bound the implemented semantics.
+    summary: >-
+      The architecture authority records alternatives, rationale, supporting sources
+      and reversal triggers; concrete protocol specifications bound the implemented
+      semantics.
     evidence:
     - kind: review
-      summary: Reviewed same-run producer trust, conservative whole-subject fallback, attributed rather than authenticated decisions, cooperative atomic writes and optional native workers. No general cache or autonomous approval is introduced.
+      summary: >-
+        Reviewed same-run producer trust, conservative whole-subject fallback,
+        attributed rather than authenticated decisions, cooperative atomic writes and optional
+        native workers. No general cache or autonomous approval is introduced.
       location: spec/workflow-redesign.md
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: The maintainer approved the three presented representative diagnostics; automated noninteractive textual-interface and consent tests passed in current-source CI.
+    summary: >-
+      The maintainer approved the three presented representative diagnostics;
+      automated noninteractive textual-interface and consent tests passed in current-source CI.
     evidence:
     - kind: human_review
-      summary: Actual response was The wording is approved. Review covers the presented reuse, changed-review and permission-versus-feedback messages under the existing CLI target; it is not universal assistive-technology or WCAG certification.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190
+      summary: >-
+        Actual response was The wording is approved. Review covers the presented reuse,
+        changed-review and permission-versus-feedback messages under the existing CLI
+        target; it is not universal assistive-technology or WCAG certification.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190"
     - kind: ci_observation
-      summary: Job 16954646756 passed the canonical check suite, including consumer-interface tests. The job itself failed on absent rule evidence; that failure is retained and final CI remains required.
+      summary: >-
+        Job 16954646756 passed the canonical check suite, including consumer-interface
+        tests. The job itself failed on absent rule evidence; that failure is retained
+        and final CI remains required.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/jobs/16954646756
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: Main remains the single integration and release-source branch; project and CI branch policy are unchanged.
+    summary: >-
+      Main remains the single integration and release-source branch; project and CI
+      branch policy are unchanged.
     evidence:
     - kind: review
-      summary: Rechecked project trunk main and default-branch/tag CI rules. No separate long-lived development or release-source branch is introduced.
+      summary: >-
+        Rechecked project trunk main and default-branch/tag CI rules. No separate
+        long-lived development or release-source branch is introduced.
       location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: The bounded implementation branch starts from current origin/main and targets it in MR 54 with source-branch removal selected; integration is still pending.
+    summary: >-
+      The bounded implementation branch starts from current origin/main and targets
+      it in MR 54 with source-branch removal selected; integration is still pending.
     evidence:
     - kind: review
-      summary: Git merge-base is 791ff1e1e6d195e7cba5138a37edba4f7ede05d3, the exact parent of first implementation commit 370a771. MR 54 is the reviewed return path, not a permanent parallel trunk.
+      summary: >-
+        Git merge-base is 791ff1e1e6d195e7cba5138a37edba4f7ede05d3, the exact parent of
+        first implementation commit 370a771. MR 54 is the reviewed return path, not a
+        permanent parallel trunk.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/54
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: The latest observed main pipeline succeeded; no known red trunk is being ignored. Recheck before integration and prioritize repair if its state changes.
+    summary: >-
+      The latest observed main pipeline succeeded; no known red trunk is being
+      ignored. Recheck before integration and prioritize repair if its state changes.
     evidence:
     - kind: ci_observation
-      summary: Read-only GitLab observation confirmed main pipeline 2915326544 at 791ff1e1e6d195e7cba5138a37edba4f7ede05d3 is successful. This is a trunk observation, not candidate qualification.
+      summary: >-
+        Read-only GitLab observation confirmed main pipeline 2915326544 at
+        791ff1e1e6d195e7cba5138a37edba4f7ede05d3 is successful. This is a trunk observation, not
+        candidate qualification.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915326544
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: Existing supported fresh execution and diagnostic receipt meanings are preserved; new protocols require explicit capability and policy, without installed pin or consumer migration.
+    summary: >-
+      Existing supported fresh execution and diagnostic receipt meanings are
+      preserved; new protocols require explicit capability and policy, without installed pin or
+      consumer migration.
     evidence:
     - kind: ci_observation
-      summary: Current-source canonical tests passed in Linux job 16954646756 and local Windows, including upgrade preservation, unknown-schema refusal, legacy receipts and fresh-path controls. Plugin validation and all three installer checks also succeeded. This does not claim the blocked pipeline or skipped packaging passed.
+      summary: >-
+        Current-source canonical tests passed in Linux job 16954646756 and local
+        Windows, including upgrade preservation, unknown-schema refusal, legacy receipts and
+        fresh-path controls. Plugin validation and all three installer checks also
+        succeeded. This does not claim the blocked pipeline or skipped packaging passed.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915765496
   - rule_id: OPDEV-OPS-001
     outcome: passed
-    summary: The on-demand CLI retains structured outcomes, explicit exits and actionable unresolved-state diagnostics without hidden execution or a telemetry service.
+    summary: >-
+      The on-demand CLI retains structured outcomes, explicit exits and actionable
+      unresolved-state diagnostics without hidden execution or a telemetry service.
     evidence:
     - kind: test_observation
-      summary: Current canonical process tests cover help, malformed input, blocked reports, retained diagnostics, no-side-effect inspection, stale evidence and interrupted writes. Human wording review was separately approved; no universal environment-support claim is made.
+      summary: >-
+        Current canonical process tests cover help, malformed input, blocked reports,
+        retained diagnostics, no-side-effect inspection, stale evidence and interrupted
+        writes. Human wording review was separately approved; no universal
+        environment-support claim is made.
       location: spec/consumer-interface.md
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: Agent-authored changes were evaluated against original requirements and actual assertions, with automated counterexamples and independently inspected trial behavior rather than completion claims alone.
+    summary: >-
+      Agent-authored changes were evaluated against original requirements and actual
+      assertions, with automated counterexamples and independently inspected trial
+      behavior rather than completion claims alone.
     evidence:
     - kind: review
-      summary: Reviewed all inventoried mappings and observed current-source canonical tests. Independently reconciled 48 root sessions and 16 workers with file hashes, behavior probes, commands and host records; one unobservable direct worker inspection is not credited. Required final CI is not replaced by these observations.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/68#note_3959171432
+      summary: >-
+        Reviewed all inventoried mappings and observed current-source canonical tests.
+        Independently reconciled 48 root sessions and 16 workers with file hashes,
+        behavior probes, commands and host records; one unobservable direct worker inspection
+        is not credited. Required final CI is not replaced by these observations.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/68#note_3959171432"
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: Observed workflow overhead informed the bounded redesign and repeated evaluation; negative results preserve simpler defaults rather than prompting unsupported performance claims.
+    summary: >-
+      Observed workflow overhead informed the bounded redesign and repeated
+      evaluation; negative results preserve simpler defaults rather than prompting unsupported
+      performance claims.
     evidence:
     - kind: evaluation
-      summary: Both frozen speed thresholds failed. The maintainer explicitly selected single-agent default and optional delegation after reviewing those results. No general cache or unapproved differentiated-effort experiment was added; failed attempts and review limitations remain recorded.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190
+      summary: >-
+        Both frozen speed thresholds failed. The maintainer explicitly selected
+        single-agent default and optional delegation after reviewing those results. No general
+        cache or unapproved differentiated-effort experiment was added; failed attempts
+        and review limitations remain recorded.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190"
   - rule_id: OPDEV-EVAL-001
     outcome: passed
-    summary: Correctness, deployability and effectiveness remain distinct. This assertion records that separation, not a speedup, release readiness or completed integration.
+    summary: >-
+      Correctness, deployability and effectiveness remain distinct. This assertion
+      records that separation, not a speedup, release readiness or completed integration.
     evidence:
     - kind: evaluation
-      summary: Completed comparison found candidate-single median 107.0 seconds versus baseline 104.4, with matched-model delegation 51.5 percent slower on the selected complex cases. Three continuation scenarios met their narrow oracles. Statistical generality, live Claude, differentiated effort and full model-driven merge remain unverified.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/68#note_3959177387
+      summary: >-
+        Completed comparison found candidate-single median 107.0 seconds versus
+        baseline 104.4, with matched-model delegation 51.5 percent slower on the selected
+        complex cases. Three continuation scenarios met their narrow oracles. Statistical
+        generality, live Claude, differentiated effort and full model-driven merge remain
+        unverified.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/68#note_3959177387"
   acceptance:
     scope: behavioral
     rationale: "Opt-in same-run CI execution protocol and exact-source evaluation split. Full fresh path and legacy diagnostic meanings remain. No cross-revision cache, default activation, release or consumer migration. Provider fixtures and subprocess counts establish bounded implementation behavior, not live-host effectiveness or universal trust. GitHub push/workflow_dispatch and absolute producer executables are explicit first-version limits. Combined retained core implementation for roadmap 62, issues 64-67: typed read-only continuation, cooperative atomic updates, bounded optional native delegation and independent acceptance lifetimes. Live effectiveness, human wording, required integration and publication are separate evidence; no speedup or release is claimed."
@@ -11363,99 +11430,158 @@ changes:
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Issue 69 defines release outcome, scope, exclusions, risks, acceptance and candidate/final evidence; publication remains pending.
+    summary: >-
+      Issue 69 defines release outcome, scope, exclusions, risks, acceptance and
+      candidate/final evidence; publication remains pending.
     evidence:
     - kind: work
-      summary: The maintainer requested a release after accepting the completed redesign. Installed plugins and consumer migrations are excluded.
+      summary: >-
+        The maintainer requested a release after accepting the completed redesign.
+        Installed plugins and consumer migrations are excluded.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
   - rule_id: OPDEV-DESIGN-001
     outcome: not_applicable
-    summary: This preparation changes version identity and release prose, not architecture or protocol semantics; prior implemented contracts remain authoritative.
+    summary: >-
+      This preparation changes version identity and release prose, not architecture
+      or protocol semantics; prior implemented contracts remain authoritative.
     evidence:
     - kind: review
-      summary: Reviewed the diff; only workspace versions, CI version, plugin identities/range and release/compatibility documentation change. The retained runtime lock is unchanged.
+      summary: >-
+        Reviewed the diff; only workspace versions, CI version, plugin identities/range
+        and release/compatibility documentation change. The retained runtime lock is
+        unchanged.
       location: spec/compatibility.md
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: Main remains the sole integration and release-source branch; no branch-role or CI trigger change is made.
+    summary: >-
+      Main remains the sole integration and release-source branch; no branch-role or
+      CI trigger change is made.
     evidence:
     - kind: review
-      summary: Rechecked project trunk main and existing default-branch/protected-tag CI definitions.
+      summary: >-
+        Rechecked project trunk main and existing default-branch/protected-tag CI
+        definitions.
       location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: The bounded release branch starts at current main 499d3b0290040e7da3d9c880d24b0c767b99fe4e and returns through a required green MR with source removal; integration is pending.
+    summary: >-
+      The bounded release branch starts at current main
+      499d3b0290040e7da3d9c880d24b0c767b99fe4e and returns through a required green MR with source removal;
+      integration is pending.
     evidence:
     - kind: work
-      summary: One release-preparation increment; no long-lived release development branch or alternate trunk is introduced.
+      summary: >-
+        One release-preparation increment; no long-lived release development branch or
+        alternate trunk is introduced.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: Latest observed main pipeline 2915812332 is successful at 499d3b0290040e7da3d9c880d24b0c767b99fe4e; recheck before merge and publication.
+    summary: >-
+      Latest observed main pipeline 2915812332 is successful at
+      499d3b0290040e7da3d9c880d24b0c767b99fe4e; recheck before merge and publication.
     evidence:
     - kind: ci_observation
-      summary: Read-only GitLab observation during release preparation confirms green trunk, not a qualified release candidate.
+      summary: >-
+        Read-only GitLab observation during release preparation confirms green trunk,
+        not a qualified release candidate.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2915812332
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: Existing behavior and managed pin are preserved; range permits the newly versioned CLI, and explicit upgrade boundaries are documented.
+    summary: >-
+      Existing behavior and managed pin are preserved; range permits the newly
+      versioned CLI, and explicit upgrade boundaries are documented.
     evidence:
     - kind: test_observation
-      summary: Local canonical format, lint and full tests passed after version changes, including release metadata, compatibility, upgrades and legacy execution. A subsequent prose clarification does not change code; final exact-source CI remains required.
+      summary: >-
+        Local canonical format, lint and full tests passed after version changes,
+        including release metadata, compatibility, upgrades and legacy execution. A subsequent
+        prose clarification does not change code; final exact-source CI remains required.
       location: crates/opdev-cli/tests/release_metadata.rs
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: No help, error, outcome presentation or consent interaction changes in this release-preparation diff; the previously approved representative messages and interface target remain unchanged.
+    summary: >-
+      No help, error, outcome presentation or consent interaction changes in this
+      release-preparation diff; the previously approved representative messages and
+      interface target remain unchanged.
     evidence:
     - kind: human_review
-      summary: Prior actual maintainer wording approval remains applicable to unchanged output; current canonical consumer-interface tests passed. No universal assistive-technology or live Claude claim is made.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190
+      summary: >-
+        Prior actual maintainer wording approval remains applicable to unchanged
+        output; current canonical consumer-interface tests passed. No universal
+        assistive-technology or live Claude claim is made.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190"
   - rule_id: OPDEV-OPS-001
     outcome: passed
-    summary: Version identity advances to 0.4.0; textual/structured diagnostics and retained reports remain unchanged and regression-tested.
+    summary: >-
+      Version identity advances to 0.4.0; textual/structured diagnostics and retained
+      reports remain unchanged and regression-tested.
     evidence:
     - kind: test_observation
-      summary: Canonical consumer-interface and report tests passed; the private source-built verifier reports 0.4.0 without replacing the managed runtime.
+      summary: >-
+        Canonical consumer-interface and report tests passed; the private source-built
+        verifier reports 0.4.0 without replacing the managed runtime.
       location: spec/consumer-interface.md
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: Reviewed the actual release diff, original feature contracts, metadata assertions and test results rather than relying on author completion claims.
+    summary: >-
+      Reviewed the actual release diff, original feature contracts, metadata
+      assertions and test results rather than relying on author completion claims.
     evidence:
     - kind: review
-      summary: Version equality and range membership have discriminating automated assertions; prose review preserves measured limitations. Candidate/final publication, signatures and consumer smoke remain separate required observations.
+      summary: >-
+        Version equality and range membership have discriminating automated assertions;
+        prose review preserves measured limitations. Candidate/final publication,
+        signatures and consumer smoke remain separate required observations.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: Release notes retain negative trial findings and the resulting single-agent default, with optional delegation rather than unsupported improvement claims.
+    summary: >-
+      Release notes retain negative trial findings and the resulting single-agent
+      default, with optional delegation rather than unsupported improvement claims.
     evidence:
     - kind: review
-      summary: Compared notes with accepted redesign findings; live Claude and general performance improvement remain unverified.
+      summary: >-
+        Compared notes with accepted redesign findings; live Claude and general
+        performance improvement remain unverified.
       location: release/CHANGELOG.md
   - rule_id: OPDEV-EVAL-001
     outcome: passed
-    summary: Correctness checks, publication qualification and effectiveness are explicitly separate; no current check or prior trial is described as proof of all three.
+    summary: >-
+      Correctness checks, publication qualification and effectiveness are explicitly
+      separate; no current check or prior trial is described as proof of all three.
     evidence:
     - kind: review
-      summary: Release notes say matched Codex trials did not establish an overall gain; release work item separately requires candidate/final CI and isolated installation.
+      summary: >-
+        Release notes say matched Codex trials did not establish an overall gain;
+        release work item separately requires candidate/final CI and isolated installation.
       location: release/CHANGELOG.md
   acceptance:
     scope: behavioral
-    rationale: Release identity and compatibility metadata for CLI/plugin 0.4.0; no runtime logic changes. Publication remains subject to fresh candidate/final CI, exact artifact verification and isolated installation; this preparation review cannot establish those future outcomes.
+    rationale: >-
+      Release identity and compatibility metadata for CLI/plugin 0.4.0; no runtime
+      logic changes. Publication remains subject to fresh candidate/final CI, exact
+      artifact verification and isolated installation; this preparation review cannot
+      establish those future outcomes.
     conditions:
     - id: IDENTITY
-      statement: CLI and CI versions agree; both plugin hosts and marketplace agree; the supported range includes the source CLI and retained published managed runtime.
+      statement: >-
+        CLI and CI versions agree; both plugin hosts and marketplace agree; the
+        supported range includes the source CLI and retained published managed runtime.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
       source:
         path: spec/compatibility.md
         sha256: 722f23c20b46da487a75dc9155f2000f282d6d254640d6c984932ec35ef62670
         excerpt: the current CLI and managed pin must satisfy its CLI range.
     - id: MIGRATION
-      statement: Release documentation names new capabilities and migration boundaries without claiming speed gains, automatic project migration, new managed runtime availability or completed live Claude qualification.
+      statement: >-
+        Release documentation names new capabilities and migration boundaries without
+        claiming speed gains, automatic project migration, new managed runtime
+        availability or completed live Claude qualification.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
       source:
         path: release/CHANGELOG.md
         sha256: 2dcadeaf83125fa53bb097a1bbb4a350cf704f9d2bc88ad525d489faa241cd2a
-        excerpt: '## 0.4.0 / Plugin 0.4.0'
+        excerpt: "## 0.4.0 / Plugin 0.4.0"
     verifications:
     - condition: IDENTITY
       method: automated
@@ -11463,8 +11589,13 @@ changes:
         path: crates/opdev-cli/tests/release_metadata.rs
         sha256: e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933
         excerpt: fn release_versions_and_runtime_range_are_consistent()
-      assertion: Exact equality and semver membership assertions over actual CI, both manifests, marketplace, compatibility and runtime lock reject inconsistent identities and excluded runtimes.
-      discriminating_case: CI version mismatch, divergent host or marketplace version, or range excluding CLI 0.4.0 or pin 0.3.1 fails an explicit assertion.
+      assertion: >-
+        Exact equality and semver membership assertions over actual CI, both manifests,
+        marketplace, compatibility and runtime lock reject inconsistent identities and
+        excluded runtimes.
+      discriminating_case: >-
+        CI version mismatch, divergent host or marketplace version, or range excluding
+        CLI 0.4.0 or pin 0.3.1 fails an explicit assertion.
       suite: check
       outcome: passed
     - condition: MIGRATION
@@ -11473,219 +11604,1056 @@ changes:
         path: release/CHANGELOG.md
         sha256: 2dcadeaf83125fa53bb097a1bbb4a350cf704f9d2bc88ad525d489faa241cd2a
         excerpt: Matched Codex trials did not establish an overall speed or token improvement;
-      assertion: Compared release bullets with merged work and concrete contracts; notes retain default single-agent/fresh execution, opt-in features, unchanged pin, separate capability checks and live Claude limitations.
-      discriminating_case: Claims of faster execution, default delegation, implicit policy migration or managed CLI 0.4.0 would contradict retained measurements, source lock or contracts.
-      automation_limitation: Semantic accuracy and completeness of release prose require review of original implementation and trial evidence; textual matching cannot establish truth. Metadata and full regression suites remain required separately.
+      assertion: >-
+        Compared release bullets with merged work and concrete contracts; notes retain
+        default single-agent/fresh execution, opt-in features, unchanged pin, separate
+        capability checks and live Claude limitations.
+      discriminating_case: >-
+        Claims of faster execution, default delegation, implicit policy migration or
+        managed CLI 0.4.0 would contradict retained measurements, source lock or contracts.
+      automation_limitation: >-
+        Semantic accuracy and completeness of release prose require review of original
+        implementation and trial evidence; textual matching cannot establish truth.
+        Metadata and full regression suites remain required separately.
       outcome: passed
     review:
       outcome: passed
       reviewer: Codex agent
       reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
-      rationale: Reviewed both release-preparation conditions against actual metadata assertions, changed prose and original contracts. No runtime logic or project migration changed; publication and consumer qualification remain pending and cannot be inferred from this review.
+      rationale: >-
+        Reviewed both release-preparation conditions against actual metadata
+        assertions, changed prose and original contracts. No runtime logic or project migration
+        changed; publication and consumer qualification remain pending and cannot be
+        inferred from this review.
       subject_sha256: 9d9f6262d33f198eae69fa7b7bc04dd078ec02ecf2eb45ac7a9211f010fe1a52
 - fingerprint: 6c308e9b7875dc49df606c3c264e66d86b14a203b08907215ba8d9c6648db491
   work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Issue 70 records the requested pin update, acceptance, risks and exclusions; no new CLI publication or installed-cache migration.
+    summary: >-
+      Issue 70 records the requested pin update, acceptance, risks and exclusions; no
+      new CLI publication or installed-cache migration.
     evidence:
-    - {kind: work, summary: The user requested the post-publication pin update; source plugin identity advances independently to 0.4.1., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/70'}
+    - kind: work
+      summary: >-
+        The user requested the post-publication pin update; source plugin identity
+        advances independently to 0.4.1.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
   - rule_id: OPDEV-DESIGN-001
     outcome: not_applicable
-    summary: Selecting an already qualified runtime changes package configuration, not architecture or protocol; existing installation and compatibility contracts apply.
+    summary: >-
+      Selecting an already qualified runtime changes package configuration, not
+      architecture or protocol; existing installation and compatibility contracts apply.
     evidence:
-    - {kind: review, summary: 'Only pin identity, plugin metadata, current-version documentation and an exact-identity regression assertion change.', location: spec/installation.md}
+    - kind: review
+      summary: >-
+        Only pin identity, plugin metadata, current-version documentation and an
+        exact-identity regression assertion change.
+      location: spec/installation.md
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: Main remains the sole integration and release source; branch roles and CI policy are unchanged.
+    summary: >-
+      Main remains the sole integration and release source; branch roles and CI
+      policy are unchanged.
     evidence:
-    - {kind: review, summary: Rechecked project trunk and unchanged default-branch/tag CI rules., location: .opdev/project.yaml}
+    - kind: review
+      summary: Rechecked project trunk and unchanged default-branch/tag CI rules.
+      location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: The bounded pin branch starts at current main bc1575d0386694ae259b230cb98893ce14d41289 and returns by green MR with source deletion; integration is pending.
+    summary: >-
+      The bounded pin branch starts at current main
+      bc1575d0386694ae259b230cb98893ce14d41289 and returns by green MR with source deletion; integration is pending.
     evidence:
-    - {kind: work, summary: One plugin-only increment with no parallel release-development branch., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/70'}
+    - kind: work
+      summary: One plugin-only increment with no parallel release-development branch.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: Main pipeline 2916372761 and final release pipeline 2918629349 succeeded at the branch base; recheck before merge.
+    summary: >-
+      Main pipeline 2916372761 and final release pipeline 2918629349 succeeded at the
+      branch base; recheck before merge.
     evidence:
-    - {kind: ci_observation, summary: Latest main status was re-read during pin preparation; no known red trunk is ignored., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2916372761'}
+    - kind: ci_observation
+      summary: >-
+        Latest main status was re-read during pin preparation; no known red trunk is
+        ignored.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2916372761
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: The selected immutable CLI 0.4.0 was independently qualified; its documented catalog change is intentional, and the supported range accepts both current and prior runtimes.
+    summary: >-
+      The selected immutable CLI 0.4.0 was independently qualified; its documented
+      catalog change is intentional, and the supported range accepts both current and
+      prior runtimes.
     evidence:
-    - {kind: release_observation, summary: Issue 69 records six native targets and exact-source/digest/signature checks. This pin preserves verifier hashes and platform mappings; no project records or CI policies are rewritten., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/69'}
-    - {kind: test_observation, summary: All thirteen offline Windows bootstrap cases and the live 0.4.0 installation/reuse passed in temporary storage; remaining exact-source CI is required., location: tests/runtime_smoke.ps1}
+    - kind: release_observation
+      summary: >-
+        Issue 69 records six native targets and exact-source/digest/signature checks.
+        This pin preserves verifier hashes and platform mappings; no project records or CI
+        policies are rewritten.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+    - kind: test_observation
+      summary: >-
+        All thirteen offline Windows bootstrap cases and the live 0.4.0
+        installation/reuse passed in temporary storage; remaining exact-source CI is required.
+      location: tests/runtime_smoke.ps1
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: No help, diagnostic presentation or consent interaction changes; the previously approved textual interface remains applicable to the qualified runtime.
+    summary: >-
+      No help, diagnostic presentation or consent interaction changes; the previously
+      approved textual interface remains applicable to the qualified runtime.
     evidence:
-    - {kind: human_review, summary: Existing maintainer approval applies to unchanged output; no new human review or universal accessibility certification is inferred., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190'}
+    - kind: human_review
+      summary: >-
+        Existing maintainer approval applies to unchanged output; no new human review
+        or universal accessibility certification is inferred.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190"
   - rule_id: OPDEV-OPS-001
     outcome: passed
-    summary: The selected runtime reports CLI 0.4.0 and catalog 2; bootstrap verification failures and bounded cleanup diagnostics remain intact.
+    summary: >-
+      The selected runtime reports CLI 0.4.0 and catalog 2; bootstrap verification
+      failures and bounded cleanup diagnostics remain intact.
     evidence:
-    - {kind: test_observation, summary: Live temporary installation ran version successfully and reused its path; offline corruption/version/cleanup failure cases passed., location: tests/runtime_test.ps1}
+    - kind: test_observation
+      summary: >-
+        Live temporary installation ran version successfully and reused its path;
+        offline corruption/version/cleanup failure cases passed.
+      location: tests/runtime_test.ps1
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: Reviewed actual pin lines, unchanged trust anchors, metadata and discriminating test assertions against the installation contract, not author claims alone.
+    summary: >-
+      Reviewed actual pin lines, unchanged trust anchors, metadata and discriminating
+      test assertions against the installation contract, not author claims alone.
     evidence:
-    - {kind: review, summary: Exact-tag signature verification and live bootstrap provide independent observations; new identity assertion rejects a stale signing tag. Canonical execution and CI remain separate requirements., location: crates/opdev-cli/tests/installer.rs}
+    - kind: review
+      summary: >-
+        Exact-tag signature verification and live bootstrap provide independent
+        observations; new identity assertion rejects a stale signing tag. Canonical execution
+        and CI remain separate requirements.
+      location: crates/opdev-cli/tests/installer.rs
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: The pin deliberately follows completed immutable release qualification; the identity regression protects against selecting a new version with an old signing tag.
+    summary: >-
+      The pin deliberately follows completed immutable release qualification; the
+      identity regression protects against selecting a new version with an old signing tag.
     evidence:
-    - {kind: review, summary: No unpublished asset dependency or silent cache replacement is introduced; prior negative effectiveness findings preserve single-agent and experimental defaults., location: release/CHANGELOG.md}
+    - kind: review
+      summary: >-
+        No unpublished asset dependency or silent cache replacement is introduced;
+        prior negative effectiveness findings preserve single-agent and experimental defaults.
+      location: release/CHANGELOG.md
   - rule_id: OPDEV-EVAL-001
     outcome: passed
-    summary: Installation correctness and prior release qualification are not claims of improved effectiveness or new live Claude coverage.
+    summary: >-
+      Installation correctness and prior release qualification are not claims of
+      improved effectiveness or new live Claude coverage.
     evidence:
-    - {kind: review, summary: The narrow pin update does not alter or reclassify the earlier negative performance findings., location: release/CHANGELOG.md}
+    - kind: review
+      summary: >-
+        The narrow pin update does not alter or reclassify the earlier negative
+        performance findings.
+      location: release/CHANGELOG.md
   acceptance:
     scope: behavioral
-    rationale: Plugin-only pin update to qualified CLI 0.4.0 and coherent plugin 0.4.1 identity. No runtime algorithm, project migration, installed cache, verifier digest or release asset changes.
+    rationale: >-
+      Plugin-only pin update to qualified CLI 0.4.0 and coherent plugin 0.4.1
+      identity. No runtime algorithm, project migration, installed cache, verifier digest or
+      release asset changes.
     conditions:
     - id: METADATA
-      statement: Both plugin hosts and marketplace agree on 0.4.1; the range accepts source CLI and managed CLI 0.4.0.
+      statement: >-
+        Both plugin hosts and marketplace agree on 0.4.1; the range accepts source CLI
+        and managed CLI 0.4.0.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      source: {path: spec/compatibility.md, sha256: 2efcfb94ac9d2b3307f42a0e2c08a985233e7989e6290bb48bd234d925bf7a45, excerpt: 'the current CLI and managed pin must satisfy its CLI range.'}
+      source:
+        path: spec/compatibility.md
+        sha256: 2efcfb94ac9d2b3307f42a0e2c08a985233e7989e6290bb48bd234d925bf7a45
+        excerpt: the current CLI and managed pin must satisfy its CLI range.
     - id: PIN
-      statement: Pin version, tag and exact GitLab signing identity agree and retain all six supported targets.
+      statement: >-
+        Pin version, tag and exact GitLab signing identity agree and retain all six
+        supported targets.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      source: {path: spec/installation.md, sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c, excerpt: 'pins the CLI version/tag, exact GitLab signing identity, platform mapping, cosign'}
+      source:
+        path: spec/installation.md
+        sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c
+        excerpt: >-
+          pins the CLI version/tag, exact GitLab signing identity, platform mapping,
+          cosign
     - id: INSTALL
-      statement: Managed bootstrap installs and reuses the qualified release in temporary storage without replacing existing runtimes or changing project state.
+      statement: >-
+        Managed bootstrap installs and reuses the qualified release in temporary
+        storage without replacing existing runtimes or changing project state.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      source: {path: spec/installation.md, sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c, excerpt: 'Runtime directories are immutable per release tag and target'}
+      source:
+        path: spec/installation.md
+        sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c
+        excerpt: Runtime directories are immutable per release tag and target
     verifications:
     - condition: METADATA
       method: automated
-      target: {path: crates/opdev-cli/tests/release_metadata.rs, sha256: e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933, excerpt: 'fn release_versions_and_runtime_range_are_consistent()'}
-      assertion: Parsed host manifests, marketplace and compatibility contract agree; source and pin versions satisfy the range.
+      target:
+        path: crates/opdev-cli/tests/release_metadata.rs
+        sha256: e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933
+        excerpt: fn release_versions_and_runtime_range_are_consistent()
+      assertion: >-
+        Parsed host manifests, marketplace and compatibility contract agree; source and
+        pin versions satisfy the range.
       discriminating_case: A mismatched host version or excluded pin fails an equality or semver assertion.
       suite: check
       outcome: passed
     - condition: PIN
       method: automated
-      target: {path: crates/opdev-cli/tests/installer.rs, sha256: eb21980a91bab01d3b7f174c8155f306a70c1bb3e0f019c2e7a3e6b700b759de, excerpt: 'fn runtime_pin_is_compatible_and_covers_supported_platforms()'}
-      assertion: Parsed version determines expected tag and exact GitLab certificate identity; unique six-target inventory and verifier digest shape are checked.
-      discriminating_case: A leftover 0.3.1 signing identity, missing target or incompatible pin fails explicit assertions.
+      target:
+        path: crates/opdev-cli/tests/installer.rs
+        sha256: eb21980a91bab01d3b7f174c8155f306a70c1bb3e0f019c2e7a3e6b700b759de
+        excerpt: fn runtime_pin_is_compatible_and_covers_supported_platforms()
+      assertion: >-
+        Parsed version determines expected tag and exact GitLab certificate identity;
+        unique six-target inventory and verifier digest shape are checked.
+      discriminating_case: >-
+        A leftover 0.3.1 signing identity, missing target or incompatible pin fails
+        explicit assertions.
       suite: check
       outcome: passed
     - condition: INSTALL
       method: review
-      target: {path: tests/runtime_smoke.ps1, sha256: b84dc332619ba1c3cd6451b62b10cbbe5345f7b01cfb5fbe3a40c53fe8d6898e, excerpt: 'Repeated install changed runtime'}
-      assertion: Observed temporary-root live installation verify 0.4.0, run catalog 2 and reuse the exact path; thirteen offline cases passed. Required Linux and ARM64 live CI remain separately pending.
-      discriminating_case: Bad signature, wrong version or changed reuse path must fail; prior results do not qualify unrun native checks.
-      automation_limitation: Native live installation is a separate required CI job, not the canonical workspace suite. This review records observed Windows execution only and cannot qualify unrun platforms.
+      target:
+        path: tests/runtime_smoke.ps1
+        sha256: b84dc332619ba1c3cd6451b62b10cbbe5345f7b01cfb5fbe3a40c53fe8d6898e
+        excerpt: Repeated install changed runtime
+      assertion: >-
+        Observed temporary-root live installation verify 0.4.0, run catalog 2 and reuse
+        the exact path; thirteen offline cases passed. Required Linux and ARM64 live CI
+        remain separately pending.
+      discriminating_case: >-
+        Bad signature, wrong version or changed reuse path must fail; prior results do
+        not qualify unrun native checks.
+      automation_limitation: >-
+        Native live installation is a separate required CI job, not the canonical
+        workspace suite. This review records observed Windows execution only and cannot
+        qualify unrun platforms.
       outcome: passed
     review:
       outcome: passed
       reviewer: Codex agent
       reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      rationale: Reviewed all three conditions against the installation contract, actual equality/membership/identity assertions and observed Windows bootstrap results. Preserved earlier evidence and explicit limits; final canonical and native CI execution remain required.
+      rationale: >-
+        Reviewed all three conditions against the installation contract, actual
+        equality/membership/identity assertions and observed Windows bootstrap results.
+        Preserved earlier evidence and explicit limits; final canonical and native CI execution
+        remain required.
       subject_sha256: f6955314408f147e9d29a8725c457aba4e6d26dbc62d8e11ca4eefaceef2e6f6
 - fingerprint: 640b9ffdc59f1ff9bea220b25cd94b1de78776cf4e4c8b673de978ff9365711b
   work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Issue 70 records the requested pin update, acceptance, risks and exclusions; no new CLI publication or installed-cache migration.
+    summary: >-
+      Issue 70 records the requested pin update, acceptance, risks and exclusions; no
+      new CLI publication or installed-cache migration.
     evidence:
-    - {kind: work, summary: The user requested the post-publication pin update; source plugin identity advances independently to 0.4.1., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/70'}
+    - kind: work
+      summary: >-
+        The user requested the post-publication pin update; source plugin identity
+        advances independently to 0.4.1.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
   - rule_id: OPDEV-DESIGN-001
     outcome: not_applicable
-    summary: Selecting an already qualified runtime changes package configuration, not architecture or protocol; existing installation and compatibility contracts apply.
+    summary: >-
+      Selecting an already qualified runtime changes package configuration, not
+      architecture or protocol; existing installation and compatibility contracts apply.
     evidence:
-    - {kind: review, summary: 'Only pin identity, plugin metadata, current-version documentation and an exact-identity regression assertion change.', location: spec/installation.md}
+    - kind: review
+      summary: >-
+        Only pin identity, plugin metadata, current-version documentation and an
+        exact-identity regression assertion change.
+      location: spec/installation.md
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: Main remains the sole integration and release source; branch roles and CI policy are unchanged.
+    summary: >-
+      Main remains the sole integration and release source; branch roles and CI
+      policy are unchanged.
     evidence:
-    - {kind: review, summary: Rechecked project trunk and unchanged default-branch/tag CI rules., location: .opdev/project.yaml}
+    - kind: review
+      summary: Rechecked project trunk and unchanged default-branch/tag CI rules.
+      location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: The bounded pin branch starts at current main bc1575d0386694ae259b230cb98893ce14d41289 and returns by green MR with source deletion; integration is pending.
+    summary: >-
+      The bounded pin branch starts at current main
+      bc1575d0386694ae259b230cb98893ce14d41289 and returns by green MR with source deletion; integration is pending.
     evidence:
-    - {kind: work, summary: One plugin-only increment with no parallel release-development branch., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/70'}
+    - kind: work
+      summary: One plugin-only increment with no parallel release-development branch.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: Main pipeline 2916372761 and final release pipeline 2918629349 succeeded at the branch base; recheck before merge.
+    summary: >-
+      Main pipeline 2916372761 and final release pipeline 2918629349 succeeded at the
+      branch base; recheck before merge.
     evidence:
-    - {kind: ci_observation, summary: Latest main status was re-read during pin preparation; no known red trunk is ignored., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2916372761'}
+    - kind: ci_observation
+      summary: >-
+        Latest main status was re-read during pin preparation; no known red trunk is
+        ignored.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2916372761
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: The selected immutable CLI 0.4.0 was independently qualified; its documented catalog change is intentional, and the supported range accepts both current and prior runtimes.
+    summary: >-
+      The selected immutable CLI 0.4.0 was independently qualified; its documented
+      catalog change is intentional, and the supported range accepts both current and
+      prior runtimes.
     evidence:
-    - {kind: release_observation, summary: Issue 69 records six native targets and exact-source/digest/signature checks. This pin preserves verifier hashes and platform mappings; no project records or CI policies are rewritten., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/69'}
-    - {kind: test_observation, summary: All thirteen offline Windows bootstrap cases and the live 0.4.0 installation/reuse passed in temporary storage; remaining exact-source CI is required., location: tests/runtime_smoke.ps1}
+    - kind: release_observation
+      summary: >-
+        Issue 69 records six native targets and exact-source/digest/signature checks.
+        This pin preserves verifier hashes and platform mappings; no project records or CI
+        policies are rewritten.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/69
+    - kind: test_observation
+      summary: >-
+        All thirteen offline Windows bootstrap cases and the live 0.4.0
+        installation/reuse passed in temporary storage; remaining exact-source CI is required.
+      location: tests/runtime_smoke.ps1
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: No help, diagnostic presentation or consent interaction changes; the previously approved textual interface remains applicable to the qualified runtime.
+    summary: >-
+      No help, diagnostic presentation or consent interaction changes; the previously
+      approved textual interface remains applicable to the qualified runtime.
     evidence:
-    - {kind: human_review, summary: Existing maintainer approval applies to unchanged output; no new human review or universal accessibility certification is inferred., location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190'}
+    - kind: human_review
+      summary: >-
+        Existing maintainer approval applies to unchanged output; no new human review
+        or universal accessibility certification is inferred.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/62#note_3959229190"
   - rule_id: OPDEV-OPS-001
     outcome: passed
-    summary: The selected runtime reports CLI 0.4.0 and catalog 2; bootstrap verification failures and bounded cleanup diagnostics remain intact.
+    summary: >-
+      The selected runtime reports CLI 0.4.0 and catalog 2; bootstrap verification
+      failures and bounded cleanup diagnostics remain intact.
     evidence:
-    - {kind: test_observation, summary: Live temporary installation ran version successfully and reused its path; offline corruption/version/cleanup failure cases passed., location: tests/runtime_test.ps1}
+    - kind: test_observation
+      summary: >-
+        Live temporary installation ran version successfully and reused its path;
+        offline corruption/version/cleanup failure cases passed.
+      location: tests/runtime_test.ps1
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: Reviewed actual pin lines, unchanged trust anchors, metadata and discriminating test assertions against the installation contract, not author claims alone.
+    summary: >-
+      Reviewed actual pin lines, unchanged trust anchors, metadata and discriminating
+      test assertions against the installation contract, not author claims alone.
     evidence:
-    - {kind: review, summary: Exact-tag signature verification and live bootstrap provide independent observations; new identity assertion rejects a stale signing tag. Canonical execution and CI remain separate requirements., location: crates/opdev-cli/tests/installer.rs}
+    - kind: review
+      summary: >-
+        Exact-tag signature verification and live bootstrap provide independent
+        observations; new identity assertion rejects a stale signing tag. Canonical execution
+        and CI remain separate requirements.
+      location: crates/opdev-cli/tests/installer.rs
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: The pin deliberately follows completed immutable release qualification; the identity regression protects against selecting a new version with an old signing tag.
+    summary: >-
+      The pin deliberately follows completed immutable release qualification; the
+      identity regression protects against selecting a new version with an old signing tag.
     evidence:
-    - {kind: review, summary: No unpublished asset dependency or silent cache replacement is introduced; prior negative effectiveness findings preserve single-agent and experimental defaults., location: release/CHANGELOG.md}
+    - kind: review
+      summary: >-
+        No unpublished asset dependency or silent cache replacement is introduced;
+        prior negative effectiveness findings preserve single-agent and experimental defaults.
+      location: release/CHANGELOG.md
   - rule_id: OPDEV-EVAL-001
     outcome: passed
-    summary: Installation correctness and prior release qualification are not claims of improved effectiveness or new live Claude coverage.
+    summary: >-
+      Installation correctness and prior release qualification are not claims of
+      improved effectiveness or new live Claude coverage.
     evidence:
-    - {kind: review, summary: The narrow pin update does not alter or reclassify the earlier negative performance findings., location: release/CHANGELOG.md}
+    - kind: review
+      summary: >-
+        The narrow pin update does not alter or reclassify the earlier negative
+        performance findings.
+      location: release/CHANGELOG.md
   acceptance:
     scope: behavioral
-    rationale: Plugin-only pin update to qualified CLI 0.4.0 and coherent plugin 0.4.1 identity. No runtime algorithm, project migration, installed cache, verifier digest or release asset changes.
+    rationale: >-
+      Plugin-only pin update to qualified CLI 0.4.0 and coherent plugin 0.4.1
+      identity. No runtime algorithm, project migration, installed cache, verifier digest or
+      release asset changes.
     conditions:
     - id: METADATA
-      statement: Both plugin hosts and marketplace agree on 0.4.1; the range accepts source CLI and managed CLI 0.4.0.
+      statement: >-
+        Both plugin hosts and marketplace agree on 0.4.1; the range accepts source CLI
+        and managed CLI 0.4.0.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      source: {path: spec/compatibility.md, sha256: 2efcfb94ac9d2b3307f42a0e2c08a985233e7989e6290bb48bd234d925bf7a45, excerpt: 'the current CLI and managed pin must satisfy its CLI range.'}
+      source:
+        path: spec/compatibility.md
+        sha256: 2efcfb94ac9d2b3307f42a0e2c08a985233e7989e6290bb48bd234d925bf7a45
+        excerpt: the current CLI and managed pin must satisfy its CLI range.
     - id: PIN
-      statement: Pin version, tag and exact GitLab signing identity agree and retain all six supported targets.
+      statement: >-
+        Pin version, tag and exact GitLab signing identity agree and retain all six
+        supported targets.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      source: {path: spec/installation.md, sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c, excerpt: 'pins the CLI version/tag, exact GitLab signing identity, platform mapping, cosign'}
+      source:
+        path: spec/installation.md
+        sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c
+        excerpt: >-
+          pins the CLI version/tag, exact GitLab signing identity, platform mapping,
+          cosign
     - id: INSTALL
-      statement: Managed bootstrap installs and reuses the qualified release in temporary storage without replacing existing runtimes or changing project state.
+      statement: >-
+        Managed bootstrap installs and reuses the qualified release in temporary
+        storage without replacing existing runtimes or changing project state.
       authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      source: {path: spec/installation.md, sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c, excerpt: 'Runtime directories are immutable per release tag and target'}
+      source:
+        path: spec/installation.md
+        sha256: 5f54a0a5fe4ec8bd6f898d94e5b517df2c7af201469f4335e1862c8c5527bd0c
+        excerpt: Runtime directories are immutable per release tag and target
     verifications:
     - condition: METADATA
       method: automated
-      target: {path: crates/opdev-cli/tests/release_metadata.rs, sha256: e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933, excerpt: 'fn release_versions_and_runtime_range_are_consistent()'}
-      assertion: Parsed host manifests, marketplace and compatibility contract agree; source and pin versions satisfy the range.
+      target:
+        path: crates/opdev-cli/tests/release_metadata.rs
+        sha256: e704cdd27978300757207e267a575e1a85cf75c17c05ad772f4aa41572bd2933
+        excerpt: fn release_versions_and_runtime_range_are_consistent()
+      assertion: >-
+        Parsed host manifests, marketplace and compatibility contract agree; source and
+        pin versions satisfy the range.
       discriminating_case: A mismatched host version or excluded pin fails an equality or semver assertion.
       suite: check
       outcome: passed
     - condition: PIN
       method: automated
-      target: {path: crates/opdev-cli/tests/installer.rs, sha256: 07bf454065572a96d57be2d798c43095eecf8bb8af77a64d85f7b1bbb32b79d6, excerpt: 'fn runtime_pin_is_compatible_and_covers_supported_platforms()'}
-      assertion: Parsed version determines expected tag and exact GitLab certificate identity; unique six-target inventory and verifier digest shape are checked.
-      discriminating_case: A leftover 0.3.1 signing identity, missing target or incompatible pin fails explicit assertions.
+      target:
+        path: crates/opdev-cli/tests/installer.rs
+        sha256: 07bf454065572a96d57be2d798c43095eecf8bb8af77a64d85f7b1bbb32b79d6
+        excerpt: fn runtime_pin_is_compatible_and_covers_supported_platforms()
+      assertion: >-
+        Parsed version determines expected tag and exact GitLab certificate identity;
+        unique six-target inventory and verifier digest shape are checked.
+      discriminating_case: >-
+        A leftover 0.3.1 signing identity, missing target or incompatible pin fails
+        explicit assertions.
       suite: check
       outcome: passed
     - condition: INSTALL
       method: review
-      target: {path: tests/runtime_smoke.ps1, sha256: b84dc332619ba1c3cd6451b62b10cbbe5345f7b01cfb5fbe3a40c53fe8d6898e, excerpt: 'Repeated install changed runtime'}
-      assertion: Observed temporary-root live installation verify 0.4.0, run catalog 2 and reuse the exact path; thirteen offline cases passed. Required Linux and ARM64 live CI remain separately pending.
-      discriminating_case: Bad signature, wrong version or changed reuse path must fail; prior results do not qualify unrun native checks.
-      automation_limitation: Native live installation is a separate required CI job, not the canonical workspace suite. This review records observed Windows execution only and cannot qualify unrun platforms.
+      target:
+        path: tests/runtime_smoke.ps1
+        sha256: b84dc332619ba1c3cd6451b62b10cbbe5345f7b01cfb5fbe3a40c53fe8d6898e
+        excerpt: Repeated install changed runtime
+      assertion: >-
+        Observed temporary-root live installation verify 0.4.0, run catalog 2 and reuse
+        the exact path; thirteen offline cases passed. Required Linux and ARM64 live CI
+        remain separately pending.
+      discriminating_case: >-
+        Bad signature, wrong version or changed reuse path must fail; prior results do
+        not qualify unrun native checks.
+      automation_limitation: >-
+        Native live installation is a separate required CI job, not the canonical
+        workspace suite. This review records observed Windows execution only and cannot
+        qualify unrun platforms.
       outcome: passed
     review:
       outcome: passed
       reviewer: Codex agent
       reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/70
-      rationale: Rechecked the formatting-only diff after the prior canonical run passed lint and tests but failed format. Prior entry and failed attempt remain retained; fresh canonical execution is required. All pin, artifact, policy, interface and live-install observations remain unchanged. Reviewed all three conditions against the installation contract, actual equality/membership/identity assertions and observed Windows bootstrap results. Preserved earlier evidence and explicit limits; final canonical and native CI execution remain required.
+      rationale: >-
+        Rechecked the formatting-only diff after the prior canonical run passed lint
+        and tests but failed format. Prior entry and failed attempt remain retained; fresh
+        canonical execution is required. All pin, artifact, policy, interface and
+        live-install observations remain unchanged. Reviewed all three conditions against the
+        installation contract, actual equality/membership/identity assertions and observed
+        Windows bootstrap results. Preserved earlier evidence and explicit limits; final
+        canonical and native CI execution remain required.
       subject_sha256: 362667c76af7d4bbc93a1f034d6a275aa33c3ce85f19d9fb221850cc9e9b0310
+- fingerprint: f349ffe87aa2156a80e6134b8a015718b3f19bf84bc7ff60d17756b6497e309d
+  work: conversation:release-boundary-fix
+  assertions: []
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Separate milestone verification from release readiness while retaining
+      post-merge failures, explicit release consent and ordinary affected testing. No release
+      or installed consumer update is authorized.
+    conditions:
+    - id: EXIT
+      statement: >-
+        Post-merge verification follows integration even when delivery-only evidence is
+        missing; explicit delivery mode still requires delivery.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/result-semantics.md
+        sha256: 908c73c3c0c42efdfdf5eede945d178c21b52dd454abe9ddd1394ff294111588
+        excerpt: not delivery. Selected blocking post-merge checks contribute to both integration
+    - id: CHECKS
+      statement: >-
+        Failed, errored or unverified selected post-merge suites/extensions block
+        integration and delivery; evaluation-only does not omit checks.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/result-semantics.md
+        sha256: 908c73c3c0c42efdfdf5eede945d178c21b52dd454abe9ddd1394ff294111588
+        excerpt: are reported as `unverified`, not omitted, even without a reuse policy.
+    - id: REUSE
+      statement: >-
+        Rejected post-merge reuse remains unverified and blocking without running
+        commands.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/execution-reuse.md
+        sha256: 0f7f064afc7cd2ae6fd9c6452363cdc0bd98dd6e7196ebf9491669df5b02dab8
+        excerpt: results after rejected reuse; delivery-only gaps remain separately visible.
+    - id: CAPABILITY
+      statement: >-
+        Capability discovery distinguishes corrected source builds from older CLIs
+        without changing pins or rewriting old reports.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/compatibility.md
+        sha256: f74b5d70247d13931778939395f813e2e328c7cb7b4547b663e47ea3c7ee411a
+        excerpt: >-
+          it through `doctor`; version labels alone do not identify unreleased source
+          builds.
+    - id: CONSENT
+      statement: >-
+        Explicit developer release permission is required for release-specific work;
+        implementation/preview approval and consumer need are insufficient. Existing scoped
+        permission and ordinary relevant tests remain usable.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/workflow-usability.md
+        sha256: 0dfc90feb26a92580595628425d6b342e3387560a5c48ecd3d0319ee3875d141
+        excerpt: release authorization. Consumer need may justify a recommendation but MUST NOT
+    - id: DISTRIBUTION
+      statement: >-
+        Both source plugin entry routes and generated project instructions carry the
+        boundary without replacing project-owned content.
+      authority: conversation:release-boundary-fix
+      source:
+        path: plugins/opdev/skills/opdev/SKILL.md
+        sha256: 8d849fe9bca947aa9c628cdfe90f63500cc7827f010647125396f3899ab7c919
+        excerpt: "authorization under the [release boundary](references/workflow.md#release-authorization)."
+    verifications:
+    - condition: EXIT
+      method: automated
+      target:
+        path: crates/opdev-cli/src/main.rs
+        sha256: 62b43323235934377a755f2aeac46a2f861d92c1567d21195598a2973de917f0
+        excerpt: fn post_merge_exit_does_not_require_release_readiness()
+      assertion: >-
+        Real parsed CLI flags select success for local/integration/post-merge and
+        failure for delivery on the same controlled report with integration passed and
+        delivery unverified.
+      discriminating_case: >-
+        Restoring the old post_merge-to-delivery selection fails the post-merge exit
+        assertion. This is a gate-selection fixture, not a claim that synthetic core
+        evidence qualifies a real project.
+      suite: check
+      outcome: passed
+    - condition: CHECKS
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/check_plan.rs
+        sha256: f56bcd68b18735417e914add2b8d6407e374b5d75e9cfe304811f695a719c182
+        excerpt: fn post_merge_process_failures_and_skipped_execution_remain_blocking()
+      assertion: >-
+        Real child commands produce suite failure and extension error; no-exec produces
+        exactly two unverified checks and no marker. Isolated aggregation blocks both
+        gates. Engine outcome-matrix regression separately covers all six outcomes and
+        advisory checks.
+      discriminating_case: >-
+        Delivery-only routing or omitted no-exec checks fails gate/count assertions;
+        ordinary pass remains passing after deliberate isolation from missing fixture core
+        evidence.
+      suite: check
+      outcome: passed
+    - condition: REUSE
+      method: automated
+      target:
+        path: crates/opdev-cli/src/execution_reuse.rs
+        sha256: f36d0f2ef5c65333f9586b8f5c18d5a5d9bb04139484524574fee6093a1c2977
+        excerpt: fn unavailable_post_merge_execution_blocks_integration_and_delivery()
+      assertion: >-
+        Unavailable evidence returns unverified selected check with both gate
+        memberships, not a spawn error from the deliberately nonexistent program; both gates
+        remain blocked.
+      discriminating_case: >-
+        Old delivery-only unavailable routing reproduced an assertion failure before
+        implementation. This fixture does not simulate provider authentication.
+      suite: check
+      outcome: passed
+    - condition: CAPABILITY
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/doctor.rs
+        sha256: 6448649e37e87dd5dbb378eb413ad97dbf68e33401ba805c295d5d6d975f68ad
+        excerpt: .contains(&Value::from("check.post-merge-integration.v1"))
+      assertion: >-
+        Real read-only doctor JSON advertises the corrected capability, retains valid
+        schema and leaves the fixture unchanged.
+      discriminating_case: >-
+        Omitting capability from the runtime inventory fails membership; source and
+        installed CLI remain distinguishable despite shared version label.
+      suite: check
+      outcome: passed
+    - condition: CONSENT
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: b8ba5cf88c72d2dc32fb90b4ffd20090fe356c0b15a803eec2a846fe76702b0f
+        excerpt: "| U9 |"
+      assertion: >-
+        Reviewed U4-U7 and U9-U12 against actual planning/workflow/skill/bootstrap
+        wording. Consumer need now recommends rather than authorizes release; explicit
+        permission is reusable; normal affected package/recovery tests remain required; old CLI
+        mismatch does not authorize ignoring exits or releasing.
+      discriminating_case: >-
+        Original consumer-need-or-explicit-request wording incorrectly allowed U9
+        release; the new boundary rejects it while preserving U7/U11 explicitly authorized
+        publication and U5 affected testing.
+      automation_limitation: >-
+        Semantic instruction review is not live agent execution. No new Codex or Claude
+        behavioral trial was run and future model compliance is not guaranteed by
+        resource checks.
+      outcome: passed
+    - condition: DISTRIBUTION
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: f00d90bd2df43e75c4989629c56efbee975d12227840c30e275fbd11f14cb09f
+        excerpt: fn release_authorization_route_survives_isolated_plugin_copy()
+      assertion: >-
+        Copied entrypoint and planning links resolve to the copied workflow anchor with
+        identical content. Existing fresh-and-upgraded guidance test compares generated
+        managed instructions with AGENTS.md and preserves surrounding user content.
+      discriminating_case: >-
+        Broken relative link, missing anchor or changed generated guidance diverging
+        from AGENTS.md fails assertions. These are packaging invariants, not model behavior
+        tests.
+      suite: check
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: conversation:release-boundary-fix
+      rationale: >-
+        Reviewed all six accepted conditions against actual assertions, changed gate
+        selection and shared/generated guidance. Contrasting consent scenarios preserve
+        explicit releases and affected testing. Failed baseline attempts remain observed;
+        this review does not claim remote CI, integrated trunk or live-agent behavior.
+      subject_sha256: 98b05f3c6213c96bf53053282387cb14dc9b0dfa335ec89e88432ed8a43dabbb
+- fingerprint: 01030d1c83f7fc46535853af2aec65d68f4a548fe9397c8a8cab0eff183cfe7c
+  work: conversation:release-boundary-fix
+  assertions: []
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Separate milestone verification from release readiness while retaining
+      post-merge failures, explicit release consent and ordinary affected testing. No release
+      or installed consumer update is authorized.
+    conditions:
+    - id: EXIT
+      statement: >-
+        Post-merge verification follows integration even when delivery-only evidence is
+        missing; explicit delivery mode still requires delivery.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/result-semantics.md
+        sha256: 908c73c3c0c42efdfdf5eede945d178c21b52dd454abe9ddd1394ff294111588
+        excerpt: not delivery. Selected blocking post-merge checks contribute to both integration
+    - id: CHECKS
+      statement: >-
+        Failed, errored or unverified selected post-merge suites/extensions block
+        integration and delivery; evaluation-only does not omit checks.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/result-semantics.md
+        sha256: 908c73c3c0c42efdfdf5eede945d178c21b52dd454abe9ddd1394ff294111588
+        excerpt: are reported as `unverified`, not omitted, even without a reuse policy.
+    - id: REUSE
+      statement: >-
+        Rejected post-merge reuse remains unverified and blocking without running
+        commands.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/execution-reuse.md
+        sha256: 0f7f064afc7cd2ae6fd9c6452363cdc0bd98dd6e7196ebf9491669df5b02dab8
+        excerpt: results after rejected reuse; delivery-only gaps remain separately visible.
+    - id: CAPABILITY
+      statement: >-
+        Capability discovery distinguishes corrected source builds from older CLIs
+        without changing pins or rewriting old reports.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/compatibility.md
+        sha256: f74b5d70247d13931778939395f813e2e328c7cb7b4547b663e47ea3c7ee411a
+        excerpt: >-
+          it through `doctor`; version labels alone do not identify unreleased source
+          builds.
+    - id: CONSENT
+      statement: >-
+        Explicit developer release permission is required for release-specific work;
+        implementation/preview approval and consumer need are insufficient. Existing scoped
+        permission and ordinary relevant tests remain usable.
+      authority: conversation:release-boundary-fix
+      source:
+        path: spec/workflow-usability.md
+        sha256: 0dfc90feb26a92580595628425d6b342e3387560a5c48ecd3d0319ee3875d141
+        excerpt: release authorization. Consumer need may justify a recommendation but MUST NOT
+    - id: DISTRIBUTION
+      statement: >-
+        Both source plugin entry routes and generated project instructions carry the
+        boundary without replacing project-owned content.
+      authority: conversation:release-boundary-fix
+      source:
+        path: plugins/opdev/skills/opdev/SKILL.md
+        sha256: 8d849fe9bca947aa9c628cdfe90f63500cc7827f010647125396f3899ab7c919
+        excerpt: "authorization under the [release boundary](references/workflow.md#release-authorization)."
+    verifications:
+    - condition: EXIT
+      method: automated
+      target:
+        path: crates/opdev-cli/src/main.rs
+        sha256: c2a0c7c20e7b0180cfbe04c43f128218f43e59c4a6cbc1e48cf24f5ba90b6860
+        excerpt: fn post_merge_exit_does_not_require_release_readiness()
+      assertion: >-
+        Real parsed CLI flags select success for local/integration/post-merge and
+        failure for delivery on the same controlled report with integration passed and
+        delivery unverified.
+      discriminating_case: >-
+        Restoring the old post_merge-to-delivery selection fails the post-merge exit
+        assertion. This is a gate-selection fixture, not a claim that synthetic core
+        evidence qualifies a real project.
+      suite: check
+      outcome: passed
+    - condition: CHECKS
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/check_plan.rs
+        sha256: e42c529349ca2732d188e75a1dcee1a325c8650bda99f5e6fce724dbb161b355
+        excerpt: fn post_merge_process_failures_and_skipped_execution_remain_blocking()
+      assertion: >-
+        Real child commands produce suite failure and extension error; no-exec produces
+        exactly two unverified checks and no marker. Isolated aggregation blocks both
+        gates. Engine outcome-matrix regression separately covers all six outcomes and
+        advisory checks.
+      discriminating_case: >-
+        Delivery-only routing or omitted no-exec checks fails gate/count assertions;
+        ordinary pass remains passing after deliberate isolation from missing fixture core
+        evidence.
+      suite: check
+      outcome: passed
+    - condition: REUSE
+      method: automated
+      target:
+        path: crates/opdev-cli/src/execution_reuse.rs
+        sha256: 754856882d749c1f35cfa5c4bcfdb471c90100dc5ef966a85ab85fa70b9c6219
+        excerpt: fn unavailable_post_merge_execution_blocks_integration_and_delivery()
+      assertion: >-
+        Unavailable evidence returns unverified selected check with both gate
+        memberships, not a spawn error from the deliberately nonexistent program; both gates
+        remain blocked.
+      discriminating_case: >-
+        Old delivery-only unavailable routing reproduced an assertion failure before
+        implementation. This fixture does not simulate provider authentication.
+      suite: check
+      outcome: passed
+    - condition: CAPABILITY
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/doctor.rs
+        sha256: 6448649e37e87dd5dbb378eb413ad97dbf68e33401ba805c295d5d6d975f68ad
+        excerpt: .contains(&Value::from("check.post-merge-integration.v1"))
+      assertion: >-
+        Real read-only doctor JSON advertises the corrected capability, retains valid
+        schema and leaves the fixture unchanged.
+      discriminating_case: >-
+        Omitting capability from the runtime inventory fails membership; source and
+        installed CLI remain distinguishable despite shared version label.
+      suite: check
+      outcome: passed
+    - condition: CONSENT
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: b8ba5cf88c72d2dc32fb90b4ffd20090fe356c0b15a803eec2a846fe76702b0f
+        excerpt: "| U9 |"
+      assertion: >-
+        Reviewed U4-U7 and U9-U12 against actual planning/workflow/skill/bootstrap
+        wording. Consumer need now recommends rather than authorizes release; explicit
+        permission is reusable; normal affected package/recovery tests remain required; old CLI
+        mismatch does not authorize ignoring exits or releasing.
+      discriminating_case: >-
+        Original consumer-need-or-explicit-request wording incorrectly allowed U9
+        release; the new boundary rejects it while preserving U7/U11 explicitly authorized
+        publication and U5 affected testing.
+      automation_limitation: >-
+        Semantic instruction review is not live agent execution. No new Codex or Claude
+        behavioral trial was run and future model compliance is not guaranteed by
+        resource checks.
+      outcome: passed
+    - condition: DISTRIBUTION
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: f00d90bd2df43e75c4989629c56efbee975d12227840c30e275fbd11f14cb09f
+        excerpt: fn release_authorization_route_survives_isolated_plugin_copy()
+      assertion: >-
+        Copied entrypoint and planning links resolve to the copied workflow anchor with
+        identical content. Existing fresh-and-upgraded guidance test compares generated
+        managed instructions with AGENTS.md and preserves surrounding user content.
+      discriminating_case: >-
+        Broken relative link, missing anchor or changed generated guidance diverging
+        from AGENTS.md fails assertions. These are packaging invariants, not model behavior
+        tests.
+      suite: check
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: conversation:release-boundary-fix
+      rationale: >-
+        Re-reviewed final source after correcting test-only lint errors and factoring
+        shared plan assertions. All six conditions remain covered; first failed canonical
+        attempt and earlier acceptance are retained. Consent scenarios preserve
+        authorized release and relevant tests; no live-agent trial or remote CI is claimed. GitLab
+        account access remains blocked.
+      subject_sha256: bff9f39e563146ed93dc5ffcb1aaa0aa745e78bebdcc85f177b61b62c2497e72
+- fingerprint: 4ba9c9113a014bdbacf16a301711f05080209607d2020b712a29180299374c11
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issue 72 records the accepted outcome, scope, exclusions, conditions, evidence, authority and risks for the developer-requested correction; no release or consumer update is authorized.
+    evidence:
+    - {kind: work, summary: Restored tracker now contains the previously approved conversation plan and observed local results, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72'}
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: The result-semantics authority records the coupling problem, reuse of the integration aggregate, rejected fifth gate and blanket waiver alternatives, tests and a risk-based reversal trigger.
+    evidence:
+    - {kind: review, summary: 'Compared durable rationale with actual stage routing, exit selection, missing-execution handling and explicit release boundary', location: spec/result-semantics.md}
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration and release-source branch; no branch-role or release path change is introduced.
+    evidence:
+    - {kind: review, summary: Inspected unchanged project contract and default-branch/tag pipeline rules against the bounded feature branch, location: .opdev/project.yaml}
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The focused branch starts at current main 82962f954d5b8faa5c5864369edae9b6bd66a489 and is intended to return through a qualified MR with source deletion. No trunk drift was found at continuation.
+    evidence:
+    - {kind: review, summary: 'Git fetch and branch history confirmed the current base; this records branch structure, not completed integration', location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205'}
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: The latest main pipeline 2918771978 at the current branch base was observed successful before continuation; no known red trunk is being deferred.
+    evidence:
+    - {kind: ci_observation, summary: Read-only GitLab pipeline observation after access was restored returned success for 82962f954d5b8faa5c5864369edae9b6bd66a489, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2918771978'}
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Selected post-merge integration exit is the deliberate behavioral correction. Existing schemas, catalog, delivery exit, unrelated stages, pins and plugin version remain unchanged; capability discovery identifies corrected source builds.
+    evidence:
+    - {kind: review, summary: 'Reviewed actual enum-stage mappings, doctor capability assertion, CLI flag matrix and older-runtime guidance; no historical report is reinterpreted', location: spec/compatibility.md}
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer approved the presented post-merge help and release-consent wording; existing automated noninteractive text and consent checks cover the unchanged interface target.
+    evidence:
+    - kind: human_review
+      summary: 'Actual response: Yes, approved. Review covers the displayed help and explicit release-authorization boundary, not publication or universal accessibility certification.'
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971996677
+    - kind: test_review
+      summary: Existing process tests exercise help and errors with closed stdin and redirected plain text; full canonical execution remains required for this evidence state.
+      location: crates/opdev-cli/tests/consumer_interface.rs
+  - rule_id: OPDEV-OPS-001
+    outcome: passed
+    summary: Existing report schemas and diagnostic paths remain intact; post-merge no-exec and rejected reuse retain unverified named checks while full gate reports remain visible.
+    evidence:
+    - {kind: test_review, summary: 'Actual process-level regressions assert named outcomes, check counts, no-execution markers and blocking behavior; capability is exposed through read-only doctor', location: crates/opdev-cli/tests/check_plan.rs}
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: The actual gate-selection and routing assertions were reviewed against accepted requirements, with observed red regressions before the fix and a passing final local canonical suite, not only an author correctness claim.
+    evidence:
+    - {kind: review, summary: 'Reviewed parsed flag exits, all six outcomes, advisory behavior, process failures, unavailable reuse and copied guidance; final source CI remains separately required', location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205'}
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Generalized the observed integration/release coupling into stage-specific regression coverage and a maintained explicit release-consent boundary.
+    evidence:
+    - {kind: regression, summary: Prior implementation failed expected integration membership assertions for fresh and unavailable-reuse post-merge checks; corrected checks passed while delivery-only stages stay unchanged, location: crates/opdev-engine/src/evaluator.rs}
+  - rule_id: OPDEV-EVAL-001
+    outcome: passed
+    summary: Correctness and instruction review are separated from agent effectiveness; no new host-compliance, speed or token-efficiency improvement is claimed.
+    evidence:
+    - {kind: limitation, summary: 'U9-U12 are maintained semantic scenarios, not completed live-agent trials; existing optional delegation and experiment defaults remain unchanged', location: tests/planning-review.md}
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Separate milestone verification from release readiness while retaining
+      post-merge failures, explicit release consent and ordinary affected testing. No release
+      or installed consumer update is authorized.
+    conditions:
+    - id: EXIT
+      statement: >-
+        Post-merge verification follows integration even when delivery-only evidence is
+        missing; explicit delivery mode still requires delivery.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/result-semantics.md
+        sha256: aab050b9e15d2d801268ccd66825bdda822fc1cdd9d5e67b4f74554727143d36
+        excerpt: not delivery. Selected blocking post-merge checks contribute to both integration
+    - id: CHECKS
+      statement: >-
+        Failed, errored or unverified selected post-merge suites/extensions block
+        integration and delivery; evaluation-only does not omit checks.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/result-semantics.md
+        sha256: aab050b9e15d2d801268ccd66825bdda822fc1cdd9d5e67b4f74554727143d36
+        excerpt: are reported as `unverified`, not omitted, even without a reuse policy.
+    - id: REUSE
+      statement: >-
+        Rejected post-merge reuse remains unverified and blocking without running
+        commands.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/execution-reuse.md
+        sha256: 0f7f064afc7cd2ae6fd9c6452363cdc0bd98dd6e7196ebf9491669df5b02dab8
+        excerpt: results after rejected reuse; delivery-only gaps remain separately visible.
+    - id: CAPABILITY
+      statement: >-
+        Capability discovery distinguishes corrected source builds from older CLIs
+        without changing pins or rewriting old reports.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/compatibility.md
+        sha256: f74b5d70247d13931778939395f813e2e328c7cb7b4547b663e47ea3c7ee411a
+        excerpt: >-
+          it through `doctor`; version labels alone do not identify unreleased source
+          builds.
+    - id: CONSENT
+      statement: >-
+        Explicit developer release permission is required for release-specific work;
+        implementation/preview approval and consumer need are insufficient. Existing scoped
+        permission and ordinary relevant tests remain usable.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: spec/workflow-usability.md
+        sha256: 0dfc90feb26a92580595628425d6b342e3387560a5c48ecd3d0319ee3875d141
+        excerpt: release authorization. Consumer need may justify a recommendation but MUST NOT
+    - id: DISTRIBUTION
+      statement: >-
+        Both source plugin entry routes and generated project instructions carry the
+        boundary without replacing project-owned content.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72
+      source:
+        path: plugins/opdev/skills/opdev/SKILL.md
+        sha256: 8d849fe9bca947aa9c628cdfe90f63500cc7827f010647125396f3899ab7c919
+        excerpt: "authorization under the [release boundary](references/workflow.md#release-authorization)."
+    verifications:
+    - condition: EXIT
+      method: automated
+      target:
+        path: crates/opdev-cli/src/main.rs
+        sha256: c2a0c7c20e7b0180cfbe04c43f128218f43e59c4a6cbc1e48cf24f5ba90b6860
+        excerpt: fn post_merge_exit_does_not_require_release_readiness()
+      assertion: >-
+        Real parsed CLI flags select success for local/integration/post-merge and
+        failure for delivery on the same controlled report with integration passed and
+        delivery unverified.
+      discriminating_case: >-
+        Restoring the old post_merge-to-delivery selection fails the post-merge exit
+        assertion. This is a gate-selection fixture, not a claim that synthetic core
+        evidence qualifies a real project.
+      suite: check
+      outcome: passed
+    - condition: CHECKS
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/check_plan.rs
+        sha256: e42c529349ca2732d188e75a1dcee1a325c8650bda99f5e6fce724dbb161b355
+        excerpt: fn post_merge_process_failures_and_skipped_execution_remain_blocking()
+      assertion: >-
+        Real child commands produce suite failure and extension error; no-exec produces
+        exactly two unverified checks and no marker. Isolated aggregation blocks both
+        gates. Engine outcome-matrix regression separately covers all six outcomes and
+        advisory checks.
+      discriminating_case: >-
+        Delivery-only routing or omitted no-exec checks fails gate/count assertions;
+        ordinary pass remains passing after deliberate isolation from missing fixture core
+        evidence.
+      suite: check
+      outcome: passed
+    - condition: REUSE
+      method: automated
+      target:
+        path: crates/opdev-cli/src/execution_reuse.rs
+        sha256: 754856882d749c1f35cfa5c4bcfdb471c90100dc5ef966a85ab85fa70b9c6219
+        excerpt: fn unavailable_post_merge_execution_blocks_integration_and_delivery()
+      assertion: >-
+        Unavailable evidence returns unverified selected check with both gate
+        memberships, not a spawn error from the deliberately nonexistent program; both gates
+        remain blocked.
+      discriminating_case: >-
+        Old delivery-only unavailable routing reproduced an assertion failure before
+        implementation. This fixture does not simulate provider authentication.
+      suite: check
+      outcome: passed
+    - condition: CAPABILITY
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/doctor.rs
+        sha256: 6448649e37e87dd5dbb378eb413ad97dbf68e33401ba805c295d5d6d975f68ad
+        excerpt: .contains(&Value::from("check.post-merge-integration.v1"))
+      assertion: >-
+        Real read-only doctor JSON advertises the corrected capability, retains valid
+        schema and leaves the fixture unchanged.
+      discriminating_case: >-
+        Omitting capability from the runtime inventory fails membership; source and
+        installed CLI remain distinguishable despite shared version label.
+      suite: check
+      outcome: passed
+    - condition: CONSENT
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: b8ba5cf88c72d2dc32fb90b4ffd20090fe356c0b15a803eec2a846fe76702b0f
+        excerpt: "| U9 |"
+      assertion: >-
+        Reviewed U4-U7 and U9-U12 against actual planning/workflow/skill/bootstrap
+        wording. Consumer need now recommends rather than authorizes release; explicit
+        permission is reusable; normal affected package/recovery tests remain required; old CLI
+        mismatch does not authorize ignoring exits or releasing.
+      discriminating_case: >-
+        Original consumer-need-or-explicit-request wording incorrectly allowed U9
+        release; the new boundary rejects it while preserving U7/U11 explicitly authorized
+        publication and U5 affected testing.
+      automation_limitation: >-
+        Semantic instruction review is not live agent execution. No new Codex or Claude
+        behavioral trial was run and future model compliance is not guaranteed by
+        resource checks.
+      outcome: passed
+    - condition: DISTRIBUTION
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: f00d90bd2df43e75c4989629c56efbee975d12227840c30e275fbd11f14cb09f
+        excerpt: fn release_authorization_route_survives_isolated_plugin_copy()
+      assertion: >-
+        Copied entrypoint and planning links resolve to the copied workflow anchor with
+        identical content. Existing fresh-and-upgraded guidance test compares generated
+        managed instructions with AGENTS.md and preserves surrounding user content.
+      discriminating_case: >-
+        Broken relative link, missing anchor or changed generated guidance diverging
+        from AGENTS.md fails assertions. These are packaging invariants, not model behavior
+        tests.
+      suite: check
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971947205"
+      rationale: >-
+        Rechecked all six conditions against the unchanged behavioral implementation
+        and actual regression assertions. Reviewed the added durable rationale and current
+        restored work authority. Earlier attempts are retained. Semantic review and
+        distribution tests do not establish live-agent compliance; human wording review and CI
+        qualification remain separate.
+      subject_sha256: 5b4839963560af18f5d24a1aed60dec67a415c221441303497561e76bca0b552

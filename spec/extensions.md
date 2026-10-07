@@ -50,7 +50,10 @@ An adapter is appropriate only when a selected requirement needs richer interpre
 
 Use the existing testing authority and canonical command configuration. The current
 CLI invokes `verify` via `opdev check`, `pre_merge` via `opdev check --ci`, and
-`deliver` via `opdev check --ci --delivery`. Other enum stages are not independently
+`post_merge` via `opdev check --ci --post-merge`, and `deliver` via
+`opdev check --ci --delivery`. On CLIs advertising
+`check.post-merge-integration.v1`, blocking post-merge extensions affect both
+integration and delivery. Other enum stages are not independently
 selectable through `check`; this feature adds no scheduler or stage selector.
 Re-running `check --ci` on trunk still selects `pre_merge`, not `post_merge`.
 
