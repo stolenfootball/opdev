@@ -1,8 +1,11 @@
 # Claude Code native adapter
 
-After explicit delegation enablement, the packaged `opdev-specialist` is a narrow
+After checking the shared [permission scope](delegation.md#permission-scope) for
+this assignment, the packaged `opdev-specialist` is a narrow
 read-only starting point for investigator, acceptance-reviewer and CI-analyst
-assignments. Pass the shared assignment and the resolved shared delegation
+assignments. Its presence or automatic host selection is not consent. Recheck
+scope before resuming it for a different purpose. Pass the original permission
+reference and limits, shared assignment and the resolved shared delegation
 reference; a worker must not guess missing source/acceptance identities or scope.
 Keep implementation in the controller initially. Its allowed tools are file
 reading/search, not shell execution, edits, user questions or recursive dispatch.

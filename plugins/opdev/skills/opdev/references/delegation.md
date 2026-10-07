@@ -2,8 +2,37 @@
 
 Use one agent by default. Use a controller with specialists when the developer
 has enabled that strategy and independent investigation or fresh review is worth
-the dispatch/context cost. Reuse an approved preference; do not ask per issue.
+the dispatch/context cost. Reuse an approved preference only within its scope.
 This does not expand the requested task, host permissions or model choices.
+
+## Permission scope
+
+Before spawning, resuming or changing a worker's assignment, compare its actual
+purpose, role, resources and actions with the developer's original permission.
+Permission for isolated evaluation agents does not authorize implementation,
+acceptance-review or CI specialists. "Do this again in future" preserves the
+original scope; it does not broaden it. Approving the underlying task or policy
+does not separately authorize delegating it. A read-only task still needs
+delegation permission; a scratch directory or an "evaluation" label does not
+make retained implementation or source review an isolated experiment.
+
+For example, repeated baseline-versus-candidate trials on disposable copies can
+reuse permission for those trials. They do not enable a worker to edit the
+retained project, review its acceptance ledger, change CI settings or add release
+qualification. Conversely, explicit permission for implementation and review
+specialists can cover those roles across issues within its stated limits;
+do not ask again for every worker or routine step.
+
+Keep the original permission reference and its limits in existing conversation,
+work context or an adequate project authority. A persisted summary must preserve
+those limits, not turn a narrow example into blanket multi-agent permission.
+Consult the original when the summary is ambiguous or conflicts with it; honor
+later narrowing or revocation. If scope cannot be established, do not dispatch:
+continue authorized work yourself or ask a focused question before expanding it.
+Do not interrupt ordinary single-agent work just to offer delegation. No new
+approval registry, consent schema or mandatory per-dispatch question is required.
+
+## Assignments and returns
 
 The controller owns the work authority, questions, decisions, shared writes and
 integration. Start with read-only investigator, acceptance-reviewer or CI-analyst

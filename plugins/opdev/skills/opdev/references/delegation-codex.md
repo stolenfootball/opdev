@@ -1,7 +1,10 @@
 # Codex native adapter
 
-After explicit delegation enablement, use the native subagent tools available in
-this session. Pass the shared assignment and minimum original authorities. Choose
+After checking the shared [permission scope](delegation.md#permission-scope) for
+this assignment, use the native subagent tools available in this session. Apply
+the same check before a follow-up repurposes an existing worker; its availability
+does not extend consent. Pass the bounded assignment, original permission
+reference and limits, and minimum original authorities. Choose
 a fresh context for an independent reviewer; don't default to a full-history fork.
 Preserve the requested model **and** effort explicitly when the host supports
 overrides. Confirm host-visible settings; a request is not an observed setting.
