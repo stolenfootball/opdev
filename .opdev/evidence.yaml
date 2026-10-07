@@ -12453,6 +12453,16 @@ changes:
     summary: Selected post-merge integration exit is the deliberate behavioral correction. Existing schemas, catalog, delivery exit, unrelated stages, pins and plugin version remain unchanged; capability discovery identifies corrected source builds.
     evidence:
     - {kind: review, summary: 'Reviewed actual enum-stage mappings, doctor capability assertion, CLI flag matrix and older-runtime guidance; no historical report is reinterpreted', location: spec/compatibility.md}
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer approved the presented post-merge help and release-consent wording; existing automated noninteractive text and consent checks cover the unchanged interface target.
+    evidence:
+    - kind: human_review
+      summary: 'Actual response: Yes, approved. Review covers the displayed help and explicit release-authorization boundary, not publication or universal accessibility certification.'
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/72#note_3971996677
+    - kind: test_review
+      summary: Existing process tests exercise help and errors with closed stdin and redirected plain text; full canonical execution remains required for this evidence state.
+      location: crates/opdev-cli/tests/consumer_interface.rs
   - rule_id: OPDEV-OPS-001
     outcome: passed
     summary: Existing report schemas and diagnostic paths remain intact; post-merge no-exec and rejected reuse retain unverified named checks while full gate reports remain visible.
