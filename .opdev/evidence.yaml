@@ -12735,7 +12735,7 @@ changes:
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Issue 74 records the requested scoped-permission correction, accepted outcome, exclusions, conditions, tests and limits; human wording review remains pending.
+    summary: Issue 74 records the requested scoped-permission correction, accepted outcome, exclusions, conditions, tests and limits; the maintainer has now approved the displayed wording.
     evidence:
     - {kind: work, summary: Implementation request authorizes this correction but not live agents or release work, location: 'https://gitlab.com/stolenfootball-tools/opdev/-/issues/74'}
   - rule_id: OPDEV-DESIGN-001
@@ -12768,6 +12768,16 @@ changes:
     summary: Native diagnostics and report semantics are unchanged. Instructions explain that unresolved delegation scope allows direct authorized work rather than claiming permission or inventing a blocked task.
     evidence:
     - {kind: review, summary: Compared actual entry/adapters and G1-G8 with original permission distinctions; no telemetry or new diagnostic surface, location: tests/planning-review.md}
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer approved the displayed scoped-delegation wording; existing plain-text and consent targets remain unchanged.
+    evidence:
+    - kind: human_review
+      summary: 'Actual response on 2026-10-07: Wording is approved, continue. Covers default single-agent work, original-scope permission reuse and the fallback before expansion; not publication or assistive-technology conformance.'
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/74#note_3972595082
+    - kind: test_review
+      summary: Existing noninteractive help/error/report assertions remain applicable; generated guidance and copied-resource tests preserve the reviewed instructions without overwriting user content.
+      location: crates/opdev-cli/tests/consumer_interface.rs
   - rule_id: OPDEV-AI-001
     outcome: passed
     summary: Reviewed actual guidance and contrasting scope scenarios separately from source-route and generated-text assertions; no reliance on an author correctness label.
