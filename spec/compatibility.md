@@ -18,14 +18,14 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.4.1 pins qualified CLI 0.4.0 and requires
+0.4.2 pins qualified CLI 0.4.0 and requires
 CLI >=0.2.0, <0.5.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
 version; the current CLI and managed pin must satisfy its CLI range.
 
 CLI 0.3.0 introduces the strengthened acceptance/remote qualification and doctor
-exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.4.1's
+exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.4.2's
 managed setup selects the independently published and qualified CLI 0.4.0.
 CLI 0.3.1 repairs diagnostics and supported GitLab local-include inspection and
 adds read-only remote-policy readiness/observation to adoption planning. It does
@@ -41,7 +41,7 @@ the finding remains visible and does not claim MinimumCD compliance. Existing
 project schemas 1 and 2 remain readable. New records and policies have their own
 versioned contracts; unsupported versions must not be rewritten or inferred.
 Fresh canonical execution and single-agent operation remain the defaults.
-Plugin 0.4.1's managed setup supplies CLI 0.4.0; older standalone selections still
+Plugin 0.4.2's managed setup supplies CLI 0.4.0; older standalone selections still
 require capability checks. Updating a pin does not migrate project state or CI.
 
 Pre-1.0 releases may change command-line and plugin behavior between minor
@@ -50,13 +50,15 @@ state.
 
 ## Project-manifest schema
 
-The source capability `check.post-merge-integration.v1` identifies the corrected
+CLI 0.4.1's capability `check.post-merge-integration.v1` identifies the corrected
 post-merge integration exit and dual integration/delivery check routing. Discover
 it through `doctor`; version labels alone do not identify unreleased source builds.
 Earlier CLIs (including released 0.4.0) use the delivery exit for post-merge.
 Report that limitation and offer a compatible upgrade; do not reinterpret old
 reports, ignore failing exits or initiate a release to satisfy that coupling.
-This correction changes no schema, release version or managed runtime pin.
+This correction changes no schema or managed runtime pin. Plugin 0.4.2 retains
+the qualified CLI 0.4.0 pin during publication; selecting a qualified CLI 0.4.1
+supplies the corrected exit behavior without migrating project records.
 
 CLI 0.4.0 advertises `execution.same-run.v1` and supports the separately
 versioned [same-run execution policy and record](execution-reuse.md). This is
