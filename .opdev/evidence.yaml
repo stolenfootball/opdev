@@ -14094,6 +14094,13 @@ changes:
     - kind: work
       summary: Issue 82 retains all outcome owners and dependencies; issue 79 records actual paired advice results, limitations and unexecuted provider scenarios rather than claiming the whole redesign is validated.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/82
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Canonical pre-merge verification actually passed for this material source and acceptance subject; retain that earlier-boundary observation for post-merge evaluation, not as a substitute for its execution.
+    evidence:
+    - kind: execution_review
+      summary: The retained canonical pre-merge report for fingerprint 87fa73b66c1aa78aa8d251979dcfe5d0a4fd31d963c5147e7e5dcf3f99ddd7fc and acceptance subject e7cbdbbfa3ca4beead69b3c2eb61d67c2a7a4554a03c3101577a7818f0c7fa8d records format, lint and check passed and MCD-TEST-001 passed. The remaining gate blocker was human wording review, now separately approved. Only ledger entries changed afterward. Current selected-stage execution remains independently required; this claim neither qualifies future CI nor post-merge execution.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974134572
   - rule_id: OPDEV-A11Y-001
     outcome: passed
     summary: The maintainer reviewed the representative changed diagnostic wording and explicitly approved it; existing keyboard, plain-text and structured-output targets are preserved.
