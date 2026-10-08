@@ -21,6 +21,34 @@ For experimental work, follow [experiments.md](experiments.md); an optional
 `experimental_change` context route can select the existing work, testing,
 design, and delivery authorities without introducing another registry.
 
+## Engineering policy
+
+Project schema 3 explicitly selects `assurance.engineering.version: "1"` and an
+actual developer decision reference. Require CLI capability `engineering.assessment.v1`
+locally and in CI before migration; older contracts keep their original policy.
+Baseline outcomes cannot be ignored; conditional safeguards require evidence of
+actual applicability, not a project label or absent tool. Adequate implementation
+choices remain flexible. MinimumCD mapping 1 is independently selected through
+`assurance.engineering.minimumcd: "1"`; omission means no assessment, not compliance.
+Do not interpret an engineering gate pass as a MinimumCD pass or release permission.
+Use the same observations for both assessments, not another full test cycle.
+
+For an authorized policy change, `upgrade --engineering-policy 1
+--policy-review-reference <actual-reference>` previews a candidate without writes.
+Its default keeps assessment intent; `--minimumcd-assessment none` explicitly
+proposes no external assessment without waiving engineering. Review the actual diff,
+local/CI capability and developer decision before editing the existing contract.
+No routine policy questionnaire, new client file or automatic installation is needed.
+The CLI does not authenticate a decision reference or grant consent.
+
+Maintenance declarations identify exact supported branches and existing policy
+authorities; they do not verify those branches. Review bounded supported fixes,
+support lifetime, protection, pre/post-integration CI and retention of relevant
+fixes in trunk. Ongoing features still use one integration trunk. Require actual
+branch-specific evidence; do not reuse trunk qualification as maintenance CI.
+Keep the stricter MinimumCD branch/cadence/rollback findings separate. Broad
+recovery or a successful forward fix cannot alone establish rollback on demand.
+
 ## Documentation locations and ownership
 
 Read the existing project contract and inspect established documentation before

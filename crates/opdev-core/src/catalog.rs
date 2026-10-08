@@ -10,6 +10,12 @@ const EMBEDDED_CATALOG: &str = include_str!("../../../rules/core.yaml");
 /// Failures encountered while loading the normative rule catalog.
 #[derive(Debug, Error)]
 pub enum CatalogError {
+    /// Unknown policy/catalog cannot fall back to a weaker default.
+    #[error("rule catalog {0} is unsupported; use the originating compatible CLI")]
+    UnsupportedVersion(u32),
+    /// Policy membership must be explicit for every rule.
+    #[error("engineering policy does not classify rule {0}")]
+    Unclassified(RuleId),
     /// The YAML document could not be parsed.
     #[error("the OpDev rule catalog is invalid YAML: {0}")]
     Yaml(#[from] serde_saphyr::Error),
@@ -174,6 +180,21 @@ impl Rule {
     )]
     pub fn next_step(&self) -> &'static str {
         match self.id.as_str() {
+            "OPDEV-BRANCH-001" => {
+                "Next: review actual branch roles and history; supported maintenance lines need bounded fixes, their own required CI/protection evidence and a strategy to retain relevant fixes in trunk. A branch name alone is not evidence."
+            }
+            "OPDEV-BUILD-001" => {
+                "Next: verify versioned build inputs and dependencies by setting up the project in a clean environment; record the actual result using existing project commands."
+            }
+            "OPDEV-STYLE-001" => {
+                "Next: review the existing formatting and lint/type/compiler checks, run the applicable commands, and explain any adequate equivalent where a tool does not apply."
+            }
+            "OPDEV-SEC-003" => {
+                "Next: review secret-exposure and dependency controls and their current evidence; preserve adequate tools instead of installing a particular vendor by default."
+            }
+            "MCD-RECOVERY-002" => {
+                "Next: provide actual rollback-on-demand evidence for this delivery. A broader recovery policy or successful forward fix alone is insufficient; this assessment does not authorize a release or recovery operation."
+            }
             "OPDEV-AUTH-001" => {
                 "Next: list the existing sources of project decisions in .opdev/project.yaml; do not create duplicate documents."
             }
@@ -311,7 +332,7 @@ impl RuleCatalog {
         self.rules.iter().find(|rule| &rule.id == id)
     }
 
-    fn validate(&self) -> Result<(), CatalogError> {
+    pub(crate) fn validate(&self) -> Result<(), CatalogError> {
         if self.rules.is_empty() {
             return Err(CatalogError::Empty);
         }

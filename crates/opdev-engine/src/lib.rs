@@ -2,6 +2,8 @@
 
 #![forbid(unsafe_code)]
 mod acceptance;
+mod assessment;
+pub use assessment::{EngineeringAssessment, FrameworkAssessment, RequirementAssessment};
 
 mod command;
 mod evaluator;

@@ -19,6 +19,15 @@ use sha2::{Digest, Sha256};
 
 #[derive(Debug, Args)]
 pub(super) struct UpgradeArgs {
+    /// Preview an explicit engineering policy migration (currently version 1); never writes.
+    #[arg(long, conflicts_with = "apply", requires = "policy_review_reference")]
+    engineering_policy: Option<String>,
+    /// Keep the existing assessment intent, require mapping 1, or explicitly choose none.
+    #[arg(long, requires = "engineering_policy", value_parser = ["keep", "1", "none"])]
+    minimumcd_assessment: Option<String>,
+    /// Existing developer decision authorizing the proposed policy selection; not authenticated by the CLI.
+    #[arg(long, requires = "engineering_policy")]
+    policy_review_reference: Option<String>,
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]
     root: PathBuf,
@@ -104,6 +113,9 @@ impl UpgradeReport {
 }
 
 pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
+    if let Some(version) = &args.engineering_policy {
+        return policy_preview(args, version);
+    }
     let (mut plan, preview) = assess(args)?;
     let blocked = plan
         .findings
@@ -147,6 +159,73 @@ pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
     } else {
         ExitCode::SUCCESS
     })
+}
+
+fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
+    let (root, manifest) = crate::load_project(&args.root)?;
+    let mut candidate = manifest.clone();
+    let minimumcd = match args.minimumcd_assessment.as_deref().unwrap_or("keep") {
+        "none" => None,
+        "1" => Some("1".into()),
+        _ => manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .map_or(Some("1".into()), |p| p.minimumcd.clone()),
+    };
+    let policy = opdev_core::EngineeringPolicy {
+        version: version.into(),
+        minimumcd,
+        review_reference: args
+            .policy_review_reference
+            .clone()
+            .context("policy review reference required")?,
+        maintenance_branches: manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .map_or_else(Vec::new, |p| p.maintenance_branches.clone()),
+    };
+    candidate.schema = 3;
+    candidate.assurance.engineering = Some(policy);
+    candidate
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    let yaml = candidate.to_yaml()?;
+    let before = fs::read(root.join(MANIFEST_PATH))?;
+    let result = serde_json::json!({
+        "schema": 1, "kind": "engineering_policy_preview", "written": false,
+        "project_verification": "unverified", "before_sha256": format!("{:x}", Sha256::digest(before)),
+        "from_project_schema": manifest.schema, "to_project_schema": 3,
+        "from_catalog": manifest.catalog()?.catalog_version, "to_catalog": 3,
+        "changes": [
+            "Mandatory engineering baseline and a separate pinned MinimumCD assessment; no rule opt-out switches.",
+            "New setup/static-quality/secret-and-dependency requirements need real review and observations.",
+            "Reviewed maintenance fixes differ from feature branches; declarations alone do not verify branch behavior.",
+            "MinimumCD requires separate rollback evidence; broader recovery and integration success do not establish compliance.",
+            "Daily cadence remains visible without forcing merges. Release authorization is unchanged."
+        ],
+        "required_capability": "engineering.assessment.v1",
+        "next": "Review the exact candidate and decision reference, verify this capability in both local and CI runtimes, then explicitly edit the existing project contract. Recheck changed acceptance/evidence. No installation, CI invocation or consumer migration was performed.",
+        "candidate_yaml": yaml
+    });
+    if matches!(args.format, Format::Json) {
+        println!("{}", serde_json::to_string_pretty(&result)?);
+    } else {
+        println!(
+            "Engineering policy migration preview — no files changed; verification unverified."
+        );
+        for change in result["changes"].as_array().context("preview changes")? {
+            println!("- {}", change.as_str().context("preview change")?);
+        }
+        println!(
+            "{}\n\n{}",
+            result["next"].as_str().context("preview next")?,
+            yaml
+        );
+    }
+    Ok(ExitCode::SUCCESS)
 }
 
 fn assess(args: &UpgradeArgs) -> Result<(UpgradeReport, Vec<AgentFilePreview>)> {

@@ -95,7 +95,7 @@ finding, not CI-exclusive delivery, protection, effectiveness or a release.
 
 ### Rule-to-evidence responsibilities
 
-This map interprets catalog 2, not a new per-project questionnaire. Use existing
+This map interprets catalog 2 and unchanged catalog-3 rules, not a new per-project questionnaire. Use existing
 authorities and only update reviews whose facts changed. The catalog remains the
 source of exact applicability and gates. For every row, missing observations or
 review are `unverified`, a demonstrated contradiction is `failed`, a broken
@@ -137,7 +137,7 @@ avoid a blocker.
 | OPDEV-LEARN-001 | Learning/work authority | Review material observed failures and resulting corrective work or justified disposition; new failures trigger reassessment. |
 | OPDEV-EXT-001 | Additive extension structure | Engine aggregation enforces no core overrides; extension execution has separate results. Changed extension mechanism requires regression tests. |
 
-The versioned baseline is the catalog identified by the binary and result, with
+For legacy project schemas 1/2, the versioned baseline is the catalog identified by the result, with
 `opdev-core@1` selecting all its rules. No extension, preference or ordinary
 developer choice can waive an applicable core requirement. Conditional controls
 use demonstrated capabilities, not project labels or absent configuration:
@@ -156,9 +156,13 @@ trunk. Tool choice, adequate implementation alternatives and proportional test
 selection remain preferences within the guarantees. Daily integration retains
 its separately reported compliance requirement. Full MinimumCD compliance needs
 every applicable MinimumCD result, including cadence; local/integration success
-or a partial profile mapping is insufficient. Any future baseline/profile split
-must honor the rule-removal and migration policy in [compatibility](compatibility.md)
-before changing effective requirements, not reinterpret historical reports.
+or a partial profile mapping is insufficient. Explicit schema-3 engineering policy
+uses the [separate versioned assessment](assurance-profiles.md#engineering-policy-1)
+and catalog 3. Its operational/compliance gates assess engineering, while the
+separate MinimumCD result evaluates the complete pinned mapping. It preserves the
+six outcomes and never reinterprets historical reports. New rule evidence,
+maintenance scope and migration follow that specification and
+[compatibility](compatibility.md).
 
 Agent reports MUST distinguish unattempted actions and predicted permission
 requirements from observed denials and completed execution. A denial claim MUST

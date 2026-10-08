@@ -137,6 +137,7 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
             delivery,
             operations: Operations::default(),
             assurance: Assurance {
+                engineering: None,
                 profiles: vec![
                     Profile {
                         name: "opdev-core".into(),

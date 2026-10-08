@@ -19,7 +19,8 @@ when, they appear in capitals.
 
 When two OpDev sources appear to conflict, use this order:
 
-1. The versioned rule statement in `rules/core.yaml`.
+1. The selected versioned rule catalog (`rules/core.yaml`, with catalog-3 additions
+   in `rules/engineering.yaml`) and exact policy membership.
 2. Result and aggregation semantics in `spec/result-semantics.md`.
 3. Compatibility rules in `spec/compatibility.md`.
 4. A project's valid `.opdev/project.yaml` contract.
@@ -27,6 +28,10 @@ When two OpDev sources appear to conflict, use this order:
 
 Project contracts select applicable profiles and implementations. They cannot
 weaken a core rule or redefine a core failure as passing.
+
+See [engineering policy and assurance profiles](assurance-profiles.md) for the
+explicit schema-3 baseline, conditional requirements, preferences and separately
+versioned MinimumCD assessment. Legacy contracts keep their original selection.
 
 Schema-validated project evidence follows [`evidence-ledger.md`](evidence-ledger.md).
 It may satisfy an otherwise unverified rule only when the catalog explicitly

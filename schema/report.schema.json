@@ -5,7 +5,32 @@
   "additionalProperties": false,
   "required": ["schema", "catalog_version", "subject", "evaluated_at", "rules", "checks", "gates"],
   "properties": {
-    "schema": { "const": 1 },
+    "schema": { "enum": [1, 2] },
+    "engineering": {
+      "type": "object", "additionalProperties": false, "required": ["version", "minimumcd"],
+      "properties": {
+        "version": { "const": "1" },
+        "minimumcd": {
+          "oneOf": [ { "type": "null" }, {
+            "type": "object", "additionalProperties": false,
+            "required": ["version", "source_version", "verdict", "requirements", "blocking_checks"],
+            "properties": {
+              "version": { "const": "1" },
+              "source_version": { "const": "86665f375a3a7f5c56be22ad67f4aad20348fade" },
+              "verdict": { "enum": ["passed", "blocked"] },
+              "blocking_checks": { "type": "array", "items": { "type": "string" } },
+              "requirements": { "type": "array", "minItems": 19, "maxItems": 19, "items": {
+                "type": "object", "additionalProperties": false, "required": ["id", "outcome", "blocking_rules"],
+                "properties": {
+                  "id": { "type": "string" }, "outcome": { "$ref": "#/$defs/outcome" },
+                  "blocking_rules": { "type": "array", "items": { "type": "string" } }
+                }
+              } }
+            }
+          } ]
+        }
+      }
+    },
     "catalog_version": { "type": "integer", "minimum": 1 },
     "subject": { "type": "string", "minLength": 1 },
     "evaluated_at": { "type": "integer", "minimum": 0 },
@@ -18,6 +43,11 @@
       "items": { "$ref": "#/$defs/gate_result" }
     }
   },
+  "allOf": [
+    { "if": { "properties": { "schema": { "const": 2 } } },
+      "then": { "required": ["engineering"], "properties": { "catalog_version": { "const": 3 } } },
+      "else": { "not": { "required": ["engineering"] } } }
+  ],
   "$defs": {
     "outcome": {
       "enum": ["passed", "failed", "unverified", "not_applicable", "error", "migration_required"]

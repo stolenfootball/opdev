@@ -173,8 +173,12 @@ The catalog has its own integer `catalog_version`. Rule IDs are permanent.
 - Clarifications that do not change required behavior keep the rule ID.
 - A changed requirement receives a new rule ID; the previous rule remains
   available for interpreting historical evidence.
-- Removing a core requirement requires a major OpDev release and a published
-  rationale.
+- From 1.0 onward, removing a core requirement requires a major OpDev release
+  and a published rationale. During pre-1.0 development, an explicitly reviewed
+  breaking policy change may ship in a minor release only with a new exact policy,
+  appropriate schema/catalog versions, published rationale and explicit project
+  migration. Renaming a rule or moving it between profiles does not evade this
+  requirement. Never silently reinterpret existing contracts or historical reports.
 - Generated documentation, diagnostics, profiles, and evidence refer to rule IDs
   rather than copied rule prose.
 
@@ -185,6 +189,18 @@ version. Major versions are incompatible. Unknown fields in a compatible major
 version are ignored unless the protocol explicitly marks them critical.
 
 ## External assurance profiles
+
+Development capability `engineering.assessment.v1` supports explicit project
+schema 3, engineering policy 1, catalog 3 and report schema 2. Schemas 1/2 continue
+to use catalog 2 and report schema 1; existing verifier corrections still apply.
+Ordinary init retains its prior schema pending an actual reviewed policy choice.
+The capability does not change this repository's selected policy, managed CLI
+pins, installed plugins or release versions. The pre-1.0 amendment above is a
+deliberate compatibility change for this policy split, not release authorization.
+Consumers and CI must select capable runtimes before explicit migration. Older
+clients reject unsupported schema-3 projects/report-schema-2 data rather than
+interpreting it as legacy green evidence. MinimumCD mapping versions identify both
+the mapping revision and exact upstream source; no floating website assessment.
 
 External standards and profiles are pinned by name and version. Installing a new
 OpDev release MUST NOT silently change an existing project's selected profile

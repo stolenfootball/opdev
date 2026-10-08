@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["schema", "project", "authorities", "commands", "quality", "testing", "delivery", "assurance", "context"],
   "properties": {
-    "schema": { "enum": [1, 2] },
+    "schema": { "enum": [1, 2, 3] },
     "project": { "$ref": "#/$defs/project" },
     "authorities": {
       "type": "object",
@@ -26,6 +26,11 @@
   },
   "if": { "properties": { "schema": { "const": 1 } } },
   "then": { "properties": { "project": { "properties": { "ci": { "not": { "required": ["qualification"] } } } } } },
+  "allOf": [
+    { "if": { "properties": { "schema": { "const": 3 } } },
+      "then": { "properties": { "assurance": { "required": ["engineering"] } } },
+      "else": { "properties": { "assurance": { "not": { "required": ["engineering"] } } } } }
+  ],
   "$defs": {
     "qualification": {
       "type": "object", "additionalProperties": false,
@@ -214,6 +219,26 @@
       "additionalProperties": false,
       "required": ["profiles"],
       "properties": {
+        "engineering": {
+          "type": "object", "additionalProperties": false,
+          "required": ["version", "review_reference"],
+          "properties": {
+            "version": { "const": "1" },
+            "minimumcd": { "const": "1" },
+            "review_reference": { "type": "string", "minLength": 1 },
+            "maintenance_branches": {
+              "type": "array", "maxItems": 100,
+              "items": { "type": "object", "additionalProperties": false,
+                "required": ["name", "supported_version", "authority"],
+                "properties": {
+                  "name": { "type": "string", "minLength": 1 },
+                  "supported_version": { "type": "string", "minLength": 1 },
+                  "authority": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          }
+        },
         "profiles": {
           "type": "array",
           "items": {
