@@ -234,7 +234,7 @@ impl ProjectManifest {
         Ok(())
     }
 
-    fn validate_semantics(&self) -> Result<(), ManifestError> {
+    fn validate_boundaries(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
         if let Some(storage) = &self.assurance.review_storage {
             if self.schema != 3 {
@@ -261,6 +261,11 @@ impl ProjectManifest {
         {
             return Err(ManifestError::Semantic("Safeguards require engineering policy, supported version 1, an actual decision reference and capability rationales with authorities".into()));
         }
+        Ok(())
+    }
+
+    fn validate_semantics(&self) -> Result<(), ManifestError> {
+        self.validate_boundaries()?;
         if let Some(policy) = &self.project.ci.qualification {
             if self.schema < 2 {
                 return Err(ManifestError::Semantic(

@@ -19,6 +19,15 @@ use sha2::{Digest, Sha256};
 
 #[derive(Debug, Args)]
 pub(super) struct UpgradeArgs {
+    /// Preview an explicit coordinated migration request; no default policy choices.
+    #[arg(long, conflicts_with_all = ["resume", "engineering_policy"])]
+    migration: Option<PathBuf>,
+    /// Resume an interrupted reviewed migration from its original recovery snapshot.
+    #[arg(long, requires = "apply", conflicts_with_all = ["migration", "engineering_policy", "dry_run"])]
+    resume: Option<PathBuf>,
+    /// New external recovery snapshot, required before the first migration write.
+    #[arg(long, requires_all = ["migration", "apply"])]
+    recovery_output: Option<PathBuf>,
     /// Preview an explicit engineering policy migration (currently version 1); never writes.
     #[arg(long, conflicts_with = "apply", requires = "policy_review_reference")]
     engineering_policy: Option<String>,
@@ -37,7 +46,7 @@ pub(super) struct UpgradeArgs {
     /// Explicit read-only preview (also the default).
     #[arg(long, conflicts_with = "apply")]
     dry_run: bool,
-    /// Apply only the managed guidance in this exact reviewed plan ID.
+    /// Apply managed guidance, or the explicitly selected migration, from this exact reviewed plan ID.
     #[arg(long, value_name = "PLAN_ID")]
     apply: Option<String>,
     #[arg(long, value_enum, default_value_t = Format::Human)]
@@ -113,6 +122,16 @@ impl UpgradeReport {
 }
 
 pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
+    if args.migration.is_some() || args.resume.is_some() {
+        return crate::migration::run(
+            &args.root,
+            args.migration.as_deref(),
+            args.resume.as_deref(),
+            args.apply.as_deref(),
+            args.recovery_output.as_deref(),
+            args.plugin_root.as_deref(),
+        );
+    }
     if let Some(version) = &args.engineering_policy {
         return policy_preview(args, version);
     }

@@ -79,10 +79,15 @@ and offer repair or installation; do not silently install or improvise a workflo
 /// Current managed shared guidance for an explicitly selected layout.
 #[must_use]
 pub fn shared_guidance() -> String {
-    AGENTS_BLOCK.replace(
+    let legacy = AGENTS_BLOCK.replace(
         "## OpDev development protocol",
         "## OpDev development protocol\n\nShared guidance format: 1. Reload this guide and the project contract after a context reset.",
-    )
+    );
+    legacy.lines().map(|line| {
+        if line.starts_with("7. When a rule needs evidence") {
+            "7. Follow the project's explicitly selected evidence storage policy. With assurance.review_storage, prepare source-bound reviews outside product source, retain them at the reviewed authority, and supply their independently selected exact locator and acceptance identity to current checks. Never recreate an active .opdev/evidence.yaml alongside external review. Without that selection, retain the legacy ledger until an explicitly reviewed migration verifies historical retention and recovery. Review actual facts and assertions; attributed review is not authenticated consent and saved reports never replace current execution."
+        } else { line }
+    }).collect::<Vec<_>>().join("\n")
 }
 
 /// Check managed routing without interpreting unrelated project instructions.

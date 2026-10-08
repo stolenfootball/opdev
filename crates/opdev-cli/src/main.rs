@@ -34,6 +34,7 @@ mod execution_reuse;
 mod inspection;
 mod layout;
 mod local_state;
+mod migration;
 mod state_io;
 mod test_execution;
 mod test_report;

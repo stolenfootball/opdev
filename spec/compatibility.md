@@ -122,6 +122,16 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ## Rule catalog
 
+Development capability `upgrade.coordinated-migration.v1` explicitly coordinates
+the schema-3/layout-1/external-review transition using a strict schema-1 ephemeral
+request and root/runtime/input-bound recovery snapshot. It does not change the
+meaning of an ordinary guidance upgrade, legacy project, old approval or diagnostic
+report. Older clients must refuse these inputs; install/update capability separately
+before applying the reviewed project and CI transition. No consumer migration or
+release version follows from introducing this interface. Capability-based safeguards
+are independently selected by `acceptance.safeguards.v1`; catalog/schema choices
+and changed assurance remain visible rather than being attributed to a plugin update.
+
 Development capability `evidence.authenticated-review.v1` adds an explicit
 schema-3 review-storage boundary and independent schema-1 semantic-review/work
 observation records. Legacy projects retain their ledger and previous qualification
