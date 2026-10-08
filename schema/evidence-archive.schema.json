@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/evidence-archive-v1.json",
+  "title": "Exact evidence archive locator (not retention approval)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "provider", "repository_id", "commit", "path", "sha256"],
+  "properties": {
+    "schema": {"const": 1},
+    "provider": {"enum": ["github", "gitlab"]},
+    "repository_id": {"type": "integer", "minimum": 1},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "path": {
+      "type": "string", "maxLength": 1024,
+      "pattern": "^(?!\\.{1,2}(?:/|$))[A-Za-z0-9._-]+(?:/(?!\\.{1,2}(?:/|$))[A-Za-z0-9._-]+){0,15}$"
+    },
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

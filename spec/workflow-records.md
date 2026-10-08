@@ -26,6 +26,14 @@ it changes only the state location. Source, Git metadata, essential state and ca
 must not overlap. Existing runtime resolution and `OPDEV_DATA_DIR` remain unchanged.
 There is no automatic relocation, cleanup, daemon, database, or account.
 
+Operating-system application virtualization can redirect an otherwise identical
+logical user-data path into host-specific storage. The resolver reports observed
+locations; using the same CLI code does not prove physical sharing across hosts.
+Preserve existing records and inspect each host's resolved location. A shared
+`OPDEV_STATE_DIR` requires a permitted location deliberately selected for those
+hosts; do not disable isolation, silently import another host's history or mistake
+missing local state for missing original tracker decisions.
+
 The resolver derives repository/worktree keys from canonical common-Git and
 worktree-Git directories plus physical metadata (Windows creation time; Unix
 device/inode and creation time when available). Linked worktrees share a repository

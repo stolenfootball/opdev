@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/evidence-bundle-v1.json",
+  "title": "Offline exact-change evidence envelope; not qualification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "kind", "subject", "configuration", "acceptance_sha256", "ledger", "exporter", "qualification"],
+  "properties": {
+    "schema": {"const": 1},
+    "kind": {"const": "change_evidence"},
+    "subject": {"$ref": "https://opdev.dev/schema/local-state-v1.json#/$defs/subject"},
+    "configuration": {"$ref": "https://opdev.dev/schema/project.json"},
+    "acceptance_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "ledger": {"allOf": [
+      {"$ref": "https://opdev.dev/schema/evidence-v2.json"},
+      {"properties": {"schema": {"const": 2}, "changes": {"minItems": 1, "maxItems": 1}}}
+    ]},
+    "attempt": {"anyOf": [
+      {"type": "null"},
+      {"type": "object", "additionalProperties": false, "required": ["id", "start"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^attempt-[a-zA-Z0-9-]*$", "maxLength": 127},
+          "start": {"$ref": "https://opdev.dev/schema/local-state-v1.json#/$defs/start"},
+          "completion": {"anyOf": [{"type": "null"}, {"$ref": "https://opdev.dev/schema/local-state-v1.json#/$defs/completion"}]},
+          "report_json": {"type": ["string", "null"]}
+        }
+      }
+    ]},
+    "exporter": {
+      "type": "object", "additionalProperties": false,
+      "required": ["runtime_sha256", "runtime_version", "observed_at_ms", "os", "arch"],
+      "properties": {
+        "runtime_sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+        "runtime_version": {"type": "string", "minLength": 1},
+        "observed_at_ms": {"type": "integer", "minimum": 0},
+        "os": {"type": "string", "minLength": 1},
+        "arch": {"type": "string", "minLength": 1}
+      }
+    },
+    "qualification": {"const": "unverified"}
+  }
+}

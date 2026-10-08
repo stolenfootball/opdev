@@ -111,6 +111,18 @@ decisions still start unverified; apply only through the existing current-review
 path. Do not repeat preparation just to move a valid draft, infer consent from
 storage, or copy raw personal context into it.
 
+For an explicitly requested evidence transfer, capability `evidence.bundle.v1`
+supports `evidence bundle export`, offline `inspect` and explicit provider
+`retrieve` with an independently selected immutable locator. Select exact source/stage,
+review identity and any retained attempt; retain failed and unfinished attempts
+separately. Keep the new file outside product/Git storage and review private content
+before sharing. Inspection compares explicit expectations and stays unqualified;
+it does not authenticate decisions, upload, supply current execution or authorize
+deleting the ledger. Do not add export to every feedback loop or claim a durable
+archive from a local copy. Provider-observed storage authenticates retrieval, not
+the report's claims or a developer decision. Provider retention/access and a reviewed migration
+remain necessary before changing the evidence owner.
+
 ## Verify and report
 
 Use normal authorized canonical checks. Automated mappings need their suite in
