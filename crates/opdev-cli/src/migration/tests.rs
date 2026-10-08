@@ -389,3 +389,36 @@ fn invalid_history_diagnostic_does_not_echo_retained_private_content() -> Result
     assert_eq!(fs::read_to_string(&path)?, bytes);
     Ok(())
 }
+
+#[test]
+fn published_schema_and_runtime_agree_on_explicit_storage_and_safeguard_policy() -> Result<()> {
+    let f = Fixture::new()?;
+    let request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    let schema: serde_json::Value =
+        serde_json::from_str(include_str!("../../../../schema/project.schema.json"))?;
+    let validator = jsonschema::validator_for(&schema)?;
+    let mut project = request["project"].clone();
+    assert!(validator.is_valid(&project));
+    project.as_object_mut().context("project")?.remove("layout");
+    project["assurance"]
+        .as_object_mut()
+        .context("assurance")?
+        .remove("engineering");
+    for version in [1, 2] {
+        project["schema"] = json!(version);
+        assert!(!validator.is_valid(&project), "legacy storage boundary");
+        assert!(ProjectManifest::from_yaml(&serde_json::to_string(&project)?).is_err());
+    }
+    project["assurance"]
+        .as_object_mut()
+        .context("assurance")?
+        .remove("review_storage");
+    project["assurance"]["safeguards"] =
+        json!({"version":1,"review_reference":"fixture:explicit","capabilities":{}});
+    for version in [1, 2] {
+        project["schema"] = json!(version);
+        assert!(!validator.is_valid(&project), "legacy safeguard policy");
+        assert!(ProjectManifest::from_yaml(&serde_json::to_string(&project)?).is_err());
+    }
+    Ok(())
+}

@@ -29,6 +29,8 @@
   "then": { "properties": { "project": { "properties": { "ci": { "not": { "required": ["qualification"] } } } } } },
   "allOf": [
     { "if": { "required": ["layout"] }, "then": { "properties": { "schema": { "const": 3 } } } },
+    { "if": { "properties": { "assurance": { "anyOf": [{ "required": ["review_storage"] }, { "required": ["safeguards"] }] } } },
+      "then": { "properties": { "schema": { "const": 3 } } } },
     { "if": { "properties": { "schema": { "const": 3 } } },
       "then": { "properties": { "assurance": { "required": ["engineering"] } } },
       "else": { "properties": { "assurance": { "not": { "required": ["engineering"] } } } } }
