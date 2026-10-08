@@ -31,6 +31,7 @@ mod documentation;
 mod evidence_prepare;
 mod execution_reuse;
 mod inspection;
+mod layout;
 mod test_execution;
 mod test_report;
 mod upgrade;
@@ -64,6 +65,8 @@ enum Command {
     Doctor(doctor::DoctorArgs),
     /// Resolve document ownership without writing files or approving changes.
     Documentation(documentation::DocumentationArgs),
+    /// Inspect a proposed .opdev directory standard without migration or qualification.
+    Layout(layout::LayoutArgs),
     /// Inspect resumable references or explicitly append an attributed workflow event.
     Workflow(workflow::WorkflowArgs),
     /// Validate a bounded worker assignment/result without dispatch or qualification.
@@ -486,6 +489,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         },
         Command::Doctor(args) => doctor::run(&args),
         Command::Documentation(args) => documentation::run(&args),
+        Command::Layout(args) => layout::run(&args),
         Command::Workflow(args) => workflow::run(&args),
         Command::Delegation(args) => delegation::run(&args),
         Command::Ci(args) => ci_command(&args),

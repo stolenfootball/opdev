@@ -227,6 +227,7 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "engineering.assessment.v1",
                 "adoption.engineering-baseline.v1",
                 "acceptance.stage-mappings.v1",
+                "layout.inspect.v1",
                 "workflow.references.v1",
                 "delegation.v1",
                 "upgrade.preview",
