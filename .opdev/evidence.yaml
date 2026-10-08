@@ -18459,6 +18459,21 @@ changes:
 - fingerprint: dd532412c75631bc2b7632244272d727d35780649aadbe85b99fad4cf39d2dc3
   work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
   assertions:
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: >-
+      Maintainer explicitly approved the shared-guidance and data_recovery messages
+      after their exact presentation; coordinated-migration wording was separately
+      approved. Automated plain-text/structured diagnostics remain covered by the
+      canonical suite. This is reviewed output against the project target, not
+      universal accessibility certification or consumer consent.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Actual developer response: Everything here is approved. It answers the two
+        quoted wording messages and the separately bounded four-session evaluation
+        request, not release or consumer migration.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3979195580
   - rule_id: OPDEV-WORK-001
     outcome: passed
     summary: Issues 81, 89 and 90 own the coherent selected-layout, safeguard and reviewed-migration
