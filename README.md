@@ -31,11 +31,18 @@ making every new agent rediscover them.
   GitHub Actions and GitLab CI are first-class providers. The CLI also works
   without an agent.
 
-OpDev is opinionated about delivery: [MinimumCD](https://minimumcd.org/)
-delivery and testing requirements remain mandatory. Use one integration trunk, restore red CI first,
-deliver through CI, build an immutable artifact once, and have a tested recovery
-strategy. You choose how your project meets those requirements. Extensions can
-add checks, but cannot waive core rules.
+Current development builds offer an explicitly selected engineering policy:
+non-waivable baseline checks, capability-dependent safeguards, and flexible
+choices of adequate tools. Meaningful tests, reproducible setup, appropriate
+formatting/static checks, one integration trunk and enforced CI remain required.
+Delivery requires the applicable immutable-artifact and recovery evidence; it
+does not happen without developer authorization. Extensions cannot waive rules.
+
+Under that policy, [MinimumCD](https://minimumcd.org/) is a separately selected
+assessment, not another execution of the same tests. Legacy projects retain their
+existing MinimumCD-based rules until an explicitly reviewed migration. See
+[engineering policy](spec/assurance-profiles.md#engineering-policy-1); a new plugin
+does not imply that its installed CLI supports these development capabilities.
 
 In CLI 0.4.0's catalog 2, daily merging is a monitored target, not a deadline
 that blocks a later merge. Delays prompt replanning; required tests still have
@@ -97,9 +104,12 @@ Open the project with your agent and say:
 > Initialize OpDev in this repository. Review the discovered commands and
 > document locations with me before adopting them.
 
-The agent reviews the project contract and initialization with you. OpDev
-creates `.opdev/project.yaml` and managed guidance in `AGENTS.md` and
-`CLAUDE.md`, preserving unrelated content. Existing documentation stays where
+The agent reviews material policy, tooling and ownership choices with you before
+implementing them. With the current CLI and explicitly selected layout 1, OpDev
+creates `.opdev/project.yaml`, pending `.opdev/adoption.yaml`, and one shared
+`.opdev/guidance.md`. Short managed sections in `AGENTS.md` and `CLAUDE.md` point
+to that guide, preserving unrelated instructions. Legacy layouts retain their
+existing guidance until reviewed migration. Existing documentation stays where
 it is; initialization does not create or take over a `docs/` folder.
 
 Review and commit those files through your normal development workflow. A first
@@ -129,10 +139,13 @@ OpDev guides the agent to:
 1. Read the project contract, relevant design/behavior documents, and work item.
 2. Establish the expected behavior, affected consumers, and tests. Record a
    durable design decision only when the change warrants one.
-3. Make a focused change and run the project's declared checks.
-4. Review any evidence that cannot be inferred automatically, tied to the exact
-   staged change where required.
-5. Report each gate honestly and reconcile the work with CI and project docs.
+3. Make a focused change and run meaningful checks sufficient to review its
+   direction. Iterate here without full qualification for every design tweak.
+4. Before merging a coherent increment, review the exact source and assertions
+   and run the required checks for that boundary; then verify integrated trunk.
+   Explicit engineering policy can assign different justified checks per stage.
+5. Report each gate honestly and reconcile CI, project docs and the work item.
+   Integration does not authorize a release.
 
 An illustrative handoff might say:
 
@@ -155,20 +168,29 @@ and offers setup rather than silently continuing without the protocol.
 | File | Purpose |
 | --- | --- |
 | `.opdev/project.yaml` | Project commands, document and tracker locations, testing policy, delivery requirements, and context routes. |
-| `.opdev/adoption.yaml` | Reviewed practice dispositions, created by new initialization in development builds or explicit assessment of an existing project. |
-| `AGENTS.md` | Persistent instructions for fresh agents, alongside your existing guidance. |
-| `CLAUDE.md` | Imports the shared `AGENTS.md` guidance for Claude Code. |
-| `.opdev/evidence.yaml` | Optional reviewed facts; change-specific assertions are bound to the staged Git index. |
+| `.opdev/adoption.yaml` | Practice dispositions and review provenance; pending records do not mean completed adoption. |
+| `.opdev/guidance.md` | With selected layout 1, the single shared managed guide, reloaded after a context reset. |
+| `AGENTS.md` and `CLAUDE.md` | With layout 1, short pointers to the guide alongside existing instructions/imports. Legacy roots retain their earlier format. |
+| `.opdev/evidence.yaml` | Legacy reviewed evidence only. Preserve it until a reviewed storage migration verifies complete history retrieval and recovery. |
 
 The contract points to your existing sources of truth. Design notes can live in
 your chosen folder or declared external authority. There is no required project
 template, document relocation, or replacement test framework.
 
-Without established locations, internal working documents default to
-`.opdev/design.md`, `.opdev/development.md`, `.opdev/delivery.md`,
-`.opdev/specs/`, and `.opdev/decisions/` **only as needed**. Initialization does
-not generate these documents or empty folders. Small changes can stay in their
-work item; commands and live progress are not duplicated into Markdown trackers.
+The selected strict layout permits optional durable knowledge under
+`.opdev/docs/`: `design.md`, `development.md`, `testing.md`, `delivery.md`,
+`specs/`, `decisions/`, and referenced `assets/`, **only as needed**. No miscellaneous
+scratch/archive directory, raw transcripts, work backlog or growing execution
+history belongs there. Initialization does not create empty documentation.
+Legacy locations remain valid until an explicit migration; do not tidy them
+automatically. Small changes can stay in the existing work item.
+
+Typed local drafts and attempts live in CLI-owned state outside product source.
+With separately selected review-storage policy, exact semantic reviews are
+retrieved from the reviewed external archive; retained reports do not replace
+current execution or authenticate developer consent. Export alone never permits
+deleting a legacy ledger. See [storage and migration](spec/upgrades.md#explicit-coordinated-migration).
+
 Public documentation retains its project/ecosystem locations, and the root
 README should link to development guidance when it exists. Both root agent
 entry points remain. See [documentation layout](spec/documentation-layout.md).
@@ -179,7 +201,7 @@ explicitly; discovery support is not an allowlist of software you can use.
 
 ## What the checks mean
 
-OpDev evaluates 37 core rules and the checks configured by your project.
+OpDev evaluates the selected versioned policy and the checks configured by your project.
 It reports four separate gates:
 
 | Gate | Question |
@@ -187,7 +209,7 @@ It reports four separate gates:
 | Development | May ordinary implementation proceed? |
 | Integration | May this change enter trunk? |
 | Delivery | May this identified artifact be delivered through the declared path? |
-| Compliance | Is there sufficient evidence for the selected assurance profile? |
+| Compliance | Is there sufficient evidence for the selected policy? With engineering policy, MinimumCD has its own separately requested assessment. |
 
 Rule outcomes are `passed`, `failed`, `unverified`, `not_applicable`, `error`,
 and `migration_required`. Only `passed` and justified `not_applicable` satisfy

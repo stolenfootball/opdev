@@ -27,7 +27,8 @@ The CLI treats initialized project content as untrusted:
 - configured checks use exact argument vectors without a general-purpose shell;
 - checks have time and output bounds and terminate their process group;
 - remote audits are read-only and limited to first-class provider hosts;
-- extensions cannot replace or weaken core MinimumCD results; and
+- extensions cannot replace or weaken the selected mandatory engineering or
+  MinimumCD requirements; and
 - release archives and standalone installers are signed by GitLab CI; the
   generated provenance does not claim trusted-builder provenance.
 
