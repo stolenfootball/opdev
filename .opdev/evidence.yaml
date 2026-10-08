@@ -19292,102 +19292,162 @@ changes:
   assertions:
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Current material source and acceptance passed pre-merge format, lint and full workspace tests. This records that stage only; post-merge execution remains separately required.
+    summary: >-
+      Current material source and acceptance passed pre-merge format, lint and full
+      workspace tests. This records that stage only; post-merge execution remains
+      separately required.
     evidence:
     - kind: observed
-      summary: Actual opdev check --ci executed all three canonical vectors with passing development/integration; no skipped execution or delivery claim.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980914762
+      summary: >-
+        Actual opdev check --ci executed all three canonical vectors with passing
+        development/integration; no skipped execution or delivery claim.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980914762"
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Issues 92-95 define scoped continuation, connected phases and the separately authorized evaluation amendment; no release or consumer update.
+    summary: >-
+      Issues 92-95 define scoped continuation, connected phases and the separately
+      authorized evaluation amendment; no release or consumer update.
     evidence:
     - kind: work
-      summary: Reviewed original scope, acceptance and revised repair-response protocol, preserving earlier failures.
+      summary: >-
+        Reviewed original scope, acceptance and revised repair-response protocol,
+        preserving earlier failures.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: Optional outcome phases and bounded continuation reconcile earlier stopping cues without a planner, scheduler, registry or new schema.
+    summary: >-
+      Optional outcome phases and bounded continuation reconcile earlier stopping
+      cues without a planner, scheduler, registry or new schema.
     evidence:
     - kind: source_review
-      summary: Current planning specification records behavior, alternatives, proportionality and reversal conditions; package routes agree.
+      summary: >-
+        Current planning specification records behavior, alternatives, proportionality
+        and reversal conditions; package routes agree.
       location: spec/planning.md
   - rule_id: MCD-CI-001
     outcome: passed
-    summary: GitLab remains the integration authority; current main pipeline 2927421474 passed. This candidate still requires its own remote checks and post-merge verification.
+    summary: >-
+      GitLab remains the integration authority; current main pipeline 2927421474
+      passed. This candidate still requires its own remote checks and post-merge
+      verification.
     evidence:
     - kind: ci
-      summary: Existing required quality, native installer and affected package jobs remain unchanged; no local delivery substituted.
+      summary: >-
+        Existing required quality, native installer and affected package jobs remain
+        unchanged; no local delivery substituted.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927421474
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: Main remains the sole integration trunk; no policy or parallel integration branch is introduced.
+    summary: >-
+      Main remains the sole integration trunk; no policy or parallel integration
+      branch is introduced.
     evidence:
     - kind: source_review
       summary: Unchanged project contract and actual branch ancestry inspected.
       location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: The bounded branch combines interdependent planning, continuation and evaluation corrections and will be removed after verified merge; no indefinite feedback branch.
+    summary: >-
+      The bounded branch combines interdependent planning, continuation and
+      evaluation corrections and will be removed after verified merge; no indefinite feedback
+      branch.
     evidence:
     - kind: work
-      summary: Current main ada2c99 remains its ancestor; branch scope and final integration are tracked together.
+      summary: >-
+        Current main ada2c99 remains its ancestor; branch scope and final integration
+        are tracked together.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: Current main pipeline is green; no red-trunk delivery is bypassed and no release is attempted.
+    summary: >-
+      Current main pipeline is green; no red-trunk delivery is bypassed and no
+      release is attempted.
     evidence:
     - kind: ci
       summary: Read-only live main pipeline observation is success at ada2c99.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927421474
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: Public CLI, schemas, policy, runtime pin and selected layout behavior are unchanged. New shared guidance preserves thin selected-layout entries and unrelated legacy root content.
+    summary: >-
+      Public CLI, schemas, policy, runtime pin and selected layout behavior are
+      unchanged. New shared guidance preserves thin selected-layout entries and unrelated
+      legacy root content.
     evidence:
     - kind: source_review
-      summary: Exact-copy, fresh-init and upgrade assertions cover distribution; semantic reliability is evaluated separately.
+      summary: >-
+        Exact-copy, fresh-init and upgrade assertions cover distribution; semantic
+        reliability is evaluated separately.
       location: crates/opdev-cli/tests/planning_guidance.rs
   - rule_id: OPDEV-TEST-001
     outcome: passed
-    summary: Requirement-derived consumer assertions cover corruption, composition, actual independent completion and stop boundaries rather than names or green component tests alone.
+    summary: >-
+      Requirement-derived consumer assertions cover corruption, composition, actual
+      independent completion and stop boundaries rather than names or green component
+      tests alone.
     evidence:
     - kind: source_review
-      summary: Inspected actual Python oracle and Rust canonical wrapper assertions against reference and plausible wrong implementations.
+      summary: >-
+        Inspected actual Python oracle and Rust canonical wrapper assertions against
+        reference and plausible wrong implementations.
       location: tests/phased_fixtures_test.py
   - rule_id: OPDEV-TEST-004
     outcome: passed
-    summary: Escaped premature-stop and helper-exception defects have discriminating continuation/scope and non-ASCII error regressions; no universal agent-discovery claim.
+    summary: >-
+      Escaped premature-stop and helper-exception defects have discriminating
+      continuation/scope and non-ASCII error regressions; no universal agent-discovery claim.
     evidence:
     - kind: source_review
-      summary: Known compare_digest exception-leak mutant fails the strengthened oracle; reference behavior passes. Trial failures remain preserved separately.
+      summary: >-
+        Known compare_digest exception-leak mutant fails the strengthened oracle;
+        reference behavior passes. Trial failures remain preserved separately.
       location: tests/phased_fixtures_test.py
   - rule_id: OPDEV-TEST-005
     outcome: passed
-    summary: No hidden retries or quarantine. Prior 24,12,6 session failures and the separately authorized six-session repair study remain distinct.
+    summary: >-
+      No hidden retries or quarantine. Prior 24,12,6 session failures and the
+      separately authorized six-session repair study remain distinct.
     evidence:
     - kind: work
-      summary: Frozen inputs, failed attempts and host limits are retained; current canonical execution is separately required.
+      summary: >-
+        Frozen inputs, failed attempts and host limits are retained; current canonical
+        execution is separately required.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: Plain-text interface targets remain unchanged; maintainer approved representative phase, blocker and release-boundary wording. No new CLI output or interactive flow.
+    summary: >-
+      Plain-text interface targets remain unchanged; maintainer approved
+      representative phase, blocker and release-boundary wording. No new CLI output or interactive
+      flow.
     evidence:
     - kind: decision
-      summary: Actual developer response approved both evaluation allowance and representative wording; this does not imply release consent.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94#note_3980298692
+      summary: >-
+        Actual developer response approved both evaluation allowance and representative
+        wording; this does not imply release consent.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/94#note_3980298692"
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: Controller reviewed actual source, assertions, original decisions and independent observed behavior; producer completion claims are not acceptance evidence alone.
+    summary: >-
+      Controller reviewed actual source, assertions, original decisions and
+      independent observed behavior; producer completion claims are not acceptance evidence
+      alone.
     evidence:
     - kind: source_review
-      summary: Source-bound mappings distinguish mechanical distribution, live repair-response and untested universality; no review delegation or invented consent.
+      summary: >-
+        Source-bound mappings distinguish mechanical distribution, live repair-response
+        and untested universality; no review delegation or invented consent.
       location: tests/planning-review.md
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: Preserved failures drove early continuation routing, a stronger failure-path oracle and independent finding repair; prior failed generations are not relabelled as passing.
+    summary: >-
+      Preserved failures drove early continuation routing, a stronger failure-path
+      oracle and independent finding repair; prior failed generations are not relabelled
+      as passing.
     evidence:
     - kind: work
-      summary: Explicitly authorized changed evaluation scope tests response to findings rather than claiming unaided discovery or speed superiority.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980832442
+      summary: >-
+        Explicitly authorized changed evaluation scope tests response to findings
+        rather than claiming unaided discovery or speed superiority.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980832442"
   acceptance:
     scope: behavioral
     rationale: >-
@@ -19801,3 +19861,325 @@ changes:
       reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980889911"
       rationale: "Directly reviewed all 15 conditions against original #92-95 scope, spec/packaged/generated routes, actual automated assertions and isolated trial actions. Current six-session repair study passes consumer/protected checks and semantic review: both retained defects reproduced and repaired with regressions, contract-weakening advice rejected, clean implementation preserved, composition and scoped continuation demonstrated. Earlier 24+12+6 studies retain their failures; current acceptance is the explicitly authorized response to independent findings, not universal unaided discovery or a speed improvement. Prior offline boundary permutations and routine/guided/standalone-status observations remain separately labelled. Seeded fresh context is not actual rollover; live Claude remains untested. Maintainer wording approval is recorded in #94 note3980298692. Canonical and remote integration execution remain independently required."
       subject_sha256: c2874be2418c40b4c001ecb69f2f277ae9f511b3fce2bc6dcac42dcaed211429
+- fingerprint: 107b2216151235cc908a490c00068624141f5f64ab74cd1c33e60731e56f89a3
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/milestones/16
+  assertions:
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Current material source and reviewed acceptance passed the canonical pre-merge format, lint and full workspace suites. Post-merge execution remains separately required.
+    evidence:
+    - kind: observed
+      summary: Actual opdev check --ci executed all three canonical vectors successfully; development and integration passed. This records pre-merge execution, not delivery or full compliance.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981441001"
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: "Issues 96-99 and milestone 16 preserve the accepted clean-adoption scope across three entry states; user authorized completion, pending wording and bounded follow-ups, not release or consumer migration."
+    evidence:
+    - kind: source_review
+      summary: "Issues 96-99 and milestone 16 preserve the accepted clean-adoption scope across three entry states; user authorized completion, pending wording and bounded follow-ups, not release or consumer migration."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/16"
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: "Versioned clean-1 destination, reviewed full-contract init, source-bound external review and exact recoverable retirement reuse existing authorities and evidence; specification records compatibility, limits and reversal triggers."
+    evidence:
+    - kind: source_review
+      summary: "Versioned clean-1 destination, reviewed full-contract init, source-bound external review and exact recoverable retirement reuse existing authorities and evidence; specification records compatibility, limits and reversal triggers."
+      location: "spec/adoption.md"
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: "GitLab remains integration authority. Actual main ac6fa227 pipeline 2928254841 passed; required canonical, installer and affected packaging definitions are unchanged. This candidate still requires its own remote and post-merge checks."
+    evidence:
+    - kind: source_review
+      summary: "GitLab remains integration authority. Actual main ac6fa227 pipeline 2928254841 passed; required canonical, installer and affected packaging definitions are unchanged. This candidate still requires its own remote and post-merge checks."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928254841"
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: "Main is the sole integration and release source; current branch descends from verified current main, with no alternate product stream or project-policy migration."
+    evidence:
+    - kind: source_review
+      summary: "Main is the sole integration and release source; current branch descends from verified current main, with no alternate product stream or project-policy migration."
+      location: ".opdev/project.yaml"
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: "One bounded branch integrates the dependent external-review, target, safe-retirement and trial corrections; merge/delete after current CI and verification, no indefinite feedback branch."
+    evidence:
+    - kind: source_review
+      summary: "One bounded branch integrates the dependent external-review, target, safe-retirement and trial corrections; merge/delete after current CI and verification, no indefinite feedback branch."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/16"
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: "Live current main pipeline 2928254841 is green; no red-trunk delivery bypass or release action. Required source CI remains mandatory."
+    evidence:
+    - kind: source_review
+      summary: "Live current main pipeline 2928254841 is green; no red-trunk delivery bypass or release action. Required source CI remains mandatory."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928254841"
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: "Deliberate current-adoption boundary changes bare new init and default completion; explicit legacy scaffolding/assessment and ordinary older-policy work remain. Reviewed contract retry preserves choices; changed policy requires migration. No runtime pin or consumer upgrade."
+    evidence:
+    - kind: source_review
+      summary: "Deliberate current-adoption boundary changes bare new init and default completion; explicit legacy scaffolding/assessment and ordinary older-policy work remain. Reviewed contract retry preserves choices; changed policy requires migration. No runtime pin or consumer upgrade."
+      location: "crates/opdev-cli/tests/adoption.rs"
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: "Eight conditions connect actual requirement-derived Rust assertions, known mode-edit red/green, original/corrected agent scopes, authenticated provider negatives and one real complete-adoption canary. Scope limits remain visible."
+    evidence:
+    - kind: source_review
+      summary: "Eight conditions connect actual requirement-derived Rust assertions, known mode-edit red/green, original/corrected agent scopes, authenticated provider negatives and one real complete-adoption canary. Scope limits remain visible."
+      location: "benchmarks/adoption/clean-target-canary.md"
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: "Regression tests reject legacy-only completion, active old ledgers, mismatched selectors, stale source/stage, ignored/index leftovers and late executable-mode changes. The mode-only red failure was observed before repair; new assertion passed afterward."
+    evidence:
+    - kind: source_review
+      summary: "Regression tests reject legacy-only completion, active old ledgers, mismatched selectors, stale source/stage, ignored/index leftovers and late executable-mode changes. The mode-only red failure was observed before repair; new assertion passed afterward."
+      location: "crates/opdev-cli/src/migration/tests.rs"
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: "No hidden retry or quarantine. Original nine sessions retain 6/9 accepted and three failed; separately authorized frozen follow-up accepted 3/3. Provider harness/setup failures and incomplete CI attempts remain separate from later success."
+    evidence:
+    - kind: source_review
+      summary: "No hidden retry or quarantine. Original nine sessions retain 6/9 accepted and three failed; separately authorized frozen follow-up accepted 3/3. Provider harness/setup failures and incomplete CI attempts remain separate from later success."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99"
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: "CLI remains plain-text and noninteractive, with explicit incomplete, legacy diagnostic, missing review, changed input and no-write outcomes. Developer approved representative wording in actual conversation responses, including final blanket approval for pending wording; no universal usability claim."
+    evidence:
+    - kind: source_review
+      summary: "CLI remains plain-text and noninteractive, with explicit incomplete, legacy diagnostic, missing review, changed input and no-write outcomes. Developer approved representative wording in actual conversation responses, including final blanket approval for pending wording; no universal usability claim."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/97"
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: "Controller read actual implementation, assertions, changed durable docs and schemas, original scope, trial command histories and final files. Actual negative cases and provider/current-source execution supplement producer claims; no unauthorized review delegation."
+    evidence:
+    - kind: source_review
+      summary: "Controller read actual implementation, assertions, changed durable docs and schemas, original scope, trial command histories and final files. Actual negative cases and provider/current-source execution supplement producer claims; no unauthorized review delegation."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981423546"
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: "Preserved failures drove the mode-freshness regression and narrow distinction between work tracking/external storage plus assessment/denial guidance. Follow-ups validate the corrected observed cases without relabelling original failures or claiming speed superiority."
+    evidence:
+    - kind: source_review
+      summary: "Preserved failures drove the mode-freshness regression and narrow distinction between work tracking/external storage plus assessment/denial guidance. Follow-ups validate the corrected observed cases without relabelling original failures or claiming speed superiority."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981411464"
+  - rule_id: OPDEV-SEC-001
+    outcome: passed
+    summary: "Migration validates exact bounded portable paths and original/final bytes, refuses links/reparse points, Git metadata, protected files, arbitrary ledger retirement and executable mode loss. Authenticated archive and independently reread recovery precede deletion; token values absent from source and public evidence."
+    evidence:
+    - kind: source_review
+      summary: "Migration validates exact bounded portable paths and original/final bytes, refuses links/reparse points, Git metadata, protected files, arbitrary ledger retirement and executable mode loss. Authenticated archive and independently reread recovery precede deletion; token values absent from source and public evidence."
+      location: "crates/opdev-cli/src/migration/cleanup.rs"
+  acceptance:
+    scope: behavioral
+    rationale: "Issues 96-99: current clean adoption and safe coordinated retirement across empty, existing and older entry states. Automated assertions reviewed against original conditions; original failed agent proposals retained, three corrected frozen follow-ups reviewed, and one real positive whole-adoption provider canary passed. Separate older/existing component tests are not claimed as full production adoptions. No release, consumer migration or installed update."
+    conditions:
+    - id: external-review
+      statement: >-
+        Adoption reads selected current external semantic input without recreating a
+        competing repository ledger and rejects stale subjects.
+      authority: spec/adoption.md
+      source:
+        path: spec/adoption.md
+        sha256: 247937225864c674b0c7c9ae15051612a3ef9c71c6af1aaf7097f1e8a7f788ce
+        excerpt: adoption.external-review.v1
+    - id: target-init
+      statement: >-
+        Discovery cannot select material policy; reviewed current initialization
+        preserves choices and keeps implementation pending.
+      authority: spec/adoption.md
+      source:
+        path: spec/adoption.md
+        sha256: 247937225864c674b0c7c9ae15051612a3ef9c71c6af1aaf7097f1e8a7f788ce
+        excerpt: Bare `init --dry-run` retains read-only discovery;
+    - id: legacy
+      statement: >-
+        Passing older policy cannot claim completed current adoption; ordinary
+        older-policy work remains usable.
+      authority: spec/adoption.md
+      source:
+        path: spec/adoption.md
+        sha256: 247937225864c674b0c7c9ae15051612a3ef9c71c6af1aaf7097f1e8a7f788ce
+        excerpt: Ordinary work on older policy and tooling-only upgrades remain usable without
+    - id: retirement
+      statement: >-
+        Retired paths must be absent in checkout and index, including ignored
+        leftovers; retained replacements must be staged regular files.
+      authority: spec/adoption.md
+      source:
+        path: spec/adoption.md
+        sha256: 247937225864c674b0c7c9ae15051612a3ef9c71c6af1aaf7097f1e8a7f788ce
+        excerpt: Retired
+    - id: safe-migration
+      statement: >-
+        Explicit migration preserves useful original bytes, recovery, untouched content
+        and idempotent continuation without transferring approval.
+      authority: spec/upgrades.md
+      source:
+        path: spec/upgrades.md
+        sha256: a5ca93ca4bc1a7d8ddc5399c1b52b0e9aa146cee7e022ad053e03e7321e62437
+        excerpt: The same snapshot and before/after checks support interruption
+    - id: later-edits
+      statement: >-
+        Changed content, namespace or executable modes after preview cannot be lost
+        during apply or resume.
+      authority: spec/upgrades.md
+      source:
+        path: spec/upgrades.md
+        sha256: a5ca93ca4bc1a7d8ddc5399c1b52b0e9aa146cee7e022ad053e03e7321e62437
+        excerpt: later edits are preserved, not rolled back.
+    - id: agent-boundaries
+      statement: >-
+        Real agents distinguish external review storage from repository work tracking,
+        respect actual scope and denied actions, and preserve adequate tools and
+        meaningful behavior.
+      authority: benchmarks/adoption/clean-target-canary.md
+      source:
+        path: benchmarks/adoption/clean-target-canary.md
+        sha256: 699c68b39b62b1da06a6ac6518217881c891500b1e2abe06030293101a13b788
+        excerpt: A fixture-local work
+    - id: whole-adoption
+      statement: >-
+        A realistic project reaches the current clean target with meaningful
+        implementations, resolved choices and actual source-bound local/integrated checks, not
+        synthetic passing claims.
+      authority: benchmarks/adoption/clean-target-canary.md
+      source:
+        path: benchmarks/adoption/clean-target-canary.md
+        sha256: 699c68b39b62b1da06a6ac6518217881c891500b1e2abe06030293101a13b788
+        excerpt: A positive whole-adoption trial needs meaningful implementations,
+    verifications:
+    - condition: external-review
+      method: automated
+      target:
+        path: crates/opdev-engine/src/review.rs
+        sha256: 53201c0648e798d6f5b759c84d7c36ecc1b0ab6ef645482b421c8263e3906696
+        excerpt: fn adoption_can_read_current_selected_review_without_a_repository_ledger
+      assertion: >-
+        Current sealed review exposes the exact matching ledger; stage/source changes
+        fail and no repository ledger is written. CLI missing/wrong/conflicting selector
+        tests cover pre-execution rejection; separate live provider component trials
+        authenticate retrieval.
+      discriminating_case: >-
+        A legacy file-only reader fails without .opdev/evidence.yaml; copying an old
+        ledger across stage/source changes must fail.
+      suite: check
+      outcome: passed
+    - condition: target-init
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: 490339dbedef52a148b3956f74218d43de07861648e7e1975c1617b65162699f
+        excerpt: fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools
+      assertion: >-
+        Full explicit contract produces pending inventory and shared guidance,
+        identical retry preserves decisions, changed contract is refused; discovery and bare-init
+        tests enforce no inferred writes.
+      discriminating_case: >-
+        An empty command map stays empty and unresolved rather than inventing a stack
+        or completed adoption.
+      suite: check
+      outcome: passed
+    - condition: legacy
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: 490339dbedef52a148b3956f74218d43de07861648e7e1975c1617b65162699f
+        excerpt: >-
+          fn
+          default_completion_rejects_otherwise_passing_legacy_policy_without_running_checks
+      assertion: >-
+        Otherwise passing legacy policy yields complete false, clean-target blockers
+        and no core command execution, while ordinary check remains usable.
+      discriminating_case: >-
+        Reusing the old all-green fixture must not evade the stronger default
+        destination.
+      suite: check
+      outcome: passed
+    - condition: retirement
+      method: automated
+      target:
+        path: crates/opdev-project/tests/clean_adoption.rs
+        sha256: 3193358f369844e09e182bbd5764d732e37619668b5d5d1ffcef1fabb0655d7d
+        excerpt: fn retirement_requires_absence_in_checkout_and_index_and_staged_replacement
+      assertion: >-
+        Removing only checkout bytes leaves an index blocker; staging real retirement
+        and replacement clears it; an ignored obsolete file reintroduces the blocker
+        without being deleted.
+      discriminating_case: >-
+        Git status alone can hide ignored stale instructions or an unstaged deletion
+        that still ships.
+      suite: check
+      outcome: passed
+    - condition: safe-migration
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 6290d2b1ee0caa2ea6ab832e35322b72fa119b30dddc7ce5b83d903799069ac6
+        excerpt: fn reviewed_cleanup_preserves_content_recovery_and_idempotent_continuation
+      assertion: >-
+        Exact durable bytes and original recovery are retained, unrelated authority
+        content survives, old index remains blocked until staged, repeated continuation is
+        no-op and old approval is not inherited.
+      discriminating_case: >-
+        A destructive move, premature index success or resetting existing choices fails
+        the assertions.
+      suite: check
+      outcome: passed
+    - condition: later-edits
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 6290d2b1ee0caa2ea6ab832e35322b72fa119b30dddc7ce5b83d903799069ac6
+        excerpt: fn later_executable_mode_change_stops_apply_before_any_write
+      assertion: >-
+        Git chmod after preview prevents any migration write, preserves original
+        manifest/source and creates no destination; companion tests cover later text, new
+        namespace entries, links and executable retirement.
+      discriminating_case: >-
+        Observed red test allowed apply after a mode-only edit; byte hashes alone
+        missed the change.
+      suite: check
+      outcome: passed
+    - condition: agent-boundaries
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/adoption.md
+        sha256: c678f79a639631414920de792974f4a05db86815dce0b8091fcfbbc374961d9a
+        excerpt: Keep work tracking and semantic-review storage separate
+      assertion: >-
+        Review actual frozen corrected sessions and resulting files, not wording or
+        exit status. Original nine sessions retained three failed proposals and a
+        denial-handling failure within one of them.
+      discriminating_case: >-
+        A repository tracking folder must not be offered as compliant external storage;
+        changing tools after denied deletion is not compliance.
+      automation_limitation: >-
+        Instruction meaning is not proved by keyword checks. Original nine Windows
+        sessions accepted 6/9; separately authorized three unchanged-input follow-ups at
+        cbccba9 accepted 3/3 after actual action/final-file review. Wrong work-store
+        proposals and denied cleanup remain original failures. No statistical, speed or Claude
+        claim. See issue 99 note 3981411464.
+      outcome: passed
+    - condition: whole-adoption
+      method: review
+      target:
+        path: benchmarks/adoption/clean-target-canary.md
+        sha256: 699c68b39b62b1da06a6ac6518217881c891500b1e2abe06030293101a13b788
+        excerpt: Do not fill every rule with a synthetic passing claim
+      assertion: >-
+        One real small project reaches clean-1 through reviewed choices, meaningful
+        implementation/tests, actual PR and integrated-trunk CI, exact private
+        artifact/recovery and selected current external review. Fresh clone completion plus negative
+        identity and repeated-plan controls are observed; unresolved earlier component
+        fixtures remain incomplete.
+      discriminating_case: >-
+        Component successes or fabricated rule claims cannot count as a completely
+        adopted project.
+      automation_limitation: "Controller reviewed the actual private provider canary: PR run 37860686321 and integrated run 37860937672 passed; fresh source 22c2b1ce returned complete true, all engineering gates passed, exact consumer artifact verified, wrong identity rejected, repeated plan unchanged. This complements separate existing/older migration/authentication/negative tests, not three production migrations or MinimumCD/Claude qualification. Evidence retained privately; public summary in issue 99."
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: "Codex controller: actual source, assertion and execution review; not authenticated developer identity"
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981423546"
+      rationale: "Reviewed all eight material conditions against original #96-99 scope, exact Rust assertions, implementation, schemas, compatibility and packaged guidance. Current sealed review preserves source/stage checks; current clean target cannot be bypassed with old policy; cleanup preserves exact content and recovery, refuses unknown or mode-only later edits. Red/green mode regression retained. Original nine sessions remain 6/9 accepted; separately approved three unchanged-input corrected sessions accepted 3/3 after action/file review. Actual private whole-adoption passed on fresh integrated source after PR and main CI; negative identity and idempotent plan checked. Separate existing/older provider composition and local canaries do not imply three production migrations. No Claude, statistical reliability, speed improvement or release claim. Developer approved representative wording and bounded trials in this conversation. Canonical OpDev integration and post-merge execution remain required."
+      subject_sha256: 2dd3bdb3d9183cb1e3e42df8edad7959c5a3070991f63effc101eea7e6d7a43b
