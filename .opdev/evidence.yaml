@@ -14094,6 +14094,16 @@ changes:
     - kind: work
       summary: Issue 82 retains all outcome owners and dependencies; issue 79 records actual paired advice results, limitations and unexecuted provider scenarios rather than claiming the whole redesign is validated.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/82
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer reviewed the representative changed diagnostic wording and explicitly approved it; existing keyboard, plain-text and structured-output targets are preserved.
+    evidence:
+    - kind: human_review
+      summary: The actual response was "Wording is approved" after the configuration-not-verified, missing PreMerge execution and tests-passed-but-review-incomplete messages were presented. Approval covers this unchanged source checkpoint, not release readiness or universal accessibility conformance.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974439395
+    - kind: automated_review
+      summary: The canonical workspace suite passed on this exact material source before wording approval, including consumer-interface process checks. The approval-only ledger update changes no executable, test or output text; required CI will execute the current candidate independently.
+      location: crates/opdev-cli/tests/consumer_interface.rs
   acceptance:
     scope: behavioral
     rationale: "Issue 83 evidence-qualification increment: stop declaration-only behavioral passes, retain missing executions, bind selected pre/post-merge testing to actual results and current acceptance, preserve failure precedence, expose a capability and explain compatibility. No project-layout, migration, release or remote-provider policy implementation is included in this increment."
