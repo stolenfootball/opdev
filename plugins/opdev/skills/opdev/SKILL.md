@@ -84,7 +84,10 @@ skill directory to find the plugin root and select a CLI:
    use the host's normal execution/network approval flow. Do not bypass a denied
    approval, install for unrelated tasks, or initialize a repository as part of
    installation. Report setup failures and do not claim OpDev is active.
-4. Run the selected executable's `plugin verify --contract <absolute-path>`.
+4. Run the selected executable's
+   `plugin verify --contract <plugin-root>/opdev-compatibility.json`, resolving
+   that package file to an absolute path. This is not `.opdev/project.yaml`:
+   the project policy is not a plugin compatibility contract.
    A zero exit verifies runtime compatibility, not project consent. Exit 1 is an incompatible combination; exit
    2 is a verification error. Neither permits the workflow to proceed. Use that same executable
    for the rest of the task, including calls shown as `opdev` in the references.
