@@ -66,6 +66,28 @@ class OracleTests(unittest.TestCase):
         (root / 'writer.py').write_text('def write(text):\n    return text\n')
         self.assertFalse(grade(root, 'P2', 0, before)['protected_files_unchanged'])
 
+    def test_mvp_rejects_helper_error_leaking_through_public_decoder(self):
+        root, before = self.fixture('P1')
+        leaky = BACKUP + '''
+import hmac
+def decode(encoded):
+    try:
+        item = json.loads(encoded)
+        if item["version"] != 1:
+            raise ValueError("version")
+        text, digest = item["text"], item["sha256"]
+        expected = hashlib.sha256(text.encode()).hexdigest()
+    except (TypeError, KeyError, AttributeError) as error:
+        raise ValueError("bad envelope") from error
+    if not hmac.compare_digest(digest, expected):
+        raise ValueError("digest mismatch")
+    return text
+'''
+        (root / 'app.py').write_text(leaky, encoding='utf-8')
+        self.assertNotEqual(grade(root, 'P1', 0, before)['behavior_exit'], 0)
+        (root / 'app.py').write_text(BACKUP, encoding='utf-8')
+        self.assertEqual(grade(root, 'P1', 0, before)['behavior_exit'], 0)
+
     def test_continuation_requires_real_fix_before_answer_and_preserves_pending_label(self):
         root, before = self.fixture('P3')
         self.assertNotEqual(grade(root, 'P3', 0, before)['behavior_exit'], 0)

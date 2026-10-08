@@ -30,6 +30,15 @@ assertion, not compilation or setup. Record observations and limits at the exist
 work/testing authority. Never fabricate runs or mutate live systems. No mutation
 framework or universal score is required; the CLI does not authenticate this evidence.
 
+For a promised failure outcome, trace the consumer path through called helpers,
+not only explicit rejection branches. An invalid value with a familiar representation
+may reach the intended guard while another representation fails inside a dependency
+first. When that risk applies, use a small discriminating example and verify the
+promised error type/status and relevant side effects, not merely that something
+failed. Do not assume a helper's input domain or exception matches the public
+contract. Reuse adequate tests; this does not require an exhaustive input matrix,
+a new test tool or another review round.
+
 ## Record and review
 
 Use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback) without

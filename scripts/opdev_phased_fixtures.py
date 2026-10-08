@@ -88,7 +88,7 @@ for value in ["", "hello", "Å horse 🐎", "a\\nb"]:
     assert json.loads(encoded) == {"version": 1, "text": value, "sha256": hashlib.sha256(value.encode()).hexdigest()}
     assert decode(encoded) == value
 valid = json.loads(encode("hello"))
-bad = ["{", "[]", "null", "{}", json.dumps(dict(valid, version=2)), json.dumps(dict(valid, text="tampered")), json.dumps(dict(valid, sha256="0"*64))]
+bad = ["{", "[]", "null", "{}", json.dumps(dict(valid, version=2)), json.dumps(dict(valid, text="tampered")), json.dumps(dict(valid, sha256="0"*64)), json.dumps(dict(valid, sha256="雪"))]
 for payload in bad:
     try:
         decode(payload)
