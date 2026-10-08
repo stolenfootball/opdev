@@ -95,6 +95,14 @@ fn path(value: &Value, key: &str) -> Result<PathBuf> {
     Ok(PathBuf::from(value[key].as_str().ok_or("missing path")?))
 }
 
+fn assert_schema(value: &Value) -> Result {
+    let schema: Value =
+        serde_json::from_str(include_str!("../../../schema/local-state.schema.json"))?;
+    let validator = jsonschema::validator_for(&schema)?;
+    assert!(validator.is_valid(value), "schema rejected {value}");
+    Ok(())
+}
+
 #[test]
 fn readonly_resolution_is_stable_and_clones_worktrees_are_isolated() -> Result {
     let fixture = Fixture::new()?;
@@ -180,6 +188,7 @@ fn context_resumes_references_but_never_consent_and_stale_writers_preserve_histo
     assert_eq!(inspected["state"], "references_only");
     assert_eq!(inspected["qualification"], "unverified");
     assert_eq!(inspected["context"], context);
+    assert_schema(&context)?;
     context["references"] = json!(["tracker:original-decision", "tracker:revocation"]);
     fs::write(&input, serde_json::to_vec(&context)?)?;
     fixture.json(
@@ -287,6 +296,8 @@ fn retained_checks_keep_distinct_failures_and_never_supply_a_later_gate() -> Res
     assert_eq!(retained["state"], "completed_observation");
     assert_eq!(retained["report"], failed);
     assert_eq!(retained["qualification"], "unverified");
+    assert_schema(&retained["start"])?;
+    assert_schema(&retained["completion"])?;
     let later = fixture.json(
         &["check", "--retain-state", "--no-exec", "--format", "json"],
         1,
@@ -402,6 +413,51 @@ fn killed_check_preserves_unfinished_attempt_and_a_new_run_does_not_complete_it(
         git(
             &fixture.root,
             &["ls-files", "--others", "--exclude-standard"]
+        )?
+        .is_empty()
+    );
+    Ok(())
+}
+
+#[test]
+fn simultaneous_context_writers_keep_one_head_without_overwriting_the_winner() -> Result {
+    use std::process::Stdio;
+    let fixture = Fixture::new()?;
+    let subject = fixture.json(&["workflow", "subject", "--stage", "local"], 0)?;
+    let mut children = Vec::new();
+    for id in ["first", "second"] {
+        let input = fixture.temp.path().join(format!("{id}.json"));
+        fs::write(
+            &input,
+            serde_json::to_vec(&json!({"schema":1,"subject":subject,
+            "work":"tracker:task", "references":[format!("tracker:{id}")]}))?,
+        )?;
+        children.push(
+            fixture
+                .command(&fixture.root)
+                .args(["state", "context", "--expected", "absent", "--input"])
+                .arg(input)
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
+                .spawn()?,
+        );
+    }
+    let mut exits = children
+        .iter_mut()
+        .map(|child| child.wait().map(|s| s.code()))
+        .collect::<std::io::Result<Vec<_>>>()?;
+    exits.sort();
+    assert_eq!(exits, vec![Some(0), Some(2)]);
+    let observed = fixture.json(&["state", "inspect"], 0)?;
+    assert_eq!(observed["state"], "references_only");
+    assert!(matches!(
+        observed["context"]["references"][0].as_str(),
+        Some("tracker:first" | "tracker:second")
+    ));
+    assert!(
+        git(
+            &fixture.root,
+            &["status", "--porcelain=v1", "--untracked-files=all"]
         )?
         .is_empty()
     );

@@ -111,6 +111,39 @@ struct Completion {
     limits: String,
 }
 
+fn digest(value: &str) -> bool {
+    value.len() == 64 && value.bytes().all(|b| b.is_ascii_hexdigit())
+}
+
+impl Start {
+    fn validate(&self) -> Result<()> {
+        ensure!(
+            self.schema == 1
+                && self.kind == "check_attempt"
+                && self.qualification == opdev_core::Outcome::Unverified,
+            "Unsupported attempt schema or qualification claim"
+        );
+        self.subject.validate()?;
+        ensure!(
+            digest(&self.runtime_sha256)
+                && [
+                    &self.runtime_version,
+                    &self.environment.os,
+                    &self.environment.arch,
+                    &self.limits
+                ]
+                .iter()
+                .all(|s| !s.trim().is_empty())
+                && self
+                    .commands
+                    .iter()
+                    .all(|c| !c.id.trim().is_empty() && digest(&c.command_sha256)),
+            "Attempt provenance is incomplete or malformed; do not infer missing identities"
+        );
+        Ok(())
+    }
+}
+
 fn inspect_attempt(paths: &Locations, id: &str) -> Result<()> {
     ensure!(
         id.starts_with("attempt-")
@@ -123,22 +156,21 @@ fn inspect_attempt(paths: &Locations, id: &str) -> Result<()> {
         &read(&directory.join("start.json"))?
             .context("Attempt start is missing; do not infer an execution result")?,
     )?;
-    ensure!(
-        start.schema == 1
-            && start.kind == "check_attempt"
-            && start.qualification == opdev_core::Outcome::Unverified,
-        "Unsupported attempt schema or qualification claim"
-    );
-    start.subject.validate()?;
+    start.validate()?;
     let bytes = read(&directory.join("completion.json"))?;
     let completion: Option<Completion> =
         bytes.as_deref().map(serde_json::from_slice).transpose()?;
     let mut report: Option<CheckReport> = None;
     if let Some(ref finish) = completion {
+        if let Some(ref subject) = finish.observed_subject_after {
+            subject.validate()?;
+        }
         ensure!(
             finish.schema == 1
                 && finish.qualification == opdev_core::Outcome::Unverified
-                && finish.completed_at_ms >= start.started_at_ms,
+                && finish.completed_at_ms >= start.started_at_ms
+                && digest(&finish.report_sha256)
+                && !finish.limits.trim().is_empty(),
             "Unsupported or inconsistent completion record"
         );
         ensure!(
@@ -205,30 +237,29 @@ fn identity(path: &Path) -> Result<String> {
     Ok(sha(&serde_json::to_vec(&(path, physical))?))
 }
 
-fn absolute_env(key: &str) -> Option<PathBuf> {
-    std::env::var_os(key)
-        .map(PathBuf::from)
-        .filter(|p| p.is_absolute())
+fn platform_roots() -> Result<(PathBuf, PathBuf)> {
+    platform_roots_for(std::env::consts::OS, |key| {
+        std::env::var_os(key).map(PathBuf::from)
+    })
 }
 
-fn platform_roots() -> Result<(PathBuf, PathBuf)> {
-    #[cfg(windows)]
-    let (state, cache) = {
+fn platform_roots_for(
+    platform: &str,
+    get: impl Fn(&str) -> Option<PathBuf>,
+) -> Result<(PathBuf, PathBuf)> {
+    let absolute_env = |key| get(key).filter(|path| path.is_absolute());
+    let (state, cache) = if platform == "windows" {
         let base = absolute_env("LOCALAPPDATA")
             .context("LOCALAPPDATA must be an absolute user directory")?
             .join("opdev");
         (base.join("state"), base.join("cache"))
-    };
-    #[cfg(target_os = "macos")]
-    let (state, cache) = {
+    } else if platform == "macos" {
         let home = absolute_env("HOME").context("HOME must be an absolute user directory")?;
         (
             home.join("Library/Application Support/opdev/state"),
             home.join("Library/Caches/opdev"),
         )
-    };
-    #[cfg(all(unix, not(target_os = "macos")))]
-    let (state, cache) = {
+    } else {
         let home = absolute_env("HOME").context("HOME must be an absolute user directory")?;
         (
             absolute_env("XDG_STATE_HOME")
@@ -239,9 +270,8 @@ fn platform_roots() -> Result<(PathBuf, PathBuf)> {
                 .join("opdev"),
         )
     };
-    let state = match std::env::var_os("OPDEV_STATE_DIR") {
-        Some(value) => {
-            let path = PathBuf::from(value);
+    let state = match get("OPDEV_STATE_DIR") {
+        Some(path) => {
             ensure!(
                 path.is_absolute(),
                 "OPDEV_STATE_DIR must be absolute; nothing changed"
@@ -616,6 +646,71 @@ impl Attempt {
                 limits: LIMITS.into(),
             })?,
         )?;
+        Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn platform_roles_and_overrides_are_tested_without_mutating_process_environment() -> Result<()>
+    {
+        let temp = tempfile::tempdir()?;
+        let home = temp.path().join("user");
+        let get = |key: &str| match key {
+            "HOME" | "LOCALAPPDATA" => Some(home.clone()),
+            "XDG_STATE_HOME" | "XDG_CACHE_HOME" => Some(PathBuf::from("relative-ignored")),
+            _ => None,
+        };
+        assert_eq!(
+            platform_roots_for("windows", get)?,
+            (home.join("opdev/state"), home.join("opdev/cache"))
+        );
+        assert_eq!(
+            platform_roots_for("macos", get)?,
+            (
+                home.join("Library/Application Support/opdev/state"),
+                home.join("Library/Caches/opdev")
+            )
+        );
+        assert_eq!(
+            platform_roots_for("linux", get)?,
+            (home.join(".local/state/opdev"), home.join(".cache/opdev"))
+        );
+        let state = temp.path().join("state");
+        let cache = temp.path().join("cache");
+        let custom = |key: &str| match key {
+            "XDG_STATE_HOME" => Some(state.clone()),
+            "XDG_CACHE_HOME" => Some(cache.clone()),
+            _ => get(key),
+        };
+        assert_eq!(
+            platform_roots_for("linux", custom)?,
+            (state.join("opdev"), cache.join("opdev"))
+        );
+        let override_dir = temp.path().join("explicit-state");
+        for platform in ["windows", "macos", "linux"] {
+            let selected = platform_roots_for(platform, |key| {
+                if key == "OPDEV_STATE_DIR" {
+                    Some(override_dir.clone())
+                } else {
+                    get(key)
+                }
+            })?;
+            assert_eq!(selected.0, override_dir);
+            assert_eq!(selected.1, platform_roots_for(platform, get)?.1);
+            assert!(
+                platform_roots_for(platform, |key| if key == "OPDEV_STATE_DIR" {
+                    Some("relative".into())
+                } else {
+                    get(key)
+                })
+                .is_err()
+            );
+        }
+        assert!(!home.exists() && !state.exists() && !cache.exists() && !override_dir.exists());
         Ok(())
     }
 }
