@@ -382,7 +382,7 @@ fn invalid_history_diagnostic_does_not_echo_retained_private_content() -> Result
     let bytes = format!("schema: 2\nproject: []\nchanges: []\n{private}: invalid\n");
     let path = f.root.join(EVIDENCE_PATH);
     fs::write(&path, &bytes)?;
-    let error = format!("{:#}", f.preview().err().expect("unknown ledger field"));
+    let error = format!("{:#}", f.preview().err().context("unknown ledger field")?);
     assert!(error.contains("Original ledger is malformed or unsupported"));
     assert!(!error.contains(private));
     assert!(error.len() < 256);
