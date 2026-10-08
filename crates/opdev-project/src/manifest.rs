@@ -649,7 +649,7 @@ pub struct TestSuite {
 }
 
 /// Pipeline or workflow stage for a test suite.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum TestStage {
     /// Local development.
@@ -668,6 +668,20 @@ pub enum TestStage {
     Scheduled,
     /// Effectiveness evaluation.
     Evaluation,
+}
+
+impl TestStage {
+    /// All supported verification boundaries; omission retains all-stage mappings.
+    pub const ALL: [Self; 8] = [
+        Self::Local,
+        Self::PreMerge,
+        Self::PostMerge,
+        Self::Package,
+        Self::Delivery,
+        Self::Recovery,
+        Self::Scheduled,
+        Self::Evaluation,
+    ];
 }
 
 /// Delivery contract.

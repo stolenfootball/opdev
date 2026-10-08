@@ -248,3 +248,65 @@ fn malformed_preparation_input_reports_error_instead_of_panicking() -> Result {
     }
     Ok(())
 }
+
+#[test]
+fn preparation_preserves_disjoint_stages_without_approving_or_migrating() -> Result {
+    let (repo, scratch) = fixture()?;
+    let root = repo.path();
+    let input_path = scratch.path().join("input.json");
+    let mut input: Value = serde_json::from_slice(&fs::read(&input_path)?)?;
+    input["verifications"][0]["stages"] = json!(["pre_merge"]);
+    let mut post = input["verifications"][0].clone();
+    post["stages"] = json!(["post_merge"]);
+    input["verifications"]
+        .as_array_mut()
+        .ok_or("mappings")?
+        .push(post);
+    fs::write(&input_path, serde_json::to_vec(&input)?)?;
+    let manifest_before = fs::read(root.join(MANIFEST_PATH))?;
+    let ledger_before = fs::read(root.join(EVIDENCE_PATH))?;
+    let rejected = cli(
+        root,
+        &[
+            "--input",
+            input_path.to_str().ok_or("path")?,
+            "--work",
+            "fixture",
+        ],
+    )?;
+    assert_eq!(rejected.status.code(), Some(2));
+    assert_eq!(fs::read(root.join(MANIFEST_PATH))?, manifest_before);
+    assert_eq!(fs::read(root.join(EVIDENCE_PATH))?, ledger_before);
+    let mut manifest = discover(root)?.manifest;
+    manifest.schema = 3;
+    manifest
+        .assurance
+        .profiles
+        .retain(|profile| profile.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic-policy-decision".into(),
+        maintenance_branches: vec![],
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    git(root, &["add", "."])?;
+    let prepared = draft(root, scratch.path())?;
+    assert_eq!(
+        prepared["acceptance"]["verifications"][0]["stages"],
+        json!(["pre_merge"])
+    );
+    assert_eq!(
+        prepared["acceptance"]["verifications"][1]["stages"],
+        json!(["post_merge"])
+    );
+    assert_eq!(prepared["acceptance"]["review"]["outcome"], "unverified");
+    assert_eq!(
+        prepared["acceptance"]["verifications"][1]["outcome"],
+        "unverified"
+    );
+    assert_eq!(fs::read(root.join(EVIDENCE_PATH))?, ledger_before);
+    let plan = preview(root, &scratch.path().join("draft.json"), &prepared)?;
+    assert_eq!(plan["review_current"], false);
+    Ok(())
+}

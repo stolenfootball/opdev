@@ -382,14 +382,32 @@ impl AdoptionRecord {
                 match manifest.testing.suites.iter().find(|suite| &suite.id == id) {
                     None => reasons.push(format!("unknown suite `{id}`")),
                     Some(suite)
-                        if !suite.stages.contains(&TestStage::PreMerge)
-                            || !suite.stages.contains(&TestStage::PostMerge) =>
+                        if project_adoption_catalog(manifest) == 1
+                            && (!suite.stages.contains(&TestStage::PreMerge)
+                                || !suite.stages.contains(&TestStage::PostMerge)) =>
                     {
                         reasons.push(format!(
                             "suite `{id}` requires pre_merge and post_merge stages"
                         ));
                     }
                     Some(_) => {}
+                }
+            }
+            if project_adoption_catalog(manifest) == 2
+                && practice.automated
+                && decision.state == AdoptionState::Implemented
+            {
+                for stage in [TestStage::PreMerge, TestStage::PostMerge] {
+                    if !decision.suites.iter().any(|id| {
+                        manifest
+                            .testing
+                            .suites
+                            .iter()
+                            .any(|suite| &suite.id == id && suite.stages.contains(&stage))
+                    }) {
+                        let stage_name = serde_json::to_value(stage).unwrap_or_default();
+                        reasons.push(format!("No referenced test suite covers stage {stage_name}. Declare and verify a suitable check for this boundary; it may differ from checks at other stages"));
+                    }
                 }
             }
             blockers.extend(

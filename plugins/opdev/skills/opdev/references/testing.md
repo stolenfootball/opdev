@@ -8,6 +8,22 @@ ledger records the scoped inventory/mappings without another project file.
 Capable CLIs require reviewed mappings and current suite execution for TEST-002/003;
 a declared policy is not current-change evidence.
 
+Cover representative happy, boundary and failure behavior through the meaningful
+consumer boundary affected by this increment (API, library, CLI, UI, data or device).
+Do not build every test layer or placeholder cases for irrelevant risks. Inspect
+actual expected values, error behavior and side effects; a snapshot of current
+output is not an accepted requirement. Explain omissions in the existing review.
+
+For escaped defects, normally demonstrate the new regression failing for the
+intended behavioral assertion on the old defect and passing after repair.
+Compilation/setup failure is not a behavioral red result. If reproducing old
+behavior is unavailable or unsafe, record why and use a discriminating alternative;
+never invent execution. Preserve tests or strengthen their actual guarantees.
+Editing an assertion to add required cases/properties is not weakening merely
+because its text changed; inspect removed guarantees and unsupported expectation
+changes. Rebind the reviewed source afterward. Historical frozen experiment
+results must not be rewritten to match a new preservation oracle.
+
 Distinguish configured commands/policies, observed results, reviewed adequacy and
 qualified boundaries. Configuration inspection is useful but does not prove the
 tests ran or the safeguards worked. On a CLI advertising
@@ -22,8 +38,9 @@ of the stronger checks or automatically install/update anything.
 
 - Every behavioral change needs automated verification unless existing coverage is demonstrated or a specific limitation is recorded.
 - Every escaped defect needs regression protection unless a specific justification explains why it is impractical or harmful.
-- Required suites run before integration and again on integrated trunk. Delivery, package, recovery, scheduled, and evaluation suites run at their declared stages.
+- Required verification runs before integration and on integrated trunk, using the reviewed checks declared for each boundary. Legacy mappings still need the same mapped suite at both. Delivery, package, recovery, scheduled, and evaluation suites run at their declared stages.
 - A retry remains visible. Quarantine requires an owner, tracked remediation, and an expiry. A flaky or unavailable qualification test cannot silently qualify delivery.
+- Identify the assurance lost by a quarantine and any justified replacement; it does not waive a required boundary. Review filtered/disabled cases, snapshot updates and failure propagation when relevant. An exit-zero summary is not per-test execution proof.
 - Coverage identifies untested risk. Use the project-selected mode—reporting, non-regression, changed-code threshold, or critical-module thresholds—without treating percentage alone as test quality.
 - Tests that depend on live services, devices, stores, fleets, models, or other external systems must state dependencies, environment, variability, freshness, and whether their result affects deployability or effectiveness.
 - Keep deterministic correctness and deployability separate from effectiveness evaluation.
@@ -47,6 +64,17 @@ CI/delivery flags. The preview lists literal arguments, directories, timeouts an
 extensions without execution or qualification. Preserve distinct stages and
 intentional repeated checks; do not infer equivalence from matching command text.
 
+With an explicitly selected engineering policy and CLI capability
+`acceptance.stage-mappings.v1`, use [stage-specific acceptance mappings](acceptance.md)
+when different checks provide the required guarantees at different boundaries.
+Review adequacy and supported environments before changing policy; this is not
+permission to replace integration tests with a generic smoke test. Unknown impact,
+shared code, scripts, lockfiles and executable guidance broaden the investigation
+and checks. No automatic path-based skip or cross-stage execution reuse is implied.
+Keep performance observations in the existing work authority: first useful
+feedback, qualification latency, queue/setup time and summed compute. A sustained
+miss merits a bounded recommendation, not a new form, hidden skip or recurring pitch.
+
 When the project has explicitly selected same-run CI execution reuse and the
 CLI reports `execution.same-run.v1`, use its reviewed producer policy with
 `check --ci --reuse-ci-policy PATH --execution-environment ID`. This is opt-in,
@@ -63,6 +91,13 @@ or installed runtime is changed implicitly to enable this option.
 
 ## Optional test-strength checks
 
+An ordinary low-risk fix with discriminating existing tests needs no mutation
+campaign, new property-test library or additional questionnaire. For a concrete
+weak assertion, begin with the smallest useful negative example; escalate only
+when risk justifies it. For example, a boundary error may need one exact threshold
+assertion, while a serialization or data-migration invariant may justify bounded
+property or fault-injection testing. Reuse project tools and limits.
+
 When a concrete risk or evidence gap warrants stronger tests, propose a bounded
 mutation, property-based or compatibility check using project-selected tooling.
 Preserve adequate existing choices. Agree on the behavior/scope, compute budget,
@@ -78,6 +113,10 @@ baselines, incomplete selection and timeouts limit conclusions. Demonstrate a
 meaningful missed behavior and its improved assertion; measure feedback cost.
 Require fresh supported evidence for any selected blocking policy. An optional
 pass never replaces core rules or current-change acceptance evidence.
+
+For maintainability, prefer a simple adequate design, clear consumer boundaries
+and reusable existing contracts. Do not invent universal function-size/file-count
+quotas or speculative abstractions. Existing project-selected checks still apply.
 
 ## Proportionate report evidence
 

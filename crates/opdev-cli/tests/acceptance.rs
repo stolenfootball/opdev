@@ -83,7 +83,7 @@ fn project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
         conditions: vec![AcceptanceCondition { id: "R1".into(),
             statement: "Preserve caller order and return no more than the requested count".into(),
             authority: "requirements.md".into(), source: reference(root, "requirements.md", "R1: Preserve caller order")? }],
-        verifications: vec![AcceptanceVerification { condition: "R1".into(), method: AcceptanceMethod::Automated,
+        verifications: vec![AcceptanceVerification { condition: "R1".into(), stages: None, method: AcceptanceMethod::Automated,
             target: reference(root, "tests.py", "assert items[:2] == ['c', 'a']")?,
             assertion: "Exact sequence checks order and count together".into(),
             discriminating_case: "Three items c,a,b with limit 2 must produce c,a, not a,b,c".into(),
@@ -681,6 +681,304 @@ fn wrong_green_assertion_then_meaningful_red_green_is_observed() -> Result {
         assert_eq!(report["checks"][0]["outcome"], check_outcome);
         assert_eq!(outcome(&report, "OPDEV-TEST-002")?, rule_outcome);
         assert_eq!(outcome(&report, "OPDEV-TEST-003")?, rule_outcome);
+    }
+    Ok(())
+}
+
+#[test]
+fn strengthened_assertions_need_fresh_review_not_byte_identical_tests() -> Result {
+    let (temp, mut ledger) = project()?;
+    let root = temp.path();
+    fs::write(root.join(".gitignore"), "__pycache__/\n")?;
+    fs::write(
+        root.join("tasktray.py"),
+        "def select(items, limit):\n    return items[:limit]\n",
+    )?;
+    let original = "assert select(['c', 'a', 'b'], 2) == ['c', 'a']";
+    // Same accepted order/count contract; additional boundary guarantees are
+    // conjoined with the original assertion instead of preserving its bytes.
+    let stronger = "assert (select(['c', 'a', 'b'], 2) == ['c', 'a'] and select(['c', 'a'], 0) == [] and select([], 3) == [] and select(['c', 'a'], 9) == ['c', 'a'])";
+    for assertion in [original, stronger] {
+        fs::write(
+            root.join("tests.py"),
+            format!("from tasktray import select\n{assertion}\n"),
+        )?;
+        git(root, &["add", "."])?;
+        let stale = check(root, &[])?;
+        assert_eq!(outcome(&stale, "OPDEV-TEST-002")?, "unverified");
+        ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+        let acceptance = ledger.changes[0].acceptance.as_mut().ok_or("acceptance")?;
+        acceptance.verifications[0].target = reference(root, "tests.py", assertion)?;
+        acceptance.verifications[0].assertion = "Exact caller sequence and count; added empty/zero/large-limit boundaries retain the original guarantees".into();
+        acceptance.review.rationale = "Synthetic review of actual conjoined assertions; no removed guarantee or changed accepted result".into();
+        bind(&mut ledger)?;
+        save(root, &ledger)?;
+        let report = check(root, &[])?;
+        assert_eq!(outcome(&report, "OPDEV-TEST-002")?, "passed");
+        assert_eq!(outcome(&report, "OPDEV-TEST-003")?, "passed");
+        assert_eq!(
+            report["checks"].as_array().ok_or("checks")?.len(),
+            1,
+            "no compulsory extra test-strength tool"
+        );
+    }
+    // A plausible wrong implementation must still fail the strengthened test.
+    fs::write(
+        root.join("tasktray.py"),
+        "def select(items, limit):\n    return sorted(items)[:limit]\n",
+    )?;
+    git(root, &["add", "."])?;
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    let report = check(root, &[])?;
+    assert_eq!(report["checks"][0]["outcome"], "failed");
+    assert_eq!(outcome(&report, "OPDEV-TEST-003")?, "failed");
+    Ok(())
+}
+
+fn staged_project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
+    let (temp, mut ledger) = project()?;
+    let root = temp.path();
+    fs::write(root.join(".gitignore"), "__pycache__/\n.counts\n")?;
+    fs::write(
+        root.join("tasktray.py"),
+        "def select(items, limit):\n    return items[:limit]\n",
+    )?;
+    fs::write(
+        root.join("tests.py"),
+        "from tasktray import select\nwith open('.counts', 'a') as f: f.write('pre\\n')\nassert select(['c', 'a', 'b'], 2) == ['c', 'a']\n",
+    )?;
+    fs::write(
+        root.join("consumer.py"),
+        "from tasktray import select\nwith open('.counts', 'a') as f: f.write('post\\n')\nassert select(['c', 'a'], 1) == ['c']\n",
+    )?;
+    let mut manifest = discover(root)?.manifest;
+    manifest.schema = 3;
+    manifest
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic-stage-review".into(),
+        maintenance_branches: vec![],
+    });
+    manifest.testing.suites[0].stages = vec![TestStage::PreMerge];
+    let mut command = manifest.commands["acceptance"].clone();
+    command.argv[1] = "consumer.py".into();
+    manifest.commands.insert("consumer".into(), command);
+    manifest.testing.suites.push(TestSuite {
+        id: "consumer".into(),
+        command: "consumer".into(),
+        stages: vec![TestStage::PostMerge],
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    git(root, &["add", "."])?;
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    let acceptance = ledger.changes[0].acceptance.as_mut().ok_or("acceptance")?;
+    let pre = &mut acceptance.verifications[0];
+    pre.stages = Some(vec![TestStage::PreMerge]);
+    pre.target = reference(
+        root,
+        "tests.py",
+        "assert select(['c', 'a', 'b'], 2) == ['c', 'a']",
+    )?;
+    let mut post = pre.clone();
+    post.stages = Some(vec![TestStage::PostMerge]);
+    post.suite = Some("consumer".into());
+    post.target = reference(root, "consumer.py", "assert select(['c', 'a'], 1) == ['c']")?;
+    post.assertion =
+        "Actual consumer import preserves caller order and the single-item limit".into();
+    post.discriminating_case = "c,a limited to one must yield c, not sorted a or two items".into();
+    acceptance.verifications.push(post);
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    Ok((temp, ledger))
+}
+
+#[test]
+fn distinct_stage_checks_execute_once_and_missing_execution_never_reuses_another_stage() -> Result {
+    let (temp, _) = staged_project()?;
+    let root = temp.path();
+    let pre = check(root, &[])?;
+    assert_eq!(outcome(&pre, "OPDEV-TEST-002")?, "passed");
+    assert_eq!(pre["checks"].as_array().ok_or("checks")?.len(), 1);
+    assert_eq!(pre["checks"][0]["id"], "acceptance");
+    assert_eq!(
+        fs::read_to_string(root.join(".counts"))?
+            .lines()
+            .collect::<Vec<_>>(),
+        ["pre"]
+    );
+    let unexecuted = check(root, &["--post-merge", "--no-exec"])?;
+    assert_eq!(outcome(&unexecuted, "OPDEV-TEST-002")?, "unverified");
+    assert_eq!(
+        fs::read_to_string(root.join(".counts"))?
+            .lines()
+            .collect::<Vec<_>>(),
+        ["pre"]
+    );
+    let post = check(root, &["--post-merge"])?;
+    assert_eq!(outcome(&post, "OPDEV-TEST-002")?, "passed");
+    assert_eq!(post["checks"].as_array().ok_or("checks")?.len(), 1);
+    assert_eq!(post["checks"][0]["id"], "consumer");
+    assert_eq!(
+        fs::read_to_string(root.join(".counts"))?
+            .lines()
+            .collect::<Vec<_>>(),
+        ["pre", "post"]
+    );
+    // Executable-looking guidance is not excluded just because it is Markdown.
+    fs::write(
+        root.join("shared-guidance.md"),
+        "Run a changed shared setup command.\n",
+    )?;
+    git(root, &["add", "."])?;
+    assert_eq!(
+        outcome(&check(root, &["--post-merge"])?, "OPDEV-TEST-002")?,
+        "unverified"
+    );
+    Ok(())
+}
+
+#[test]
+fn stage_mapping_overlap_empty_unknown_and_legacy_policy_fail_closed() -> Result {
+    let (temp, ledger) = staged_project()?;
+    let catalog = discover(temp.path())?.manifest.catalog()?;
+    for case in [
+        "overlap",
+        "all_overlap",
+        "empty",
+        "duplicate",
+        "unknown",
+        "legacy",
+    ] {
+        let mut value = serde_json::to_value(&ledger)?;
+        let mappings = &mut value["changes"][0]["acceptance"]["verifications"];
+        match case {
+            "overlap" => mappings[1]["stages"] = serde_json::json!(["pre_merge"]),
+            "all_overlap" => {
+                mappings[0]
+                    .as_object_mut()
+                    .ok_or("mapping")?
+                    .remove("stages");
+            }
+            "empty" => mappings[0]["stages"] = serde_json::json!([]),
+            "duplicate" => mappings[0]["stages"] = serde_json::json!(["pre_merge", "pre_merge"]),
+            "unknown" => mappings[0]["stages"] = serde_json::json!(["imagined_stage"]),
+            _ => (),
+        }
+        fs::write(temp.path().join(EVIDENCE_PATH), serde_json::to_vec(&value)?)?;
+        let selected = if case == "legacy" {
+            embedded_catalog()?
+        } else {
+            catalog.clone()
+        };
+        assert!(
+            EvidenceLedger::load_optional(temp.path(), &selected).is_err(),
+            "{case}"
+        );
+        assert!(!temp.path().join(".counts").exists());
+    }
+    Ok(())
+}
+
+#[test]
+fn omitted_stages_preserve_legacy_digest_and_scoped_stages_change_it() -> Result {
+    let (_, ledger) = project()?;
+    let change = &ledger.changes[0];
+    let acceptance = change.acceptance.as_ref().ok_or("acceptance")?;
+    let mappings = serde_json::to_value(&acceptance.verifications)?;
+    assert!(mappings[0].get("stages").is_none());
+    let legacy_payload = serde_json::json!({
+        "protocol": 1, "fingerprint": change.fingerprint, "work": change.work,
+        "scope": acceptance.scope, "rationale": acceptance.rationale,
+        "conditions": acceptance.conditions, "verifications": mappings,
+    });
+    let digest = acceptance.digest(&change.fingerprint, &change.work)?;
+    assert_eq!(
+        digest,
+        format!("{:x}", Sha256::digest(serde_json::to_vec(&legacy_payload)?))
+    );
+    let mut scoped = acceptance.clone();
+    scoped.verifications[0].stages = Some(vec![TestStage::PreMerge]);
+    assert_ne!(digest, scoped.digest(&change.fingerprint, &change.work)?);
+    Ok(())
+}
+
+#[test]
+fn missing_mapping_removed_check_and_known_contradictions_cannot_hide_at_another_stage() -> Result {
+    for case in ["mapping", "suite", "failed", "other_stage_failed"] {
+        let (temp, mut ledger) = staged_project()?;
+        let root = temp.path();
+        match case {
+            "mapping" => {
+                ledger.changes[0]
+                    .acceptance
+                    .as_mut()
+                    .ok_or("acceptance")?
+                    .verifications
+                    .pop();
+            }
+            "suite" => {
+                let mut manifest = discover(root)?.manifest;
+                manifest
+                    .testing
+                    .suites
+                    .retain(|suite| suite.id != "consumer");
+                fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+            }
+            "failed" => {
+                let path = root.join("consumer.py");
+                fs::write(
+                    &path,
+                    format!(
+                        "{}\nassert False, 'consumer failure'\n",
+                        fs::read_to_string(&path)?
+                    ),
+                )?;
+            }
+            _ => {
+                ledger.changes[0]
+                    .acceptance
+                    .as_mut()
+                    .ok_or("acceptance")?
+                    .verifications[0]
+                    .outcome = Outcome::Failed;
+            }
+        }
+        git(root, &["add", "."])?;
+        ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+        if case == "failed" {
+            ledger.changes[0]
+                .acceptance
+                .as_mut()
+                .ok_or("acceptance")?
+                .verifications[1]
+                .target = reference(root, "consumer.py", "assert select(['c', 'a'], 1) == ['c']")?;
+        }
+        bind(&mut ledger)?;
+        save(root, &ledger)?;
+        let report = check(root, &["--post-merge"])?;
+        let expected = if case.contains("failed") {
+            "failed"
+        } else {
+            "unverified"
+        };
+        assert_eq!(
+            outcome(&report, "OPDEV-TEST-002")?,
+            expected,
+            "{case}: {report}"
+        );
+        if case == "mapping" {
+            assert!(
+                report
+                    .to_string()
+                    .contains("needs exactly one reviewed test or observation")
+            );
+        }
     }
     Ok(())
 }

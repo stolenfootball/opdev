@@ -435,17 +435,7 @@ fn check(
                 blockers.push(format!("core gate {gate:?} is blocked"));
             }
         }
-        for decision in record.practices.values() {
-            for suite in &decision.suites {
-                if !report
-                    .checks
-                    .iter()
-                    .any(|check| check.id == *suite && check.outcome == Outcome::Passed)
-                {
-                    blockers.push(format!("suite `{suite}` did not pass in this evaluation"));
-                }
-            }
-        }
+        blockers.extend(referenced_suite_blockers(&record, &manifest, &report));
         if staged_fingerprint(&root).ok() != fingerprint
             || std::fs::read(root.join(EVIDENCE_PATH))? != evidence_before
         {
@@ -487,6 +477,38 @@ fn check(
     } else {
         ExitCode::from(1)
     })
+}
+
+fn referenced_suite_blockers(
+    record: &AdoptionRecord,
+    manifest: &opdev_project::ProjectManifest,
+    report: &opdev_engine::CheckReport,
+) -> Vec<String> {
+    let mut blockers = Vec::new();
+    for decision in record.practices.values() {
+        for suite in &decision.suites {
+            if manifest.assurance.engineering.is_some()
+                && manifest.testing.suites.iter().any(|declared| {
+                    &declared.id == suite
+                        && !declared
+                            .stages
+                            .contains(&opdev_project::TestStage::PreMerge)
+                })
+            {
+                // This invocation verifies the pre-merge boundary only. Existing
+                // post-merge gate evidence remains independently required.
+                continue;
+            }
+            if !report
+                .checks
+                .iter()
+                .any(|check| check.id == *suite && check.outcome == Outcome::Passed)
+            {
+                blockers.push(format!("suite `{suite}` did not pass in this evaluation"));
+            }
+        }
+    }
+    blockers
 }
 
 fn review_blockers(root: &std::path::Path, fingerprint: Option<&str>) -> Result<Vec<String>> {

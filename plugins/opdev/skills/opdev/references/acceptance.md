@@ -15,6 +15,14 @@ needs input whose order differs from sorting; a maximum-count test needs enough
 eligible items to expose an extra result. Names, coverage percentages and green
 suites alone do not establish this relationship. Check affected documentation too.
 
+Review representative happy, boundary and failure cases at the affected consumer
+interface; do not demand every test layer. Inspect snapshots and runner selection
+when they affect the claim. Preserve or improve actual guarantees: stronger
+assertions may legitimately change an old test body. A stale binding needs fresh
+review, not reverting the stronger test or classifying every edit as weakening.
+Do not claim semantic equivalence from syntax alone. Quarantines retain the lost
+assurance as well as owner, issue and expiry; known required failures stay visible.
+
 Reuse adequate existing tests. For important changed behavior or escaped defects,
 seek a meaningful red/green transition, regression against the known defect, or
 bounded isolated mutation using project tooling. Failure must be for the intended
@@ -57,7 +65,7 @@ remain supported. No extra project policy file is required.
   explain applicability/exclusions in `rationale`, not by filename heuristics.
 - `conditions`: all material conditions/risk objectives with local ID, statement,
   original authority and exact tracked source reference.
-- `verifications`: one mapping per condition ID with actual assertion,
+- `verifications`: one applicable mapping per condition ID with actual assertion,
   `discriminating_case`, target source, method and reviewed outcome. The same
   assertion can serve multiple conditions with separate explanations. `automated`
   names a declared `suite`; `review` needs appropriate evidence and a specific
@@ -69,6 +77,19 @@ remain supported. No extra project policy file is required.
   the CLI does not retrieve or authenticate external requirements.
 - Mapping outcomes: `passed`, `failed`, `unverified`. A concrete contradiction
   is failed despite a green suite; uncertainty is not an invented exclusion.
+
+On a CLI advertising `acceptance.stage-mappings.v1`, explicit engineering policy
+allows optional nonempty `stages` on each mapping. For example, map the same
+condition to a pre-merge unit assertion and a separate post-merge consumer test.
+Use stage names from the project contract. The mappings must not overlap, and
+every inventoried condition needs exactly one mapping at the requested stage.
+Omission retains legacy all-stage behavior and its review digest; legacy project
+policy rejects scoped mappings rather than weakening its existing checks. Review
+what each boundary proves before an authorized policy change. All tracked targets
+and reviewed outcomes remain checked: a known contradiction at another stage
+cannot be hidden. Only the selected stage's automated mappings require current
+execution here; other-stage results cannot substitute for it. No predictive test
+selector, cross-revision cache or extra evidence file is introduced.
 
 Stage material files and obtain `opdev evidence fingerprint`. Prepare mappings
 with `review.outcome: unverified`. `opdev evidence acceptance-digest` computes the

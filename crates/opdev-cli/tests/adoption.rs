@@ -1112,6 +1112,62 @@ fn engineering_inapplicable_pipeline_is_distinct_from_missing_delivery_review()
 }
 
 #[test]
+fn engineering_adoption_accepts_distinct_pre_and_post_checks_but_not_a_missing_boundary()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = engineering_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.testing.suites[0].stages = vec![TestStage::PreMerge];
+    manifest.testing.suites.push(TestSuite {
+        id: "integrated".into(),
+        command: "verify".into(),
+        stages: vec![TestStage::PostMerge],
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    for decision in record
+        .practices
+        .values_mut()
+        .filter(|decision| !decision.suites.is_empty())
+    {
+        decision.suites = vec!["verify".into(), "integrated".into()];
+    }
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    bind_review(root)?;
+    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    let checks = report["core_report"]["checks"].as_array().ok_or("checks")?;
+    assert_eq!(checks.len(), 1);
+    assert_eq!(checks[0]["id"], "verify");
+    let post = cli(root, &["check", "--ci", "--post-merge", "--format", "json"])?;
+    assert!(
+        post.status.success(),
+        "{}",
+        String::from_utf8_lossy(&post.stdout)
+    );
+    let report: Value = serde_json::from_slice(&post.stdout)?;
+    assert_eq!(report["checks"][0]["id"], "integrated");
+    manifest.testing.suites.pop();
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    bind_review(root)?;
+    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    assert!(report["core_report"].is_null());
+    assert!(
+        report["blockers"]
+            .to_string()
+            .contains("No referenced test suite covers stage \\\"post_merge\\\"")
+    );
+    Ok(())
+}
+
+#[test]
 fn implemented_without_review_or_with_failing_checks_cannot_complete()
 -> Result<(), Box<dyn std::error::Error>> {
     let repo = ready_fixture()?;
