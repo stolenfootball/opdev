@@ -143,6 +143,7 @@ fn inspect_directory(plan: &MigrationPlan, path: &str) -> Result<()> {
 
 pub(super) fn prepare(plan: &mut MigrationPlan) -> Result<()> {
     validate_plan(plan)?;
+    validate_text_modes(plan)?;
     for action in plan.cleanup.clone() {
         if action.kind == Kind::EmptyDirectory {
             inspect_directory(plan, &action.path)?;
@@ -155,35 +156,6 @@ pub(super) fn prepare(plan: &mut MigrationPlan) -> Result<()> {
             before.as_ref().map(|s| sha(s.as_bytes())),
         );
         if let Some(dest) = &action.destination {
-            if before.is_some() {
-                let mode = std::process::Command::new("git")
-                    .arg("-C")
-                    .arg(&plan.root)
-                    .args([
-                        "--literal-pathspecs",
-                        "ls-files",
-                        "--stage",
-                        "--",
-                        &action.path,
-                    ])
-                    .output()?;
-                ensure!(
-                    mode.status.success() && !mode.stdout.starts_with(b"100755 "),
-                    "Executable file migration needs a separate reviewed mode-preserving mechanism"
-                );
-                #[cfg(unix)]
-                {
-                    use std::os::unix::fs::PermissionsExt;
-                    ensure!(
-                        fs::metadata(plan.root.join(&action.path))?
-                            .permissions()
-                            .mode()
-                            & 0o111
-                            == 0,
-                        "Executable file migration needs a separate reviewed mode-preserving mechanism"
-                    );
-                }
-            }
             inventory::target(&plan.root, dest)?;
             let existing = inventory::text(&plan.root.join(dest))?;
             plan.inputs
@@ -227,6 +199,47 @@ pub(super) fn prepare(plan: &mut MigrationPlan) -> Result<()> {
                 plan.inputs
                     .insert(replacement, content.map(|s| sha(s.as_bytes())));
             }
+        }
+    }
+    Ok(())
+}
+
+// Byte equality cannot detect chmod. Recheck before apply/resume writes as well
+// as preview, including retirements whose text-only recovery cannot retain mode.
+pub(super) fn validate_text_modes(plan: &MigrationPlan) -> Result<()> {
+    let paths: Vec<_> = plan
+        .cleanup
+        .iter()
+        .filter(|action| action.kind != Kind::EmptyDirectory)
+        .flat_map(|action| std::iter::once(&action.path).chain(action.destination.iter()))
+        .collect();
+    if paths.is_empty() {
+        return Ok(());
+    }
+    let modes = std::process::Command::new("git")
+        .arg("-C")
+        .arg(&plan.root)
+        .args(["--literal-pathspecs", "ls-files", "--stage", "-z", "--"])
+        .args(&paths)
+        .output()?;
+    ensure!(
+        modes.status.success()
+            && !modes
+                .stdout
+                .split(|byte| *byte == 0)
+                .any(|entry| entry.starts_with(b"100755 ")),
+        "Executable file migration needs a separate reviewed mode-preserving mechanism"
+    );
+    #[cfg(unix)]
+    for path in paths {
+        use std::os::unix::fs::PermissionsExt;
+        match fs::symlink_metadata(plan.root.join(path)) {
+            Ok(meta) => ensure!(
+                meta.permissions().mode() & 0o111 == 0,
+                "Executable file migration needs a separate reviewed mode-preserving mechanism"
+            ),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) => return Err(error.into()),
         }
     }
     Ok(())

@@ -17,6 +17,15 @@ project schema 3, engineering policy 1, layout 1, external semantic-review stora
 Missing support is an upgrade gap, not permission to finish on legacy policy.
 Ordinary work and tooling-only updates do not select this target or restart adoption.
 
+Keep work tracking and semantic-review storage separate when recommending the
+destination. Permission to use a repository-owned work folder permits scoped work
+notes there; it does not make that folder an external evidence store. For clean-1,
+select a supported provider/repository and review retention, retrieval and recovery
+through `assurance.review_storage`. Neither a committed Markdown review, Git
+history nor ignored local recovery replaces that selection. If remote access or
+the storage decision is unavailable, keep it unresolved and continue independent
+authorized local work; do not offer a local-folder substitute as compliant.
+
 First inspect the selected policy. Engineering policy 1 (project schema 3) uses
 adoption inventory 2: coding conventions, appropriate formatting/static checks,
 dependencies, reproducible setup and review are required outcomes, not optional
@@ -125,6 +134,14 @@ or reset adequate implementations. Check local and CI capabilities first.
 not initialization or write permission. `init` and `adoption approve` write records;
 `adoption check` runs project commands. Distinguish a missing prerequisite from
 host permission denial, and do not describe every command as a write.
+
+For assessment-only requests, prefer inspections without generated files or other
+project changes. A diagnostic command may still write caches or outputs; do not
+call the assessment read-only merely because it made no tracked diff. Avoid such
+writes where possible and disclose any generated state. If a host denies cleanup,
+leave that state disclosed rather than trying another shell, tool or Git cleanup
+command to accomplish the denied deletion. A new implementation decision and an
+execution permission are separate; neither can be inferred from this assessment.
 
 ## Assess and recommend
 

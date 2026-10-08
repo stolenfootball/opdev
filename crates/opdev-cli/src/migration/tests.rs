@@ -201,6 +201,31 @@ fn text_cleanup_refuses_to_silently_drop_executable_modes() -> Result<()> {
     assert!(!f.root.join(".opdev/docs/design.md").exists());
     Ok(())
 }
+
+#[test]
+fn later_executable_mode_change_stops_apply_before_any_write() -> Result<()> {
+    let f = with_cleanup()?;
+    let plan = f.preview()?;
+    let manifest = fs::read(f.root.join(MANIFEST_PATH))?;
+    git(
+        &f.root,
+        &["update-index", "--chmod=+x", ".opdev/old/design.md"],
+    )?;
+    assert!(apply_plan(&plan, usize::MAX).is_err());
+    assert_eq!(fs::read(f.root.join(MANIFEST_PATH))?, manifest);
+    assert!(f.root.join(".opdev/old/design.md").exists());
+    assert!(!f.root.join(".opdev/docs/design.md").exists());
+    Ok(())
+}
+
+#[test]
+fn text_retirement_also_preserves_executable_recovery_requirements() -> Result<()> {
+    let f = with_cleanup()?;
+    git(&f.root, &["update-index", "--chmod=+x", "OBSOLETE.md"])?;
+    assert!(f.preview().is_err());
+    assert!(f.root.join("OBSOLETE.md").exists());
+    Ok(())
+}
 impl Fixture {
     fn new() -> Result<Self> {
         let temp = tempfile::tempdir()?;

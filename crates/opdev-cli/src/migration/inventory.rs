@@ -247,6 +247,7 @@ pub(super) fn owners(plan: &mut Plan, original: &ProjectManifest, candidate: &Pr
 }
 
 pub(super) fn unchanged(plan: &Plan) -> Result<()> {
+    super::cleanup::validate_text_modes(plan)?;
     let mut current_namespace = namespace(&plan.root)?;
     for directory in [".github/workflows", ".gitlab"] {
         walk(&plan.root, directory, &mut current_namespace, &mut 0)?;
