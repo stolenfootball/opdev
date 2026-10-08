@@ -350,8 +350,14 @@ fn inspect_bytes(
         sha(bytes) == sha256.to_ascii_lowercase(),
         "Evidence bundle bytes changed; do not reuse it"
     );
-    let bundle: Bundle = serde_json::from_slice(bytes)?;
-    bundle.validate()?;
+    // Imported reports may contain private output. Parser diagnostics can echo
+    // unknown field/variant values, so do not expose their source error chain.
+    let bundle: Bundle = serde_json::from_slice(bytes).map_err(|_| {
+        anyhow::anyhow!("Evidence bundle contains malformed or unsupported fields; inspect its schema locally. No private content echoed")
+    })?;
+    bundle.validate().map_err(|_| {
+        anyhow::anyhow!("Evidence bundle schema or internal bindings are inconsistent; inspect its source, configuration, review and attempt identities locally. No earlier result substituted")
+    })?;
     let (root, manifest) = crate::load_project(root)?;
     ensure!(
         local_state::subject(&root, &manifest, stage)? == bundle.subject

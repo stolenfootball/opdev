@@ -544,3 +544,23 @@ fn retrieval_rejects_untrusted_locator_and_product_destinations_without_network_
     assert!(!f.state.exists());
     Ok(())
 }
+
+#[test]
+fn imported_parser_errors_do_not_echo_private_report_values() -> Result {
+    let f = Fixture::new()?;
+    let file = f.temp.path().join("private.json");
+    let mut expected = f.export(&file, None)?;
+    let original: Value = serde_json::from_slice(&fs::read(&file)?)?;
+    for pointer in ["/qualification", "/configuration/project/kind"] {
+        let mut invalid = original.clone();
+        *invalid.pointer_mut(pointer).ok_or("field")? = json!("PRIVATE-CONTENT-MUST-NOT-BE-ECHOED");
+        let bytes = serde_json::to_vec(&invalid)?;
+        fs::write(&file, &bytes)?;
+        expected["sha256"] = json!(format!("{:x}", Sha256::digest(&bytes)));
+        let output = f.inspect(&f.root, &file, &expected, "local")?;
+        assert_eq!(output.status.code(), Some(2));
+        assert!(!String::from_utf8_lossy(&output.stderr).contains("PRIVATE-CONTENT"));
+        assert!(!String::from_utf8_lossy(&output.stdout).contains("PRIVATE-CONTENT"));
+    }
+    Ok(())
+}

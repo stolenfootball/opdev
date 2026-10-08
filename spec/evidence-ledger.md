@@ -35,6 +35,9 @@ bundle's own summary. It verifies exact bytes, known nested schemas, internal
 bindings and tracked references; a matching outer hash cannot hide inconsistent
 configuration, acceptance or completed-report bytes. Unknown versions, missing
 files and mismatches are errors, with no older-result or network fallback.
+Imported parser and nested-validation errors name the failed schema/binding area
+without echoing arbitrary field values or private command output. Inspect details
+locally when needed; do not paste the original envelope into public diagnostics.
 
 Inspection reports integrity separately from the attributed review outcome and
 whether that review's own binding is current. It always reports origin and
