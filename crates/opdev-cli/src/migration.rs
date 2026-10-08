@@ -203,7 +203,8 @@ fn history(plan: &mut MigrationPlan, candidate: &ProjectManifest) -> Result<()> 
         return Ok(());
     };
     let original = ProjectManifest::load(&plan.root.join(MANIFEST_PATH))?;
-    opdev_project::EvidenceLedger::load_optional(&plan.root, &original.catalog()?)?;
+    opdev_project::EvidenceLedger::load_optional(&plan.root, &original.catalog()?)
+        .map_err(|_| anyhow::anyhow!("Original ledger is malformed or unsupported; preserve it for explicit recovery. No record contents echoed"))?;
     let Some(locator) = &plan.history else {
         plan.finding("history", Outcome::Failed, "Legacy history needs an independently selected retained archive before migration. Original ledger remains active; no cleanup performed");
         return Ok(());

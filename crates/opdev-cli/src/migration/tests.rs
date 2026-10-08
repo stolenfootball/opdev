@@ -374,3 +374,18 @@ fn large_original_history_is_preserved_and_oversized_input_is_not_trimmed() -> R
     assert_eq!(fs::read(&path)?.len(), oversized.len());
     Ok(())
 }
+
+#[test]
+fn invalid_history_diagnostic_does_not_echo_retained_private_content() -> Result<()> {
+    let f = Fixture::new()?;
+    let private = "private-historical-context-never-print";
+    let bytes = format!("schema: 2\nproject: []\nchanges: []\n{private}: invalid\n");
+    let path = f.root.join(EVIDENCE_PATH);
+    fs::write(&path, &bytes)?;
+    let error = format!("{:#}", f.preview().err().expect("unknown ledger field"));
+    assert!(error.contains("Original ledger is malformed or unsupported"));
+    assert!(!error.contains(private));
+    assert!(error.len() < 256);
+    assert_eq!(fs::read_to_string(&path)?, bytes);
+    Ok(())
+}
