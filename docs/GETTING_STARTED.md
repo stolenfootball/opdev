@@ -56,7 +56,7 @@ installer verifies and reinstalls that version; automatic updating is disabled.
 See [manual verification and historical releases](../release/README.md#consumer-verification)
 and [recovery](../release/README.md#recovery).
 
-The plugin has a separate managed-runtime path: it deliberately pins CLI 0.1.1
+The plugin has a separate managed-runtime path: it deliberately pins CLI 0.4.0
 in [runtime.lock](../plugins/opdev/runtime.lock), verifies compatibility, and
 does not modify PATH. That pin is independent of the plugin's version.
 
@@ -78,13 +78,37 @@ opdev init
 ```
 
 Discovery reads static metadata; it does not run repository-controlled commands.
-Initialization writes `.opdev/project.yaml` and managed blocks in `AGENTS.md`
+The legacy initialization shown above writes `.opdev/project.yaml` and managed blocks in `AGENTS.md`
 and `CLAUDE.md`. It preserves unrelated instructions, is idempotent, and does
 not move or create documentation folders.
 
 Development builds also create `.opdev/adoption.yaml` with every practice
 pending for new projects. Re-running initialization preserves existing decisions;
 legacy projects are not silently migrated. See the completion workflow below.
+
+### Select current development policy and layout explicitly
+
+Check `opdev init --help` and compatibility first; the historical installer
+example above does not supply these newer capabilities. A new project can select
+engineering policy 1, the separate MinimumCD assessment (`1` or `none`), and
+layout 1 using `--engineering-policy`, `--minimumcd-assessment`,
+`--layout-version`, and an actual `--policy-review-reference`. Preview with
+`--dry-run` before the approved initialization. A supplied reference is attribution,
+not proof of developer consent; do not fill it with an invented approval.
+
+Engineering policy makes baseline outcomes mandatory while preserving adequate
+tools. Applicability depends on real capabilities, not missing configuration.
+Selected layout 1 creates the shared `.opdev/guidance.md` and short root pointers,
+in addition to the project and pending adoption records. It creates no optional
+documents. Review and stage all files actually generated, including adoption and
+shared guidance when present; the legacy example below is not their complete list.
+
+For an existing project, `init` preserves its policy. Inspect a policy proposal
+through `upgrade --engineering-policy ...`; use the separately reviewed
+[coordinated migration](../spec/upgrades.md#explicit-coordinated-migration) when
+moving layout, adoption and evidence storage together. It requires the explicit
+candidate choices, complete retained history and a verified recovery path.
+Neither plugin update nor a successful preview migrates the project.
 
 Review the contract before running checks. Confirm the exact command arguments,
 working directories, test suites, authority locations, and CI provider.
@@ -192,8 +216,10 @@ for resumability, evidence binding, and compatibility.
 
 Start with the project's work item and relevant authorities. Establish the
 expected outcome and risks, make a focused change, and add or update regression
-coverage for behavior changes. Then run the declared checks and stage **all**
-material files for the change:
+coverage for behavior changes. For retained feedback, run focused meaningful
+checks and review the direction without finalizing evidence on every tweak.
+When the increment is ready for integration, run its required declared checks
+and stage **all** material files for the change:
 
 ```sh
 opdev check
@@ -206,7 +232,17 @@ Do not fabricate evidence merely to make a gate pass.
 
 ### Review evidence
 
-For a project with no `.opdev/evidence.yaml` yet, generate a questionnaire
+The following ledger flow is for legacy evidence storage, not for a project
+that explicitly selects `assurance.review_storage`. With external storage,
+prepare a new candidate outside source (`bootstrap --output`, or `prepare
+--ledger-input` / `--ledger-output`), review its actual conditions and assertions,
+then explicitly export and retain it at the reviewed authority. Qualification
+uses `check --review-locator FILE --review-acceptance-sha256 ID` plus actual
+current stage checks. Neither a cached report nor export success proves execution,
+consent, retention or authority to delete history. See the
+[evidence guidance](../plugins/opdev/skills/opdev/references/evidence.md).
+
+For a legacy-storage project with no `.opdev/evidence.yaml` yet, generate a questionnaire
 outside the Git working tree:
 
 ```sh
@@ -291,17 +327,17 @@ credentials in the project contract or evidence ledger.
 
 ## Compact inspection in development builds
 
-These commands are available on development builds from `main`, not necessarily
-in the published 0.1.2 CLI or the plugin's pinned 0.1.1 runtime. Check
-`opdev check --help` for `--report` before using them. A compatible older CLI
-continues using human output or `--format json`.
+Compact output is experimental and requires explicit user/project opt-in. Check
+the selected CLI's help for `--experimental-compact` and `--report`; version
+compatibility alone does not establish every capability. Normal checks use full
+human output or `--format json`. These commands apply only after opt-in:
 
 Using a **new** path outside the working tree:
 
 ```sh
-opdev check --report ../opdev-check-1.json --format summary
-opdev report summarize ../opdev-check-1.json
-opdev evidence show --current --rule OPDEV-WORK-001
+opdev --experimental-compact check --report ../opdev-check-1.json --format summary
+opdev --experimental-compact report summarize ../opdev-check-1.json
+opdev --experimental-compact evidence show --current --rule OPDEV-WORK-001
 ```
 
 The first command retains full JSON and prints a compact view. Summarizing a

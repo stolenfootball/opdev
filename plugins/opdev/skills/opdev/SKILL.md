@@ -84,7 +84,10 @@ skill directory to find the plugin root and select a CLI:
    use the host's normal execution/network approval flow. Do not bypass a denied
    approval, install for unrelated tasks, or initialize a repository as part of
    installation. Report setup failures and do not claim OpDev is active.
-4. Run the selected executable's `plugin verify --contract <absolute-path>`.
+4. Run the selected executable's
+   `plugin verify --contract <plugin-root>/opdev-compatibility.json`, resolving
+   that package file to an absolute path. This is not `.opdev/project.yaml`:
+   the project policy is not a plugin compatibility contract.
    A zero exit verifies runtime compatibility, not project consent. Exit 1 is an incompatible combination; exit
    2 is a verification error. Neither permits the workflow to proceed. Use that same executable
    for the rest of the task, including calls shown as `opdev` in the references.
@@ -109,7 +112,7 @@ doctor's success exit is not readiness. Use `--remote` only for relevant,
 authorized provider inspection. Never execute suggested repairs automatically
 or treat doctor as adoption consent, completed tests or gate evidence.
 
-1. Read `AGENTS.md` and the project contract. `CLAUDE.md` imports the same project guidance for Claude Code.
+1. Read the root instructions and project contract. With explicitly selected layout 1, both hosts point to `.opdev/guidance.md`: read it fully and reload it after context reset. Missing guidance requires a repair offer, not a silently invented replacement. Legacy `CLAUDE.md` imports `AGENTS.md`; do not migrate it merely by loading this skill.
 2. Load authorities selected by `context.always` and by every relevant task route. Follow [project-contract.md](references/project-contract.md) when interpreting fields. Do not assume design material belongs in `docs/`. Follow [documentation ownership](references/project-contract.md#documentation-locations-and-ownership) before choosing or changing authority locations.
 3. Before creating or substantially expanding a document, classify its content as durable knowledge, work tracking, temporary investigation, or mixed; use the [placement check](references/project-contract.md#before-writing-a-document). Resolve its declared owner, inspect adequate existing material and apply existing write authorization. Split mixed design/roadmap content; unavailable or unauthorized tracker writes stay in the conversation, not a substitute repository backlog. Permanent operator steps and explicitly routed repository trackers remain valid.
 4. Establish the outcome, scope, exclusions, acceptance conditions, risks, and evidence before substantive edits. For every planning objective, including "what is the next step?", follow [planning.md](references/planning.md): prefer demonstrable consumer increments, keep distant steps provisional, and honor specific user requests. Before committing to a substantial request, milestone approach or smaller high-risk change, apply its uncertainty checkpoint: reuse sufficient current evidence or investigate consequential unknowns proportionately. Scale design work to risk and reversibility.

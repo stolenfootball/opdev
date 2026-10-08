@@ -7,6 +7,7 @@
   "required": ["schema", "project", "authorities", "commands", "quality", "testing", "delivery", "assurance", "context"],
   "properties": {
     "schema": { "enum": [1, 2, 3] },
+    "layout": {"type":"object","additionalProperties":false,"required":["version","review_reference"],"properties":{"version":{"const":1},"review_reference":{"type":"string","minLength":1}}},
     "project": { "$ref": "#/$defs/project" },
     "authorities": {
       "type": "object",
@@ -27,6 +28,9 @@
   "if": { "properties": { "schema": { "const": 1 } } },
   "then": { "properties": { "project": { "properties": { "ci": { "not": { "required": ["qualification"] } } } } } },
   "allOf": [
+    { "if": { "required": ["layout"] }, "then": { "properties": { "schema": { "const": 3 } } } },
+    { "if": { "properties": { "assurance": { "anyOf": [{ "required": ["review_storage"] }, { "required": ["safeguards"] }] } } },
+      "then": { "properties": { "schema": { "const": 3 } } } },
     { "if": { "properties": { "schema": { "const": 3 } } },
       "then": { "properties": { "assurance": { "required": ["engineering"] } } },
       "else": { "properties": { "assurance": { "not": { "required": ["engineering"] } } } } }
@@ -229,6 +233,7 @@
             "retention_authority": {"type": "string", "minLength": 1}
           }
         },
+        "safeguards": {"type":"object","additionalProperties":false,"required":["version","review_reference","capabilities"],"properties":{"version":{"const":1},"review_reference":{"type":"string","minLength":1},"capabilities":{"type":"object","propertyNames":{"enum":["persistent_data","public_contract","distribution","security_boundary","operations","user_interface","effectiveness"]},"additionalProperties":{"type":"object","additionalProperties":false,"required":["state","rationale","authority"],"properties":{"state":{"enum":["present","absent","unknown"]},"rationale":{"type":"string","minLength":1},"authority":{"type":"string","minLength":1}}}}}},
         "engineering": {
           "type": "object", "additionalProperties": false,
           "required": ["version", "review_reference"],

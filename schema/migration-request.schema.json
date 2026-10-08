@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/migration-request-v1.json",
+  "title": "Explicit coordinated project migration request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "decision_reference", "project", "ci_review_reference"],
+  "properties": {
+    "schema": {"const": 1},
+    "decision_reference": {"type": "string", "minLength": 1},
+    "project": {"$ref": "https://opdev.dev/schema/project.json"},
+    "ci_review_reference": {"type": "string", "minLength": 1},
+    "ci": {"type": "object", "additionalProperties": {"type": "string"}},
+    "history": {"anyOf": [{"type": "null"}, {"$ref": "https://opdev.dev/schema/evidence-archive-v1.json"}]}
+  }
+}

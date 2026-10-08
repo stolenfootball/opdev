@@ -15,6 +15,13 @@ First inspect the selected policy. Engineering policy 1 (project schema 3) uses
 adoption inventory 2: coding conventions, appropriate formatting/static checks,
 dependencies, reproducible setup and review are required outcomes, not optional
 tool preferences. Legacy inventory 1 stays unchanged until explicit migration.
+An existing codebase without an OpDev contract has no selected OpDev policy to
+preserve. Preserve its adequate tools and authorities, but present engineering
+policy 1 and the separate MinimumCD assessment choice before initialization.
+Recommend the current baseline when supported; explain any concrete runtime/CI
+compatibility reason for proposing legacy policy instead. The legacy default of
+bare `init` is not a developer decision. Do not select either policy without an
+actual response or scoped delegation.
 Use adequate equivalents (including compiler checks) without installing overlapping
 tools. Unsupported formatting needs a justified executable equivalent convention
 check, not automatic N/A. Reuse clean CI setup evidence; do not reinstall tools

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "kind", "plan_id", "applied", "changes", "qualification", "limits"],
+  "properties": {
+    "schema": {"const": 1}, "kind": {"const": "configuration_format"},
+    "plan_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "applied": {"type": "boolean"}, "qualification": {"const": "unverified"},
+    "limits": {"type": "string", "minLength": 1},
+    "changes": {"type": "array", "minItems": 2, "maxItems": 2, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "before", "after", "changed"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "before": {"type": "string"}, "after": {"type": "string"},
+        "changed": {"type": "boolean"}
+      }
+    }}
+  }
+}

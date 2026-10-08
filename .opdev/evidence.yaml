@@ -17545,66 +17545,108 @@ changes:
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: "Issue 88 owns this retained-review increment; migration and live effectiveness remain tracked separately."
+    summary: >-
+      Issue 88 owns this retained-review increment; migration and live effectiveness
+      remain tracked separately.
     evidence:
     - kind: source_review
-      summary: "Issue 88 owns this retained-review increment; migration and live effectiveness remain tracked separately."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88"
+      summary: >-
+        Issue 88 owns this retained-review increment; migration and live effectiveness
+        remain tracked separately.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: "Sealed authenticated review carries semantic judgments, never validated execution or consent. Read selected storage and bind exact source, policy, stage and independently selected review identity."
+    summary: >-
+      Sealed authenticated review carries semantic judgments, never validated
+      execution or consent. Read selected storage and bind exact source, policy, stage and
+      independently selected review identity.
     evidence:
     - kind: source_review
-      summary: "Sealed authenticated review carries semantic judgments, never validated execution or consent. Read selected storage and bind exact source, policy, stage and independently selected review identity."
-      location: "crates/opdev-engine/src/review.rs"
+      summary: >-
+        Sealed authenticated review carries semantic judgments, never validated
+        execution or consent. Read selected storage and bind exact source, policy, stage and
+        independently selected review identity.
+      location: crates/opdev-engine/src/review.rs
   - rule_id: MCD-CI-001
     outcome: passed
-    summary: "GitLab remains the integration path; main e43bd5b passed pipeline 2926632561. This increment still requires its own candidate and integrated checks."
+    summary: >-
+      GitLab remains the integration path; main e43bd5b passed pipeline 2926632561.
+      This increment still requires its own candidate and integrated checks.
     evidence:
     - kind: source_review
-      summary: "GitLab remains the integration path; main e43bd5b passed pipeline 2926632561. This increment still requires its own candidate and integrated checks."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2926632561"
+      summary: >-
+        GitLab remains the integration path; main e43bd5b passed pipeline 2926632561.
+        This increment still requires its own candidate and integrated checks.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2926632561
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: "Main remains the sole integration trunk; no project policy or delivery path changed."
+    summary: >-
+      Main remains the sole integration trunk; no project policy or delivery path
+      changed.
     evidence:
     - kind: source_review
-      summary: "Main remains the sole integration trunk; no project policy or delivery path changed."
-      location: ".opdev/project.yaml"
+      summary: >-
+        Main remains the sole integration trunk; no project policy or delivery path
+        changed.
+      location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: "This increment completes explicit retained semantic review; provider fixtures are disposable, and broader migration and live effectiveness remain separate."
+    summary: >-
+      This increment completes explicit retained semantic review; provider fixtures
+      are disposable, and broader migration and live effectiveness remain separate.
     evidence:
     - kind: source_review
-      summary: "This increment completes explicit retained semantic review; provider fixtures are disposable, and broader migration and live effectiveness remain separate."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88"
+      summary: >-
+        This increment completes explicit retained semantic review; provider fixtures
+        are disposable, and broader migration and live effectiveness remain separate.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: "Legacy evaluation remains the default; external review is explicitly schema-3 selected. Existing evidence is neither automatically moved nor deleted."
+    summary: >-
+      Legacy evaluation remains the default; external review is explicitly schema-3
+      selected. Existing evidence is neither automatically moved nor deleted.
     evidence:
     - kind: source_review
-      summary: "Legacy evaluation remains the default; external review is explicitly schema-3 selected. Existing evidence is neither automatically moved nor deleted."
-      location: "spec/evidence-ledger.md"
+      summary: >-
+        Legacy evaluation remains the default; external review is explicitly schema-3
+        selected. Existing evidence is neither automatically moved nor deleted.
+      location: spec/evidence-ledger.md
   - rule_id: OPDEV-TEST-001
     outcome: passed
-    summary: "Actual test assertions distinguish no execution, real correct and defective order/count behavior, pending review, wrong identities and external create-new preservation."
+    summary: >-
+      Actual test assertions distinguish no execution, real correct and defective
+      order/count behavior, pending review, wrong identities and external create-new
+      preservation.
     evidence:
     - kind: source_review
-      summary: "Actual test assertions distinguish no execution, real correct and defective order/count behavior, pending review, wrong identities and external create-new preservation."
-      location: "crates/opdev-engine/src/review.rs"
+      summary: >-
+        Actual test assertions distinguish no execution, real correct and defective
+        order/count behavior, pending review, wrong identities and external create-new
+        preservation.
+      location: crates/opdev-engine/src/review.rs
   - rule_id: OPDEV-TEST-004
     outcome: passed
-    summary: "Regression cases preserve failed judgments, reject stale source and edited work, omit unselected private content, and prevent source-ledger overwrite."
+    summary: >-
+      Regression cases preserve failed judgments, reject stale source and edited
+      work, omit unselected private content, and prevent source-ledger overwrite.
     evidence:
     - kind: source_review
-      summary: "Regression cases preserve failed judgments, reject stale source and edited work, omit unselected private content, and prevent source-ledger overwrite."
-      location: "crates/opdev-cli/tests/evidence_bundle.rs"
+      summary: >-
+        Regression cases preserve failed judgments, reject stale source and edited
+        work, omit unselected private content, and prevent source-ledger overwrite.
+      location: crates/opdev-cli/tests/evidence_bundle.rs
   - rule_id: OPDEV-TEST-005
     outcome: passed
-    summary: "Focused tests passed after visible test-development corrections. Provider harness HTTP415 and CRLF recovery failures remain separate from corrected trials. No quarantine or hidden retry."
+    summary: >-
+      Focused tests passed after visible test-development corrections. Provider
+      harness HTTP415 and CRLF recovery failures remain separate from corrected trials. No
+      quarantine or hidden retry.
     evidence:
     - kind: source_review
-      summary: "Focused tests passed after visible test-development corrections. Provider harness HTTP415 and CRLF recovery failures remain separate from corrected trials. No quarantine or hidden retry."
+      summary: >-
+        Focused tests passed after visible test-development corrections. Provider
+        harness HTTP415 and CRLF recovery failures remain separate from corrected trials. No
+        quarantine or hidden retry.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3978291676"
   - rule_id: OPDEV-AI-001
     outcome: passed
@@ -17612,35 +17654,55 @@ changes:
     evidence:
     - kind: source_review
       summary: "Reviewed actual source, schemas, tests and guidance: source-stage-configuration binds, sealed storage origin, pre/post mutable work recheck, no diagnostic-report execution ingress, no implicit migration or release."
-      location: "crates/opdev-engine/src/review.rs"
+      location: crates/opdev-engine/src/review.rs
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: "Both private providers exercised actual bad/fixed behavior and negative identity controls. Exact backup recovery was demonstrated; Windows conversion and private protection entitlement limits stay visible."
+    summary: >-
+      Both private providers exercised actual bad/fixed behavior and negative
+      identity controls. Exact backup recovery was demonstrated; Windows conversion and
+      private protection entitlement limits stay visible.
     evidence:
     - kind: source_review
-      summary: "Both private providers exercised actual bad/fixed behavior and negative identity controls. Exact backup recovery was demonstrated; Windows conversion and private protection entitlement limits stay visible."
+      summary: >-
+        Both private providers exercised actual bad/fixed behavior and negative
+        identity controls. Exact backup recovery was demonstrated; Windows conversion and
+        private protection entitlement limits stay visible.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3978291676"
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: "Maintainer approved retained-review and changed-work wording in this conversation. Structured outcomes and plain-text explanations distinguish inspection, attribution, consent and actual verification."
+    summary: >-
+      Maintainer approved retained-review and changed-work wording in this
+      conversation. Structured outcomes and plain-text explanations distinguish inspection,
+      attribution, consent and actual verification.
     evidence:
     - kind: source_review
-      summary: "Maintainer approved retained-review and changed-work wording in this conversation. Structured outcomes and plain-text explanations distinguish inspection, attribution, consent and actual verification."
+      summary: >-
+        Maintainer approved retained-review and changed-work wording in this
+        conversation. Structured outcomes and plain-text explanations distinguish inspection,
+        attribution, consent and actual verification.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3978291676"
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: "Read-only current main pipeline observation remains success at e43bd5b / 2926632561; no known red trunk bypass."
+    summary: >-
+      Read-only current main pipeline observation remains success at e43bd5b /
+      2926632561; no known red trunk bypass.
     evidence:
     - kind: source_review
-      summary: "Read-only current main pipeline observation remains success at e43bd5b / 2926632561; no known red trunk bypass."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2926632561"
+      summary: >-
+        Read-only current main pipeline observation remains success at e43bd5b /
+        2926632561; no known red trunk bypass.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2926632561
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: "Canonical argument vectors remain unchanged. Current source is subject to the full declared format, lint and workspace test suite before integration."
+    summary: >-
+      Canonical argument vectors remain unchanged. Current source is subject to the
+      full declared format, lint and workspace test suite before integration.
     evidence:
     - kind: source_review
-      summary: "Canonical argument vectors remain unchanged. Current source is subject to the full declared format, lint and workspace test suite before integration."
-      location: ".opdev/project.yaml"
+      summary: >-
+        Canonical argument vectors remain unchanged. Current source is subject to the
+        full declared format, lint and workspace test suite before integration.
+      location: .opdev/project.yaml
   acceptance:
     scope: behavioral
     rationale: >-
@@ -17878,3 +17940,1321 @@ changes:
         harness failures and entitlement limits separately; no migration, effectiveness
         or release claim.
       subject_sha256: 1b4dc7f9d1084f37ecb2ec6fc7d2d6d0f944d1623a89acf3a6464aefc1b277ed
+- fingerprint: e5e5ec0c52bf9641f7a0373f4232c7844baf054618fc3c0fc2960b10c4996041
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+  assertions: []
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Explicit layout enforcement, capability safeguards and coordinated reviewed
+      migration. Existing repo policy remains legacy; no consumer migration, installed
+      update, release or live effectiveness result inferred. Scope includes generic
+      guarded writes/retained evidence and affected guidance; live-agent conclusions remain
+      separately pending.
+    conditions:
+    - id: layout
+      statement: >-
+        Selected layout uses preserved thin root entry points and exact shared
+        guidance; only staged structural facts affect the gate.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: It reads staged regular files
+    - id: legacy
+      statement: >-
+        Layout enforcement needs actual explicit schema/policy selection; init cannot
+        silently migrate an existing project.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: Legacy contracts without this selection keep
+    - id: format
+      statement: >-
+        Formatting preview is nonmutating and explicit application preserves typed
+        policy and dispositions, rejects stale input and is idempotent.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: "`layout format` previews deterministic YAML"
+    - id: scopes
+      statement: >-
+        Working-tree and staged layout inspection have explicit distinct scope with no
+        cleanup or test execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: Working-tree
+    - id: links
+      statement: >-
+        Layout inspection uses the selected worktree index and does not follow links or
+        repair unknown records.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: linked worktrees
+    - id: impact
+      statement: >-
+        Missing/unknown/contradictory capability facts and absent objective mappings
+        cannot qualify from a green suite or no-material shortcut.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Missing and unknown facts remain
+    - id: risk
+      statement: >-
+        Affected API/data/recovery objectives reach concrete actual assertions and
+        actual selected-stage execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: retained_data_compatibility
+    - id: other-risk
+      statement: >-
+        Distribution/security/operations/UI/effectiveness use their own relevant
+        objective mappings without producer-specific tooling.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Affected capabilities require these objectives
+    - id: proportion
+      statement: Reviewed unaffected capabilities do not force unrelated matrices.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Unchanged behavior may be explained once
+    - id: binding
+      statement: >-
+        Impact edits invalidate review while legacy omission preserves its prior digest
+        semantics.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Material impact/objective edits invalidate
+    - id: stage
+      statement: >-
+        Unsupported policy/waiver fields fail and another stage execution cannot
+        satisfy this stage.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: another stage
+    - id: preserve
+      statement: >-
+        Reviewed coordinated apply preserves actual original scope/practices/root
+        instructions/custom docs and adds only pending gaps; prior approval is retained
+        historically not rebound.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing adoption practice dispositions, scope
+    - id: resume
+      statement: >-
+        Partial migration remains visible and continuation accepts only
+        original/reviewed final state without overwriting later edits.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Writes are atomic per file
+    - id: stale
+      statement: >-
+        Changed inventory, missing recovery and modified snapshot identity prevent
+        migration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Before any project write
+    - id: ci
+      statement: >-
+        Only explicit inspected local CI text can change; malformed/stale configuration
+        never silently repairs or qualifies CI.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: CI replacements are exact supplied text
+    - id: ownership
+      statement: >-
+        Existing authorities and staged links require explicit separate resolution
+        rather than implicit conversion.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing outside authorities cannot be
+    - id: history
+      statement: >-
+        Unsupported/unretained original history is preserved, never converted to green
+        or silently removed.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: No old assertion is rewritten
+    - id: bounds
+      statement: Large retained history remains intact; oversized inputs fail without truncation.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: never truncate it to fit
+    - id: privacy
+      statement: >-
+        Malformed history diagnostics remain bounded without exposing original
+        arbitrary content.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: do not paste it into public work items
+    - id: schema
+      statement: >-
+        Published schema and runtime agree that new storage/safeguard semantics require
+        explicit schema-3 policy.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/compatibility.md
+        sha256: 829686b02b0bd8b19a7c3331c75d43285dde7cfd958ea60a0fa3ba478b6f2cd1
+        excerpt: Older clients must refuse these inputs
+    - id: guidance
+      statement: >-
+        Current guidance distinguishes legacy state, explicit reviewed transition,
+        limited structural checks and real assurance without requiring release or new
+        per-change ledgers.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing adoption practice dispositions, scope
+    verifications:
+    - condition: layout
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_check
+      assertion: >-
+        Unknown indexed files and staged truncated guidance fail; untracked junk and
+        unstaged repairs cannot change the staged result; index link mode remains rejected.
+      discriminating_case: >-
+        Unknown indexed files and staged truncated guidance fail; untracked junk and
+        unstaged repairs cannot change the staged result; index link mode remains rejected.
+      suite: check
+      outcome: passed
+    - condition: legacy
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: legacy_init_does_not_select_layout_and_cannot_be_used_as_migration
+      assertion: >-
+        Schema-1 init request for strict layout exits nonzero and leaves exact original
+        manifest and absent guide intact.
+      discriminating_case: >-
+        Schema-1 init request for strict layout exits nonzero and leaves exact original
+        manifest and absent guide intact.
+      suite: check
+      outcome: passed
+    - condition: format
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: >-
+          formatting_is_reviewed_deterministic_and_preserves_meaning_without_adoption_approval
+      assertion: >-
+        Changed original comments make the old plan stale; later unknown adoption field
+        blocks rather than normalizing unknown data.
+      discriminating_case: >-
+        Changed original comments make the old plan stale; later unknown adoption field
+        blocks rather than normalizing unknown data.
+      suite: check
+      outcome: passed
+    - condition: scopes
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: local_inventory_sees_ignored_junk_while_index_uses_only_staged_files
+      assertion: >-
+        Ignored/untracked junk is visible to inventory, but only actual indexed
+        contents affect index scope.
+      discriminating_case: >-
+        Ignored/untracked junk is visible to inventory, but only actual indexed
+        contents affect index scope.
+      suite: check
+      outcome: passed
+    - condition: links
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: linked_worktree_uses_its_own_staged_namespace
+      assertion: >-
+        Separate staged contents in a linked worktree produce its own findings; link
+        placeholder tests separately reject Git mode 120000.
+      discriminating_case: >-
+        Separate staged contents in a linked worktree produce its own findings; link
+        placeholder tests separately reject Git mode 120000.
+      suite: check
+      outcome: passed
+    - condition: impact
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: missing_unknown_contradictory_or_unmapped_capabilities_cannot_use_a_green_suite
+      assertion: >-
+        Removing the guard made missing-review falsely pass and this exact test fail;
+        restored guard and all six safeguard tests pass.
+      discriminating_case: >-
+        Removing the guard made missing-review falsely pass and this exact test fail;
+        restored guard and all six safeguard tests pass.
+      suite: check
+      outcome: passed
+    - condition: risk
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: >-
+          real_api_and_data_assertions_pass_then_detect_incompatibility_and_interruption_loss
+      assertion: >-
+        Wrong addition, dropping retained fields or clearing old data before
+        interruption each fail real Python assertions; no-exec remains unverified.
+      discriminating_case: >-
+        Wrong addition, dropping retained fields or clearing old data before
+        interruption each fail real Python assertions; no-exec remains unverified.
+      suite: check
+      outcome: passed
+    - condition: other-risk
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: remaining_capabilities_require_their_own_observed_assertions
+      assertion: >-
+        Paired seeded filesystem replacement, authorization, health outcome, plain-text
+        failure and synthetic prediction defects fail; missing objectives remain
+        unverified. Small fixtures are not production conformance.
+      discriminating_case: >-
+        Paired seeded filesystem replacement, authorization, health outcome, plain-text
+        failure and synthetic prediction defects fail; missing objectives remain
+        unverified. Small fixtures are not production conformance.
+      suite: check
+      outcome: passed
+    - condition: proportion
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: reviewed_unaffected_or_absent_capabilities_do_not_force_unrelated_checks
+      assertion: >-
+        Removing data objectives with an explicit unaffected rationale still passes the
+        actual unchanged caller checks; this does not auto-discover impact.
+      discriminating_case: >-
+        Removing data objectives with an explicit unaffected rationale still passes the
+        actual unchanged caller checks; this does not auto-discover impact.
+      suite: check
+      outcome: passed
+    - condition: binding
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: changed_impact_invalidates_review_and_legacy_omission_keeps_digest_stable
+      assertion: >-
+        A changed rationale without rebinding becomes unverified; absent safeguards
+        computes the exact original canonical digest.
+      discriminating_case: >-
+        A changed rationale without rebinding becomes unverified; absent safeguards
+        computes the exact original canonical digest.
+      suite: check
+      outcome: passed
+    - condition: stage
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: >-
+          unsupported_policy_or_forged_opt_out_is_rejected_and_stage_execution_stays_distinct
+      assertion: >-
+        Pre-merge only suite passes pre-merge but post-merge stays unverified and names
+        that stage; future/legacy/unattributed opt-outs reject.
+      discriminating_case: >-
+        Pre-merge only suite passes pre-merge but post-merge stays unverified and names
+        that stage; future/legacy/unattributed opt-outs reject.
+      suite: check
+      outcome: passed
+    - condition: preserve
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text
+      assertion: >-
+        Preview writes nothing; original review is in external snapshot, current review
+        is absent, custom docs byte-identical, exact replay and fresh preview are no-ops.
+      discriminating_case: >-
+        Preview writes nothing; original review is in external snapshot, current review
+        is absent, custom docs byte-identical, exact replay and fresh preview are no-ops.
+      suite: check
+      outcome: passed
+    - condition: resume
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: interrupted_apply_resumes_original_states_but_never_overwrites_later_work
+      assertion: >-
+        Injected interruption after two writes leaves partially migrated project;
+        resume completes, while a later developer root edit blocks and stays intact.
+      discriminating_case: >-
+        Injected interruption after two writes leaves partially migrated project;
+        resume completes, while a later developer root edit blocks and stays intact.
+      suite: check
+      outcome: passed
+    - condition: stale
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: changed_inputs_new_junk_missing_recovery_and_forged_snapshot_are_not_applied
+      assertion: >-
+        New namespace content prevents apply; forged replacement invalidates snapshot
+        and original project/junk remain preserved.
+      discriminating_case: >-
+        New namespace content prevents apply; forged replacement invalidates snapshot
+        and original project/junk remain preserved.
+      suite: check
+      outcome: passed
+    - condition: ci
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: ci_edits_are_explicit_parsed_and_stale_ci_never_gets_overwritten
+      assertion: >-
+        Stale CI later edit remains intact, exact reviewed replacement succeeds, and
+        malformed candidate syntax is rejected.
+      discriminating_case: >-
+        Stale CI later edit remains intact, exact reviewed replacement succeeds, and
+        malformed candidate syntax is rejected.
+      suite: check
+      outcome: passed
+    - condition: ownership
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: staged_links_and_authority_reassignment_need_explicit_separate_resolution
+      assertion: >-
+        Different authority location blocks and a Windows regular-text checkout
+        carrying Git symlink mode rejects while root contents remain.
+      discriminating_case: >-
+        Different authority location blocks and a Windows regular-text checkout
+        carrying Git symlink mode rejects while root contents remain.
+      suite: check
+      outcome: passed
+    - condition: history
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: retained_history_missing_archive_and_unsupported_records_never_get_removed
+      assertion: >-
+        Missing archive produces blocker with original bytes intact; future schema 99
+        errors without removing it. Live exact authenticated archival/recovery separately
+        tested 3000 failed reviews.
+      discriminating_case: >-
+        Missing archive produces blocker with original bytes intact; future schema 99
+        errors without removing it. Live exact authenticated archival/recovery separately
+        tested 3000 failed reviews.
+      suite: check
+      outcome: passed
+    - condition: bounds
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: large_original_history_is_preserved_and_oversized_input_is_not_trimmed
+      assertion: A >1 MiB original still needs archive; >8 MiB input errors and keeps exact size.
+      discriminating_case: A >1 MiB original still needs archive; >8 MiB input errors and keeps exact size.
+      suite: check
+      outcome: passed
+    - condition: privacy
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: invalid_history_diagnostic_does_not_echo_retained_private_content
+      assertion: >-
+        Unknown private field rejects with <256-char diagnostic omitting the private
+        marker; bytes remain unchanged.
+      discriminating_case: >-
+        Unknown private field rejects with <256-char diagnostic omitting the private
+        marker; bytes remain unchanged.
+      suite: check
+      outcome: passed
+    - condition: schema
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 712a61745d10fa6828521bdfc0dddc0e831d4bfcfc6024b2b320fa4ab20f71a8
+        excerpt: published_schema_and_runtime_agree_on_explicit_storage_and_safeguard_policy
+      assertion: >-
+        Removing layout/engineering cannot conceal storage or safeguards on legacy
+        schemas 1/2; both schema validator and runtime reject.
+      discriminating_case: >-
+        Removing layout/engineering cannot conceal storage or safeguards on legacy
+        schemas 1/2; both schema validator and runtime reject.
+      suite: check
+      outcome: passed
+    - condition: guidance
+      method: review
+      target:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing adoption practice dispositions, scope
+      assertion: "Read exact spec and plugin changes: strict namespace roles route work/local/history away from source, existing owners stay unchanged, no auto-init/migration, affected objectives use existing acceptance and actual assertions, and unavailable capabilities require disclosure not invented qualification."
+      discriminating_case: >-
+        Moving the ledger or a green migrated project cannot prove retention, consent,
+        execution, complete adoption or release; a missing tool is not an absent
+        capability.
+      automation_limitation: >-
+        Semantic contract/procedure review cannot be inferred from names, valid JSON or
+        test exit. Maintainer migration wording approved; separate layout/safeguard
+        wording review remains pending before merge. Live-agent interpretation is separately
+        tested, not claimed here.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: "Codex controller: actual source, assertions and contract review"
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/90#note_3978576052"
+      rationale: >-
+        Reviewed 21 material conditions against exact staged source and actual
+        assertions. Index versus filesystem layout, explicit legacy transition, preserved typed
+        policy, actual capability impacts and stage execution, guarded per-file migration,
+        intact history and privacy diagnostics are distinguished. Paired safeguard
+        gate-bypass mutation failed for false-pass assertion then restored suite passed. Live
+        retained-history recovery preserved 3000 failed reviews byte-for-byte.
+        Schema-only and runtime readers both reject legacy storage/safeguard policy. Actual
+        guidance preserves scope and external owners; no provider qualification, live-agent
+        efficacy, consumer migration or release follows. Separate maintainer layout/safeguard
+        wording review remains pending before merge; migration wording is approved.
+      subject_sha256: 283d7c79fd7e2784770a3fa4f97c621e9e1ed8aeeaa13ebf768c4c5bae542d67
+- fingerprint: dd532412c75631bc2b7632244272d727d35780649aadbe85b99fad4cf39d2dc3
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+  assertions:
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: >-
+      Maintainer explicitly approved the shared-guidance and data_recovery messages
+      after their exact presentation; coordinated-migration wording was separately
+      approved. Automated plain-text/structured diagnostics remain covered by the
+      canonical suite. This is reviewed output against the project target, not
+      universal accessibility certification or consumer consent.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Actual developer response: Everything here is approved. It answers the two
+        quoted wording messages and the separately bounded four-session evaluation
+        request, not release or consumer migration.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3979195580
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issues 81, 89 and 90 own the coherent selected-layout, safeguard and reviewed-migration
+      increment; overall live outcomes remain in 91. No release or consumer migration is authorized.
+    evidence:
+    - kind: source_review
+      summary: Issues 81, 89 and 90 own the coherent selected-layout, safeguard and reviewed-migration
+        increment; overall live outcomes remain in 91. No release or consumer migration is authorized.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: Explicit schema selections, exact per-file before/after recovery and independent
+      retained-history retrieval preserve existing owners and refuse ambiguous content; no implicit
+      policy upgrade or new permanent migration registry.
+    evidence:
+    - kind: source_review
+      summary: Explicit schema selections, exact per-file before/after recovery and independent
+        retained-history retrieval preserve existing owners and refuse ambiguous content; no
+        implicit policy upgrade or new permanent migration registry.
+      location: spec/upgrades.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: GitLab remains the integration owner. Current main fa3a6c0 pipeline 2927051302
+      is successful; this candidate still needs its own remote checks and post-merge verification.
+    evidence:
+    - kind: source_review
+      summary: GitLab remains the integration owner. Current main fa3a6c0 pipeline 2927051302
+        is successful; this candidate still needs its own remote checks and post-merge verification.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927051302
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: The unchanged project contract selects main as sole integration trunk; no release
+      source or branch policy changed.
+    evidence:
+    - kind: source_review
+      summary: The unchanged project contract selects main as sole integration trunk; no release
+        source or branch policy changed.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: This bounded feature branch joins the interdependent strict-layout, safeguards
+      and migration interfaces; main was merged at c6d1e99. No parallel integration stream or
+      indefinite feedback branch is introduced.
+    evidence:
+    - kind: source_review
+      summary: This bounded feature branch joins the interdependent strict-layout, safeguards
+        and migration interfaces; main was merged at c6d1e99. No parallel integration stream
+        or indefinite feedback branch is introduced.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Legacy policies and digests retain their semantics. New layout/storage/safeguards
+      require explicit schema-3 selection and capabilities; unknown versions and links refuse
+      mutation. No installed pin or consumer state changed.
+    evidence:
+    - kind: source_review
+      summary: Legacy policies and digests retain their semantics. New layout/storage/safeguards
+        require explicit schema-3 selection and capabilities; unknown versions and links refuse
+        mutation. No installed pin or consumer state changed.
+      location: spec/compatibility.md
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: Mappings inspect concrete index, stale-input, interruption, prior-history, capability-objective
+      and stage assertions. Real API/data/authorization/installer fixtures distinguish seeded
+      broken behavior from green metadata.
+    evidence:
+    - kind: source_review
+      summary: Mappings inspect concrete index, stale-input, interruption, prior-history, capability-objective
+        and stage assertions. Real API/data/authorization/installer fixtures distinguish seeded
+        broken behavior from green metadata.
+      location: crates/opdev-cli/tests/safeguards.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: Regression assertions prevent ignored index links, stale plan overwrite, approval
+      transfer, ledger loss and raw malformed-history diagnostic exposure; published schema
+      and runtime agree on explicit policy requirements.
+    evidence:
+    - kind: source_review
+      summary: Regression assertions prevent ignored index links, stale plan overwrite, approval
+        transfer, ledger loss and raw malformed-history diagnostic exposure; published schema
+        and runtime agree on explicit policy requirements.
+      location: crates/opdev-cli/src/migration/tests.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: Earlier formatting/lint and malformed-history trial failures are retained separately.
+      Restored negative-control runs passed; there are no hidden retries or newly quarantined
+      tests. Canonical verification for this exact source is still to run.
+    evidence:
+    - kind: source_review
+      summary: Earlier formatting/lint and malformed-history trial failures are retained separately.
+        Restored negative-control runs passed; there are no hidden retries or newly quarantined
+        tests. Canonical verification for this exact source is still to run.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90#note_3978576052
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Controller reviewed actual implementation, schemas, assertions and public/agent
+      procedures. Structural validity does not prove useful content, consent, runtime compatibility
+      or execution. New adoption clarification does not select policy for a developer.
+    evidence:
+    - kind: source_review
+      summary: Controller reviewed actual implementation, schemas, assertions and public/agent
+        procedures. Structural validity does not prove useful content, consent, runtime compatibility
+        or execution. New adoption clarification does not select policy for a developer.
+      location: spec/documentation-layout.md
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Private migration trial retrieved and recovered all 3000 failed historical reviews
+      exactly. Frozen 40-session comparison had 24/24 product probes and 20/20 generated-test
+      negative controls, with no speed improvement claim; fresh thin-entry host evidence remains
+      pending.
+    evidence:
+    - kind: source_review
+      summary: Private migration trial retrieved and recovered all 3000 failed historical reviews
+        exactly. Frozen 40-session comparison had 24/24 product probes and 20/20 generated-test
+        negative controls, with no speed improvement claim; fresh thin-entry host evidence remains
+        pending.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/91#note_3979022213
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Current main fa3a6c0 has successful pipeline 2927051302; no known red-trunk delivery
+      is bypassed, and no delivery is attempted.
+    evidence:
+    - kind: source_review
+      summary: Current main fa3a6c0 has successful pipeline 2927051302; no known red-trunk delivery
+        is bypassed, and no delivery is attempted.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927051302
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Canonical argument vectors remain format, lint and full workspace tests at declared
+      boundaries. This source will be verified with the normal current-stage check; a retained
+      report or other stage is not substituted.
+    evidence:
+    - kind: source_review
+      summary: Canonical argument vectors remain format, lint and full workspace tests at declared
+        boundaries. This source will be verified with the normal current-stage check; a retained
+        report or other stage is not substituted.
+      location: .opdev/project.yaml
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Explicit layout enforcement, capability safeguards and coordinated reviewed
+      migration, including current public and agent procedures. Existing repository policy
+      remains legacy. Frozen live results are retained separately; these mappings do
+      not claim host effectiveness, installed updates, consumer migration or release.
+    conditions:
+    - id: layout
+      statement: >-
+        Selected layout uses preserved thin root entry points and exact shared
+        guidance; only staged structural facts affect the gate.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: It reads staged regular files
+    - id: legacy
+      statement: >-
+        Layout enforcement needs actual explicit schema/policy selection; init cannot
+        silently migrate an existing project.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: Legacy contracts without this selection keep
+    - id: format
+      statement: >-
+        Formatting preview is nonmutating and explicit application preserves typed
+        policy and dispositions, rejects stale input and is idempotent.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: "`layout format` previews deterministic YAML"
+    - id: scopes
+      statement: >-
+        Working-tree and staged layout inspection have explicit distinct scope with no
+        cleanup or test execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: Working-tree
+    - id: links
+      statement: >-
+        Layout inspection uses the selected worktree index and does not follow links or
+        repair unknown records.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: linked worktrees
+    - id: impact
+      statement: >-
+        Missing/unknown/contradictory capability facts and absent objective mappings
+        cannot qualify from a green suite or no-material shortcut.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Missing and unknown facts remain
+    - id: risk
+      statement: >-
+        Affected API/data/recovery objectives reach concrete actual assertions and
+        actual selected-stage execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: retained_data_compatibility
+    - id: other-risk
+      statement: >-
+        Distribution/security/operations/UI/effectiveness use their own relevant
+        objective mappings without producer-specific tooling.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Affected capabilities require these objectives
+    - id: proportion
+      statement: Reviewed unaffected capabilities do not force unrelated matrices.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Unchanged behavior may be explained once
+    - id: binding
+      statement: >-
+        Impact edits invalidate review while legacy omission preserves its prior digest
+        semantics.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: Material impact/objective edits invalidate
+    - id: stage
+      statement: >-
+        Unsupported policy/waiver fields fail and another stage execution cannot
+        satisfy this stage.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/89
+      source:
+        path: spec/assurance-profiles.md
+        sha256: 98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f
+        excerpt: another stage
+    - id: preserve
+      statement: >-
+        Reviewed coordinated apply preserves actual original scope/practices/root
+        instructions/custom docs and adds only pending gaps; prior approval is retained
+        historically not rebound.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing adoption practice dispositions, scope
+    - id: resume
+      statement: >-
+        Partial migration remains visible and continuation accepts only
+        original/reviewed final state without overwriting later edits.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Writes are atomic per file
+    - id: stale
+      statement: >-
+        Changed inventory, missing recovery and modified snapshot identity prevent
+        migration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Before any project write
+    - id: ci
+      statement: >-
+        Only explicit inspected local CI text can change; malformed/stale configuration
+        never silently repairs or qualifies CI.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: CI replacements are exact supplied text
+    - id: ownership
+      statement: >-
+        Existing authorities and staged links require explicit separate resolution
+        rather than implicit conversion.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing outside authorities cannot be
+    - id: history
+      statement: >-
+        Unsupported/unretained original history is preserved, never converted to green
+        or silently removed.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: No old assertion is rewritten
+    - id: bounds
+      statement: Large retained history remains intact; oversized inputs fail without truncation.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: never truncate it to fit
+    - id: privacy
+      statement: >-
+        Malformed history diagnostics remain bounded without exposing original
+        arbitrary content.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: do not paste it into public work items
+    - id: schema
+      statement: >-
+        Published schema and runtime agree that new storage/safeguard semantics require
+        explicit schema-3 policy.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/compatibility.md
+        sha256: 829686b02b0bd8b19a7c3331c75d43285dde7cfd958ea60a0fa3ba478b6f2cd1
+        excerpt: Older clients must refuse these inputs
+    - id: guidance
+      statement: >-
+        Current guidance distinguishes legacy state, explicit reviewed transition,
+        limited structural checks and real assurance without requiring release or new
+        per-change ledgers.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing adoption practice dispositions, scope
+    - id: public-guide
+      statement: >-
+        Public guidance distinguishes development capabilities, legacy compatibility,
+        selected engineering requirements and separate MinimumCD assessment.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: README.md
+        sha256: 99d4761adc7de1ba1465a0701ae505536b20cf2a38fc21438e64ad1f613581dd
+        excerpt: "Current development builds offer an explicitly selected engineering policy:"
+    - id: procedure
+      statement: >-
+        Getting-started procedures distinguish legacy and selected storage/layout,
+        actual runtime capability, focused feedback and opt-in compact output.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: docs/GETTING_STARTED.md
+        sha256: 1b6132feb4027316b0c58c9ff25c4bd6e7d0f366f3be365453c12cec628cf4ec
+        excerpt: The following ledger flow is for legacy evidence storage
+    - id: initial-policy
+      statement: >-
+        An existing codebase with no OpDev contract does not already have legacy policy
+        to preserve; policy selection remains a real developer choice.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: plugins/opdev/skills/opdev/references/adoption.md
+        sha256: 5fa7dd3d6e93b82c2d5471704ba589ff8b8ea68d2ff304442ed3209fe8d56f67
+        excerpt: An existing codebase without an OpDev contract has no selected OpDev policy to
+    - id: runtime-contract
+      statement: >-
+        Compatibility verification uses the selected plugin compatibility JSON, not the
+        project manifest.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: plugins/opdev/skills/opdev/SKILL.md
+        sha256: e6f3fd89cc9bc46802c5a2c0b1c305c7d593f4074f7942a8c43714a8afaae91b
+        excerpt: <plugin-root>/opdev-compatibility.json
+    - id: extension-boundary
+      statement: >-
+        The optional test-strength example identifies distinct pre-merge and post-merge
+        extension selection without claiming cross-stage execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
+      source:
+        path: examples/test-strength/README.md
+        sha256: aec72cb1212424343406943dfb92adbae74302ab0fe0d235496d9b3ad433a38e
+        excerpt: declared `post_merge` checks; this does not rerun a `pre_merge` extension.
+    verifications:
+    - condition: layout
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_check
+      assertion: >-
+        Unknown indexed files and staged truncated guidance fail; untracked junk and
+        unstaged repairs cannot change the staged result; index link mode remains rejected.
+      discriminating_case: >-
+        Unknown indexed files and staged truncated guidance fail; untracked junk and
+        unstaged repairs cannot change the staged result; index link mode remains rejected.
+      suite: check
+      outcome: passed
+    - condition: legacy
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: legacy_init_does_not_select_layout_and_cannot_be_used_as_migration
+      assertion: >-
+        Schema-1 init request for strict layout exits nonzero and leaves exact original
+        manifest and absent guide intact.
+      discriminating_case: >-
+        Schema-1 init request for strict layout exits nonzero and leaves exact original
+        manifest and absent guide intact.
+      suite: check
+      outcome: passed
+    - condition: format
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: >-
+          formatting_is_reviewed_deterministic_and_preserves_meaning_without_adoption_approval
+      assertion: >-
+        Changed original comments make the old plan stale; later unknown adoption field
+        blocks rather than normalizing unknown data.
+      discriminating_case: >-
+        Changed original comments make the old plan stale; later unknown adoption field
+        blocks rather than normalizing unknown data.
+      suite: check
+      outcome: passed
+    - condition: scopes
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: local_inventory_sees_ignored_junk_while_index_uses_only_staged_files
+      assertion: >-
+        Ignored/untracked junk is visible to inventory, but only actual indexed
+        contents affect index scope.
+      discriminating_case: >-
+        Ignored/untracked junk is visible to inventory, but only actual indexed
+        contents affect index scope.
+      suite: check
+      outcome: passed
+    - condition: links
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0c1da789ee7e39245fd5c70454b657a156eb12bf626468622e35bd5eba4b4253
+        excerpt: linked_worktree_uses_its_own_staged_namespace
+      assertion: >-
+        Separate staged contents in a linked worktree produce its own findings; link
+        placeholder tests separately reject Git mode 120000.
+      discriminating_case: >-
+        Separate staged contents in a linked worktree produce its own findings; link
+        placeholder tests separately reject Git mode 120000.
+      suite: check
+      outcome: passed
+    - condition: impact
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: missing_unknown_contradictory_or_unmapped_capabilities_cannot_use_a_green_suite
+      assertion: >-
+        Removing the guard made missing-review falsely pass and this exact test fail;
+        restored guard and all six safeguard tests pass.
+      discriminating_case: >-
+        Removing the guard made missing-review falsely pass and this exact test fail;
+        restored guard and all six safeguard tests pass.
+      suite: check
+      outcome: passed
+    - condition: risk
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: >-
+          real_api_and_data_assertions_pass_then_detect_incompatibility_and_interruption_loss
+      assertion: >-
+        Wrong addition, dropping retained fields or clearing old data before
+        interruption each fail real Python assertions; no-exec remains unverified.
+      discriminating_case: >-
+        Wrong addition, dropping retained fields or clearing old data before
+        interruption each fail real Python assertions; no-exec remains unverified.
+      suite: check
+      outcome: passed
+    - condition: other-risk
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: remaining_capabilities_require_their_own_observed_assertions
+      assertion: >-
+        Paired seeded filesystem replacement, authorization, health outcome, plain-text
+        failure and synthetic prediction defects fail; missing objectives remain
+        unverified. Small fixtures are not production conformance.
+      discriminating_case: >-
+        Paired seeded filesystem replacement, authorization, health outcome, plain-text
+        failure and synthetic prediction defects fail; missing objectives remain
+        unverified. Small fixtures are not production conformance.
+      suite: check
+      outcome: passed
+    - condition: proportion
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: reviewed_unaffected_or_absent_capabilities_do_not_force_unrelated_checks
+      assertion: >-
+        Removing data objectives with an explicit unaffected rationale still passes the
+        actual unchanged caller checks; this does not auto-discover impact.
+      discriminating_case: >-
+        Removing data objectives with an explicit unaffected rationale still passes the
+        actual unchanged caller checks; this does not auto-discover impact.
+      suite: check
+      outcome: passed
+    - condition: binding
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: changed_impact_invalidates_review_and_legacy_omission_keeps_digest_stable
+      assertion: >-
+        A changed rationale without rebinding becomes unverified; absent safeguards
+        computes the exact original canonical digest.
+      discriminating_case: >-
+        A changed rationale without rebinding becomes unverified; absent safeguards
+        computes the exact original canonical digest.
+      suite: check
+      outcome: passed
+    - condition: stage
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/safeguards.rs
+        sha256: 6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041
+        excerpt: >-
+          unsupported_policy_or_forged_opt_out_is_rejected_and_stage_execution_stays_distinct
+      assertion: >-
+        Pre-merge only suite passes pre-merge but post-merge stays unverified and names
+        that stage; future/legacy/unattributed opt-outs reject.
+      discriminating_case: >-
+        Pre-merge only suite passes pre-merge but post-merge stays unverified and names
+        that stage; future/legacy/unattributed opt-outs reject.
+      suite: check
+      outcome: passed
+    - condition: preserve
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text
+      assertion: >-
+        Preview writes nothing; original review is in external snapshot, current review
+        is absent, custom docs byte-identical, exact replay and fresh preview are no-ops.
+      discriminating_case: >-
+        Preview writes nothing; original review is in external snapshot, current review
+        is absent, custom docs byte-identical, exact replay and fresh preview are no-ops.
+      suite: check
+      outcome: passed
+    - condition: resume
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: interrupted_apply_resumes_original_states_but_never_overwrites_later_work
+      assertion: >-
+        Injected interruption after two writes leaves partially migrated project;
+        resume completes, while a later developer root edit blocks and stays intact.
+      discriminating_case: >-
+        Injected interruption after two writes leaves partially migrated project;
+        resume completes, while a later developer root edit blocks and stays intact.
+      suite: check
+      outcome: passed
+    - condition: stale
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: changed_inputs_new_junk_missing_recovery_and_forged_snapshot_are_not_applied
+      assertion: >-
+        New namespace content prevents apply; forged replacement invalidates snapshot
+        and original project/junk remain preserved.
+      discriminating_case: >-
+        New namespace content prevents apply; forged replacement invalidates snapshot
+        and original project/junk remain preserved.
+      suite: check
+      outcome: passed
+    - condition: ci
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: ci_edits_are_explicit_parsed_and_stale_ci_never_gets_overwritten
+      assertion: >-
+        Stale CI later edit remains intact, exact reviewed replacement succeeds, and
+        malformed candidate syntax is rejected.
+      discriminating_case: >-
+        Stale CI later edit remains intact, exact reviewed replacement succeeds, and
+        malformed candidate syntax is rejected.
+      suite: check
+      outcome: passed
+    - condition: ownership
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: staged_links_and_authority_reassignment_need_explicit_separate_resolution
+      assertion: >-
+        Different authority location blocks and a Windows regular-text checkout
+        carrying Git symlink mode rejects while root contents remain.
+      discriminating_case: >-
+        Different authority location blocks and a Windows regular-text checkout
+        carrying Git symlink mode rejects while root contents remain.
+      suite: check
+      outcome: passed
+    - condition: history
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: retained_history_missing_archive_and_unsupported_records_never_get_removed
+      assertion: >-
+        Missing archive produces blocker with original bytes intact; future schema 99
+        errors without removing it. Live exact authenticated archival/recovery separately
+        tested 3000 failed reviews.
+      discriminating_case: >-
+        Missing archive produces blocker with original bytes intact; future schema 99
+        errors without removing it. Live exact authenticated archival/recovery separately
+        tested 3000 failed reviews.
+      suite: check
+      outcome: passed
+    - condition: bounds
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: large_original_history_is_preserved_and_oversized_input_is_not_trimmed
+      assertion: A >1 MiB original still needs archive; >8 MiB input errors and keeps exact size.
+      discriminating_case: A >1 MiB original still needs archive; >8 MiB input errors and keeps exact size.
+      suite: check
+      outcome: passed
+    - condition: privacy
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: invalid_history_diagnostic_does_not_echo_retained_private_content
+      assertion: >-
+        Unknown private field rejects with <256-char diagnostic omitting the private
+        marker; bytes remain unchanged.
+      discriminating_case: >-
+        Unknown private field rejects with <256-char diagnostic omitting the private
+        marker; bytes remain unchanged.
+      suite: check
+      outcome: passed
+    - condition: schema
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: f649836c281e4ae8571165eb7b45335117efac09a68f255cbea26386f526b66b
+        excerpt: published_schema_and_runtime_agree_on_explicit_storage_and_safeguard_policy
+      assertion: >-
+        Removing layout/engineering cannot conceal storage or safeguards on legacy
+        schemas 1/2; both schema validator and runtime reject.
+      discriminating_case: >-
+        Removing layout/engineering cannot conceal storage or safeguards on legacy
+        schemas 1/2; both schema validator and runtime reject.
+      suite: check
+      outcome: passed
+    - condition: guidance
+      method: review
+      target:
+        path: spec/upgrades.md
+        sha256: 74d7b911ddf00b64254f6a4de8d6e860f06d3bd249ea2d103d864f9e92fc6fe6
+        excerpt: Existing adoption practice dispositions, scope
+      assertion: "Read exact spec and plugin changes: strict namespace roles route work/local/history away from source, existing owners stay unchanged, no auto-init/migration, affected objectives use existing acceptance and actual assertions, and unavailable capabilities require disclosure not invented qualification."
+      discriminating_case: >-
+        Moving the ledger or a green migrated project cannot prove retention, consent,
+        execution, complete adoption or release; a missing tool is not an absent
+        capability.
+      automation_limitation: >-
+        Semantic contract/procedure review cannot be inferred from names, valid JSON or
+        test exit. Maintainer migration wording approved; separate layout/safeguard
+        wording review remains pending before merge. Live-agent interpretation is separately
+        tested, not claimed here.
+      outcome: passed
+    - condition: public-guide
+      method: review
+      target:
+        path: README.md
+        sha256: 99d4761adc7de1ba1465a0701ae505536b20cf2a38fc21438e64ad1f613581dd
+        excerpt: "Current development builds offer an explicitly selected engineering policy:"
+      assertion: >-
+        README policy and namespace table agree with assurance-profiles and
+        documentation-layout; SECURITY preserves mandatory selected requirements. No installed CLI
+        upgrade, migration or release is implied.
+      discriminating_case: >-
+        A plugin update alone does not select schema 3, make archived evidence current,
+        or certify an existing namespace.
+      automation_limitation: >-
+        Actual procedure/meaning review is not inferred from headings, parser success
+        or command existence. These are controller-reviewed source claims; the frozen
+        live-agent comparison predates these clarifications and is not rerun or regraded here.
+      outcome: passed
+    - condition: procedure
+      method: review
+      target:
+        path: docs/GETTING_STARTED.md
+        sha256: 1b6132feb4027316b0c58c9ff25c4bd6e7d0f366f3be365453c12cec628cf4ec
+        excerpt: The following ledger flow is for legacy evidence storage
+      assertion: >-
+        Reviewed runtime.lock version 0.4.0, init/help, external bootstrap/prepare and
+        check flags, explicit compact opt-in and complete staging guidance against the
+        source CLI. Historical installer example is labelled and no pin changes.
+      discriminating_case: >-
+        New selected review storage must not recreate evidence.yaml; legacy init
+        examples must not be mistaken for a complete strict-layout file inventory.
+      automation_limitation: >-
+        Actual procedure/meaning review is not inferred from headings, parser success
+        or command existence. These are controller-reviewed source claims; the frozen
+        live-agent comparison predates these clarifications and is not rerun or regraded here.
+      outcome: passed
+    - condition: initial-policy
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/adoption.md
+        sha256: 5fa7dd3d6e93b82c2d5471704ba589ff8b8ea68d2ff304442ed3209fe8d56f67
+        excerpt: An existing codebase without an OpDev contract has no selected OpDev policy to
+      assertion: >-
+        Reviewed the distinction against explicit adoption consent and actual init
+        legacy default; adequate tools remain preserved, current baseline is recommended when
+        supported and compatibility limits are disclosed.
+      discriminating_case: >-
+        The existence of application source cannot manufacture a prior legacy policy
+        decision. No auto-init, automatic tool replacement or invented approval follows.
+      automation_limitation: >-
+        Actual procedure/meaning review is not inferred from headings, parser success
+        or command existence. These are controller-reviewed source claims; the frozen
+        live-agent comparison predates these clarifications and is not rerun or regraded here.
+      outcome: passed
+    - condition: runtime-contract
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/SKILL.md
+        sha256: e6f3fd89cc9bc46802c5a2c0b1c305c7d593f4074f7942a8c43714a8afaae91b
+        excerpt: <plugin-root>/opdev-compatibility.json
+      assertion: >-
+        Source step 4 explicitly resolves the compatibility file under the selected
+        package; actual selected-runtime verification accepts that contract. This repairs an
+        observed ambiguous instruction, not measured trial performance.
+      discriminating_case: >-
+        Passing project.yaml to plugin verify is a different schema and cannot
+        establish plugin compatibility.
+      automation_limitation: >-
+        Actual procedure/meaning review is not inferred from headings, parser success
+        or command existence. These are controller-reviewed source claims; the frozen
+        live-agent comparison predates these clarifications and is not rerun or regraded here.
+      outcome: passed
+    - condition: extension-boundary
+      method: review
+      target:
+        path: examples/test-strength/README.md
+        sha256: aec72cb1212424343406943dfb92adbae74302ab0fe0d235496d9b3ad433a38e
+        excerpt: declared `post_merge` checks; this does not rerun a `pre_merge` extension.
+      assertion: >-
+        Compared example procedure with main.rs setting both TestStage::PostMerge and
+        ExtensionStage::PostMerge, and check help; no evaluate selector, automatic tool
+        install or new universal strength check.
+      discriminating_case: >-
+        Running the post-merge selector cannot qualify a pre-merge-only extension by
+        implication.
+      automation_limitation: >-
+        Actual procedure/meaning review is not inferred from headings, parser success
+        or command existence. These are controller-reviewed source claims; the frozen
+        live-agent comparison predates these clarifications and is not rerun or regraded here.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex controller; source and actual assertion review, not developer consent
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/90#note_3979089160"
+      rationale: >-
+        Reviewed all 26 conditions against original requirements, actual
+        guarded-write/index/schema assertions, independent safeguard negative controls,
+        retained-history recovery, and exact public/agent procedures. Source behavior and structural
+        enforcement are distinct from fresh-host effectiveness and actual policy consent.
+        Compatibility lookup names the package JSON, an uninitialized existing codebase has
+        no prior legacy-policy selection, and post-merge extension checks are distinct.
+        Maintainer approved migration wording only; the separate layout/safeguard wording
+        review remains pending and will be an unverified A11Y assertion, not inferred
+        approval. Frozen forty-session results remain separate and are not relabelled as
+        testing these later clarifications.
+      subject_sha256: ecec3961836ee8fa67d3fc99e7019e5aa30e34064aa4d912259b22eeb7cbfc0b

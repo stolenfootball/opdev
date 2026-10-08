@@ -71,6 +71,9 @@ pub enum ManifestError {
 pub struct ProjectManifest {
     /// Manifest schema version.
     pub schema: u32,
+    /// Explicit strict namespace selection; absence preserves legacy layouts.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub layout: Option<LayoutPolicy>,
     /// Project identity and CI topology.
     pub project: Project,
     /// Canonical homes for important project facts.
@@ -231,7 +234,7 @@ impl ProjectManifest {
         Ok(())
     }
 
-    fn validate_semantics(&self) -> Result<(), ManifestError> {
+    fn validate_boundaries(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
         if let Some(storage) = &self.assurance.review_storage {
             if self.schema != 3 {
@@ -241,6 +244,28 @@ impl ProjectManifest {
             }
             storage.validate()?;
         }
+        if let Some(layout) = &self.layout
+            && (self.schema != 3
+                || layout.version != 1
+                || layout.review_reference.trim().is_empty())
+        {
+            return Err(ManifestError::Semantic("Strict layout needs project schema 3, supported layout version 1 and the actual migration decision reference".into()));
+        }
+        if let Some(policy) = &self.assurance.safeguards
+            && (self.assurance.engineering.is_none()
+                || policy.version != 1
+                || policy.review_reference.trim().is_empty()
+                || policy.capabilities.values().any(|fact| {
+                    fact.rationale.trim().is_empty() || fact.authority.trim().is_empty()
+                }))
+        {
+            return Err(ManifestError::Semantic("Safeguards require engineering policy, supported version 1, an actual decision reference and capability rationales with authorities".into()));
+        }
+        Ok(())
+    }
+
+    fn validate_semantics(&self) -> Result<(), ManifestError> {
+        self.validate_boundaries()?;
         if let Some(policy) = &self.project.ci.qualification {
             if self.schema < 2 {
                 return Err(ManifestError::Semantic(
@@ -420,6 +445,16 @@ fn ensure_unique<'a>(
         }
     }
     Ok(())
+}
+
+/// Explicit reviewed selection of the standard namespace.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LayoutPolicy {
+    /// Exact namespace version.
+    pub version: u32,
+    /// Actual reviewed adoption/migration decision, not authenticated by this field.
+    pub review_reference: String,
 }
 
 /// Project identity and CI topology.
@@ -814,6 +849,9 @@ pub struct Assurance {
     /// Explicit external semantic-review storage selection; absent keeps the ledger.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub review_storage: Option<crate::ReviewStorage>,
+    /// Explicit capability-based safeguard policy; omitted legacy behavior is preserved.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub safeguards: Option<crate::SafeguardPolicy>,
     /// Explicit engineering policy selection; never inferred on upgrade.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub engineering: Option<EngineeringPolicy>,
@@ -929,6 +967,7 @@ mod tests {
         );
         ProjectManifest {
             schema: 1,
+            layout: None,
             project: Project {
                 kind: ProjectKind::Cli,
                 trunk: "main".into(),
@@ -977,6 +1016,7 @@ mod tests {
             operations: Operations::default(),
             assurance: Assurance {
                 review_storage: None,
+                safeguards: None,
                 engineering: None,
                 profiles: vec![Profile {
                     name: "opdev-core".into(),

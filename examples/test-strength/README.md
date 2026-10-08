@@ -46,8 +46,11 @@ or adoption checklist is needed.
 
 `opdev check --ci --report NEW_REPORT_PATH` runs the `pre_merge` check; a `verify`
 check runs with ordinary `opdev check`. Invoke the selected check again against
-integrated source in CI. The CLI does not expose separate `post_merge` or
-`evaluate` selectors. Advisory checks do not grant permission to ignore a known
+integrated source in CI. Current CLIs support `check --ci --post-merge` for
+declared `post_merge` checks; this does not rerun a `pre_merge` extension. Declare
+and review the appropriate boundary explicitly rather than treating another
+stage's result as equivalent. There is no separate `evaluate` selector.
+Advisory checks do not grant permission to ignore a known
 product defect or another required rule.
 
 ## Meaning and limits

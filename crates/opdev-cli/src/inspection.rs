@@ -162,6 +162,7 @@ pub(super) fn inspect_guidance(plan: &mut impl Inventory) -> Result<()> {
             .strip_prefix(plan.root())?
             .to_string_lossy()
             .into_owned();
+        plan.read(&relative, &item.file.path)?;
         let matches = item.file.change == opdev_project::FileChange::Unchanged;
         plan.source_finding("project_guidance", &relative, if matches { Outcome::Passed } else { Outcome::MigrationRequired },
             format!("{relative}: {} the running CLI's embedded guidance. This target is not inferred from package SemVer or session state. {}",

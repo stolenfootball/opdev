@@ -67,9 +67,11 @@ authorize different target guidance. After reviewing the current diff, apply:
 The token protects against stale inputs, not against unreviewed consent. If the
 plan changes, explain the delta and obtain approval for any changed scope. Do not
 loop regenerating/applying until an error disappears. On a partial write, inspect
-both instruction files and preserve any later user changes before re-previewing.
+all managed instruction files and preserve any later user changes before re-previewing.
 
-CLI apply changes managed AGENTS/CLAUDE guidance only. Review CI pins and related
+CLI apply changes managed guidance only: legacy AGENTS/CLAUDE sections, or the
+selected layout's shared `.opdev/guidance.md` and short root pointers. It preserves
+unrelated content/imports and does not select the new layout. Review CI pins and related
 download host, artifact/signature identity and required runtime capabilities as a
 separate proposed diff. Preserve custom jobs, images, provider variables/includes
 and all unrelated configuration. Matching version text alone is not qualification.
@@ -79,6 +81,35 @@ do not replace the contract or auto-mark a practice implemented/ignored. Existin
 legacy projects need separate consent before starting assessment.
 
 ## Verify and hand off
+
+### Explicit baseline/layout/storage migration
+
+For a requested project migration, first check `upgrade.coordinated-migration.v1`.
+Do not interpret a missing capability as permission to install, delete the ledger,
+or manually imitate a successful migration. Use the existing work authority for
+the decision and preserve all unresolved choices. Build the ephemeral strict
+migration request from actual reviewed project policy, not guessed defaults or
+an agent-created owner label. `upgrade --migration FILE` previews exact changes;
+unknown internal content needs purpose/owner resolution, not cleanup to satisfy
+an allowlist. Adequate outside authorities stay intact.
+
+Retain the complete original ledger at the approved archive and verify its exact
+retrieval and independent recovery first. Supply its original locator; do not
+replace history with a projection of the latest green attempt. Review plugin/local
+runtime/CI capability separately, including custom CI/download/signature behavior.
+Only actual approved CI edits belong in the request; matching pins do not prove
+qualification. Preview does no provider writes or installations.
+
+After scoped developer approval, apply the exact plan with a new external recovery
+snapshot. Catalog additions stay pending and previous approval is not reissued for
+new policy. Inspect partial writes; use `upgrade --resume RECOVERY --apply
+ORIGINAL_PLAN_ID` only with unchanged original/target states. Never overwrite later
+work or hide interruption by creating a new approval. Preserve required history,
+original decision scope and revocations. Stage the settled result, review current
+acceptance, run required checks and verify integration; migration apply alone is
+not completed adoption or release permission. No new project migration registry.
+
+### Outcome reporting
 
 Report plugin installation, actual runtime selection/compatibility, guidance,
 project migrations/adoption, CI pins/qualification and project gates separately.

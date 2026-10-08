@@ -66,6 +66,71 @@ Declarations alone leave these unverified. Revisit changed inputs, dependencies,
 tool configuration or contrary observations. Use existing evidence and authorities,
 not a new client policy document. Test/assertion adequacy stays independently required.
 
+### Capability safeguards 1
+
+With CLI capability `acceptance.safeguards.v1`, an explicitly reviewed schema-3
+project may select `assurance.safeguards` version 1. Selection contains an actual
+`review_reference` and `capabilities`: `persistent_data`, `public_contract`,
+`distribution`, `security_boundary`, `operations`, `user_interface`, and
+`effectiveness`. Each fact records `state` (`present`, `absent`, or `unknown`),
+`rationale` and its existing `authority`. Missing and unknown facts remain
+unverified; a project kind or missing formatter, database or dashboard is not an
+absence assessment. Facts must describe existing and newly introduced behavior.
+An absent declaration is a reviewed claim, not automatically discovered truth.
+Review actual code/design and contrary observations before accepting it.
+
+The containing exact-change acceptance payload may include `safeguards` with
+`version: 1`, `impacts` and `objectives`. Every present capability needs an impact
+(`affected` or `unaffected`) and a rationale. A known-present capability cannot
+be omitted or marked not applicable; absent facts conflict with change impacts.
+Unchanged behavior may be explained once in this review instead of rerunning an
+unrelated matrix. Material impact/objective edits invalidate the same acceptance
+digest; there is no second approval record. Omitted safeguards preserve historical
+digests and policy semantics. Supplying mappings without explicit policy cannot
+qualify a change. No automatic migration or installation follows capability detection.
+
+Affected capabilities require these objectives, each linked to one or more
+existing acceptance condition IDs with ordinary reviewed, stage-specific mappings:
+
+| Capability | Required objectives and representative evidence |
+| --- | --- |
+| Persistent data | `retained_data_compatibility`, `data_recovery`: representative retained formats and constraints; migration failure/interruption, safe retry and recovery including post-change writes where relevant. A flag cannot undo persistent effects. |
+| Public contract | `consumer_compatibility`, `consumer_transition`: relevant old caller source/wire/semantic behavior and boundaries; intentional transition or concrete explanation that compatible behavior needs none. No universal versioning tool. |
+| Distribution | `installation_update`, `distribution_recovery`: affected supported install/update inputs, permissions, immutable artifacts/configurations, failure and recovery. Unrelated prose does not trigger every installer. |
+| Security boundary | `security_controls`: affected untrusted inputs, authentication/authorization, secret handling and privileged execution; meaningful negative cases. Baseline secret/dependency controls still apply independently. |
+| Operations | `operational_recovery`: proportionate health, failure diagnosis, recovery and interrupted behavior for operated software. No mandatory hosted monitoring vendor. |
+| User interface | `accessibility`: reviewed targets appropriate to actual web, CLI, desktop or other interfaces, with useful verification and stated limits. Plain text or keyboard input alone does not certify accessibility. |
+| Effectiveness | `effectiveness_evaluation`: representative data/use, expected utility, measured outcomes, scope and uncertainty separately from software correctness. A single benchmark does not establish product utility. |
+
+One real condition may cover several objectives when its actual assertions do;
+IDs/headings or one generic green suite are not semantic evidence. The evaluator
+rejects missing, contradictory or unknown mappings before calling acceptance
+satisfied. It then uses the same source references, review and actual canonical
+execution for the selected stage. Saved reports, another stage and broad rule
+assertions cannot substitute. Review-only mappings retain their specific automation
+limitation and cannot excuse an available meaningful test or a known failed control.
+Unsupported fields/versions are errors, not a per-rule waiver mechanism.
+
+This checks completeness against reviewed capability facts, not the truth of
+arbitrary absence/impact claims or the semantic adequacy of every test. Review
+must catch intentionally false facts, unrelated condition links and omitted risk.
+Unknown impact, shared dependencies, command/config changes and executable guidance
+broaden investigation and early verification. Project commands and engineering
+requirements still govern integration; neither this policy nor a passing objective
+authorizes delivery, production fault injection or release.
+
+Design rationale: reuse the existing acceptance digest and stage maps rather than
+add profile-specific test parsers or seven new work ledgers. Durable facts avoid a
+per-change adoption questionnaire. Explicit version selection avoids silently
+reinterpreting older projects. The tradeoff is a bounded taxonomy and identified
+review claims, not exhaustive automatic discovery. Revisit when real changes need
+repeated duplicated facts or objectives miss an important capability; preserve
+old meanings and add a reviewed version instead of a custom waiver language.
+Compatibility follows [Google AIP-180](https://google.aip.dev/180); retained-data
+transition considerations follow [Evolutionary Database Design](https://martinfowler.com/articles/evodb.html).
+These sources inform engineering practice, not universal API/schema architecture.
+External standards retain the exact-version and partial-conformance limits above.
+
 ### MinimumCD mapping and separate assessment
 
 Mapping 1 pins the manifesto's exact upstream commit; `1` is OpDev's mapping

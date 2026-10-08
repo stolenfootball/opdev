@@ -122,6 +122,16 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ## Rule catalog
 
+Development capability `upgrade.coordinated-migration.v1` explicitly coordinates
+the schema-3/layout-1/external-review transition using a strict schema-1 ephemeral
+request and root/runtime/input-bound recovery snapshot. It does not change the
+meaning of an ordinary guidance upgrade, legacy project, old approval or diagnostic
+report. Older clients must refuse these inputs; install/update capability separately
+before applying the reviewed project and CI transition. No consumer migration or
+release version follows from introducing this interface. Capability-based safeguards
+are independently selected by `acceptance.safeguards.v1`; catalog/schema choices
+and changed assurance remain visible rather than being attributed to a plugin update.
+
 Development capability `evidence.authenticated-review.v1` adds an explicit
 schema-3 review-storage boundary and independent schema-1 semantic-review/work
 observation records. Legacy projects retain their ledger and previous qualification
@@ -130,6 +140,15 @@ the storage decision. Local/CI capability must be reviewed before migration;
 publishing or installing a new plugin alone selects no policy. Diagnostic envelope
 and local-state formats retain their non-qualifying meaning. Actual execution
 remains fresh or uses the existing separately authenticated same-run boundary.
+
+Development capability `layout.enforcement.v1` adds explicitly selected layout 1
+to schema-3 contracts, one shared guide and a built-in `policy` check result.
+Legacy policy remains unchanged. Older clients that lack these fields or result
+kinds reject them instead of dropping enforcement. Check local and CI capability
+before selection. Existing schema-3 users without layout selection retain their
+current checks. No release version, installed pin or consumer migration is selected
+by this additive development interface; complete adoption still needs the explicit
+evidence-storage transition. Formatting previews have independent schema 1.
 
 CLI 0.4.0's catalog 2 retains the daily-integration requirement and its ID for
 compliance, but removes it from development and integration gates. Rule results

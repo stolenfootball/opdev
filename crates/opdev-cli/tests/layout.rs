@@ -9,6 +9,264 @@ use std::{
 
 type Result<T = ()> = std::result::Result<T, Box<dyn std::error::Error>>;
 
+fn init_strict(root: &Path, extra: &[&str]) -> Result<Output> {
+    Ok(Command::new(env!("CARGO_BIN_EXE_opdev"))
+        .current_dir(root)
+        .args([
+            "init",
+            "--engineering-policy",
+            "1",
+            "--minimumcd-assessment",
+            "none",
+            "--policy-review-reference",
+            "synthetic developer decision",
+            "--layout-version",
+            "1",
+        ])
+        .args(extra)
+        .output()?)
+}
+
+fn policy_result(root: &Path) -> Result<Value> {
+    let output = Command::new(env!("CARGO_BIN_EXE_opdev"))
+        .current_dir(root)
+        .args(["check", "--ci", "--no-exec", "--format", "json"])
+        .output()?;
+    assert_eq!(
+        output.status.code(),
+        Some(1),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    let schema: Value = serde_json::from_str(include_str!("../../../schema/report.schema.json"))?;
+    assert!(jsonschema::validator_for(&schema)?.is_valid(&report));
+    let check = report["checks"]
+        .as_array()
+        .ok_or("missing checks")?
+        .iter()
+        .find(|c| c["kind"] == "policy")
+        .ok_or("missing policy check")?;
+    assert_eq!(check["id"], "opdev-layout");
+    assert_eq!(check["blocking"], true);
+    assert!(
+        check["gates"]
+            .as_array()
+            .ok_or("missing gates")?
+            .iter()
+            .any(|g| g == "integration")
+    );
+    // Layout conformance is not adoption, execution or a general gate pass.
+    let integration = report["gates"]
+        .as_array()
+        .ok_or("missing gates")?
+        .iter()
+        .find(|g| g["gate"] == "integration")
+        .ok_or("missing integration gate")?;
+    assert_eq!(integration["verdict"], "blocked");
+    let blocked = integration["blocking_checks"]
+        .as_array()
+        .ok_or("missing blockers")?;
+    assert_eq!(
+        blocked.iter().any(|id| id == "opdev-layout"),
+        check["outcome"] != "passed"
+    );
+    Ok(check.clone())
+}
+
+#[test]
+fn explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_check() -> Result {
+    let repo = tempfile::tempdir()?;
+    let root = repo.path();
+    git(root, &["init", "--quiet"])?;
+    fs::write(root.join("AGENTS.md"), "Project-owned rules\n")?;
+    fs::write(root.join("CLAUDE.md"), "@AGENTS.md\nCustom host rules\n")?;
+    let dry = init_strict(root, &["--dry-run"])?;
+    assert!(
+        dry.status.success(),
+        "{}",
+        String::from_utf8_lossy(&dry.stderr)
+    );
+    assert!(!root.join(".opdev").exists());
+    let initialized = init_strict(root, &[])?;
+    assert!(
+        initialized.status.success(),
+        "{}",
+        String::from_utf8_lossy(&initialized.stderr)
+    );
+    let guide = fs::read(root.join(".opdev/guidance.md"))?;
+    for file in ["AGENTS.md", "CLAUDE.md"] {
+        let content = fs::read_to_string(root.join(file))?;
+        assert!(content.len() < 900);
+        assert!(content.contains(".opdev/guidance.md"));
+        assert!(content.contains("context"));
+        assert!(!content.contains("MinimumCD requirements"));
+    }
+    assert!(fs::read_to_string(root.join("AGENTS.md"))?.starts_with("Project-owned rules\n"));
+    assert!(
+        fs::read_to_string(root.join("CLAUDE.md"))?.starts_with("@AGENTS.md\nCustom host rules\n")
+    );
+    assert!(guide.len() > 8000);
+    assert!(!root.join(".opdev/docs").exists());
+    assert!(init_strict(root, &[])?.status.success());
+    assert_eq!(guide, fs::read(root.join(".opdev/guidance.md"))?);
+    git(root, &["add", "."])?;
+    assert_eq!(policy_result(root)?["outcome"], "passed");
+
+    fs::write(
+        root.join(".opdev/scratch.md"),
+        "work tracking does not belong here\n",
+    )?;
+    assert_eq!(
+        policy_result(root)?["outcome"],
+        "passed",
+        "untracked content is not committed layout"
+    );
+    git(root, &["add", ".opdev/scratch.md"])?;
+    assert_eq!(policy_result(root)?["outcome"], "failed");
+    fs::remove_file(root.join(".opdev/scratch.md"))?;
+    assert_eq!(
+        policy_result(root)?["outcome"],
+        "failed",
+        "unstaged deletion cannot hide committed junk"
+    );
+    git(root, &["add", "-u"])?;
+    fs::write(
+        root.join(".opdev/guidance.md"),
+        "## OpDev\nShared guidance format: 1\n",
+    )?;
+    git(root, &["add", ".opdev/guidance.md"])?;
+    let failed = policy_result(root)?;
+    assert_eq!(failed["outcome"], "failed");
+    assert!(
+        failed["summary"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("guidance")
+    );
+    fs::write(root.join(".opdev/guidance.md"), &guide)?;
+    assert_eq!(
+        policy_result(root)?["outcome"],
+        "failed",
+        "unstaged repair is not the selected source"
+    );
+    git(root, &["add", ".opdev/guidance.md"])?;
+    assert_eq!(policy_result(root)?["outcome"], "passed");
+    let entry = git(root, &["ls-files", "--stage", "--", "AGENTS.md"])?;
+    let entry = String::from_utf8(entry.stdout)?;
+    let object = entry.split_whitespace().nth(1).ok_or("missing root blob")?;
+    git(
+        root,
+        &[
+            "update-index",
+            "--cacheinfo",
+            &format!("120000,{object},AGENTS.md"),
+        ],
+    )?;
+    assert_eq!(
+        policy_result(root)?["outcome"],
+        "failed",
+        "regular Windows bytes cannot override the staged link mode"
+    );
+    // An unreviewed upgrade cannot follow that placeholder to another file.
+    let blocked = init_strict(root, &[])?;
+    assert!(!blocked.status.success());
+    assert_eq!(guide, fs::read(root.join(".opdev/guidance.md"))?);
+    Ok(())
+}
+
+#[test]
+fn legacy_init_does_not_select_layout_and_cannot_be_used_as_migration() -> Result {
+    let repo = fixture()?;
+    let root = repo.path();
+    let before = fs::read(root.join(MANIFEST_PATH))?;
+    let output = init_strict(root, &[])?;
+    assert!(!output.status.success());
+    assert_eq!(before, fs::read(root.join(MANIFEST_PATH))?);
+    assert!(!root.join("AGENTS.md").exists());
+    let mut manifest = opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    manifest.layout = Some(opdev_project::LayoutPolicy {
+        version: 1,
+        review_reference: "synthetic".into(),
+    });
+    assert!(
+        manifest.to_yaml().is_err(),
+        "legacy schema cannot silently acquire layout enforcement"
+    );
+    Ok(())
+}
+
+#[test]
+fn formatting_is_reviewed_deterministic_and_preserves_meaning_without_adoption_approval() -> Result
+{
+    let repo = fixture()?;
+    let root = repo.path();
+    let manifest = opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    let adoption = AdoptionRecord::load(root)?.ok_or("missing adoption")?;
+    let original = format!(
+        "# Deliberately retained until reviewed\n{}",
+        manifest.to_yaml()?
+    );
+    fs::write(root.join(MANIFEST_PATH), &original)?;
+    let invoke = |extra: &[&str]| -> Result<Output> {
+        Ok(Command::new(env!("CARGO_BIN_EXE_opdev"))
+            .current_dir(root)
+            .args(["layout", "format"])
+            .args(extra)
+            .output()?)
+    };
+    let preview = invoke(&[])?;
+    assert!(
+        preview.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preview.stderr)
+    );
+    let preview: Value = serde_json::from_slice(&preview.stdout)?;
+    let schema: Value = serde_json::from_str(include_str!(
+        "../../../schema/configuration-format.schema.json"
+    ))?;
+    assert!(jsonschema::validator_for(&schema)?.is_valid(&preview));
+    assert_eq!(preview["applied"], false);
+    assert_eq!(fs::read_to_string(root.join(MANIFEST_PATH))?, original);
+    let id = preview["plan_id"].as_str().ok_or("missing plan id")?;
+    let applied = invoke(&["--apply", id])?;
+    assert!(applied.status.success());
+    assert_eq!(
+        manifest,
+        opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?
+    );
+    assert_eq!(
+        serde_json::to_value(&adoption)?,
+        serde_json::to_value(AdoptionRecord::load(root)?)?
+    );
+    let stable: Value = serde_json::from_slice(&invoke(&[])?.stdout)?;
+    assert!(
+        stable["changes"]
+            .as_array()
+            .ok_or("missing changes")?
+            .iter()
+            .all(|c| c["changed"] == false)
+    );
+    assert!(
+        !invoke(&["--apply", id])?.status.success(),
+        "old pre-format bytes are no longer current"
+    );
+    let stable_id = stable["plan_id"].as_str().ok_or("missing stable id")?;
+    assert!(invoke(&["--apply", stable_id])?.status.success());
+    assert!(invoke(&["--apply", stable_id])?.status.success());
+    fs::write(
+        root.join(ADOPTION_PATH),
+        format!("{}\nunknown: true\n", adoption.to_yaml()?),
+    )?;
+    assert!(!invoke(&[])?.status.success());
+    assert!(!invoke(&["--apply", stable_id])?.status.success());
+    assert_eq!(
+        manifest.to_yaml()?,
+        fs::read_to_string(root.join(MANIFEST_PATH))?
+    );
+    Ok(())
+}
+
 fn git(root: &Path, args: &[&str]) -> Result<Output> {
     let output = Command::new("git")
         .arg("-C")
