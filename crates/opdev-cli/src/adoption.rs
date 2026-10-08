@@ -8,8 +8,8 @@ use clap::{Args, Subcommand};
 use opdev_core::{Gate, Outcome};
 use opdev_engine::{CheckOptions, evaluate};
 use opdev_project::{
-    ADOPTION_PATH, AdoptionRecord, AdoptionReview, EVIDENCE_PATH, EvidenceLedger, adoption_catalog,
-    staged_fingerprint,
+    ADOPTION_PATH, AdoptionRecord, AdoptionReview, EVIDENCE_PATH, EvidenceLedger,
+    adoption_catalog_version, project_adoption_catalog, staged_fingerprint,
 };
 
 use crate::{
@@ -52,6 +52,9 @@ enum AdoptionCommand {
         root: PathBuf,
         #[arg(long)]
         write: bool,
+        /// Explicit inventory upgrade matching the already-reviewed project policy.
+        #[arg(long)]
+        catalog_version: Option<u32>,
     },
     /// Print unresolved, fingerprint-bound adoption evidence with the correct kind/location.
     PrepareEvidence {
@@ -59,7 +62,13 @@ enum AdoptionCommand {
         root: PathBuf,
     },
     /// Inspect the versioned, tool-neutral practice catalog.
-    Catalog,
+    Catalog {
+        /// Exact inventory to inspect; omitted uses project policy, or legacy 1 outside a project.
+        #[arg(long)]
+        catalog_version: Option<u32>,
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+    },
     /// Explicitly start assessment for an existing initialized project; preserve existing decisions.
     Start {
         #[arg(long, default_value = ".")]
@@ -111,77 +120,22 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                 delegation: delegation.clone(),
             },
         )?,
-        AdoptionCommand::Migrate { root, write } => migrate(root, *write)?,
+        AdoptionCommand::Migrate {
+            root,
+            write,
+            catalog_version,
+        } => migrate(root, *write, *catalog_version)?,
         AdoptionCommand::PrepareEvidence { root } => prepare_evidence(root)?,
-        AdoptionCommand::Catalog => {
-            println!("{}", serde_json::to_string_pretty(&adoption_catalog()?)?);
-        }
+        AdoptionCommand::Catalog {
+            root,
+            catalog_version,
+        } => print_catalog(root, *catalog_version)?,
         AdoptionCommand::Start { root, dry_run } => start(root, *dry_run)?,
         AdoptionCommand::Status {
             root,
             format,
             remote,
-        } => {
-            let (root, manifest) = load_project(root)?;
-            let record = AdoptionRecord::load(&root)?;
-            let remote_gap = manifest.remote_qualification_gap();
-            let worksheet = policy_worksheet(&manifest, *remote)?;
-            let blockers = record
-                .as_ref()
-                .map(|r| r.blockers(&manifest))
-                .transpose()?
-                .unwrap_or_default();
-            let status = if record.as_ref().is_some_and(|r| r.schema == 1) {
-                "migration_required"
-            } else if record.is_none() {
-                "legacy_unassessed"
-            } else if blockers.is_empty() {
-                "decisions_ready_for_verification"
-            } else {
-                "pending"
-            };
-            if matches!(format, OutputFormat::Json) {
-                println!(
-                    "{}",
-                    serde_json::to_string_pretty(
-                        &serde_json::json!({"schema":1,"status":status,"complete":false,
-                            "approval": if record.as_ref().is_some_and(|r| r.approval_blockers(&manifest).is_ok_and(|b| b.is_empty())) { "approved" } else { "review_required" },
-                            "verification":"not_run","blockers":blockers,"record":record,
-                            "remote_qualification": {"verification":"not_run", "policy_ready":remote_gap.is_none(), "gap":remote_gap, "worksheet":worksheet},
-                            "delivery_readiness":"not_run"})
-                    )?
-                );
-            } else {
-                println!("Adoption: {status} (status does not run checks or certify completion)");
-                println!(
-                    "Remote qualification: not run; {}",
-                    remote_gap
-                        .unwrap_or("reviewed policy present; provider verification still required")
-                );
-                println!("Delivery readiness: not run");
-                if let Some(worksheet) = worksheet {
-                    println!(
-                        "Policy observations for developer review: {}",
-                        serde_json::to_string_pretty(&worksheet)?
-                    );
-                }
-                if let Some(record) = record {
-                    for practice in adoption_catalog()?.practices {
-                        println!(
-                            "{}: {:?} — {}",
-                            practice.id, record.practices[&practice.id].state, practice.title
-                        );
-                    }
-                } else {
-                    println!(
-                        "Use opdev adoption start to explicitly assess this existing project."
-                    );
-                }
-                for blocker in blockers {
-                    println!("  {blocker}");
-                }
-            }
-        }
+        } => status(root, *format, *remote)?,
         AdoptionCommand::Check {
             root,
             remote,
@@ -192,11 +146,74 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
     Ok(ExitCode::SUCCESS)
 }
 
+fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<()> {
+    let (root, manifest) = load_project(root)?;
+    let record = AdoptionRecord::load(&root)?;
+    let remote_gap = manifest.remote_qualification_gap();
+    let worksheet = policy_worksheet(&manifest, remote)?;
+    let blockers = record
+        .as_ref()
+        .map(|r| r.blockers(&manifest))
+        .transpose()?
+        .unwrap_or_default();
+    let status = if record.as_ref().is_some_and(|r| r.schema == 1) {
+        "migration_required"
+    } else if record.is_none() {
+        "legacy_unassessed"
+    } else if blockers.is_empty() {
+        "decisions_ready_for_verification"
+    } else {
+        "pending"
+    };
+    if matches!(format, OutputFormat::Json) {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(
+                &serde_json::json!({"schema":1,"status":status,"complete":false,
+                    "approval": if record.as_ref().is_some_and(|r| r.approval_blockers(&manifest).is_ok_and(|b| b.is_empty())) { "approved" } else { "review_required" },
+                    "verification":"not_run","blockers":blockers,"record":record,
+                    "remote_qualification": {"verification":"not_run", "policy_ready":remote_gap.is_none(), "gap":remote_gap, "worksheet":worksheet},
+                    "delivery_readiness":"not_run"})
+            )?
+        );
+    } else {
+        println!("Adoption: {status} (status does not run checks or certify completion)");
+        println!(
+            "Remote qualification: not run; {}",
+            remote_gap.unwrap_or("reviewed policy present; provider verification still required")
+        );
+        println!("Delivery readiness: not run");
+        if let Some(worksheet) = worksheet {
+            println!(
+                "Policy observations for developer review: {}",
+                serde_json::to_string_pretty(&worksheet)?
+            );
+        }
+        if let Some(record) = record {
+            for practice in adoption_catalog_version(record.catalog_version)?.practices {
+                println!(
+                    "{}: {:?} — {}",
+                    practice.id, record.practices[&practice.id].state, practice.title
+                );
+            }
+        } else {
+            println!("Use opdev adoption start to explicitly assess this existing project.");
+        }
+        for blocker in blockers {
+            println!("  {blocker}");
+        }
+    }
+    Ok(())
+}
+
 fn start(root: &std::path::Path, dry_run: bool) -> Result<()> {
-    let (root, _) = load_project(root)?;
+    let (root, manifest) = load_project(root)?;
     let existing = AdoptionRecord::load(&root)?;
     let exists = existing.is_some();
-    let record = existing.map_or_else(AdoptionRecord::pending, Ok)?;
+    let record = existing.map_or_else(
+        || AdoptionRecord::pending_for_catalog(project_adoption_catalog(&manifest)),
+        Ok,
+    )?;
     if dry_run {
         print!("{}", record.to_yaml()?);
     } else if exists {
@@ -252,6 +269,7 @@ fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
         "{}",
         serde_json::to_string_pretty(&serde_json::json!({
             "schema": 1, "plan_id": record.plan_id(&manifest)?, "record": record,
+            "required_practices": adoption_catalog_version(project_adoption_catalog(&manifest))?,
             "contract": manifest, "approval": "review_required",
             "branch_choices": branch_choices,
             "remote_qualification": {"verification":"not_run", "policy_ready":manifest.remote_qualification_gap().is_none(), "gap":manifest.remote_qualification_gap(), "worksheet":policy_worksheet(&manifest, remote)?},
@@ -273,14 +291,36 @@ fn policy_worksheet(
     }
 }
 
-fn migrate(root: &std::path::Path, write: bool) -> Result<()> {
-    let (root, _) = load_project(root)?;
+fn print_catalog(root: &std::path::Path, version: Option<u32>) -> Result<()> {
+    let version = match version {
+        Some(version) => version,
+        // Catalog inspection is available before initialization, but an existing
+        // malformed contract must not silently select legacy policy.
+        None => match opdev_project::discover(root) {
+            Ok(discovery) => project_adoption_catalog(&discovery.manifest),
+            Err(opdev_project::DiscoveryError::NotRepository(_)) => 1,
+            Err(error) => return Err(error.into()),
+        },
+    };
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&adoption_catalog_version(version)?)?
+    );
+    Ok(())
+}
+
+fn migrate(root: &std::path::Path, write: bool, catalog_version: Option<u32>) -> Result<()> {
+    let (root, manifest) = load_project(root)?;
     let before = std::fs::read(root.join(ADOPTION_PATH))?;
     let mut record = AdoptionRecord::load(&root)?.context("no adoption record")?;
-    if record.schema == 1 {
-        record.schema = 2;
-        record.review = None;
+    if let Some(version) = catalog_version
+        && version != project_adoption_catalog(&manifest)
+    {
+        bail!(
+            "adoption inventory must match the reviewed project policy; preview the project policy migration first. Nothing changed."
+        );
     }
+    record.migrate_catalog(catalog_version.unwrap_or(record.catalog_version))?;
     if write {
         replace_record(&root, &before, &record)?;
     } else {
@@ -375,11 +415,13 @@ fn check(
         let report = adoption_core_report(&root, &manifest, remote)?;
         if !report.rules.iter().any(|rule| {
             rule.rule_id.as_str() == "MCD-PIPELINE-001"
-                && rule.outcome == Outcome::Passed
-                && rule.evidence.iter().any(|e| {
-                    e.kind == "delivery_gate"
-                        && e.location.as_ref().is_some_and(|p| !p.trim().is_empty())
-                })
+                && ((rule.outcome == Outcome::Passed
+                    && rule.evidence.iter().any(|e| {
+                        e.kind == "delivery_gate"
+                            && e.location.as_ref().is_some_and(|p| !p.trim().is_empty())
+                    }))
+                    || (manifest.assurance.engineering.is_some()
+                        && rule.outcome == Outcome::NotApplicable))
         }) {
             blockers.push("delivery: review the actual release/tag publication dependency path and provide MCD-PIPELINE-001 delivery_gate evidence; integration-only CI is insufficient".into());
         }

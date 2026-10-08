@@ -172,7 +172,34 @@ pub enum AdoptionError {
 /// # Errors
 /// Returns an error if the embedded catalog is malformed.
 pub fn adoption_catalog() -> Result<AdoptionCatalog, AdoptionError> {
-    Ok(serde_json::from_str(CATALOG)?)
+    adoption_catalog_version(1)
+}
+
+/// Resolve an exact immutable adoption inventory; never infer a migration.
+///
+/// # Errors
+/// Rejects unsupported versions or malformed bundled catalogs.
+pub fn adoption_catalog_version(version: u32) -> Result<AdoptionCatalog, AdoptionError> {
+    let source = match version {
+        1 => CATALOG,
+        2 => include_str!("../../../rules/adoption-engineering.json"),
+        _ => {
+            return Err(AdoptionError::Invalid(format!(
+                "unsupported adoption catalog {version}; supported versions are 1 and 2"
+            )));
+        }
+    };
+    Ok(serde_json::from_str(source)?)
+}
+
+/// Adoption inventory selected by the explicitly reviewed project policy.
+#[must_use]
+pub const fn project_adoption_catalog(manifest: &ProjectManifest) -> u32 {
+    if manifest.assurance.engineering.is_some() {
+        2
+    } else {
+        1
+    }
 }
 
 impl AdoptionRecord {
@@ -181,7 +208,15 @@ impl AdoptionRecord {
     /// # Errors
     /// Returns an error for an invalid bundled catalog.
     pub fn pending() -> Result<Self, AdoptionError> {
-        let catalog = adoption_catalog()?;
+        Self::pending_for_catalog(1)
+    }
+
+    /// Creates unresolved decisions for the selected inventory.
+    ///
+    /// # Errors
+    /// Rejects an unsupported catalog.
+    pub fn pending_for_catalog(version: u32) -> Result<Self, AdoptionError> {
+        let catalog = adoption_catalog_version(version)?;
         Ok(Self {
             schema: 2,
             catalog_version: catalog.version,
@@ -244,13 +279,7 @@ impl AdoptionRecord {
             return Err(AdoptionError::Invalid(errors.join("; ")));
         }
         let record: Self = serde_json::from_value(value)?;
-        let catalog = adoption_catalog()?;
-        if record.catalog_version != catalog.version {
-            return Err(AdoptionError::Invalid(format!(
-                "unsupported catalog {}; supports {} (explicit migration required)",
-                record.catalog_version, catalog.version
-            )));
-        }
+        let catalog = adoption_catalog_version(record.catalog_version)?;
         let expected: BTreeSet<_> = catalog.practices.iter().map(|p| p.id.as_str()).collect();
         let actual: BTreeSet<_> = record.practices.keys().map(String::as_str).collect();
         if expected != actual {
@@ -305,11 +334,20 @@ impl AdoptionRecord {
         let mut blockers = Vec::new();
         blockers.extend(self.approval_blockers(manifest)?);
         blockers.extend(self.workflow_blockers(manifest));
+        if self.catalog_version != project_adoption_catalog(manifest) {
+            blockers.push(format!("adoption catalog {} does not match this project's policy; review adoption migrate --catalog-version {} before claiming completion", self.catalog_version, project_adoption_catalog(manifest)));
+        }
         if self.scope.trim().is_empty() {
             blockers.push("scope: assess all relevant components".into());
         }
-        for practice in adoption_catalog()?.practices {
-            let decision = &self.practices[&practice.id];
+        for practice in adoption_catalog_version(project_adoption_catalog(manifest))?.practices {
+            let Some(decision) = self.practices.get(&practice.id) else {
+                blockers.push(format!(
+                    "{}: missing assessment; catalog migration adds a pending decision",
+                    practice.id
+                ));
+                continue;
+            };
             let mut reasons = Vec::new();
             match decision.state {
                 AdoptionState::Pending => {
@@ -361,6 +399,29 @@ impl AdoptionRecord {
             );
         }
         Ok(blockers)
+    }
+
+    /// Prepare an explicit catalog upgrade preserving old decisions without approval.
+    ///
+    /// # Errors
+    /// Rejects downgrades, unsupported catalogs and malformed records.
+    pub fn migrate_catalog(&mut self, version: u32) -> Result<(), AdoptionError> {
+        self.to_yaml()?;
+        if version < self.catalog_version {
+            return Err(AdoptionError::Invalid(
+                "adoption catalog downgrade would discard decisions; nothing changed".into(),
+            ));
+        }
+        let pending = Self::pending_for_catalog(version)?;
+        if version != self.catalog_version || self.schema != 2 {
+            for (id, decision) in pending.practices {
+                self.practices.entry(id).or_insert(decision);
+            }
+            self.schema = 2;
+            self.catalog_version = version;
+            self.review = None;
+        }
+        Ok(())
     }
 
     /// Hashes choices and the full contract, excluding approval and implementation progress.

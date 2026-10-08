@@ -14550,104 +14550,183 @@ changes:
   assertions:
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: The maintainer explicitly approved the representative changed wording after the current automated interface checks passed.
+    summary: >-
+      The maintainer explicitly approved the representative changed wording after the
+      current automated interface checks passed.
     evidence:
     - kind: human_review
       summary: "The actual response was: Yes, wording is approved. It followed the engineering-baseline, MinimumCD-not-requested and no-release-authorization messages at unchanged material checkpoint 98ecfa5. Existing keyboard, plain-text and structured-output targets are preserved; this is not universal accessibility certification or release authorization."
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974601886
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974601886"
     - kind: automated_review
-      summary: Canonical workspace tests including consumer-interface cases passed on this exact material source before the approval. Only this review assertion changed; required remote CI will verify the candidate independently.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974581660
+      summary: >-
+        Canonical workspace tests including consumer-interface cases passed on this
+        exact material source before the approval. Only this review assertion changed;
+        required remote CI will verify the candidate independently.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974581660"
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Canonical pre-merge formatting, strict lint and full workspace tests passed on this exact material source and acceptance subject.
+    summary: >-
+      Canonical pre-merge formatting, strict lint and full workspace tests passed on
+      this exact material source and acceptance subject.
     evidence:
     - kind: execution_review
-      summary: "Final retained local report 1515f330f3f259f5e911060b9196ad2fd5df0ac98a2cbfc6dcee848ab6feebf8 records all three checks passed, 275 tests passed, seven existing ignores and current acceptance qualified. The only local integration blocker was the still-pending wording review. This preserves an earlier-boundary observation for later post-merge checks; it does not qualify future CI or replace current selected-stage execution. Failed initial lint and its repairs remain recorded separately."
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974581660
+      summary: >-
+        Final retained local report
+        1515f330f3f259f5e911060b9196ad2fd5df0ac98a2cbfc6dcee848ab6feebf8 records all three checks passed, 275 tests passed, seven existing
+        ignores and current acceptance qualified. The only local integration blocker was
+        the still-pending wording review. This preserves an earlier-boundary observation
+        for later post-merge checks; it does not qualify future CI or replace current
+        selected-stage execution. Failed initial lint and its repairs remain recorded
+        separately.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974581660"
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: "The accepted issue-83 policy plan bounds this increment; storage/adoption redesign, consumer migrations and release remain excluded."
+    summary: >-
+      The accepted issue-83 policy plan bounds this increment; storage/adoption
+      redesign, consumer migrations and release remain excluded.
     evidence:
     - kind: work
-      summary: "Approved plan and discriminating cases recorded before implementation; the seven bound conditions cover behavior, compatibility and overhead."
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974504599
+      summary: >-
+        Approved plan and discriminating cases recorded before implementation; the
+        seven bound conditions cover behavior, compatibility and overhead.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974504599"
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: "Durable specification records the generalized policy separation, explicit migration, alternatives, rationale and reversal criteria."
+    summary: >-
+      Durable specification records the generalized policy separation, explicit
+      migration, alternatives, rationale and reversal criteria.
     evidence:
     - kind: contract_review
-      summary: "Reviewed each old MinimumCD ID against all 19 pinned clauses and the new branch/rollback distinctions. Versioned observations are reused; unselected assessment is never a pass. Compatibility explicitly records the approved pre-1.0 minor-policy amendment."
+      summary: >-
+        Reviewed each old MinimumCD ID against all 19 pinned clauses and the new
+        branch/rollback distinctions. Versioned observations are reused; unselected assessment
+        is never a pass. Compatibility explicitly records the approved pre-1.0
+        minor-policy amendment.
       location: spec/assurance-profiles.md
   - rule_id: MCD-CI-001
     outcome: passed
-    summary: "Actual GitLab MR/main CI remains the verification path; provider declaration alone is not the evidence."
+    summary: >-
+      Actual GitLab MR/main CI remains the verification path; provider declaration
+      alone is not the evidence.
     evidence:
     - kind: ci_observation
-      summary: "Main 9e95a644d6a5d363b17f6e53e52a142fc4649b8d passed the latest observed pipeline 2924630788. Required candidate and integrated-source checks are separate and not yet claimed."
+      summary: >-
+        Main 9e95a644d6a5d363b17f6e53e52a142fc4649b8d passed the latest observed
+        pipeline 2924630788. Required candidate and integrated-source checks are separate and
+        not yet claimed.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924630788
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: "Main remains this repository's single integration and release-source trunk."
+    summary: Main remains this repository's single integration and release-source trunk.
     evidence:
     - kind: workflow_review
-      summary: "Compared the unchanged project contract and GitLab workflow. The new opt-in maintenance model is tested in isolated fixtures, not selected for this repository or consumers."
+      summary: >-
+        Compared the unchanged project contract and GitLab workflow. The new opt-in
+        maintenance model is tested in isolated fixtures, not selected for this repository
+        or consumers.
       location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: "This bounded issue-83 branch originated from current main and is intended to reintegrate through the normal checked MR then be removed."
+    summary: >-
+      This bounded issue-83 branch originated from current main and is intended to
+      reintegrate through the normal checked MR then be removed.
     evidence:
     - kind: branch_review
-      summary: "codex/83-versioned-assessments starts at 9e95a64, with no competing develop branch, delivery changes or unrelated roadmap increments. This pre-merge observation is not proof of future integration."
+      summary: >-
+        codex/83-versioned-assessments starts at 9e95a64, with no competing develop
+        branch, delivery changes or unrelated roadmap increments. This pre-merge observation
+        is not proof of future integration.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: "The newest observed main pipeline is successful; no red required trunk result was bypassed."
+    summary: >-
+      The newest observed main pipeline is successful; no red required trunk result
+      was bypassed.
     evidence:
     - kind: ci_observation
-      summary: "Read-only pipeline lookup at the verification checkpoint returned success for 2924630788 and exact main revision 9e95a64. A later red trunk requires restoration before new feature work."
+      summary: >-
+        Read-only pipeline lookup at the verification checkpoint returned success for
+        2924630788 and exact main revision 9e95a64. A later red trunk requires restoration
+        before new feature work.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924630788
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: "Existing contracts retain catalog 2 and report schema 1. New semantics require explicit schema 3 and exact policy selection, not installation or profile omission."
+    summary: >-
+      Existing contracts retain catalog 2 and report schema 1. New semantics require
+      explicit schema 3 and exact policy selection, not installation or profile
+      omission.
     evidence:
     - kind: regression_review
-      summary: "Legacy report serialization, command definitions, preview byte preservation, new schema validation and strict summary validation are exercised. No public versions, installed pins or consumer contracts changed."
+      summary: >-
+        Legacy report serialization, command definitions, preview byte preservation,
+        new schema validation and strict summary validation are exercised. No public
+        versions, installed pins or consumer contracts changed.
       location: crates/opdev-cli/tests/engineering_policy.rs
   - rule_id: OPDEV-TEST-001
     outcome: passed
-    summary: "Reviewed functional, reliability, compatibility, security and maintainability risks against actual assertions and the accepted conditions."
+    summary: >-
+      Reviewed functional, reliability, compatibility, security and maintainability
+      risks against actual assertions and the accepted conditions.
     evidence:
     - kind: assertion_review
-      summary: "Negative controls cover missing baseline findings, every nonqualifying outcome, unsupported mapping, partial mapping, missing rollback, second integration stream, forged summary and unsafe apply. Live model quality and end-to-end speed are not inferred from synthetic tests."
+      summary: >-
+        Negative controls cover missing baseline findings, every nonqualifying outcome,
+        unsupported mapping, partial mapping, missing rollback, second integration
+        stream, forged summary and unsafe apply. Live model quality and end-to-end speed are
+        not inferred from synthetic tests.
       location: crates/opdev-engine/src/assessment.rs
   - rule_id: OPDEV-TEST-004
     outcome: passed
-    summary: "Regression tests protect the policy boundaries and unchanged legacy behavior; no escaped-defect exemption is requested."
+    summary: >-
+      Regression tests protect the policy boundaries and unchanged legacy behavior;
+      no escaped-defect exemption is requested.
     evidence:
     - kind: regression_review
-      summary: "CLI tests isolate independent exit requirements, prohibit preview writes and preserve original contract fields. Summary tests reject missing clauses and baseline not-applicable substitution."
+      summary: >-
+        CLI tests isolate independent exit requirements, prohibit preview writes and
+        preserve original contract fields. Summary tests reject missing clauses and
+        baseline not-applicable substitution.
       location: crates/opdev-cli/src/views.rs
   - rule_id: OPDEV-TEST-005
     outcome: passed
-    summary: "Development failures are retained and corrected without hidden retries, weakened checks or new quarantines."
+    summary: >-
+      Development failures are retained and corrected without hidden retries,
+      weakened checks or new quarantines.
     evidence:
     - kind: execution_review
-      summary: "Initial profile YAML parsing failures, misplaced test compilation, strict lint feedback and two missing-manifest unit fixtures were genuine development failures. Fixtures now create real manifests; all 30 CLI unit tests pass. Full canonical execution is independently recorded. First canonical pre-merge run passed format and workspace tests but failed strict lint for similar test variable names and reporting function length; both repaired, lint then passed. Current full check remains required."
+      summary: >-
+        Initial profile YAML parsing failures, misplaced test compilation, strict lint
+        feedback and two missing-manifest unit fixtures were genuine development
+        failures. Fixtures now create real manifests; all 30 CLI unit tests pass. Full canonical
+        execution is independently recorded. First canonical pre-merge run passed format
+        and workspace tests but failed strict lint for similar test variable names and
+        reporting function length; both repaired, lint then passed. Current full check
+        remains required.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: "Agent source review traced actual data flow and assertions rather than treating test names or author summaries as proof."
+    summary: >-
+      Agent source review traced actual data flow and assertions rather than treating
+      test names or author summaries as proof.
     evidence:
     - kind: source_review
-      summary: "Reviewed manifest validation, catalog composition, evidence lookup, command execution, assessment refresh after overlays, gate aggregation, read-only preview and saved-report consistency. This is agent review, not invented human wording approval or certification."
+      summary: >-
+        Reviewed manifest validation, catalog composition, evidence lookup, command
+        execution, assessment refresh after overlays, gate aggregation, read-only preview
+        and saved-report consistency. This is agent review, not invented human wording
+        approval or certification.
       location: crates/opdev-engine/src/evaluator.rs
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: "The distinction between engineering readiness and external-framework evidence is captured in durable guidance and regression controls."
+    summary: >-
+      The distinction between engineering readiness and external-framework evidence
+      is captured in durable guidance and regression controls.
     evidence:
     - kind: work
-      summary: "Remaining adoption/storage/provider redesign stays in the declared GitLab roadmap. Shared execution measurement reports evaluator overhead only and explicitly excludes end-to-end or live agent performance claims."
+      summary: >-
+        Remaining adoption/storage/provider redesign stays in the declared GitLab
+        roadmap. Shared execution measurement reports evaluator overhead only and explicitly
+        excludes end-to-end or live agent performance claims.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/82
   acceptance:
     scope: behavioral
@@ -14817,3 +14896,274 @@ changes:
         strict-lint repairs; current execution is independently required. This is agent review,
         not human wording approval or release qualification.
       subject_sha256: 985fe2a0be74ac01a4de129c3a81131383ddf05c434f75bba1ee337795161dfb
+- fingerprint: e4e3cc7238d22d1404a0edc71155b65d868818ff5af22cb03a32c3c35a2a2e3e
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+  assertions:
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Canonical pre-merge formatting, strict lint and full workspace tests passed on this exact material source and acceptance subject.
+    evidence:
+    - kind: execution_review
+      summary: "Retained local report SHA256 5f853a072a29f1bd25735bd94dddea6e4bb472bc7baa382d218023209cf33405 records format, lint and check passed and development/integration gates passed. This records the earlier boundary for later integrated-stage evaluation; it does not replace candidate or integrated-source CI. Only this observation was added after execution; material source and acceptance remain unchanged."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: "Maintainer approved representative policy-selection, preservation, mismatch and unsupported-inventory wording."
+    evidence:
+    - kind: human_review
+      summary: "Actual user response was Yes to the displayed messages and explicit flags. Process-level help/error tests preserve noninteractive plain text. This is not universal accessibility certification or live-agent evaluation."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: "The accepted roadmap and issue-84 increment bound this implementation."
+    evidence:
+    - kind: work
+      summary: "Versioned inventory, explicit initialization, preserved choices and executable failure checks are implemented. Whole redesign and live trials remain open; no release, consumer migration or installed-pin update."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: "Durable adoption semantics describe the stronger inventory, equivalents and explicit migration."
+    evidence:
+    - kind: contract_review
+      summary: "Compared code and guidance with inventory-2 semantics, required versus conditional choices, debt limits, interrupted initialization and legacy compatibility. Reuse existing decisions and evidence instead of a tool registry or document per practice."
+      location: spec/adoption.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: "GitLab remains the actual MR/main qualification path."
+    evidence:
+    - kind: ci_observation
+      summary: "Current observed main 0d57603853fc75e067e91f1a219bd819351dd4b7 passed pipeline 2924732092. Candidate and integrated checks are separately required, not claimed from that observation."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924732092
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: "Main remains the sole integration and release-source trunk."
+    evidence:
+    - kind: workflow_review
+      summary: "Reviewed unchanged project contract and pipeline branch rules. No maintenance or parallel integration stream is selected for this project."
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: "The issue-84 branch is a bounded increment from current main."
+    evidence:
+    - kind: branch_review
+      summary: "codex/84-baseline-adoption starts at 0d57603 and is intended to merge after required checks then be removed. No competing develop stream or unrelated changes."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: "The latest observed main pipeline is successful."
+    evidence:
+    - kind: ci_observation
+      summary: "Read-only current lookup returned success for pipeline 2924732092 on exact main 0d57603; no required red result has been bypassed."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924732092
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: "Legacy inventory remains byte-unchanged and ordinary init preserves existing policy."
+    evidence:
+    - kind: regression_review
+      summary: "Explicit opt-in selects inventory 2; original records/commands/authorities remain intact during preview. Migration preserves old claims and only adds pending decisions. Unsupported or conflicting input fails without overwrite. No published pin/version changed."
+      location: crates/opdev-cli/tests/adoption.rs
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: "Actual assertions cover functionality, compatibility, reliability and misleading-completion risks."
+    evidence:
+    - kind: assertion_review
+      summary: "Reviewed negative controls for ignored/NA baseline, unknown catalog, malformed nested contract, absent policy options, interrupted initialization, failed executable checks and missing CI. Synthetic reviews test gate plumbing, not real consumer qualification."
+      location: crates/opdev-cli/tests/adoption.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: "Regression coverage protects legacy preservation and interrupted initialization."
+    evidence:
+    - kind: regression_review
+      summary: "Tests assert original bytes, pending additions, review invalidation, no downgrade, no initialization tool stack and failed check outcomes. No escaped-defect exemption is claimed."
+      location: crates/opdev-cli/tests/adoption.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: "Development failures remain visible; no retries or quarantines conceal a product failure."
+    evidence:
+    - kind: execution_review
+      summary: "Strict lint reported function length, nested-if/doc style and equality assertion issues. Helpers and assertions were repaired without exemptions. Focused adoption/interface tests passed; full canonical execution remains separately required."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: "Agent reviewed actual source and assertion behavior against accepted conditions."
+    evidence:
+    - kind: source_review
+      summary: "Traced initialization write order, exact catalog lookup, migration preservation, missing practice handling, approval invalidation, current execution and conditional delivery review. Found and fixed omitted-policy interrupted retry. No claim of independent human semantic review."
+      location: crates/opdev-cli/src/adoption.rs
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: "Generalized adoption lessons are documented without claiming model behavior from source tests."
+    evidence:
+    - kind: work
+      summary: "Guidance separates equivalent checks from waivers and incremental debt remediation from completed adoption. Authorized live trials are tracked separately under issue 91; later strict layout/state work remains in roadmap 82."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+  acceptance:
+    scope: behavioral
+    rationale: "Issue 84 implementation increment: versioned engineering adoption inventory, explicit new-project selection, preservation/migration, actual executable negative controls and proportional agent guidance. Live-agent outcomes remain for authorized frozen trials in issue 91; no release or consumer migration."
+    conditions:
+    - id: init
+      statement: >-
+        New initialization requires actual explicit policy selections, scaffolds
+        pending decisions without tools, preserves existing instructions and safely retries
+        interruption.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+      source:
+        path: spec/adoption.md
+        sha256: c2799c42db0e1da6d8890275b1a69ab6cfa5ffa950aae2112e3dc803c2c2d4e6
+        excerpt: No tools run or install during init.
+    - id: inventory
+      statement: >-
+        Engineering baseline requirements cannot be ignored; legacy inventory remains
+        unchanged until explicit upgrade.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+      source:
+        path: spec/adoption.md
+        sha256: c2799c42db0e1da6d8890275b1a69ab6cfa5ffa950aae2112e3dc803c2c2d4e6
+        excerpt: Newly mandatory ignored decisions remain
+    - id: catalog
+      statement: >-
+        Read-only inventory inspection and migration preserve original bytes and fail
+        closed for malformed or unsupported input.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+      source:
+        path: spec/adoption.md
+        sha256: c2799c42db0e1da6d8890275b1a69ab6cfa5ffa950aae2112e3dc803c2c2d4e6
+        excerpt: Invalid existing contracts are errors, not legacy fallback.
+    - id: execution
+      statement: >-
+        Actual failing checks and absent CI prevent completed adoption despite modeled
+        review claims.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+      source:
+        path: spec/adoption.md
+        sha256: c2799c42db0e1da6d8890275b1a69ab6cfa5ffa950aae2112e3dc803c2c2d4e6
+        excerpt: A record or passing command alone cannot qualify
+    - id: delivery
+      statement: >-
+        Applicable publication still requires reviewed delivery path; engineering
+        policy can distinguish actual inapplicability from a missing review.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+      source:
+        path: spec/adoption.md
+        sha256: c2799c42db0e1da6d8890275b1a69ab6cfa5ffa950aae2112e3dc803c2c2d4e6
+        excerpt: |-
+          missing delivery
+          configuration or a future implementation is not that evidence.
+    - id: guidance
+      statement: >-
+        Empty and established projects receive proportionate choices, preserve adequate
+        tools, and cannot turn debt or approval into verified adoption.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+      source:
+        path: spec/adoption.md
+        sha256: c2799c42db0e1da6d8890275b1a69ab6cfa5ffa950aae2112e3dc803c2c2d4e6
+        excerpt: does not hide critical security/correctness failures
+    verifications:
+    - condition: init
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: da25068dcaa887244fa67659425f5a3fcc776d835009ec4b7aeca21a796f22ed
+        excerpt: engineering_initialization_requires_choices_and_preserves_existing_projects
+      assertion: >-
+        Missing options create no state, preview writes nothing, all twenty entries
+        remain pending, retries preserve exact records, changed policy and omitted-policy
+        interrupted retries are rejected.
+      discriminating_case: >-
+        Missing options create no state, preview writes nothing, all twenty entries
+        remain pending, retries preserve exact records, changed policy and omitted-policy
+        interrupted retries are rejected.
+      suite: check
+      outcome: passed
+    - condition: inventory
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: da25068dcaa887244fa67659425f5a3fcc776d835009ec4b7aeca21a796f22ed
+        excerpt: engineering_inventory_preserves_legacy_choices_but_cannot_waive_baseline
+      assertion: >-
+        Legacy ignored formatting survives migration as an explicit blocker; required
+        ignored and NA dispositions fail; setup/review are pending; executable suites are
+        required and genuine conditional NA is distinct.
+      discriminating_case: >-
+        Legacy ignored formatting survives migration as an explicit blocker; required
+        ignored and NA dispositions fail; setup/review are pending; executable suites are
+        required and genuine conditional NA is distinct.
+      suite: check
+      outcome: passed
+    - condition: catalog
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: da25068dcaa887244fa67659425f5a3fcc776d835009ec4b7aeca21a796f22ed
+        excerpt: catalogs_are_read_only_and_invalid_contracts_do_not_fall_back
+      assertion: >-
+        Inventory lookup works before initialization, explicit versions remain
+        inspectable, malformed root/nested contracts and unknown versions do not silently fall
+        back.
+      discriminating_case: >-
+        Inventory lookup works before initialization, explicit versions remain
+        inspectable, malformed root/nested contracts and unknown versions do not silently fall
+        back.
+      suite: check
+      outcome: passed
+    - condition: execution
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: da25068dcaa887244fa67659425f5a3fcc776d835009ec4b7aeca21a796f22ed
+        excerpt: engineering_adoption_executes_checks_and_does_not_hide_violations
+      assertion: >-
+        Synthetic baseline passes first; actual whitespace, rustc type-error and
+        compiled failing test commands then fail; deleting CI yields a nonpassing CI rule and
+        incomplete adoption.
+      discriminating_case: >-
+        Synthetic baseline passes first; actual whitespace, rustc type-error and
+        compiled failing test commands then fail; deleting CI yields a nonpassing CI rule and
+        incomplete adoption.
+      suite: check
+      outcome: passed
+    - condition: delivery
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: da25068dcaa887244fa67659425f5a3fcc776d835009ec4b7aeca21a796f22ed
+        excerpt: engineering_inapplicable_pipeline_is_distinct_from_missing_delivery_review
+      assertion: >-
+        Synthetic NA review is distinct from passed without delivery_gate evidence; old
+        legacy tests retain stricter existing behavior. This tests evidence plumbing,
+        not real capability absence.
+      discriminating_case: >-
+        Synthetic NA review is distinct from passed without delivery_gate evidence; old
+        legacy tests retain stricter existing behavior. This tests evidence plumbing,
+        not real capability absence.
+      suite: check
+      outcome: passed
+    - condition: guidance
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/adoption.md
+        sha256: 536433a588a23994a13e4f734813990d9c73f767aacf30d7513348e4d9974f89
+        excerpt: For noncritical existing debt
+      assertion: >-
+        Reviewed applicable policy routing, grouped material questions, equivalent
+        checks, no-new-regression boundaries, capability-based exclusions, preserved consent
+        and no ordinary re-adoption against spec. This verifies instructions, not model
+        compliance.
+      discriminating_case: >-
+        A disabled check, missing configuration or noncritical baseline must not become
+        an implemented required capability or a waiver of critical defects.
+      automation_limitation: >-
+        Meaning of guidance and appropriate limits require source review; live agent
+        compliance is separately pending in issue 91 and is not inferred from text.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent source and assertion review
+      reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
+      rationale: >-
+        Reviewed actual changed code, negative assertions, version boundaries, command
+        exits and guidance against the six accepted conditions. Legacy inventory remains
+        immutable. This is source review, not human consent, live-agent qualification or
+        release readiness.
+      subject_sha256: d58e31acd7431ab3fca9165e7d8299a262664300e8b38b4f27207450cd891691

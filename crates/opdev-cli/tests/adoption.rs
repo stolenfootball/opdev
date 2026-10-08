@@ -32,6 +32,227 @@ fn repo() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
 }
 
 #[test]
+fn engineering_initialization_requires_choices_and_preserves_existing_projects()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = repo()?;
+    let root = repo.path();
+    fs::write(root.join("AGENTS.md"), "Keep project instructions.\n")?;
+    assert!(
+        !cli(root, &["init", "--engineering-policy", "1"])?
+            .status
+            .success()
+    );
+    assert!(!root.join(".opdev").exists());
+    let mut args = vec![
+        "init",
+        "--engineering-policy",
+        "1",
+        "--policy-review-reference",
+        "synthetic-decision",
+        "--minimumcd-assessment",
+        "none",
+        "--dry-run",
+    ];
+    assert!(cli(root, &args)?.status.success());
+    assert!(!root.join(".opdev").exists());
+    args.pop();
+    assert!(cli(root, &args)?.status.success());
+    let manifest = discover(root)?.manifest;
+    assert_eq!(manifest.schema, 3);
+    assert!(
+        manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .ok_or("policy")?
+            .minimumcd
+            .is_none()
+    );
+    let record = AdoptionRecord::load(root)?.ok_or("record")?;
+    assert_eq!(record.catalog_version, 2);
+    assert_eq!(record.practices.len(), 20);
+    assert!(record.review.is_none());
+    assert!(
+        record
+            .practices
+            .values()
+            .all(|d| d.state == AdoptionState::Pending)
+    );
+    assert!(
+        manifest.commands.is_empty(),
+        "no invented tool stack in an empty repo"
+    );
+    assert!(fs::read_to_string(root.join("AGENTS.md"))?.contains("Keep project instructions."));
+    let before = fs::read(root.join(MANIFEST_PATH))?;
+    let record_before = fs::read(root.join(ADOPTION_PATH))?;
+    assert!(cli(root, &args)?.status.success(), "idempotent retry");
+    args[4] = "changed-decision";
+    assert!(!cli(root, &args)?.status.success());
+    assert_eq!(before, fs::read(root.join(MANIFEST_PATH))?);
+    assert_eq!(record_before, fs::read(root.join(ADOPTION_PATH))?);
+    // Simulate interruption after the inventory write but before the contract.
+    fs::remove_file(root.join(MANIFEST_PATH))?;
+    assert!(!cli(root, &["init"])?.status.success());
+    assert!(!root.join(MANIFEST_PATH).exists());
+    assert_eq!(record_before, fs::read(root.join(ADOPTION_PATH))?);
+    args[4] = "synthetic-decision";
+    assert!(cli(root, &args)?.status.success());
+    Ok(())
+}
+
+#[test]
+fn engineering_inventory_preserves_legacy_choices_but_cannot_waive_baseline()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    let old = record.to_yaml()?;
+    assert_eq!(record.practices["formatting"].state, AdoptionState::Ignored);
+    assert_eq!(
+        cli(root, &["adoption", "migrate", "--catalog-version", "2"])?
+            .status
+            .code(),
+        Some(2)
+    );
+    assert_eq!(old, fs::read_to_string(root.join(ADOPTION_PATH))?);
+    manifest.schema = 3;
+    manifest
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic-decision".into(),
+        maintenance_branches: vec![],
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    let blockers = record.blockers(&manifest)?.join("\n");
+    assert!(blockers.contains("does not match"));
+    assert!(blockers.contains("setup: missing assessment"));
+    let preview = cli(root, &["adoption", "migrate", "--catalog-version", "2"])?;
+    assert!(preview.status.success());
+    assert_eq!(old, fs::read_to_string(root.join(ADOPTION_PATH))?);
+    record = AdoptionRecord::from_yaml(&String::from_utf8(preview.stdout)?)?;
+    assert_eq!(record.practices["formatting"].state, AdoptionState::Ignored);
+    assert_eq!(record.practices["setup"].state, AdoptionState::Pending);
+    assert_eq!(record.practices["review"].state, AdoptionState::Pending);
+    assert!(record.review.is_none());
+    for id in [
+        "coding_style",
+        "formatting",
+        "linting",
+        "dependencies",
+        "setup",
+        "review",
+    ] {
+        for state in [AdoptionState::Ignored, AdoptionState::NotApplicable] {
+            record.practices.get_mut(id).ok_or("decision")?.state = state;
+            assert!(
+                record
+                    .blockers(&manifest)?
+                    .iter()
+                    .any(|b| b.starts_with(&format!("{id}:")))
+            );
+        }
+    }
+    let decision = record.practices.get_mut("formatting").ok_or("format")?;
+    decision.state = AdoptionState::Implemented;
+    assert!(
+        record
+            .blockers(&manifest)?
+            .iter()
+            .any(|b| b.contains("formatting: implementation requires executable"))
+    );
+    decision_fill(&mut record, "formatting", AdoptionState::Implemented)?;
+    assert!(
+        !record
+            .blockers(&manifest)?
+            .iter()
+            .any(|b| b.starts_with("formatting:"))
+    );
+    decision_fill(&mut record, "effectiveness", AdoptionState::NotApplicable)?;
+    assert!(
+        !record
+            .blockers(&manifest)?
+            .iter()
+            .any(|b| b.starts_with("effectiveness:"))
+    );
+    let unchanged = record.to_yaml()?;
+    assert!(record.migrate_catalog(1).is_err());
+    assert!(record.migrate_catalog(99).is_err());
+    assert_eq!(record.to_yaml()?, unchanged);
+    record.migrate_catalog(2)?;
+    assert_eq!(record.to_yaml()?, unchanged);
+    assert!(
+        cli(
+            root,
+            &["adoption", "migrate", "--catalog-version", "2", "--write"]
+        )?
+        .status
+        .success()
+    );
+    assert_eq!(
+        AdoptionRecord::load(root)?.ok_or("record")?.catalog_version,
+        2
+    );
+    Ok(())
+}
+
+fn decision_fill(
+    record: &mut AdoptionRecord,
+    id: &str,
+    state: AdoptionState,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let decision = record.practices.get_mut(id).ok_or("decision")?;
+    decision.state = state;
+    decision.suites = if state == AdoptionState::Implemented {
+        vec!["verify".into()]
+    } else {
+        vec![]
+    };
+    decision.owner = "synthetic reviewer".into();
+    decision.reason = "Synthetic scoped decision; not real project qualification".into();
+    decision.references = vec!["fixture-review.md".into()];
+    Ok(())
+}
+
+#[test]
+fn catalogs_are_read_only_and_invalid_contracts_do_not_fall_back()
+-> Result<(), Box<dyn std::error::Error>> {
+    let empty = tempfile::tempdir()?;
+    for (args, expected) in [
+        (vec!["adoption", "catalog"], 1),
+        (vec!["adoption", "catalog", "--catalog-version", "2"], 2),
+    ] {
+        let output = cli(empty.path(), &args)?;
+        assert!(output.status.success());
+        assert_eq!(
+            serde_json::from_slice::<Value>(&output.stdout)?["version"],
+            expected
+        );
+    }
+    assert!(!empty.path().join(".opdev").exists());
+    let repo = repo()?;
+    fs::create_dir(repo.path().join(".opdev"))?;
+    fs::write(repo.path().join(MANIFEST_PATH), "invalid: true\n")?;
+    fs::create_dir(repo.path().join("nested"))?;
+    for root in [repo.path().to_path_buf(), repo.path().join("nested")] {
+        assert!(!cli(&root, &["adoption", "catalog"])?.status.success());
+    }
+    assert!(
+        !cli(
+            empty.path(),
+            &["adoption", "catalog", "--catalog-version", "99"]
+        )?
+        .status
+        .success()
+    );
+    Ok(())
+}
+
+#[test]
 fn initialization_is_unresolved_read_only_on_preview_and_resumable()
 -> Result<(), Box<dyn std::error::Error>> {
     let repo = repo()?;
@@ -313,7 +534,7 @@ fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
     });
     fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
     assert!(git(root, &["add", "."])?.status.success());
-    let catalog = embedded_catalog()?;
+    let catalog = manifest.catalog()?;
     // Synthetic gate plumbing, not a behavioral product acceptance assessment.
     let fingerprint = staged_fingerprint(root)?;
     let mut acceptance = opdev_project::AcceptanceEvidence {
@@ -725,6 +946,168 @@ fn completion_requires_current_review_and_all_core_gates() -> Result<(), Box<dyn
     let result: Value = serde_json::from_slice(&result.stdout)?;
     assert_eq!(result["complete"], false);
     assert!(result["blockers"].to_string().contains("core gate"));
+    Ok(())
+}
+
+fn engineering_fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.schema = 3;
+    manifest
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic-decision".into(),
+        maintenance_branches: vec![],
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    let mut record = AdoptionRecord::load(root)?.ok_or("record")?;
+    record.migrate_catalog(2)?;
+    for id in [
+        "coding_style",
+        "formatting",
+        "linting",
+        "dependencies",
+        "setup",
+        "review",
+    ] {
+        decision_fill(&mut record, id, AdoptionState::Implemented)?;
+    }
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    bind_review(root)?;
+    Ok(repo)
+}
+
+#[test]
+fn engineering_adoption_executes_checks_and_does_not_hide_violations()
+-> Result<(), Box<dyn std::error::Error>> {
+    for probe in ["format", "lint", "behavior", "missing_ci"] {
+        let repo = engineering_fixture()?;
+        let root = repo.path();
+        let output = cli(root, &["adoption", "check", "--format", "json"])?;
+        assert!(
+            output.status.success(),
+            "{probe}: {} {}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let mut manifest = discover(root)?.manifest;
+        let compiler_output = tempfile::tempdir()?;
+        let argv = match probe {
+            "format" => {
+                fs::write(root.join("format.txt"), "trailing whitespace  \n")?;
+                vec![
+                    "git".into(),
+                    "diff".into(),
+                    "--cached".into(),
+                    "--check".into(),
+                ]
+            }
+            "lint" => {
+                fs::write(
+                    root.join("type_error.rs"),
+                    "pub fn broken() -> bool { 42 }\n",
+                )?;
+                vec![
+                    "rustc".into(),
+                    "--crate-type=lib".into(),
+                    "--emit=metadata".into(),
+                    "--out-dir".into(),
+                    compiler_output.path().to_string_lossy().into_owned(),
+                    "type_error.rs".into(),
+                ]
+            }
+            "behavior" => {
+                fs::write(
+                    root.join("behavior.rs"),
+                    "#[test] fn expected_result() { assert_eq!(2 + 2, 5); }\n",
+                )?;
+                let binary = compiler_output
+                    .path()
+                    .join(format!("behavior{}", std::env::consts::EXE_SUFFIX));
+                let compiled = Command::new("rustc")
+                    .arg("--test")
+                    .arg(root.join("behavior.rs"))
+                    .arg("-o")
+                    .arg(&binary)
+                    .output()?;
+                assert!(
+                    compiled.status.success(),
+                    "{}",
+                    String::from_utf8_lossy(&compiled.stderr)
+                );
+                vec![binary.to_string_lossy().into_owned()]
+            }
+            _ => {
+                fs::remove_file(root.join(".gitlab-ci.yml"))?;
+                vec!["git".into(), "status".into(), "--porcelain".into()]
+            }
+        };
+        manifest.commands.get_mut("verify").ok_or("command")?.argv = argv;
+        fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+        bind_review(root)?;
+        let output = cli(root, &["adoption", "check", "--format", "json"])?;
+        assert_eq!(
+            output.status.code(),
+            Some(1),
+            "{probe}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let report: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(report["complete"], false);
+        if probe == "missing_ci" {
+            let rules = report["core_report"]["rules"].as_array().ok_or("rules")?;
+            assert!(
+                rules
+                    .iter()
+                    .any(|r| r["rule_id"] == "MCD-CI-001" && r["outcome"] != "passed")
+            );
+        } else {
+            assert_eq!(
+                report["core_report"]["checks"][0]["outcome"], "failed",
+                "{probe}: {report}"
+            );
+        }
+    }
+    Ok(())
+}
+
+#[test]
+fn engineering_inapplicable_pipeline_is_distinct_from_missing_delivery_review()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = engineering_fixture()?;
+    let root = repo.path();
+    let manifest = discover(root)?.manifest;
+    let mut ledger = EvidenceLedger::load_optional(root, &manifest.catalog()?)?.ok_or("ledger")?;
+    let pipeline = ledger.changes[0]
+        .assertions
+        .iter_mut()
+        .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+        .ok_or("pipeline")?;
+    pipeline.outcome = Outcome::NotApplicable;
+    pipeline.summary = "Synthetic capability-absence plumbing, not a real qualification".into();
+    pipeline.evidence[0].kind = "applicability_review".into();
+    fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    let pipeline = ledger.changes[0]
+        .assertions
+        .iter_mut()
+        .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+        .ok_or("pipeline")?;
+    pipeline.outcome = Outcome::Passed;
+    fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    assert!(String::from_utf8(output.stdout)?.contains("delivery_gate"));
     Ok(())
 }
 

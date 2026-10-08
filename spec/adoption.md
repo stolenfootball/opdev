@@ -2,9 +2,54 @@
 
 Creating OpDev files is not completion of initialization. New initialization
 starts a resumable assessment in `.opdev/adoption.yaml`; every practice in the
-versioned [adoption catalog](../rules/adoption.json) MUST be addressed before
+selected versioned adoption catalog MUST be addressed before
 completion is claimed. The [record schema](../schema/adoption.schema.json) is
 separate from project-manifest schema 1 and the core rule catalog.
+
+## Engineering baseline inventory
+
+Legacy project policy retains [inventory 1](../rules/adoption.json). Explicit
+engineering policy 1 selects [inventory 2](../rules/adoption-engineering.json):
+coding conventions, formatting, static analysis and dependency controls are
+required, alongside new reproducible-setup and review entries. These describe
+outcomes, not a compulsory vendor/tool stack. A compiler may supply adequate
+high-signal static checks; one reviewed suite may cover several practices.
+Where a formatter is unsupported, document and execute an appropriate equivalent
+convention check rather than inventing a successful formatter or choosing N/A.
+Setup verification can reuse a clean CI build from declared versioned inputs;
+it does not require reinstalling dependencies on every feedback iteration.
+
+On a CLI advertising `adoption.engineering-baseline.v1`, new-project scaffolding
+can explicitly select the reviewed policy:
+
+```text
+opdev init --engineering-policy 1 --policy-review-reference <actual-decision> --minimumcd-assessment none --dry-run
+```
+
+Use `1` instead of `none` when the separate MinimumCD assessment was selected.
+Remove `--dry-run` only within the approved implementation scope. The caller's
+reference is not authenticated consent. No tools run or install during init.
+Omitting these flags retains legacy behavior; existing contracts are never
+migrated by init. For an existing project, review the project-policy upgrade
+first, then preview `adoption migrate --catalog-version 2`. Explicit `--write`
+preserves existing decisions, adds pending setup/review entries and clears stale
+approval when the inventory changes. Newly mandatory ignored decisions remain
+visible blockers, not silently rewritten as implemented. Same-catalog migration
+is idempotent; downgrade is rejected. Ordinary work never upgrades an inventory.
+
+For empty projects, resolve only material unknowns (intended first outcome,
+language/runtime, supported platforms, interfaces and data/security needs) in
+related question rounds. Reuse a supplied design and explicit delegation. Research
+defaults only for unresolved gaps; implement runnable setup, checks and the first
+thin behavior test after approval. Do not create a document for each practice.
+
+For established noncritical debt, a reviewed no-new-regression baseline MAY
+permit incremental remediation. Record the exact existing findings, enforced
+changed-code boundary, owner and remediation reference in existing authorities;
+reject newly introduced findings and revisit the baseline as fixes land. This
+does not hide critical security/correctness failures, waive applicable controls,
+or label unresolved adoption complete. Describe remaining debt explicitly; a
+suppressed/disabled check is not an equivalent enforcement mechanism.
 
 ## Decisions, not tool stacks
 
@@ -108,7 +153,8 @@ New initialization does not require adoption migration. Inspect the adoption
 record's own version before proposing migration. Adoption schema 1 remains readable for inspection and ordinary
 work, but cannot complete adoption until explicitly migrated. `adoption migrate`
 prints a schema-2 preview; `--write` preserves all old dispositions and references
-without inventing approval. No catalog or project-manifest version is changed.
+without inventing approval. Without `--catalog-version`, no catalog or
+project-manifest version is changed.
 
 `adoption plan` prints the record, full project contract and a SHA-256 plan ID.
 The ID binds scope, choices, rationale, owners, references, suites, research and
@@ -172,7 +218,11 @@ project commands; local verification retains its existing meaning.
 5. Stage all material files and review evidence as described below.
 6. `opdev adoption check` verifies completion for the evaluated staged state.
 
-`adoption catalog` prints the pinned practice definitions. `status` and `check`
+`adoption catalog` prints the project-selected practice definitions (legacy 1
+outside a repository); `--catalog-version 1|2` inspects an exact inventory without
+changing policy. Invalid existing contracts are errors, not legacy fallback.
+`adoption plan` includes the required inventory even when a record still needs
+migration. `status` and `check`
 support `--format json`. `check --report PATH` retains the full core report in a
 new file; use an external or ignored location. `check --remote` additionally
 requests read-only provider auditing. No completion marker is written: retain the
@@ -208,12 +258,18 @@ delivery. Real pre/post-integration CI, artifacts and recovery still need the
 evidence required by their core rules; local execution does not become remote CI.
 Do not register `adoption check` as a suite that it would recursively execute.
 
-Completion additionally requires a passed MCD-PIPELINE-001 result with a
+For applicable delivery, completion additionally requires a passed MCD-PIPELINE-001 result with a
 `delivery_gate` evidence entry pointing to the reviewed release/tag pipeline
 dependency path. Its summary must identify the required qualification job and
 publication ordering, including trigger/rule coverage and the actual run reviewed.
 A generic pipeline assertion or green integration-only job is not this review.
 This remains a reviewable claim, not automatic proof of provider execution.
+Engineering-policy adoption accepts a genuinely evidence-backed not-applicable
+pipeline result when there is no applicable delivery capability; missing delivery
+configuration or a future implementation is not that evidence. Legacy behavior
+is unchanged. Engineering gates and the separately requested MinimumCD assessment
+retain their distinct meanings; adoption completion is not a MinimumCD claim or
+permission to release.
 
 Exit 0 from `check` means completion verified for this state under the existing
 reviewed-evidence trust model. Exit 1 means pending decisions, insufficient/stale
