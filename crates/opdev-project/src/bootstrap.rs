@@ -65,6 +65,37 @@ const CLAUDE_BLOCK: &str = r"<!-- opdev:start -->
 @AGENTS.md
 <!-- opdev:end -->";
 
+const ROUTING_BLOCK: &str = r"<!-- opdev:start -->
+## OpDev
+
+For software development in this initialized project, read `.opdev/guidance.md`
+and `.opdev/project.yaml` before planning or editing. Reload them after a context
+reset and follow the contract's relevant authority routes. Routine pull, status,
+dev-server and external infrastructure operations do not activate this workflow.
+If the guide or required OpDev integration/runtime is missing, tell the developer
+and offer repair or installation; do not silently install or improvise a workflow.
+<!-- opdev:end -->";
+
+/// Current managed shared guidance for an explicitly selected layout.
+#[must_use]
+pub fn shared_guidance() -> String {
+    AGENTS_BLOCK.replace(
+        "## OpDev development protocol",
+        "## OpDev development protocol\n\nShared guidance format: 1. Reload this guide and the project contract after a context reset.",
+    )
+}
+
+/// Check managed routing without interpreting unrelated project instructions.
+#[must_use]
+pub fn guidance_is_current(path: &Path, content: &str, shared: bool) -> bool {
+    let desired = if shared {
+        shared_guidance()
+    } else {
+        ROUTING_BLOCK.into()
+    };
+    replace_or_append_block(path, content, &desired).is_ok_and(|next| next == content)
+}
+
 /// How reconciliation affected one managed file.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FileChange {
@@ -99,6 +130,9 @@ pub struct AgentFilePreview {
 /// Errors produced while reconciling agent instructions.
 #[derive(Debug, Error)]
 pub enum BootstrapError {
+    /// Guidance routing cannot be inferred from an invalid project contract.
+    #[error("could not select managed guidance from the project contract: {0}")]
+    Manifest(#[from] crate::ManifestError),
     /// Git metadata could not be checked safely.
     #[error("could not inspect Git mode for `{path}`: {detail}")]
     GitInspection {
@@ -109,20 +143,20 @@ pub enum BootstrapError {
     },
     /// A linked/non-regular file is not a safe managed-write target.
     #[error(
-        "agent instructions `{path}` must be a regular file, not a filesystem/Git-tracked link or directory; review any migration explicitly"
+        "managed file `{path}` must be a regular file, not a filesystem/Git-tracked link or directory; review any migration explicitly"
     )]
     UnsafeTarget {
         /// File path.
         path: PathBuf,
     },
     /// A file changed after inspection; nothing should overwrite the new state.
-    #[error("agent instructions `{path}` changed after preview; preview again")]
+    #[error("managed file `{path}` changed after preview; preview again")]
     StalePreview {
         /// File path.
         path: PathBuf,
     },
     /// An instruction file could not be read.
-    #[error("could not read agent instructions `{path}`: {source}")]
+    #[error("could not read managed file `{path}`: {source}")]
     Read {
         /// File path.
         path: PathBuf,
@@ -131,7 +165,7 @@ pub enum BootstrapError {
     },
 
     /// An instruction file could not be written.
-    #[error("could not write agent instructions `{path}`: {source}")]
+    #[error("could not write managed file `{path}`: {source}")]
     Write {
         /// File path.
         path: PathBuf,
@@ -145,6 +179,57 @@ pub enum BootstrapError {
         /// File path.
         path: PathBuf,
     },
+    /// Known configuration cannot be formatted without an explicit correction.
+    #[error(
+        "configuration formatting could not preserve the parsed meaning; inspect the original files, which were not changed"
+    )]
+    InvalidConfiguration,
+}
+
+/// Preview deterministic formatting of existing maintained configuration only.
+/// Comments/style are shown as removed in the diff; decisions are not inferred.
+/// # Errors
+/// Invalid/future/linked/missing configuration is preserved, not repaired.
+pub fn preview_configuration_format(root: &Path) -> Result<Vec<AgentFilePreview>, BootstrapError> {
+    let mut preview = Vec::new();
+    for relative in [crate::MANIFEST_PATH, crate::ADOPTION_PATH] {
+        let path = root.join(relative);
+        let before = read_target(&path)?.ok_or(BootstrapError::InvalidConfiguration)?;
+        let after = if relative == crate::MANIFEST_PATH {
+            crate::ProjectManifest::from_yaml(&before)?.to_yaml()?
+        } else {
+            crate::AdoptionRecord::from_yaml(&before)
+                .and_then(|record| record.to_yaml())
+                .map_err(|_| BootstrapError::InvalidConfiguration)?
+        };
+        // Compare typed values rather than YAML text: defaults may be serialized,
+        // but semantic decisions and approval provenance must remain identical.
+        let same = if relative == crate::MANIFEST_PATH {
+            crate::ProjectManifest::from_yaml(&before)?
+                == crate::ProjectManifest::from_yaml(&after)?
+        } else {
+            let parsed = |text: &str| {
+                crate::AdoptionRecord::from_yaml(text)
+                    .ok()
+                    .and_then(|value| serde_json::to_value(value).ok())
+            };
+            parsed(&before).is_some() && parsed(&before) == parsed(&after)
+        };
+        if !same {
+            return Err(BootstrapError::InvalidConfiguration);
+        }
+        let change = if before == after {
+            FileChange::Unchanged
+        } else {
+            FileChange::Updated
+        };
+        preview.push(AgentFilePreview {
+            file: ManagedFile { path, change },
+            before: Some(before),
+            after,
+        });
+    }
+    Ok(preview)
 }
 
 /// Creates or updates the managed `OpDev` sections in `AGENTS.md` and
@@ -164,6 +249,30 @@ pub fn reconcile_agent_files(root: &Path) -> Result<Vec<ManagedFile>, BootstrapE
 /// # Errors
 /// Returns an error for unreadable, linked or ambiguous instruction files.
 pub fn preview_agent_files(root: &Path) -> Result<Vec<AgentFilePreview>, BootstrapError> {
+    let manifest = root.join(crate::MANIFEST_PATH);
+    let strict = if manifest.exists() {
+        crate::ProjectManifest::load(&manifest)?.layout.is_some()
+    } else {
+        false
+    };
+    preview_agent_files_for_layout(root, strict)
+}
+
+/// Preview the approved target layout, including before its contract is written.
+/// This function selects no policy and writes nothing.
+/// # Errors
+/// Returns an error for unreadable, linked or ambiguous targets.
+pub fn preview_agent_files_for_layout(
+    root: &Path,
+    strict: bool,
+) -> Result<Vec<AgentFilePreview>, BootstrapError> {
+    if strict {
+        return Ok(vec![
+            preview_file(&root.join(".opdev/guidance.md"), &shared_guidance(), false)?,
+            preview_file(&root.join("AGENTS.md"), ROUTING_BLOCK, false)?,
+            preview_file(&root.join("CLAUDE.md"), ROUTING_BLOCK, false)?,
+        ]);
+    }
     Ok(vec![
         preview_file(&root.join("AGENTS.md"), AGENTS_BLOCK, false)?,
         preview_file(&root.join("CLAUDE.md"), CLAUDE_BLOCK, true)?,
@@ -236,6 +345,26 @@ pub fn apply_agent_preview(
 }
 
 fn read_target(path: &Path) -> Result<Option<String>, BootstrapError> {
+    if let Some(parent) = path
+        .parent()
+        .filter(|p| p.file_name().is_some_and(|n| n == ".opdev"))
+    {
+        reject_index_link(parent)?;
+        if let Ok(metadata) = fs::symlink_metadata(parent) {
+            #[cfg(windows)]
+            let linked = {
+                use std::os::windows::fs::MetadataExt;
+                metadata.file_attributes() & 0x400 != 0
+            };
+            #[cfg(not(windows))]
+            let linked = metadata.file_type().is_symlink();
+            if linked || !metadata.is_dir() {
+                return Err(BootstrapError::UnsafeTarget {
+                    path: parent.into(),
+                });
+            }
+        }
+    }
     reject_index_link(path)?;
     match fs::symlink_metadata(path) {
         Ok(metadata) if !metadata.file_type().is_file() => {
@@ -394,6 +523,45 @@ fn newline_style(content: &str) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn shared_preview_preserves_project_text_and_rejects_stale_guide_before_any_write()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let repo = tempfile::tempdir()?;
+        let root = repo.path();
+        fs::create_dir(root.join(".opdev"))?;
+        fs::write(root.join("AGENTS.md"), "Keep these rules\n")?;
+        fs::write(root.join("CLAUDE.md"), "@AGENTS.md\n")?;
+        let preview = preview_agent_files_for_layout(root, true)?;
+        assert_eq!(preview.len(), 3);
+        assert!(preview[0].file.path.ends_with(".opdev/guidance.md"));
+        assert!(!root.join(".opdev/guidance.md").exists());
+        fs::write(
+            root.join(".opdev/guidance.md"),
+            "Concurrent author's content\n",
+        )?;
+        assert!(matches!(
+            apply_agent_preview(&preview),
+            Err(BootstrapError::StalePreview { .. })
+        ));
+        assert_eq!(
+            fs::read_to_string(root.join("AGENTS.md"))?,
+            "Keep these rules\n"
+        );
+        assert_eq!(fs::read_to_string(root.join("CLAUDE.md"))?, "@AGENTS.md\n");
+        let fresh = preview_agent_files_for_layout(root, true)?;
+        apply_agent_preview(&fresh)?;
+        assert!(
+            fs::read_to_string(root.join(".opdev/guidance.md"))?
+                .starts_with("Concurrent author's content\n")
+        );
+        assert!(
+            preview_agent_files_for_layout(root, true)?
+                .iter()
+                .all(|p| p.file.change == FileChange::Unchanged)
+        );
+        Ok(())
+    }
 
     #[test]
     fn git_symlink_placeholders_and_index_changes_block_all_writes()

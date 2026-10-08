@@ -136,7 +136,7 @@ pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
         if assess(args)?.0.plan_id != plan.plan_id {
             bail!("upgrade inputs changed during review; nothing written. Preview again");
         }
-        apply_agent_preview(&preview).context("guidance apply failed; inspect both files and preview again (writes are atomic per file, not a multi-file transaction)")?;
+        apply_agent_preview(&preview).context("guidance apply failed; inspect the managed files and preview again (writes are atomic per file, not a multi-file transaction)")?;
         if preview_agent_files(&plan.root)?
             .iter()
             .any(|item| item.file.change != FileChange::Unchanged)

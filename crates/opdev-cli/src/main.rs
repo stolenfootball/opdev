@@ -158,6 +158,9 @@ struct PluginRequirements {
 
 #[derive(Debug, Args)]
 struct InitArgs {
+    /// Explicit reviewed strict layout for new projects; existing layouts need migration.
+    #[arg(long, requires = "engineering_policy", value_parser = clap::value_parser!(u32).range(1..=1))]
+    layout_version: Option<u32>,
     /// Explicit reviewed engineering policy for a new project (currently 1).
     #[arg(long, requires_all = ["policy_review_reference", "minimumcd_assessment"])]
     engineering_policy: Option<String>,
@@ -903,6 +906,17 @@ fn select_initial_policy(
                 "existing project policy preserved; use the read-only upgrade policy preview, not init, to propose a migration"
             );
         }
+        if args.layout_version.is_some_and(|version| {
+            discovery
+                .manifest
+                .layout
+                .as_ref()
+                .is_none_or(|layout| layout.version != version)
+        }) {
+            bail!(
+                "existing layout preserved; init cannot migrate project files. Preview a coordinated layout migration first"
+            );
+        }
     } else {
         discovery.manifest.schema = 3;
         discovery
@@ -911,6 +925,12 @@ fn select_initial_policy(
             .profiles
             .retain(|p| p.name != "opdev-core");
         discovery.manifest.assurance.engineering = Some(policy);
+        discovery.manifest.layout =
+            args.layout_version
+                .map(|version| opdev_project::LayoutPolicy {
+                    version,
+                    review_reference: args.policy_review_reference.clone().unwrap_or_default(),
+                });
         discovery.manifest.to_yaml()?;
         if let Some(record) = opdev_project::AdoptionRecord::load(&discovery.root)?
             && record.catalog_version != 2
@@ -1673,6 +1693,7 @@ mod tests {
         let before = std::fs::read(root.join(MANIFEST_PATH))?;
         std::fs::write(root.join("AGENTS.md"), "Project-owned instructions\n")?;
         initialize(&InitArgs {
+            layout_version: None,
             root: root.to_path_buf(),
             dry_run: true,
             engineering_policy: None,
@@ -1695,6 +1716,7 @@ mod tests {
         let root = directory.path();
         std::fs::create_dir(root.join(".git"))?;
         initialize(&InitArgs {
+            layout_version: None,
             root: root.to_path_buf(),
             dry_run: false,
             engineering_policy: None,

@@ -84,7 +84,7 @@
       "required": ["id", "kind", "blocking", "gates", "outcome", "summary", "evidence"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
-        "kind": { "enum": ["suite", "extension"] },
+        "kind": { "enum": ["suite", "extension", "policy"] },
         "blocking": { "type": "boolean" },
         "gates": { "type": "array", "items": { "$ref": "#/$defs/gate" }, "uniqueItems": true },
         "outcome": { "$ref": "#/$defs/outcome" },

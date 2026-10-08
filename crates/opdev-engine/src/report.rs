@@ -2,9 +2,11 @@ use opdev_core::{Evidence, Gate, GateVerdict, Outcome, RuleResult};
 use serde::{Deserialize, Serialize};
 
 /// Origin of an executable check result.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum CheckKind {
+    /// Built-in structural validation selected by reviewed policy; no command ran.
+    Policy,
     /// Canonical test or quality suite.
     Suite,
     /// Project-owned extension protocol command.

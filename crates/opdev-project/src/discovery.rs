@@ -117,6 +117,7 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
     Ok(Discovery {
         root,
         manifest: ProjectManifest {
+            layout: None,
             // Keep ordinary initialization compatible; qualification is an explicit migration.
             schema: 1,
             project: Project {

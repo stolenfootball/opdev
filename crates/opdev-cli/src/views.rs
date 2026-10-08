@@ -126,7 +126,7 @@ fn validate_report(report: &CheckReport) -> Result<()> {
     if report
         .checks
         .iter()
-        .any(|check| !check_ids.insert((matches!(check.kind, CheckKind::Suite), &check.id)))
+        .any(|check| !check_ids.insert((check.kind, &check.id)))
     {
         bail!("report contains ambiguous duplicate check IDs");
     }

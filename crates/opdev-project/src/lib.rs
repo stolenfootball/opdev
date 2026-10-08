@@ -12,6 +12,8 @@ mod bootstrap;
 mod discovery;
 mod evidence;
 mod experiment;
+/// Read-only namespace checks shared by CLI inspection and selected-policy evaluation.
+pub mod layout;
 mod manifest;
 mod review;
 pub use review::{ReviewRecord, ReviewStorage, WorkKind, WorkObservation, WorkSelector};
@@ -27,7 +29,8 @@ pub use adoption::{
 };
 pub use bootstrap::{
     AgentFilePreview, BootstrapError, FileChange, ManagedFile, apply_agent_preview,
-    preview_agent_files, reconcile_agent_files,
+    preview_agent_files, preview_agent_files_for_layout, preview_configuration_format,
+    reconcile_agent_files, shared_guidance,
 };
 pub use discovery::{Discovery, DiscoveryError, discover};
 pub use evidence::{
@@ -39,8 +42,8 @@ pub use manifest::{
     Artifact, Assurance, AuthorityKind, AuthorityRef, ChangeTests, CiConfig, CiProvider,
     CommandSpec, Context, Coverage, CoverageMode, Delivery, DeliveryMode, DeliveryStatus,
     Environment, EscapedDefectRegressions, ExtensionCheck, ExtensionStage, Extensions, FlakePolicy,
-    ManifestError, Operations, Profile, Project, ProjectKind, ProjectManifest, Quality,
-    QualityRisk, Recovery, RecoveryStrategy, TestStage, TestSuite, Testing,
+    LayoutPolicy, ManifestError, Operations, Profile, Project, ProjectKind, ProjectManifest,
+    Quality, QualityRisk, Recovery, RecoveryStrategy, TestStage, TestSuite, Testing,
 };
 
 /// Repository-relative location of an initialized project contract.

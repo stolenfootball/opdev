@@ -7,6 +7,7 @@
   "required": ["schema", "project", "authorities", "commands", "quality", "testing", "delivery", "assurance", "context"],
   "properties": {
     "schema": { "enum": [1, 2, 3] },
+    "layout": {"type":"object","additionalProperties":false,"required":["version","review_reference"],"properties":{"version":{"const":1},"review_reference":{"type":"string","minLength":1}}},
     "project": { "$ref": "#/$defs/project" },
     "authorities": {
       "type": "object",
@@ -27,6 +28,7 @@
   "if": { "properties": { "schema": { "const": 1 } } },
   "then": { "properties": { "project": { "properties": { "ci": { "not": { "required": ["qualification"] } } } } } },
   "allOf": [
+    { "if": { "required": ["layout"] }, "then": { "properties": { "schema": { "const": 3 } } } },
     { "if": { "properties": { "schema": { "const": 3 } } },
       "then": { "properties": { "assurance": { "required": ["engineering"] } } },
       "else": { "properties": { "assurance": { "not": { "required": ["engineering"] } } } } }
