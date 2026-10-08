@@ -14901,101 +14901,160 @@ changes:
   assertions:
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Canonical pre-merge formatting, strict lint and full workspace tests passed on this exact material source and acceptance subject.
+    summary: >-
+      Canonical pre-merge formatting, strict lint and full workspace tests passed on
+      this exact material source and acceptance subject.
     evidence:
     - kind: execution_review
-      summary: "Retained local report SHA256 5f853a072a29f1bd25735bd94dddea6e4bb472bc7baa382d218023209cf33405 records format, lint and check passed and development/integration gates passed. This records the earlier boundary for later integrated-stage evaluation; it does not replace candidate or integrated-source CI. Only this observation was added after execution; material source and acceptance remain unchanged."
+      summary: >-
+        Retained local report SHA256
+        5f853a072a29f1bd25735bd94dddea6e4bb472bc7baa382d218023209cf33405 records format, lint and check passed and development/integration
+        gates passed. This records the earlier boundary for later integrated-stage
+        evaluation; it does not replace candidate or integrated-source CI. Only this
+        observation was added after execution; material source and acceptance remain unchanged.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: "Maintainer approved representative policy-selection, preservation, mismatch and unsupported-inventory wording."
+    summary: >-
+      Maintainer approved representative policy-selection, preservation, mismatch and
+      unsupported-inventory wording.
     evidence:
     - kind: human_review
-      summary: "Actual user response was Yes to the displayed messages and explicit flags. Process-level help/error tests preserve noninteractive plain text. This is not universal accessibility certification or live-agent evaluation."
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655
+      summary: >-
+        Actual user response was Yes to the displayed messages and explicit flags.
+        Process-level help/error tests preserve noninteractive plain text. This is not
+        universal accessibility certification or live-agent evaluation.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655"
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: "The accepted roadmap and issue-84 increment bound this implementation."
+    summary: The accepted roadmap and issue-84 increment bound this implementation.
     evidence:
     - kind: work
-      summary: "Versioned inventory, explicit initialization, preserved choices and executable failure checks are implemented. Whole redesign and live trials remain open; no release, consumer migration or installed-pin update."
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655
+      summary: >-
+        Versioned inventory, explicit initialization, preserved choices and executable
+        failure checks are implemented. Whole redesign and live trials remain open; no
+        release, consumer migration or installed-pin update.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655"
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: "Durable adoption semantics describe the stronger inventory, equivalents and explicit migration."
+    summary: >-
+      Durable adoption semantics describe the stronger inventory, equivalents and
+      explicit migration.
     evidence:
     - kind: contract_review
-      summary: "Compared code and guidance with inventory-2 semantics, required versus conditional choices, debt limits, interrupted initialization and legacy compatibility. Reuse existing decisions and evidence instead of a tool registry or document per practice."
+      summary: >-
+        Compared code and guidance with inventory-2 semantics, required versus
+        conditional choices, debt limits, interrupted initialization and legacy compatibility.
+        Reuse existing decisions and evidence instead of a tool registry or document per
+        practice.
       location: spec/adoption.md
   - rule_id: MCD-CI-001
     outcome: passed
-    summary: "GitLab remains the actual MR/main qualification path."
+    summary: GitLab remains the actual MR/main qualification path.
     evidence:
     - kind: ci_observation
-      summary: "Current observed main 0d57603853fc75e067e91f1a219bd819351dd4b7 passed pipeline 2924732092. Candidate and integrated checks are separately required, not claimed from that observation."
+      summary: >-
+        Current observed main 0d57603853fc75e067e91f1a219bd819351dd4b7 passed pipeline
+        2924732092. Candidate and integrated checks are separately required, not claimed
+        from that observation.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924732092
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: "Main remains the sole integration and release-source trunk."
+    summary: Main remains the sole integration and release-source trunk.
     evidence:
     - kind: workflow_review
-      summary: "Reviewed unchanged project contract and pipeline branch rules. No maintenance or parallel integration stream is selected for this project."
+      summary: >-
+        Reviewed unchanged project contract and pipeline branch rules. No maintenance
+        or parallel integration stream is selected for this project.
       location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: "The issue-84 branch is a bounded increment from current main."
+    summary: The issue-84 branch is a bounded increment from current main.
     evidence:
     - kind: branch_review
-      summary: "codex/84-baseline-adoption starts at 0d57603 and is intended to merge after required checks then be removed. No competing develop stream or unrelated changes."
+      summary: >-
+        codex/84-baseline-adoption starts at 0d57603 and is intended to merge after
+        required checks then be removed. No competing develop stream or unrelated changes.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: "The latest observed main pipeline is successful."
+    summary: The latest observed main pipeline is successful.
     evidence:
     - kind: ci_observation
-      summary: "Read-only current lookup returned success for pipeline 2924732092 on exact main 0d57603; no required red result has been bypassed."
+      summary: >-
+        Read-only current lookup returned success for pipeline 2924732092 on exact main
+        0d57603; no required red result has been bypassed.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924732092
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: "Legacy inventory remains byte-unchanged and ordinary init preserves existing policy."
+    summary: >-
+      Legacy inventory remains byte-unchanged and ordinary init preserves existing
+      policy.
     evidence:
     - kind: regression_review
-      summary: "Explicit opt-in selects inventory 2; original records/commands/authorities remain intact during preview. Migration preserves old claims and only adds pending decisions. Unsupported or conflicting input fails without overwrite. No published pin/version changed."
+      summary: >-
+        Explicit opt-in selects inventory 2; original records/commands/authorities
+        remain intact during preview. Migration preserves old claims and only adds pending
+        decisions. Unsupported or conflicting input fails without overwrite. No published
+        pin/version changed.
       location: crates/opdev-cli/tests/adoption.rs
   - rule_id: OPDEV-TEST-001
     outcome: passed
-    summary: "Actual assertions cover functionality, compatibility, reliability and misleading-completion risks."
+    summary: >-
+      Actual assertions cover functionality, compatibility, reliability and
+      misleading-completion risks.
     evidence:
     - kind: assertion_review
-      summary: "Reviewed negative controls for ignored/NA baseline, unknown catalog, malformed nested contract, absent policy options, interrupted initialization, failed executable checks and missing CI. Synthetic reviews test gate plumbing, not real consumer qualification."
+      summary: >-
+        Reviewed negative controls for ignored/NA baseline, unknown catalog, malformed
+        nested contract, absent policy options, interrupted initialization, failed
+        executable checks and missing CI. Synthetic reviews test gate plumbing, not real
+        consumer qualification.
       location: crates/opdev-cli/tests/adoption.rs
   - rule_id: OPDEV-TEST-004
     outcome: passed
-    summary: "Regression coverage protects legacy preservation and interrupted initialization."
+    summary: Regression coverage protects legacy preservation and interrupted initialization.
     evidence:
     - kind: regression_review
-      summary: "Tests assert original bytes, pending additions, review invalidation, no downgrade, no initialization tool stack and failed check outcomes. No escaped-defect exemption is claimed."
+      summary: >-
+        Tests assert original bytes, pending additions, review invalidation, no
+        downgrade, no initialization tool stack and failed check outcomes. No escaped-defect
+        exemption is claimed.
       location: crates/opdev-cli/tests/adoption.rs
   - rule_id: OPDEV-TEST-005
     outcome: passed
-    summary: "Development failures remain visible; no retries or quarantines conceal a product failure."
+    summary: >-
+      Development failures remain visible; no retries or quarantines conceal a
+      product failure.
     evidence:
     - kind: execution_review
-      summary: "Strict lint reported function length, nested-if/doc style and equality assertion issues. Helpers and assertions were repaired without exemptions. Focused adoption/interface tests passed; full canonical execution remains separately required."
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655
+      summary: >-
+        Strict lint reported function length, nested-if/doc style and equality
+        assertion issues. Helpers and assertions were repaired without exemptions. Focused
+        adoption/interface tests passed; full canonical execution remains separately required.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/84#note_3974698655"
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: "Agent reviewed actual source and assertion behavior against accepted conditions."
+    summary: Agent reviewed actual source and assertion behavior against accepted conditions.
     evidence:
     - kind: source_review
-      summary: "Traced initialization write order, exact catalog lookup, migration preservation, missing practice handling, approval invalidation, current execution and conditional delivery review. Found and fixed omitted-policy interrupted retry. No claim of independent human semantic review."
+      summary: >-
+        Traced initialization write order, exact catalog lookup, migration
+        preservation, missing practice handling, approval invalidation, current execution and
+        conditional delivery review. Found and fixed omitted-policy interrupted retry. No claim
+        of independent human semantic review.
       location: crates/opdev-cli/src/adoption.rs
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: "Generalized adoption lessons are documented without claiming model behavior from source tests."
+    summary: >-
+      Generalized adoption lessons are documented without claiming model behavior
+      from source tests.
     evidence:
     - kind: work
-      summary: "Guidance separates equivalent checks from waivers and incremental debt remediation from completed adoption. Authorized live trials are tracked separately under issue 91; later strict layout/state work remains in roadmap 82."
+      summary: >-
+        Guidance separates equivalent checks from waivers and incremental debt
+        remediation from completed adoption. Authorized live trials are tracked separately under
+        issue 91; later strict layout/state work remains in roadmap 82.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/84
   acceptance:
     scope: behavioral
@@ -15167,3 +15226,212 @@ changes:
         immutable. This is source review, not human consent, live-agent qualification or
         release readiness.
       subject_sha256: d58e31acd7431ab3fca9165e7d8299a262664300e8b38b4f27207450cd891691
+- fingerprint: 57c821829b561628592b0a4b3af89ea0ae429431d2ca9021746226fbf4b1657e
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+  assertions:
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: The integrated main pipeline is now verified successful; no red trunk result was bypassed.
+    evidence:
+    - kind: ci_observation
+      summary: Pipeline 2924810638 on exact main 3efc8a6993ef12662d32a19bc55d07b62d54c27a passed all seven jobs, including native checks; ARM64 run 37721362553 passed. This supersedes the earlier pending observation without relabeling it.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924810638
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Canonical format, strict lint and workspace tests passed on this exact material source and acceptance subject.
+    evidence:
+    - kind: execution_review
+      summary: "Local report SHA256 f6700faa946d947d044e25d7fc1a0d6af8392e1627bbfa1a63b8b9e09f8268ac retains successful canonical execution. The report correctly left trunk observation and human wording review unverified at that point; this adds the subsequently verified trunk observation, not a retroactive gate claim. Candidate and integrated-source verification remain required."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: "The approved issue-85 plan bounds this testing-quality increment."
+    evidence:
+    - kind: work
+      summary: "Meaningful assertion review, red/green honesty, proportional strength and legitimate assertion improvement are the scope. Live outcomes remain in issue 91; release, installed runtime and consumer changes are excluded."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85#note_3974706165
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: "Existing acceptance mechanics are reused instead of introducing semantic parsers or per-tool adapters."
+    evidence:
+    - kind: contract_review
+      summary: "Reviewed new normative distinctions against existing schema-2 source binding and actual execution. Reversal trigger remains observed missed semantic contradictions in independent trials, not a desire for more tooling."
+      location: spec/evidence-ledger.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: "The declared GitLab MR/main CI path is active and observed."
+    evidence:
+    - kind: ci_observation
+      summary: "Issue-84 candidate 2924792501 passed all eight jobs. Integrated main 3efc8a6 pipeline 2924810638 has passed quality and native installers; remaining qualification is still running, not claimed complete."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924810638
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: "Main remains the single integration and release-source branch."
+    evidence:
+    - kind: workflow_review
+      summary: "No project contract, CI branch role or consumer release definition changes. The test-strength example remains optional."
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: "The issue-85 branch is a short bounded increment synchronized with main."
+    evidence:
+    - kind: branch_review
+      summary: "The four-file meaningful-testing increment incorporates integrated issue-84 main at 3efc8a6 without a competing development stream. Required qualification precedes reintegration."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: "Existing CLI, schemas, runtime pins and command choices are unchanged."
+    evidence:
+    - kind: regression_review
+      summary: "New process test strengthens an assertion, confirms stale evidence is unverified, renews reviewed bindings and verifies success with one unchanged canonical suite. A plausible ordering defect still fails. Historical benchmark bodies and results remain untouched."
+      location: crates/opdev-cli/tests/acceptance.rs
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: "Reviewed actual assertions and explicit limitations against accepted behavior and risks."
+    evidence:
+    - kind: assertion_review
+      summary: "Existing wrong-green/red/green sequence and new conjoined-boundary sequence discriminate incorrect consumer behavior. Source review verifies proportionate guidance; it does not establish live-agent compliance."
+      location: crates/opdev-cli/tests/acceptance.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: "Regression coverage protects legitimate assertion improvement without waiving freshness or execution."
+    evidence:
+    - kind: regression_review
+      summary: "Original caller-order/count guarantee remains in the strengthened conjunction; zero/empty/large-limit properties are added. Actual sorted implementation fails the same suite."
+      location: crates/opdev-cli/tests/acceptance.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: "No product failures or retries were hidden and no quarantine was added."
+    evidence:
+    - kind: execution_review
+      summary: "Fourteen focused acceptance tests and strict lint passed. A draft byte guard correctly rejected Git checkout line-ending changes; an orchestration output-order capture then yielded empty temporary YAML, safely rejected. Fresh preparation preserved both failed drafts and the original ledger until a valid reviewed write."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: "Agent reviewed actual changed assertions and instruction claims."
+    evidence:
+    - kind: source_review
+      summary: "Inspected retained guarantees, missing-coverage limits, unchanged verifier behavior and no extra strength-tool execution. The test does not claim general automatic equivalence detection or replace competent semantic review."
+      location: crates/opdev-cli/tests/acceptance.rs
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: "Lessons distinguish false-green tests from legitimate strengthening without revising historical trials."
+    evidence:
+    - kind: work
+      summary: "New guidance calls for loss-of-assurance statements and bounded risk-led escalation. Whole-session prevention/restraint and cost measurements remain outstanding under issue 91."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Issue 85 testing-quality guidance and regression increment. Existing generic
+      verifier reused; no semantic parser, new evidence store, tool installation or
+      historical experiment rewrite. Live missed-defect/restraint trials remain in issue 91.
+    conditions:
+    - id: redgreen
+      statement: >-
+        A green but incorrect assertion cannot override reviewed requirements;
+        meaningful regression must actually fail then pass after repair.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bdbc4acbe73b3a9524973399d62b0b06204546a8181e75b4199520e5ad51993c
+        excerpt: An escaped-defect fix SHOULD demonstrate
+    - id: strengthening
+      statement: >-
+        Legitimate stronger assertions are not rejected merely because their bytes
+        change; current review and actual execution remain required.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bdbc4acbe73b3a9524973399d62b0b06204546a8181e75b4199520e5ad51993c
+        excerpt: Legitimate monotonic strengthening
+    - id: proportion
+      statement: >-
+        Testing selects meaningful consumer happy/boundary/failure observations, honest
+        regression alternatives and visible selection/retry/quarantine limits.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bdbc4acbe73b3a9524973399d62b0b06204546a8181e75b4199520e5ad51993c
+        excerpt: The reviewed inventory MUST cover representative happy, boundary and failure
+    - id: restraint
+      statement: >-
+        Stronger testing follows concrete risk, explicit scope/budget and policy; no
+        universal tool, quota or automatic installation.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bdbc4acbe73b3a9524973399d62b0b06204546a8181e75b4199520e5ad51993c
+        excerpt: There is no required test-writing order
+    verifications:
+    - condition: redgreen
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/acceptance.rs
+        sha256: aa3fc59cbfa29aad83697f9a65e1b554527d2d0c22ba89f40cd56b2c62ed47a5
+        excerpt: wrong_green_assertion_then_meaningful_red_green_is_observed
+      assertion: >-
+        Executes old incorrect implementation and matching wrong assertion (command
+        passes, reviewed acceptance fails), requirement-derived assertion (command fails),
+        repaired implementation (both pass).
+      discriminating_case: >-
+        A compilation failure alone or an unobserved red run must not stand in for the
+        behavioral regression.
+      suite: check
+      outcome: passed
+    - condition: strengthening
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/acceptance.rs
+        sha256: aa3fc59cbfa29aad83697f9a65e1b554527d2d0c22ba89f40cd56b2c62ed47a5
+        excerpt: strengthened_assertions_need_fresh_review_not_byte_identical_tests
+      assertion: >-
+        Conjoins caller-order assertion with empty/zero/large-limit properties; stale
+        review is unverified, fresh review plus execution passes, only one canonical suite
+        runs, sorted implementation fails.
+      discriminating_case: >-
+        A byte-identical-body requirement incorrectly rejects this stronger assertion;
+        a stale review or failing executable cannot qualify it.
+      suite: check
+      outcome: passed
+    - condition: proportion
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/testing.md
+        sha256: af30bb80683ef5703affd1b080730039107c2a4de3d6bc048e94b8d1ad9a85b7
+        excerpt: Cover representative happy, boundary and failure behavior
+      assertion: "Reviewed guidance against accepted scope: relevant consumer boundary, no every-layer requirement, actual expected values and errors, genuine red/green or explicit limitation, snapshots and lost quarantine assurance."
+      discriminating_case: >-
+        A green exit, unreviewed snapshot or quarantined required failure must not
+        become supported per-test coverage.
+      automation_limitation: >-
+        Semantic instruction review is not live-model qualification. Actual agent
+        behavior and cost are separately measured in the frozen issue-91 trials.
+      outcome: passed
+    - condition: restraint
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/testing.md
+        sha256: af30bb80683ef5703affd1b080730039107c2a4de3d6bc048e94b8d1ad9a85b7
+        excerpt: An ordinary low-risk fix
+      assertion: >-
+        Reviewed optional-strength and maintainability sections preserve existing tools
+        and extension policy, simple adequate design, bounded escalation and frozen
+        historical grading limits.
+      discriminating_case: >-
+        A low-risk fix with adequate discriminating tests must not trigger mandatory
+        mutation tooling or a new questionnaire.
+      automation_limitation: >-
+        Semantic instruction review is not live-model qualification. Actual agent
+        behavior and cost are separately measured in the frozen issue-91 trials.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent source and assertion review
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/85#note_3974706165"
+      rationale: >-
+        Rechecked unchanged material fingerprint and mappings after Git normalized
+        ledger line endings. First draft was safely rejected; the subsequent orchestration
+        capture was empty and rejected without writes. Actual assertions and instruction
+        boundaries were reviewed, without claiming live-model qualification.
+      subject_sha256: 60c65a9785df02c6dd28667fe97049586f154a66dbb283247456d54986797adb
