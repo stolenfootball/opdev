@@ -136,13 +136,44 @@ fn directory(path: &str) -> bool {
 
 fn portable(path: &str) -> bool {
     path.split('/').all(|s| {
+        let stem = s.split('.').next().unwrap_or_default().to_ascii_uppercase();
+        let device = matches!(stem.as_str(), "CON" | "PRN" | "AUX" | "NUL")
+            || ["COM", "LPT"].iter().any(|prefix| {
+                stem.strip_prefix(prefix)
+                    .is_some_and(|n| n.len() == 1 && matches!(n.as_bytes()[0], b'1'..=b'9'))
+            });
         !s.is_empty()
+            && !device
             && s != "."
             && s != ".."
             && !s.ends_with([' ', '.'])
             && s.chars()
                 .all(|c| c.is_ascii_alphanumeric() || matches!(c, '-' | '_' | '.'))
     })
+}
+
+fn ambiguous_paths(files: &BTreeMap<String, String>) -> Vec<String> {
+    let mut spellings = BTreeMap::<String, String>::new();
+    let mut conflicts = std::collections::BTreeSet::new();
+    for path in files.keys() {
+        let mut prefix = String::new();
+        for part in path.split('/') {
+            if !prefix.is_empty() {
+                prefix.push('/');
+            }
+            prefix.push_str(part);
+            let folded = prefix.to_ascii_lowercase();
+            if let Some(previous) = spellings.get(&folded) {
+                if previous != &prefix {
+                    conflicts.insert(previous.clone());
+                    conflicts.insert(prefix.clone());
+                }
+            } else {
+                spellings.insert(folded, prefix.clone());
+            }
+        }
+    }
+    conflicts.into_iter().collect()
 }
 
 fn permitted(path: &str) -> bool {
@@ -329,6 +360,13 @@ pub(super) fn run(args: &LayoutArgs) -> Result<ExitCode> {
             files
         }
     };
+    for path in ambiguous_paths(&files) {
+        report.finding(
+            &path,
+            "Path spelling conflicts on case-insensitive filesystems",
+            "Choose distinct portable names in a reviewed change; no files were renamed",
+        );
+    }
     for path in REQUIRED {
         if !files.contains_key(path) {
             report.finding(path, "Required file is absent from the inspected scope", "Preview a coordinated layout migration; do not invent policy, evidence or placeholder documentation");
@@ -359,4 +397,36 @@ pub(super) fn run(args: &LayoutArgs) -> Result<ExitCode> {
         }
     }
     Ok(ExitCode::from(u8::from(!report.findings.is_empty())))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn portable_names_reject_windows_devices_with_extensions_and_directory_aliases() {
+        for name in ["CON.md", "nul.tar.md", "aux.md", "COM1.md", "lpt9.md"] {
+            assert!(!permitted(&format!(".opdev/docs/specs/{name}")), "{name}");
+        }
+        assert!(!permitted(".opdev/docs/assets/PRN/diagram.svg"));
+        assert!(permitted(".opdev/docs/specs/com10.md"));
+        assert!(permitted(".opdev/docs/specs/consumer.md"));
+        let files = [
+            (".opdev/docs/specs/Api.md".into(), "100644".into()),
+            (".opdev/docs/specs/api.md".into(), "100644".into()),
+            (".opdev/docs/assets/Art/a.svg".into(), "100644".into()),
+            (".opdev/docs/assets/art/b.svg".into(), "100644".into()),
+        ]
+        .into_iter()
+        .collect();
+        assert_eq!(
+            ambiguous_paths(&files),
+            vec![
+                ".opdev/docs/assets/Art",
+                ".opdev/docs/assets/art",
+                ".opdev/docs/specs/Api.md",
+                ".opdev/docs/specs/api.md",
+            ]
+        );
+    }
 }

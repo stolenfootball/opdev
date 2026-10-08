@@ -53,7 +53,11 @@ Optional durable Markdown has fixed roles at `.opdev/docs/design.md`,
 `.opdev/docs/specs/<capability>.md`, decisions in
 `.opdev/docs/decisions/<id>-<decision>.md`, and referenced supporting assets in
 `.opdev/docs/assets/`. Use portable ASCII letter/digit/hyphen/underscore/dot names
-without traversal or ambiguous trailing characters. Supported asset formats are
+without traversal or ambiguous trailing characters. Paths are also constrained
+by cross-platform names: Windows reserved device names (including
+names with extensions) and case-folding path collisions are findings on every
+platform. This follows [Windows naming rules](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file);
+inspection does not rename either conflicting path. Supported asset formats are
 PNG, JPEG (`jpg`/`jpeg`), GIF, WebP, SVG and PDF. A permitted asset path is not proof
 its bytes are safe or its reference meaningful. No scripts, archives, package
 caches, runtime installs, extra config formats or miscellaneous escape folders
