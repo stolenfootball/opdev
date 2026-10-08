@@ -144,11 +144,82 @@ impl Start {
     }
 }
 
-fn inspect_attempt(paths: &Locations, id: &str) -> Result<()> {
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub(super) struct AttemptSnapshot {
+    id: String,
+    start: Start,
+    completion: Option<Completion>,
+    // Preserve exact report bytes as UTF-8, not a reserialized claim of execution.
+    report_json: Option<String>,
+}
+
+impl AttemptSnapshot {
+    pub(super) fn state(&self) -> &'static str {
+        if self.completion.is_some() {
+            "completed_observation"
+        } else {
+            "unfinished_or_interrupted"
+        }
+    }
+    pub(super) fn subject(&self) -> &Subject {
+        &self.start.subject
+    }
+
+    pub(super) fn runtime_sha256(&self) -> &str {
+        &self.start.runtime_sha256
+    }
+
+    pub(super) fn validate(&self) -> Result<Option<CheckReport>> {
+        ensure!(
+            valid_attempt_id(&self.id),
+            "Use one attempt directory name, not a path"
+        );
+        self.start.validate()?;
+        let Some(ref finish) = self.completion else {
+            // A partial report is retained, but does not imply completion.
+            return Ok(None);
+        };
+        if let Some(ref subject) = finish.observed_subject_after {
+            subject.validate()?;
+        }
+        ensure!(
+            finish.schema == 1
+                && finish.qualification == opdev_core::Outcome::Unverified
+                && finish.completed_at_ms >= self.start.started_at_ms
+                && digest(&finish.report_sha256)
+                && !finish.limits.trim().is_empty(),
+            "Unsupported or inconsistent completion record"
+        );
+        ensure!(
+            finish.source_unchanged
+                == (finish.observed_subject_after.as_ref() == Some(&self.start.subject)),
+            "Completion subject contradicts its unchanged-source claim"
+        );
+        let bytes = self
+            .report_json
+            .as_deref()
+            .context("Completed attempt report is missing")?;
+        ensure!(
+            sha(bytes.as_bytes()) == finish.report_sha256,
+            "Attempt report changed; do not reuse it"
+        );
+        let report: CheckReport = serde_json::from_str(bytes)?;
+        ensure!(
+            report.schema == if report.engineering.is_some() { 2 } else { 1 },
+            "Unsupported check report schema; do not reinterpret it"
+        );
+        Ok(Some(report))
+    }
+}
+
+pub(super) fn snapshot(root: &Path, id: &str) -> Result<AttemptSnapshot> {
+    read_attempt(&resolve(root)?, id)
+}
+
+fn read_attempt(paths: &Locations, id: &str) -> Result<AttemptSnapshot> {
     ensure!(
-        id.starts_with("attempt-")
-            && id.len() < 128
-            && id.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'-'),
+        valid_attempt_id(id),
         "Use one attempt directory name, not a path"
     );
     let directory = paths.runs.join(id);
@@ -156,36 +227,34 @@ fn inspect_attempt(paths: &Locations, id: &str) -> Result<()> {
         &read(&directory.join("start.json"))?
             .context("Attempt start is missing; do not infer an execution result")?,
     )?;
-    start.validate()?;
     let bytes = read(&directory.join("completion.json"))?;
     let completion: Option<Completion> =
         bytes.as_deref().map(serde_json::from_slice).transpose()?;
-    let mut report: Option<CheckReport> = None;
-    if let Some(ref finish) = completion {
-        if let Some(ref subject) = finish.observed_subject_after {
-            subject.validate()?;
-        }
-        ensure!(
-            finish.schema == 1
-                && finish.qualification == opdev_core::Outcome::Unverified
-                && finish.completed_at_ms >= start.started_at_ms
-                && digest(&finish.report_sha256)
-                && !finish.limits.trim().is_empty(),
-            "Unsupported or inconsistent completion record"
-        );
-        ensure!(
-            finish.source_unchanged
-                == (finish.observed_subject_after.as_ref() == Some(&start.subject)),
-            "Completion subject contradicts its unchanged-source claim"
-        );
-        let bytes =
-            read(&directory.join("report.json"))?.context("Completed attempt report is missing")?;
-        ensure!(
-            sha(&bytes) == finish.report_sha256,
-            "Attempt report changed; do not reuse it"
-        );
-        report = Some(serde_json::from_slice(&bytes)?);
-    }
+    let report_json = read(&directory.join("report.json"))?
+        .map(String::from_utf8)
+        .transpose()?;
+    let snapshot = AttemptSnapshot {
+        id: id.into(),
+        start,
+        completion,
+        report_json,
+    };
+    snapshot.validate()?;
+    Ok(snapshot)
+}
+
+fn valid_attempt_id(id: &str) -> bool {
+    id.starts_with("attempt-")
+        && id.len() < 128
+        && id.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'-')
+}
+
+fn inspect_attempt(paths: &Locations, id: &str) -> Result<()> {
+    let snapshot = read_attempt(paths, id)?;
+    let report = snapshot.validate()?;
+    let AttemptSnapshot {
+        start, completion, ..
+    } = snapshot;
     println!(
         "{}",
         serde_json::to_string_pretty(
@@ -204,7 +273,7 @@ fn now() -> Result<u128> {
     Ok(SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis())
 }
 
-fn git_path(root: &Path, option: &str) -> Result<PathBuf> {
+pub(super) fn git_path(root: &Path, option: &str) -> Result<PathBuf> {
     let result = Command::new("git")
         .arg("-C")
         .arg(root)
@@ -316,7 +385,7 @@ fn inspect_path(path: &Path) -> Result<()> {
     Ok(())
 }
 
-fn observed_absolute(path: &Path) -> Result<PathBuf> {
+pub(super) fn observed_absolute(path: &Path) -> Result<PathBuf> {
     inspect_path(path)?;
     if path.exists() {
         return Ok(path.canonicalize()?);
@@ -394,7 +463,7 @@ fn private_directory(path: &Path) -> Result<()> {
     Ok(())
 }
 
-fn read(path: &Path) -> Result<Option<Vec<u8>>> {
+pub(super) fn read(path: &Path) -> Result<Option<Vec<u8>>> {
     inspect_path(path)?;
     let meta = match fs::symlink_metadata(path) {
         Ok(meta) => meta,
@@ -414,7 +483,7 @@ fn read(path: &Path) -> Result<Option<Vec<u8>>> {
     Ok(Some(bytes))
 }
 
-fn write_new(path: &Path, bytes: &[u8]) -> Result<()> {
+pub(super) fn write_new(path: &Path, bytes: &[u8]) -> Result<()> {
     inspect_path(path)?;
     let parent = path.parent().context("State output needs a parent")?;
     let mut file = tempfile::NamedTempFile::new_in(parent)?;
@@ -436,7 +505,7 @@ pub(super) fn retain_draft(root: &Path, bytes: &[u8]) -> Result<PathBuf> {
     Ok(path)
 }
 
-fn subject(root: &Path, manifest: &ProjectManifest, stage: &str) -> Result<Subject> {
+pub(super) fn subject(root: &Path, manifest: &ProjectManifest, stage: &str) -> Result<Subject> {
     Ok(Subject {
         schema: 1,
         source_sha256: opdev_project::staged_fingerprint(root)?,

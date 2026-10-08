@@ -2,7 +2,9 @@
 
 #![forbid(unsafe_code)]
 
+mod archive;
 mod run;
+pub use archive::{ArchiveLocator, ArchiveObservation, retrieve_archive};
 pub use run::{RunExpectation, RunObservation, RunVerification, verify_run};
 mod jobs;
 pub use jobs::{JobObservation, JobVerification, verify_run_with_jobs};

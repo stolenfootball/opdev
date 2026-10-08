@@ -1,5 +1,138 @@
 # Project evidence ledger
 
+## Explicit offline evidence envelopes
+
+`evidence bundle export --stage STAGE --output FILE [--attempt ID]` exports one
+exact-current schema-2 change, its original project assertions and optional local
+check attempt. It preserves the original attributed acceptance inventory, review
+and rule assertions rather than manufacturing a successful review. All referenced
+source/assertion bytes must still match the staged index. Export executes no
+project commands, performs no upload, changes no ledger and never retires history.
+
+The schema-1 envelope contains the existing workflow subject (source fingerprint,
+effective configuration digest and stage), serialized validated configuration,
+acceptance digest and a one-change projection of the existing ledger. An optional
+attempt retains its local ID, original start/completion metadata and exact report
+bytes as a JSON string. Exporter CLI bytes/version, local observation time and
+OS/architecture are mechanical observations, not signed provenance or a complete
+environment identity. The declared remote in configuration is not authenticated
+origin. Existing local IDs remain local, not globally trusted producer identities.
+
+The caller chooses a new file outside product source and Git metadata; its parent
+must exist. Linked/reparse/traversal paths and existing destinations are rejected.
+The writer syncs a temporary file and persists without replacing another attempt.
+Input/output envelopes are bounded to 8 MiB; an oversized export fails rather than
+dropping evidence. No new fingerprint exclusion is introduced: only the existing
+legacy ledger exclusion applies, and configuration/guidance/docs remain material.
+Retain every earlier attempt separately. Export does not copy historical changes
+into each envelope or delete them from the original store.
+
+`evidence bundle inspect --input FILE --sha256 EXPECTED --acceptance-sha256
+EXPECTED --stage STAGE [--attempt-runtime-sha256 EXPECTED]` is offline inspection
+against the selected project's current staged source/configuration. Obtain expected
+identities from the authorized original work/evidence authority, not an untrusted
+bundle's own summary. It verifies exact bytes, known nested schemas, internal
+bindings and tracked references; a matching outer hash cannot hide inconsistent
+configuration, acceptance or completed-report bytes. Unknown versions, missing
+files and mismatches are errors, with no older-result or network fallback.
+Imported parser and nested-validation errors name the failed schema/binding area
+without echoing arbitrary field values or private command output. Inspect details
+locally when needed; do not paste the original envelope into public diagnostics.
+
+Inspection reports integrity separately from the attributed review outcome and
+whether that review's own binding is current. It always reports origin and
+qualification as unverified. A completed attempt remains a diagnostic observation;
+missing completion remains `unfinished_or_interrupted`, even if partial report
+bytes exist. A new review captured at export does not prove it existed when the
+older command ran. Report gates are historical claims, never qualification for
+this invocation. Neither this interface nor a bundle hash constructs authenticated
+execution, proves semantic review, creates consent, authorizes release or proves
+that the chosen expectations are still authoritative.
+
+The envelope is a tool-neutral transport format, not a storage service or a
+retention policy. Copying it to Git or a package store does not by itself establish
+trustworthy durable retrieval. Provider-origin observation, reviewed retention and
+access controls, immutable locations and migration have separate requirements.
+Do not delete the legacy ledger or treat offline envelopes as its qualifying
+replacement. Reports and declared configuration can contain private output and
+references: inspect permitted content before explicitly sharing it; export does
+not automatically redact or publish. No raw conversation capture is requested.
+
+`schema/evidence-bundle.schema.json` references the bundled project, evidence and
+local-state schemas by their IDs. Register those local resources when validating;
+no network schema retrieval is necessary. Reusing these record types avoids a
+parallel assertion/approval format. Revisit the bounded envelope or its transport
+when demonstrated consumer evidence cannot fit without losing required history;
+do not silently trim records or weaken qualification to make an export succeed.
+
+## Exact archive retrieval
+
+`evidence bundle retrieve --locator FILE --acceptance-sha256 EXPECTED --stage
+STAGE --output FILE [--attempt-runtime-sha256 EXPECTED]` retrieves and inspects
+one explicit Git-backed envelope. The locator is strict JSON described by
+`schema/evidence-archive.schema.json`: schema 1, `provider` (`github` or `gitlab`),
+positive numeric `repository_id`, full lowercase SHA-1 `commit`, exact `path`,
+and independent raw-byte `sha256`. Obtain it and the acceptance expectation from
+the existing authorized work/evidence authority. The CLI does not infer the latest
+record, choose a retention policy or treat caller-selected identities as approval.
+
+Supported archive paths are regular files with at most 16 ASCII portable-name
+components and 1024 bytes. SHA-256 Git repositories, self-hosted provider origins,
+Git LFS resolution, links and submodules are not silently adapted. The archive
+may be a separately authorized evidence repository; export/retrieval does not
+create one or add historical files to product `.opdev`. If an archive shares a
+product repository, its retained branch/commit path and access need explicit
+review; no product fingerprint exclusion follows from calling it an archive.
+
+Retrieval requires existing provider credentials, uses fixed HTTPS origins and
+GET only, disables redirects and never falls back to public/cache/older bytes.
+Credential precedence remains the [remote adapter contract](remote-audits.md);
+GitHub does not automatically read `gh` credentials. A caller may explicitly
+inject an existing authorized credential into this one process, never into files.
+It checks numeric repository identity and full commit, traverses Git trees to
+bind the requested path to a regular blob, retrieves exact raw bytes and compares
+their independent SHA-256. GitHub's slug-based object path is checked against the
+numeric repository again after retrieval. GitLab uses numeric project paths.
+GitHub tree truncation is rejected; GitLab enumeration is limited to ten pages of
+100 per directory. Metadata is limited to 1 MiB/response, bytes to 8 MiB. Requests
+share a one-minute network budget with at most 20 seconds per request. A missing,
+denied, changed, oversized or unsupported result produces an error, not another
+attempt's result. Diagnostics do not copy server bodies or credentials.
+
+Only after the ordinary bundle inspection succeeds and the current source is
+rechecked are bytes written to a new local destination outside source/Git metadata.
+The JSON result says `origin: provider_observed` and records the exact locator and
+blob; it still says `qualification: unverified`. Later offline inspection cannot
+recreate provider observation by reading a saved result. Authenticated storage
+does not authenticate a report's author, a developer's decision or a command's
+execution. Existing authenticated same-run execution remains the only supported
+execution-reuse boundary; an archived diagnostic report never enters it.
+
+Before declaring a retained archive suitable, review at the existing authority its
+owner, reader/writer access, required lifetime, protected reachability/reference,
+deletion controls, capacity, backup/recovery and cleanup conditions. Preserve
+failed, superseded and interrupted attempts individually. An immutable commit
+identifies bytes, not continued availability: repository deletion, permission
+revocation, unreachable-object cleanup and deliberate history removal can still
+lose evidence. Retrieval observes current access, not future retention or policy
+approval. Do not retire a legacy ledger until required history has a reviewed
+destination and verified independent retrieval/recovery; a sole local download
+or an expiring job artifact is insufficient.
+
+The Git-backed option reuses provider access and object identities without a new
+hosted service or per-milestone release. Large binary artifacts belong in their
+reviewed immutable artifact store, not automatically in Git envelopes. Revisit this
+transport when demonstrated evidence volume makes it impractical, preserving
+identity/trust boundaries rather than weakening them. Provider package/job stores
+can be future adapters but their expiration/overwrite behavior needs its own policy.
+
+Sources: [GitHub tree modes](https://docs.github.com/en/rest/git/trees),
+[GitHub blob reads](https://docs.github.com/en/rest/git/blobs), and
+[GitLab repository trees and blobs](https://docs.gitlab.com/api/repositories/).
+Unlike tree/blob retrieval, the
+[GitHub Contents API](https://docs.github.com/en/rest/repos/contents) can dereference
+symlinks and therefore is not by itself proof of a regular archived file.
+
 ## Schema-2 acceptance evidence
 
 Development CLIs read ledger schemas 1 and 2 and emit bootstrap schema 2. Version

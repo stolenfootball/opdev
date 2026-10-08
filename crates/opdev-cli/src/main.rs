@@ -28,6 +28,7 @@ mod ci_run;
 mod delegation;
 mod doctor;
 mod documentation;
+mod evidence_bundle;
 mod evidence_prepare;
 mod execution_reuse;
 mod inspection;
@@ -403,6 +404,8 @@ struct EvidenceArgs {
 
 #[derive(Debug, Subcommand)]
 enum EvidenceCommand {
+    /// Local export, exact provider retrieval and inspection; never qualification or upload.
+    Bundle(evidence_bundle::BundleArgs),
     /// Prepare, preview or apply a reviewed acceptance update to an existing ledger.
     Prepare(evidence_prepare::PrepareArgs),
     /// Print the staged index fingerprint used by change evidence.
@@ -577,6 +580,7 @@ fn verify_plugin_compatibility(args: &PluginVerifyArgs) -> Result<ExitCode> {
 
 fn evidence_command(args: &EvidenceArgs) -> Result<()> {
     match &args.command {
+        EvidenceCommand::Bundle(args) => evidence_bundle::run(args)?,
         EvidenceCommand::Prepare(args) => evidence_prepare::run(args)?,
         EvidenceCommand::Fingerprint(args) => {
             let (root, _) = load_project(&args.root)?;

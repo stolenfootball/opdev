@@ -16798,15 +16798,24 @@ changes:
     summary: Current main is green; no red trunk is bypassed.
     evidence:
     - kind: ci_observation
-      summary: Integrated main 4a0c893216bbfaaded73f1629785f277842fa392 passed all seven jobs in pipeline 2924974597; exact-source ARM64 run 37728275385 also passed. Current candidate still requires its own CI and post-merge checks.
+      summary: >-
+        Integrated main 4a0c893216bbfaaded73f1629785f277842fa392 passed all seven jobs
+        in pipeline 2924974597; exact-source ARM64 run 37728275385 also passed. Current
+        candidate still requires its own CI and post-merge checks.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924974597
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Required test commands are executable; current source still requires the fresh canonical run.
+    summary: >-
+      Required test commands are executable; current source still requires the fresh
+      canonical run.
     evidence:
     - kind: execution_review
-      summary: Prior 87-premerge-1 completed formatting, strict lint and workspace tests. Portable-name correction then passed its focused test and strict lint after a meaningful device-guard mutation failure; no earlier full result is substituted for this source.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3974974286
+      summary: >-
+        Prior 87-premerge-1 completed formatting, strict lint and workspace tests.
+        Portable-name correction then passed its focused test and strict lint after a
+        meaningful device-guard mutation failure; no earlier full result is substituted for this
+        source.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3974974286"
   acceptance:
     scope: behavioral
     rationale: >-
@@ -17095,3 +17104,369 @@ changes:
         pass, and rechecked unchanged source against issue-87 review note 3974960518. Not
         human consent or live effectiveness.
       subject_sha256: fccf30b0e05ead57560ed0874b7afe97a793ca909bb07fff73b6e452eaa27c29
+- fingerprint: 86063525033dd53f5c4b89f92bde6f2f7150aaa8d1597a57242e25517a2d9de8
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issue 88 defines the accepted increment and all later portability requirements remain tracked.
+    evidence:
+    - kind: work
+      summary: Issue 88 defines the accepted increment and all later portability requirements remain tracked.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: Reviewed exact-byte envelopes and fixed-provider retrieval; storage observation cannot construct qualifying execution or authenticate a decision.
+    evidence:
+    - kind: contract_review
+      summary: Reviewed exact-byte envelopes and fixed-provider retrieval; storage observation cannot construct qualifying execution or authenticate a decision.
+      location: spec/evidence-ledger.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: GitLab remains the integration path. Integrated base 5f1aea7 passed pipeline 2925010749; this source still needs its own candidate and trunk checks.
+    evidence:
+    - kind: ci_observation
+      summary: GitLab remains the integration path. Integrated base 5f1aea7 passed pipeline 2925010749; this source still needs its own candidate and trunk checks.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2925010749
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration trunk; no policy, branch role or delivery path changed.
+    evidence:
+    - kind: workflow_review
+      summary: Main remains the sole integration trunk; no policy, branch role or delivery path changed.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The branch is one exact-evidence inspection increment based on integrated main; broader migration and live outcomes remain separate.
+    evidence:
+    - kind: branch_review
+      summary: The branch is one exact-evidence inspection increment based on integrated main; broader migration and live outcomes remain separate.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: New explicit commands preserve existing checks and ledgers. Snapshot refactoring preserves prior attempt interface and no saved report enters qualification.
+    evidence:
+    - kind: source_review
+      summary: New explicit commands preserve existing checks and ledgers. Snapshot refactoring preserves prior attempt interface and no saved report enters qualification.
+      location: crates/opdev-cli/src/evidence_bundle.rs
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: Actual assertions check original ledger preservation, fresh clone, wrong source/config/review/stage, separate failed and passed attempts, unfinished state and unverified no-exec.
+    evidence:
+    - kind: assertion_review
+      summary: Actual assertions check original ledger preservation, fresh clone, wrong source/config/review/stage, separate failed and passed attempts, unfinished state and unverified no-exec.
+      location: crates/opdev-cli/tests/evidence_bundle.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: Regression cases reject changed raw bytes, special files and access failures at every request; private imported enum values cannot leak through parser diagnostics.
+    evidence:
+    - kind: regression_review
+      summary: Regression cases reject changed raw bytes, special files and access failures at every request; private imported enum values cannot leak through parser diagnostics.
+      location: crates/opdev-remote/src/archive/tests.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: Focused tests passed after corrections; raw-hash guard mutation failed at the intended Github raw assertion and restoration passed. Earlier harness setup failures remain recorded, with no hidden retry or quarantine.
+    evidence:
+    - kind: execution_review
+      summary: Focused tests passed after corrections; raw-hash guard mutation failed at the intended Github raw assertion and restoration passed. Earlier harness setup failures remain recorded, with no hidden retry or quarantine.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3975135157
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Reviewed actual source, strict schemas, test assertions and durable guidance, including no-redirect fixed origins, bounded reads, exact identities, no report qualification ingress and no automatic upload or cleanup.
+    evidence:
+    - kind: source_review
+      summary: Reviewed actual source, strict schemas, test assertions and durable guidance, including no-redirect fixed origins, bounded reads, exact identities, no report qualification ingress and no automatic upload or cleanup.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Provider fixtures demonstrated authenticated exact retrieval with missing/hash/credential controls; host storage virtualization limits are documented. Retention approval, ledger retirement and live effectiveness remain unclaimed.
+    evidence:
+    - kind: contract_review
+      summary: Provider fixtures demonstrated authenticated exact retrieval with missing/hash/credential controls; host storage virtualization limits are documented. Retention approval, ledger retirement and live effectiveness remain unclaimed.
+      location: spec/evidence-ledger.md
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: Jeremy approved representative export, mismatch and offline inspection wording in this conversation; response is recorded on issue 88. Plain-text labels distinguish inspection from execution and approval.
+    evidence:
+    - kind: maintainer_review
+      summary: Jeremy approved representative export, mismatch and offline inspection wording in this conversation; response is recorded on issue 88. Plain-text labels distinguish inspection from execution and approval.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Rechecked integrated main 5f1aea74b1abf7b1801aeaf9cb0ebb8c7d936ba1 pipeline 2925010749 with success. No known red trunk is bypassed.
+    evidence:
+    - kind: ci_observation
+      summary: Rechecked integrated main 5f1aea74b1abf7b1801aeaf9cb0ebb8c7d936ba1 pipeline 2925010749 with success. No known red trunk is bypassed.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2925010749
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Canonical format, lint and check vectors remain executable and unchanged. Focused bundle, archive and local-state checks ran; this source must run current canonical suites before integration.
+    evidence:
+    - kind: execution_review
+      summary: Canonical format, lint and check vectors remain executable and unchanged. Focused bundle, archive and local-state checks ran; this source must run current canonical suites before integration.
+      location: .opdev/project.yaml
+  acceptance:
+    scope: behavioral
+    rationale: "First useful issue-88 increment: explicit local envelopes and authenticated exact Git-backed retrieval for inspection. Preserves historical attempts and existing qualification boundaries. Does not retire the ledger or claim durable archive policy approval, authenticated human consent, immutable external decision captures, artifact qualification, live-agent effectiveness or release readiness."
+    conditions:
+    - id: export
+      statement: >-
+        Export one current review without rewriting history, and inspect it from a
+        fresh clone without local state or its old ledger.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: Export executes no
+    - id: binding
+      statement: >-
+        Wrong source, configuration, stage, review or changed/unknown bytes must not
+        select another record.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: a matching outer hash cannot hide inconsistent
+    - id: attempts
+      statement: >-
+        A failed execution and a later successful execution remain separate
+        observations and cannot qualify a new no-exec check.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: Retain every earlier attempt separately.
+    - id: incomplete
+      statement: >-
+        Completion, report bytes and producer identity are validated; an unfinished
+        attempt cannot become a passed execution.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: missing completion remains `unfinished_or_interrupted`
+    - id: archive
+      statement: >-
+        Both providers bind numeric repository, full commit, exact tree path and raw
+        byte digest without selecting by success.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: It checks numeric repository identity and full commit
+    - id: special-files
+      statement: >-
+        Missing, duplicate, symlink and submodule tree entries cannot be interpreted as
+        an archived regular file.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: bind the requested path to a regular blob
+    - id: unavailable
+      statement: >-
+        Provider failures or changed bytes stop without fallback, and bounded
+        collections cannot become partial successes.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: denied, changed, oversized or unsupported result produces an error
+    - id: preflight
+      statement: >-
+        Invalid locator schemas, forged approval fields, unsupported hosts and
+        source-local output are rejected before network or writes.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: The locator is strict JSON
+    - id: private-diagnostics
+      statement: Malformed imported values cannot be echoed into public parser diagnostics.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: without echoing arbitrary field values or private command output.
+    - id: policy-boundaries
+      statement: >-
+        Guidance distinguishes storage observation, attributed review, original
+        decision authority, retention and qualification, without moving project policy or
+        authorizing release.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 5ddce76b8dafcb124143dbc1520349371b59dfe46056f237c3df5980f0c23ecd
+        excerpt: Authenticated storage
+    verifications:
+    - condition: export
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 08abdca837589a1c3c3e2dc3bfba2e0e776e46ea7ada59f3c0e62f0fafccfbd0
+        excerpt: >-
+          exact_review_retrieves_on_clean_clone_without_source_ledger_rewrite_or_state_cache
+      assertion: >-
+        Exported bundle validates against local registered schemas; fresh clone with
+        ledger removed inspects matching bytes with no state directory, unchanged source
+        ledger and overwrite refusal.
+      discriminating_case: >-
+        Requiring the original machine ledger or silently replacing the destination
+        fails concrete filesystem and outcome assertions.
+      suite: check
+      outcome: passed
+    - condition: binding
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 08abdca837589a1c3c3e2dc3bfba2e0e776e46ea7ada59f3c0e62f0fafccfbd0
+        excerpt: changed_bytes_versions_subject_and_review_fail_without_falling_back
+      assertion: >-
+        Changed bytes, known-byte future schema, wrong stage, revised expected
+        acceptance and changed staged source all exit 2; companion internal consistency cases
+        change configuration and acceptance behind a recomputed outer hash.
+      discriminating_case: >-
+        Matching the outer digest must not make a different configuration, assertion
+        inventory or unsupported schema acceptable.
+      suite: check
+      outcome: passed
+    - condition: attempts
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 08abdca837589a1c3c3e2dc3bfba2e0e776e46ea7ada59f3c0e62f0fafccfbd0
+        excerpt: >-
+          failed_then_successful_execution_exports_preserve_both_attempts_without_green_fallback
+      assertion: >-
+        Real Git command fails before a fixture ref exists and passes afterward;
+        separate attempts and envelope digests survive, original report retains failed, and new
+        no-exec stays unverified.
+      discriminating_case: >-
+        Passing bytes at the failed attempt's expected digest are rejected; the
+        successful later report cannot overwrite or satisfy the earlier selection.
+      suite: check
+      outcome: passed
+    - condition: incomplete
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 08abdca837589a1c3c3e2dc3bfba2e0e776e46ea7ada59f3c0e62f0fafccfbd0
+        excerpt: internally_inconsistent_records_cannot_hide_behind_a_matching_outer_digest
+      assertion: >-
+        Mismatched completed report, invalid producer, unknown start/report versions
+        and contradictory completion fail even after recalculating the envelope digest;
+        absent completion stays unfinished_or_interrupted and unqualified.
+      discriminating_case: >-
+        Rehashing a schema-99 CheckReport with a matching completion digest still
+        cannot reinterpret it as today's report.
+      suite: check
+      outcome: passed
+    - condition: archive
+      method: automated
+      target:
+        path: crates/opdev-remote/src/archive/tests.rs
+        sha256: 45acedd95655b6c23c14ad17432671abcdadac262e1f6403c890d4b7b2a99c4d
+        excerpt: both_providers_bind_repository_commit_tree_regular_file_and_exact_failed_bytes
+      assertion: >-
+        Provider-specific expected request fixtures bind numeric repo/commit/path/blob
+        and preserve exact failure-marked bytes; deny-at-each-request cases assert no
+        subsequent fallback request.
+      discriminating_case: >-
+        Any guessed endpoint, raw/metadata media mismatch, changed repository or wrong
+        byte digest fails; live private product-envelope trials independently exercised
+        actual APIs.
+      suite: check
+      outcome: passed
+    - condition: special-files
+      method: automated
+      target:
+        path: crates/opdev-remote/src/archive/tests.rs
+        sha256: 45acedd95655b6c23c14ad17432671abcdadac262e1f6403c890d4b7b2a99c4d
+        excerpt: symlinks_submodules_missing_and_duplicate_entries_never_become_archives
+      assertion: >-
+        On both providers, nonregular leaf and ancestor modes, absent paths and
+        duplicate matching entries fail before returning an archive.
+      discriminating_case: >-
+        A Contents-style symlink dereference or treating any blob mode as a normal file
+        violates the tested mode/identity boundary.
+      suite: check
+      outcome: passed
+    - condition: unavailable
+      method: automated
+      target:
+        path: crates/opdev-remote/src/archive/tests.rs
+        sha256: 45acedd95655b6c23c14ad17432671abcdadac262e1f6403c890d4b7b2a99c4d
+        excerpt: changed_repository_revision_blob_missing_bytes_and_access_denial_never_fall_back
+      assertion: >-
+        Wrong repository/commit, changed raw bytes and every individual provider
+        failure stop exactly at the failing request; companion bounds test rejects truncated
+        GitHub trees and ten full GitLab pages and limits streamed reads.
+      discriminating_case: >-
+        Bypassing only raw SHA-256 comparison was compiled and failed the Github raw
+        assertion, then restoration passed. A later green body cannot substitute for
+        expected failed bytes.
+      suite: check
+      outcome: passed
+    - condition: preflight
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 08abdca837589a1c3c3e2dc3bfba2e0e776e46ea7ada59f3c0e62f0fafccfbd0
+        excerpt: >-
+          retrieval_rejects_untrusted_locator_and_product_destinations_without_network_or_writes
+      assertion: >-
+        Four independent invalid inputs exit 2 with no output/state and without
+        reaching a deliberately unreachable HTTP proxy; schema tests also reject unknown keys
+        and traversal before any adapter request.
+      discriminating_case: >-
+        A caller approval property cannot be accepted as authority; a valid locator
+        cannot write into product source.
+      suite: check
+      outcome: passed
+    - condition: private-diagnostics
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 08abdca837589a1c3c3e2dc3bfba2e0e776e46ea7ada59f3c0e62f0fafccfbd0
+        excerpt: imported_parser_errors_do_not_echo_private_report_values
+      assertion: >-
+        Imported malformed root/nested enum values exit 2 but never echo a private
+        marker to stdout or stderr, even with a matching independently expected envelope hash.
+      discriminating_case: >-
+        Propagating a serde unknown-variant error chain would echo the marker instead
+        of the bounded schema diagnostic.
+      suite: check
+      outcome: passed
+    - condition: policy-boundaries
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/acceptance.md
+        sha256: f9a9850cbb0b6dbb2af8610a7c84341890538c4074dbecd61cc52ed58280a653
+        excerpt: Provider-observed storage authenticates retrieval, not
+      assertion: >-
+        Actual spec and guidance require independent expectations and retention review,
+        retain original authorities and failed history, disclose offline limits and
+        physical host storage differences, and prohibit implicit upload, cleanup, migration,
+        gate reuse and release.
+      discriminating_case: >-
+        Green archived reports or an attributed approval must not become authenticated
+        consent or a current check result; runtime has no conversion from
+        ArchiveObservation to validated execution.
+      automation_limitation: >-
+        Semantic authority and policy scope require content review; plugin validators
+        prove packaging only. Jeremy approved the representative portable-evidence wording
+        in this conversation, recorded on issue 88; that approval is not execution,
+        archive retention approval or release authorization.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent source and assertion review
+      reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      rationale: >-
+        Reviewed actual consumer and adapter assertions for all ten conditions,
+        including changed configuration, private diagnostics, failed-history identity and denial
+        at each request. Compared implemented inspection limits against accepted scope
+        and actual private-provider trials. Raw-hash mutation failed for the intended
+        assertion and restored code passed. Jeremy approved representative wording; no
+        archive-policy approval, live effectiveness or release claim.
+      subject_sha256: 28797fe0fd965d091a2b05e66230588f9b16b52d7b954357db811006aac96d1b
