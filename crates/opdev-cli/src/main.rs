@@ -32,6 +32,7 @@ mod evidence_prepare;
 mod execution_reuse;
 mod inspection;
 mod layout;
+mod local_state;
 mod state_io;
 mod test_execution;
 mod test_report;
@@ -68,6 +69,8 @@ enum Command {
     Documentation(documentation::DocumentationArgs),
     /// Inspect a proposed .opdev directory standard without migration or qualification.
     Layout(layout::LayoutArgs),
+    /// Resolve or inspect private continuation state; saved state never qualifies a change.
+    State(local_state::StateArgs),
     /// Inspect resumable references or explicitly append an attributed workflow event.
     Workflow(workflow::WorkflowArgs),
     /// Validate a bounded worker assignment/result without dispatch or qualification.
@@ -174,6 +177,9 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
+    /// Retain this attempt outside Git, including unfinished or failed execution; never reuse it as qualification.
+    #[arg(long, conflicts_with = "plan")]
+    retain_state: bool,
     /// Also require the selected `MinimumCD` assessment; does not authorize release.
     #[arg(long, conflicts_with = "plan")]
     require_minimumcd: bool,
@@ -476,6 +482,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         }
         Command::Rules(args) => show_rules(args).map(|()| ExitCode::SUCCESS),
         Command::TestReport(args) => test_report::run(&args),
+        Command::State(args) => local_state::run(&args),
         Command::TestExecution(args) => test_execution::run(&args),
         Command::Profiles(args) => show_profiles(args).map(|()| ExitCode::SUCCESS),
         Command::Release(args) => release_command(&args).map(|()| ExitCode::SUCCESS),
@@ -1025,6 +1032,10 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         }
         return Ok(ExitCode::SUCCESS);
     }
+    let retained = args
+        .retain_state
+        .then(|| local_state::Attempt::start(&root, &manifest, options))
+        .transpose()?;
     let mut report = if let Some(policy) = &args.reuse_ci_policy {
         execution_reuse::evaluate(
             &root,
@@ -1044,19 +1055,27 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     if args.remote {
         apply_remote_audit(&root, &manifest, &mut report, remote_revision.as_deref())?;
     }
+    if let Some(attempt) = retained {
+        attempt.finish(&root, &manifest, &report)?;
+    }
+    present_check(args, &report)?;
+    Ok(check_exit(args, &report))
+}
+
+fn present_check(args: &CheckArgs, report: &CheckReport) -> Result<()> {
     let source = args
         .report
         .as_ref()
-        .map(|path| views::save_report(&report, path))
+        .map(|path| views::save_report(report, path))
         .transpose()?;
     match args.format {
-        CheckFormat::Human => print_human_report(&report),
+        CheckFormat::Human => print_human_report(report),
         CheckFormat::Json => println!("{}", serde_json::to_string_pretty(&report)?),
         CheckFormat::Summary => {
-            views::print_summary(&report, source.context("summary requires a saved report")?)?;
+            views::print_summary(report, source.context("summary requires a saved report")?)?;
         }
     }
-    Ok(check_exit(args, &report))
+    Ok(())
 }
 
 fn check_exit(args: &CheckArgs, report: &CheckReport) -> ExitCode {

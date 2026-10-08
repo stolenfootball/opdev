@@ -17,6 +17,9 @@ use std::{
 
 #[derive(Debug, Args)]
 pub(super) struct PrepareArgs {
+    /// Save a newly prepared, unreviewed draft in private CLI-owned state; emit its path as JSON.
+    #[arg(long, requires = "input", conflicts_with_all = ["draft", "write"])]
+    retain_draft: bool,
     #[arg(long, default_value = ".")]
     root: PathBuf,
     /// Acceptance YAML: explicit conditions/mappings, with mechanical fields omitted.
@@ -188,7 +191,18 @@ pub(super) fn run(args: &PrepareArgs) -> Result<()> {
     };
     let ledger = candidate(&root, &draft, &before)?;
     if args.draft.is_none() {
-        print!("{}", serde_saphyr::to_string(&draft)?);
+        let yaml = serde_saphyr::to_string(&draft)?;
+        if args.retain_draft {
+            let path = crate::local_state::retain_draft(&root, yaml.as_bytes())?;
+            println!(
+                "{}",
+                serde_json::to_string_pretty(
+                    &json!({"schema":1,"draft":path,"review":"unverified","qualification":"unverified"})
+                )?
+            );
+        } else {
+            print!("{yaml}");
+        }
         eprintln!(
             "Draft only; mappings and review are unverified. No suites ran and ledger unchanged. This proposes links between expected results and tests; it does not verify them or approve the change."
         );

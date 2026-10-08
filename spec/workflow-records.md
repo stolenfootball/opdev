@@ -6,7 +6,99 @@ requirements, policies, decisions and evidence in their existing authorities.
 One journal can refer to those sources; do not create one document per event or
 copy private conversation history into a public repository. Necessary OpDev-owned
 durable metadata may use `.opdev/`; existing authority ownership takes precedence.
-No journal, directory or index is created during normal checks or inspection.
+No journal, directory or index is created during default checks or inspection.
+
+## CLI-owned local continuation
+
+Capability `state.local.v1` provides one resolver for both agent integrations.
+`opdev state resolve --root PROJECT` observes Git metadata and prints locations
+without creating them, invoking project commands, contacting a provider or moving
+an installation. These locations are local aids, not project policy:
+
+| Platform | Essential state | Reconstructible cache |
+| --- | --- | --- |
+| Windows | `%LOCALAPPDATA%/opdev/state` | `%LOCALAPPDATA%/opdev/cache` |
+| macOS | `~/Library/Application Support/opdev/state` | `~/Library/Caches/opdev` |
+| Other Unix | `$XDG_STATE_HOME/opdev` or `~/.local/state/opdev` | `$XDG_CACHE_HOME/opdev` or `~/.cache/opdev` |
+
+Relative XDG values are ignored. An explicit `OPDEV_STATE_DIR` must be absolute;
+it changes only the state location. Source, Git metadata, essential state and cache
+must not overlap. Existing runtime resolution and `OPDEV_DATA_DIR` remain unchanged.
+There is no automatic relocation, cleanup, daemon, database, or account.
+
+The resolver derives repository/worktree keys from canonical common-Git and
+worktree-Git directories plus physical metadata (Windows creation time; Unix
+device/inode and creation time when available). Linked worktrees share a repository
+key but not a worktree key; separate clones do not share histories. Branch switches
+retain the local worktree key, while changed source makes its context stale. Moves,
+filesystem restore or directory recreation can change or recycle physical identity:
+these keys are lookup aids, not global identity, authentication or proof of freshness.
+Never import another clone's decisions or qualify execution using a local key.
+
+Each worktree resolves `context.json`, `context-history/`, `drafts/` and `runs/`
+under `state/repositories/<repository-id>/worktrees/<worktree-id>/`. Only requested
+data is created; resolving paths does not scaffold these directories. Newly created
+Unix directories use mode 0700; Windows uses the user's inherited ACL. Existing
+permissions are not rewritten. Reject links/reparse points and traversal in state
+paths; checks protect cooperative use, not hostile concurrent directory replacement.
+
+`state context --input FILE --expected SHA256|absent` stores a schema-1 derived
+pointer with only `subject` (the existing workflow subject), original `work` and
+bounded `references`. It has no decision, approval, policy, transcript or gate
+fields. The supplied source/configuration subject must be current. Cooperative
+locking and an expected-byte digest prevent stale updates; old pointer bytes are
+retained by digest before atomic replacement. An unsupported existing schema or
+unknown field is not silently repaired. Interrupted temporary writes are not heads.
+
+`state inspect` reads this pointer and current source, returning `missing`, `stale`
+or `references_only`, always with `qualification: unverified`. This avoids historical
+log scanning but does not fetch or authenticate references. Read original sources
+and scope; remote revocation, conflict and expiry cannot be inferred from a URL or
+unchanged pointer. Where retained workflow events are already used, the existing
+`workflow inspect` projection detects their revocations/conflicts and content drift.
+Do not create a second journal merely to populate context.
+
+`evidence prepare --input FILE --work REF --retain-draft` saves the existing
+mechanically prepared draft beneath a new local draft directory and emits its path.
+All mapping/review decisions still start unverified, including caller-supplied
+passed claims. Preparation does not approve, execute checks or change the ledger.
+Use the same reviewed draft application path afterward; stored drafts are not proof.
+
+`check --retain-state` executes the ordinary requested check once and records a
+separate attempt directory. Immutable `start.json` precedes execution and records
+schema 1, the staged source/configuration/stage subject, command-plan hashes, CLI
+version/bytes, local clock and OS/architecture. It does not dump environment variables
+or claim a complete environment fingerprint. This optional retention requires
+stageable source identity; it does not silently stage files. Default checks retain
+their existing editing behavior.
+
+The full diagnostic `report.json` and separate schema-1 `completion.json` are
+written without replacing prior attempts. Completion binds report bytes and the
+post-check subject. Failed checks retain their actual report. An error or killed
+process can leave only the start or an uncompleted report: absence of completion
+means unfinished/unknown, not passed or a manufactured failed test. Clock accuracy,
+ignored input changes and environment drift remain limitations. A storage error
+is an error, never permission to claim a retained result.
+
+`state attempt <id>` reads one attempt, rejects unsupported records, unsafe names
+and changed/missing completed-report bytes, and distinguishes a completed observation
+from unfinished/interrupted execution. No prior attempt is selected as a fallback.
+Saved reports remain diagnostics: ordinary check never reads them as qualification.
+There is no cross-revision execution reuse, automatic upload or release authority.
+
+Unexported reports, draft work and context history are essential local state until
+their owner deliberately retains/discards them; they are not cache. There is no
+cleanup command that could erase sole evidence or an active attempt/runtime.
+Private reports may contain project output: inspect before sharing. Loss of this
+state is not loss of the original tracker decisions and does not authorize inventing
+missing evidence. Portable retained evidence has its own trust/retention boundary.
+
+Design choice: extend canonical checks and existing reference protocols rather
+than introduce a second execution wrapper or approval database. Revisit identity
+or storage mechanisms if supported filesystems cannot maintain isolated safe
+continuation; do not hide that limitation with automatic history import. Platform
+roles follow [XDG](https://specifications.freedesktop.org/basedir/latest/) and
+[Apple's filesystem guidance](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html).
 
 ## Separate meanings
 

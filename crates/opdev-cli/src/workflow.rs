@@ -114,7 +114,7 @@ fn evidence_matches(root: &Path, evidence: &ContentReference) -> bool {
     content_digest(&path).is_ok_and(|digest| digest == evidence.sha256)
 }
 
-fn content_digest(path: &Path) -> Result<String> {
+pub(super) fn content_digest(path: &Path) -> Result<String> {
     let metadata = fs::symlink_metadata(path)?;
     ensure!(
         metadata.is_file() && !metadata.file_type().is_symlink(),

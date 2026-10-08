@@ -104,6 +104,13 @@ Recheck changed sources, scope, mappings or work before renewing the binding.
 The ledger is excluded from the staged fingerprint, so its separate payload digest
 is essential. Never copy an old review into changed assertions.
 
+With capability `state.local.v1`, `evidence prepare --input FILE --work REF
+--retain-draft` can store the same new draft in CLI-owned private state and emit
+its path. This avoids choosing repository scratch locations. Mapping and review
+decisions still start unverified; apply only through the existing current-review
+path. Do not repeat preparation just to move a valid draft, infer consent from
+storage, or copy raw personal context into it.
+
 ## Verify and report
 
 Use normal authorized canonical checks. Automated mappings need their suite in
