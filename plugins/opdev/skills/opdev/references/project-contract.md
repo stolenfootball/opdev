@@ -52,8 +52,9 @@ recovery or a successful forward fix cannot alone establish rollback on demand.
 ## Documentation locations and ownership
 
 Read the existing project contract and inspect established documentation before
-choosing paths. `.opdev/` holds OpDev configuration and evidence. Without
-established locations, use these optional defaults for internal working material:
+choosing paths. First check the actual layout selection. Without an explicit
+`layout.version: 1`, legacy `.opdev/` holds configuration and evidence, with these
+optional defaults when no established locations exist:
 
 - `.opdev/design.md`: current design and architecture.
 - `.opdev/development.md`: human development guidance.
@@ -69,7 +70,7 @@ declared work authority, not competing PLAN, TODO, STATUS or command copies.
 Repository-file work tracking remains valid when explicitly routed.
 
 Keep the product README and both agent entry points at the root; preserve the
-full managed AGENTS guidance. Link from the README to development guidance when
+full managed AGENTS guidance in legacy layouts. Link from the README to development guidance when
 it exists, so humans can find it despite the hidden directory. Public product
 docs, contribution/security guidance, changelogs and packaging inputs retain
 appropriate project/ecosystem locations. Do not hide them in `.opdev/` merely
@@ -84,6 +85,27 @@ unused location consistent with the project; ask only when unresolved ownership
 or meaning materially affects that choice. Existing task authorization applies.
 Record selected locations in `authorities` and relevant `context` routes.
 Folder names alone do not establish their contents as authoritative.
+
+For explicitly selected schema-3 layout 1, require capability
+`layout.enforcement.v1` locally and in CI. Required files are project.yaml,
+adoption.yaml and guidance.md in `.opdev/`; both root files point to the shared
+guide. Read it fully after activation and reload it after context reset. Missing
+or stale guidance needs a repair offer, not silent installation or replacement.
+Optional internal durable documents use `.opdev/docs/{design,development,testing,delivery}.md`,
+`docs/specs/<capability>.md`, `docs/decisions/<id>-<decision>.md` and referenced
+`docs/assets/` under `.opdev/`. Keep adequate outside authorities unchanged.
+No scratch, backlog, runtime, cache or history archive belongs inside this strict
+namespace. Do not create empty scaffolds or use valid paths/headings as evidence
+of useful content. Preserve a legacy ledger until verified storage migration;
+do not delete it to make a structural check pass.
+
+`layout format` previews deterministic configuration YAML and explicit
+`--apply <plan-id>` applies that unchanged reviewed diff. Comments/style may change;
+parsed policy, dispositions and approval provenance must not. It grants no new
+approval, migration or execution evidence. Do not repeat formatting or full gates
+merely for feedback. New-project `init --layout-version 1` requires an explicit
+engineering-policy choice; existing-project conversion is a coordinated migration,
+not an init retry. Ordinary upgrades update only the selected managed guidance.
 
 ### Before writing a document
 

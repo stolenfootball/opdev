@@ -112,6 +112,52 @@ managed-guide currency and actual fresh-agent behavior require their own review;
 an empty or misleading Markdown file is not certified by this structural check.
 Existing check/init/upgrade behavior is unchanged by invoking inspection.
 
+### Explicit enforcement and shared entry guidance
+
+Schema-3 projects can select `layout: {version: 1, review_reference: ...}` with an
+actual reviewed decision reference. Legacy contracts without this selection keep
+their existing behavior. A new project can request it with `init --layout-version
+1` alongside explicit engineering policy, assessment choice and decision reference.
+Initialization creates unresolved adoption, not a claim of completed adoption.
+It does not create optional documentation, archive evidence or migrate an existing
+layout. Existing projects need a coordinated reviewed migration.
+
+Selected projects use one managed `.opdev/guidance.md` and short marked sections in
+both root instruction files. Unrelated text and imports are preserved. Ordinary
+guidance upgrade previews include all three files, bind their exact input bytes,
+and write the guide before its pointers. Each file replacement is atomic, not the
+whole group; interrupted writes remain visible and can be previewed again. Linked
+files, Git link placeholders and linked `.opdev` parents are refused. A guidance
+update never selects layout policy or removes legacy evidence.
+
+`check` adds a blocking `policy` check named `opdev-layout` for integration,
+delivery and compliance. This is a built-in structural observation, not a project
+command or reusable CI execution receipt. It reads staged regular files, checks
+the selected namespace and exact managed guide/pointers, and does not trust
+unstaged repairs. The standalone proposed-layout inspector remains read-only and
+unqualified. The check report adds the `policy` kind; consumers must support it
+and capability `layout.enforcement.v1`, not reinterpret it as an executed suite.
+Other required checks, source-bound acceptance and adoption remain separate.
+
+A structurally valid layout does not prove document purpose, asset references,
+developer consent or fresh-agent behavior. Source review must still examine those
+claims. A legacy ledger remains a blocking storage-migration finding: no command
+silently deletes it or treats export alone as verified retention. Complete strict
+layout adoption requires the coordinated evidence-storage migration, not a manual
+ledger deletion to make this check pass.
+
+`layout format` previews deterministic YAML for the two existing maintained
+configuration files. Its schema-1 JSON shows exact before/after text and a plan
+digest; `--apply PLAN_ID` writes only that still-current proposal. It validates
+both records before writing either and compares parsed meanings. It preserves
+policy, dispositions and approval provenance; comments, quoting and field order
+may change and are visible in the preview. Unknown/future/malformed records are
+not repaired. It does not format Markdown, legacy evidence, arbitrary paths or
+outside authorities. Formatting alone grants no approval or qualification.
+Writes are atomic per file, not a transaction; re-preview after interruption.
+Stable canonical inputs produce no changes. This is an explicit formatting tool,
+not a requirement to reformat files on every feedback iteration.
+
 The design favors a strict small namespace plus explicit migration over deleting
 unknown files or a keyword classifier for arbitrary prose. Revisit its supported
 roles/formats when a concrete durable use cannot fit without duplication; changes

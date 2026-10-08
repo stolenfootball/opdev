@@ -122,6 +122,15 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ## Rule catalog
 
+Development capability `layout.enforcement.v1` adds explicitly selected layout 1
+to schema-3 contracts, one shared guide and a built-in `policy` check result.
+Legacy policy remains unchanged. Older clients that lack these fields or result
+kinds reject them instead of dropping enforcement. Check local and CI capability
+before selection. Existing schema-3 users without layout selection retain their
+current checks. No release version, installed pin or consumer migration is selected
+by this additive development interface; complete adoption still needs the explicit
+evidence-storage transition. Formatting previews have independent schema 1.
+
 CLI 0.4.0's catalog 2 retains the daily-integration requirement and its ID for
 compliance, but removes it from development and integration gates. Rule results
 are not converted to passes. Existing project manifests and evidence ledgers

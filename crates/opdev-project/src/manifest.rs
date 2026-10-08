@@ -71,6 +71,9 @@ pub enum ManifestError {
 pub struct ProjectManifest {
     /// Manifest schema version.
     pub schema: u32,
+    /// Explicit strict namespace selection; absence preserves legacy layouts.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub layout: Option<LayoutPolicy>,
     /// Project identity and CI topology.
     pub project: Project,
     /// Canonical homes for important project facts.
@@ -233,6 +236,13 @@ impl ProjectManifest {
 
     fn validate_semantics(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
+        if let Some(layout) = &self.layout
+            && (self.schema != 3
+                || layout.version != 1
+                || layout.review_reference.trim().is_empty())
+        {
+            return Err(ManifestError::Semantic("Strict layout needs project schema 3, supported layout version 1 and the actual migration decision reference".into()));
+        }
         if let Some(policy) = &self.project.ci.qualification {
             if self.schema < 2 {
                 return Err(ManifestError::Semantic(
@@ -412,6 +422,16 @@ fn ensure_unique<'a>(
         }
     }
     Ok(())
+}
+
+/// Explicit reviewed selection of the standard namespace.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LayoutPolicy {
+    /// Exact namespace version.
+    pub version: u32,
+    /// Actual reviewed adoption/migration decision, not authenticated by this field.
+    pub review_reference: String,
 }
 
 /// Project identity and CI topology.
@@ -918,6 +938,7 @@ mod tests {
         );
         ProjectManifest {
             schema: 1,
+            layout: None,
             project: Project {
                 kind: ProjectKind::Cli,
                 trunk: "main".into(),

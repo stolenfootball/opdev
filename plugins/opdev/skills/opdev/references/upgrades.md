@@ -67,9 +67,11 @@ authorize different target guidance. After reviewing the current diff, apply:
 The token protects against stale inputs, not against unreviewed consent. If the
 plan changes, explain the delta and obtain approval for any changed scope. Do not
 loop regenerating/applying until an error disappears. On a partial write, inspect
-both instruction files and preserve any later user changes before re-previewing.
+all managed instruction files and preserve any later user changes before re-previewing.
 
-CLI apply changes managed AGENTS/CLAUDE guidance only. Review CI pins and related
+CLI apply changes managed guidance only: legacy AGENTS/CLAUDE sections, or the
+selected layout's shared `.opdev/guidance.md` and short root pointers. It preserves
+unrelated content/imports and does not select the new layout. Review CI pins and related
 download host, artifact/signature identity and required runtime capabilities as a
 separate proposed diff. Preserve custom jobs, images, provider variables/includes
 and all unrelated configuration. Matching version text alone is not qualification.

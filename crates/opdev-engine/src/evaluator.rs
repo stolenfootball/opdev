@@ -137,7 +137,10 @@ fn evaluate_inner(
     apply_evidence_ledger(root, &catalog, &mut rules)?;
     explain_source_gap(&mut rules, initial_fingerprint.as_ref().err());
     apply_workflow_contradictions(root, manifest, &mut rules)?;
-    let checks = collect_checks(root, manifest, options, executions)?;
+    let mut checks = collect_checks(root, manifest, options, executions)?;
+    if let Some(layout) = &manifest.layout {
+        checks.push(layout_check(root, layout.version));
+    }
     if let Some(executions) = executions {
         crate::execution_record::current_subject(
             root,
@@ -203,6 +206,26 @@ fn evaluate_inner(
     };
     reaggregate(&mut report)?;
     Ok(report)
+}
+
+fn layout_check(root: &Path, version: u32) -> CheckResult {
+    let (outcome, summary) = match opdev_project::layout::inspect_selected(root, version) {
+        Ok(report) if report.findings.is_empty() => (Outcome::Passed, "Selected layout matches the committed namespace. This structural check does not certify document purpose, adoption completion or release readiness".into()),
+        Ok(report) => (Outcome::Failed, report.findings.iter().map(|f| format!("{}: {}. {}", f.path.escape_debug(), f.problem, f.next_step)).collect::<Vec<_>>().join("; ")),
+        Err(_) => (Outcome::Error, "Could not inspect the selected committed layout. Check Git metadata and bounded file access; no files were changed".into()),
+    };
+    CheckResult {
+        id: "opdev-layout".into(),
+        kind: CheckKind::Policy,
+        blocking: true,
+        gates: vec![Gate::Integration, Gate::Delivery, Gate::Compliance],
+        outcome,
+        summary,
+        evidence: vec![],
+        stdout: None,
+        stderr: None,
+        duration_ms: None,
+    }
 }
 
 fn apply_workflow_contradictions(
@@ -1281,6 +1304,7 @@ mod tests {
 
     fn manifest() -> ProjectManifest {
         ProjectManifest {
+            layout: None,
             schema: 1,
             project: Project {
                 kind: ProjectKind::Library,
