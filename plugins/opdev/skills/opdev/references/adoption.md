@@ -11,6 +11,27 @@ agent-selected plan does not substitute for resolving material developer choices
 
 ## Validate recommendations before asking for approval
 
+First inspect the selected policy. Engineering policy 1 (project schema 3) uses
+adoption inventory 2: coding conventions, appropriate formatting/static checks,
+dependencies, reproducible setup and review are required outcomes, not optional
+tool preferences. Legacy inventory 1 stays unchanged until explicit migration.
+Use adequate equivalents (including compiler checks) without installing overlapping
+tools. Unsupported formatting needs a justified executable equivalent convention
+check, not automatic N/A. Reuse clean CI setup evidence; do not reinstall tools
+or repeat adoption at every feedback iteration.
+
+For empty projects, reuse the supplied design and ask grouped questions only for
+material unknowns: first useful outcome, language/runtime, supported platforms,
+interfaces and data/security needs. Research unresolved gaps, recommend suitable
+defaults, then implement runnable setup/checks and a first thin behavior test
+within approved scope. Discovery of no files does not settle those choices.
+
+For noncritical existing debt, propose a reviewed no-new-regression boundary with
+exact known findings, enforced changed-code checks, an owner and remediation in
+the existing work authority. It must catch new regressions, not disable checks.
+Critical security/correctness failures remain blockers; unresolved adoption stays
+incomplete. Do not create a document per practice or a second debt registry.
+
 Resolve intended completion scope during discovery. Capable `adoption plan` and
 `status` expose remote policy gaps without contacting a provider. `--remote` adds
 a read-only worksheet of candidate jobs, producer identities and protection
@@ -51,11 +72,23 @@ roles compliant and expect a later CLI failure to correct the recommendation.
 
 ### Keep schema versions separate
 
-On this capable CLI, new `init` creates `.opdev/project.yaml` with **schema 1**
+Without an explicit policy choice, `init` creates `.opdev/project.yaml` with **schema 1**
 and `.opdev/adoption.yaml` with **schema 2**. These are different contracts.
-Inspect the adoption record's own schema before proposing migration. Only an
+Inspect the adoption record's own schema before proposing schema migration. An
 existing schema-1 **adoption record** needs `adoption migrate`; do not prescribe
 `init` followed by migration just because the project manifest is schema 1.
+
+On a CLI advertising `adoption.engineering-baseline.v1`, an approved new project
+can use `init --engineering-policy 1 --policy-review-reference <actual-decision>
+--minimumcd-assessment none --dry-run` (choose `1` instead of `none` if the separate
+assessment was requested). Remove `--dry-run` within the actual implementation
+authorization. This creates project schema 3 and adoption inventory 2, with all
+decisions pending. A reference does not authenticate consent. Existing contracts
+cannot be migrated through init; preview the explicit policy upgrade, then
+`adoption migrate --catalog-version 2` and apply `--write` only when authorized.
+That upgrade preserves old claims, adds pending entries and invalidates approval;
+newly required ignored entries become visible gaps. Do not manufacture approval
+or reset adequate implementations. Check local and CI capabilities first.
 
 `adoption plan` and `adoption status` are read-only; `plan` needs an initialized
 project, not write permission. `init` and `adoption approve` write records;
@@ -231,10 +264,13 @@ that files/evidence did not change during verification. It does not run a remote
 pipeline or publish artifacts. Required CI, qualification and recovery evidence
 must still exist. Never register this command as a suite that calls itself.
 
-Completion also needs MCD-PIPELINE-001 `delivery_gate` evidence pointing to the
+Applicable delivery also needs MCD-PIPELINE-001 `delivery_gate` evidence pointing to the
 reviewed release/tag pipeline path. Identify its required qualification job,
 publication ordering, trigger coverage and actual run; generic pipeline evidence
 or a green MR job does not establish that publishing cannot bypass qualification.
+For engineering policy, genuinely evidence-backed inapplicable delivery may remain
+not applicable. Missing configuration is not inapplicability. Adoption completion,
+the separate MinimumCD assessment and release authorization are distinct.
 
 Report complete only after it passes and the required integration evidence is
 reconciled. Otherwise report the exact remaining decisions, migration work or

@@ -150,6 +150,15 @@ struct PluginRequirements {
 
 #[derive(Debug, Args)]
 struct InitArgs {
+    /// Explicit reviewed engineering policy for a new project (currently 1).
+    #[arg(long, requires_all = ["policy_review_reference", "minimumcd_assessment"])]
+    engineering_policy: Option<String>,
+    /// Actual developer choice/delegation reference, not authenticated by the CLI.
+    #[arg(long, requires = "engineering_policy")]
+    policy_review_reference: Option<String>,
+    /// Explicit choice of separate `MinimumCD` assessment, not an engineering waiver.
+    #[arg(long, requires = "engineering_policy", value_parser = ["1", "none"])]
+    minimumcd_assessment: Option<String>,
     /// Directory inside the Git repository to initialize.
     #[arg(long, default_value = ".")]
     root: PathBuf,
@@ -758,9 +767,20 @@ fn show_profiles(args: ProfilesArgs) -> Result<()> {
 }
 
 fn initialize(args: &InitArgs) -> Result<()> {
-    let discovery = discover(&args.root).context("could not inspect the repository")?;
+    let mut discovery = discover(&args.root).context("could not inspect the repository")?;
     let manifest_path = discovery.root.join(MANIFEST_PATH);
     let adoption = opdev_project::AdoptionRecord::load(&discovery.root)?;
+    select_initial_policy(args, &mut discovery, manifest_path.exists())?;
+    let catalog_version = opdev_project::project_adoption_catalog(&discovery.manifest);
+    if !manifest_path.exists()
+        && adoption
+            .as_ref()
+            .is_some_and(|record| record.catalog_version != catalog_version)
+    {
+        bail!(
+            "partial initialization uses a different adoption inventory; retry with the original reviewed policy choices. Existing decisions were preserved."
+        );
+    }
 
     if manifest_path.exists() {
         if args.dry_run {
@@ -789,7 +809,7 @@ fn initialize(args: &InitArgs) -> Result<()> {
 
     if args.dry_run {
         print!("{}", discovery.manifest.to_yaml()?);
-        let catalog = opdev_project::adoption_catalog()?;
+        let catalog = opdev_project::adoption_catalog_version(catalog_version)?;
         eprintln!(
             "Adoption catalog {}: {} practices require explicit review; discovery does not mark them implemented.",
             catalog.version,
@@ -802,7 +822,8 @@ fn initialize(args: &InitArgs) -> Result<()> {
         // Create unresolved state first so interruption after writing the manifest
         // is distinguishable from a legacy project. Existing decisions are untouched.
         if adoption.is_none() {
-            opdev_project::AdoptionRecord::pending()?.write_new(&discovery.root)?;
+            opdev_project::AdoptionRecord::pending_for_catalog(catalog_version)?
+                .write_new(&discovery.root)?;
         }
         discovery.manifest.write_new(&manifest_path)?;
         report_agent_changes(&reconcile_agent_files(&discovery.root)?);
@@ -810,6 +831,53 @@ fn initialize(args: &InitArgs) -> Result<()> {
         println!(
             "Adoption is incomplete. Review project choices and .opdev/adoption.yaml, implement the approved plan, then run opdev adoption check."
         );
+    }
+    Ok(())
+}
+
+fn select_initial_policy(
+    args: &InitArgs,
+    discovery: &mut opdev_project::Discovery,
+    exists: bool,
+) -> Result<()> {
+    let Some(version) = &args.engineering_policy else {
+        return Ok(());
+    };
+    let policy = opdev_core::EngineeringPolicy {
+        version: version.clone(),
+        minimumcd: args
+            .minimumcd_assessment
+            .as_ref()
+            .filter(|v| v.as_str() != "none")
+            .cloned(),
+        review_reference: args
+            .policy_review_reference
+            .clone()
+            .context("policy decision reference required")?,
+        maintenance_branches: vec![],
+    };
+    if exists {
+        if discovery.manifest.assurance.engineering.as_ref() != Some(&policy) {
+            bail!(
+                "existing project policy preserved; use the read-only upgrade policy preview, not init, to propose a migration"
+            );
+        }
+    } else {
+        discovery.manifest.schema = 3;
+        discovery
+            .manifest
+            .assurance
+            .profiles
+            .retain(|p| p.name != "opdev-core");
+        discovery.manifest.assurance.engineering = Some(policy);
+        discovery.manifest.to_yaml()?;
+        if let Some(record) = opdev_project::AdoptionRecord::load(&discovery.root)?
+            && record.catalog_version != 2
+        {
+            bail!(
+                "partial initialization has an older adoption inventory; preserve it and complete the original initialization before an explicit policy/catalog migration"
+            );
+        }
     }
     Ok(())
 }
@@ -1525,6 +1593,9 @@ mod tests {
         initialize(&InitArgs {
             root: root.to_path_buf(),
             dry_run: true,
+            engineering_policy: None,
+            policy_review_reference: None,
+            minimumcd_assessment: None,
         })?;
         assert_eq!(std::fs::read(root.join(MANIFEST_PATH))?, before);
         assert_eq!(
@@ -1544,6 +1615,9 @@ mod tests {
         initialize(&InitArgs {
             root: root.to_path_buf(),
             dry_run: false,
+            engineering_policy: None,
+            policy_review_reference: None,
+            minimumcd_assessment: None,
         })?;
         for path in [
             MANIFEST_PATH,

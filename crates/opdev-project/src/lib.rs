@@ -21,7 +21,7 @@ pub use qualification::{
 pub use adoption::{
     ADOPTION_PATH, AdoptionCatalog, AdoptionDecision, AdoptionError, AdoptionRecord,
     AdoptionReview, AdoptionState, AdoptionWorkflow, MainOption, Practice, Requirement,
-    adoption_catalog,
+    adoption_catalog, adoption_catalog_version, project_adoption_catalog,
 };
 pub use bootstrap::{
     AgentFilePreview, BootstrapError, FileChange, ManagedFile, apply_agent_preview,
