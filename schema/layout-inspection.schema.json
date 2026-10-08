@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpDev proposed layout inspection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "kind", "layout_version", "scope", "qualification", "findings", "inspected_files", "limits"],
+  "properties": {
+    "schema": { "const": 1 },
+    "kind": { "const": "layout_inspection" },
+    "layout_version": { "const": 1 },
+    "scope": { "enum": ["working_tree", "index"] },
+    "qualification": { "const": "unverified" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "problem", "next_step"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "problem": { "type": "string", "minLength": 1 },
+          "next_step": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "inspected_files": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "limits": { "type": "string", "minLength": 1 }
+  }
+}

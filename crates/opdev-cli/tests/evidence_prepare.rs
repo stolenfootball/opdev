@@ -148,6 +148,67 @@ fn unresolved_draft_needs_current_review_and_preserves_history() -> Result {
 }
 
 #[test]
+fn retained_drafts_use_private_state_and_always_start_unreviewed() -> Result {
+    let (repo, scratch) = fixture()?;
+    let root = repo.path();
+    let input = scratch.path().join("input.json");
+    let state = scratch.path().join("state");
+    let before = fs::read(root.join(EVIDENCE_PATH))?;
+    let mut original: Value = serde_json::from_slice(&fs::read(&input)?)?;
+    original["verifications"][0]["outcome"] = json!("passed");
+    original["review"] = json!({"outcome":"passed","reviewer":"invented"});
+    fs::write(&input, serde_json::to_vec(&original)?)?;
+    let mut paths = Vec::new();
+    for _ in 0..2 {
+        let output = Command::new(env!("CARGO_BIN_EXE_opdev"))
+            .current_dir(root)
+            .env("OPDEV_STATE_DIR", &state)
+            .args([
+                "evidence",
+                "prepare",
+                "--retain-draft",
+                "--work",
+                "fixture",
+                "--input",
+            ])
+            .arg(&input)
+            .output()?;
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let saved: Value = serde_json::from_slice(&output.stdout)?;
+        let path = std::path::PathBuf::from(saved["draft"].as_str().ok_or("draft")?);
+        assert!(path.starts_with(state.canonicalize()?));
+        let draft: Value = serde_saphyr::from_slice(&fs::read(&path)?)?;
+        assert_eq!(draft["acceptance"]["review"]["outcome"], "unverified");
+        assert_eq!(
+            draft["acceptance"]["verifications"][0]["outcome"],
+            "unverified"
+        );
+        assert!(
+            !cli(root, &["--draft", path.to_str().ok_or("path")?, "--write"])?
+                .status
+                .success()
+        );
+        paths.push(path);
+    }
+    assert_ne!(paths[0], paths[1]);
+    assert_eq!(fs::read(root.join(EVIDENCE_PATH))?, before);
+    assert!(
+        Command::new("git")
+            .arg("-C")
+            .arg(root)
+            .args(["ls-files", "--others", "--exclude-standard"])
+            .output()?
+            .stdout
+            .is_empty()
+    );
+    Ok(())
+}
+
+#[test]
 fn source_and_ledger_changes_and_bad_excerpts_do_not_write() -> Result {
     let (repo, scratch) = fixture()?;
     let root = repo.path();

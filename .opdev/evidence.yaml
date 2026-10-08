@@ -15954,26 +15954,35 @@ changes:
       location: crates/opdev-cli/tests/planning_guidance.rs
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Current material source passed the canonical pre-merge commands; fresh combined acceptance evaluation remains required.
+    summary: >-
+      Current material source passed the canonical pre-merge commands; fresh combined
+      acceptance evaluation remains required.
     evidence:
     - kind: execution_review
-      summary: Retained 86-premerge-3 reports format, strict lint and all workspace tests passed at fingerprint 506abdca20e23ad7b25c97bd02c01c2d9cf8c3a691ee6f807a9ebad78855ecd3. The combined inventory adds previously reviewed issue-85 conditions without changing product bytes. This is earlier-boundary evidence, not cross-stage execution reuse.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/86#note_3974820056
+      summary: >-
+        Retained 86-premerge-3 reports format, strict lint and all workspace tests
+        passed at fingerprint
+        506abdca20e23ad7b25c97bd02c01c2d9cf8c3a691ee6f807a9ebad78855ecd3. The combined inventory adds previously reviewed issue-85 conditions without
+        changing product bytes. This is earlier-boundary evidence, not cross-stage
+        execution reuse.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/86#note_3974820056"
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: Maintainer reviewed representative testing and stage-specific wording for the combined increment.
+    summary: >-
+      Maintainer reviewed representative testing and stage-specific wording for the
+      combined increment.
     evidence:
     - kind: maintainer_review
       summary: >-
         Actual user response Yes on 2026-10-08 approves the strengthening-assertions
         and quarantine/lost-assurance messages. Separate Approved response covers
-        stage-specific missing mappings, missing suites and selected-stage-only
-        success wording. Plain-text structured diagnostics retain scope and next action;
-        automated interface checks still run through the canonical suite.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85#note_3974923893
+        stage-specific missing mappings, missing suites and selected-stage-only success wording.
+        Plain-text structured diagnostics retain scope and next action; automated
+        interface checks still run through the canonical suite.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/85#note_3974923893"
     - kind: maintainer_review
       summary: Actual stage-specific wording approval, not inferred implementation consent.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/86#note_3974796088
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/86#note_3974796088"
   acceptance:
     scope: behavioral
     rationale: >-
@@ -16237,3 +16246,852 @@ changes:
         boundaries and shared guidance restraint. This is agent semantic review, not
         maintainer consent or live effectiveness.
       subject_sha256: 13d5008ce55788616f91dfbcaf90973e6e4cef3e3d1cc83544850bfe0881c636
+- fingerprint: 5efa4ef83ad572390cc13b02052d4a94028330b02d9cf4368eb1c90fb1b9a11f
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: >-
+      Approved roadmap bounds local continuation and the read-only layout
+      prerequisite.
+    evidence:
+    - kind: work
+      summary: >-
+        Issue 87 owns resolver and attempts; issue 81 retains migration and
+        enforcement, issue 88 portable evidence, issue 91 live continuation. No release or consumer
+        update.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: >-
+      Existing checks, reference subjects and writer primitives are extended without
+      another approval engine.
+    evidence:
+    - kind: contract_review
+      summary: >-
+        Reviewed platform roles, identity limitations, strict schemas, separate
+        attempts, lock lifetime, stale guards, original-authority requirements and reversal
+        trigger. No cache can supply qualification.
+      location: spec/workflow-records.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: >-
+      GitLab remains the active integration path with exact-source ARM64
+      qualification.
+    evidence:
+    - kind: ci_observation
+      summary: >-
+        Prior candidate pipeline 2924957749 passed all eight jobs before MR65
+        integration. This increment still requires its own candidate and integrated checks.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924957749
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the single integration and release-source trunk.
+    evidence:
+    - kind: workflow_review
+      summary: >-
+        No branch-role, project policy, CI definition or delivery-path change. Source
+        branch includes integrated main 4a0c893.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: >-
+      One bounded continuation increment includes its read-only placement
+      prerequisite.
+    evidence:
+    - kind: branch_review
+      summary: >-
+        Current main is merged; later full layout migration and evidence portability
+        are not hidden in this source branch. Required checks precede integration.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Default checks and runtime paths retain their existing behavior.
+    evidence:
+    - kind: source_review
+      summary: >-
+        State writes require explicit retain-state, retain-draft or context arguments.
+        Inspection cannot migrate policy or remove legacy ledgers. Existing source and
+        acceptance checks remain authoritative.
+      location: crates/opdev-cli/src/local_state.rs
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: >-
+      Actual process assertions cover successful, interrupted, failed, stale and
+      conflicting use.
+    evidence:
+    - kind: assertion_review
+      summary: >-
+        Exact retained reports, three distinct attempts, unverified no-exec, actual
+        command-start marker, stale-head preservation, isolated clone/worktree keys and
+        competing-writer exit pairs are checked, not just output labels.
+      location: crates/opdev-cli/tests/local_state.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: >-
+      Regression cases protect history, read-only inspection and malformed-input
+      boundaries.
+    evidence:
+    - kind: regression_review
+      summary: >-
+        Side-effecting declared command proves inspection cannot run tests; changed
+        completed bytes, unknown schema, Git link placeholders, omitted guide and
+        unsupported namespace paths cannot silently pass or trigger repairs.
+      location: crates/opdev-cli/tests/layout.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: Development failures remain visible with no hidden retries or quarantine.
+    evidence:
+    - kind: execution_review
+      summary: >-
+        Corrected missing manifest API, empty discovered fixture commands, no-exec
+        oracle and closure type annotations. These setup/compiler/oracle failures are not
+        behavioral red evidence. Focused process tests passed; full canonical execution
+        follows this review.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/87#note_3974960518"
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: >-
+      Reviewed actual implementations, schemas, assertions and guidance against
+      accepted scope.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Review checked no qualification deserialization path, strict record validation,
+        no automatic upload/deletion, preservation of prior state, source/config binding
+        and explicit limits. Agent review is not human attribution or live effectiveness.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/87#note_3974960518"
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: >-
+      Platform guidance and bounded failure experiments inform implementation;
+      broader migration and live outcomes remain open.
+    evidence:
+    - kind: contract_review
+      summary: >-
+        Permanent interfaces and limitations stay in spec; task sequence stays in
+        GitLab. Pure mapping tests do not claim native macOS execution. Lock hardening does
+        not assert the cause of every historical contention failure.
+      location: spec/workflow-records.md
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: Maintainer approved representative local-state and proposed-layout diagnostics.
+    evidence:
+    - kind: maintainer_review
+      summary: >-
+        Actual Approved response covers continuation-only, stale context, changed
+        report and unfinished_or_interrupted wording; no interpretation as release
+        authorization.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/87#note_3974944357"
+    - kind: maintainer_review
+      summary: >-
+        Actual Approved response covers inspection not qualification, preserve legacy
+        ledger pending verified migration and classify unknown paths without cleanup.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3974923919"
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Issue 87 local continuation and its issue 81 read-only namespace prerequisite.
+      Covers concrete resolver, attempts, draft and concurrent-write behavior. Does not
+      claim full strict-layout migration, portable archive, live-host effectiveness,
+      authentication of decisions or release readiness. Those remain separately tracked.
+    conditions:
+    - id: identity
+      statement: >-
+        One read-only resolver isolates local clones and worktrees without executing
+        project commands or scaffolding state.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: Linked worktrees share a repository
+    - id: context
+      statement: >-
+        Context resumes bounded references but cannot confer consent; stale writers and
+        unsupported schemas preserve history.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: unknown field is not silently repaired.
+    - id: attempts
+      statement: >-
+        Distinct failed and repaired attempts retain exact reports, detect changed
+        bytes and never supply another check.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: No prior attempt is selected as a fallback.
+    - id: interrupted
+      statement: >-
+        Interruption after an actual command starts cannot create success or be
+        completed by a later run.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: means unfinished/unknown, not passed or a manufactured failed test.
+    - id: writer
+      statement: >-
+        Cooperating stale or simultaneous writers cannot overwrite the winner;
+        duplicate handles do not retain a completed writer lock.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: Real contention still fails immediately
+    - id: placement
+      statement: >-
+        State, source, Git metadata and cache remain separate, with explicit platform
+        roles and no runtime relocation.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: must not overlap.
+    - id: drafts
+      statement: >-
+        Retained acceptance drafts reset optimistic claims and cannot write an
+        unreviewed ledger.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: All mapping/review decisions still start unverified
+    - id: layout
+      statement: >-
+        Proposed layout inspection distinguishes local ignored content from staged
+        content while preserving files, external authorities and Git configuration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: 02a68a00c2441ce17fa446751fc31545b1104795cc477874e6de3dead37516a9
+        excerpt: Working-tree
+    - id: malformed
+      statement: >-
+        Unsafe links, malformed versions, duplicate keys, unknown fields and missing
+        files produce findings without repairs.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: 02a68a00c2441ce17fa446751fc31545b1104795cc477874e6de3dead37516a9
+        excerpt: duplicate keys and unsupported config versions are findings, not repairs.
+    - id: boundaries
+      statement: >-
+        Shared guidance preserves original authorities, separates references from
+        qualification and keeps migration, cleanup and release explicit.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: >-
+          There is no cross-revision execution reuse, automatic upload or release
+          authority.
+    verifications:
+    - condition: identity
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: readonly_resolution_is_stable_and_clones_worktrees_are_isolated
+      assertion: >-
+        Repeated resolutions are equal; worktrees share repo but not worktree identity;
+        a clone gets another repo identity; inspect creates no state and preserves Git
+        config/status.
+      discriminating_case: >-
+        An implementation keying only by remote or invoking the declared side-effect
+        command fails these assertions.
+      suite: check
+      outcome: passed
+    - condition: context
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: context_resumes_references_but_never_consent_and_stale_writers_preserve_history
+      assertion: >-
+        Reads exact references with unverified qualification, archives original bytes,
+        refuses stale expected digest and approval field, reports changed source stale,
+        rejects version 99 without rewriting it.
+      discriminating_case: >-
+        Reusing the old expected digest after an update must fail even if an author
+        requests a different pointer.
+      suite: check
+      outcome: passed
+    - condition: attempts
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: retained_checks_keep_distinct_failures_and_never_supply_a_later_gate
+      assertion: >-
+        Actual missing-ref command fails; no-exec stays unverified; repaired command
+        passes separately; three attempts survive with unchanged failure bytes; tampered
+        report and traversal are rejected.
+      discriminating_case: >-
+        A saved green or failed report cannot turn a new no-exec observation into
+        passed; the first failed report is never overwritten.
+      suite: check
+      outcome: passed
+    - condition: interrupted
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: killed_check_preserves_unfinished_attempt_and_a_new_run_does_not_complete_it
+      assertion: >-
+        Waits for the actual canonical command marker, kills only the fixture parent,
+        inspects unfinished_or_interrupted, then proves a second run preserves the
+        original start and absence of completion.
+      discriminating_case: >-
+        Killing before command start or treating a later run as the same attempt cannot
+        satisfy the assertions.
+      suite: check
+      outcome: passed
+    - condition: writer
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: simultaneous_context_writers_keep_one_head_without_overwriting_the_winner
+      assertion: >-
+        Two processes using expected absent yield exactly one success and one error,
+        one valid reference head and clean source; state_io unit tests additionally
+        exercise duplicate-handle release and error/Drop paths.
+      discriminating_case: >-
+        Both callers succeeding or the loser replacing the winner violates
+        expected-head ownership; a live duplicate handle must not retain a released lock.
+      suite: check
+      outcome: passed
+    - condition: placement
+      method: automated
+      target:
+        path: crates/opdev-cli/src/local_state.rs
+        sha256: ae143fa3f2a5179a6e9f10df0fbe589eeecdfb6bb00e31df0215b8714e395366
+        excerpt: platform_roles_and_overrides_are_tested_without_mutating_process_environment
+      assertion: >-
+        Pure platform tests assert Windows/macOS/XDG roles, relative-XDG fallback and
+        override isolation; process tests reject relative/source/Git collisions, with
+        Unix-only link and mode tests in native CI.
+      discriminating_case: >-
+        State override must not move cache or runtime; source/Git collision must not
+        create files. Simulated platform mapping is not a claim of native macOS execution.
+      suite: check
+      outcome: passed
+    - condition: drafts
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_prepare.rs
+        sha256: 1f641c75e4e9e7baed0456a8bfa5c6291f39b663d51f74138062105b32bb1c1e
+        excerpt: retained_drafts_use_private_state_and_always_start_unreviewed
+      assertion: >-
+        Caller passed outcomes are reset, draft attempts have different paths,
+        unresolved application fails, and ledger plus Git status remain unchanged.
+      discriminating_case: >-
+        A provided optimistic review must not survive mechanical preparation merely
+        because it was saved privately.
+      suite: check
+      outcome: passed
+    - condition: layout
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: b55fe0e453c77327327b712c26a677aacb1f6755f55bfe5c6610e104108cfb6a
+        excerpt: minimal_and_optional_durable_layouts_remain_read_only_and_unqualified
+      assertion: >-
+        Valid required/optional roles inspect with qualification unverified and
+        unchanged manifest, external docs, config and status; companion tests distinguish
+        ignored local junk from own-worktree staged content.
+      discriminating_case: >-
+        A staged valid file cannot certify an unstaged malformed replacement, and local
+        junk must not contaminate the staged-only result.
+      suite: check
+      outcome: passed
+    - condition: malformed
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: b55fe0e453c77327327b712c26a677aacb1f6755f55bfe5c6610e104108cfb6a
+        excerpt: malformed_versions_duplicates_and_unknown_fields_are_not_repaired
+      assertion: >-
+        Rejects malformed project/adoption versions, duplicate and unknown config
+        fields without repair; companion tests reject index link placeholders, missing guide
+        and physical Unix directory links.
+      discriminating_case: >-
+        An ordinary Windows text placeholder with Git link mode must remain a link
+        finding; missing guide must not cause scaffold creation.
+      suite: check
+      outcome: passed
+    - condition: boundaries
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/workflow.md
+        sha256: 6bacd9895b5bd7d3ad58e1651839c52e89af7633808ad03be35773c87eda1bf9
+        excerpt: state resolve
+      assertion: >-
+        Reviewed both shared references, local-state spec, schemas and CLI wiring
+        against issue 87; no automatic state writes on default checks, decision
+        authentication, public upload, cleanup, policy migration or historical qualification. Inspector
+        explicitly retains old ledgers pending issue 88/90 migration.
+      discriminating_case: >-
+        A content digest or source match is not human consent or a fresh passing
+        execution; allowed Markdown paths do not certify useful prose.
+      automation_limitation: >-
+        Semantic instruction and content placement review cannot establish live-agent
+        continuation quality. Native CI and frozen issue-91 trials remain separately
+        required; no live effectiveness claim.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent source and assertion review
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/87#note_3974960518"
+      rationale: >-
+        Reviewed actual conditions, assertions, schema boundaries and shared guidance
+        against issues 81 and 87; this is semantic agent review, not developer consent or
+        live effectiveness.
+      subject_sha256: 19ff0112e9335ffa95a97ec99f84263ea102f35d797088eff3e088fbf0e72d39
+- fingerprint: 2baa47aab8e389eab74f0a1eeba9ad437dc68a75b586a54d9289aeba1298ded6
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: >-
+      Approved roadmap bounds local continuation and the read-only layout
+      prerequisite.
+    evidence:
+    - kind: work
+      summary: >-
+        Issue 87 owns resolver and attempts; issue 81 retains migration and
+        enforcement, issue 88 portable evidence, issue 91 live continuation. No release or consumer
+        update.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: >-
+      Existing checks, reference subjects and writer primitives are extended without
+      another approval engine.
+    evidence:
+    - kind: contract_review
+      summary: >-
+        Reviewed platform roles, identity limitations, strict schemas, separate
+        attempts, lock lifetime, stale guards, original-authority requirements and reversal
+        trigger. No cache can supply qualification.
+      location: spec/workflow-records.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: >-
+      GitLab remains the active integration path with exact-source ARM64
+      qualification.
+    evidence:
+    - kind: ci_observation
+      summary: >-
+        Prior candidate pipeline 2924957749 passed all eight jobs before MR65
+        integration. This increment still requires its own candidate and integrated checks.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924957749
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the single integration and release-source trunk.
+    evidence:
+    - kind: workflow_review
+      summary: >-
+        No branch-role, project policy, CI definition or delivery-path change. Source
+        branch includes integrated main 4a0c893.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: >-
+      One bounded continuation increment includes its read-only placement
+      prerequisite.
+    evidence:
+    - kind: branch_review
+      summary: >-
+        Current main is merged; later full layout migration and evidence portability
+        are not hidden in this source branch. Required checks precede integration.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Default checks and runtime paths retain their existing behavior.
+    evidence:
+    - kind: source_review
+      summary: >-
+        State writes require explicit retain-state, retain-draft or context arguments.
+        Inspection cannot migrate policy or remove legacy ledgers. Existing source and
+        acceptance checks remain authoritative.
+      location: crates/opdev-cli/src/local_state.rs
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: >-
+      Actual process assertions cover successful, interrupted, failed, stale and
+      conflicting use.
+    evidence:
+    - kind: assertion_review
+      summary: >-
+        Exact retained reports, three distinct attempts, unverified no-exec, actual
+        command-start marker, stale-head preservation, isolated clone/worktree keys and
+        competing-writer exit pairs are checked, not just output labels.
+      location: crates/opdev-cli/tests/local_state.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: >-
+      Regression cases protect history, read-only inspection and malformed-input
+      boundaries.
+    evidence:
+    - kind: regression_review
+      summary: >-
+        Side-effecting declared command proves inspection cannot run tests; changed
+        completed bytes, unknown schema, Git link placeholders, omitted guide and
+        unsupported namespace paths cannot silently pass or trigger repairs.
+      location: crates/opdev-cli/tests/layout.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: Development failures remain visible with no hidden retries or quarantine.
+    evidence:
+    - kind: execution_review
+      summary: >-
+        Corrected missing manifest API, empty discovered fixture commands, no-exec
+        oracle and closure type annotations. These setup/compiler/oracle failures are not
+        behavioral red evidence. Focused process tests passed; full canonical execution
+        follows this review.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/87#note_3974960518"
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: >-
+      Reviewed actual implementations, schemas, assertions and guidance against
+      accepted scope.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Review checked no qualification deserialization path, strict record validation,
+        no automatic upload/deletion, preservation of prior state, source/config binding
+        and explicit limits. Agent review is not human attribution or live effectiveness.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/87#note_3974960518"
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: >-
+      Platform guidance and bounded failure experiments inform implementation;
+      broader migration and live outcomes remain open.
+    evidence:
+    - kind: contract_review
+      summary: >-
+        Permanent interfaces and limitations stay in spec; task sequence stays in
+        GitLab. Pure mapping tests do not claim native macOS execution. Lock hardening does
+        not assert the cause of every historical contention failure.
+      location: spec/workflow-records.md
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: Maintainer approved representative local-state and proposed-layout diagnostics.
+    evidence:
+    - kind: maintainer_review
+      summary: >-
+        Actual Approved response covers continuation-only, stale context, changed
+        report and unfinished_or_interrupted wording; no interpretation as release
+        authorization.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/87#note_3974944357"
+    - kind: maintainer_review
+      summary: >-
+        Actual Approved response covers inspection not qualification, preserve legacy
+        ledger pending verified migration and classify unknown paths without cleanup.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3974923919"
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Current main is green; no red trunk is bypassed.
+    evidence:
+    - kind: ci_observation
+      summary: Integrated main 4a0c893216bbfaaded73f1629785f277842fa392 passed all seven jobs in pipeline 2924974597; exact-source ARM64 run 37728275385 also passed. Current candidate still requires its own CI and post-merge checks.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924974597
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Required test commands are executable; current source still requires the fresh canonical run.
+    evidence:
+    - kind: execution_review
+      summary: Prior 87-premerge-1 completed formatting, strict lint and workspace tests. Portable-name correction then passed its focused test and strict lint after a meaningful device-guard mutation failure; no earlier full result is substituted for this source.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3974974286
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Issue 87 local continuation and its issue 81 read-only namespace prerequisite.
+      Covers concrete resolver, attempts, draft and concurrent-write behavior. Does not
+      claim full strict-layout migration, portable archive, live-host effectiveness,
+      authentication of decisions or release readiness. Those remain separately tracked.
+    conditions:
+    - id: identity
+      statement: >-
+        One read-only resolver isolates local clones and worktrees without executing
+        project commands or scaffolding state.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: Linked worktrees share a repository
+    - id: context
+      statement: >-
+        Context resumes bounded references but cannot confer consent; stale writers and
+        unsupported schemas preserve history.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: unknown field is not silently repaired.
+    - id: attempts
+      statement: >-
+        Distinct failed and repaired attempts retain exact reports, detect changed
+        bytes and never supply another check.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: No prior attempt is selected as a fallback.
+    - id: interrupted
+      statement: >-
+        Interruption after an actual command starts cannot create success or be
+        completed by a later run.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: means unfinished/unknown, not passed or a manufactured failed test.
+    - id: writer
+      statement: >-
+        Cooperating stale or simultaneous writers cannot overwrite the winner;
+        duplicate handles do not retain a completed writer lock.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: Real contention still fails immediately
+    - id: placement
+      statement: >-
+        State, source, Git metadata and cache remain separate, with explicit platform
+        roles and no runtime relocation.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: must not overlap.
+    - id: drafts
+      statement: >-
+        Retained acceptance drafts reset optimistic claims and cannot write an
+        unreviewed ledger.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: All mapping/review decisions still start unverified
+    - id: layout
+      statement: >-
+        Proposed layout inspection distinguishes local ignored content from staged
+        content while preserving files, external authorities and Git configuration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: ac9cad44c8f915e8690cffd1ba5565691ff879679c7e1be68c19a741840c21f4
+        excerpt: Working-tree
+    - id: malformed
+      statement: >-
+        Unsafe links, malformed versions, duplicate keys, unknown fields and missing
+        files produce findings without repairs.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: ac9cad44c8f915e8690cffd1ba5565691ff879679c7e1be68c19a741840c21f4
+        excerpt: duplicate keys and unsupported config versions are findings, not repairs.
+    - id: portability
+      statement: >-
+        Proposed portable paths reject Windows device names and case-folding file or
+        directory conflicts on all platforms.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81
+      source:
+        path: spec/documentation-layout.md
+        sha256: ac9cad44c8f915e8690cffd1ba5565691ff879679c7e1be68c19a741840c21f4
+        excerpt: names with extensions) and case-folding path collisions are findings on every
+    - id: boundaries
+      statement: >-
+        Shared guidance preserves original authorities, separates references from
+        qualification and keeps migration, cleanup and release explicit.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/87
+      source:
+        path: spec/workflow-records.md
+        sha256: 623cdb45f75cb2c1ff41302834f4b03191b2df3b9feb2f53da740d4059251848
+        excerpt: >-
+          There is no cross-revision execution reuse, automatic upload or release
+          authority.
+    verifications:
+    - condition: identity
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: readonly_resolution_is_stable_and_clones_worktrees_are_isolated
+      assertion: >-
+        Repeated resolutions are equal; worktrees share repo but not worktree identity;
+        a clone gets another repo identity; inspect creates no state and preserves Git
+        config/status.
+      discriminating_case: >-
+        An implementation keying only by remote or invoking the declared side-effect
+        command fails these assertions.
+      suite: check
+      outcome: passed
+    - condition: context
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: context_resumes_references_but_never_consent_and_stale_writers_preserve_history
+      assertion: >-
+        Reads exact references with unverified qualification, archives original bytes,
+        refuses stale expected digest and approval field, reports changed source stale,
+        rejects version 99 without rewriting it.
+      discriminating_case: >-
+        Reusing the old expected digest after an update must fail even if an author
+        requests a different pointer.
+      suite: check
+      outcome: passed
+    - condition: attempts
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: retained_checks_keep_distinct_failures_and_never_supply_a_later_gate
+      assertion: >-
+        Actual missing-ref command fails; no-exec stays unverified; repaired command
+        passes separately; three attempts survive with unchanged failure bytes; tampered
+        report and traversal are rejected.
+      discriminating_case: >-
+        A saved green or failed report cannot turn a new no-exec observation into
+        passed; the first failed report is never overwritten.
+      suite: check
+      outcome: passed
+    - condition: interrupted
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: killed_check_preserves_unfinished_attempt_and_a_new_run_does_not_complete_it
+      assertion: >-
+        Waits for the actual canonical command marker, kills only the fixture parent,
+        inspects unfinished_or_interrupted, then proves a second run preserves the
+        original start and absence of completion.
+      discriminating_case: >-
+        Killing before command start or treating a later run as the same attempt cannot
+        satisfy the assertions.
+      suite: check
+      outcome: passed
+    - condition: writer
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/local_state.rs
+        sha256: 4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1
+        excerpt: simultaneous_context_writers_keep_one_head_without_overwriting_the_winner
+      assertion: >-
+        Two processes using expected absent yield exactly one success and one error,
+        one valid reference head and clean source; state_io unit tests additionally
+        exercise duplicate-handle release and error/Drop paths.
+      discriminating_case: >-
+        Both callers succeeding or the loser replacing the winner violates
+        expected-head ownership; a live duplicate handle must not retain a released lock.
+      suite: check
+      outcome: passed
+    - condition: placement
+      method: automated
+      target:
+        path: crates/opdev-cli/src/local_state.rs
+        sha256: ae143fa3f2a5179a6e9f10df0fbe589eeecdfb6bb00e31df0215b8714e395366
+        excerpt: platform_roles_and_overrides_are_tested_without_mutating_process_environment
+      assertion: >-
+        Pure platform tests assert Windows/macOS/XDG roles, relative-XDG fallback and
+        override isolation; process tests reject relative/source/Git collisions, with
+        Unix-only link and mode tests in native CI.
+      discriminating_case: >-
+        State override must not move cache or runtime; source/Git collision must not
+        create files. Simulated platform mapping is not a claim of native macOS execution.
+      suite: check
+      outcome: passed
+    - condition: drafts
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_prepare.rs
+        sha256: 1f641c75e4e9e7baed0456a8bfa5c6291f39b663d51f74138062105b32bb1c1e
+        excerpt: retained_drafts_use_private_state_and_always_start_unreviewed
+      assertion: >-
+        Caller passed outcomes are reset, draft attempts have different paths,
+        unresolved application fails, and ledger plus Git status remain unchanged.
+      discriminating_case: >-
+        A provided optimistic review must not survive mechanical preparation merely
+        because it was saved privately.
+      suite: check
+      outcome: passed
+    - condition: layout
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: b55fe0e453c77327327b712c26a677aacb1f6755f55bfe5c6610e104108cfb6a
+        excerpt: minimal_and_optional_durable_layouts_remain_read_only_and_unqualified
+      assertion: >-
+        Valid required/optional roles inspect with qualification unverified and
+        unchanged manifest, external docs, config and status; companion tests distinguish
+        ignored local junk from own-worktree staged content.
+      discriminating_case: >-
+        A staged valid file cannot certify an unstaged malformed replacement, and local
+        junk must not contaminate the staged-only result.
+      suite: check
+      outcome: passed
+    - condition: malformed
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: b55fe0e453c77327327b712c26a677aacb1f6755f55bfe5c6610e104108cfb6a
+        excerpt: malformed_versions_duplicates_and_unknown_fields_are_not_repaired
+      assertion: >-
+        Rejects malformed project/adoption versions, duplicate and unknown config
+        fields without repair; companion tests reject index link placeholders, missing guide
+        and physical Unix directory links.
+      discriminating_case: >-
+        An ordinary Windows text placeholder with Git link mode must remain a link
+        finding; missing guide must not cause scaffold creation.
+      suite: check
+      outcome: passed
+    - condition: portability
+      method: automated
+      target:
+        path: crates/opdev-cli/src/layout.rs
+        sha256: 8fe8e5eff658498b614bb90a24a706a83cc454b409d967bb6c3ff6961139d3a5
+        excerpt: portable_names_reject_windows_devices_with_extensions_and_directory_aliases
+      assertion: >-
+        Rejects device names with extensions and nested device directories, permits
+        similar ordinary names, and returns both sides of file and ancestor-directory case
+        collisions.
+      discriminating_case: >-
+        Bypassing the device guard caused the assertion to fail at CON.md; restoring it
+        passed. COM10 and consumer must stay allowed, unlike COM1.
+      suite: check
+      outcome: passed
+    - condition: boundaries
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/workflow.md
+        sha256: 6bacd9895b5bd7d3ad58e1651839c52e89af7633808ad03be35773c87eda1bf9
+        excerpt: state resolve
+      assertion: >-
+        Reviewed both shared references, local-state spec, schemas and CLI wiring
+        against issue 87; no automatic state writes on default checks, decision
+        authentication, public upload, cleanup, policy migration or historical qualification. Inspector
+        explicitly retains old ledgers pending issue 88/90 migration.
+      discriminating_case: >-
+        A content digest or source match is not human consent or a fresh passing
+        execution; allowed Markdown paths do not certify useful prose.
+      automation_limitation: >-
+        Semantic instruction and content placement review cannot establish live-agent
+        continuation quality. Native CI and frozen issue-91 trials remain separately
+        required; no live effectiveness claim.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent source and assertion review
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3974974286"
+      rationale: >-
+        Reviewed all prior local-state and namespace conditions plus the new
+        portable-path assertions, observed a bounded device-guard mutation fail and its repair
+        pass, and rechecked unchanged source against issue-87 review note 3974960518. Not
+        human consent or live effectiveness.
+      subject_sha256: fccf30b0e05ead57560ed0874b7afe97a793ca909bb07fff73b6e452eaa27c29

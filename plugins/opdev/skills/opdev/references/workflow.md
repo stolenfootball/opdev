@@ -78,6 +78,23 @@ For operated software, collect user-centered health and diagnostic evidence afte
 
 ## Resume from existing evidence
 
+With CLI capability `state.local.v1`, use read-only `state resolve` and `state
+inspect` when local continuation is useful. Both host integrations use this
+resolver; do not invent repository scratch paths or copy project policy into
+host settings. Missing context is not missing adoption. A stored pointer is only
+derived references: read the original work/decision scope, revocation and current
+status before reuse. A stale pointer is not permission to repeat settled questions
+or reuse old qualification. Existing workflow inspection remains the reader for
+retained attributed events, not a new authority.
+
+At an already-required check, `check --retain-state` may retain that same invocation
+outside Git. It does not run an extra suite or enable execution reuse. Use `state
+attempt <id>` to inspect that exact attempt; preserve failed and interrupted runs.
+No completion means unfinished/unknown, not success. Do not use saved diagnostics
+to satisfy a later gate, upload them automatically, or put raw private conversation
+into context. Read-only resolution creates nothing; unsupported clients retain the
+existing workflow without an automatic installation or migration.
+
 At a context handoff, read the current work authority and only the relevant
 decisions/evidence. Do not restart completed research, adoption or settled user
 questions without a changed fact. Distinguish completed work from whether its

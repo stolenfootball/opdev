@@ -114,7 +114,7 @@ fn evidence_matches(root: &Path, evidence: &ContentReference) -> bool {
     content_digest(&path).is_ok_and(|digest| digest == evidence.sha256)
 }
 
-fn content_digest(path: &Path) -> Result<String> {
+pub(super) fn content_digest(path: &Path) -> Result<String> {
     let metadata = fs::symlink_metadata(path)?;
     ensure!(
         metadata.is_file() && !metadata.file_type().is_symlink(),
@@ -148,20 +148,18 @@ fn append(path: &Path, event: Event, expected: &str, work: &str) -> Result<Strin
         .context("journal needs a filename")?
         .to_string_lossy();
     let lock_path = parent.join(format!(".{name}.opdev-lock"));
-    if let Ok(meta) = fs::symlink_metadata(&lock_path) {
-        ensure!(
-            meta.is_file() && !meta.file_type().is_symlink(),
-            "journal lock is not a regular file"
-        );
-    }
-    let lock = File::options()
-        .read(true)
-        .write(true)
-        .create(true)
-        .truncate(false)
-        .open(lock_path)?;
-    lock.try_lock()
-        .context("another workflow writer is active; inspect the latest state before retrying")?;
+    crate::state_io::with_lock(&lock_path, || {
+        append_locked(path, parent, event, expected, work)
+    })
+}
+
+fn append_locked(
+    path: &Path,
+    parent: &Path,
+    event: Event,
+    expected: &str,
+    work: &str,
+) -> Result<String> {
     let before = match read(path) {
         Ok(bytes) => Some(bytes),
         Err(error)

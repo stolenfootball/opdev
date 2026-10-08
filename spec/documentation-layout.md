@@ -1,6 +1,8 @@
 # Documentation locations and ownership
 
 The project contract, rather than a folder name, selects authoritative material.
+The following defaults describe legacy layouts; the explicit strict target and
+its read-only inspection are defined below. Inspection alone changes no policy.
 OpDev configuration and evidence live in `.opdev/`. For projects without an
 established structure, internal working documentation SHOULD also live there:
 
@@ -30,6 +32,91 @@ TODO, or STATUS documents or duplicate command definitions for convenience.
 If work is tracked in repository files, explicitly route that existing authority
 rather than imposing a second tracker. Durable specifications describe behavior
 and rationale, not a second copy of the live backlog.
+
+## Strict namespace contract (layout 1)
+
+The strict target replaces the internal placement defaults above only through an
+explicit version-aware project migration. Existing schema-1/2/3 contracts and
+their authorities are not automatically rewritten or opted into enforcement.
+The read-only inspection below checks a proposed destination structure; it is
+not evidence that migration, shared entry guidance or external evidence storage
+is implemented. Old ledgers must remain until retention/retrieval is verified.
+
+| Required location | Owner and meaning |
+| --- | --- |
+| `.opdev/project.yaml` | Effective versioned policy, commands and authority routing |
+| `.opdev/adoption.yaml` | Reviewed decisions and their provenance, not current execution proof |
+| `.opdev/guidance.md` | One managed versioned entry guide shared by both agent hosts |
+
+Optional durable Markdown has fixed roles at `.opdev/docs/design.md`,
+`development.md`, `testing.md` and `delivery.md`; focused specifications go in
+`.opdev/docs/specs/<capability>.md`, decisions in
+`.opdev/docs/decisions/<id>-<decision>.md`, and referenced supporting assets in
+`.opdev/docs/assets/`. Use portable ASCII letter/digit/hyphen/underscore/dot names
+without traversal or ambiguous trailing characters. Paths are also constrained
+by cross-platform names: Windows reserved device names (including
+names with extensions) and case-folding path collisions are findings on every
+platform. This follows [Windows naming rules](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file);
+inspection does not rename either conflicting path. Supported asset formats are
+PNG, JPEG (`jpg`/`jpeg`), GIF, WebP, SVG and PDF. A permitted asset path is not proof
+its bytes are safe or its reference meaningful. No scripts, archives, package
+caches, runtime installs, extra config formats or miscellaneous escape folders
+belong in this namespace. Adequate custom authorities outside `.opdev` remain
+project-owned and do not need a duplicate internal document.
+
+Use only justified documents, not empty scaffolds. A specification describes
+observable behavior, boundaries, errors and verification; a decision describes
+context, alternatives, decision and consequences; operational guidance describes
+enduring prerequisites, actions, checks and recovery. Adapt headings to the
+actual content. These concise roles are templates, not a semantic heading gate.
+Work status, milestone order, task-specific acceptance, investigation dumps,
+transcripts and growing execution histories belong to their tracker or retained
+local/evidence owner, not another document in `.opdev`. Important research
+conclusions and recovery procedures remain durable knowledge.
+
+The shared guide is the authority for OpDev instructions; short marked root
+AGENTS/CLAUDE sections route to it without duplicating its full text or containing
+machine-specific cache paths. Preserve unrelated instructions and imports.
+Readers must reload the guide and relevant contract authorities after context
+reset, retain routine/external-operation exclusions, and report missing guidance
+or runtime with a repair/install offer rather than silently installing or
+improvising a replacement. Moving text alone establishes no token-saving claim.
+These are migration requirements, not permission for an inspector to edit files.
+
+### Read-only proposed-layout inspection
+
+`opdev layout inspect --layout-version 1 --scope working-tree|index` is a bounded
+local inventory, usable from subdirectories and linked worktrees. Working-tree
+scope includes ignored/untracked files; index scope reads the inspected worktree's
+staged regular Git blobs and ignores unstaged substitutes. Both reject index links
+(including Windows link placeholders), unresolved index entries and unsupported
+paths. Filesystem links/reparse points are not traversed. Unknown directories
+are reported at their boundary without reading their contents; configuration
+content is parsed only at the known contract/adoption paths. Unknown fields,
+duplicate keys and unsupported config versions are findings, not repairs.
+
+Exit 0 means no structural finding in that scope, not valid policy, completed
+adoption or useful documentation. Exit 1 means findings; exit 2 means malformed
+arguments or inspection failure. JSON follows `layout-inspection.schema.json`
+and always retains `qualification: unverified`. Human output escapes path control
+characters. The inspector runs read-only Git queries, never project commands,
+network requests, installs, cleanup or a full behavior suite. It creates no files.
+Its bounded walk/config reads are safety limits, not universal project file quotas;
+exceeding them is an inspection error rather than a partial success. Observations
+are not an atomic snapshot and cannot establish source freshness for a gate.
+
+An old `.opdev/evidence.yaml` produces a specific storage-migration finding with
+instructions to preserve it pending verified retention/retrieval. There is no
+`.opdev/archive` exception. Content placement, meaningful asset references,
+managed-guide currency and actual fresh-agent behavior require their own review;
+an empty or misleading Markdown file is not certified by this structural check.
+Existing check/init/upgrade behavior is unchanged by invoking inspection.
+
+The design favors a strict small namespace plus explicit migration over deleting
+unknown files or a keyword classifier for arbitrary prose. Revisit its supported
+roles/formats when a concrete durable use cannot fit without duplication; changes
+must be versioned, not a silent catch-all. Runtime and evidence retention remain
+separate from durable documentation ownership.
 
 ## Prospective placement check
 
@@ -96,7 +183,9 @@ CI gate, document registry or mandatory reviewer is introduced.
 These defaults MUST NOT override existing authority locations. Existing
 project-owned files, directories, and symlinks MUST NOT be overwritten, moved,
 or repurposed automatically to match a default. An explicitly configured
-location inside `.opdev/`, an external URL, or another folder remains valid.
+location inside legacy `.opdev/`, an external URL, or another folder remains valid
+until an explicit migration; the strict namespace does not permit arbitrary
+internal overrides. Adequate external authorities remain valid after migration.
 Agents MUST inspect ownership and existing content before assigning a purpose.
 If an established authority is suitable, reuse it. Otherwise choose an unused
 location appropriate to the repository and record it in `authorities` and

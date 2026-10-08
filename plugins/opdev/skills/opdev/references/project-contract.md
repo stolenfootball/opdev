@@ -87,6 +87,18 @@ Folder names alone do not establish their contents as authoritative.
 
 ### Before writing a document
 
+For an explicitly requested strict-layout assessment, a CLI advertising
+`layout.inspect.v1` can run `layout inspect --layout-version 1` without writes.
+The default inventories working-tree files, including ignored/untracked entries;
+`--scope index` instead reads staged Git blobs. This previews the proposed three
+required files (project/adoption/shared guidance) and optional `.opdev/docs/`
+roles; it does not migrate existing projects or enable new check enforcement.
+Inspect findings and actual content purpose, preserve adequate external authorities,
+and never delete the old evidence ledger merely to obtain a clean layout report.
+Retention and retrieval must be proved before evidence migration. Exit zero is
+structural inspection only, not useful-document certification or agent behavior.
+Do not run this assessment on every ordinary task or silently install a new CLI.
+
 For a new document or a substantial expansion, classify the intended content
 before choosing a destination. This is a brief reasoning check, not a new file,
 approval ceremony or required reviewer:
