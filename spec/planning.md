@@ -150,6 +150,9 @@ committed scope, not optional ideas; "plan this" authorizes no implementation.
 Persisting toward an outcome does not expand release, delegation, installation,
 spending, external-action or policy authority. Status questions do not cancel
 ongoing work; replacing, narrowing, pausing and revoking instructions do change it.
+Distinguish a progress interruption from a standalone status/review request before
+selecting the workflow. The latter does not authorize implementation, and an
+unfinished backlog or agent-authored note does not establish a standing assignment.
 SC-02: Before yielding because one item is blocked, identify what the blocker
 actually prevents. Resolve it within existing authority when possible, or ask the
 necessary focused question and continue meaningful authorized independent work.

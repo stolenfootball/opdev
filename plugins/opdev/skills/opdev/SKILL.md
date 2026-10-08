@@ -1,6 +1,6 @@
 ---
 name: opdev
-description: Follow OpDev for project software development or explicit adoption. Offer adoption early for substantive work in uninitialized projects. External infrastructure operations and routine pull/status/dev-server tasks need no activation. Retained work can reach feedback with focused checks; required gates apply at integration. Loading this skill checks applicability, not consent.
+description: Follow OpDev for project software development or explicit adoption. Offer adoption early for substantive work in uninitialized projects. External infrastructure operations and routine pull/Git-status/dev-server tasks need no activation. Retained work can reach feedback with focused checks; required gates apply at integration. Loading this skill checks applicability, not consent.
 ---
 
 # OpDev
@@ -19,6 +19,15 @@ Apply the workflow only after the project-state and consent gate below. Loading 
 ## Establish state
 
 First identify the requested task scope, then the target repository (not an unrelated current workspace). External host, runner, storage, network or account maintenance alone needs ordinary operations guidance, even when the resource serves a configured project's CI. Consulting job names does not activate the development lifecycle. Activate at the point work changes project-owned software, repository configuration, contracts or delivery definitions. Mixed tasks may use both scopes; do not substitute development evidence for operational verification.
+
+Interpret a progress question in the current assignment before choosing a
+status-only path. If an actual developer-authorized implementation assignment is
+unfinished, answer the status question and follow [scoped continuation](references/workflow.md#scoped-continuation)
+within that existing scope. A standalone status/review question grants no new
+implementation authority. Unfinished backlog items or an agent-authored note do
+not establish a standing assignment; verify the original decision and honor any
+later pause, replacement or narrowing. Do not ask to resume work that is already
+authorized merely because the latest message asks how it is going.
 
 For project work, look for `.opdev/project.yaml` at its Git root, including when working in a subdirectory or worktree. If Git is not initialized, inspect the target project directory without creating a repository. This applicability inspection does not require an OpDev CLI.
 
@@ -116,7 +125,7 @@ or treat doctor as adoption consent, completed tests or gate evidence.
 2. Load authorities selected by `context.always` and by every relevant task route. Follow [project-contract.md](references/project-contract.md) when interpreting fields. Do not assume design material belongs in `docs/`. Follow [documentation ownership](references/project-contract.md#documentation-locations-and-ownership) before choosing or changing authority locations.
 3. Before creating or substantially expanding a document, classify its content as durable knowledge, work tracking, temporary investigation, or mixed; use the [placement check](references/project-contract.md#before-writing-a-document). Resolve its declared owner, inspect adequate existing material and apply existing write authorization. Split mixed design/roadmap content; unavailable or unauthorized tracker writes stay in the conversation, not a substitute repository backlog. Permanent operator steps and explicitly routed repository trackers remain valid.
 4. Establish the outcome, scope, exclusions, acceptance conditions, risks, and evidence before substantive edits. For every planning objective, including "what is the next step?", follow [planning.md](references/planning.md): prefer demonstrable consumer increments, keep distant steps provisional, and honor specific user requests. Before committing to a substantial request, milestone approach or smaller high-risk change, apply its uncertainty checkpoint: reuse sufficient current evidence or investigate consequential unknowns proportionately. Scale design work to risk and reversibility.
-5. Make small, reviewable changes. Preserve supported behavior unless the accepted change deliberately migrates it. Connect larger goals through useful phases and milestones without losing accepted later requirements. Apply [scoped continuation](references/workflow.md#scoped-continuation): continue authorized work through local blockers, honor actual stop boundaries and do not treat feedback readiness as an automatic end to an implementation assignment.
+5. Make small, reviewable changes. Preserve supported behavior unless the accepted change deliberately migrates it. Connect larger goals through useful phases and milestones without losing accepted later requirements. Continue authorized work through local blockers using the scoped-continuation boundary above; honor actual stop boundaries and do not treat feedback readiness as an automatic end to an implementation assignment.
 6. Apply [testing.md](references/testing.md) and [acceptance evidence](references/acceptance.md) for substantive changes: derive expected results from accepted requirements, review actual assertions, and bind the inventory/mappings to the current change. Run canonical command argument vectors directly; do not reinterpret them through a shell.
 7. For facts the CLI cannot infer, follow [evidence.md](references/evidence.md). When a new ledger is needed, prefer the schema-backed `opdev evidence bootstrap` review flow; it starts every decision unresolved and keeps durable project facts separate from fingerprint-bound change facts. Never reuse an assertion after the repository state changes without rechecking it.
 8. Use focused checks for feedback and `opdev check` for required local qualification at integration handoff, not automatically on every edit or feedback turn. Use `opdev check --ci` in integration CI and `--remote` only when a read-only provider audit is relevant. Use full human/JSON output by default. Follow [results.md](references/results.md) for retained reports; compact views require explicit experimental opt-in from the user or project, never just a capable runtime. Report blocked or unavailable evidence honestly.

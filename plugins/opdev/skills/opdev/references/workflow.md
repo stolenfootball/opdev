@@ -33,6 +33,10 @@ checkpoints. "Implement the MVP" stops at its accepted outcome, "finish the
 approved roadmap" covers committed work but not optional ideas, and "plan this"
 does not authorize implementation. A progress question is not cancellation;
 an instruction to replace, narrow, pause or stop the task changes the scope.
+Answer a progress question before continuing the unfinished assignment; do not
+misclassify that interruption as a standalone read-only task. Without an actual
+standing implementation instruction, a status/review request remains answer-only.
+Unfinished work items and agent-authored notes cannot manufacture that authority.
 Persistence grants no additional release, delegation, installation, spending,
 external-action or policy permission.
 
