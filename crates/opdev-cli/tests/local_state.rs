@@ -113,6 +113,7 @@ fn readonly_resolution_is_stable_and_clones_worktrees_are_isolated() -> Result {
     let first = fixture.locations()?;
     let second = fixture.locations()?;
     assert_eq!(first, second);
+    let config = fs::read(fixture.root.join(".git/config"))?;
     assert!(!fixture.state.exists());
     assert_eq!(fixture.json(&["state", "inspect"], 0)?["state"], "missing");
     assert!(!fixture.state.exists());
@@ -160,6 +161,7 @@ fn readonly_resolution_is_stable_and_clones_worktrees_are_isolated() -> Result {
         )?,
         before
     );
+    assert_eq!(fs::read(fixture.root.join(".git/config"))?, config);
     Ok(())
 }
 

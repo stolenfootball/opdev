@@ -28,14 +28,24 @@ fn fixture() -> Result<tempfile::TempDir> {
     let root = temp.path();
     git(root, &["init", "--quiet"])?;
     let mut project = discover(root)?.manifest;
-    for command in project.commands.values_mut() {
-        command.argv = vec![
-            "git".into(),
-            "config".into(),
-            "opdev.executed".into(),
-            "true".into(),
-        ];
-    }
+    project.commands.insert(
+        "check".into(),
+        opdev_project::CommandSpec {
+            argv: vec![
+                "git".into(),
+                "config".into(),
+                "opdev.executed".into(),
+                "true".into(),
+            ],
+            working_directory: None,
+            timeout_seconds: Some(10),
+        },
+    );
+    project.testing.suites = vec![opdev_project::TestSuite {
+        id: "behavior".into(),
+        command: "check".into(),
+        stages: vec![opdev_project::TestStage::Local],
+    }];
     project.write_new(&root.join(MANIFEST_PATH))?;
     AdoptionRecord::pending()?.write_new(root)?;
     fs::write(
