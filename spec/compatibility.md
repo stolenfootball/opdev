@@ -132,6 +132,12 @@ release version follows from introducing this interface. Capability-based safegu
 are independently selected by `acceptance.safeguards.v1`; catalog/schema choices
 and changed assurance remain visible rather than being attributed to a plugin update.
 
+Development capability `adoption.external-review.v1` uses the selected authenticated
+semantic review for adoption verification without a legacy repository ledger.
+Its exact locator and independent acceptance identity follow ordinary check;
+current adoption assertions, canonical execution and source freshness still apply.
+It does not migrate project policy or establish approval by retrieval.
+
 Development capability `evidence.authenticated-review.v1` adds an explicit
 schema-3 review-storage boundary and independent schema-1 semantic-review/work
 observation records. Legacy projects retain their ledger and previous qualification

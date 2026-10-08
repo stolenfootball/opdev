@@ -248,6 +248,17 @@ separate integration evidence. This is not permission to omit integrated testing
 
 ## Verify completion
 
+Inspect the selected evidence store before preparing verification. With external
+`assurance.review_storage`, require `adoption.external-review.v1` and use
+`adoption check --review-locator FILE --review-acceptance-sha256 ID` with the exact
+authenticated record selected at the existing work authority. Prepare and retain
+the semantic review through [evidence.md](evidence.md); its current change still
+needs the adoption assertions below. Do not recreate `.opdev/evidence.yaml` to
+satisfy an old verifier. Missing capability is an upgrade gap, not permission to
+restore retired evidence or manufacture qualification. Legacy projects use the
+ledger flow below. Neither path uploads evidence, migrates storage or authorizes
+release. Final integration evidence remains separately required.
+
 Stage all material files, including the adoption record. Follow [evidence.md](evidence.md)
 for a new ledger or direct maintenance. The matching change must have passed
 OPDEV-WORK-001 and OPDEV-TEST-002 assertions, each with reviewed evidence like:

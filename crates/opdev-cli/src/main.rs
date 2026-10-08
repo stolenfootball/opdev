@@ -1017,13 +1017,14 @@ fn print_capability(name: &str, capability: &Capability) {
 }
 
 fn selected_review(
-    args: &CheckArgs,
+    review_locator: Option<&PathBuf>,
+    review_acceptance_sha256: Option<&str>,
     root: &Path,
     manifest: &ProjectManifest,
     stage: opdev_project::TestStage,
 ) -> Result<Option<opdev_engine::ValidatedReview>> {
-    args.review_locator.as_ref().map(|path| -> Result<_> {
-        let acceptance = args.review_acceptance_sha256.as_deref().context("Acceptance identity required")?;
+    review_locator.map(|path| -> Result<_> {
+        let acceptance = review_acceptance_sha256.context("Acceptance identity required")?;
         anyhow::ensure!(acceptance.len() == 64 && acceptance.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
             "Acceptance identity must be a lowercase SHA-256 digest; no provider request made");
         let bytes = local_state::read(&std::path::absolute(path)?)?.context("Semantic review locator is missing")?;
@@ -1106,7 +1107,13 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         }
         return Ok(ExitCode::SUCCESS);
     }
-    let review = selected_review(args, &root, &manifest, options.test_stage)?;
+    let review = selected_review(
+        args.review_locator.as_ref(),
+        args.review_acceptance_sha256.as_deref(),
+        &root,
+        &manifest,
+        options.test_stage,
+    )?;
     let retained = args
         .retain_state
         .then(|| local_state::Attempt::start(&root, &manifest, options))

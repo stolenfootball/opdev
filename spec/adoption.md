@@ -235,9 +235,23 @@ checks; do not rerun adoption research on every change.
 
 ## Completion evidence
 
+With capability `adoption.external-review.v1` and selected external review storage,
+`adoption check --review-locator FILE --review-acceptance-sha256 ID` uses the same
+authenticated exact-provider selection as ordinary `check`. The independently
+selected acceptance identity, source, configuration and pre-merge stage must match.
+The selected semantic record supplies the adoption assertions described below;
+there is no active repository ledger. Missing selection, wrong origin, stale
+inputs or conflicting legacy evidence cannot execute or qualify checks. Provider
+retrieval authenticates storage origin, not consent or the truth of assertions.
+The normal engine executes current checks and revalidates the subject; adoption
+also checks final source/evidence freshness. Saved reports are not review inputs.
+Unresolved adoption choices do not trigger provider retrieval. Legacy projects
+retain the ledger flow below. This capability does not select policy, migrate
+storage, delete history, upload evidence or authorize release.
+
 The checker first validates all dispositions, suite references and stages, agent
 file presence, and staged freshness. Before it will run project commands, the
-matching change in `.opdev/evidence.yaml` MUST contain passed OPDEV-WORK-001 and
+matching change in the selected semantic review (or legacy `.opdev/evidence.yaml`) MUST contain passed OPDEV-WORK-001 and
 OPDEV-TEST-002 assertions with an `adoption_review` evidence entry pointing to
 `.opdev/adoption.yaml`. The entry's summary identifies the actual reviewed scope,
 accepted choices/opt-outs, implementation and acceptance evidence. This specific

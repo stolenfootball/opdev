@@ -89,6 +89,12 @@ enum AdoptionCommand {
     },
     /// Verify all decisions, fresh reviewed evidence, executable checks and all core gates.
     Check {
+        /// Exact provider archive for the selected external review policy; not a saved check report.
+        #[arg(long, requires = "review_acceptance_sha256")]
+        review_locator: Option<PathBuf>,
+        /// Independently selected acceptance identity for this exact adoption change.
+        #[arg(long, requires = "review_locator")]
+        review_acceptance_sha256: Option<String>,
         #[arg(long, default_value = ".")]
         root: PathBuf,
         /// Include read-only provider auditing.
@@ -137,11 +143,22 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             remote,
         } => status(root, *format, *remote)?,
         AdoptionCommand::Check {
+            review_locator,
+            review_acceptance_sha256,
             root,
             remote,
             report,
             format,
-        } => return check(root, *remote, report.as_ref(), *format),
+        } => {
+            return check(
+                root,
+                *remote,
+                report.as_ref(),
+                *format,
+                review_locator.as_ref(),
+                review_acceptance_sha256.as_deref(),
+            );
+        }
     }
     Ok(ExitCode::SUCCESS)
 }
@@ -370,9 +387,14 @@ fn adoption_core_report(
     root: &std::path::Path,
     manifest: &opdev_project::ProjectManifest,
     remote: bool,
+    review: Option<&opdev_engine::ValidatedReview>,
 ) -> Result<opdev_engine::CheckReport> {
     let revision = remote.then(|| crate::clean_remote_revision(root)).flatten();
-    let mut report = evaluate(root, manifest, CheckOptions::pre_merge())?;
+    let mut report = if let Some(review) = review {
+        opdev_engine::evaluate_with_review(root, manifest, CheckOptions::pre_merge(), review, None)?
+    } else {
+        evaluate(root, manifest, CheckOptions::pre_merge())?
+    };
     apply_local_ci(root, manifest, &mut report)?;
     if remote {
         apply_remote_audit(root, manifest, &mut report, revision.as_deref())?;
@@ -385,6 +407,8 @@ fn check(
     remote: bool,
     report_path: Option<&PathBuf>,
     format: OutputFormat,
+    review_locator: Option<&PathBuf>,
+    review_acceptance_sha256: Option<&str>,
 ) -> Result<ExitCode> {
     if report_path.is_some_and(|path| path.symlink_metadata().is_ok()) {
         bail!("report output already exists; choose a new path");
@@ -403,7 +427,37 @@ fn check(
             None
         }
     };
-    blockers.extend(review_blockers(&root, fingerprint.as_deref())?);
+    // Do not retrieve provider evidence or execute commands for unresolved choices.
+    let review = if blockers.is_empty() {
+        crate::selected_review(
+            review_locator,
+            review_acceptance_sha256,
+            &root,
+            &manifest,
+            opdev_project::TestStage::PreMerge,
+        )?
+    } else {
+        None
+    };
+    let ledger = if manifest.assurance.review_storage.is_some() {
+        if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
+            blockers.push("adoption review: both external storage and a legacy ledger exist. Complete the reviewed storage migration before verification; preserve required history".into());
+        }
+        if let Some(review) = &review {
+            Some(
+                review
+                    .reviewed_ledger(&root, &manifest, opdev_project::TestStage::PreMerge)
+                    .map_err(anyhow::Error::msg)?
+                    .clone(),
+            )
+        } else {
+            blockers.push("adoption review: selected external storage needs --review-locator and --review-acceptance-sha256 for this change. No checks ran".into());
+            None
+        }
+    } else {
+        EvidenceLedger::load_optional(&root, &manifest.catalog()?)?
+    };
+    blockers.extend(review_blockers(ledger.as_ref(), fingerprint.as_deref()));
     for name in ["AGENTS.md", "CLAUDE.md"] {
         if !root.join(name).is_file() {
             blockers.push(format!("agents: missing {name}"));
@@ -411,8 +465,12 @@ fn check(
     }
     // Never run project commands until decisions and their explicit review are ready.
     let core_report = if blockers.is_empty() {
-        let evidence_before = std::fs::read(root.join(EVIDENCE_PATH))?;
-        let report = adoption_core_report(&root, &manifest, remote)?;
+        let evidence_before = if review.is_some() {
+            None
+        } else {
+            Some(std::fs::read(root.join(EVIDENCE_PATH))?)
+        };
+        let report = adoption_core_report(&root, &manifest, remote, review.as_ref())?;
         if !report.rules.iter().any(|rule| {
             rule.rule_id.as_str() == "MCD-PIPELINE-001"
                 && ((rule.outcome == Outcome::Passed
@@ -436,9 +494,15 @@ fn check(
             }
         }
         blockers.extend(referenced_suite_blockers(&record, &manifest, &report));
-        if staged_fingerprint(&root).ok() != fingerprint
-            || std::fs::read(root.join(EVIDENCE_PATH))? != evidence_before
-        {
+        let evidence_unchanged = if let Some(review) = &review {
+            root.join(EVIDENCE_PATH).symlink_metadata().is_err()
+                && review
+                    .reviewed_ledger(&root, &manifest, opdev_project::TestStage::PreMerge)
+                    .is_ok()
+        } else {
+            Some(std::fs::read(root.join(EVIDENCE_PATH))?) == evidence_before
+        };
+        if staged_fingerprint(&root).ok() != fingerprint || !evidence_unchanged {
             blockers.push("repository or reviewed evidence changed during verification; stage and review again".into());
         }
         if let Some(path) = report_path {
@@ -511,17 +575,14 @@ fn referenced_suite_blockers(
     blockers
 }
 
-fn review_blockers(root: &std::path::Path, fingerprint: Option<&str>) -> Result<Vec<String>> {
-    let (_, manifest) = crate::load_project(root)?;
-    let ledger = EvidenceLedger::load_optional(root, &manifest.catalog()?)?;
-    let reviewed =
-        fingerprint.and_then(|fingerprint| ledger.as_ref()?.matching_change(fingerprint));
+fn review_blockers(ledger: Option<&EvidenceLedger>, fingerprint: Option<&str>) -> Vec<String> {
+    let reviewed = fingerprint.and_then(|fingerprint| ledger?.matching_change(fingerprint));
     let mut blockers = Vec::new();
     if fingerprint.is_none() {
-        return Ok(vec!["adoption review: staged fingerprint unavailable; resolve the reported unstaged/untracked inputs first".into()]);
+        return vec!["adoption review: staged fingerprint unavailable; resolve the reported unstaged/untracked inputs first".into()];
     }
     if reviewed.is_none() {
-        return Ok(vec!["adoption review: no ledger change matches the current staged fingerprint; review this state rather than copying old assertions".into()]);
+        return vec!["adoption review: no ledger change matches the current staged fingerprint; review this state rather than copying old assertions".into()];
     }
     for id in ["OPDEV-WORK-001", "OPDEV-TEST-002"] {
         if !reviewed.is_some_and(|change| {
@@ -539,5 +600,5 @@ fn review_blockers(root: &std::path::Path, fingerprint: Option<&str>) -> Result<
             ));
         }
     }
-    Ok(blockers)
+    blockers
 }

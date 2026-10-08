@@ -586,6 +586,112 @@ fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 #[test]
+fn external_adoption_requires_selected_review_and_never_recreates_legacy_evidence()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.schema = 3;
+    manifest
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic choice".into(),
+        maintenance_branches: vec![],
+    });
+    manifest.layout = Some(opdev_project::LayoutPolicy {
+        version: 1,
+        review_reference: "synthetic layout".into(),
+    });
+    manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        version: 1,
+        provider: CiProvider::Gitlab,
+        repository_id: 7,
+        review_reference: "synthetic choice".into(),
+        retention_authority: "synthetic retention".into(),
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    opdev_project::reconcile_agent_files(root)?;
+    let old = AdoptionRecord::load(root)?.ok_or("record")?;
+    let mut record = AdoptionRecord::pending_for_catalog(2)?;
+    record.scope = old.scope;
+    let example = old.practices.get("integration").ok_or("example")?.clone();
+    for value in record.practices.values_mut() {
+        *value = example.clone();
+    }
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    bind_review(root)?;
+    // Synthetic history only: the production migration must verify archive retention.
+    fs::remove_file(root.join(EVIDENCE_PATH))?;
+    assert!(git(root, &["add", "-A"])?.status.success());
+    let before = fs::read(root.join(ADOPTION_PATH))?;
+    let missing = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert_eq!(missing.status.code(), Some(1));
+    let value: Value = serde_json::from_slice(&missing.stdout)?;
+    assert_eq!(value["complete"], false);
+    assert!(
+        value["core_report"].is_null(),
+        "no commands without selected review"
+    );
+    assert!(
+        value["blockers"]
+            .as_array()
+            .ok_or("blockers")?
+            .iter()
+            .any(|b| b.as_str().is_some_and(|s| s.contains("--review-locator")))
+    );
+    assert!(!root.join(EVIDENCE_PATH).exists());
+    assert_eq!(fs::read(root.join(ADOPTION_PATH))?, before);
+
+    let outside = tempfile::tempdir()?;
+    let locator = outside.path().join("locator.json");
+    fs::write(
+        &locator,
+        serde_json::to_vec(&serde_json::json!({
+            "schema":1, "provider":"github", "repository_id":8, "commit":"a".repeat(40), "path":"review.json", "sha256":"b".repeat(64)
+        }))?,
+    )?;
+    let wrong = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            &"c".repeat(64),
+        ],
+    )?;
+    assert_eq!(wrong.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&wrong.stderr).contains("outside the selected storage policy"));
+    assert!(!root.join(EVIDENCE_PATH).exists());
+
+    fs::write(
+        root.join(EVIDENCE_PATH),
+        "schema: 2\nproject: []\nchanges: []\n",
+    )?;
+    let conflict = cli(root, &["adoption", "check", "--format", "json"])?;
+    let conflict: Value = serde_json::from_slice(&conflict.stdout)?;
+    assert!(
+        conflict["blockers"]
+            .as_array()
+            .ok_or("blockers")?
+            .iter()
+            .any(|b| b
+                .as_str()
+                .is_some_and(|s| s.contains("both external storage and a legacy ledger")))
+    );
+    assert!(
+        root.join(EVIDENCE_PATH).exists(),
+        "verification never cleans up evidence"
+    );
+    Ok(())
+}
+
+#[test]
 fn approval_is_separate_stale_choices_fail_and_progress_preserves_approval()
 -> Result<(), Box<dyn std::error::Error>> {
     let repo = ready_fixture()?;
