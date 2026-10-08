@@ -2,6 +2,20 @@
 
 ## Handoff after development
 
+Match the handoff to the authorized stopping boundary using
+[scoped continuation](workflow.md#scoped-continuation). A progress update or local
+blocker is not automatically a final handoff: continue available independent work
+within scope. Do not ask permission again for every approved milestone. Stop for
+a requested checkpoint, completed scope or an actual blocker with no useful safe
+authorized work remaining.
+
+For phased work, distinguish the demonstrated slice/milestone, MVP or phase, and
+overall goal. Retain accepted later requirements and unresolved dependencies in
+the existing work authority. Report what the assembled outcome actually does and
+which checks ran; neither closed tickets nor separately passing components prove
+composition. "MVP complete; later phases remain" and "Implementation complete;
+release not requested" describe different boundaries, not interchangeable success.
+
 At a [ready-for-feedback checkpoint](planning.md#ready-for-feedback), show the
 observation, actual focused checks, untested scope and the decision needed next.
 Say "Ready for feedback; integration not yet verified" when that is the observed

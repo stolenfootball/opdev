@@ -102,6 +102,11 @@ Accepted scope: [issue 76](https://gitlab.com/stolenfootball-tools/opdev/-/issue
   release without creating new machine outcomes or gates. User feedback indicates
   usefulness, not test correctness. Do not present an early checkpoint as completed
   implementation or universal validation; a failed trial remains visible.
+- FB-07: Feedback readiness MUST NOT automatically end an authorized implementation
+  assignment. Follow [scoped continuation](planning.md#authorized-continuation):
+  honor requested guided checkpoints, continue useful independent work through
+  local blockers, and stop at the actual authorized boundary. Separate MVP/phase
+  completion from the overall goal and release permission.
 
 The shared operational guidance is in the packaged planning reference. This
 extends UX-06's retained-work handoff rather than relaxing the core catalog or

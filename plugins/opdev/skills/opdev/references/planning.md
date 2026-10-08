@@ -73,11 +73,46 @@ private code/data, mutate external systems or experiment on production. Respect
 access/browsing restrictions and report unresolved consequences. Do not repeat
 discoverable questions or silently override the developer's supplied plan/policy.
 
+## Connect phases to the goal
+
+For a larger goal, use goal -> optional phases -> milestones -> slices/tasks only
+as far as those levels help. A small repair may need only an outcome and tests.
+Make phases increases in useful capability, not "all infrastructure, then all
+features, then testing". Preserve the developer's supplied plan and constraints;
+propose a different decomposition with reasons rather than silently replacing it.
+
+Separate current scope, already satisfied requirements, accepted later requirements,
+unresolved needs and optional ideas at the existing work authority. For genuine
+deferral, retain its destination, reason and revisit condition. Keep required outcomes visible when detailed
+later work is provisional. Do not silently defer a mandatory feature or promote
+an optional idea into an obligation. An MVP needs a usable accepted outcome and
+its applicable safeguards; smaller scope does not postpone security or integrity
+needed for that outcome.
+
+Give each useful phase an outcome, scope/exclusions and completion demonstration.
+Show how the milestones fit together and contribute to the overall goal. Identify
+shared interfaces, data, compatibility and material dependencies early enough to
+avoid incompatible slices. Include an assembled consumer-path check: individually
+passing components and closed issues do not prove the whole works. Detail the next
+useful slice; defer speculative design and research for later decisions.
+
+At milestone start, briefly check the current goal, scope, dependency readiness,
+changed assumptions, risks and evidence for the next outcome. Reuse settled facts;
+investigate only consequential uncertainty using the checkpoint above. This is
+not a mandatory questionnaire, browser session, higher-effort model switch or
+approval round. Familiar work and urgent restoration should remain direct.
+
+For example, a backup library's MVP might round-trip one item safely. Later
+accepted scope adds batch restore; scheduling is optional. The MVP includes
+corruption/error handling needed for its one-item path, not a fake success that
+defers integrity. Check the storage format and reader together. Finishing this
+MVP does not finish batch restore, authorize scheduling or request publication.
+
 ## Choose the next meaningful increment
 
 Prefer a thin, demonstrable end-to-end capability across the technical boundaries
-needed for that outcome. Detail the next increment; describe later ones as
-provisional options, not a fixed sequence immune to feedback. Group database,
+needed for that outcome. Detail the next increment; keep later implementation
+sequencing provisional without demoting accepted requirements to options. Group database,
 API, interface and test tasks beneath the outcome rather than making "finish
 database, finish backend, finish frontend, then test" the default roadmap.
 Small commits alone do not establish usable value or validated learning.
@@ -142,8 +177,11 @@ This adds no automatic remote execution, runner mutation or blanket approval ste
 
 ### Ready for feedback
 
-Ready for feedback is a valid stopping point for retained work, not just disposable
-mockups. Real source edits may remain on a development branch or worktree while
+Ready for feedback is a valid checkpoint for retained work, not just disposable
+mockups. Stop there when the developer requested feedback before continuing or
+the next dependent action needs their decision. Otherwise show the observation
+and continue the authorized assignment; follow [scoped continuation](workflow.md#scoped-continuation)
+when only part of the work is blocked. Real source edits may remain on a development branch or worktree while
 the developer evaluates the direction. Retention does not make every edit, commit,
 agent turn or accepted tweak an integration handoff. Do not call retained work
 disposable to obtain a lighter workflow.
@@ -296,9 +334,10 @@ No mandatory opt-out file, rationale form or new schema is required. A real core
 requirement failure remains a separate finding, never disguised as an optional
 efficiency preference or waived by declining an optimization.
 
-After acceptance checks and meaningful feedback, revisit the next recommendation:
-continue, revise, stop, or take a bounded enabling step. Do not automatically
-execute an entire speculative roadmap. Keep durable contracts/design rationale
+After acceptance checks and meaningful feedback, reassess the next useful action:
+continue within authorized scope, revise, stop at its boundary, or take a bounded
+enabling step. Do not execute optional or speculative roadmap items without
+authority, or ask again for each already-authorized milestone. Keep durable contracts/design rationale
 in their existing authorities, current sequencing in the work tracker, and
 project commands in the project contract. Assess all adoption practices, but
 sequence their implementation around useful increments; unresolved adoption
