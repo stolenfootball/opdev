@@ -39,6 +39,7 @@
         "review"
       ],
       "properties": {
+        "safeguards": {"type":"object","additionalProperties":false,"required":["version","impacts","objectives"],"properties":{"version":{"const":1},"impacts":{"type":"object","propertyNames":{"enum":["persistent_data","public_contract","distribution","security_boundary","operations","user_interface","effectiveness"]},"additionalProperties":{"type":"object","additionalProperties":false,"required":["impact","rationale"],"properties":{"impact":{"enum":["affected","unaffected"]},"rationale":{"type":"string","minLength":1}}}},"objectives":{"type":"object","propertyNames":{"enum":["retained_data_compatibility","data_recovery","consumer_compatibility","consumer_transition","installation_update","distribution_recovery","security_controls","operational_recovery","accessibility","effectiveness_evaluation"]},"additionalProperties":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","minLength":1}}}}},
         "scope": {
           "enum": [
             "behavioral",

@@ -78,6 +78,7 @@ fn project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     git(root, &["add", "."])?;
     let acceptance = AcceptanceEvidence {
+        safeguards: None,
         scope: AcceptanceScope::Behavioral,
         rationale: "Only the agreed order/count behavior changes; invalid inputs are excluded.".into(),
         conditions: vec![AcceptanceCondition { id: "R1".into(),
