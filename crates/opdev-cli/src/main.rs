@@ -32,6 +32,7 @@ mod evidence_prepare;
 mod execution_reuse;
 mod inspection;
 mod layout;
+mod state_io;
 mod test_execution;
 mod test_report;
 mod upgrade;

@@ -88,6 +88,16 @@ The writer uses an OS file lock shared by cooperating writers, rereads under the
 lock, checks the expected digest, writes/syncs a temporary file and atomically
 replaces the journal. A small sibling lock file contains no workflow facts and
 is not a lock-by-presence marker; the OS releases the lock when the process exits.
+Normal success and error exits explicitly unlock before dropping the file; a
+guard also attempts release during unwinding. This prevents a duplicated handle
+from retaining a completed writer's lock merely because another handle remains
+open. Real contention still fails immediately: there is no waiting loop or hidden
+acquisition retry. A release error reports that a write may already have committed;
+inspect the current head rather than assuming failure means nothing changed.
+Process death still relies on OS handle lifetime, not guard execution. This
+hardening addresses a documented handle-lifetime risk, not proof of the cause of
+every intermittent contention report.
+
 Do not delete it while writers may be active. Interrupted temporary writes are
 not heads and are never adopted automatically. No stale lock takeover is needed.
 This protects cooperating writers, not malicious replacement of directories or
