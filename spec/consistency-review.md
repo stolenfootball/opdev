@@ -20,6 +20,12 @@ behavior against accepted scope. Findings retain references, consequence and
 uncertainty; justified exclusions and future slices are not implementation gaps.
 Unresolved authority conflicts remain questions, not agent-selected policy.
 
+For phased plans, the comparison MUST preserve current, satisfied, accepted later,
+unresolved and optional scope distinctions. Review shared boundaries and actual
+composition evidence before claiming the containing outcome is complete. Separate
+MVP/phase completion, the overall goal and release readiness; closed child work
+items alone establish none of these behavioral conclusions.
+
 Review requests authorize reading and an answer, not test execution, edits,
 tracker writes or gate approval. The review does not infer passing qualification
 from a green CI badge or silence. No findings means only no inconsistencies found

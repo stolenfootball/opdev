@@ -103,7 +103,9 @@ not this specification.
 
 Apply [outcome-based planning](planning.md) to formal plans and informal next-step
 recommendations. The lifecycle below repeats within increments; it is not a
-sequence of project-wide phases. Honor explicit user scope and constraints.
+sequence of project-wide technical phases. Larger goals may group increments
+into useful MVP/later phases, with assembled-outcome verification and scoped
+continuation through local blockers. Honor explicit user scope and constraints.
 
 OpDev uses this general lifecycle:
 

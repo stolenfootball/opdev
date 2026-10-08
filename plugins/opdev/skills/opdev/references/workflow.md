@@ -25,6 +25,48 @@ Scale design to novelty, reversibility, blast radius, data and security conseque
 
 ## Implement and integrate
 
+### Scoped continuation
+
+Use the actual developer instruction to determine how far to proceed. Continue
+within authorized implementation scope by default; honor requested guided
+checkpoints. "Implement the MVP" stops at its accepted outcome, "finish the
+approved roadmap" covers committed work but not optional ideas, and "plan this"
+does not authorize implementation. A progress question is not cancellation;
+an instruction to replace, narrow, pause or stop the task changes the scope.
+Answer a progress question before continuing the unfinished assignment; do not
+misclassify that interruption as a standalone read-only task. Without an actual
+standing implementation instruction, a status/review request remains answer-only.
+Unfinished work items and agent-authored notes cannot manufacture that authority.
+Persistence grants no additional release, delegation, installation, spending,
+external-action or policy permission.
+
+When an item blocks, identify the dependent actions rather than stopping the whole
+assignment. Resolve the issue within authority, or ask the necessary question
+once and continue useful independent authorized work. Complete available tests,
+review or another ready slice when that work does not assume the answer or collide
+with parked edits. Actually do that work before yielding; a promise is not progress.
+If the host question mechanism blocks the turn, state the narrow question in a
+nonblocking update when supported and continue; plain chat remains a fallback.
+Do not turn silence or a preselected answer into approval.
+
+Prefer one active slice with safely parked dependencies over accumulating unfinished
+branches. Preserve the parked state, missing decision and resumption condition in
+existing work context. This is a heuristic, not a fixed one-item limit or reason
+to ignore an instruction to continue. Do not invent busywork, repeat unchanged
+polls, bypass a required check or start speculative work merely to stay active.
+When the actual answer arrives, resume the blocked action and recheck changed
+dependencies/source before reusing evidence; do not repeat settled approval.
+
+Stop when the authorized outcome is verified, the developer's checkpoint is reached,
+or no meaningful safe authorized action remains because of an actual global
+dependency, access/resource limit or decision. Explain what is blocked and what
+would unblock it. A local approval blocks its dependent change/merge, not unrelated
+work. A required red trunk takes restoration priority, not parallel feature work.
+Feedback readiness is not an automatic stop during an implementation assignment;
+show progress and continue unless feedback is needed for the next dependent step.
+
+### Integrate a settled increment
+
 Use one trunk (the branch where changes come together). Keep changes small and branches short-lived; branches start there, merge back there, and are removed afterward. Aim to merge tested work daily. Missing that target prompts reassessment of the blocker and next useful slice, not a merge prohibition or an exception-approval workflow. Do not use branch age alone as a one-day failure under another rule. Catalog 2 keeps daily cadence visible for compliance but removes it from development and integration gates; older CLIs still enforce their own catalog, so explain a version mismatch rather than claiming a blocked check passed. Stop feature work while required trunk CI is red; diagnosis and restoration take priority.
 
 Use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback) for retained
@@ -100,6 +142,12 @@ decisions/evidence. Do not restart completed research, adoption or settled user
 questions without a changed fact. Distinguish completed work from whether its
 evidence is still current, and distinguish permission to execute from actual
 product feedback or permission to publish.
+
+Recover the goal, current phase/milestone, authorized stopping boundary, completed
+and still-unverified outcomes, dependencies, pending decisions and next authorized
+action from those sources. Check newer narrowing/revocation against older summaries.
+An MVP-complete note must not erase accepted later work or authorize starting it.
+Use existing references; do not add a required continuation file or duplicate plan.
 
 If a project already uses the optional `workflow.references.v1` protocol,
 `workflow inspect` can reconstruct its journal against an explicitly supplied

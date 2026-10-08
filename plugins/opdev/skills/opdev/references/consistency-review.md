@@ -18,6 +18,13 @@ merely because they are not implemented. Reuse `.opdev/project.yaml`,
 may be in an issue, API contract, model, design, source comments or conversation;
 no spec/plan/tasks filenames, new document or traceability registry is required.
 
+For phased work, compare the accepted current phase separately from the whole
+goal. Preserve already satisfied, accepted later, unresolved and optional
+dispositions; check that a supposed exclusion has an actual basis. Inspect
+shared interfaces and an assembled consumer-path observation, not only passing
+components or closed child issues. An MVP may be complete while accepted later
+work remains; neither conclusion establishes release permission or readiness.
+
 In fresh context, retrieve actual decisions rather than treating an earlier
 agent's summary, checkbox or owner label as approval. Distinguish accepted
 criteria, proposals and explicit exclusions. Follow declared authority precedence;

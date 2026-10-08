@@ -95,6 +95,10 @@ fn explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_chec
         String::from_utf8_lossy(&initialized.stderr)
     );
     let guide = fs::read(root.join(".opdev/guidance.md"))?;
+    assert_eq!(
+        String::from_utf8(guide.clone())?,
+        format!("{}\n", opdev_project::shared_guidance())
+    );
     for file in ["AGENTS.md", "CLAUDE.md"] {
         let content = fs::read_to_string(root.join(file))?;
         assert!(content.len() < 900);

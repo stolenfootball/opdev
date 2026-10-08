@@ -110,6 +110,74 @@ all distributed variants still need qualification. Manual feedback activities do
 not authorize bypassing the CI-only software delivery path. Existing adoption
 decisions and core evidence semantics remain unchanged.
 
+## Connected phases and scope
+
+A larger goal MAY use phases, milestones and implementation slices. Collapse
+levels that add no useful decision; a familiar repair does not need a roadmap.
+A phase describes increased usable capability, not completion of a technical
+layer. An MVP is the smallest accepted useful outcome, not permission to omit
+applicable security, data integrity, accessibility or recovery safeguards.
+
+PH-01: Preserve the supplied goal, mandatory requirements and fixed constraints.
+Distinguish current scope, already satisfied requirements, accepted later scope,
+unresolved requirements and optional ideas in the existing work authority. Retain
+the destination, reason and revisit condition for genuine deferral. Later implementation detail may
+be provisional without making an accepted requirement optional. Moving a required
+outcome out of scope requires an actual developer decision, not an agent label.
+PH-02: Give each useful phase a consumer outcome, inclusions/exclusions and an
+observable completion demonstration. Explain how its milestones compose into
+that outcome and how phases contribute to the goal. Detail near-term slices;
+avoid speculative task inventories for distant work.
+PH-03: Inspect material dependencies and shared contracts before dependent work:
+interfaces, data, compatibility and cross-cutting safeguards. Plan an assembled
+consumer-path check as well as meaningful component checks. Individually passing
+parts or closed tickets MUST NOT establish that the intended whole works.
+PH-04: At a milestone boundary, reuse current evidence and reassess changed
+assumptions, dependencies, risks and the next useful outcome. Apply the research
+checkpoint only to material uncertainty; no universal browsing, high-effort model,
+new approval round or separate planning document is required.
+PH-05: Report slice, milestone, phase and overall-goal completion separately when
+those distinctions matter. MVP completion preserves accepted later work; it is
+neither whole-roadmap completion nor release authorization. Verify the assembled
+accepted outcome before declaring its containing scope complete.
+
+## Authorized continuation
+
+SC-01: Continue meaningful implementation within the developer's authorized scope
+by default. Honor explicit guided checkpoints and stop boundaries. "Implement the
+MVP" does not authorize later phases; "finish the approved roadmap" covers its
+committed scope, not optional ideas; "plan this" authorizes no implementation.
+Persisting toward an outcome does not expand release, delegation, installation,
+spending, external-action or policy authority. Status questions do not cancel
+ongoing work; replacing, narrowing, pausing and revoking instructions do change it.
+Distinguish a progress interruption from a standalone status/review request before
+selecting the workflow. The latter does not authorize implementation, and an
+unfinished backlog or agent-authored note does not establish a standing assignment.
+SC-02: Before yielding because one item is blocked, identify what the blocker
+actually prevents. Resolve it within existing authority when possible, or ask the
+necessary focused question and continue meaningful authorized independent work.
+That includes tests, review or another ready slice when they do not presume the
+missing answer or create unsafe conflicting edits. Merely promising to continue
+is not continuation. Exhausting useful safe independent work, a global dependency,
+an actual resource limit or an explicit stop instruction is a valid stopping point.
+SC-03: Keep unfinished work bounded and safely resumable. Normally finish one
+active slice before starting another; a parked dependency should retain its exact
+state, decision needed and resumption condition at the existing work authority.
+This is not a numeric WIP gate or permission to override an instruction to continue.
+Do not stack speculative branches, bypass a required check, perform busywork or
+poll indefinitely to appear persistent. Resume parked work after the actual answer
+and recheck changed source/dependencies before reusing evidence.
+SC-04: Feedback readiness permits an early observation, not an automatic end to
+an authorized implementation assignment. If feedback is required to choose the
+dependent approach, honor it and continue only independent work. Otherwise give
+the progress update and continue toward the authorized completion boundary.
+Guided feedback requests remain valid; neither mode waives integration checks.
+SC-05: Fresh context MUST read original current decisions and work status before
+acting. Derived summaries and local pointers neither grant consent nor override
+later changes. Retain scope, completed/unverified outcomes, remaining dependencies,
+pending decisions and the next authorized action in existing work references,
+without a new scheduler, approval registry, local backlog or transcript archive.
+
 ## Decision, alternatives and reversal
 
 Apply the accepted [workflow usability boundaries](workflow-usability.md): isolated
@@ -127,7 +195,8 @@ enabling work; reject both mandatory layer-first roadmaps and a rigid demand for
 a user-visible feature in every commit. User intent remains controlling.
 
 The lifecycle in the specification repeats per increment; it is not a waterfall
-of project-wide phases. Planning quality requires semantic review under existing
+of project-wide technical phases. Outcome phases may group several such increments.
+Planning quality requires semantic review under existing
 OPDEV-WORK-001/OPDEV-DESIGN-001 evidence practices, not keyword checks or a new
 automatically passing gate. No schema/catalog version or runtime pin changes.
 
@@ -142,6 +211,13 @@ choice if fresh-context trials miss consequential unknowns or repeatedly
 investigate settled work; do not treat more paperwork as stronger assurance.
 Evaluate actual recommendations with the scenarios in
 [planning review cases](../tests/planning-review.md), not just document shape.
+
+Connected phases balance an overall goal with rolling-wave detail. Reject both
+rigid layer-first plans and disconnected small tasks with no composition evidence.
+Scoped continuation avoids repeated permission requests while preserving actual
+developer control. Revisit if complete-session trials show scope overreach, lost
+requirements, unsafe context switching, premature stopping or disproportionate
+planning cost. Distribution tests establish routing, not decision quality.
 
 ## Supporting-work bottlenecks
 
