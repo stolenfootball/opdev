@@ -42,6 +42,14 @@ result separately from whether the overall acceptance requirement is satisfied.
 
 ## Reporting actions and blockers
 
+Separate four evidence roles in ordinary language: configured (declared or
+inspected), observed (actually executed/seen), reviewed (adequacy assessed), and
+qualified (all required evidence for this boundary is satisfied). These are not
+new rule outcomes. A configuration pass is not a behavioral guarantee; a local
+pass is not verified remote CI, delivery or effectiveness. Explain the specific
+missing observation/review without prescribing a redundant full run or another
+approval round when only the existing record needs a factual correction.
+
 For each action mentioned in a progress update or final summary, use the state
 supported by its actual invocation and result:
 

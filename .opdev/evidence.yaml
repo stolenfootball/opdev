@@ -13574,81 +13574,137 @@ changes:
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: "Issue 78 defines this accepted increment and its verification; parent 77 explicitly retains live evaluation 79 and conditional tooling decision 80."
+    summary: >-
+      Issue 78 defines this accepted increment and its verification; parent 77
+      explicitly retains live evaluation 79 and conditional tooling decision 80.
     evidence:
     - kind: review
-      summary: "Issue 78 defines this accepted increment and its verification; parent 77 explicitly retains live evaluation 79 and conditional tooling decision 80."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/78"
+      summary: >-
+        Issue 78 defines this accepted increment and its verification; parent 77
+        explicitly retains live evaluation 79 and conditional tooling decision 80.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/78
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: "Research-backed choice of focused guidance plus executable patterns, alternatives and reversal conditions reviewed; no optimizer or mandatory schema."
+    summary: >-
+      Research-backed choice of focused guidance plus executable patterns,
+      alternatives and reversal conditions reviewed; no optimizer or mandatory schema.
     evidence:
     - kind: review
-      summary: "Research-backed choice of focused guidance plus executable patterns, alternatives and reversal conditions reviewed; no optimizer or mandatory schema."
-      location: "spec/ci-design.md"
+      summary: >-
+        Research-backed choice of focused guidance plus executable patterns,
+        alternatives and reversal conditions reviewed; no optimizer or mandatory schema.
+      location: spec/ci-design.md
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: "The unchanged project contract and production CI retain main as sole integration trunk and release source."
+    summary: >-
+      The unchanged project contract and production CI retain main as sole
+      integration trunk and release source.
     evidence:
     - kind: review
-      summary: "The unchanged project contract and production CI retain main as sole integration trunk and release source."
-      location: ".opdev/project.yaml"
+      summary: >-
+        The unchanged project contract and production CI retain main as sole
+        integration trunk and release source.
+      location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: "Focused branch codex/77-ci-design starts from clean main cf49be1 for one useful guidance increment; integration requires MR CI, not a second trunk."
+    summary: >-
+      Focused branch codex/77-ci-design starts from clean main cf49be1 for one useful
+      guidance increment; integration requires MR CI, not a second trunk.
     evidence:
     - kind: review
-      summary: "Focused branch codex/77-ci-design starts from clean main cf49be1 for one useful guidance increment; integration requires MR CI, not a second trunk."
+      summary: >-
+        Focused branch codex/77-ci-design starts from clean main cf49be1 for one useful
+        guidance increment; integration requires MR CI, not a second trunk.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/78#note_3973764078"
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: "Base main cf49be1 has successful pipeline 2924103877. Changed source and integrated trunk need their own verification; old green evidence does not qualify them."
+    summary: >-
+      Base main cf49be1 has successful pipeline 2924103877. Changed source and
+      integrated trunk need their own verification; old green evidence does not qualify them.
     evidence:
     - kind: review
-      summary: "Base main cf49be1 has successful pipeline 2924103877. Changed source and integrated trunk need their own verification; old green evidence does not qualify them."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924103877"
+      summary: >-
+        Base main cf49be1 has successful pipeline 2924103877. Changed source and
+        integrated trunk need their own verification; old green evidence does not qualify them.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924103877
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: "No CLI, schema, catalog, pin, production pipeline or installed consumer changes. Shared reference is reachable within the package; examples remain opt-in and explicitly scoped."
+    summary: >-
+      No CLI, schema, catalog, pin, production pipeline or installed consumer
+      changes. Shared reference is reachable within the package; examples remain opt-in and
+      explicitly scoped.
     evidence:
     - kind: review
-      summary: "No CLI, schema, catalog, pin, production pipeline or installed consumer changes. Shared reference is reachable within the package; examples remain opt-in and explicitly scoped."
-      location: "crates/opdev-cli/tests/ci_design.rs"
+      summary: >-
+        No CLI, schema, catalog, pin, production pipeline or installed consumer
+        changes. Shared reference is reachable within the package; examples remain opt-in and
+        explicitly scoped.
+      location: crates/opdev-cli/tests/ci_design.rs
   - rule_id: OPDEV-OPS-001
     outcome: passed
-    summary: "Guide distinguishes unavailable required evidence, product failures and broken tooling; example gate names unsuccessful verification and does not claim merge readiness on missing results."
+    summary: >-
+      Guide distinguishes unavailable required evidence, product failures and broken
+      tooling; example gate names unsuccessful verification and does not claim merge
+      readiness on missing results.
     evidence:
     - kind: review
-      summary: "Guide distinguishes unavailable required evidence, product failures and broken tooling; example gate names unsuccessful verification and does not claim merge readiness on missing results."
-      location: "plugins/opdev/skills/opdev/references/ci-design.md"
+      summary: >-
+        Guide distinguishes unavailable required evidence, product failures and broken
+        tooling; example gate names unsuccessful verification and does not claim merge
+        readiness on missing results.
+      location: plugins/opdev/skills/opdev/references/ci-design.md
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: "Existing plain-text CLI and Markdown accessibility targets remain unchanged. Example gate emits readable failure cause and nonzero exit without color-only meaning; no new interactive command surface."
+    summary: >-
+      Existing plain-text CLI and Markdown accessibility targets remain unchanged.
+      Example gate emits readable failure cause and nonzero exit without color-only
+      meaning; no new interactive command surface.
     evidence:
     - kind: review
-      summary: "Existing plain-text CLI and Markdown accessibility targets remain unchanged. Example gate emits readable failure cause and nonzero exit without color-only meaning; no new interactive command surface."
-      location: "examples/feedback/github.yml"
+      summary: >-
+        Existing plain-text CLI and Markdown accessibility targets remain unchanged.
+        Example gate emits readable failure cause and nonzero exit without color-only
+        meaning; no new interactive command surface.
+      location: examples/feedback/github.yml
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: "Reviewed actual source and assertion meaning against CD-01..07, preserved developer authorization and declines, and separated semantic walkthrough from pending fresh-context agent trials."
+    summary: >-
+      Reviewed actual source and assertion meaning against CD-01..07, preserved
+      developer authorization and declines, and separated semantic walkthrough from pending
+      fresh-context agent trials.
     evidence:
     - kind: review
-      summary: "Reviewed actual source and assertion meaning against CD-01..07, preserved developer authorization and declines, and separated semantic walkthrough from pending fresh-context agent trials."
+      summary: >-
+        Reviewed actual source and assertion meaning against CD-01..07, preserved
+        developer authorization and declines, and separated semantic walkthrough from pending
+        fresh-context agent trials.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/78#note_3973764078"
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: "Prior repeated-qualification friction informs contrasting duplication/native-coverage cases; local executable negative gate regression and routing tests prevent concrete example/distribution regressions."
+    summary: >-
+      Prior repeated-qualification friction informs contrasting
+      duplication/native-coverage cases; local executable negative gate regression and routing tests prevent
+      concrete example/distribution regressions.
     evidence:
     - kind: review
-      summary: "Prior repeated-qualification friction informs contrasting duplication/native-coverage cases; local executable negative gate regression and routing tests prevent concrete example/distribution regressions."
-      location: "crates/opdev-cli/tests/ci_design.rs"
+      summary: >-
+        Prior repeated-qualification friction informs contrasting
+        duplication/native-coverage cases; local executable negative gate regression and routing tests prevent
+        concrete example/distribution regressions.
+      location: crates/opdev-cli/tests/ci_design.rs
   - rule_id: OPDEV-EVAL-001
     outcome: passed
-    summary: "Evaluation criteria and synthetic cases separate correctness, agent recommendation quality and provider/performance measurements. No measured effectiveness or speedup is claimed; actual trials remain issue 79."
+    summary: >-
+      Evaluation criteria and synthetic cases separate correctness, agent
+      recommendation quality and provider/performance measurements. No measured effectiveness or
+      speedup is claimed; actual trials remain issue 79.
     evidence:
     - kind: review
-      summary: "Evaluation criteria and synthetic cases separate correctness, agent recommendation quality and provider/performance measurements. No measured effectiveness or speedup is claimed; actual trials remain issue 79."
-      location: "benchmarks/ci-review/design/README.md"
+      summary: >-
+        Evaluation criteria and synthetic cases separate correctness, agent
+        recommendation quality and provider/performance measurements. No measured effectiveness or
+        speedup is claimed; actual trials remain issue 79.
+      location: benchmarks/ci-review/design/README.md
   acceptance:
     scope: behavioral
     rationale: >-
@@ -13942,3 +13998,280 @@ changes:
         evidence distinguishes local tests and semantic review from pending live
         agent/provider trials. No policy or release consent manufactured.
       subject_sha256: 05d96c0edb2696b2a9c966a6c297f0ee6981791acf10ca22e2645299f5a220fa
+- fingerprint: 87fa73b66c1aa78aa8d251979dcfe5d0a4fd31d963c5147e7e5dcf3f99ddd7fc
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: The developer authorized the tracked redesign; this coherent first increment implements the evidence boundary in issue 83, not the entire roadmap.
+    evidence:
+    - kind: work
+      summary: Issue 83 records outcome, scope, compatibility, negative controls and follow-on dependencies; the starting note records the frozen baseline and bounded evaluation authority.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: Reviewed the contract correction against complete aggregation and existing strict acceptance; retained outcomes and catalog requirements instead of adding caller-controlled qualification labels.
+    evidence:
+    - kind: contract_review
+      summary: The rule-to-evidence map distinguishes configuration, execution, review and boundary qualification; legacy semantics and future profile migration remain explicit. Revisit when legitimate verification cannot be represented, without converting missing observations into passes.
+      location: spec/result-semantics.md
+    - kind: compatibility_review
+      summary: Existing report fields and catalog rule statements remain stable; a new capability advertises stronger verification. Automatic consumer migration and reinterpretation of historical reports are excluded.
+      location: spec/compatibility.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: Reviewed actual use of GitLab CI for changes and main, not merely the declared provider. Current candidate qualification remains dependent on its required CI results.
+    evidence:
+    - kind: ci_observation
+      summary: Latest main at 80f043f6bb8d88540d529d41609234c9b184cfc2 passed pipeline 2924192432 with quality, plugin validation, Linux/ARM64/Windows installer and distribution qualification jobs. The unchanged CI admits MR/main verification. This is not requested remote protection qualification or proof of the new branch's future run.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924192432
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration and release-source trunk; this change creates no develop or promotion branch.
+    evidence:
+    - kind: workflow_review
+      summary: Compared project trunk, GitLab workflow rules and source branch codex/83-evidence-qualified, created from clean main 80f043f. Existing MR integration is retained.
+      location: .gitlab-ci.yml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The branch contains one evidence-qualification outcome and will merge through its MR after required checks, then be removed; no one-day merge timer is imposed.
+    evidence:
+    - kind: branch_review
+      summary: Branch created in this implementation session from the verified current main; scope is the issue 83 verifier increment, not all later roadmap storage/adoption changes.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Current main was rechecked green before feature integration; a red required trunk run remains a restoration priority.
+    evidence:
+    - kind: ci_observation
+      summary: Pipeline 2924192432 is still the newest observed main run and every returned required job is successful. No later green run was selected around a failure.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2924192432
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Stronger verification intentionally changes declaration-only findings; compatibility guidance and capability detection expose the change without rewriting consumers, historic reports, schemas or pins.
+    evidence:
+    - kind: regression_review
+      summary: Reviewed actual five-state CLI, no-exec, CI precedence, adoption, report-schema and consumer-interface assertions. Existing report fields/statuses, explicit delivery/no-exec conflict, history and independent delivery gate remain intact.
+      location: crates/opdev-cli/tests/acceptance.rs
+    - kind: migration_guidance
+      summary: Old clients retain their originating results; new clients require reviewed facts rather than mass-copying policy passes. Any distribution is separately authorized and qualified.
+      location: spec/compatibility.md
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: Reviewed functional, reliability, compatibility and maintainability risks against the six current acceptance conditions and actual assertions.
+    evidence:
+    - kind: assertion_review
+      summary: Missing commands, failed execution, wrong source, pending review, configuration overlays and capability detection have discriminating tests; prose meaning receives separate review rather than keyword-only qualification.
+      location: crates/opdev-cli/tests/check_plan.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: Added regression protection for the observed missing-check omission and declaration-only behavioral passes.
+    evidence:
+    - kind: red_green
+      summary: Before collect_checks was repaired, evaluation_only_keeps_selected_checks_visible_at_every_boundary failed because the local checks list was empty instead of first/second/review. The same assertion passed after repair; failed, stale and pending cases remain negative controls.
+      location: crates/opdev-cli/tests/check_plan.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: Current verification retains command failures and missing executions; no retry, quarantine, hidden skip or allowed-failure policy was introduced.
+    evidence:
+    - kind: execution_review
+      summary: The original regression failure, initial adoption failures and lint failure were preserved and corrected. Full workspace tests then passed; final canonical execution remains separate. The trial launcher length-limit error was retained outside successful samples. Existing ignored live/platform tests remain explicitly out of local scope.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/79#note_3974115385
+    - kind: controls_review
+      summary: Canonical commands execute directly, without retry wrappers; GitLab quality exits with the actual OpDev status. Source-bound acceptance and CI overlay tests preserve failed/error/unverified distinctions.
+      location: crates/opdev-engine/src/evaluator.rs
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Reviewed actual evaluator code, assertion behavior and documentation independently of author summaries; agent review is identified and does not manufacture user approval.
+    evidence:
+    - kind: source_review
+      summary: Traced initial findings, ledger application, execution, acceptance, configuration overlays and reaggregation. Negative CLI tests and the outcome cross-product reject plausible incorrect implementations; typed acceptance binds this reviewed scope to source.
+      location: crates/opdev-cli/src/main.rs
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: The observed declaration/execution confusion is generalized into evidence-role guidance, mechanical checks and regression tests; remaining redesign/evaluation work stays tracked.
+    evidence:
+    - kind: work
+      summary: Issue 82 retains all outcome owners and dependencies; issue 79 records actual paired advice results, limitations and unexecuted provider scenarios rather than claiming the whole redesign is validated.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/82
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Canonical pre-merge verification actually passed for this material source and acceptance subject; retain that earlier-boundary observation for post-merge evaluation, not as a substitute for its execution.
+    evidence:
+    - kind: execution_review
+      summary: The retained canonical pre-merge report for fingerprint 87fa73b66c1aa78aa8d251979dcfe5d0a4fd31d963c5147e7e5dcf3f99ddd7fc and acceptance subject e7cbdbbfa3ca4beead69b3c2eb61d67c2a7a4554a03c3101577a7818f0c7fa8d records format, lint and check passed and MCD-TEST-001 passed. The remaining gate blocker was human wording review, now separately approved. Only ledger entries changed afterward. Current selected-stage execution remains independently required; this claim neither qualifies future CI nor post-merge execution.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974134572
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer reviewed the representative changed diagnostic wording and explicitly approved it; existing keyboard, plain-text and structured-output targets are preserved.
+    evidence:
+    - kind: human_review
+      summary: The actual response was "Wording is approved" after the configuration-not-verified, missing PreMerge execution and tests-passed-but-review-incomplete messages were presented. Approval covers this unchanged source checkpoint, not release readiness or universal accessibility conformance.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974439395
+    - kind: automated_review
+      summary: The canonical workspace suite passed on this exact material source before wording approval, including consumer-interface process checks. The approval-only ledger update changes no executable, test or output text; required CI will execute the current candidate independently.
+      location: crates/opdev-cli/tests/consumer_interface.rs
+  acceptance:
+    scope: behavioral
+    rationale: "Issue 83 evidence-qualification increment: stop declaration-only behavioral passes, retain missing executions, bind selected pre/post-merge testing to actual results and current acceptance, preserve failure precedence, expose a capability and explain compatibility. No project-layout, migration, release or remote-provider policy implementation is included in this increment."
+    conditions:
+    - id: missing-execution
+      statement: >-
+        Every selected missing check remains unverified and blocking during
+        evaluation-only; no commands execute.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+      source:
+        path: spec/result-semantics.md
+        sha256: aa9952ddb064dbad32b78215fb16ca6d1a6997428150a6efe8042c55889c4337
+        excerpt: all selected missing canonical suites and
+    - id: current-testing
+      statement: >-
+        Pre/post-merge testing needs actual selected execution and current acceptance;
+        failures, stale sources and pending reviews cannot qualify.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+      source:
+        path: spec/result-semantics.md
+        sha256: aa9952ddb064dbad32b78215fb16ca6d1a6997428150a6efe8042c55889c4337
+        excerpt: requires all selected suites to pass and current typed
+    - id: declaration
+      statement: >-
+        Configured behavioral policies do not pass without review/observations while
+        structural authority findings remain meaningful.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+      source:
+        path: spec/result-semantics.md
+        sha256: aa9952ddb064dbad32b78215fb16ca6d1a6997428150a6efe8042c55889c4337
+        excerpt: Configuration is not qualification
+    - id: precedence
+      statement: >-
+        Local CI inspection cannot replace execution/review failures or missing
+        evidence with a configuration pass.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+      source:
+        path: spec/result-semantics.md
+        sha256: aa9952ddb064dbad32b78215fb16ca6d1a6997428150a6efe8042c55889c4337
+        excerpt: generic review or successful local CI inspection
+    - id: compatibility
+      statement: >-
+        Clients can detect the stronger verifier without an implicit runtime, schema or
+        consumer migration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+      source:
+        path: spec/compatibility.md
+        sha256: c5bd5397cf79c4ffe89fb443fb37042275fd39ac4c4af6a73e36a687ee066922
+        excerpt: evidence.behavioral-qualification.v1
+    - id: mapping
+      statement: >-
+        Every existing rule is mapped to configuration versus required evidence; all
+        MinimumCD requirements remain visible and documentation does not pretend new
+        storage/profile behavior has shipped.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+      source:
+        path: spec/result-semantics.md
+        sha256: aa9952ddb064dbad32b78215fb16ca6d1a6997428150a6efe8042c55889c4337
+        excerpt: All sixteen MinimumCD IDs in the table are retained
+    verifications:
+    - condition: missing-execution
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/check_plan.rs
+        sha256: 5f2a8b96f2981c52e4e66cbe0069515d5515d9be1fa7a4bf8e641dba50ed1e25
+        excerpt: assert!(!report.gate_passed(gate));
+      assertion: >-
+        CLI cases enumerate expected missing suites/extensions, assert no execution and
+        isolate blocking aggregation with other rules satisfied.
+      discriminating_case: >-
+        Old local evaluation-only returned an empty checks list; the new test failed on
+        [] versus first/second/review before the fix.
+      suite: check
+      outcome: passed
+    - condition: current-testing
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/acceptance.rs
+        sha256: b59296d971416054e3441108f56393068342a91cf9bc4b6faa27b6d594bc0621
+        excerpt: configured_ci_cannot_qualify_unexecuted_failed_or_unreviewed_tests
+      assertion: >-
+        Valid GitLab syntax cannot hide five execution/review states; only passed
+        current review and execution yields MCD-TEST-001 passed; post-merge and CI remain
+        unqualified by that pre-merge result.
+      discriminating_case: >-
+        Same valid CI template with an actual failing assertion yields failed, while
+        omitted execution, changed source and pending review yield unverified.
+      suite: check
+      outcome: passed
+    - condition: declaration
+      method: automated
+      target:
+        path: crates/opdev-engine/src/evaluator.rs
+        sha256: b94c31f3957e5b39dce9a093b5c6d4245174f48aa835aca86c779b00e18d1858
+        excerpt: assert_eq!(rule.outcome, Outcome::Unverified, "{id}");
+      assertion: >-
+        Declared CI/risk/regression/retry policies yield configured evidence and
+        unverified outcomes while authority structure passes; separate delivery test proves a
+        configured destination is not delivery evidence.
+      discriminating_case: >-
+        Previous manifest_pass would satisfy these findings without a review or
+        execution; the assertion rejects that behavior.
+      suite: check
+      outcome: passed
+    - condition: precedence
+      method: automated
+      target:
+        path: crates/opdev-cli/src/main.rs
+        sha256: 273a818a20ce41a75db4e0ed2e5566b2564ff1473e170a076954684e1a3c5bd9
+        excerpt: if preserved { current } else { inspected }
+      assertion: >-
+        Cross-product of current and inspected outcomes preserves hard failures and
+        prevents a passing inspection from upgrading an unverified execution/review.
+      discriminating_case: >-
+        Existing failed execution plus passed configuration stays failed; existing
+        passed evidence plus missing configuration does not remain qualified.
+      suite: check
+      outcome: passed
+    - condition: compatibility
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/doctor.rs
+        sha256: 2d5641fffa7744146c878c15b4ce59d836de5e25b4756c5cb7576d86514a77db
+        excerpt: contains(&Value::from("evidence.behavioral-qualification.v1"))
+      assertion: >-
+        Doctor explicitly advertises this verifier in structured capabilities; existing
+        strict report, adoption, upgrade and plugin tests retain schema/history
+        boundaries.
+      discriminating_case: >-
+        A client without the advertised capability cannot be mistaken for the stronger
+        verifier; no release pin is changed.
+      suite: check
+      outcome: passed
+    - condition: mapping
+      method: review
+      target:
+        path: spec/result-semantics.md
+        sha256: aa9952ddb064dbad32b78215fb16ca6d1a6997428150a6efe8042c55889c4337
+        excerpt: "### Rule-to-evidence responsibilities"
+      assertion: >-
+        Reviewed each catalog ID against the map, applicability and unchanged catalog
+        gates; reviewed compatibility and plugin references for declaration/execution
+        distinction and no blanket repeated checks.
+      discriminating_case: >-
+        Daily integration remains a compliance finding rather than a merge timer; a
+        future profile split is explicitly not implemented by this verifier correction.
+      automation_limitation: >-
+        Automated parsing can count IDs but cannot establish whether prose accurately
+        describes requirement meaning or imply consent. This mapping receives source-level
+        semantic review; behavioral claims have automated cases above.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex agent source/assertion review
+      reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
+      rationale: >-
+        Reviewed actual evaluator precedence, CI overlay, CLI regression assertions,
+        current five-state acceptance fixture, capability and durable documentation against
+        accepted issue scope. The old no-exec behavior was observed red before repair. A
+        full workspace run passed before final diagnostic/capability-test refinements;
+        required current execution remains independently enforced and will run after
+        binding. This is agent review, not fabricated developer approval or release
+        qualification. All other roadmap work remains outside this increment.
+      subject_sha256: e7cbdbbfa3ca4beead69b3c2eb61d67c2a7a4554a03c3101577a7818f0c7fa8d

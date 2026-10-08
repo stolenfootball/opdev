@@ -50,7 +50,7 @@ rules:
     statement: The project MUST use continuous integration to evaluate changes and trunk.
     applicability: all initialized projects
     gates: [integration, delivery, compliance]
-    verification: [manifest, ci, remote]
+    verification: [manifest, ci, remote, evidence]
     sources:
       - name: MinimumCD
         url: https://minimumcd.org/
@@ -138,7 +138,7 @@ rules:
     statement: The declared application pipeline MUST be the only supported way to deliver an artifact to any environment or consumer-facing destination.
     applicability: projects that deliver software
     gates: [delivery, compliance]
-    verification: [manifest, ci, remote]
+    verification: [manifest, ci, remote, evidence]
     sources:
       - name: MinimumCD single path to production
         url: https://beyond.minimumcd.org/docs/reference/practices/single-path-to-production/

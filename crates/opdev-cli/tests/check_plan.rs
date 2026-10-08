@@ -248,6 +248,79 @@ fn post_merge_process_failures_and_skipped_execution_remain_blocking()
 }
 
 #[test]
+fn evaluation_only_keeps_selected_checks_visible_at_every_boundary()
+-> Result<(), Box<dyn std::error::Error>> {
+    use opdev_core::{Gate, Outcome};
+    for (flags, extension_stage, gate, expected) in [
+        (
+            vec![],
+            ExtensionStage::Verify,
+            Gate::Development,
+            vec!["first", "second", "review"],
+        ),
+        (
+            vec!["--ci"],
+            ExtensionStage::PreMerge,
+            Gate::Integration,
+            vec!["ci", "review"],
+        ),
+        (
+            vec!["--ci", "--post-merge"],
+            ExtensionStage::PostMerge,
+            Gate::Integration,
+            vec!["post", "review"],
+        ),
+    ] {
+        let temp = fixture(extension_stage)?;
+        let root = temp.path();
+        fs::remove_file(root.join(".opdev/evidence.yaml"))?;
+        let mut args = flags.clone();
+        args.extend(["--no-exec", "--format", "json"]);
+        let output = invoke(root, &args)?;
+        assert_eq!(
+            output.status.code(),
+            Some(1),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let mut report: opdev_engine::CheckReport = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(
+            report
+                .checks
+                .iter()
+                .map(|c| c.id.as_str())
+                .collect::<Vec<_>>(),
+            expected
+        );
+        assert!(
+            report
+                .checks
+                .iter()
+                .all(|c| c.outcome == Outcome::Unverified)
+        );
+        assert!(!root.join("work/executed").exists());
+        // Even otherwise sufficient reviews cannot replace missing command execution.
+        for rule in &mut report.rules {
+            rule.outcome = Outcome::Passed;
+        }
+        opdev_engine::reaggregate(&mut report)?;
+        assert!(!report.gate_passed(gate));
+        let mut human_args = flags;
+        human_args.push("--no-exec");
+        let human = invoke(root, &human_args)?;
+        let message = String::from_utf8(human.stdout)?;
+        for id in expected {
+            assert!(
+                message.contains(&format!("check {id}: Unverified")),
+                "{message}"
+            );
+        }
+        assert!(!root.join("work/executed").exists());
+    }
+    Ok(())
+}
+
+#[test]
 fn plan_rejects_misleading_execution_and_remote_options() -> Result<(), Box<dyn std::error::Error>>
 {
     let temp = tempfile::tempdir()?;

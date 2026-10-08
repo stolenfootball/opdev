@@ -8,6 +8,18 @@ ledger records the scoped inventory/mappings without another project file.
 Capable CLIs require reviewed mappings and current suite execution for TEST-002/003;
 a declared policy is not current-change evidence.
 
+Distinguish configured commands/policies, observed results, reviewed adequacy and
+qualified boundaries. Configuration inspection is useful but does not prove the
+tests ran or the safeguards worked. On a CLI advertising
+`evidence.behavioral-qualification.v1`, selected pre/post-merge test findings need
+both current execution and acceptance evidence; evaluation-only reports retain
+missing checks as unverified. Resolve each reported gap rather than bulk-writing
+pass assertions. Existing review evidence may support the facts it actually
+establishes; it cannot erase failed execution, replace missing execution, qualify
+another stage or manufacture developer consent. Older CLIs retain their original
+behavior: report the limitation, do not reinterpret their green findings as proof
+of the stronger checks or automatically install/update anything.
+
 - Every behavioral change needs automated verification unless existing coverage is demonstrated or a specific limitation is recorded.
 - Every escaped defect needs regression protection unless a specific justification explains why it is impractical or harmful.
 - Required suites run before integration and again on integrated trunk. Delivery, package, recovery, scheduled, and evaluation suites run at their declared stages.

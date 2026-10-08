@@ -177,6 +177,39 @@ fn evaluate_inner(
             options.test_stage,
         )
     };
+    apply_acceptance_results(
+        &mut rules,
+        acceptance_outcome,
+        scope,
+        &diagnostic,
+        acceptance_fingerprint,
+    );
+    qualify_test_execution(
+        &mut rules,
+        &checks,
+        manifest,
+        options.test_stage,
+        acceptance_outcome,
+    );
+    let gates = aggregate_gates(&catalog, &rules, &checks);
+    Ok(CheckReport {
+        schema: 1,
+        catalog_version: catalog.catalog_version,
+        subject,
+        evaluated_at,
+        rules,
+        checks,
+        gates,
+    })
+}
+
+fn apply_acceptance_results(
+    rules: &mut [RuleResult],
+    acceptance_outcome: Outcome,
+    scope: opdev_project::AcceptanceScope,
+    diagnostic: &str,
+    acceptance_fingerprint: Option<&String>,
+) {
     for result in rules
         .iter_mut()
         .filter(|result| matches!(result.rule_id.as_str(), "OPDEV-TEST-002" | "OPDEV-TEST-003"))
@@ -190,7 +223,7 @@ fn evaluate_inner(
             acceptance_outcome
         };
         result.verifier = VerificationSource::Evidence;
-        result.diagnostic = Some(diagnostic.clone());
+        result.diagnostic = Some(diagnostic.to_owned());
         result.evidence.clear();
         if let Some(fingerprint) = &acceptance_fingerprint {
             result.evidence.push(Evidence { kind: "acceptance_subject".into(),
@@ -198,16 +231,83 @@ fn evaluate_inner(
                 location: Some(EVIDENCE_PATH.into()) });
         }
     }
-    let gates = aggregate_gates(&catalog, &rules, &checks);
-    Ok(CheckReport {
-        schema: 1,
-        catalog_version: catalog.catalog_version,
-        subject,
-        evaluated_at,
-        rules,
-        checks,
-        gates,
-    })
+}
+
+// A policy declaration or caller-written review cannot replace execution at the
+// selected boundary. Other stages retain their own evidence, never this run's.
+fn qualify_test_execution(
+    rules: &mut [RuleResult],
+    checks: &[CheckResult],
+    manifest: &ProjectManifest,
+    stage: TestStage,
+    acceptance: Outcome,
+) {
+    let id = match stage {
+        TestStage::PreMerge => "MCD-TEST-001",
+        TestStage::PostMerge => "MCD-TEST-002",
+        _ => return,
+    };
+    let Some(rule) = rules.iter_mut().find(|r| r.rule_id.as_str() == id) else {
+        return;
+    };
+    if matches!(
+        rule.outcome,
+        Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+    ) {
+        return;
+    }
+    let selected: Vec<_> = selected_suites(manifest, stage).collect();
+    let outcomes: Vec<_> = selected
+        .iter()
+        .map(|suite| {
+            checks
+                .iter()
+                .find(|c| c.kind == CheckKind::Suite && c.id == suite.id)
+                .map_or(Outcome::Unverified, |c| c.outcome)
+        })
+        .collect();
+    rule.outcome = if outcomes.contains(&Outcome::Failed) {
+        Outcome::Failed
+    } else if outcomes.contains(&Outcome::Error) {
+        Outcome::Error
+    } else if selected.is_empty() || outcomes.iter().any(|o| *o != Outcome::Passed) {
+        Outcome::Unverified
+    } else if acceptance.satisfies_required_rule() {
+        Outcome::Passed
+    } else {
+        acceptance
+    };
+    rule.verifier = VerificationSource::Command;
+    rule.evidence.push(Evidence {
+        kind: "observed".into(),
+        summary: format!("{stage:?}: selected {} canonical suites; execution results are in checks. Acceptance review outcome: {acceptance:?}", selected.len()),
+        location: None,
+    });
+    rule.diagnostic = Some(if selected.is_empty() {
+        format!(
+            "No canonical suite is selected for {stage:?}. Declare the checks that verify this boundary; an empty selection is not a pass."
+        )
+    } else if outcomes.contains(&Outcome::Failed) {
+        format!(
+            "A required {stage:?} suite failed. Inspect the named check and failing assertion; configuration or review cannot erase this result."
+        )
+    } else if outcomes.contains(&Outcome::Error) {
+        format!(
+            "A required {stage:?} check could not complete. Inspect its tool diagnostic, repair the execution problem, and rerun the affected check."
+        )
+    } else if outcomes.iter().any(|o| *o != Outcome::Passed) {
+        format!(
+            "Required {stage:?} execution is missing. Inspect the unverified checks and run the required selection, or supply supported same-run evidence. Earlier green runs are not substitutes."
+        )
+    } else if rule.outcome == Outcome::Passed {
+        format!(
+            "Selected {stage:?} suites passed with current acceptance evidence. This does not qualify another stage or a release."
+        )
+    } else {
+        format!(
+            "Selected {stage:?} suites passed, but current acceptance evidence is not satisfied. Inspect OPDEV-TEST-002 for the missing, stale or contradicted review. Repeating tests alone cannot repair a review gap."
+        )
+    });
 }
 
 fn explain_source_gap(rules: &mut [RuleResult], error: Option<&opdev_project::EvidenceError>) {
@@ -239,7 +339,7 @@ fn collect_checks(
             &checks,
         ));
         checks.extend(run_extensions(root, manifest, options.extension_stage)?);
-    } else if executions.is_some() || options.test_stage == TestStage::PostMerge {
+    } else {
         for planned in crate::plan_checks(root, manifest, options).commands {
             if !checks
                 .iter()
@@ -389,13 +489,15 @@ fn evaluate_project_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Ev
             "A work authority is declared for active status".into(),
             Some(".opdev/project.yaml"),
         ),
-        "MCD-CI-001" if manifest.project.ci.provider != CiProvider::Unconfigured => manifest_pass(
-            format!("CI provider is {:?}", manifest.project.ci.provider),
-            Some(".opdev/project.yaml"),
-        ),
+        "MCD-CI-001" if manifest.project.ci.provider != CiProvider::Unconfigured => {
+            configured_review(
+                format!("CI provider is {:?}", manifest.project.ci.provider),
+                Some(".opdev/project.yaml"),
+            )
+        }
         "MCD-CI-001" => migration("A CI provider must be configured"),
         "MCD-DELIVERY-001" if manifest.delivery.status == DeliveryStatus::Configured => {
-            manifest_pass(
+            configured_review(
                 format!(
                     "The configured {:?} delivery contract uses {:?} CI for the consumer path `{}`",
                     manifest.delivery.mode,
@@ -419,7 +521,7 @@ fn evaluate_testing_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Ev
                 .iter()
                 .any(|suite| suite.stages.contains(&TestStage::PreMerge)) =>
         {
-            manifest_pass(
+            configured_review(
                 "At least one canonical suite is required before integration".into(),
                 Some(".opdev/project.yaml"),
             )
@@ -431,12 +533,12 @@ fn evaluate_testing_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Ev
                 .iter()
                 .any(|suite| suite.stages.contains(&TestStage::PostMerge)) =>
         {
-            manifest_pass(
+            configured_review(
                 "At least one canonical suite is required on integrated trunk".into(),
                 Some(".opdev/project.yaml"),
             )
         }
-        "OPDEV-TEST-001" if !manifest.quality.risks.is_empty() => manifest_pass(
+        "OPDEV-TEST-001" if !manifest.quality.risks.is_empty() => configured_review(
             format!(
                 "{} quality risks are declared",
                 manifest.quality.risks.len()
@@ -444,19 +546,19 @@ fn evaluate_testing_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Ev
             Some(".opdev/project.yaml"),
         ),
         "OPDEV-TEST-001" => migration("Declare the quality risks that drive verification"),
-        "OPDEV-TEST-004" => manifest_pass(
+        "OPDEV-TEST-004" => configured_review(
             "The project contract requires regression protection or a specific justification"
                 .into(),
             Some(".opdev/project.yaml"),
         ),
-        "OPDEV-TEST-005" => manifest_pass(
+        "OPDEV-TEST-005" => configured_review(
             "Retry visibility and owned, expiring quarantine are mandatory".into(),
             Some(".opdev/project.yaml"),
         ),
         "OPDEV-TEST-006" if manifest.testing.coverage.mode == CoverageMode::Unconfigured => {
             not_applicable("The project contract does not declare coverage collection")
         }
-        "OPDEV-TEST-006" => manifest_pass(
+        "OPDEV-TEST-006" => configured_review(
             format!(
                 "Coverage is declared as {:?} risk evidence",
                 manifest.testing.coverage.mode
@@ -474,7 +576,7 @@ fn evaluate_applicability(rule: &Rule, manifest: &ProjectManifest) -> Option<Eva
             if manifest.operations.health_evidence.is_some()
                 && manifest.operations.observability_authority.is_some() =>
         {
-            manifest_pass(
+            configured_review(
                 "Health evidence and an observability authority are declared".into(),
                 Some(".opdev/project.yaml"),
             )
@@ -520,6 +622,19 @@ fn manifest_pass(summary: String, location: Option<&str>) -> Evaluation {
             location: location.map(ToOwned::to_owned),
         }],
         None,
+    )
+}
+
+fn configured_review(summary: String, location: Option<&str>) -> Evaluation {
+    (
+        Outcome::Unverified,
+        VerificationSource::Manifest,
+        vec![Evidence {
+            kind: "configured".into(),
+            summary,
+            location: location.map(ToOwned::to_owned),
+        }],
+        Some("Configuration is present, but the required behavior has not been verified. Supply current observations and review against this requirement; declaring a policy is not evidence that it worked.".into()),
     )
 }
 
@@ -1459,8 +1574,46 @@ mod tests {
     }
 
     #[test]
-    fn configured_delivery_declares_the_single_ci_governed_path()
+    fn declared_behavioral_policies_remain_unverified_without_review()
     -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        let project = manifest();
+        let report = evaluate(
+            root.path(),
+            &project,
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::local()
+            },
+        )?;
+        for id in [
+            "MCD-CI-001",
+            "OPDEV-TEST-001",
+            "OPDEV-TEST-004",
+            "OPDEV-TEST-005",
+        ] {
+            let rule = report
+                .rules
+                .iter()
+                .find(|r| r.rule_id.as_str() == id)
+                .ok_or("rule")?;
+            assert_eq!(rule.outcome, Outcome::Unverified, "{id}");
+            assert!(rule.evidence.iter().any(|e| e.kind == "configured"), "{id}");
+        }
+        assert_eq!(
+            report
+                .rules
+                .iter()
+                .find(|r| r.rule_id.as_str() == "OPDEV-AUTH-001")
+                .ok_or("rule")?
+                .outcome,
+            Outcome::Passed
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn configured_delivery_is_not_observed_delivery() -> Result<(), Box<dyn std::error::Error>> {
         let directory = tempfile::tempdir()?;
         let mut project = manifest();
         project.delivery.status = DeliveryStatus::Configured;
@@ -1484,8 +1637,9 @@ mod tests {
         else {
             return Err(std::io::Error::other("missing delivery rule result").into());
         };
-        assert_eq!(result.outcome, Outcome::Passed);
+        assert_eq!(result.outcome, Outcome::Unverified);
         assert_eq!(result.verifier, VerificationSource::Manifest);
+        assert_eq!(result.evidence[0].kind, "configured");
         Ok(())
     }
 
