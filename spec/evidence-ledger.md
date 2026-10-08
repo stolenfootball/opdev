@@ -72,6 +72,50 @@ review was competent. The CLI rechecks staged source and ledger before/after
 executing commands. Edits made and reverted during execution and ignored inputs
 are outside that observation, as with existing execution receipts.
 
+### Meaningful and proportionate assertions
+
+The reviewed inventory MUST cover representative happy, boundary and failure
+behavior and the meaningful consumer interface affected by the change. Choose
+the appropriate API, library, CLI, UI, data or device boundary; this is not a
+requirement to create every test layer. Explain genuinely irrelevant cases in
+the existing review instead of adding placeholder tests. Expected results come
+from accepted behavior, not a snapshot of whatever the implementation returns.
+
+Review MUST consider whether assertions discriminate plausible mistakes, whether
+snapshots were substantively reviewed, and whether filters, disabled cases,
+failure-propagation settings or retries undermine the claimed observation.
+Command success does not prove every named test ran. Quarantine records MUST
+identify the lost assurance as well as owner, work reference and expiry; neither
+quarantine nor a hidden retry can turn a known required failure into a pass.
+
+An escaped-defect fix SHOULD demonstrate the meaningful regression failing on
+the original defect and passing after repair. Compilation/setup failure is not
+that red observation. If old behavior cannot safely or practically be run, retain
+the specific limitation and a discriminating alternative; never invent a red run.
+There is no required test-writing order, reporter format or universal coverage
+or mutation target. Stronger property, mutation or fault-injection work follows
+an actual risk or weakness, bounded scope/budget and reviewed blocking policy.
+
+Legitimate monotonic strengthening of an assertion is not test weakening merely
+because the original test body changes. Review retained guarantees, changed
+expectations and independent counterexamples; refresh source-bound mappings
+without requiring byte-identical tests. Removing a requirement or disabling a
+case to obtain green results is different. Frozen historical experiment graders
+retain their original limits/results; new evaluations must state their own
+preservation oracle and inspect semantic changes rather than silently relabeling
+old failures. No general-purpose assertion-equivalence parser is claimed.
+
+Prefer simple adequate design, clear boundaries and reusable existing contracts
+when reviewing maintainability. File counts and function size are not general
+proofs of quality; honor project-specific checks without imposing universal
+quotas or speculative abstractions on consumers.
+
+The executable acceptance fixtures demonstrate wrong-but-green expectations,
+meaningful red/green repair and stronger assertions accepted only after current
+review. These establish the verifier boundary, not autonomous semantic discovery.
+Revisit this review-based design when independent agent trials expose missed
+contradictions; do not install a new tool solely to create more evidence.
+
 ### Evidence boundary and rationale
 
 Blocked checks retain the underlying staged-source error (including unindexed

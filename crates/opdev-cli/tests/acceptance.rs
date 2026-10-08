@@ -684,3 +684,55 @@ fn wrong_green_assertion_then_meaningful_red_green_is_observed() -> Result {
     }
     Ok(())
 }
+
+#[test]
+fn strengthened_assertions_need_fresh_review_not_byte_identical_tests() -> Result {
+    let (temp, mut ledger) = project()?;
+    let root = temp.path();
+    fs::write(root.join(".gitignore"), "__pycache__/\n")?;
+    fs::write(
+        root.join("tasktray.py"),
+        "def select(items, limit):\n    return items[:limit]\n",
+    )?;
+    let original = "assert select(['c', 'a', 'b'], 2) == ['c', 'a']";
+    // Same accepted order/count contract; additional boundary guarantees are
+    // conjoined with the original assertion instead of preserving its bytes.
+    let stronger = "assert (select(['c', 'a', 'b'], 2) == ['c', 'a'] and select(['c', 'a'], 0) == [] and select([], 3) == [] and select(['c', 'a'], 9) == ['c', 'a'])";
+    for assertion in [original, stronger] {
+        fs::write(
+            root.join("tests.py"),
+            format!("from tasktray import select\n{assertion}\n"),
+        )?;
+        git(root, &["add", "."])?;
+        let stale = check(root, &[])?;
+        assert_eq!(outcome(&stale, "OPDEV-TEST-002")?, "unverified");
+        ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+        let acceptance = ledger.changes[0].acceptance.as_mut().ok_or("acceptance")?;
+        acceptance.verifications[0].target = reference(root, "tests.py", assertion)?;
+        acceptance.verifications[0].assertion = "Exact caller sequence and count; added empty/zero/large-limit boundaries retain the original guarantees".into();
+        acceptance.review.rationale = "Synthetic review of actual conjoined assertions; no removed guarantee or changed accepted result".into();
+        bind(&mut ledger)?;
+        save(root, &ledger)?;
+        let report = check(root, &[])?;
+        assert_eq!(outcome(&report, "OPDEV-TEST-002")?, "passed");
+        assert_eq!(outcome(&report, "OPDEV-TEST-003")?, "passed");
+        assert_eq!(
+            report["checks"].as_array().ok_or("checks")?.len(),
+            1,
+            "no compulsory extra test-strength tool"
+        );
+    }
+    // A plausible wrong implementation must still fail the strengthened test.
+    fs::write(
+        root.join("tasktray.py"),
+        "def select(items, limit):\n    return sorted(items)[:limit]\n",
+    )?;
+    git(root, &["add", "."])?;
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    let report = check(root, &[])?;
+    assert_eq!(report["checks"][0]["outcome"], "failed");
+    assert_eq!(outcome(&report, "OPDEV-TEST-003")?, "failed");
+    Ok(())
+}

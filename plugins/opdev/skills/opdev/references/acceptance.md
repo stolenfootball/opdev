@@ -15,6 +15,14 @@ needs input whose order differs from sorting; a maximum-count test needs enough
 eligible items to expose an extra result. Names, coverage percentages and green
 suites alone do not establish this relationship. Check affected documentation too.
 
+Review representative happy, boundary and failure cases at the affected consumer
+interface; do not demand every test layer. Inspect snapshots and runner selection
+when they affect the claim. Preserve or improve actual guarantees: stronger
+assertions may legitimately change an old test body. A stale binding needs fresh
+review, not reverting the stronger test or classifying every edit as weakening.
+Do not claim semantic equivalence from syntax alone. Quarantines retain the lost
+assurance as well as owner, issue and expiry; known required failures stay visible.
+
 Reuse adequate existing tests. For important changed behavior or escaped defects,
 seek a meaningful red/green transition, regression against the known defect, or
 bounded isolated mutation using project tooling. Failure must be for the intended
