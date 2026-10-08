@@ -39,6 +39,16 @@ failed. Do not assume a helper's input domain or exception matches the public
 contract. Reuse adequate tests; this does not require an exhaustive input matrix,
 a new test tool or another review round.
 
+When an independent requirement-derived check or review contradicts green tests,
+keep that finding open: reproduce the consumer-visible difference, add a regression,
+repair within the authorized scope, and recheck the affected path before acceptance.
+Preserve the failed attempt and correct earlier completion claims; a later repair
+does not make the first result a pass. Review the finding against the original
+contract rather than copying a proposed fix or changing expectations to fit code.
+A clean comparison needs no invented defect or edit. Independence means evidence
+not inferred from the implementation's own success claim; it does not require a
+second agent, new tool, universal extra suite or routine approval round.
+
 ## Record and review
 
 Use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback) without

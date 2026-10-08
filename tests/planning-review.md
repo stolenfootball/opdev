@@ -201,6 +201,16 @@ pause, and untouched later-feature sentinels. Demonstrate that independent check
 reject plausible wrong results. Passing instruction-copy tests is not behavioral
 evidence. Keep failures, unavailable hosts and incomplete sessions visible.
 
+For a separate review-and-repair evaluation, start from retained candidate code,
+its original contract and a concrete independent finding (or a clean control).
+Observe reproduction, a discriminating regression, scoped repair and verification;
+do not supply the intended implementation. Preserve original failed completion
+claims separately from repaired outcomes. Include a plausible but incorrect review
+suggestion: the accepted contract, not reviewer authority, determines the repair.
+Success establishes response to observed findings, not reliable unaided discovery
+or a reason to replace earlier frozen results. Trial protocols and acceptance
+decisions remain in the work authority, not this reusable scenario description.
+
 ## Deterministic coverage and limitations
 
 ### Advisory CI recognition projects
