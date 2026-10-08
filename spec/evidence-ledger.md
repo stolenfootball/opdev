@@ -213,7 +213,9 @@ and [GitLab notes](https://docs.gitlab.com/api/notes/).
 
 For durable recovery, Git mirror backups retain repository history and can be
 restored to a Git remote; provider migration archives are not interchangeable with
-restorable backups. GitHub explicitly says its migration archives have no supported
+restorable backups. For exact-byte recovery, compare Git blobs or disable checkout
+line-ending conversion; a Windows checkout may otherwise alter intact archived
+bytes. GitHub explicitly says its migration archives have no supported
 restore path. Protected Git references reduce accidental history loss but do not
 prevent administrative deletion or replace independent recovery. Record observed
 protection entitlement limits instead of treating unsupported private-repository

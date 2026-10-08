@@ -250,6 +250,27 @@ fn semantic_review_export_is_separate_and_wrong_origin_is_rejected_before_networ
             .contains("outside the selected storage policy; no provider request made")
     );
     assert!(f.root.join(".opdev/evidence.yaml").exists());
+    assert_malformed_identity_rejected(&f, &locator)?;
+    Ok(())
+}
+
+fn assert_malformed_identity_rejected(f: &Fixture, locator: &Path) -> Result {
+    let malformed = f.cli(
+        &f.root,
+        &[
+            "check",
+            "--no-exec",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            "not-a-digest",
+        ],
+    )?;
+    assert_eq!(malformed.status.code(), Some(2));
+    assert!(
+        String::from_utf8_lossy(&malformed.stderr)
+            .contains("lowercase SHA-256 digest; no provider request made")
+    );
     Ok(())
 }
 

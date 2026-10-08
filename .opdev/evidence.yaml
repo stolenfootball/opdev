@@ -17109,101 +17109,171 @@ changes:
   assertions:
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: Issue 88 defines the accepted increment and all later portability requirements remain tracked.
+    summary: >-
+      Issue 88 defines the accepted increment and all later portability requirements
+      remain tracked.
     evidence:
     - kind: work
-      summary: Issue 88 defines the accepted increment and all later portability requirements remain tracked.
+      summary: >-
+        Issue 88 defines the accepted increment and all later portability requirements
+        remain tracked.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: Reviewed exact-byte envelopes and fixed-provider retrieval; storage observation cannot construct qualifying execution or authenticate a decision.
+    summary: >-
+      Reviewed exact-byte envelopes and fixed-provider retrieval; storage observation
+      cannot construct qualifying execution or authenticate a decision.
     evidence:
     - kind: contract_review
-      summary: Reviewed exact-byte envelopes and fixed-provider retrieval; storage observation cannot construct qualifying execution or authenticate a decision.
+      summary: >-
+        Reviewed exact-byte envelopes and fixed-provider retrieval; storage observation
+        cannot construct qualifying execution or authenticate a decision.
       location: spec/evidence-ledger.md
   - rule_id: MCD-CI-001
     outcome: passed
-    summary: GitLab remains the integration path. Integrated base 5f1aea7 passed pipeline 2925010749; this source still needs its own candidate and trunk checks.
+    summary: >-
+      GitLab remains the integration path. Integrated base 5f1aea7 passed pipeline
+      2925010749; this source still needs its own candidate and trunk checks.
     evidence:
     - kind: ci_observation
-      summary: GitLab remains the integration path. Integrated base 5f1aea7 passed pipeline 2925010749; this source still needs its own candidate and trunk checks.
+      summary: >-
+        GitLab remains the integration path. Integrated base 5f1aea7 passed pipeline
+        2925010749; this source still needs its own candidate and trunk checks.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2925010749
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: Main remains the sole integration trunk; no policy, branch role or delivery path changed.
+    summary: >-
+      Main remains the sole integration trunk; no policy, branch role or delivery
+      path changed.
     evidence:
     - kind: workflow_review
-      summary: Main remains the sole integration trunk; no policy, branch role or delivery path changed.
+      summary: >-
+        Main remains the sole integration trunk; no policy, branch role or delivery
+        path changed.
       location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: The branch is one exact-evidence inspection increment based on integrated main; broader migration and live outcomes remain separate.
+    summary: >-
+      The branch is one exact-evidence inspection increment based on integrated main;
+      broader migration and live outcomes remain separate.
     evidence:
     - kind: branch_review
-      summary: The branch is one exact-evidence inspection increment based on integrated main; broader migration and live outcomes remain separate.
+      summary: >-
+        The branch is one exact-evidence inspection increment based on integrated main;
+        broader migration and live outcomes remain separate.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: New explicit commands preserve existing checks and ledgers. Snapshot refactoring preserves prior attempt interface and no saved report enters qualification.
+    summary: >-
+      New explicit commands preserve existing checks and ledgers. Snapshot
+      refactoring preserves prior attempt interface and no saved report enters qualification.
     evidence:
     - kind: source_review
-      summary: New explicit commands preserve existing checks and ledgers. Snapshot refactoring preserves prior attempt interface and no saved report enters qualification.
+      summary: >-
+        New explicit commands preserve existing checks and ledgers. Snapshot
+        refactoring preserves prior attempt interface and no saved report enters qualification.
       location: crates/opdev-cli/src/evidence_bundle.rs
   - rule_id: OPDEV-TEST-001
     outcome: passed
-    summary: Actual assertions check original ledger preservation, fresh clone, wrong source/config/review/stage, separate failed and passed attempts, unfinished state and unverified no-exec.
+    summary: >-
+      Actual assertions check original ledger preservation, fresh clone, wrong
+      source/config/review/stage, separate failed and passed attempts, unfinished state and
+      unverified no-exec.
     evidence:
     - kind: assertion_review
-      summary: Actual assertions check original ledger preservation, fresh clone, wrong source/config/review/stage, separate failed and passed attempts, unfinished state and unverified no-exec.
+      summary: >-
+        Actual assertions check original ledger preservation, fresh clone, wrong
+        source/config/review/stage, separate failed and passed attempts, unfinished state and
+        unverified no-exec.
       location: crates/opdev-cli/tests/evidence_bundle.rs
   - rule_id: OPDEV-TEST-004
     outcome: passed
-    summary: Regression cases reject changed raw bytes, special files and access failures at every request; private imported enum values cannot leak through parser diagnostics.
+    summary: >-
+      Regression cases reject changed raw bytes, special files and access failures at
+      every request; private imported enum values cannot leak through parser
+      diagnostics.
     evidence:
     - kind: regression_review
-      summary: Regression cases reject changed raw bytes, special files and access failures at every request; private imported enum values cannot leak through parser diagnostics.
+      summary: >-
+        Regression cases reject changed raw bytes, special files and access failures at
+        every request; private imported enum values cannot leak through parser
+        diagnostics.
       location: crates/opdev-remote/src/archive/tests.rs
   - rule_id: OPDEV-TEST-005
     outcome: passed
-    summary: Focused tests passed after corrections; raw-hash guard mutation failed at the intended Github raw assertion and restoration passed. Earlier harness setup failures remain recorded, with no hidden retry or quarantine.
+    summary: >-
+      Focused tests passed after corrections; raw-hash guard mutation failed at the
+      intended Github raw assertion and restoration passed. Earlier harness setup
+      failures remain recorded, with no hidden retry or quarantine.
     evidence:
     - kind: execution_review
-      summary: Focused tests passed after corrections; raw-hash guard mutation failed at the intended Github raw assertion and restoration passed. Earlier harness setup failures remain recorded, with no hidden retry or quarantine.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3975135157
+      summary: >-
+        Focused tests passed after corrections; raw-hash guard mutation failed at the
+        intended Github raw assertion and restoration passed. Earlier harness setup
+        failures remain recorded, with no hidden retry or quarantine.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3975135157"
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: Reviewed actual source, strict schemas, test assertions and durable guidance, including no-redirect fixed origins, bounded reads, exact identities, no report qualification ingress and no automatic upload or cleanup.
+    summary: >-
+      Reviewed actual source, strict schemas, test assertions and durable guidance,
+      including no-redirect fixed origins, bounded reads, exact identities, no report
+      qualification ingress and no automatic upload or cleanup.
     evidence:
     - kind: source_review
-      summary: Reviewed actual source, strict schemas, test assertions and durable guidance, including no-redirect fixed origins, bounded reads, exact identities, no report qualification ingress and no automatic upload or cleanup.
+      summary: >-
+        Reviewed actual source, strict schemas, test assertions and durable guidance,
+        including no-redirect fixed origins, bounded reads, exact identities, no report
+        qualification ingress and no automatic upload or cleanup.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: Provider fixtures demonstrated authenticated exact retrieval with missing/hash/credential controls; host storage virtualization limits are documented. Retention approval, ledger retirement and live effectiveness remain unclaimed.
+    summary: >-
+      Provider fixtures demonstrated authenticated exact retrieval with
+      missing/hash/credential controls; host storage virtualization limits are documented. Retention
+      approval, ledger retirement and live effectiveness remain unclaimed.
     evidence:
     - kind: contract_review
-      summary: Provider fixtures demonstrated authenticated exact retrieval with missing/hash/credential controls; host storage virtualization limits are documented. Retention approval, ledger retirement and live effectiveness remain unclaimed.
+      summary: >-
+        Provider fixtures demonstrated authenticated exact retrieval with
+        missing/hash/credential controls; host storage virtualization limits are documented. Retention
+        approval, ledger retirement and live effectiveness remain unclaimed.
       location: spec/evidence-ledger.md
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: Jeremy approved representative export, mismatch and offline inspection wording in this conversation; response is recorded on issue 88. Plain-text labels distinguish inspection from execution and approval.
+    summary: >-
+      Jeremy approved representative export, mismatch and offline inspection wording
+      in this conversation; response is recorded on issue 88. Plain-text labels
+      distinguish inspection from execution and approval.
     evidence:
     - kind: maintainer_review
-      summary: Jeremy approved representative export, mismatch and offline inspection wording in this conversation; response is recorded on issue 88. Plain-text labels distinguish inspection from execution and approval.
+      summary: >-
+        Jeremy approved representative export, mismatch and offline inspection wording
+        in this conversation; response is recorded on issue 88. Plain-text labels
+        distinguish inspection from execution and approval.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: Rechecked integrated main 5f1aea74b1abf7b1801aeaf9cb0ebb8c7d936ba1 pipeline 2925010749 with success. No known red trunk is bypassed.
+    summary: >-
+      Rechecked integrated main 5f1aea74b1abf7b1801aeaf9cb0ebb8c7d936ba1 pipeline
+      2925010749 with success. No known red trunk is bypassed.
     evidence:
     - kind: ci_observation
-      summary: Rechecked integrated main 5f1aea74b1abf7b1801aeaf9cb0ebb8c7d936ba1 pipeline 2925010749 with success. No known red trunk is bypassed.
+      summary: >-
+        Rechecked integrated main 5f1aea74b1abf7b1801aeaf9cb0ebb8c7d936ba1 pipeline
+        2925010749 with success. No known red trunk is bypassed.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2925010749
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Canonical format, lint and check vectors remain executable and unchanged. Focused bundle, archive and local-state checks ran; this source must run current canonical suites before integration.
+    summary: >-
+      Canonical format, lint and check vectors remain executable and unchanged.
+      Focused bundle, archive and local-state checks ran; this source must run current
+      canonical suites before integration.
     evidence:
     - kind: execution_review
-      summary: Canonical format, lint and check vectors remain executable and unchanged. Focused bundle, archive and local-state checks ran; this source must run current canonical suites before integration.
+      summary: >-
+        Canonical format, lint and check vectors remain executable and unchanged.
+        Focused bundle, archive and local-state checks ran; this source must run current
+        canonical suites before integration.
       location: .opdev/project.yaml
   acceptance:
     scope: behavioral
@@ -17470,3 +17540,341 @@ changes:
         assertion and restored code passed. Jeremy approved representative wording; no
         archive-policy approval, live effectiveness or release claim.
       subject_sha256: 28797fe0fd965d091a2b05e66230588f9b16b52d7b954357db811006aac96d1b
+- fingerprint: b9952e4aeb01025647b82fa65f11f1111e53573d5ac9849ecc437c6d33d76b70
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: "Issue 88 owns this retained-review increment; migration and live effectiveness remain tracked separately."
+    evidence:
+    - kind: source_review
+      summary: "Issue 88 owns this retained-review increment; migration and live effectiveness remain tracked separately."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88"
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: "Sealed authenticated review carries semantic judgments, never validated execution or consent. Read selected storage and bind exact source, policy, stage and independently selected review identity."
+    evidence:
+    - kind: source_review
+      summary: "Sealed authenticated review carries semantic judgments, never validated execution or consent. Read selected storage and bind exact source, policy, stage and independently selected review identity."
+      location: "crates/opdev-engine/src/review.rs"
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: "GitLab remains the integration path; main e43bd5b passed pipeline 2926632561. This increment still requires its own candidate and integrated checks."
+    evidence:
+    - kind: source_review
+      summary: "GitLab remains the integration path; main e43bd5b passed pipeline 2926632561. This increment still requires its own candidate and integrated checks."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2926632561"
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: "Main remains the sole integration trunk; no project policy or delivery path changed."
+    evidence:
+    - kind: source_review
+      summary: "Main remains the sole integration trunk; no project policy or delivery path changed."
+      location: ".opdev/project.yaml"
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: "This increment completes explicit retained semantic review; provider fixtures are disposable, and broader migration and live effectiveness remain separate."
+    evidence:
+    - kind: source_review
+      summary: "This increment completes explicit retained semantic review; provider fixtures are disposable, and broader migration and live effectiveness remain separate."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88"
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: "Legacy evaluation remains the default; external review is explicitly schema-3 selected. Existing evidence is neither automatically moved nor deleted."
+    evidence:
+    - kind: source_review
+      summary: "Legacy evaluation remains the default; external review is explicitly schema-3 selected. Existing evidence is neither automatically moved nor deleted."
+      location: "spec/evidence-ledger.md"
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: "Actual test assertions distinguish no execution, real correct and defective order/count behavior, pending review, wrong identities and external create-new preservation."
+    evidence:
+    - kind: source_review
+      summary: "Actual test assertions distinguish no execution, real correct and defective order/count behavior, pending review, wrong identities and external create-new preservation."
+      location: "crates/opdev-engine/src/review.rs"
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: "Regression cases preserve failed judgments, reject stale source and edited work, omit unselected private content, and prevent source-ledger overwrite."
+    evidence:
+    - kind: source_review
+      summary: "Regression cases preserve failed judgments, reject stale source and edited work, omit unselected private content, and prevent source-ledger overwrite."
+      location: "crates/opdev-cli/tests/evidence_bundle.rs"
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: "Focused tests passed after visible test-development corrections. Provider harness HTTP415 and CRLF recovery failures remain separate from corrected trials. No quarantine or hidden retry."
+    evidence:
+    - kind: source_review
+      summary: "Focused tests passed after visible test-development corrections. Provider harness HTTP415 and CRLF recovery failures remain separate from corrected trials. No quarantine or hidden retry."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3978291676"
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: "Reviewed actual source, schemas, tests and guidance: source-stage-configuration binds, sealed storage origin, pre/post mutable work recheck, no diagnostic-report execution ingress, no implicit migration or release."
+    evidence:
+    - kind: source_review
+      summary: "Reviewed actual source, schemas, tests and guidance: source-stage-configuration binds, sealed storage origin, pre/post mutable work recheck, no diagnostic-report execution ingress, no implicit migration or release."
+      location: "crates/opdev-engine/src/review.rs"
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: "Both private providers exercised actual bad/fixed behavior and negative identity controls. Exact backup recovery was demonstrated; Windows conversion and private protection entitlement limits stay visible."
+    evidence:
+    - kind: source_review
+      summary: "Both private providers exercised actual bad/fixed behavior and negative identity controls. Exact backup recovery was demonstrated; Windows conversion and private protection entitlement limits stay visible."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3978291676"
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: "Maintainer approved retained-review and changed-work wording in this conversation. Structured outcomes and plain-text explanations distinguish inspection, attribution, consent and actual verification."
+    evidence:
+    - kind: source_review
+      summary: "Maintainer approved retained-review and changed-work wording in this conversation. Structured outcomes and plain-text explanations distinguish inspection, attribution, consent and actual verification."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3978291676"
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: "Read-only current main pipeline observation remains success at e43bd5b / 2926632561; no known red trunk bypass."
+    evidence:
+    - kind: source_review
+      summary: "Read-only current main pipeline observation remains success at e43bd5b / 2926632561; no known red trunk bypass."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2926632561"
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: "Canonical argument vectors remain unchanged. Current source is subject to the full declared format, lint and workspace test suite before integration."
+    evidence:
+    - kind: source_review
+      summary: "Canonical argument vectors remain unchanged. Current source is subject to the full declared format, lint and workspace test suite before integration."
+      location: ".opdev/project.yaml"
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Explicit authenticated semantic review and minimal mutable work observations,
+      with real execution still required. No consumer policy migration, release,
+      sole-history deletion or live-agent effectiveness claim.
+    conditions:
+    - id: separate
+      statement: >-
+        Authenticated semantic review cannot substitute for actual execution or accept
+        an ambiguous legacy source.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: It still runs the canonical stage checks
+    - id: subjects
+      statement: >-
+        Wrong source, configuration, stage, acceptance, schema and saved report cannot
+        become a current semantic review.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: Exact source/configuration/stage, original inventory/digest
+    - id: actual
+      statement: >-
+        An unresolved judgment or changed product cannot borrow an old pass; an actual
+        incorrect product fails.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: Unresolved or failed judgments remain
+    - id: work
+      statement: >-
+        Capture only selected work text with original body identity, author and
+        timestamps; wrong items and changed origins fail.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: It does not dump a full body or conversation.
+    - id: binding
+      statement: >-
+        Changing a retained work observation invalidates its independent review
+        identity.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: excerpt or provenance without rebinding is rejected.
+    - id: export
+      statement: >-
+        Review export is strict and create-new; malformed expected identity and
+        unselected repository fail before provider access.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: provider/repository is rejected before network access.
+    - id: prepare
+      statement: >-
+        External preparation preserves source and original history and requires a new
+        external destination.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: Export is local and create-new outside
+    - id: bootstrap
+      statement: >-
+        External-policy bootstrap cannot create an active source ledger or silently
+        satisfy unanswered decisions.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-preparation.md
+        sha256: 410b436bf9711b63d7919d50732e7d14af5814531d73f944a7db8a22a389e7eb
+        excerpt: --output
+    - id: guidance
+      statement: >-
+        Storage, attributed review, real authority, retention and execution remain
+        distinct with no implicit migration or release.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/88
+      source:
+        path: spec/evidence-ledger.md
+        sha256: 442ed8ce7f6cbae749151fe6dfdf79df8ef98ba1059e1a22dfedaecae6c16a30
+        excerpt: No author label becomes new
+    verifications:
+    - condition: separate
+      method: automated
+      target:
+        path: crates/opdev-engine/src/review.rs
+        sha256: e9f6104ee5e8bbb660ae2e8b15f7d03c503eb5a7380e58d37db54b0cd9a23388
+        excerpt: semantic_review_never_substitutes_for_actual_execution_or_authenticates_consent
+      assertion: >-
+        No-exec TEST-002 is unverified and no checks pass; real exact-order execution
+        passes; absent input and conflicting active ledger fail.
+      discriminating_case: A stored passed review cannot satisfy a check with execution disabled.
+      suite: check
+      outcome: passed
+    - condition: subjects
+      method: automated
+      target:
+        path: crates/opdev-engine/src/review.rs
+        sha256: e9f6104ee5e8bbb660ae2e8b15f7d03c503eb5a7380e58d37db54b0cd9a23388
+        excerpt: >-
+          wrong_subjects_unreviewed_judgments_saved_reports_and_private_fields_are_rejected
+      assertion: >-
+        Current exact bytes validate; wrong stage, acceptance, configuration, schema,
+        source identity and private unknown fields fail without echoing arbitrary content.
+      discriminating_case: >-
+        Rehashed diagnostic bytes or a schema-99 object cannot be interpreted as
+        semantic_review.
+      suite: check
+      outcome: passed
+    - condition: actual
+      method: automated
+      target:
+        path: crates/opdev-engine/src/review.rs
+        sha256: e9f6104ee5e8bbb660ae2e8b15f7d03c503eb5a7380e58d37db54b0cd9a23388
+        excerpt: pending_review_and_changed_product_cannot_borrow_an_old_pass
+      assertion: >-
+        Unverified judgment stays unverified, saved CheckReport fails parsing, staged
+        product changes reject old review, refreshed mapping still executes and fails
+        sorted-vs-original-order behavior.
+      discriminating_case: >-
+        Sorting c,a,b instead of preserving c,a must fail the actual Python assertion
+        and TEST-002.
+      suite: check
+      outcome: passed
+    - condition: work
+      method: automated
+      target:
+        path: crates/opdev-remote/src/work_observation.rs
+        sha256: da3af2cad6df90ce238cf372dca1a2806b7d3b8b35b77e65454d16af2048fa11
+        excerpt: both_providers_capture_only_selected_excerpt_with_original_body_identity
+      assertion: >-
+        Eight provider/kind/note combinations preserve original author/body identity
+        and timestamps, serialize no unselected context; paired wrong-identity cases fail.
+      discriminating_case: >-
+        A note on another parent, system note, wrong repository, changed slug or absent
+        excerpt cannot substitute for the selected work item.
+      suite: check
+      outcome: passed
+    - condition: binding
+      method: automated
+      target:
+        path: crates/opdev-engine/src/review.rs
+        sha256: e9f6104ee5e8bbb660ae2e8b15f7d03c503eb5a7380e58d37db54b0cd9a23388
+        excerpt: changing_retained_work_observation_invalidates_its_bound_review_identity
+      assertion: >-
+        Binding an observation changes review identity; old independent digest and
+        later edited excerpt without rebinding both fail current-subject validation.
+      discriminating_case: >-
+        A transport carrying a changed decision excerpt cannot retain the original
+        acceptance identity.
+      suite: check
+      outcome: passed
+    - condition: export
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 9fae3503f6a3c457d411c5a7d2f26278098f27fb1fd88dbc5a8ae8358e0c62e7
+        excerpt: semantic_review_export_is_separate_and_wrong_origin_is_rejected_before_network
+      assertion: >-
+        Export validates against local strict schemas, omits attempts and
+        qualification, refuses overwrite; wrong repository and malformed expected identity exit 2
+        before retrieval.
+      discriminating_case: >-
+        Choosing a different repository from the reviewed policy or a malformed digest
+        cannot trigger provider requests.
+      suite: check
+      outcome: passed
+    - condition: prepare
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: 9fae3503f6a3c457d411c5a7d2f26278098f27fb1fd88dbc5a8ae8358e0c62e7
+        excerpt: >-
+          external_preparation_preserves_source_and_refuses_overwrite_or_in_repository_output
+      assertion: >-
+        External draft cannot overwrite source history or write inside product; a new
+        external candidate retains failed review unchanged, leaves both input ledgers
+        byte-identical and refuses replacement.
+      discriminating_case: >-
+        Exporting a failed judgment must not convert it to passed or replace its
+        original record.
+      suite: check
+      outcome: passed
+    - condition: bootstrap
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bootstrap.rs
+        sha256: 0c00d25855b33a4711c95c79f7ab6712b2209a7b6a9d8d1ff50048d883170b60
+        excerpt: external_bootstrap_requires_new_output_and_never_creates_source_ledger
+      assertion: >-
+        External-policy questionnaire is generated without execution, source output is
+        rejected, external create-new succeeds with only the one explicitly
+        fixture-reviewed project assertion, and overwrite leaves original bytes intact.
+      discriminating_case: >-
+        Unanswered change decisions produce no change or testing success; project
+        policy bytes and source ledger absence stay unchanged.
+      suite: check
+      outcome: passed
+    - condition: guidance
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/evidence.md
+        sha256: c7ebad74d716807033e2e6e78d57af13e1e21b1bb8effb793a13af06244e82f0
+        excerpt: review_storage
+      assertion: >-
+        Actual guidance routes legacy versus explicitly selected external policy,
+        retains current semantic duties and disclosure of absent capabilities, and prohibits
+        automatic upload, migration, cleanup or release.
+      discriminating_case: >-
+        A stored author attribution or green historical report cannot establish actual
+        consent or current execution.
+      automation_limitation: >-
+        Semantic policy and plain-language meaning require maintainer/source review.
+        Maintainer approved representative new wording in this conversation; live-provider
+        fixtures separately tested retrieval and changed original text, not all semantic
+        judgments or live-agent effectiveness.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: Codex source and actual assertion review
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/88#note_3978291676"
+      rationale: >-
+        Reviewed exact source, strict schemas, current mapping assertions, real
+        wrong-order discriminator, independent expected identities and changed original work
+        rechecks. Existing diagnostic reports cannot construct execution or semantic origin.
+        External prepare/bootstrap preserve old bytes and unanswered decisions.
+        Maintainer approved representative wording. Private provider trials and recovery preserve
+        harness failures and entitlement limits separately; no migration, effectiveness
+        or release claim.
+      subject_sha256: 1b4dc7f9d1084f37ecb2ec6fc7d2d6d0f944d1623a89acf3a6464aefc1b277ed

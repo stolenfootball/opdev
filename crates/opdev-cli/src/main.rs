@@ -1002,6 +1002,9 @@ fn selected_review(
     stage: opdev_project::TestStage,
 ) -> Result<Option<opdev_engine::ValidatedReview>> {
     args.review_locator.as_ref().map(|path| -> Result<_> {
+        let acceptance = args.review_acceptance_sha256.as_deref().context("Acceptance identity required")?;
+        anyhow::ensure!(acceptance.len() == 64 && acceptance.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+            "Acceptance identity must be a lowercase SHA-256 digest; no provider request made");
         let bytes = local_state::read(&std::path::absolute(path)?)?.context("Semantic review locator is missing")?;
         let locator: opdev_remote::ArchiveLocator = serde_json::from_slice(&bytes)
             .map_err(|_| anyhow::anyhow!("Semantic review locator is malformed; no private content echoed"))?;
@@ -1012,7 +1015,7 @@ fn selected_review(
         }
         let observed = opdev_remote::retrieve_archive(&locator).map_err(anyhow::Error::msg)?;
         opdev_engine::ValidatedReview::from_archive(root, manifest, stage,
-            args.review_acceptance_sha256.as_deref().context("Acceptance identity required")?, &observed).map_err(anyhow::Error::msg)
+            acceptance, &observed).map_err(anyhow::Error::msg)
     }).transpose()
 }
 
