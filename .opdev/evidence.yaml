@@ -18464,152 +18464,181 @@ changes:
     summary: >-
       Maintainer explicitly approved the shared-guidance and data_recovery messages
       after their exact presentation; coordinated-migration wording was separately
-      approved. Automated plain-text/structured diagnostics remain covered by the
-      canonical suite. This is reviewed output against the project target, not
-      universal accessibility certification or consumer consent.
+      approved. Automated plain-text/structured diagnostics remain covered by the canonical
+      suite. This is reviewed output against the project target, not universal
+      accessibility certification or consumer consent.
+    evidence:
+    - kind: source_review
+      summary: "Actual developer response: Everything here is approved. It answers the two quoted wording messages and the separately bounded four-session evaluation request, not release or consumer migration."
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3979195580"
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: >-
+      Issues 81, 89 and 90 own the coherent selected-layout, safeguard and
+      reviewed-migration increment; overall live outcomes remain in 91. No release or consumer
+      migration is authorized.
     evidence:
     - kind: source_review
       summary: >-
-        Actual developer response: Everything here is approved. It answers the two
-        quoted wording messages and the separately bounded four-session evaluation
-        request, not release or consumer migration.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/81#note_3979195580
-  - rule_id: OPDEV-WORK-001
-    outcome: passed
-    summary: Issues 81, 89 and 90 own the coherent selected-layout, safeguard and reviewed-migration
-      increment; overall live outcomes remain in 91. No release or consumer migration is authorized.
-    evidence:
-    - kind: source_review
-      summary: Issues 81, 89 and 90 own the coherent selected-layout, safeguard and reviewed-migration
-        increment; overall live outcomes remain in 91. No release or consumer migration is authorized.
+        Issues 81, 89 and 90 own the coherent selected-layout, safeguard and
+        reviewed-migration increment; overall live outcomes remain in 91. No release or consumer
+        migration is authorized.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: Explicit schema selections, exact per-file before/after recovery and independent
-      retained-history retrieval preserve existing owners and refuse ambiguous content; no implicit
-      policy upgrade or new permanent migration registry.
+    summary: >-
+      Explicit schema selections, exact per-file before/after recovery and
+      independent retained-history retrieval preserve existing owners and refuse ambiguous
+      content; no implicit policy upgrade or new permanent migration registry.
     evidence:
     - kind: source_review
-      summary: Explicit schema selections, exact per-file before/after recovery and independent
-        retained-history retrieval preserve existing owners and refuse ambiguous content; no
-        implicit policy upgrade or new permanent migration registry.
+      summary: >-
+        Explicit schema selections, exact per-file before/after recovery and
+        independent retained-history retrieval preserve existing owners and refuse ambiguous
+        content; no implicit policy upgrade or new permanent migration registry.
       location: spec/upgrades.md
   - rule_id: MCD-CI-001
     outcome: passed
-    summary: GitLab remains the integration owner. Current main fa3a6c0 pipeline 2927051302
-      is successful; this candidate still needs its own remote checks and post-merge verification.
+    summary: >-
+      GitLab remains the integration owner. Current main fa3a6c0 pipeline 2927051302
+      is successful; this candidate still needs its own remote checks and post-merge
+      verification.
     evidence:
     - kind: source_review
-      summary: GitLab remains the integration owner. Current main fa3a6c0 pipeline 2927051302
-        is successful; this candidate still needs its own remote checks and post-merge verification.
+      summary: >-
+        GitLab remains the integration owner. Current main fa3a6c0 pipeline 2927051302
+        is successful; this candidate still needs its own remote checks and post-merge
+        verification.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927051302
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: The unchanged project contract selects main as sole integration trunk; no release
-      source or branch policy changed.
+    summary: >-
+      The unchanged project contract selects main as sole integration trunk; no
+      release source or branch policy changed.
     evidence:
     - kind: source_review
-      summary: The unchanged project contract selects main as sole integration trunk; no release
-        source or branch policy changed.
+      summary: >-
+        The unchanged project contract selects main as sole integration trunk; no
+        release source or branch policy changed.
       location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: This bounded feature branch joins the interdependent strict-layout, safeguards
-      and migration interfaces; main was merged at c6d1e99. No parallel integration stream or
-      indefinite feedback branch is introduced.
+    summary: >-
+      This bounded feature branch joins the interdependent strict-layout, safeguards
+      and migration interfaces; main was merged at c6d1e99. No parallel integration
+      stream or indefinite feedback branch is introduced.
     evidence:
     - kind: source_review
-      summary: This bounded feature branch joins the interdependent strict-layout, safeguards
-        and migration interfaces; main was merged at c6d1e99. No parallel integration stream
-        or indefinite feedback branch is introduced.
+      summary: >-
+        This bounded feature branch joins the interdependent strict-layout, safeguards
+        and migration interfaces; main was merged at c6d1e99. No parallel integration
+        stream or indefinite feedback branch is introduced.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: Legacy policies and digests retain their semantics. New layout/storage/safeguards
-      require explicit schema-3 selection and capabilities; unknown versions and links refuse
-      mutation. No installed pin or consumer state changed.
+    summary: >-
+      Legacy policies and digests retain their semantics. New
+      layout/storage/safeguards require explicit schema-3 selection and capabilities; unknown versions and
+      links refuse mutation. No installed pin or consumer state changed.
     evidence:
     - kind: source_review
-      summary: Legacy policies and digests retain their semantics. New layout/storage/safeguards
-        require explicit schema-3 selection and capabilities; unknown versions and links refuse
-        mutation. No installed pin or consumer state changed.
+      summary: >-
+        Legacy policies and digests retain their semantics. New
+        layout/storage/safeguards require explicit schema-3 selection and capabilities; unknown versions and
+        links refuse mutation. No installed pin or consumer state changed.
       location: spec/compatibility.md
   - rule_id: OPDEV-TEST-001
     outcome: passed
-    summary: Mappings inspect concrete index, stale-input, interruption, prior-history, capability-objective
-      and stage assertions. Real API/data/authorization/installer fixtures distinguish seeded
-      broken behavior from green metadata.
+    summary: >-
+      Mappings inspect concrete index, stale-input, interruption, prior-history,
+      capability-objective and stage assertions. Real API/data/authorization/installer
+      fixtures distinguish seeded broken behavior from green metadata.
     evidence:
     - kind: source_review
-      summary: Mappings inspect concrete index, stale-input, interruption, prior-history, capability-objective
-        and stage assertions. Real API/data/authorization/installer fixtures distinguish seeded
-        broken behavior from green metadata.
+      summary: >-
+        Mappings inspect concrete index, stale-input, interruption, prior-history,
+        capability-objective and stage assertions. Real API/data/authorization/installer
+        fixtures distinguish seeded broken behavior from green metadata.
       location: crates/opdev-cli/tests/safeguards.rs
   - rule_id: OPDEV-TEST-004
     outcome: passed
-    summary: Regression assertions prevent ignored index links, stale plan overwrite, approval
-      transfer, ledger loss and raw malformed-history diagnostic exposure; published schema
-      and runtime agree on explicit policy requirements.
+    summary: >-
+      Regression assertions prevent ignored index links, stale plan overwrite,
+      approval transfer, ledger loss and raw malformed-history diagnostic exposure; published
+      schema and runtime agree on explicit policy requirements.
     evidence:
     - kind: source_review
-      summary: Regression assertions prevent ignored index links, stale plan overwrite, approval
-        transfer, ledger loss and raw malformed-history diagnostic exposure; published schema
-        and runtime agree on explicit policy requirements.
+      summary: >-
+        Regression assertions prevent ignored index links, stale plan overwrite,
+        approval transfer, ledger loss and raw malformed-history diagnostic exposure; published
+        schema and runtime agree on explicit policy requirements.
       location: crates/opdev-cli/src/migration/tests.rs
   - rule_id: OPDEV-TEST-005
     outcome: passed
-    summary: Earlier formatting/lint and malformed-history trial failures are retained separately.
-      Restored negative-control runs passed; there are no hidden retries or newly quarantined
-      tests. Canonical verification for this exact source is still to run.
+    summary: >-
+      Earlier formatting/lint and malformed-history trial failures are retained
+      separately. Restored negative-control runs passed; there are no hidden retries or
+      newly quarantined tests. Canonical verification for this exact source is still to run.
     evidence:
     - kind: source_review
-      summary: Earlier formatting/lint and malformed-history trial failures are retained separately.
-        Restored negative-control runs passed; there are no hidden retries or newly quarantined
-        tests. Canonical verification for this exact source is still to run.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/90#note_3978576052
+      summary: >-
+        Earlier formatting/lint and malformed-history trial failures are retained
+        separately. Restored negative-control runs passed; there are no hidden retries or
+        newly quarantined tests. Canonical verification for this exact source is still to run.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/90#note_3978576052"
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: Controller reviewed actual implementation, schemas, assertions and public/agent
-      procedures. Structural validity does not prove useful content, consent, runtime compatibility
-      or execution. New adoption clarification does not select policy for a developer.
+    summary: >-
+      Controller reviewed actual implementation, schemas, assertions and public/agent
+      procedures. Structural validity does not prove useful content, consent, runtime
+      compatibility or execution. New adoption clarification does not select policy for
+      a developer.
     evidence:
     - kind: source_review
-      summary: Controller reviewed actual implementation, schemas, assertions and public/agent
-        procedures. Structural validity does not prove useful content, consent, runtime compatibility
-        or execution. New adoption clarification does not select policy for a developer.
+      summary: >-
+        Controller reviewed actual implementation, schemas, assertions and public/agent
+        procedures. Structural validity does not prove useful content, consent, runtime
+        compatibility or execution. New adoption clarification does not select policy for
+        a developer.
       location: spec/documentation-layout.md
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: Private migration trial retrieved and recovered all 3000 failed historical reviews
-      exactly. Frozen 40-session comparison had 24/24 product probes and 20/20 generated-test
-      negative controls, with no speed improvement claim; fresh thin-entry host evidence remains
-      pending.
+    summary: >-
+      Private migration trial retrieved and recovered all 3000 failed historical
+      reviews exactly. Frozen 40-session comparison had 24/24 product probes and 20/20
+      generated-test negative controls, with no speed improvement claim; fresh thin-entry
+      host evidence remains pending.
     evidence:
     - kind: source_review
-      summary: Private migration trial retrieved and recovered all 3000 failed historical reviews
-        exactly. Frozen 40-session comparison had 24/24 product probes and 20/20 generated-test
-        negative controls, with no speed improvement claim; fresh thin-entry host evidence remains
-        pending.
-      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/91#note_3979022213
+      summary: >-
+        Private migration trial retrieved and recovered all 3000 failed historical
+        reviews exactly. Frozen 40-session comparison had 24/24 product probes and 20/20
+        generated-test negative controls, with no speed improvement claim; fresh thin-entry
+        host evidence remains pending.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/91#note_3979022213"
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: Current main fa3a6c0 has successful pipeline 2927051302; no known red-trunk delivery
-      is bypassed, and no delivery is attempted.
+    summary: >-
+      Current main fa3a6c0 has successful pipeline 2927051302; no known red-trunk
+      delivery is bypassed, and no delivery is attempted.
     evidence:
     - kind: source_review
-      summary: Current main fa3a6c0 has successful pipeline 2927051302; no known red-trunk delivery
-        is bypassed, and no delivery is attempted.
+      summary: >-
+        Current main fa3a6c0 has successful pipeline 2927051302; no known red-trunk
+        delivery is bypassed, and no delivery is attempted.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927051302
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Canonical argument vectors remain format, lint and full workspace tests at declared
-      boundaries. This source will be verified with the normal current-stage check; a retained
-      report or other stage is not substituted.
+    summary: >-
+      Canonical argument vectors remain format, lint and full workspace tests at
+      declared boundaries. This source will be verified with the normal current-stage
+      check; a retained report or other stage is not substituted.
     evidence:
     - kind: source_review
-      summary: Canonical argument vectors remain format, lint and full workspace tests at declared
-        boundaries. This source will be verified with the normal current-stage check; a retained
-        report or other stage is not substituted.
+      summary: >-
+        Canonical argument vectors remain format, lint and full workspace tests at
+        declared boundaries. This source will be verified with the normal current-stage
+        check; a retained report or other stage is not substituted.
       location: .opdev/project.yaml
   acceptance:
     scope: behavioral
@@ -19258,3 +19287,517 @@ changes:
         approval. Frozen forty-session results remain separate and are not relabelled as
         testing these later clarifications.
       subject_sha256: ecec3961836ee8fa67d3fc99e7019e5aa30e34064aa4d912259b22eeb7cbfc0b
+- fingerprint: 684b4f18ea7eeb3628919367306cbd8f8d9ce451218994839312f4a353f269ac
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+  assertions:
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Current material source and acceptance passed pre-merge format, lint and full workspace tests. This records that stage only; post-merge execution remains separately required.
+    evidence:
+    - kind: observed
+      summary: Actual opdev check --ci executed all three canonical vectors with passing development/integration; no skipped execution or delivery claim.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980914762
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: Issues 92-95 define scoped continuation, connected phases and the separately authorized evaluation amendment; no release or consumer update.
+    evidence:
+    - kind: work
+      summary: Reviewed original scope, acceptance and revised repair-response protocol, preserving earlier failures.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: Optional outcome phases and bounded continuation reconcile earlier stopping cues without a planner, scheduler, registry or new schema.
+    evidence:
+    - kind: source_review
+      summary: Current planning specification records behavior, alternatives, proportionality and reversal conditions; package routes agree.
+      location: spec/planning.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: GitLab remains the integration authority; current main pipeline 2927421474 passed. This candidate still requires its own remote checks and post-merge verification.
+    evidence:
+    - kind: ci
+      summary: Existing required quality, native installer and affected package jobs remain unchanged; no local delivery substituted.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927421474
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: Main remains the sole integration trunk; no policy or parallel integration branch is introduced.
+    evidence:
+    - kind: source_review
+      summary: Unchanged project contract and actual branch ancestry inspected.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: The bounded branch combines interdependent planning, continuation and evaluation corrections and will be removed after verified merge; no indefinite feedback branch.
+    evidence:
+    - kind: work
+      summary: Current main ada2c99 remains its ancestor; branch scope and final integration are tracked together.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: Current main pipeline is green; no red-trunk delivery is bypassed and no release is attempted.
+    evidence:
+    - kind: ci
+      summary: Read-only live main pipeline observation is success at ada2c99.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2927421474
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: Public CLI, schemas, policy, runtime pin and selected layout behavior are unchanged. New shared guidance preserves thin selected-layout entries and unrelated legacy root content.
+    evidence:
+    - kind: source_review
+      summary: Exact-copy, fresh-init and upgrade assertions cover distribution; semantic reliability is evaluated separately.
+      location: crates/opdev-cli/tests/planning_guidance.rs
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: Requirement-derived consumer assertions cover corruption, composition, actual independent completion and stop boundaries rather than names or green component tests alone.
+    evidence:
+    - kind: source_review
+      summary: Inspected actual Python oracle and Rust canonical wrapper assertions against reference and plausible wrong implementations.
+      location: tests/phased_fixtures_test.py
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: Escaped premature-stop and helper-exception defects have discriminating continuation/scope and non-ASCII error regressions; no universal agent-discovery claim.
+    evidence:
+    - kind: source_review
+      summary: Known compare_digest exception-leak mutant fails the strengthened oracle; reference behavior passes. Trial failures remain preserved separately.
+      location: tests/phased_fixtures_test.py
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: No hidden retries or quarantine. Prior 24,12,6 session failures and the separately authorized six-session repair study remain distinct.
+    evidence:
+    - kind: work
+      summary: Frozen inputs, failed attempts and host limits are retained; current canonical execution is separately required.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: Plain-text interface targets remain unchanged; maintainer approved representative phase, blocker and release-boundary wording. No new CLI output or interactive flow.
+    evidence:
+    - kind: decision
+      summary: Actual developer response approved both evaluation allowance and representative wording; this does not imply release consent.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94#note_3980298692
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: Controller reviewed actual source, assertions, original decisions and independent observed behavior; producer completion claims are not acceptance evidence alone.
+    evidence:
+    - kind: source_review
+      summary: Source-bound mappings distinguish mechanical distribution, live repair-response and untested universality; no review delegation or invented consent.
+      location: tests/planning-review.md
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: Preserved failures drove early continuation routing, a stronger failure-path oracle and independent finding repair; prior failed generations are not relabelled as passing.
+    evidence:
+    - kind: work
+      summary: Explicitly authorized changed evaluation scope tests response to findings rather than claiming unaided discovery or speed superiority.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980832442
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Phased planning/scoped continuation, managed distribution and independent
+      finding response. Developer authorized the revised review-and-repair approach after
+      preserved failures; this is not a claim of universal unaided error discovery. All
+      prior study verdicts remain. No release, installed update, policy/layout migration
+      or default delegation.
+    conditions:
+    - id: phase-scope
+      statement: >-
+        Preserve supplied constraints and every required outcome, separating satisfied,
+        current, accepted later, unresolved and optional work.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "PH-01: Preserve"
+    - id: connected-outcomes
+      statement: >-
+        Phases and milestones compose into a usable outcome, with safeguards and
+        assembled-path checks rather than layer-first completion.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "PH-02: Give"
+    - id: proportional-planning
+      statement: >-
+        Milestone preparation reuses current evidence and investigates changed material
+        uncertainty, without mandatory research/model/approval rituals.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "PH-04: At"
+    - id: completion-scope
+      statement: Report MVP/phase, overall goal, qualification and release distinctly.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "PH-05: Report"
+    - id: execution-boundary
+      statement: >-
+        Continue committed authorized work, preserve guided checkpoints and real
+        stop/revocation boundaries without expanded permissions.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "SC-01: Continue"
+    - id: local-blocker
+      statement: >-
+        Complete meaningful independent authorized work through a local blocker while
+        preserving unanswered decisions.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "SC-02: Before"
+    - id: bounded-work
+      statement: >-
+        Park dependent edits safely, bound unfinished work proportionately and resume
+        only from actual answers/current state.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "SC-03: Keep"
+    - id: feedback-continuation
+      statement: >-
+        Feedback remains proportionate and available without automatically ending
+        authorized implementation or waiving integration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "SC-04: Feedback"
+    - id: fresh-context
+      statement: >-
+        Fresh context follows original current decisions rather than stale summaries or
+        local pointers.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/94
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: "SC-05: Fresh"
+    - id: distribution
+      statement: >-
+        Guidance remains reachable in isolated copies and fresh/upgraded roots without
+        changing legacy policy or unrelated text.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95
+      source:
+        path: spec/planning.md
+        sha256: ab91be322f2d49d429760a40ff587b9dad2a43e5e63bafbed01abad3bea78e80
+        excerpt: Shared skill guidance and fresh/upgraded project entry points
+    - id: shared-guide
+      statement: >-
+        Strict-layout roots remain thin and route to exact generated shared guidance
+        without implicit layout migration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95
+      source:
+        path: spec/documentation-layout.md
+        sha256: d4c7a09efcd2acad54c10a996656ba059a50978b0ff6ebe53377ce4f1547bf4c
+        excerpt: guidance.md
+    - id: oracles
+      statement: >-
+        Independent consumer assertions distinguish correct results from plausible
+        incorrect implementations and unauthorized fixture changes.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/95
+      source:
+        path: tests/planning-review.md
+        sha256: 7c8c4980f346aaf4265d154ab7afae30100b92e1595f2668d4ab0f0c51d75699
+        excerpt: "Include negative controls:"
+    - id: helper-failure-path
+      statement: >-
+        Review promised public failure outcomes through helper input domains and
+        exception behavior, proportionately without a new universal matrix or tooling
+        requirement.
+      authority: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980680677"
+      source:
+        path: plugins/opdev/skills/opdev/references/acceptance.md
+        sha256: 3b50f7623024610c5fb2b59a2f132a62c17247f4deab3b2115298c12ec87b749
+        excerpt: For a promised failure outcome
+    - id: error-oracle
+      statement: >-
+        The independent malformed-envelope oracle rejects the observed non-ASCII helper
+        exception leak while accepting a valid public-error implementation.
+      authority: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980680677"
+      source:
+        path: tests/planning-review.md
+        sha256: 7c8c4980f346aaf4265d154ab7afae30100b92e1595f2668d4ab0f0c51d75699
+        excerpt: Demonstrate that independent checks
+    - id: review-repair
+      statement: >-
+        Independent contradictions are reproduced and repaired against the original
+        contract before acceptance; preserve earlier failures, reject contract-weakening
+        advice, and do not invent defects in a clean control.
+      authority: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980832442"
+      source:
+        path: plugins/opdev/skills/opdev/references/acceptance.md
+        sha256: 3b50f7623024610c5fb2b59a2f132a62c17247f4deab3b2115298c12ec87b749
+        excerpt: When an independent requirement-derived check
+    verifications:
+    - condition: phase-scope
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/planning.md
+        sha256: ed8b0d197985b7a4911f8601ec531415d057c1eb74b1bc0419a7ed7585971bb8
+        excerpt: Separate current scope
+      assertion: >-
+        Review actual dispositions and no silent deferral; live P1/P5 actions remain
+        separately required.
+      discriminating_case: >-
+        An accepted later batch feature must not disappear or become optional merely
+        because the MVP is complete.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: connected-outcomes
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/planning.md
+        sha256: ed8b0d197985b7a4911f8601ec531415d057c1eb74b1bc0419a7ed7585971bb8
+        excerpt: Give each useful phase
+      assertion: >-
+        Review actual composition and safeguard instructions; require P1/P2 consumer
+        oracle and transcript results.
+      discriminating_case: >-
+        Separately passing writer/reader tests must not establish a functioning round
+        trip.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: proportional-planning
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/planning.md
+        sha256: ed8b0d197985b7a4911f8601ec531415d057c1eb74b1bc0419a7ed7585971bb8
+        excerpt: At milestone start
+      assertion: >-
+        Review narrow-work, supplied-plan and urgent-restoration boundaries; assess
+        observed P2/P6 overhead separately.
+      discriminating_case: >-
+        A familiar normalization repair should not require a new roadmap or browsing
+        phase.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: completion-scope
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/results.md
+        sha256: 0ebdfe77515323b4767c485c744be92f626ec072295ea6e406837d87d8247e4d
+        excerpt: For phased work
+      assertion: >-
+        Compare reports guidance with original scope and P1/P5 actual final messages;
+        no closed-task-count proof.
+      discriminating_case: >-
+        MVP complete with batch restore deferred cannot be called full-roadmap complete
+        or released.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: execution-boundary
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/workflow.md
+        sha256: 9dc1ea6929842cc3f0c6c0efc11c90b3a37ef46fccedd0c54d9a8ef35ce88eb8
+        excerpt: Use the actual developer instruction
+      assertion: >-
+        Review scope cases and actual P3/P4/P5 actions, including advice-only and
+        optional ideas.
+      discriminating_case: >-
+        An implementation instruction neither enables publication/delegation nor
+        overrides an MVP stop.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: local-blocker
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/workflow.md
+        sha256: 9dc1ea6929842cc3f0c6c0efc11c90b3a37ef46fccedd0c54d9a8ef35ce88eb8
+        excerpt: When an item blocks
+      assertion: >-
+        Require the P3 independent behavior and real tests before its first end-turn,
+        no premature heading edit, and resumed completion after actual answer.
+      discriminating_case: >-
+        A promise or file read without the independent normalization fix fails
+        continuation.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: bounded-work
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/workflow.md
+        sha256: 9dc1ea6929842cc3f0c6c0efc11c90b3a37ef46fccedd0c54d9a8ef35ce88eb8
+        excerpt: Prefer one active slice
+      assertion: >-
+        Review actual state preservation and P3 resumption, with offline
+        conflicting-work and exhausted-authority permutations.
+      discriminating_case: >-
+        WIP guidance cannot become permission for endless branches, fabricated approval
+        or a numeric excuse to stop.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: feedback-continuation
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/planning.md
+        sha256: ed8b0d197985b7a4911f8601ec531415d057c1eb74b1bc0419a7ed7585971bb8
+        excerpt: Ready for feedback is a valid checkpoint
+      assertion: >-
+        Compare planning/workflow/results routes for consistent behavior and requested
+        guided feedback; canonical gates remain unchanged.
+      discriminating_case: >-
+        No full suite merely to ask direction, but feedback alone cannot qualify
+        merging.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: fresh-context
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/workflow.md
+        sha256: 9dc1ea6929842cc3f0c6c0efc11c90b3a37ef46fccedd0c54d9a8ef35ce88eb8
+        excerpt: Recover the goal
+      assertion: >-
+        Inspect source routing and actual P5 decision reads/changes; original later
+        narrowing controls.
+      discriminating_case: >-
+        Obsolete all-features summary cannot authorize batch restore after the original
+        scope was narrowed.
+      automation_limitation: >-
+        Instruction meaning and live action/consent/completion semantics cannot be
+        established by phrase matching or a distribution test. Controller source review and
+        actual bounded independent trial observations are required; pending live results
+        are not a pass.
+      outcome: passed
+    - condition: distribution
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/planning_guidance.rs
+        sha256: d47ee4aad76d9afbd733cbcf018efeaf865e8df5251e325ea922aeaa8a0621e8
+        excerpt: fn scoped_continuation_routes_survive_isolated_plugin_copy
+      assertion: >-
+        Actual path canonicalization, bytes and heading target remain within isolated
+        copied plugin; fresh/upgraded guidance matches managed root and preserves
+        prefixes, suffixes and Claude import.
+      discriminating_case: >-
+        A missing/misdirected reference or changed user-owned root text must fail; this
+        does not prove model behavior.
+      suite: check
+      outcome: passed
+    - condition: shared-guide
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/layout.rs
+        sha256: 0f101abd7d6e588e6c60e442a802c41be7ea8eed89dcb62fc8599d994960dd93
+        excerpt: format!("{}\n", opdev_project::shared_guidance())
+      assertion: >-
+        Init output equals complete current shared guide plus its established trailing
+        newline; existing tests preserve thin entries and legacy layout selection.
+      discriminating_case: >-
+        Omitted current guidance or root bloat fails while legitimate trailing newline
+        is retained.
+      suite: check
+      outcome: passed
+    - condition: oracles
+      method: automated
+      target:
+        path: tests/phased_fixtures_test.py
+        sha256: e331bb5e7bcd0d054d82c788aff07d3316a65ced77caade36aeaeb8ceaa431b7
+        excerpt: >-
+          def
+          test_continuation_requires_real_fix_before_answer_and_preserves_pending_label
+      assertion: >-
+        Executed hidden consumer assertions reject missing fix, early heading change,
+        corruption acceptance, composition mismatch, scope edits and post-replacement
+        writes; reference fixes pass.
+      discriminating_case: >-
+        Round-tripping happy path alone cannot hide corruption acceptance; valid
+        narrative cannot substitute for a working normalization fix.
+      suite: check
+      outcome: passed
+    - condition: helper-failure-path
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/acceptance.md
+        sha256: 3b50f7623024610c5fb2b59a2f132a62c17247f4deab3b2115298c12ec87b749
+        excerpt: Do not assume a helper's input domain
+      assertion: >-
+        Inspect the generic helper-domain guidance and independently demonstrated
+        failure; require retained regression and corrected public outcome in review-and-repair
+        trials. Earlier unaided generation failed; no universal discovery claim or
+        retrospective passing score.
+      discriminating_case: >-
+        A familiar ASCII mismatch may raise ValueError while a non-ASCII digest fails
+        inside compare_digest with TypeError before the intended guard.
+      automation_limitation: >-
+        Instruction presence cannot establish application of semantic review; direct
+        source and trial observations are required. The regression below checks the hidden
+        oracle, not universal agent reliability.
+      outcome: passed
+    - condition: error-oracle
+      method: automated
+      target:
+        path: tests/phased_fixtures_test.py
+        sha256: e331bb5e7bcd0d054d82c788aff07d3316a65ced77caade36aeaeb8ceaa431b7
+        excerpt: def test_mvp_rejects_helper_error_leaking_through_public_decoder
+      assertion: >-
+        The known leaky helper decoder must fail the independent public API oracle; the
+        valid reference must pass. The canonical Rust wrapper executes this Python suite.
+      discriminating_case: >-
+        Old oracle incorrectly passed the mutant (observed red assertion); the
+        strengthened non-ASCII case rejects it without rejecting the valid decoder.
+      suite: check
+      outcome: passed
+    - condition: review-repair
+      method: review
+      target:
+        path: tests/planning-review.md
+        sha256: 7c8c4980f346aaf4265d154ab7afae30100b92e1595f2668d4ab0f0c51d75699
+        excerpt: For a separate review-and-repair evaluation
+      assertion: >-
+        Inspect R01/R02 real red/green regressions and final source, R02 rejection of
+        digest-check removal, R03 unchanged correct implementation, and continued P2/P3/P5
+        scope controls.
+      discriminating_case: >-
+        Green generated tests cannot overrule reproduced TypeError; removing integrity
+        checking is not a valid repair; a correct implementation must not be changed for
+        a review quota.
+      automation_limitation: >-
+        Frozen consumer/protected-state oracles check behavior; actual reproduction,
+        retained failures, advice assessment and honest qualification need direct
+        source/action review, not phrase presence.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: >-
+        Codex controller; actual source, assertion and execution review, not developer
+        consent
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/95#note_3980889911"
+      rationale: "Directly reviewed all 15 conditions against original #92-95 scope, spec/packaged/generated routes, actual automated assertions and isolated trial actions. Current six-session repair study passes consumer/protected checks and semantic review: both retained defects reproduced and repaired with regressions, contract-weakening advice rejected, clean implementation preserved, composition and scoped continuation demonstrated. Earlier 24+12+6 studies retain their failures; current acceptance is the explicitly authorized response to independent findings, not universal unaided discovery or a speed improvement. Prior offline boundary permutations and routine/guided/standalone-status observations remain separately labelled. Seeded fresh context is not actual rollover; live Claude remains untested. Maintainer wording approval is recorded in #94 note3980298692. Canonical and remote integration execution remain independently required."
+      subject_sha256: c2874be2418c40b4c001ecb69f2f277ae9f511b3fce2bc6dcac42dcaed211429
