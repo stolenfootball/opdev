@@ -230,6 +230,7 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "layout.inspect.v1",
                 "state.local.v1",
                 "evidence.bundle.v1",
+                "evidence.authenticated-review.v1",
                 "workflow.references.v1",
                 "delegation.v1",
                 "upgrade.preview",

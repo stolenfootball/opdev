@@ -153,6 +153,7 @@ pub fn evaluate(
     options: CheckOptions,
     policy_path: &Path,
     environment: &str,
+    review: Option<&opdev_engine::ValidatedReview>,
 ) -> Result<CheckReport> {
     let policy = ExecutionPolicy::load(root, policy_path)?;
     let context = current_run(manifest, &policy)?;
@@ -174,15 +175,19 @@ pub fn evaluate(
         .collect();
     let snapshot = match opdev_remote::observe_producers(manifest, &context.run, &required)? {
         Ok(snapshot) => snapshot,
-        Err(reason) => return unavailable(root, manifest, options, &reason),
+        Err(reason) => return unavailable(root, manifest, options, &reason, review),
     };
     let executions = match opdev_engine::validate_producer_records(&snapshot, &bindings) {
         Ok(executions) => executions,
-        Err(reason) => return unavailable(root, manifest, options, &reason),
+        Err(reason) => return unavailable(root, manifest, options, &reason, review),
     };
     let ledger = std::fs::read(root.join(opdev_project::EVIDENCE_PATH)).ok();
-    let mut report = opdev_engine::evaluate_with_executions(root, manifest, options, &executions)
-        .context("same-run evaluation failed")?;
+    let mut report = if let Some(review) = review {
+        opdev_engine::evaluate_with_review(root, manifest, options, review, Some(&executions))
+    } else {
+        opdev_engine::evaluate_with_executions(root, manifest, options, &executions)
+    }
+    .context("same-run evaluation failed")?;
     // Missing checks may be legitimately long. Re-observe the selected producer
     // attempts afterward instead of expiring their results and rerunning tests.
     let refreshed = opdev_remote::observe_producers(manifest, &context.run, &required)?
@@ -249,9 +254,14 @@ fn unavailable(
     manifest: &ProjectManifest,
     mut options: CheckOptions,
     reason: &str,
+    review: Option<&opdev_engine::ValidatedReview>,
 ) -> Result<CheckReport> {
     options.execute_checks = false;
-    let mut report = opdev_engine::evaluate(root, manifest, options)?;
+    let mut report = if let Some(review) = review {
+        opdev_engine::evaluate_with_review(root, manifest, options, review, None)?
+    } else {
+        opdev_engine::evaluate(root, manifest, options)?
+    };
     let gates = if options.test_stage == TestStage::PostMerge {
         vec![opdev_core::Gate::Integration, opdev_core::Gate::Delivery]
     } else {
@@ -303,6 +313,7 @@ mod tests {
                 execute_checks: true,
             },
             "controlled unavailable provider",
+            None,
         )?;
         let check = report
             .checks

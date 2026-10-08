@@ -17,6 +17,12 @@ use std::{
 
 #[derive(Debug, Args)]
 pub(super) struct PrepareArgs {
+    /// Read an explicit retained draft ledger instead of the legacy project ledger.
+    #[arg(long)]
+    ledger_input: Option<PathBuf>,
+    /// Create a new reviewed ledger outside source; never overwrite retained history.
+    #[arg(long, requires_all = ["write", "ledger_input"])]
+    ledger_output: Option<PathBuf>,
     /// Save a newly prepared, unreviewed draft in private CLI-owned state; emit its path as JSON.
     #[arg(long, requires = "input", conflicts_with_all = ["draft", "write"])]
     retain_draft: bool,
@@ -176,8 +182,20 @@ fn reviewed(draft: &Draft) -> Result<()> {
 }
 
 pub(super) fn run(args: &PrepareArgs) -> Result<()> {
-    let (root, _) = crate::load_project(&args.root)?;
-    let before = ledger_bytes(&root)?;
+    let (root, manifest) = crate::load_project(&args.root)?;
+    if args.write
+        && (args.ledger_input.is_some() || manifest.assurance.review_storage.is_some())
+        && args.ledger_output.is_none()
+    {
+        bail!(
+            "External review preparation needs a new --ledger-output outside source; the legacy ledger will not be created or replaced"
+        );
+    }
+    let read_input = || match &args.ledger_input {
+        Some(path) => read(path),
+        None => ledger_bytes(&root),
+    };
+    let before = read_input()?;
     let draft = if let Some(path) = &args.draft {
         serde_saphyr::from_slice::<Draft>(&read(path)?)?
     } else {
@@ -208,6 +226,17 @@ pub(super) fn run(args: &PrepareArgs) -> Result<()> {
         );
     } else if args.write {
         reviewed(&draft)?;
+        if let Some(output) = &args.ledger_output {
+            let output = crate::evidence_bundle::export_destination(&root, output)?;
+            if read_input()? != before || staged_fingerprint(&root)? != draft.fingerprint {
+                bail!("Inputs changed before review export; nothing written");
+            }
+            crate::local_state::write_new(&output, ledger.to_yaml()?.as_bytes())?;
+            println!(
+                "Reviewed candidate created outside source; original history retained. No upload, checks or approval inferred."
+            );
+            return Ok(());
+        }
         // Git-owned temporary storage does not become unindexed product content.
         let git_dir = std::process::Command::new("git")
             .arg("-C")

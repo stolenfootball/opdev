@@ -1154,6 +1154,7 @@ dependencies = [
 name = "opdev-project"
 version = "0.4.1"
 dependencies = [
+ "anyhow",
  "jsonschema",
  "opdev-core",
  "serde",

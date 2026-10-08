@@ -21,6 +21,37 @@ pub(super) struct BundleArgs {
 
 #[derive(Debug, Subcommand)]
 enum BundleCommand {
+    /// Capture an explicitly selected work excerpt with provider provenance, not approval.
+    ObserveWork {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        /// Strict JSON provider/repository/kind/number/note selection.
+        #[arg(long)]
+        selector: PathBuf,
+        /// UTF-8 file containing only the exact needed excerpt.
+        #[arg(long)]
+        excerpt: PathBuf,
+        /// Optional original whole-body identity for a freshness recheck.
+        #[arg(long)]
+        expected_body_sha256: Option<String>,
+        #[arg(long)]
+        output: PathBuf,
+    },
+    /// Export only current semantic review; no command output or execution authority.
+    ExportReview {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        #[arg(long)]
+        stage: String,
+        /// Explicit reviewed schema-2 ledger outside product source, or the legacy ledger by default.
+        #[arg(long)]
+        ledger: Option<PathBuf>,
+        /// Explicit minimal observations to bind; saved attribution is not authenticated consent.
+        #[arg(long)]
+        work_observation: Vec<PathBuf>,
+        #[arg(long)]
+        output: PathBuf,
+    },
     /// Export one exact-current review and optional retained attempt without altering history.
     Export {
         #[arg(long, default_value = ".")]
@@ -237,7 +268,7 @@ fn export(root: &Path, stage: &str, attempt: Option<&str>, output: &Path) -> Res
     Ok(())
 }
 
-fn export_destination(root: &Path, output: &Path) -> Result<PathBuf> {
+pub(super) fn export_destination(root: &Path, output: &Path) -> Result<PathBuf> {
     let output = local_state::observed_absolute(&std::path::absolute(output)?)?;
     for owner in [
         root.to_owned(),
@@ -256,8 +287,116 @@ fn export_destination(root: &Path, output: &Path) -> Result<PathBuf> {
     Ok(output)
 }
 
+fn observe_work(
+    root: &Path,
+    selector: &Path,
+    excerpt: &Path,
+    expected: Option<&str>,
+    output: &Path,
+) -> Result<()> {
+    ensure!(
+        expected.is_none_or(valid_digest),
+        "Expected work body identity must be a SHA-256 digest"
+    );
+    let (root, _) = crate::load_project(root)?;
+    let output = export_destination(&root, output)?;
+    let selection =
+        local_state::read(&std::path::absolute(selector)?)?.context("Work selector is missing")?;
+    let selection: opdev_project::WorkSelector =
+        serde_json::from_slice(&selection).map_err(|_| {
+            anyhow::anyhow!("Work selector is malformed or unsupported; no private content echoed")
+        })?;
+    let excerpt =
+        local_state::read(&std::path::absolute(excerpt)?)?.context("Work excerpt is missing")?;
+    let excerpt = std::str::from_utf8(&excerpt).context("Work excerpt must be UTF-8")?;
+    let observation =
+        opdev_remote::observe_work(&selection, excerpt).map_err(anyhow::Error::msg)?;
+    ensure!(
+        expected.is_none_or(|digest| digest == observation.body_sha256),
+        "Work content changed since the selected observation; inspect the current decision and scope. No earlier text substituted"
+    );
+    let bytes = serde_json::to_vec_pretty(&observation)?;
+    local_state::write_new(&output, &bytes)?;
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&json!({"schema":1,"output":output,"sha256":sha(&bytes),
+        "body_sha256":observation.body_sha256,"qualification":"unverified",
+        "limits":"Selected work excerpt observed through the provider. Authorship is not approval, current authority or release permission. No full conversation copied; retain the original scope and any later revocation."}))?
+    );
+    Ok(())
+}
+
+fn export_review(
+    root: &Path,
+    stage: &str,
+    ledger: Option<&PathBuf>,
+    observations: &[PathBuf],
+    output: &Path,
+) -> Result<()> {
+    let (root, manifest) = crate::load_project(root)?;
+    let stage = serde_json::from_value(json!(stage))?;
+    let input = ledger.map_or_else(|| root.join(opdev_project::EVIDENCE_PATH), Clone::clone);
+    let input = std::path::absolute(input)?;
+    let bytes = local_state::read(&input)?.context("Explicit review input is missing")?;
+    let ledger: EvidenceLedger = serde_saphyr::from_slice(&bytes)
+        .map_err(|_| anyhow::anyhow!("Review input is malformed; no private content echoed"))?;
+    let mut record = opdev_project::ReviewRecord::prepare(&root, &manifest, stage, &ledger)?;
+    let observations = observations
+        .iter()
+        .map(|path| -> Result<_> {
+            let bytes = local_state::read(&std::path::absolute(path)?)?
+                .context("Work observation is missing")?;
+            serde_json::from_slice::<opdev_project::WorkObservation>(&bytes).map_err(|_| {
+                anyhow::anyhow!(
+                    "Work observation is malformed or unsupported; no private content echoed"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>>>()?;
+    record.bind_observations(observations)?;
+    let output = export_destination(&root, output)?;
+    let serialized = serde_json::to_vec_pretty(&record)?;
+    ensure!(
+        serialized.len() <= 8 * 1024 * 1024,
+        "Semantic review exceeds the 8 MiB supported limit"
+    );
+    record.verify_current(&root, &manifest, stage, &record.acceptance_sha256)?;
+    ensure!(
+        local_state::read(&input)?.as_ref() == Some(&bytes),
+        "Review input changed before export; nothing written"
+    );
+    local_state::write_new(&output, &serialized)?;
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&json!({"schema":1, "output":output,
+        "sha256":sha(&serialized), "acceptance_sha256":record.acceptance_sha256,
+        "qualification":"unverified", "limits":"Semantic review exported; attributed judgments are not authenticated consent. No upload, execution, history deletion or release occurred."}))?
+    );
+    Ok(())
+}
+
 pub(super) fn run(args: &BundleArgs) -> Result<()> {
     match &args.command {
+        BundleCommand::ObserveWork {
+            root,
+            selector,
+            excerpt,
+            expected_body_sha256,
+            output,
+        } => observe_work(
+            root,
+            selector,
+            excerpt,
+            expected_body_sha256.as_deref(),
+            output,
+        ),
+        BundleCommand::ExportReview {
+            root,
+            stage,
+            ledger,
+            work_observation,
+            output,
+        } => export_review(root, stage, ledger.as_ref(), work_observation, output),
         BundleCommand::Export {
             root,
             stage,

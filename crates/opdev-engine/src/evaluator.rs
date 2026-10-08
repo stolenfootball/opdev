@@ -53,6 +53,9 @@ impl CheckOptions {
 /// Failures that prevent creation of a complete check report.
 #[derive(Debug, Error)]
 pub enum EvaluationError {
+    /// External semantic review is unavailable or no longer identifies this change.
+    #[error("could not use selected semantic review: {0}")]
+    ReviewBinding(String),
     /// Invalid or unsupported assessment mapping.
     #[error("could not evaluate the selected assessment: {0}")]
     Profile(#[from] opdev_core::ProfileError),
@@ -88,7 +91,7 @@ pub fn evaluate(
     manifest: &ProjectManifest,
     options: CheckOptions,
 ) -> Result<CheckReport, EvaluationError> {
-    evaluate_inner(root, manifest, options, None)
+    evaluate_inner(root, manifest, options, None, None)
 }
 
 /// Evaluate with provider-authenticated same-run executions. No provider calls
@@ -106,7 +109,101 @@ pub fn evaluate_with_executions(
 ) -> Result<CheckReport, EvaluationError> {
     crate::execution_record::current_subject(root, manifest, options.test_stage, executions, true)
         .map_err(EvaluationError::ExecutionBinding)?;
-    evaluate_inner(root, manifest, options, Some(executions))
+    evaluate_inner(root, manifest, options, Some(executions), None)
+}
+
+/// Evaluate source-bound semantic review with independent fresh or authenticated execution.
+/// The archive supplies no execution results or release authority.
+/// # Errors
+/// Refuse changed subjects, missing selected review and unsupported policy.
+pub fn evaluate_with_review(
+    root: &Path,
+    manifest: &ProjectManifest,
+    options: CheckOptions,
+    review: &crate::ValidatedReview,
+    executions: Option<&crate::ValidatedExecutions>,
+) -> Result<CheckReport, EvaluationError> {
+    if let Some(executions) = executions {
+        crate::execution_record::current_subject(
+            root,
+            manifest,
+            options.test_stage,
+            executions,
+            true,
+        )
+        .map_err(EvaluationError::ExecutionBinding)?;
+    }
+    evaluate_inner(root, manifest, options, executions, Some(review))
+}
+
+fn selected_ledger(
+    root: &Path,
+    manifest: &ProjectManifest,
+    stage: TestStage,
+    review: Option<&crate::ValidatedReview>,
+) -> Result<Option<EvidenceLedger>, EvaluationError> {
+    Ok(if manifest.assurance.review_storage.is_some() {
+        if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
+            return Err(EvaluationError::ReviewBinding("Both legacy ledger and external review policy exist. Complete the reviewed storage migration without discarding history; no evidence source was silently chosen".into()));
+        }
+        let review = review.ok_or_else(|| EvaluationError::ReviewBinding("Selected policy needs an authenticated exact review locator and acceptance identity. No local cache or previous ledger substituted; no checks ran".into()))?;
+        review
+            .current(root, manifest, stage)
+            .map_err(EvaluationError::ReviewBinding)?;
+        Some(review.ledger().clone())
+    } else {
+        if review.is_some() {
+            return Err(EvaluationError::ReviewBinding(
+                "External review policy was not selected".into(),
+            ));
+        }
+        EvidenceLedger::load_optional(root, &manifest.catalog()?)?
+    })
+}
+
+fn review_still_current(
+    root: &Path,
+    manifest: &ProjectManifest,
+    stage: TestStage,
+    review: Option<&crate::ValidatedReview>,
+    before: Option<&EvidenceLedger>,
+) -> Result<bool, EvaluationError> {
+    Ok(if let Some(review) = review {
+        review.current(root, manifest, stage).is_ok()
+            && root.join(EVIDENCE_PATH).symlink_metadata().is_err()
+    } else {
+        before == EvidenceLedger::load_optional(root, &manifest.catalog()?)?.as_ref()
+    })
+}
+
+fn aggregate_evaluation(
+    manifest: &ProjectManifest,
+    subject: String,
+    evaluated_at: u64,
+    catalog_version: u32,
+    rules: Vec<RuleResult>,
+    checks: Vec<CheckResult>,
+) -> Result<CheckReport, EvaluationError> {
+    let mut report = CheckReport {
+        engineering: manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .map(|p| crate::EngineeringAssessment::requested(p.minimumcd.as_deref())),
+        schema: if manifest.assurance.engineering.is_some() {
+            2
+        } else {
+            1
+        },
+        catalog_version,
+        subject,
+        evaluated_at,
+        rules,
+        checks,
+        gates: vec![],
+    };
+    reaggregate(&mut report)?;
+    Ok(report)
 }
 
 fn evaluate_inner(
@@ -114,11 +211,12 @@ fn evaluate_inner(
     manifest: &ProjectManifest,
     options: CheckOptions,
     executions: Option<&crate::ValidatedExecutions>,
+    review: Option<&crate::ValidatedReview>,
 ) -> Result<CheckReport, EvaluationError> {
     let catalog = manifest.catalog()?;
     let evaluated_at = unix_timestamp();
     let subject = root.display().to_string();
-    let acceptance_ledger = EvidenceLedger::load_optional(root, &catalog)?;
+    let acceptance_ledger = selected_ledger(root, manifest, options.test_stage, review)?;
     let initial_fingerprint = staged_fingerprint(root);
     let acceptance_fingerprint = initial_fingerprint.as_ref().ok();
     let mut rules: Vec<_> = catalog
@@ -134,7 +232,12 @@ fn evaluate_inner(
             )
         })
         .collect();
-    apply_evidence_ledger(root, &catalog, &mut rules)?;
+    apply_review_assertions(
+        root,
+        acceptance_ledger.as_ref(),
+        review.map_or(EVIDENCE_PATH, crate::ValidatedReview::location),
+        &mut rules,
+    );
     explain_source_gap(&mut rules, initial_fingerprint.as_ref().err());
     apply_workflow_contradictions(root, manifest, &mut rules)?;
     let checks = collect_checks(root, manifest, options, executions)?;
@@ -149,15 +252,28 @@ fn evaluate_inner(
         .map_err(EvaluationError::ExecutionBinding)?;
     }
     let final_fingerprint = staged_fingerprint(root);
+    let authority_error = review.and_then(|r| r.recheck_authorities().err());
     let fresh = acceptance_fingerprint.is_some()
         && acceptance_fingerprint == final_fingerprint.as_ref().ok()
-        && acceptance_ledger == EvidenceLedger::load_optional(root, &catalog)?;
+        && review_still_current(
+            root,
+            manifest,
+            options.test_stage,
+            review,
+            acceptance_ledger.as_ref(),
+        )?;
     let source_error = initial_fingerprint
         .as_ref()
         .err()
         .or_else(|| final_fingerprint.as_ref().err());
     let (acceptance_outcome, scope, diagnostic) = if let Some(error) = source_error {
         source_failure(error)
+    } else if let Some(error) = authority_error {
+        (
+            Outcome::Unverified,
+            opdev_project::AcceptanceScope::Behavioral,
+            error,
+        )
     } else {
         crate::acceptance::evaluate(
             root,
@@ -183,26 +299,14 @@ fn evaluate_inner(
         options.test_stage,
         acceptance_outcome,
     );
-    let mut report = CheckReport {
-        engineering: manifest
-            .assurance
-            .engineering
-            .as_ref()
-            .map(|p| crate::EngineeringAssessment::requested(p.minimumcd.as_deref())),
-        schema: if manifest.assurance.engineering.is_some() {
-            2
-        } else {
-            1
-        },
-        catalog_version: catalog.catalog_version,
+    aggregate_evaluation(
+        manifest,
         subject,
         evaluated_at,
+        catalog.catalog_version,
         rules,
         checks,
-        gates: vec![],
-    };
-    reaggregate(&mut report)?;
-    Ok(report)
+    )
 }
 
 fn apply_workflow_contradictions(
@@ -415,13 +519,14 @@ fn source_failure(
     )
 }
 
-fn apply_evidence_ledger(
+fn apply_review_assertions(
     root: &Path,
-    catalog: &RuleCatalog,
+    ledger: Option<&EvidenceLedger>,
+    location: &str,
     results: &mut [RuleResult],
-) -> Result<(), EvaluationError> {
-    let Some(ledger) = EvidenceLedger::load_optional(root, catalog)? else {
-        return Ok(());
+) {
+    let Some(ledger) = ledger else {
+        return;
     };
     let change = staged_fingerprint(root)
         .ok()
@@ -444,13 +549,22 @@ fn apply_evidence_ledger(
                     .find(|assertion| assertion.rule_id == result.rule_id)
             });
         if let Some(assertion) = assertion {
-            apply_assertion(result, assertion, change.map(|change| change.work.as_str()));
+            apply_assertion(
+                result,
+                assertion,
+                change.map(|change| change.work.as_str()),
+                location,
+            );
         }
     }
-    Ok(())
 }
 
-fn apply_assertion(result: &mut RuleResult, assertion: &EvidenceAssertion, work: Option<&str>) {
+fn apply_assertion(
+    result: &mut RuleResult,
+    assertion: &EvidenceAssertion,
+    work: Option<&str>,
+    location: &str,
+) {
     result.outcome = assertion.outcome;
     result.verifier = VerificationSource::Evidence;
     result.diagnostic = None;
@@ -460,7 +574,7 @@ fn apply_assertion(result: &mut RuleResult, assertion: &EvidenceAssertion, work:
             || assertion.summary.clone(),
             |work| format!("{}; work: {work}", assertion.summary),
         ),
-        location: Some(EVIDENCE_PATH.into()),
+        location: Some(location.into()),
     }];
     result.evidence.extend(assertion.evidence.clone());
 }
@@ -1342,6 +1456,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                review_storage: None,
                 engineering: None,
                 profiles: vec![Profile {
                     name: "opdev-core".into(),

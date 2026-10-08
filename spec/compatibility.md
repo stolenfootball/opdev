@@ -122,6 +122,15 @@ versions and never rewrites records. See [experiments](experiments.md).
 
 ## Rule catalog
 
+Development capability `evidence.authenticated-review.v1` adds an explicit
+schema-3 review-storage boundary and independent schema-1 semantic-review/work
+observation records. Legacy projects retain their ledger and previous qualification
+path. Older clients reject the new manifest fields rather than silently ignoring
+the storage decision. Local/CI capability must be reviewed before migration;
+publishing or installing a new plugin alone selects no policy. Diagnostic envelope
+and local-state formats retain their non-qualifying meaning. Actual execution
+remains fresh or uses the existing separately authenticated same-run boundary.
+
 CLI 0.4.0's catalog 2 retains the daily-integration requirement and its ID for
 compliance, but removes it from development and integration gates. Rule results
 are not converted to passes. Existing project manifests and evidence ledgers

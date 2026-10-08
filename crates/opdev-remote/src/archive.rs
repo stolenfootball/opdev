@@ -97,16 +97,23 @@ impl ArchiveObservation {
 /// Diagnostics exclude credentials, response bodies and private content.
 pub fn retrieve_archive(locator: &ArchiveLocator) -> Result<ArchiveObservation, String> {
     locator.validate()?;
+    authenticated_reads(locator.provider, |get| retrieve_with(locator, get))
+}
+
+pub(crate) fn authenticated_reads<T>(
+    provider: CiProvider,
+    operation: impl FnOnce(&mut dyn FnMut(&str, bool) -> Result<Vec<u8>, String>) -> Result<T, String>,
+) -> Result<T, String> {
     let _ = rustls::crypto::ring::default_provider().install_default();
     let client = Client::builder()
         .user_agent(concat!("opdev/", env!("CARGO_PKG_VERSION")))
         .redirect(reqwest::redirect::Policy::none())
         .build()
         .map_err(|_| "Could not initialize archive retrieval")?;
-    let github = (locator.provider == CiProvider::Github)
+    let github = (provider == CiProvider::Github)
         .then(|| first_env(&["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"]))
         .flatten();
-    let gitlab = (locator.provider == CiProvider::Gitlab)
+    let gitlab = (provider == CiProvider::Gitlab)
         .then(gitlab_credential)
         .flatten();
     if github.is_none() && gitlab.is_none() {
@@ -115,14 +122,22 @@ pub fn retrieve_archive(locator: &ArchiveLocator) -> Result<ArchiveObservation, 
         );
     }
     let started = Instant::now();
-    retrieve_with(locator, |url, raw| {
+    operation(&mut |url, raw| {
+        let origin = if provider == CiProvider::Github {
+            "https://api.github.com/"
+        } else {
+            "https://gitlab.com/api/v4/"
+        };
+        if !url.starts_with(origin) {
+            return Err("Provider request left its fixed origin".into());
+        }
         let remaining = Duration::from_mins(1)
             .checked_sub(started.elapsed())
             .ok_or("Archive retrieval exceeded its one-minute budget")?;
         let request = client
             .get(url)
             .timeout(remaining.min(Duration::from_secs(20)));
-        let request = if locator.provider == CiProvider::Github {
+        let request = if provider == CiProvider::Github {
             github_request(request, github.as_deref()).header(
                 "Accept",
                 if raw {

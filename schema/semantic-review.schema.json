@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "kind", "source_sha256", "configuration_sha256", "stage", "acceptance_sha256", "ledger"],
+  "properties": {
+    "work_observations": {"type": "array", "maxItems": 64, "items": {"$ref": "https://opdev.dev/schema/work-observation-v1.json"}},
+    "schema": {"const": 1}, "kind": {"const": "semantic_review"},
+    "source_sha256": {"$ref": "#/$defs/digest"},
+    "configuration_sha256": {"$ref": "#/$defs/digest"},
+    "acceptance_sha256": {"$ref": "#/$defs/digest"},
+    "stage": {"enum": ["local", "pre_merge", "post_merge", "delivery", "scheduled", "evaluation"]},
+    "ledger": {"allOf": [
+      {"$ref": "https://opdev.dev/schema/evidence-v2.json"},
+      {"properties": {"schema": {"const": 2}, "changes": {"minItems": 1, "maxItems": 1}}}
+    ]}
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}
