@@ -407,6 +407,16 @@ impl EvidenceLedger {
                     ));
                 }
                 acceptance.validate()?;
+                if catalog.catalog_version < 3
+                    && acceptance
+                        .verifications
+                        .iter()
+                        .any(|mapping| mapping.stages.is_some())
+                {
+                    return Err(EvidenceError::Semantic(
+                        "stage-specific acceptance mappings require reviewed engineering policy; legacy verification is unchanged".into(),
+                    ));
+                }
             }
             if !fingerprints.insert(change.fingerprint.as_str()) {
                 return Err(EvidenceError::Semantic(format!(

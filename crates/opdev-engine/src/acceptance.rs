@@ -45,16 +45,7 @@ pub(crate) fn evaluate(
         );
     };
     let review = &acceptance.review;
-    if review.outcome == Outcome::Unverified
-        || review.reviewer.trim().is_empty()
-        || review.reference.trim().is_empty()
-        || review.rationale.trim().is_empty()
-        || acceptance.rationale.trim().is_empty()
-        || change.work.trim().is_empty()
-        || !acceptance
-            .digest(&change.fingerprint, &change.work)
-            .is_ok_and(|digest| digest == review.subject_sha256)
-    {
+    if !review_is_current(acceptance, change) {
         return incomplete(
             "Acceptance review is pending, incomplete or bound to different contents: the recorded review does not confirm the current expected results and test links. Review those contents, then record who reviewed them, the decision reference and the current review identifier in .opdev/evidence.yaml",
         );
@@ -72,11 +63,15 @@ pub(crate) fn evaluate(
     if acceptance.conditions.is_empty() {
         return incomplete("A material change needs a nonempty reviewed acceptance inventory");
     }
-    let mut missing = acceptance.conditions.len() != acceptance.verifications.len();
+    let mut missing = false;
     let mut failed = false;
     let mut error = false;
     let mut diagnostics = Vec::new();
     for condition in &acceptance.conditions {
+        if let Some(message) = missing_mapping(acceptance, &condition.id, stage) {
+            missing = true;
+            diagnostics.push(message);
+        }
         let status = reference_outcome(&condition.source.verify(root));
         missing |= status == Outcome::Unverified;
         error |= status == Outcome::Error;
@@ -86,7 +81,7 @@ pub(crate) fn evaluate(
         missing |= status == Outcome::Unverified || mapping.outcome == Outcome::Unverified;
         error |= status == Outcome::Error;
         failed |= mapping.outcome == Outcome::Failed;
-        if mapping.method == AcceptanceMethod::Automated {
+        if mapping.method == AcceptanceMethod::Automated && mapping.applies_to(stage) {
             let declared = manifest
                 .testing
                 .suites
@@ -126,6 +121,42 @@ pub(crate) fn evaluate(
     (outcome, acceptance.scope, reason)
 }
 
+fn review_is_current(
+    acceptance: &opdev_project::AcceptanceEvidence,
+    change: &opdev_project::ChangeEvidence,
+) -> bool {
+    let review = &acceptance.review;
+    review.outcome != Outcome::Unverified
+        && [
+            &review.reviewer,
+            &review.reference,
+            &review.rationale,
+            &acceptance.rationale,
+            &change.work,
+        ]
+        .iter()
+        .all(|value| !value.trim().is_empty())
+        && acceptance
+            .digest(&change.fingerprint, &change.work)
+            .is_ok_and(|digest| digest == review.subject_sha256)
+}
+
+fn missing_mapping(
+    acceptance: &opdev_project::AcceptanceEvidence,
+    condition: &str,
+    stage: TestStage,
+) -> Option<String> {
+    let count = acceptance
+        .verifications
+        .iter()
+        .filter(|mapping| mapping.condition == condition && mapping.applies_to(stage))
+        .count();
+    (count != 1).then(|| {
+        let stage_name = serde_json::to_value(stage).unwrap_or_default();
+        format!("Condition `{condition}` needs exactly one reviewed test or observation for stage {stage_name}. Evidence for another stage does not verify this one")
+    })
+}
+
 fn reference_outcome(result: &Result<(), EvidenceError>) -> Outcome {
     match result {
         Ok(()) => Outcome::Passed,
@@ -153,7 +184,7 @@ fn result(failed: bool, error: bool, missing: bool) -> (Outcome, &'static str) {
     } else {
         (
             Outcome::Passed,
-            "Exact-change sources and all inventoried mappings checked; any mapped automated suites passed in this check. Review-only mappings do not imply execution. Semantic adequacy and inventory completeness remain identified reviewer claims, not machine proof",
+            "Exact-change sources and all inventoried mappings checked; automated suites mapped to this stage passed in this check. Other stages and review-only mappings do not imply execution here. Semantic adequacy and inventory completeness remain identified reviewer claims, not machine proof",
         )
     }
 }

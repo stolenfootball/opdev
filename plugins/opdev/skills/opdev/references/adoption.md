@@ -233,6 +233,12 @@ waives core/selected-profile requirements. Pending work is not complete adoption
 not proof of implementation. Run declared checks, inspect real behavior/CI and
 confirm that referenced suites cover the claimed practices and components.
 
+Engineering inventory 2 permits different referenced suites to collectively cover
+pre-merge and post-merge verification; legacy inventory 1 requires each referenced
+suite at both. Review the actual guarantee at each boundary. Adoption check runs
+the referenced pre-merge suites, not both sets at once, and still requires the
+separate integration evidence. This is not permission to omit integrated testing.
+
 ## Verify completion
 
 Stage all material files, including the adoption record. Follow [evidence.md](evidence.md)

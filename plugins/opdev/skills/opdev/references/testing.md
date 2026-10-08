@@ -38,7 +38,7 @@ of the stronger checks or automatically install/update anything.
 
 - Every behavioral change needs automated verification unless existing coverage is demonstrated or a specific limitation is recorded.
 - Every escaped defect needs regression protection unless a specific justification explains why it is impractical or harmful.
-- Required suites run before integration and again on integrated trunk. Delivery, package, recovery, scheduled, and evaluation suites run at their declared stages.
+- Required verification runs before integration and on integrated trunk, using the reviewed checks declared for each boundary. Legacy mappings still need the same mapped suite at both. Delivery, package, recovery, scheduled, and evaluation suites run at their declared stages.
 - A retry remains visible. Quarantine requires an owner, tracked remediation, and an expiry. A flaky or unavailable qualification test cannot silently qualify delivery.
 - Identify the assurance lost by a quarantine and any justified replacement; it does not waive a required boundary. Review filtered/disabled cases, snapshot updates and failure propagation when relevant. An exit-zero summary is not per-test execution proof.
 - Coverage identifies untested risk. Use the project-selected mode—reporting, non-regression, changed-code threshold, or critical-module thresholds—without treating percentage alone as test quality.
@@ -63,6 +63,17 @@ unclear, capability-check `check --help` for `--plan` and preview with the same
 CI/delivery flags. The preview lists literal arguments, directories, timeouts and
 extensions without execution or qualification. Preserve distinct stages and
 intentional repeated checks; do not infer equivalence from matching command text.
+
+With an explicitly selected engineering policy and CLI capability
+`acceptance.stage-mappings.v1`, use [stage-specific acceptance mappings](acceptance.md)
+when different checks provide the required guarantees at different boundaries.
+Review adequacy and supported environments before changing policy; this is not
+permission to replace integration tests with a generic smoke test. Unknown impact,
+shared code, scripts, lockfiles and executable guidance broaden the investigation
+and checks. No automatic path-based skip or cross-stage execution reuse is implied.
+Keep performance observations in the existing work authority: first useful
+feedback, qualification latency, queue/setup time and summed compute. A sustained
+miss merits a bounded recommendation, not a new form, hidden skip or recurring pitch.
 
 When the project has explicitly selected same-run CI execution reuse and the
 CLI reports `execution.same-run.v1`, use its reviewed producer policy with

@@ -129,8 +129,11 @@ the catalog IDs. Each decision records:
 
 All decisions begin pending, even when tools are detected. Resolved decisions
 require nonblank owner/reason and references. `implemented` automated practices
-require executable suites registered for both pre_merge and post_merge. One suite
-may cover multiple practices/components if reviewed evidence establishes coverage.
+require executable suites covering both pre_merge and post_merge. Legacy inventory
+1 requires each referenced suite at both boundaries. Engineering inventory 2
+allows different referenced suites whose declared stages collectively cover both;
+review must establish their guarantees, not just the presence of two names. One
+suite may cover multiple practices/components if reviewed evidence establishes coverage.
 Do not create placeholder tests merely to satisfy the shape of a record.
 
 Only catalog practices marked optional may be ignored. Conditional practices may
@@ -252,7 +255,7 @@ fingerprint freshness from missing or wrongly classified assertions.
 
 The checker then executes pre-merge suites and extensions using the existing
 engine, inspects CI, optionally audits the provider, requires every referenced
-suite to pass and all four core gates to pass. It rechecks staged/evidence
+pre-merge suite to pass and all four core gates to pass. It rechecks staged/evidence
 freshness after execution. A record or passing command alone cannot qualify
 delivery. Real pre/post-integration CI, artifacts and recovery still need the
 evidence required by their core rules; local execution does not become remote CI.

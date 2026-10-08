@@ -150,6 +150,9 @@ pub enum AcceptanceMethod {
 pub struct AcceptanceVerification {
     /// Inventory condition ID.
     pub condition: String,
+    /// Explicit boundaries for this mapping; omission preserves all-stage behavior.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub stages: Option<Vec<crate::TestStage>>,
     /// Appropriate reviewed verification method.
     pub method: AcceptanceMethod,
     /// Exact assertion or reviewed non-code evidence.
@@ -166,6 +169,16 @@ pub struct AcceptanceVerification {
     pub automation_limitation: Option<String>,
     /// Reviewed mapping verdict: passed, failed or unverified; never execution proof.
     pub outcome: Outcome,
+}
+
+impl AcceptanceVerification {
+    /// Whether this reviewed mapping supports the selected verification boundary.
+    #[must_use]
+    pub fn applies_to(&self, stage: crate::TestStage) -> bool {
+        self.stages
+            .as_ref()
+            .is_none_or(|stages| stages.contains(&stage))
+    }
 }
 
 /// Review of the exact inventory and mappings; claims, not authenticated approval.
@@ -194,7 +207,7 @@ pub struct AcceptanceEvidence {
     pub rationale: String,
     /// All material conditions and selected risk objectives in this change.
     pub conditions: Vec<AcceptanceCondition>,
-    /// One mapping per condition; incomplete mappings remain unverified.
+    /// One applicable mapping per condition/stage; incomplete mappings remain unverified.
     pub verifications: Vec<AcceptanceVerification>,
     /// Review bound to this exact payload and staged change.
     pub review: AcceptanceReview,
@@ -251,8 +264,15 @@ impl AcceptanceEvidence {
         }
         let mut mapped = std::collections::HashSet::new();
         for verification in &self.verifications {
+            let stages = verification
+                .stages
+                .as_deref()
+                .unwrap_or(&crate::TestStage::ALL);
             if !ids.contains(&verification.condition)
-                || !mapped.insert(&verification.condition)
+                || stages.is_empty()
+                || stages
+                    .iter()
+                    .any(|stage| !mapped.insert((&verification.condition, *stage)))
                 || verification.assertion.trim().is_empty()
                 || verification.discriminating_case.trim().is_empty()
                 || !review_outcome(verification.outcome)

@@ -11,7 +11,9 @@ does not offer boolean decisions for these two rules; its separate acceptance
 template begins unresolved and cannot qualify a gate.
 
 Each schema-2 change may contain `acceptance`. It inventories material conditions
-and selected risk objectives and maps each exactly once to verification evidence.
+and selected risk objectives and maps each exactly once to verification evidence
+for the selected check stage. Legacy mappings apply to every stage; the explicit
+engineering policy can use the disjoint stage mappings below.
 Multiple conditions may reference the same test, but each needs its own explanation.
 The shape is defined by `$defs/acceptance` in the ledger and bootstrap schemas;
 unknown fields, duplicate IDs/mappings, unknown condition references, invalid
@@ -25,6 +27,7 @@ Required fields:
 | `acceptance` | `scope`, `rationale`, `conditions`, `verifications`, `review` |
 | condition | `id`, accepted `statement`, original `authority`, tracked `source` |
 | verification | `condition` ID, `method`, tracked `target`, actual `assertion`, `discriminating_case`, `outcome` |
+| optional verification stages | Nonempty unique `stages` from `local`, `pre_merge`, `post_merge`, `package`, `delivery`, `recovery`, `scheduled`, `evaluation`; omission means all stages |
 | automated method | A declared `suite`; no automation-limitation field |
 | review method | Specific `automation_limitation`; no suite; appropriate reviewed evidence |
 | tracked reference | Repository-relative `path`, SHA-256 of staged Git blob bytes in `sha256`, exact nonempty `excerpt` |
@@ -71,6 +74,51 @@ the review. Identity does not authenticate the person or establish that their
 review was competent. The CLI rechecks staged source and ledger before/after
 executing commands. Edits made and reverted during execution and ignored inputs
 are outside that observation, as with existing execution receipts.
+
+### Distinct stage guarantees
+
+A CLI advertising `acceptance.stage-mappings.v1` supports optional verification
+`stages` only under the explicitly selected engineering policy (catalog 3).
+Legacy policy rejects stage-scoped mappings before command execution; omission
+preserves both the original all-stage behavior and serialized review digest.
+Changing project policy requires its reviewed migration, not an automatic rewrite.
+
+For each inventoried condition, exactly one mapping MUST apply to the requested
+stage. Disjoint mappings can name different tests and suites: for example,
+pre-merge unit assertions and a post-merge consumer test of the integrated source.
+Overlap, duplicate/empty/unknown stages and unknown condition references are
+invalid. Missing mappings, undeclared suites, skipped execution or stale review
+leave the applicable condition unverified. A mapped suite must actually pass at
+that stage; a review claim is not a saved execution result. All recorded source
+references and reviewed outcomes remain checked, including other stages: a known
+contradiction cannot be hidden by selecting a different stage.
+
+Stage selection changes neither the accepted guarantee nor the tracked-input
+fingerprint. Review must establish why the chosen assertions adequately verify
+the condition at that boundary, including supported environments. A generic smoke
+test is not an automatic substitute for integrated behavior. Unknown impact,
+shared dependencies, scripts, lockfiles and executable documentation or agent
+guidance require broader investigation/checks. There is no predictive selector,
+filename-based exemption or new fingerprint exclusion.
+
+Only declared checks for the requested stage execute. This is not cross-stage or
+cross-revision reuse: pre-merge success cannot supply missing post-merge execution.
+Use one execution owner for each equivalent check and the separately reviewed
+[same-run reuse protocol](execution-reuse.md) where necessary. Do not first run
+the full suite solely to rerun it through the evaluator. Distinct intended checks
+remain distinct even when their command strings match. Check plans preview
+selection without qualifying it; feedback and release boundaries are unchanged.
+
+This design follows [DORA's CI guidance](https://dora.dev/capabilities/continuous-integration/)
+on rapid feedback and testing before and after integration, and the distinct
+confidence-building stages of a [deployment pipeline](https://martinfowler.com/bliki/DeploymentPipeline.html).
+[Industrial test-selection research](https://arxiv.org/abs/2501.11550) describes
+differing pre/post-submit objectives; it does not establish that a generic OpDev
+predictor would safely skip tests. Prefer explicit reviewed stage contracts over
+a universal identical full suite or a new language-specific dependency engine.
+Revisit if whole-session trials show missed guarantees or more policy work than
+saved execution. Observe first feedback, qualification latency, queue/setup and
+summed compute; a roughly ten-minute fast-cycle target is guidance, not a gate.
 
 ### Meaningful and proportionate assertions
 
