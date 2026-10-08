@@ -1342,6 +1342,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                safeguards: None,
                 engineering: None,
                 profiles: vec![Profile {
                     name: "opdev-core".into(),

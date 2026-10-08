@@ -201,6 +201,9 @@ pub struct AcceptanceReview {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct AcceptanceEvidence {
+    /// Optional versioned safeguard mappings covered by this same review.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub safeguards: Option<crate::SafeguardReview>,
     /// Reviewed applicability.
     pub scope: AcceptanceScope,
     /// Why this scope and its exclusions are appropriate.
@@ -216,6 +219,7 @@ pub struct AcceptanceEvidence {
 impl Default for AcceptanceEvidence {
     fn default() -> Self {
         Self {
+            safeguards: None,
             scope: AcceptanceScope::Behavioral,
             rationale: String::new(),
             conditions: Vec::new(),
@@ -237,11 +241,15 @@ impl AcceptanceEvidence {
     /// # Errors
     /// Returns a serialization error if the payload cannot be encoded.
     pub fn digest(&self, fingerprint: &str, work: &str) -> Result<String, EvidenceError> {
-        let payload = serde_json::json!({
+        let mut payload = serde_json::json!({
             "protocol": 1, "fingerprint": fingerprint, "work": work,
             "scope": self.scope, "rationale": self.rationale,
             "conditions": self.conditions, "verifications": self.verifications,
         });
+        // Omission keeps every historical digest stable. Present mappings are material.
+        if let Some(safeguards) = &self.safeguards {
+            payload["safeguards"] = serde_json::to_value(safeguards)?;
+        }
         Ok(format!(
             "{:x}",
             Sha256::digest(serde_json::to_vec(&payload)?)

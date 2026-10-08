@@ -89,6 +89,37 @@ reuse unless the reviewed policy explicitly excludes the ledger from execution
 inputs; unknown inputs require fresh execution. No policy, credential permission
 or installed runtime is changed implicitly to enable this option.
 
+## Capability-specific safeguards
+
+When `assurance.safeguards` is explicitly selected and the CLI advertises
+`acceptance.safeguards.v1`, reuse its reviewed capability facts rather than
+reassessing adoption on each task. Missing/unknown facts need actual assessment;
+absence of configuration or a project-kind label is not absence of capability.
+Revisit facts when behavior changes or observations contradict them. Do not
+silently select this policy or install a runtime for an older project.
+
+In the existing exact-change acceptance payload, record each present capability's
+affected/unaffected impact and rationale; link required objectives to the ordinary
+condition IDs and their actual assertions. Do not create another evidence file.
+Known-present capability cannot become not applicable. Review the meaning of
+absence, unaffected claims and links: valid fields do not prove they are true.
+
+For affected APIs/libraries, cover representative source/wire/semantic callers
+and intentional transition. For retained data, cover old records, migration,
+interruption and recovery, including new writes where relevant; a flag does not
+undo persistent effects. Distribution needs affected install/update and recovery
+evidence, not a release request. Security boundaries need applicable negative
+input/auth/secret/privilege checks. Operated software needs usable diagnostics and
+recovery; user interfaces need actual interface-appropriate accessibility targets.
+Data/model-dependent outcomes need scoped measured effectiveness separately from
+correctness. Keep derived standard versions and conformance limits explicit.
+
+Use focused risk checks early where failure is costly; broaden for unknown impact,
+shared dependencies or executable guidance. Reuse existing meaningful tests and
+stage mappings. Unrelated prose can leave a capability unaffected with review;
+do not run a universal matrix or repeat settled questions. A generic green suite,
+saved report or successful mapping validation is not safeguard qualification.
+
 ## Optional test-strength checks
 
 An ordinary low-risk fix with discriminating existing tests needs no mutation

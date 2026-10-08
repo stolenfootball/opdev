@@ -233,6 +233,16 @@ impl ProjectManifest {
 
     fn validate_semantics(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
+        if let Some(policy) = &self.assurance.safeguards
+            && (self.assurance.engineering.is_none()
+                || policy.version != 1
+                || policy.review_reference.trim().is_empty()
+                || policy.capabilities.values().any(|fact| {
+                    fact.rationale.trim().is_empty() || fact.authority.trim().is_empty()
+                }))
+        {
+            return Err(ManifestError::Semantic("Safeguards require engineering policy, supported version 1, an actual decision reference and capability rationales with authorities".into()));
+        }
         if let Some(policy) = &self.project.ci.qualification {
             if self.schema < 2 {
                 return Err(ManifestError::Semantic(
@@ -803,6 +813,9 @@ impl Operations {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Assurance {
+    /// Explicit capability-based safeguard policy; omitted legacy behavior is preserved.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub safeguards: Option<crate::SafeguardPolicy>,
     /// Explicit engineering policy selection; never inferred on upgrade.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub engineering: Option<EngineeringPolicy>,
@@ -965,6 +978,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                safeguards: None,
                 engineering: None,
                 profiles: vec![Profile {
                     name: "opdev-core".into(),

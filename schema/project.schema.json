@@ -219,6 +219,7 @@
       "additionalProperties": false,
       "required": ["profiles"],
       "properties": {
+        "safeguards": {"type":"object","additionalProperties":false,"required":["version","review_reference","capabilities"],"properties":{"version":{"const":1},"review_reference":{"type":"string","minLength":1},"capabilities":{"type":"object","propertyNames":{"enum":["persistent_data","public_contract","distribution","security_boundary","operations","user_interface","effectiveness"]},"additionalProperties":{"type":"object","additionalProperties":false,"required":["state","rationale","authority"],"properties":{"state":{"enum":["present","absent","unknown"]},"rationale":{"type":"string","minLength":1},"authority":{"type":"string","minLength":1}}}}}},
         "engineering": {
           "type": "object", "additionalProperties": false,
           "required": ["version", "review_reference"],

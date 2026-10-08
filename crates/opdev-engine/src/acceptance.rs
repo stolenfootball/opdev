@@ -53,6 +53,9 @@ pub(crate) fn evaluate(
     if review.outcome == Outcome::Failed {
         return (Outcome::Failed, acceptance.scope, "The current acceptance review records a contradiction; a green suite cannot override it".into());
     }
+    if let Some(diagnostic) = safeguard_gap(manifest, acceptance) {
+        return incomplete(&diagnostic);
+    }
     if acceptance.scope == AcceptanceScope::NoMaterialConditions {
         return if acceptance.conditions.is_empty() && acceptance.verifications.is_empty() {
             (Outcome::NotApplicable, acceptance.scope, "Reviewed exact-change rationale identifies no material acceptance conditions; this is not inferred from filenames".into())
@@ -119,6 +122,77 @@ pub(crate) fn evaluate(
         format!("{reason}; {}", diagnostics.join("; "))
     };
     (outcome, acceptance.scope, reason)
+}
+
+fn safeguard_gap(
+    manifest: &ProjectManifest,
+    acceptance: &opdev_project::AcceptanceEvidence,
+) -> Option<String> {
+    use opdev_project::{Capability, CapabilityState, Impact};
+    let Some(policy) = &manifest.assurance.safeguards else {
+        return acceptance.safeguards.as_ref().map(|_| "This change supplies safeguard mappings without a reviewed project safeguard policy. Select policy explicitly; the mappings did not qualify this change".into());
+    };
+    let Some(review) = &acceptance.safeguards else {
+        return Some("Capability safeguards are not reviewed for this change. Review which present capabilities are affected and link their required safeguards to the existing acceptance conditions".into());
+    };
+    if review.version != policy.version {
+        return Some("Unsupported safeguard review version; use a reader and reviewed policy supporting the same version".into());
+    }
+    let mut required = std::collections::BTreeSet::new();
+    for capability in Capability::ALL {
+        let name = serde_json::to_value(capability).unwrap_or_default();
+        let Some(fact) = policy.capabilities.get(&capability) else {
+            return Some(format!(
+                "Capability {name} has no reviewed applicability evidence. Assess actual behavior; missing configuration does not mean it is absent"
+            ));
+        };
+        match fact.state {
+            CapabilityState::Unknown => {
+                return Some(format!(
+                    "Capability {name} is unresolved. Review its actual presence or absence before claiming this change is verified"
+                ));
+            }
+            CapabilityState::Absent => {
+                if review.impacts.contains_key(&capability) {
+                    return Some(format!(
+                        "Capability {name} is declared absent but has change-impact evidence. Reconcile the project facts; do not use absence to waive safeguards"
+                    ));
+                }
+            }
+            CapabilityState::Present => {
+                let Some(impact) = review
+                    .impacts
+                    .get(&capability)
+                    .filter(|i| !i.rationale.trim().is_empty())
+                else {
+                    return Some(format!(
+                        "Present capability {name} needs a reviewed impact explanation for this change. It cannot be omitted or marked not applicable"
+                    ));
+                };
+                if impact.impact == Impact::Affected {
+                    required.extend(capability.objectives());
+                }
+            }
+        }
+    }
+    if review.objectives.keys().any(|o| !required.contains(o)) {
+        return Some("Safeguard objectives conflict with the reviewed capability impacts. Reconcile affected scope instead of treating unrelated checks as evidence".into());
+    }
+    for objective in required {
+        let ids = review.objectives.get(objective);
+        if ids.is_none_or(|ids| {
+            ids.is_empty()
+                || ids
+                    .iter()
+                    .any(|id| !acceptance.conditions.iter().any(|c| &c.id == id))
+        }) {
+            let name = serde_json::to_value(objective).unwrap_or_default();
+            return Some(format!(
+                "Affected behavior needs safeguard {name}. Link it to a concrete acceptance condition and its reviewed test or observation; a general passed assertion is not enough"
+            ));
+        }
+    }
+    None
 }
 
 fn review_is_current(

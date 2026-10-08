@@ -14,8 +14,13 @@ mod evidence;
 mod experiment;
 mod manifest;
 mod qualification;
+mod safeguards;
 pub use qualification::{
     AccessPrincipal, GitlabBranchPolicy, ProtectionPolicy, QualificationPolicy, RequiredCheck,
+};
+pub use safeguards::{
+    Capability, CapabilityFact, CapabilityImpact, CapabilityState, Impact, SafeguardObjective,
+    SafeguardPolicy, SafeguardReview,
 };
 
 pub use adoption::{
