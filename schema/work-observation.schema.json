@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/work-observation-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "selector", "author_id", "created_at", "updated_at", "body_sha256", "excerpt", "observed_at"],
+  "properties": {
+    "schema": {"const": 1}, "selector": {"$ref": "#/$defs/selector"},
+    "author_id": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string", "minLength": 1}, "updated_at": {"type": "string", "minLength": 1},
+    "body_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "excerpt": {"type": "string", "minLength": 1, "maxLength": 16384},
+    "observed_at": {"type": "integer", "minimum": 1}
+  },
+  "$defs": {"selector": {
+    "type": "object", "additionalProperties": false,
+    "required": ["provider", "repository_id", "kind", "number"],
+    "properties": {
+      "provider": {"enum": ["github", "gitlab"]}, "repository_id": {"type": "integer", "minimum": 1},
+      "kind": {"enum": ["issue", "merge_request"]}, "number": {"type": "integer", "minimum": 1},
+      "note_id": {"type": ["integer", "null"], "minimum": 1}
+    }
+  }}
+}

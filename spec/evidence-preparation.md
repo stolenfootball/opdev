@@ -38,3 +38,18 @@ neither a preview nor successful application qualifies a gate.
 Manual schema-2 edits remain supported. New ledgers use `evidence bootstrap`, not
 this existing-ledger helper. The temporary draft format reuses acceptance's
 existing schema and validation rather than introducing another project policy.
+
+For explicitly migrated external review storage, `--ledger-input FILE` prepares
+against an existing retained candidate outside the active ledger. The same source,
+input-byte and review checks apply. Applying it requires a new `--ledger-output
+FILE` outside source/Git storage; it never overwrites its retained input or creates
+the legacy project ledger. Earlier history is preserved. Export the exact-current
+semantic review separately, inspect its private content, and retain it only through
+the reviewed archive workflow. This is not an upload or a retention proof.
+
+New external candidates can use the existing unresolved `evidence bootstrap`
+questionnaire. `--answers FILE --write --output NEW_FILE` creates the explicitly
+reviewed candidate outside source. Its no-execution preparation assessment is not
+a project check report. Neither bootstrap nor preparation creates approvals or
+infers adoption completion; an external-policy project cannot omit the new output
+and silently recreate the legacy ledger.

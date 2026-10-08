@@ -8,6 +8,7 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
+anyhow.workspace = true
 jsonschema.workspace = true
 opdev-core = { path = "../opdev-core" }
 serde.workspace = true

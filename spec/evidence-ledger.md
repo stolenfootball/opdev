@@ -135,6 +135,93 @@ symlinks and therefore is not by itself proof of a regular archived file.
 
 ## Schema-2 acceptance evidence
 
+### Separate authenticated semantic review
+
+Development capability `evidence.authenticated-review.v1` supports schema-3
+`assurance.review_storage`: version 1, hosted provider, numeric archive repository
+ID, actual policy decision reference and an existing retention authority. This is
+explicit migration, not a new default for legacy projects. The authority owns
+reviewed retention/access/recovery requirements; the declaration is not proof
+those controls operate. Existing historical ledgers must remain until the storage
+migration has independently verified their retained recovery path.
+
+`evidence bundle export-review --stage STAGE --output NEW_FILE [--ledger FILE]`
+mechanically generates a schema-1 `semantic_review` record. It carries one exact
+current schema-2 acceptance record and project assertions, bound to the full
+material source fingerprint, effective configuration, stage and acceptance digest.
+It carries no execution report, producer success or consent assertion. Failed and
+unverified review judgments stay unchanged. Export is local and create-new outside
+product/Git storage; it does not upload, select retention or delete history.
+
+With that policy selected, `check --review-locator FILE
+--review-acceptance-sha256 EXPECTED` retrieves the independently selected exact
+record through the authenticated Git archive reader. A locator for a different
+provider/repository is rejected before network access. The engine consumes a sealed
+provider observation, not a deserialized diagnostic report or an arbitrary local
+ledger path. Exact source/configuration/stage, original inventory/digest and staged
+requirement/assertion references must match. Unresolved or failed judgments remain
+unsatisfied. It still runs the canonical stage checks or separately validates the
+existing same-run execution boundary; review storage grants neither execution nor
+release authority. No local cache or older green record is a fallback.
+
+Selecting external policy while retaining an active legacy ledger is an unresolved
+migration, not permission to choose whichever evidence passes. Missing authenticated
+review fails before commands run. A selected immutable archive observation proves
+where bytes were retrieved, not author identity, human consent or semantic truth.
+Existing semantic review duties remain. The new record creates no source exclusion:
+project configuration, guide and relevant documentation still affect qualification.
+Expected archive digest and acceptance identity come from the authorized work/review
+authority, never solely from the file being evaluated.
+
+### Mutable work content as a minimal observation
+
+`evidence bundle observe-work --selector FILE --excerpt FILE --output NEW_FILE`
+captures one selected issue/merge-request description or note through authenticated
+provider GETs. The strict selector specifies provider, numeric repository ID,
+`issue` or `merge_request` (also GitHub PRs), item number and optional exact note ID.
+The UTF-8 excerpt file contains only the exact text needed, at most 16 KiB. The
+CLI checks item kind/identity, parent membership, author ID and original provider
+timestamps; it rechecks the repository identity and rejects system notes. It emits
+only output/hash metadata to stdout. It does not dump a full body or conversation.
+
+The schema-1 record retains the excerpt, SHA-256 of the complete original body,
+selector, numeric author ID, creation/update timestamps and local observation time.
+The body hash identifies the observed version but cannot reconstruct omitted
+context. Review whether the selected excerpt retains enough context; authorship
+alone proves neither permission nor approval. Saved timestamps are not signatures.
+`--expected-body-sha256` explicitly rechecks a previously selected body identity:
+changed/missing/denied content fails instead of substituting old text. This is an
+observation at one time, not an atomic snapshot or promise of future authority.
+Recheck decisions when their scope, expiry, revocation or supersession matters.
+
+`export-review --work-observation FILE` can bind selected observations into the
+semantic record (at most 64). Its independent review identity then includes the
+complete retained observations as well as the acceptance inventory; editing an
+excerpt or provenance without rebinding is rejected. With no observations the
+identity remains the original acceptance digest. Existing per-assertion review
+semantics remain separate from observation transport. A deserialized observation
+does not recreate an authenticated provider read, and the archive authenticates
+storage origin rather than its historical claims. No author label becomes new
+developer consent.
+At qualification, bound work observations are re-observed before execution and
+afterward: changed body/author/provider timestamps or unavailable authorities fail
+without an old-text fallback. Each provider group has a one-minute read budget.
+This guards the selected content, not unselected decisions elsewhere; review must
+identify the applicable authority and scope. Ordinary reviews with no mutable work
+observations add no such requests. Sources: [GitHub issue comments](https://docs.github.com/en/rest/issues/comments)
+and [GitLab notes](https://docs.gitlab.com/api/notes/).
+
+For durable recovery, Git mirror backups retain repository history and can be
+restored to a Git remote; provider migration archives are not interchangeable with
+restorable backups. For exact-byte recovery, compare Git blobs or disable checkout
+line-ending conversion; a Windows checkout may otherwise alter intact archived
+bytes. GitHub explicitly says its migration archives have no supported
+restore path. Protected Git references reduce accidental history loss but do not
+prevent administrative deletion or replace independent recovery. Record observed
+protection entitlement limits instead of treating unsupported private-repository
+controls as passed. Sources: [GitHub repository backup](https://docs.github.com/en/repositories/archiving-a-github-repository/backing-up-a-repository)
+and [GitLab protected branches](https://docs.gitlab.com/user/project/repository/branches/protected/).
+
 Development CLIs read ledger schemas 1 and 2 and emit bootstrap schema 2. Version
 1 remains readable; it is not silently rewritten. TEST-002/003 now require typed
 current-change evidence rather than generic rule assertions or a declared testing

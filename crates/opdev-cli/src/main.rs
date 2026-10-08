@@ -178,6 +178,12 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
+    /// Exact provider archive selection for the explicitly selected semantic-review policy.
+    #[arg(long, requires = "review_acceptance_sha256", conflicts_with = "plan")]
+    review_locator: Option<PathBuf>,
+    /// Independently selected acceptance identity; archive contents cannot choose it.
+    #[arg(long, requires = "review_locator")]
+    review_acceptance_sha256: Option<String>,
     /// Retain this attempt outside Git, including unfinished or failed execution; never reuse it as qualification.
     #[arg(long, conflicts_with = "plan")]
     retain_state: bool,
@@ -440,6 +446,9 @@ struct EvidenceFingerprintArgs {
 
 #[derive(Debug, Args)]
 struct EvidenceBootstrapArgs {
+    /// Create a reviewed candidate outside source instead of the legacy ledger.
+    #[arg(long, requires_all = ["answers", "write"])]
+    output: Option<PathBuf>,
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]
     root: PathBuf,
@@ -621,9 +630,14 @@ fn bootstrap_evidence(args: &EvidenceBootstrapArgs) -> Result<()> {
     }
 
     let fingerprint = staged_fingerprint(&root)?;
+    // Questionnaire discovery is not qualification. Suppress the required external
+    // input only in this no-execution private assessment; bind answers to the real
+    // unchanged project fingerprint and never present this intermediate report.
+    let mut preparation_manifest = manifest.clone();
+    preparation_manifest.assurance.review_storage = None;
     let mut report = evaluate(
         &root,
-        &manifest,
+        &preparation_manifest,
         CheckOptions {
             execute_checks: false,
             ..CheckOptions::pre_merge()
@@ -641,7 +655,18 @@ fn bootstrap_evidence(args: &EvidenceBootstrapArgs) -> Result<()> {
         answers.validate_candidates(&project_rules, &change_rules, &fingerprint)?;
         let ledger = answers.to_ledger(&catalog)?;
         if args.write {
-            let path = ledger.write_new(&root, &catalog)?;
+            let path = if let Some(output) = &args.output {
+                let path = evidence_bundle::export_destination(&root, output)?;
+                local_state::write_new(&path, ledger.to_yaml()?.as_bytes())?;
+                path
+            } else {
+                if manifest.assurance.review_storage.is_some() {
+                    bail!(
+                        "External review policy needs --output outside source; no legacy ledger created"
+                    );
+                }
+                ledger.write_new(&root, &catalog)?
+            };
             println!("created {}", path.display());
         } else {
             print!("{}", ledger.to_yaml()?);
@@ -970,6 +995,30 @@ fn print_capability(name: &str, capability: &Capability) {
     }
 }
 
+fn selected_review(
+    args: &CheckArgs,
+    root: &Path,
+    manifest: &ProjectManifest,
+    stage: opdev_project::TestStage,
+) -> Result<Option<opdev_engine::ValidatedReview>> {
+    args.review_locator.as_ref().map(|path| -> Result<_> {
+        let acceptance = args.review_acceptance_sha256.as_deref().context("Acceptance identity required")?;
+        anyhow::ensure!(acceptance.len() == 64 && acceptance.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+            "Acceptance identity must be a lowercase SHA-256 digest; no provider request made");
+        let bytes = local_state::read(&std::path::absolute(path)?)?.context("Semantic review locator is missing")?;
+        let locator: opdev_remote::ArchiveLocator = serde_json::from_slice(&bytes)
+            .map_err(|_| anyhow::anyhow!("Semantic review locator is malformed; no private content echoed"))?;
+        locator.validate().map_err(anyhow::Error::msg)?;
+        let selected = manifest.assurance.review_storage.as_ref().context("External semantic review policy was not selected; no provider request made")?;
+        if locator.provider != selected.provider || locator.repository_id != selected.repository_id {
+            bail!("Semantic review locator is outside the selected storage policy; no provider request made");
+        }
+        let observed = opdev_remote::retrieve_archive(&locator).map_err(anyhow::Error::msg)?;
+        opdev_engine::ValidatedReview::from_archive(root, manifest, stage,
+            acceptance, &observed).map_err(anyhow::Error::msg)
+    }).transpose()
+}
+
 fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     if args.format == CheckFormat::Summary && args.report.is_none() {
         bail!("--format summary requires --report PATH to retain the full evaluation");
@@ -1036,6 +1085,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         }
         return Ok(ExitCode::SUCCESS);
     }
+    let review = selected_review(args, &root, &manifest, options.test_stage)?;
     let retained = args
         .retain_state
         .then(|| local_state::Attempt::start(&root, &manifest, options))
@@ -1049,7 +1099,11 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
             args.execution_environment
                 .as_deref()
                 .context("execution environment is required")?,
+            review.as_ref(),
         )?
+    } else if let Some(review) = &review {
+        opdev_engine::evaluate_with_review(&root, &manifest, options, review, None)
+            .context("review-backed project evaluation failed")?
     } else {
         evaluate(&root, &manifest, options).context("project evaluation failed")?
     };

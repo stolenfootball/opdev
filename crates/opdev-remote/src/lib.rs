@@ -3,6 +3,8 @@
 #![forbid(unsafe_code)]
 
 mod archive;
+mod work_observation;
+pub use work_observation::{observe_work, recheck_work};
 mod run;
 pub use archive::{ArchiveLocator, ArchiveObservation, retrieve_archive};
 pub use run::{RunExpectation, RunObservation, RunVerification, verify_run};

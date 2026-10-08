@@ -13,6 +13,8 @@ mod discovery;
 mod evidence;
 mod experiment;
 mod manifest;
+mod review;
+pub use review::{ReviewRecord, ReviewStorage, WorkKind, WorkObservation, WorkSelector};
 mod qualification;
 pub use qualification::{
     AccessPrincipal, GitlabBranchPolicy, ProtectionPolicy, QualificationPolicy, RequiredCheck,

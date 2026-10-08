@@ -156,6 +156,205 @@ impl Fixture {
 }
 
 #[test]
+fn semantic_review_export_is_separate_and_wrong_origin_is_rejected_before_network() -> Result {
+    let f = Fixture::new()?;
+    let output = f.temp.path().join("review.json");
+    let args = [
+        "evidence",
+        "bundle",
+        "export-review",
+        "--stage",
+        "local",
+        "--output",
+        output.to_str().ok_or("path")?,
+    ];
+    let exported = f.cli(&f.root, &args)?;
+    assert!(
+        exported.status.success(),
+        "{}",
+        String::from_utf8_lossy(&exported.stderr)
+    );
+    let record: Value = serde_json::from_slice(&fs::read(&output)?)?;
+    assert_eq!(record["kind"], "semantic_review");
+    assert!(record.get("attempt").is_none());
+    assert!(record.get("qualification").is_none());
+    let registry = jsonschema::Registry::new()
+        .extend([
+            (
+                "https://opdev.dev/schema/evidence-v2.json",
+                serde_json::from_str::<Value>(include_str!(
+                    "../../../schema/evidence.schema.json"
+                ))?,
+            ),
+            (
+                "https://opdev.dev/schema/work-observation-v1.json",
+                serde_json::from_str::<Value>(include_str!(
+                    "../../../schema/work-observation.schema.json"
+                ))?,
+            ),
+        ])?
+        .prepare()?;
+    let schema: Value =
+        serde_json::from_str(include_str!("../../../schema/semantic-review.schema.json"))?;
+    assert!(
+        jsonschema::options()
+            .with_registry(&registry)
+            .build(&schema)?
+            .is_valid(&record)
+    );
+    assert!(
+        !f.cli(&f.root, &args)?.status.success(),
+        "export cannot replace retained history"
+    );
+    let mut project = opdev_project::ProjectManifest::load(&f.root.join(MANIFEST_PATH))?;
+    project.schema = 3;
+    project
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    project.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic decision".into(),
+        maintenance_branches: vec![],
+    });
+    project.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        version: 1,
+        provider: opdev_project::CiProvider::Gitlab,
+        repository_id: 7,
+        review_reference: "synthetic archive decision".into(),
+        retention_authority: "fixture recovery review".into(),
+    });
+    fs::write(f.root.join(MANIFEST_PATH), project.to_yaml()?)?;
+    git(&f.root, &["add", "."])?;
+    let locator = f.temp.path().join("wrong-origin.json");
+    fs::write(
+        &locator,
+        serde_json::to_vec(&json!({"schema":1, "provider":"gitlab", "repository_id":8,
+        "commit":"a".repeat(40), "path":"review.json", "sha256":"b".repeat(64)}))?,
+    )?;
+    let denied = f.cli(
+        &f.root,
+        &[
+            "check",
+            "--no-exec",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            &"c".repeat(64),
+        ],
+    )?;
+    assert_eq!(denied.status.code(), Some(2));
+    assert!(
+        String::from_utf8_lossy(&denied.stderr)
+            .contains("outside the selected storage policy; no provider request made")
+    );
+    assert!(f.root.join(".opdev/evidence.yaml").exists());
+    assert_malformed_identity_rejected(&f, &locator)?;
+    Ok(())
+}
+
+fn assert_malformed_identity_rejected(f: &Fixture, locator: &Path) -> Result {
+    let malformed = f.cli(
+        &f.root,
+        &[
+            "check",
+            "--no-exec",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            "not-a-digest",
+        ],
+    )?;
+    assert_eq!(malformed.status.code(), Some(2));
+    assert!(
+        String::from_utf8_lossy(&malformed.stderr)
+            .contains("lowercase SHA-256 digest; no provider request made")
+    );
+    Ok(())
+}
+
+#[test]
+fn external_preparation_preserves_source_and_refuses_overwrite_or_in_repository_output() -> Result {
+    let f = Fixture::new()?;
+    let ledger_path = f.root.join(".opdev/evidence.yaml");
+    let original = fs::read(&ledger_path)?;
+    let ledger: Value = serde_json::from_slice(&original)?;
+    let external = f.temp.path().join("retained-ledger.yaml");
+    fs::write(&external, &original)?;
+    let input = f.temp.path().join("input.yaml");
+    fs::write(
+        &input,
+        serde_json::to_vec(&ledger["changes"][0]["acceptance"])?,
+    )?;
+    let prepared = f.cli(
+        &f.root,
+        &[
+            "evidence",
+            "prepare",
+            "--input",
+            input.to_str().ok_or("path")?,
+            "--work",
+            "fixture:accepted-work",
+            "--ledger-input",
+            external.to_str().ok_or("path")?,
+        ],
+    )?;
+    assert!(
+        prepared.status.success(),
+        "{}",
+        String::from_utf8_lossy(&prepared.stderr)
+    );
+    let mut draft: Value = serde_saphyr::from_slice(&prepared.stdout)?;
+    let draft_path = f.temp.path().join("draft.yaml");
+    fs::write(&draft_path, serde_json::to_vec(&draft)?)?;
+    let preview_args = [
+        "evidence",
+        "prepare",
+        "--draft",
+        draft_path.to_str().ok_or("path")?,
+        "--ledger-input",
+        external.to_str().ok_or("path")?,
+    ];
+    let preview = f.cli(&f.root, &preview_args)?;
+    assert!(preview.status.success());
+    let preview: Value = serde_json::from_slice(&preview.stdout)?;
+    draft["acceptance"]["review"] = json!({"outcome":"failed", "reviewer":"synthetic fixture reviewer",
+        "reference":"fixture review", "rationale":"Transport fixture does not establish assertion adequacy", "subject_sha256":preview["subject_sha256"]});
+    fs::write(&draft_path, serde_json::to_vec(&draft)?)?;
+    let mut args = preview_args.to_vec();
+    args.push("--write");
+    assert!(
+        !f.cli(&f.root, &args)?.status.success(),
+        "external draft must not overwrite source ledger"
+    );
+    let inside = f.root.join("reviewed.yaml");
+    args.extend(["--ledger-output", inside.to_str().ok_or("path")?]);
+    assert!(!f.cli(&f.root, &args)?.status.success());
+    assert!(!inside.exists());
+    let output = f.temp.path().join("reviewed.yaml");
+    *args.last_mut().ok_or("output arg")? = output.to_str().ok_or("path")?;
+    let applied = f.cli(&f.root, &args)?;
+    assert!(
+        applied.status.success(),
+        "{}",
+        String::from_utf8_lossy(&applied.stderr)
+    );
+    let reviewed: Value = serde_saphyr::from_slice(&fs::read(&output)?)?;
+    assert_eq!(
+        reviewed["changes"][0]["acceptance"]["review"]["outcome"],
+        "failed"
+    );
+    assert_eq!(original, fs::read(&ledger_path)?);
+    assert_eq!(original, fs::read(&external)?);
+    assert!(
+        !f.cli(&f.root, &args)?.status.success(),
+        "retained candidate is create-new only"
+    );
+    Ok(())
+}
+
+#[test]
 fn exact_review_retrieves_on_clean_clone_without_source_ledger_rewrite_or_state_cache() -> Result {
     let f = Fixture::new()?;
     let original = fs::read(f.root.join(".opdev/evidence.yaml"))?;

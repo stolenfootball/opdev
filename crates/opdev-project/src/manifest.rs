@@ -233,6 +233,14 @@ impl ProjectManifest {
 
     fn validate_semantics(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
+        if let Some(storage) = &self.assurance.review_storage {
+            if self.schema != 3 {
+                return Err(ManifestError::Semantic(
+                    "external semantic review requires explicit schema-3 project migration".into(),
+                ));
+            }
+            storage.validate()?;
+        }
         if let Some(policy) = &self.project.ci.qualification {
             if self.schema < 2 {
                 return Err(ManifestError::Semantic(
@@ -803,6 +811,9 @@ impl Operations {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Assurance {
+    /// Explicit external semantic-review storage selection; absent keeps the ledger.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_storage: Option<crate::ReviewStorage>,
     /// Explicit engineering policy selection; never inferred on upgrade.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub engineering: Option<EngineeringPolicy>,
@@ -965,6 +976,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                review_storage: None,
                 engineering: None,
                 profiles: vec![Profile {
                     name: "opdev-core".into(),

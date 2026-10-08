@@ -219,6 +219,16 @@
       "additionalProperties": false,
       "required": ["profiles"],
       "properties": {
+        "review_storage": {
+          "type": "object", "additionalProperties": false,
+          "required": ["version", "provider", "repository_id", "review_reference", "retention_authority"],
+          "properties": {
+            "version": {"const": 1}, "provider": {"enum": ["github", "gitlab"]},
+            "repository_id": {"type": "integer", "minimum": 1},
+            "review_reference": {"type": "string", "minLength": 1},
+            "retention_authority": {"type": "string", "minLength": 1}
+          }
+        },
         "engineering": {
           "type": "object", "additionalProperties": false,
           "required": ["version", "review_reference"],
