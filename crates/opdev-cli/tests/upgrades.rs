@@ -71,7 +71,7 @@ fn fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
             .status()?
             .success()
     );
-    let output = cli(repo.path(), &["init"])?;
+    let output = cli(repo.path(), &["init", "--legacy-policy"])?;
     assert!(
         output.status.success(),
         "{}",

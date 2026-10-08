@@ -159,6 +159,12 @@ struct PluginRequirements {
 
 #[derive(Debug, Args)]
 struct InitArgs {
+    /// Full reviewed clean-1 project contract; never inferred from discovery defaults.
+    #[arg(long, conflicts_with_all = ["engineering_policy", "legacy_policy", "layout_version"])]
+    project: Option<PathBuf>,
+    /// Explicit older-policy scaffold for compatibility work; cannot complete current adoption.
+    #[arg(long, conflicts_with = "engineering_policy")]
+    legacy_policy: bool,
     /// Explicit reviewed strict layout for new projects; existing layouts need migration.
     #[arg(long, requires = "engineering_policy", value_parser = clap::value_parser!(u32).range(1..=1))]
     layout_version: Option<u32>,
@@ -815,6 +821,30 @@ fn initialize(args: &InitArgs) -> Result<()> {
     let mut discovery = discover(&args.root).context("could not inspect the repository")?;
     let manifest_path = discovery.root.join(MANIFEST_PATH);
     let adoption = opdev_project::AdoptionRecord::load(&discovery.root)?;
+    if let Some(path) = &args.project {
+        let proposed = opdev_project::ProjectManifest::load(path)?;
+        let gaps = opdev_project::clean_adoption::policy_gaps(&proposed);
+        if !gaps.is_empty() {
+            bail!(
+                "The supplied contract does not select clean-1: {}. Nothing changed.",
+                gaps.join("; ")
+            );
+        }
+        if manifest_path.exists() && proposed.to_yaml()? != discovery.manifest.to_yaml()? {
+            bail!(
+                "Existing project preserved. Use coordinated migration to review and apply the clean-1 destination; init cannot replace it."
+            );
+        }
+        discovery.manifest = proposed;
+    } else if !manifest_path.exists()
+        && !args.dry_run
+        && !args.legacy_policy
+        && args.engineering_policy.is_none()
+    {
+        bail!(
+            "Initialization needs a reviewed project contract. Inspect adoption plan, resolve the choices, then use init --project FILE. Discovery defaults are not approval. Nothing changed."
+        );
+    }
     select_initial_policy(args, &mut discovery, manifest_path.exists())?;
     let catalog_version = opdev_project::project_adoption_catalog(&discovery.manifest);
     if !manifest_path.exists()
@@ -867,8 +897,15 @@ fn initialize(args: &InitArgs) -> Result<()> {
         // Create unresolved state first so interruption after writing the manifest
         // is distinguishable from a legacy project. Existing decisions are untouched.
         if adoption.is_none() {
-            opdev_project::AdoptionRecord::pending_for_catalog(catalog_version)?
-                .write_new(&discovery.root)?;
+            let mut record = opdev_project::AdoptionRecord::pending_for_catalog(catalog_version)?;
+            if args.project.is_some() {
+                record.clean_target = Some(opdev_project::clean_adoption::CleanTarget {
+                    version: 1,
+                    inventory_reference: String::new(),
+                    retirements: vec![],
+                });
+            }
+            record.write_new(&discovery.root)?;
         }
         discovery.manifest.write_new(&manifest_path)?;
         report_agent_changes(&reconcile_agent_files(&discovery.root)?);
@@ -1083,28 +1120,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     }
     if args.plan {
         let plan = plan_checks(&root, &manifest, options);
-        if args.format == CheckFormat::Json {
-            println!("{}", serde_json::to_string_pretty(&plan)?);
-        } else {
-            println!(
-                "Execution plan: {:?} suites; {:?} extensions",
-                plan.test_stage, plan.extension_stage
-            );
-            println!(
-                "Qualification: unverified. No commands ran. Arguments may contain private project values."
-            );
-            for command in plan.commands {
-                println!(
-                    "{} ({:?}, blocking={}): {}\n  directory: {}\n  timeout: {}s",
-                    command.id,
-                    command.kind,
-                    command.blocking,
-                    serde_json::to_string(&command.argv)?,
-                    command.working_directory,
-                    command.timeout_seconds
-                );
-            }
-        }
+        print_execution_plan(args.format, &plan)?;
         return Ok(ExitCode::SUCCESS);
     }
     let review = selected_review(
@@ -1146,6 +1162,32 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     }
     present_check(args, &report)?;
     Ok(check_exit(args, &report))
+}
+
+fn print_execution_plan(format: CheckFormat, plan: &opdev_engine::CheckPlan) -> Result<()> {
+    if format == CheckFormat::Json {
+        println!("{}", serde_json::to_string_pretty(plan)?);
+    } else {
+        println!(
+            "Execution plan: {:?} suites; {:?} extensions",
+            plan.test_stage, plan.extension_stage
+        );
+        println!(
+            "Qualification: unverified. No commands ran. Arguments may contain private project values."
+        );
+        for command in &plan.commands {
+            println!(
+                "{} ({:?}, blocking={}): {}\n  directory: {}\n  timeout: {}s",
+                command.id,
+                command.kind,
+                command.blocking,
+                serde_json::to_string(&command.argv)?,
+                command.working_directory,
+                command.timeout_seconds
+            );
+        }
+    }
+    Ok(())
 }
 
 fn present_check(args: &CheckArgs, report: &CheckReport) -> Result<()> {
@@ -1701,6 +1743,8 @@ mod tests {
         let before = std::fs::read(root.join(MANIFEST_PATH))?;
         std::fs::write(root.join("AGENTS.md"), "Project-owned instructions\n")?;
         initialize(&InitArgs {
+            project: None,
+            legacy_policy: false,
             layout_version: None,
             root: root.to_path_buf(),
             dry_run: true,
@@ -1724,6 +1768,8 @@ mod tests {
         let root = directory.path();
         std::fs::create_dir(root.join(".git"))?;
         initialize(&InitArgs {
+            project: None,
+            legacy_policy: true,
             layout_version: None,
             root: root.to_path_buf(),
             dry_run: false,

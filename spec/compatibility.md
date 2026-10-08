@@ -132,6 +132,16 @@ release version follows from introducing this interface. Capability-based safegu
 are independently selected by `acceptance.safeguards.v1`; catalog/schema choices
 and changed assurance remain visible rather than being attributed to a plugin update.
 
+Development capability `adoption.clean-target.v1` adds the exact clean-1 destination,
+read-only pre-initialization planning, full reviewed `init --project` input and
+retirement/source-bound cleanup completion checks. Explicit legacy diagnostics
+never report current completion; ordinary checks do not migrate existing policy.
+
+Development capability `upgrade.reviewed-retirement.v1` adds explicit bounded text
+moves/file retirement/nonrecursive empty-directory removal to coordinated migration,
+bound to clean-target decisions and mandatory private recovery. It is not a generic
+filesystem mover or permission to delete legacy evidence without retained history.
+
 Development capability `adoption.external-review.v1` uses the selected authenticated
 semantic review for adoption verification without a legacy repository ledger.
 Its exact locator and independent acceptance identity follow ordinary check;

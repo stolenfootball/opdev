@@ -14,6 +14,7 @@ use std::{
     process::ExitCode,
 };
 
+mod cleanup;
 mod inventory;
 #[cfg(test)]
 mod tests;
@@ -30,6 +31,13 @@ struct Request {
     ci_review_reference: String,
     /// Original complete legacy bytes at the retained, authenticated authority.
     history: Option<opdev_remote::ArchiveLocator>,
+    #[serde(default)]
+    clean_target: Option<opdev_project::clean_adoption::CleanTarget>,
+    #[serde(default)]
+    cleanup: Vec<cleanup::Action>,
+    /// Actual review of content ownership changes, not permission inferred from policy.
+    #[serde(default)]
+    authority_review_reference: Option<String>,
 }
 
 #[derive(Clone, Deserialize, Serialize)]
@@ -56,6 +64,10 @@ struct MigrationPlan {
     changes: Vec<Change>,
     findings: Vec<Finding>,
     history: Option<opdev_remote::ArchiveLocator>,
+    #[serde(default)]
+    cleanup: Vec<cleanup::Action>,
+    #[serde(default)]
+    authority_review_reference: Option<String>,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -78,6 +90,9 @@ impl MigrationPlan {
     }
     fn changed(&self) -> bool {
         self.changes.iter().any(|c| c.before != c.after)
+            || self.cleanup.iter().any(|a| {
+                cleanup::retired_directory(self, &a.path) && self.root.join(&a.path).exists()
+            })
     }
     fn blocked(&self) -> bool {
         self.findings
@@ -137,10 +152,13 @@ fn assess(root: &Path, request_path: &Path, plugin: Option<&Path>) -> Result<Mig
         changes: vec![],
         findings: vec![],
         history: request.history,
+        cleanup: request.cleanup,
+        authority_review_reference: request.authority_review_reference,
     };
+    cleanup::validate_actions(&plan.cleanup)?;
     inventory::collect(&mut plan, plugin)?;
     plan.replacement(MANIFEST_PATH, candidate.to_yaml()?, "Explicit reviewed target policy; commands and authority changes are visible in this exact diff")?;
-    adoption(&mut plan, &original, &candidate)?;
+    adoption(&mut plan, &original, &candidate, request.clean_target)?;
     for file in opdev_project::preview_agent_files_for_layout(&plan.root, true)? {
         plan.changes.push(Change {
             path: file
@@ -168,6 +186,7 @@ fn assess(root: &Path, request_path: &Path, plugin: Option<&Path>) -> Result<Mig
         plan.replacement(path, after.clone(), "Explicit CI transition; syntax, runtime capability and pipeline qualification remain separate checks")?;
     }
     history(&mut plan, &candidate)?;
+    cleanup::prepare(&mut plan)?;
     inventory::owners(&mut plan, &original, &candidate);
     plan.finding("verification", Outcome::Unverified, "Migration writes do not verify adoption, local/CI compatibility, project tests, delivery or release. Review each separate finding and run current required checks after staging.");
     plan.plan_id = plan.identity()?;
@@ -178,6 +197,7 @@ fn adoption(
     plan: &mut MigrationPlan,
     original: &ProjectManifest,
     candidate: &ProjectManifest,
+    clean_target: Option<opdev_project::clean_adoption::CleanTarget>,
 ) -> Result<()> {
     let Some(mut record) = AdoptionRecord::load(&plan.root)? else {
         plan.finding("adoption", Outcome::Failed, "No existing assessment. Complete the explicitly authorized assessment first; migration will not invent adoption choices.");
@@ -185,6 +205,17 @@ fn adoption(
     };
     let before = record.to_yaml()?;
     record.migrate_catalog(opdev_project::project_adoption_catalog(candidate))?;
+    if let Some(target) = clean_target {
+        opdev_project::clean_adoption::validate_target(&target).map_err(anyhow::Error::msg)?;
+        ensure!(
+            opdev_project::clean_adoption::policy_gaps(candidate).is_empty(),
+            "Clean adoption target requires the complete reviewed policy bundle"
+        );
+        if serde_json::to_value(&record.clean_target)? != serde_json::to_value(&target)? {
+            record.review = None;
+        }
+        record.clean_target = Some(target);
+    }
     // Existing approvals cannot authorize a materially different project policy.
     // Preserve their original bytes in the mandatory recovery snapshot, never re-approve.
     if original != candidate {
@@ -298,6 +329,7 @@ pub(super) fn run(
 }
 
 fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
+    cleanup::validate_plan(plan)?;
     let mut paths = std::collections::BTreeSet::new();
     for change in &plan.changes {
         ensure!(
@@ -310,11 +342,14 @@ fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
                         | ".opdev/guidance.md"
                         | "AGENTS.md"
                         | "CLAUDE.md"
-                ) || inventory::ci_path(&change.path)),
+                ) || inventory::ci_path(&change.path)
+                    || cleanup::file_target(plan, &change.path)),
             "Unsupported or repeated migration target; no arbitrary recovery instructions executed"
         );
         ensure!(
-            change.after.is_some() || change.path == EVIDENCE_PATH,
+            change.after.is_some()
+                || change.path == EVIDENCE_PATH
+                || cleanup::retired_file(plan, &change.path),
             "Unsupported migration deletion"
         );
     }
@@ -345,6 +380,8 @@ fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
             continue;
         }
         if let Some(after) = &change.after {
+            inventory::target(&plan.root, &change.path)?;
+            fs::create_dir_all(path.parent().context("Migration target parent missing")?)?;
             opdev_project::apply_agent_preview(&[AgentFilePreview {
                 file: ManagedFile {
                     path,
@@ -359,12 +396,13 @@ fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
             }])?;
         } else {
             ensure!(
-                change.path == EVIDENCE_PATH,
-                "Only the explicitly retained legacy ledger may be retired"
+                change.path == EVIDENCE_PATH || cleanup::retired_file(plan, &change.path),
+                "Only explicitly reviewed retained-history or obsolete files may be retired"
             );
             fs::remove_file(path).context("Migration partially applied; retain recovery and resume after inspecting current files")?;
         }
     }
+    cleanup::remove_empty_directories(plan)?;
     inventory::unchanged(plan)?;
     Ok(())
 }

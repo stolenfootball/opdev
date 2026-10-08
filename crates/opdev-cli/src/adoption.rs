@@ -89,6 +89,9 @@ enum AdoptionCommand {
     },
     /// Verify all decisions, fresh reviewed evidence, executable checks and all core gates.
     Check {
+        /// Diagnose the selected older policy only; never reports current adoption complete.
+        #[arg(long)]
+        legacy_assessment: bool,
         /// Exact provider archive for the selected external review policy; not a saved check report.
         #[arg(long, requires = "review_acceptance_sha256")]
         review_locator: Option<PathBuf>,
@@ -143,6 +146,7 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             remote,
         } => status(root, *format, *remote)?,
         AdoptionCommand::Check {
+            legacy_assessment,
             review_locator,
             review_acceptance_sha256,
             root,
@@ -157,6 +161,7 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                 *format,
                 review_locator.as_ref(),
                 review_acceptance_sha256.as_deref(),
+                *legacy_assessment,
             );
         }
     }
@@ -168,11 +173,21 @@ fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<
     let record = AdoptionRecord::load(&root)?;
     let remote_gap = manifest.remote_qualification_gap();
     let worksheet = policy_worksheet(&manifest, remote)?;
-    let blockers = record
+    let mut blockers = record
         .as_ref()
         .map(|r| r.blockers(&manifest))
         .transpose()?
         .unwrap_or_default();
+    blockers.extend(opdev_project::clean_adoption::decision_gaps(
+        &manifest,
+        record.as_ref(),
+    ));
+    if let Some(target) = record.as_ref().and_then(|r| r.clean_target.as_ref()) {
+        blockers.extend(
+            opdev_project::clean_adoption::retirement_gaps(&root, target)
+                .map_err(anyhow::Error::msg)?,
+        );
+    }
     let status = if record.as_ref().is_some_and(|r| r.schema == 1) {
         "migration_required"
     } else if record.is_none() {
@@ -259,6 +274,15 @@ fn approve(root: &std::path::Path, review: AdoptionReview) -> Result<()> {
     {
         bail!("assess scope and every proposed choice before requesting approval");
     }
+    if record.clean_target.is_some() {
+        let gaps = opdev_project::clean_adoption::decision_gaps(&manifest, Some(&record));
+        if !gaps.is_empty() {
+            bail!(
+                "Resolve destination choices before approval: {}",
+                gaps.join("; ")
+            );
+        }
+    }
     record.review = Some(review);
     replace_record(&root, &before, &record)?;
     println!(
@@ -268,8 +292,18 @@ fn approve(root: &std::path::Path, review: AdoptionReview) -> Result<()> {
 }
 
 fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
-    let (root, manifest) = load_project(root)?;
-    let record = AdoptionRecord::load(&root)?.context("no adoption record")?;
+    let discovery = opdev_project::discover(root)?;
+    let root = discovery.root;
+    let manifest = discovery.manifest;
+    let record = AdoptionRecord::load(&root)?;
+    let configured = root.join(opdev_project::MANIFEST_PATH).exists();
+    let mut target_gaps = opdev_project::clean_adoption::decision_gaps(&manifest, record.as_ref());
+    if let Some(target) = record.as_ref().and_then(|r| r.clean_target.as_ref()) {
+        target_gaps.extend(
+            opdev_project::clean_adoption::retirement_gaps(&root, target)
+                .map_err(anyhow::Error::msg)?,
+        );
+    }
     let branch_choices = if manifest.project.trunk == "main" {
         vec!["Keep main as the single integration and release source".to_string()]
     } else {
@@ -285,13 +319,17 @@ fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
     println!(
         "{}",
         serde_json::to_string_pretty(&serde_json::json!({
-            "schema": 1, "plan_id": record.plan_id(&manifest)?, "record": record,
-            "required_practices": adoption_catalog_version(project_adoption_catalog(&manifest))?,
+            "schema": 1, "plan_id": record.as_ref().map(|r| r.plan_id(&manifest)).transpose()?, "record": record,
+            "target": opdev_project::clean_adoption::TARGET,
+            "starting_state": if configured {"configured_project"} else {"uninitialized_project"},
+            "required_migrations": target_gaps,
+            "required_practices": adoption_catalog_version(2)?,
+            "discovery_warnings": discovery.warnings,
             "contract": manifest, "approval": "review_required",
             "branch_choices": branch_choices,
             "remote_qualification": {"verification":"not_run", "policy_ready":manifest.remote_qualification_gap().is_none(), "gap":manifest.remote_qualification_gap(), "worksheet":policy_worksheet(&manifest, remote)?},
             "delivery_readiness":"not_run",
-            "notice": "Present preserve/change/ignore/unresolved choices and wait for an actual response. A plan hash is not consent."
+            "notice": "Review retained, changed and retired content against clean-1. An empty project needs real behavior before verification; setup alone is incomplete. Resolve material choices before implementation. A plan hash is not consent."
         }))?
     );
     Ok(())
@@ -359,6 +397,11 @@ fn prepare_evidence(root: &std::path::Path) -> Result<()> {
         summary: String::new(),
         location: Some(ADOPTION_PATH.into()),
     });
+    questionnaire.change.evidence.push(opdev_core::Evidence {
+        kind: "adoption_cleanup_review".into(),
+        summary: String::new(),
+        location: Some(ADOPTION_PATH.into()),
+    });
     print!("{}", questionnaire.to_yaml()?);
     eprintln!(
         "Review-required preparation only; writes no ledger and asserts no pass. Fill the actual review summary/work reference, then merge reviewed assertions into the current ledger. This partial worksheet is not a full evidence bootstrap answers file."
@@ -409,6 +452,7 @@ fn check(
     format: OutputFormat,
     review_locator: Option<&PathBuf>,
     review_acceptance_sha256: Option<&str>,
+    legacy_assessment: bool,
 ) -> Result<ExitCode> {
     if report_path.is_some_and(|path| path.symlink_metadata().is_ok()) {
         bail!("report output already exists; choose a new path");
@@ -417,6 +461,18 @@ fn check(
     let record = AdoptionRecord::load(&root)?
         .context("no adoption assessment; run opdev adoption start explicitly")?;
     let mut blockers = record.blockers(&manifest)?;
+    if !legacy_assessment {
+        blockers.extend(opdev_project::clean_adoption::decision_gaps(
+            &manifest,
+            Some(&record),
+        ));
+        if let Some(target) = &record.clean_target {
+            blockers.extend(
+                opdev_project::clean_adoption::retirement_gaps(&root, target)
+                    .map_err(anyhow::Error::msg)?,
+            );
+        }
+    }
     if remote && let Some(gap) = manifest.remote_qualification_gap() {
         blockers.push(format!("remote qualification: {gap}; resolve developer choices before running adoption verification"));
     }
@@ -457,7 +513,11 @@ fn check(
     } else {
         EvidenceLedger::load_optional(&root, &manifest.catalog()?)?
     };
-    blockers.extend(review_blockers(ledger.as_ref(), fingerprint.as_deref()));
+    blockers.extend(review_blockers(
+        ledger.as_ref(),
+        fingerprint.as_deref(),
+        !legacy_assessment,
+    ));
     for name in ["AGENTS.md", "CLAUDE.md"] {
         if !root.join(name).is_file() {
             blockers.push(format!("agents: missing {name}"));
@@ -465,46 +525,15 @@ fn check(
     }
     // Never run project commands until decisions and their explicit review are ready.
     let core_report = if blockers.is_empty() {
-        let evidence_before = if review.is_some() {
-            None
-        } else {
-            Some(std::fs::read(root.join(EVIDENCE_PATH))?)
-        };
-        let report = adoption_core_report(&root, &manifest, remote, review.as_ref())?;
-        if !report.rules.iter().any(|rule| {
-            rule.rule_id.as_str() == "MCD-PIPELINE-001"
-                && ((rule.outcome == Outcome::Passed
-                    && rule.evidence.iter().any(|e| {
-                        e.kind == "delivery_gate"
-                            && e.location.as_ref().is_some_and(|p| !p.trim().is_empty())
-                    }))
-                    || (manifest.assurance.engineering.is_some()
-                        && rule.outcome == Outcome::NotApplicable))
-        }) {
-            blockers.push("delivery: review the actual release/tag publication dependency path and provide MCD-PIPELINE-001 delivery_gate evidence; integration-only CI is insufficient".into());
-        }
-        for gate in [
-            Gate::Development,
-            Gate::Integration,
-            Gate::Delivery,
-            Gate::Compliance,
-        ] {
-            if !report.gate_passed(gate) {
-                blockers.push(format!("core gate {gate:?} is blocked"));
-            }
-        }
-        blockers.extend(referenced_suite_blockers(&record, &manifest, &report));
-        let evidence_unchanged = if let Some(review) = &review {
-            root.join(EVIDENCE_PATH).symlink_metadata().is_err()
-                && review
-                    .reviewed_ledger(&root, &manifest, opdev_project::TestStage::PreMerge)
-                    .is_ok()
-        } else {
-            Some(std::fs::read(root.join(EVIDENCE_PATH))?) == evidence_before
-        };
-        if staged_fingerprint(&root).ok() != fingerprint || !evidence_unchanged {
-            blockers.push("repository or reviewed evidence changed during verification; stage and review again".into());
-        }
+        let (report, verification_gaps) = verify_core(
+            &root,
+            &manifest,
+            &record,
+            remote,
+            review.as_ref(),
+            fingerprint.as_deref(),
+        )?;
+        blockers.extend(verification_gaps);
         if let Some(path) = report_path {
             views::save_report(&report, path)?;
         }
@@ -512,35 +541,119 @@ fn check(
     } else {
         None
     };
-    let complete = blockers.is_empty();
-    if matches!(format, OutputFormat::Json) {
-        println!(
-            "{}",
-            serde_json::to_string_pretty(&serde_json::json!({
-                "schema":1,"complete":complete,"fingerprint":fingerprint,"blockers":blockers,"core_report":core_report
-            }))?
-        );
-    } else {
-        if let Some(report) = &core_report {
-            print_human_report(report);
-        }
-        println!(
-            "Adoption: {}",
-            if complete {
-                "passed for the evaluated staged state"
-            } else {
-                "incomplete"
-            }
-        );
-        for blocker in blockers {
-            println!("  {blocker}");
-        }
-    }
-    Ok(if complete {
+    let passed = blockers.is_empty();
+    present_adoption(
+        format,
+        passed,
+        legacy_assessment,
+        fingerprint.as_deref(),
+        &blockers,
+        core_report.as_ref(),
+    )?;
+    Ok(if passed {
         ExitCode::SUCCESS
     } else {
         ExitCode::from(1)
     })
+}
+
+fn present_adoption(
+    format: OutputFormat,
+    passed: bool,
+    legacy_assessment: bool,
+    fingerprint: Option<&str>,
+    blockers: &[String],
+    core_report: Option<&opdev_engine::CheckReport>,
+) -> Result<()> {
+    let complete = passed && !legacy_assessment;
+    if matches!(format, OutputFormat::Json) {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&serde_json::json!({
+                "schema":1,"complete":complete,"target":opdev_project::clean_adoption::TARGET,
+                "legacy_policy_passed":legacy_assessment.then_some(passed),
+                "fingerprint":fingerprint,"blockers":blockers,"core_report":core_report
+            }))?
+        );
+    } else {
+        if let Some(report) = core_report {
+            print_human_report(report);
+        }
+        if legacy_assessment {
+            println!(
+                "Legacy policy assessment: {}. Current adoption is not verified.",
+                if passed { "passed" } else { "blocked" }
+            );
+        } else {
+            println!(
+                "Adoption: {}",
+                if complete {
+                    "passed for the evaluated staged state"
+                } else {
+                    "incomplete"
+                }
+            );
+        }
+        for blocker in blockers {
+            println!("  {blocker}");
+        }
+    }
+    Ok(())
+}
+
+fn verify_core(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    record: &AdoptionRecord,
+    remote: bool,
+    review: Option<&opdev_engine::ValidatedReview>,
+    fingerprint: Option<&str>,
+) -> Result<(opdev_engine::CheckReport, Vec<String>)> {
+    let evidence_before = if review.is_some() {
+        None
+    } else {
+        Some(std::fs::read(root.join(EVIDENCE_PATH))?)
+    };
+    let report = adoption_core_report(root, manifest, remote, review)?;
+    let mut blockers = Vec::new();
+    if !report.rules.iter().any(|rule| {
+        rule.rule_id.as_str() == "MCD-PIPELINE-001"
+            && ((rule.outcome == Outcome::Passed
+                && rule.evidence.iter().any(|e| {
+                    e.kind == "delivery_gate"
+                        && e.location.as_ref().is_some_and(|p| !p.trim().is_empty())
+                }))
+                || (manifest.assurance.engineering.is_some()
+                    && rule.outcome == Outcome::NotApplicable))
+    }) {
+        blockers.push("delivery: review the actual release/tag publication dependency path and provide MCD-PIPELINE-001 delivery_gate evidence; integration-only CI is insufficient".into());
+    }
+    for gate in [
+        Gate::Development,
+        Gate::Integration,
+        Gate::Delivery,
+        Gate::Compliance,
+    ] {
+        if !report.gate_passed(gate) {
+            blockers.push(format!("core gate {gate:?} is blocked"));
+        }
+    }
+    blockers.extend(referenced_suite_blockers(record, manifest, &report));
+    let evidence_unchanged = if let Some(review) = review {
+        root.join(EVIDENCE_PATH).symlink_metadata().is_err()
+            && review
+                .reviewed_ledger(root, manifest, opdev_project::TestStage::PreMerge)
+                .is_ok()
+    } else {
+        Some(std::fs::read(root.join(EVIDENCE_PATH))?) == evidence_before
+    };
+    if staged_fingerprint(root).ok().as_deref() != fingerprint || !evidence_unchanged {
+        blockers.push(
+            "repository or reviewed evidence changed during verification; stage and review again"
+                .into(),
+        );
+    }
+    Ok((report, blockers))
 }
 
 fn referenced_suite_blockers(
@@ -575,7 +688,11 @@ fn referenced_suite_blockers(
     blockers
 }
 
-fn review_blockers(ledger: Option<&EvidenceLedger>, fingerprint: Option<&str>) -> Vec<String> {
+fn review_blockers(
+    ledger: Option<&EvidenceLedger>,
+    fingerprint: Option<&str>,
+    clean_target: bool,
+) -> Vec<String> {
     let reviewed = fingerprint.and_then(|fingerprint| ledger?.matching_change(fingerprint));
     let mut blockers = Vec::new();
     if fingerprint.is_none() {
@@ -599,6 +716,20 @@ fn review_blockers(ledger: Option<&EvidenceLedger>, fingerprint: Option<&str>) -
                 "{id}: needs a current fingerprint-bound adoption_review of {ADOPTION_PATH}; check fingerprint separately from evidence kind/location; use adoption prepare-evidence for an unresolved worksheet"
             ));
         }
+    }
+    if clean_target
+        && !reviewed.is_some_and(|change| {
+            change.assertions.iter().any(|assertion| {
+                assertion.rule_id.as_str() == "OPDEV-WORK-001"
+                    && assertion.outcome == Outcome::Passed
+                    && assertion.evidence.iter().any(|e| {
+                        e.kind == "adoption_cleanup_review"
+                            && e.location.as_deref() == Some(ADOPTION_PATH)
+                    })
+            })
+        })
+    {
+        blockers.push("adoption cleanup: review actual retained content, retired paths and updated references for this source; provide adoption_cleanup_review evidence. A clean filename layout alone is insufficient".into());
     }
     blockers
 }

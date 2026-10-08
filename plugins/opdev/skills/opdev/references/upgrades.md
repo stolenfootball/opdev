@@ -84,6 +84,11 @@ legacy projects need separate consent before starting assessment.
 
 ### Explicit baseline/layout/storage migration
 
+Distinguish a tooling-only update from a full current project migration. The latter
+targets [clean adoption](adoption.md#validate-recommendations-before-asking-for-approval),
+including mandatory retirement, not just newer version text or thin pointers.
+Reuse adequate decisions and implementations; reopen only changed/unverified gaps.
+
 For a requested project migration, first check `upgrade.coordinated-migration.v1`.
 Do not interpret a missing capability as permission to install, delete the ledger,
 or manually imitate a successful migration. Use the existing work authority for
@@ -108,6 +113,20 @@ work or hide interruption by creating a new approval. Preserve required history,
 original decision scope and revocations. Stage the settled result, review current
 acceptance, run required checks and verify integration; migration apply alone is
 not completed adoption or release permission. No new project migration registry.
+
+With `upgrade.reviewed-retirement.v1`, the same request may select `clean_target`
+and exact `cleanup` actions (`move`, `retire_file`, `empty_directory`) covered by its
+reviewed retirement list. Classify actual content first. Move preserves exact UTF-8
+text and refuses different existing destinations; consolidate mixed content through
+its owner before retirement. Empty-directory removal is nonrecursive and limited
+to inventoried OpDev/CI namespaces. Current managed files and the legacy ledger
+cannot be deleted through generic cleanup; use the ledger's retained-history path.
+Actual authority changes need `authority_review_reference` and reviewed content,
+not a relabel to suppress a finding. The recovery snapshot is private text recovery,
+not a complete ACL/executable-mode/binary backup or durable history authority.
+Use a separate scoped mechanism for unsupported transformations. Review removals
+and retained content, stage all changes, and finish source-bound cleanup evidence;
+keeping obsolete artifacts indefinitely is not completed adoption.
 
 ### Outcome reporting
 

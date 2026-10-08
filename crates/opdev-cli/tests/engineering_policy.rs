@@ -88,7 +88,11 @@ fn fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
             .status()?
             .success()
     );
-    assert!(cli(dir.path(), &["init"])?.status.success());
+    assert!(
+        cli(dir.path(), &["init", "--legacy-policy"])?
+            .status
+            .success()
+    );
     Ok(dir)
 }
 
