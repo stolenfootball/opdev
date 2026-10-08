@@ -15959,6 +15959,21 @@ changes:
     - kind: execution_review
       summary: Retained 86-premerge-3 reports format, strict lint and all workspace tests passed at fingerprint 506abdca20e23ad7b25c97bd02c01c2d9cf8c3a691ee6f807a9ebad78855ecd3. The combined inventory adds previously reviewed issue-85 conditions without changing product bytes. This is earlier-boundary evidence, not cross-stage execution reuse.
       location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/86#note_3974820056
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: Maintainer reviewed representative testing and stage-specific wording for the combined increment.
+    evidence:
+    - kind: maintainer_review
+      summary: >-
+        Actual user response Yes on 2026-10-08 approves the strengthening-assertions
+        and quarantine/lost-assurance messages. Separate Approved response covers
+        stage-specific missing mappings, missing suites and selected-stage-only
+        success wording. Plain-text structured diagnostics retain scope and next action;
+        automated interface checks still run through the canonical suite.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/85#note_3974923893
+    - kind: maintainer_review
+      summary: Actual stage-specific wording approval, not inferred implementation consent.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/86#note_3974796088
   acceptance:
     scope: behavioral
     rationale: >-
