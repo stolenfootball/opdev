@@ -165,6 +165,14 @@ record opt-in, ownership, review, tests, and cleanup at the existing work author
 
 ## Preserve the core
 
+Read the project's actual policy before interpreting compliance. With explicit
+project schema 3 and CLI capability `engineering.assessment.v1`, follow the
+[engineering policy guidance](references/project-contract.md#engineering-policy).
+Its mandatory engineering gates and separately selected MinimumCD assessment
+are distinct. Do not infer migration from a new plugin/CLI, disable baseline
+requirements by changing profiles, or repeat command execution for each assessment.
+The catalog-2 rules below retain their meaning for unmigrated projects.
+
 MinimumCD delivery and testing requirements remain mandatory. Daily integration is a monitored target, not an operational merge deadline in catalog 2: explain delays and replan without inventing a recovery exception. Missed or unverified cadence remains visible and prevents a compliance claim. Keep one trunk and short-lived branches; do not reintroduce a one-day timer under another rule. An older CLI may still block cadence; report its actual result and offer a compatible upgrade rather than bypassing it. Extensions may add or strengthen checks but cannot disable a core rule, change its applicability, replace its result, or suppress required evidence.
 
 Use only these rule outcomes: `passed`, `failed`, `unverified`, `not_applicable`, `error`, and `migration_required`. Only `passed` and justified `not_applicable` satisfy a required rule. Never turn missing evidence, permission failure, tooling failure, or a known migration gap into a pass.

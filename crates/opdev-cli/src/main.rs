@@ -161,6 +161,9 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
+    /// Also require the selected `MinimumCD` assessment; does not authorize release.
+    #[arg(long, conflicts_with = "plan")]
+    require_minimumcd: bool,
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]
     root: PathBuf,
@@ -282,6 +285,9 @@ impl From<ProviderArg> for CiProvider {
 
 #[derive(Debug, Args)]
 struct RulesArgs {
+    /// Exact catalog to inspect; legacy 2 or explicitly migrated engineering 3.
+    #[arg(long, default_value_t = 2)]
+    catalog_version: u32,
     /// Show one stable rule ID instead of listing the catalog.
     #[arg(long)]
     id: Option<RuleId>,
@@ -557,9 +563,9 @@ fn evidence_command(args: &EvidenceArgs) -> Result<()> {
         }
         EvidenceCommand::Bootstrap(args) => bootstrap_evidence(args)?,
         EvidenceCommand::AcceptanceDigest(args) => {
-            let (root, _) = load_project(&args.root)?;
+            let (root, manifest) = load_project(&args.root)?;
             let fingerprint = staged_fingerprint(&root)?;
-            let catalog = embedded_catalog()?;
+            let catalog = manifest.catalog()?;
             let ledger = opdev_project::EvidenceLedger::load_optional(&root, &catalog)?
                 .context("acceptance digest needs a schema-2 evidence ledger")?;
             let change = ledger
@@ -600,7 +606,9 @@ fn bootstrap_evidence(args: &EvidenceBootstrapArgs) -> Result<()> {
     )
     .context("project evaluation failed")?;
     apply_local_ci(&root, &manifest, &mut report)?;
-    let catalog = embedded_catalog().context("could not load the embedded rule catalog")?;
+    let catalog = manifest
+        .catalog()
+        .context("could not load the selected rule catalog")?;
     let (project_rules, change_rules) = evidence_candidates(&catalog, &report);
 
     if let Some(path) = &args.answers {
@@ -675,6 +683,7 @@ fn change_scoped_rule(rule_id: &str) -> bool {
             | "OPDEV-TEST-004"
             | "OPDEV-AI-001"
             | "OPDEV-LEARN-001"
+            | "OPDEV-BRANCH-001"
     )
 }
 
@@ -890,6 +899,18 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         );
     }
     let (root, manifest) = load_project(&args.root)?;
+    if args.require_minimumcd
+        && manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .and_then(|p| p.minimumcd.as_ref())
+            .is_none()
+    {
+        bail!(
+            "MinimumCD assessment was not selected. Review an explicit engineering-policy migration before requiring its result; no checks ran."
+        );
+    }
     let mut options = if args.ci {
         CheckOptions::pre_merge()
     } else {
@@ -973,7 +994,14 @@ fn check_exit(args: &CheckArgs, report: &CheckReport) -> ExitCode {
     } else {
         Gate::Development
     };
-    if report.gate_passed(gate) {
+    if report.gate_passed(gate)
+        && (!args.require_minimumcd
+            || report
+                .engineering
+                .as_ref()
+                .and_then(|p| p.minimumcd.as_ref())
+                .is_some_and(|a| a.verdict == AggregateVerdict::Passed))
+    {
         ExitCode::SUCCESS
     } else {
         ExitCode::from(1)
@@ -1206,13 +1234,21 @@ fn print_human_report(report: &CheckReport) {
     println!(
         "Results: failed = a requirement was not met; unverified = evidence is missing or stale; error = a tool could not complete; migration_required = setup is incomplete. None means passed."
     );
-    if let Ok(catalog) = embedded_catalog() {
+    if let Ok(catalog) = opdev_core::catalog_for_version(report.catalog_version) {
         for result in &report.rules {
             if result.outcome.satisfies_required_rule() {
                 continue;
             }
             if let Some(rule) = catalog.find(&result.rule_id) {
                 println!("{} [{}]: {:?}", rule.title, rule.id, result.outcome);
+                if report.engineering.is_some()
+                    && opdev_core::rule_class(rule.id.as_str())
+                        == Some(opdev_core::RuleClass::MinimumcdAssessment)
+                {
+                    println!(
+                        "  MinimumCD assessment only; this finding does not block engineering gates."
+                    );
+                }
                 if let Some(diagnostic) = &result.diagnostic {
                     println!("  {diagnostic}");
                 }
@@ -1248,6 +1284,11 @@ fn print_human_report(report: &CheckReport) {
             }
         }
     }
+    print_assessments(report);
+    print_gate_summary(report);
+}
+
+fn print_gate_summary(report: &CheckReport) {
     let mut counts = [0_u32; 6];
     for result in &report.rules {
         counts[outcome_index(result.outcome)] += 1;
@@ -1263,6 +1304,9 @@ fn print_human_report(report: &CheckReport) {
             }
             Gate::Integration => "merging into the main development branch",
             Gate::Delivery => "publishing or deploying the software",
+            Gate::Compliance if report.engineering.is_some() => {
+                "claiming the engineering baseline is met (MinimumCD is assessed separately)"
+            }
             Gate::Compliance => "claiming the evaluated requirements are met",
         };
         println!("Decision: {meaning}");
@@ -1287,6 +1331,35 @@ fn print_human_report(report: &CheckReport) {
                 println!("  checks: {}", gate.blocking_checks.join(", "));
             }
         }
+    }
+}
+
+fn print_assessments(report: &CheckReport) {
+    if let Some(policy) = &report.engineering {
+        println!(
+            "Engineering baseline: version {}. Operational gates below assess this baseline, not MinimumCD.",
+            policy.version
+        );
+        match &policy.minimumcd {
+            None => println!("MinimumCD assessment: not requested; no compliance claim."),
+            Some(assessment) => {
+                println!(
+                    "MinimumCD assessment (mapping {}, source {}): {:?}",
+                    assessment.version, assessment.source_version, assessment.verdict
+                );
+                for requirement in &assessment.requirements {
+                    if !requirement.outcome.satisfies_required_rule() {
+                        println!(
+                            "  {}: {:?}; evidence needed: {}",
+                            requirement.id,
+                            requirement.outcome,
+                            requirement.blocking_rules.join(", ")
+                        );
+                    }
+                }
+            }
+        }
+        println!("Assessment results do not authorize release, deployment or policy changes.");
     }
 }
 
@@ -1316,7 +1389,8 @@ fn load_project(start: &Path) -> Result<(PathBuf, ProjectManifest)> {
 }
 
 fn show_rules(args: RulesArgs) -> Result<()> {
-    let catalog = embedded_catalog().context("could not load the embedded rule catalog")?;
+    let catalog = opdev_core::catalog_for_version(args.catalog_version)
+        .context("could not load the selected rule catalog")?;
     if let Some(id) = args.id {
         let rule = catalog
             .find(&id)
@@ -1335,6 +1409,66 @@ fn show_rules(args: RulesArgs) -> Result<()> {
 mod tests {
     use super::*;
     use clap::CommandFactory;
+
+    #[test]
+    fn minimumcd_exit_is_explicit_and_cannot_replace_the_requested_gate() -> Result<()> {
+        let root = tempfile::tempdir()?;
+        std::fs::create_dir(root.path().join(".git"))?;
+        let mut manifest = discover(root.path())?.manifest;
+        manifest.schema = 3;
+        manifest.assurance.profiles.clear();
+        manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+            version: "1".into(),
+            minimumcd: Some("1".into()),
+            review_reference: "synthetic decision".into(),
+            maintenance_branches: vec![],
+        });
+        let mut report = evaluate(
+            root.path(),
+            &manifest,
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::pre_merge()
+            },
+        )?;
+        // Model reviewed findings to isolate CLI exit selection from verification.
+        for rule in &mut report.rules {
+            rule.outcome = Outcome::Passed;
+        }
+        for (id, outcome, required, expected) in [
+            (
+                "MCD-RECOVERY-002",
+                Outcome::Unverified,
+                false,
+                ExitCode::SUCCESS,
+            ),
+            (
+                "MCD-RECOVERY-002",
+                Outcome::Unverified,
+                true,
+                ExitCode::from(1),
+            ),
+            ("MCD-RECOVERY-002", Outcome::Passed, true, ExitCode::SUCCESS),
+            ("OPDEV-STYLE-001", Outcome::Failed, true, ExitCode::from(1)),
+        ] {
+            report
+                .rules
+                .iter_mut()
+                .find(|r| r.rule_id.as_str() == id)
+                .context("rule")?
+                .outcome = outcome;
+            reaggregate(&mut report)?;
+            let mut argv = vec!["opdev", "check", "--ci"];
+            if required {
+                argv.push("--require-minimumcd");
+            }
+            let Command::Check(options) = Cli::try_parse_from(argv)?.command else {
+                bail!("expected check args")
+            };
+            assert_eq!(check_exit(&options, &report), expected);
+        }
+        Ok(())
+    }
 
     #[test]
     fn post_merge_exit_does_not_require_release_readiness() -> Result<()> {
@@ -1592,6 +1726,7 @@ mod tests {
                 Outcome::MigrationRequired,
             ] {
                 let mut report = CheckReport {
+                    engineering: None,
                     schema: 1,
                     catalog_version: 2,
                     subject: "fixture".into(),
@@ -1648,6 +1783,7 @@ mod tests {
             Outcome::MigrationRequired,
         ] {
             let mut report = CheckReport {
+                engineering: None,
                 schema: 1,
                 catalog_version: 1,
                 subject: "fixture".into(),

@@ -413,8 +413,18 @@ impl AdoptionRecord {
             return vec!["workflow: review integration and release branch roles, CI and protections; offer main or keeping the current name".into()];
         };
         let mut blockers = Vec::new();
+        let maintained_release = manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .is_some_and(|policy| {
+                policy
+                    .maintenance_branches
+                    .iter()
+                    .any(|branch| branch.name == workflow.release_source)
+            });
         if workflow.integration_branches != [manifest.project.trunk.clone()]
-            || workflow.release_source != manifest.project.trunk
+            || (workflow.release_source != manifest.project.trunk && !maintained_release)
         {
             blockers.push("workflow: migration_required; use one integration trunk and release from it, not a develop-to-main promotion branch".into());
         }

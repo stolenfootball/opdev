@@ -2,7 +2,9 @@ use std::collections::{BTreeMap, HashSet};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 
-use opdev_core::{PROJECT_SCHEMA_VERSION, resolve_profile};
+use opdev_core::{
+    EngineeringPolicy, PROJECT_SCHEMA_VERSION, RuleCatalog, catalog_for_version, resolve_profile,
+};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -94,6 +96,17 @@ pub struct ProjectManifest {
 }
 
 impl ProjectManifest {
+    /// The project-selected catalog; legacy contracts remain on catalog 2.
+    ///
+    /// # Errors
+    /// Returns an error for invalid embedded rules.
+    pub fn catalog(&self) -> Result<RuleCatalog, opdev_core::CatalogError> {
+        catalog_for_version(if self.assurance.engineering.is_some() {
+            3
+        } else {
+            2
+        })
+    }
     /// Missing local policy input for a requested remote qualification.
     /// This observation neither contacts a provider nor selects policy.
     #[must_use]
@@ -186,13 +199,40 @@ impl ProjectManifest {
         })
     }
 
-    fn validate_semantics(&self) -> Result<(), ManifestError> {
-        if !matches!(self.schema, 1 | PROJECT_SCHEMA_VERSION) {
+    fn validate_engineering(&self) -> Result<(), ManifestError> {
+        if !matches!(self.schema, 1 | 2 | PROJECT_SCHEMA_VERSION) {
             return Err(ManifestError::UnsupportedSchema {
                 found: self.schema,
                 supported: PROJECT_SCHEMA_VERSION,
             });
         }
+        match (&self.assurance.engineering, self.schema) {
+            (Some(policy), 3) => {
+                if policy.version != "1" || policy.minimumcd.as_deref().is_some_and(|v| v != "1")
+                    || policy.review_reference.trim().is_empty() {
+                    return Err(ManifestError::Semantic("engineering policy requires version 1, optional MinimumCD mapping version 1, and an actual developer review reference".into()));
+                }
+                let mut names = HashSet::new();
+                for branch in &policy.maintenance_branches {
+                    if branch.name == self.project.trunk || branch.name.trim().is_empty()
+                        || branch.name.contains(['*', '?', ' ', '\\', ':'])
+                        || !names.insert(&branch.name)
+                        || branch.supported_version.trim().is_empty() || branch.authority.trim().is_empty() {
+                        return Err(ManifestError::Semantic("maintenance branches need unique exact names distinct from trunk, supported versions and existing review authorities".into()));
+                    }
+                }
+                if self.assurance.profiles.iter().any(|p| p.name == "opdev-core") {
+                    return Err(ManifestError::Semantic("legacy opdev-core and engineering policy cannot be selected together; review the policy migration explicitly".into()));
+                }
+            }
+            (None, 1 | 2) => {}
+            _ => return Err(ManifestError::Semantic("engineering policy requires explicit project schema 3 migration; schema 3 requires its exact policy selection".into())),
+        }
+        Ok(())
+    }
+
+    fn validate_semantics(&self) -> Result<(), ManifestError> {
+        self.validate_engineering()?;
         if let Some(policy) = &self.project.ci.qualification {
             if self.schema < 2 {
                 return Err(ManifestError::Semantic(
@@ -277,6 +317,9 @@ impl ProjectManifest {
             "assurance profile",
         )?;
         for profile in &self.assurance.profiles {
+            if profile.name == "minimumcd" {
+                return Err(ManifestError::Semantic("select MinimumCD assessment through assurance.engineering.minimumcd after an explicit policy migration, not as an informative profile".into()));
+            }
             resolve_profile(&profile.name, &profile.version, profile.level.as_deref())
                 .map_err(|error| ManifestError::Semantic(error.to_string()))?;
         }
@@ -746,6 +789,9 @@ impl Operations {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Assurance {
+    /// Explicit engineering policy selection; never inferred on upgrade.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub engineering: Option<EngineeringPolicy>,
     /// Selected profiles.
     pub profiles: Vec<Profile>,
 }
@@ -905,6 +951,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                engineering: None,
                 profiles: vec![Profile {
                     name: "opdev-core".into(),
                     version: "1".into(),
@@ -1028,5 +1075,51 @@ mod tests {
             production_like: true,
         });
         assert!(manifest.to_yaml().is_ok());
+    }
+    #[test]
+    fn engineering_policy_is_explicit_versioned_and_cannot_alias_trunk()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let legacy = minimal_manifest();
+        assert_eq!(legacy.catalog()?.catalog_version, 2);
+        let mut next = legacy.clone();
+        next.assurance.profiles.clear();
+        next.assurance.engineering = Some(EngineeringPolicy {
+            version: "1".into(),
+            minimumcd: Some("1".into()),
+            review_reference: "developer decision".into(),
+            maintenance_branches: vec![],
+        });
+        assert!(
+            next.to_yaml().is_err(),
+            "old schema must not silently select new policy"
+        );
+        next.schema = 3;
+        let yaml = next.to_yaml()?;
+        assert_eq!(ProjectManifest::from_yaml(&yaml)?, next);
+        assert_eq!(next.catalog()?.catalog_version, 3);
+        let policy = next.assurance.engineering.as_mut().ok_or("policy")?;
+        policy.minimumcd = Some("latest".into());
+        assert!(next.to_yaml().is_err());
+        next.assurance
+            .engineering
+            .as_mut()
+            .ok_or("policy")?
+            .minimumcd = None;
+        assert!(next.to_yaml().is_ok());
+        next.assurance
+            .engineering
+            .as_mut()
+            .ok_or("policy")?
+            .maintenance_branches
+            .push(opdev_core::MaintenanceBranch {
+                name: next.project.trunk.clone(),
+                supported_version: "1.x".into(),
+                authority: "support policy".into(),
+            });
+        assert!(next.to_yaml().is_err());
+        next.assurance.engineering = None;
+        assert!(next.to_yaml().is_err(), "schema 3 cannot omit the baseline");
+        assert_eq!(legacy.catalog()?.catalog_version, 2);
+        Ok(())
     }
 }

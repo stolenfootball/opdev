@@ -1,0 +1,52 @@
+catalog_version: 3
+rules:
+  - id: OPDEV-BRANCH-001
+    kind: opdev
+    title: Keep one development stream and verify maintenance fixes
+    statement: Development branches MUST start from and reintegrate into the single trunk in small short-lived increments. Maintenance branches MUST identify a supported version and bounded lifetime, accept only supported fixes, retain required protection and pre/post-integration CI, and have a reviewed strategy for retaining relevant fixes in trunk. A role declaration MUST NOT exempt feature development or waive verification.
+    applicability: projects using development or maintenance branches
+    gates: [integration, delivery, compliance]
+    verification: [git, remote, evidence, agent]
+    sources:
+      - name: Trunk-based development release branches
+        url: https://trunkbaseddevelopment.com/branch-for-release/
+  - id: OPDEV-BUILD-001
+    kind: opdev
+    title: Version inputs and reproduce setup
+    statement: Project-owned software, configuration and build inputs MUST be version controlled; setup and dependencies MUST be reproducible from declared inputs and verified in a clean environment.
+    applicability: all initialized projects
+    gates: [integration, delivery, compliance]
+    verification: [git, ci, evidence, agent]
+    sources:
+      - name: OpDev engineering baseline
+        url: spec/assurance-profiles.md
+  - id: OPDEV-STYLE-001
+    kind: opdev
+    title: Verify coding conventions and high-signal static checks
+    statement: Projects MUST define and verify appropriate coding conventions, automated formatting where supported, and high-signal lint, type or compiler checks. Adequate existing tools or evidence-backed equivalent controls MUST be preserved; missing configuration is not inapplicability.
+    applicability: all initialized projects
+    gates: [integration, compliance]
+    verification: [ci, evidence, agent]
+    sources:
+      - name: OpDev engineering baseline
+        url: spec/assurance-profiles.md
+  - id: OPDEV-SEC-003
+    kind: opdev
+    title: Protect secrets and review dependencies
+    statement: Projects MUST keep secrets out of versioned source and reports, apply appropriate secret-exposure controls, and review dependencies and their changes for relevant security risks. Tool selection is flexible; unsupported absence-of-risk claims do not satisfy the requirement.
+    applicability: all initialized projects
+    gates: [integration, delivery, compliance]
+    verification: [ci, evidence, agent]
+    sources:
+      - name: NIST SSDF
+        url: https://csrc.nist.gov/projects/ssdf
+  - id: MCD-RECOVERY-002
+    kind: minimumcd
+    title: Demonstrate rollback on demand
+    statement: Delivery MUST provide demonstrated on-demand rollback to a known-good state. A declaration of recovery, or successful forward-fix testing alone, MUST NOT establish this requirement.
+    applicability: projects that deliver software
+    gates: [compliance]
+    verification: [ci, evidence, agent]
+    sources:
+      - name: MinimumCD pinned source
+        url: https://github.com/Minimum-CD/cd-manifesto/blob/86665f375a3a7f5c56be22ad67f4aad20348fade/content/_index.md

@@ -6,6 +6,10 @@ mod assurance;
 mod catalog;
 mod evidence;
 mod outcome;
+mod policy;
+pub use policy::{
+    EngineeringPolicy, MaintenanceBranch, RuleClass, catalog_for_version, rule_class,
+};
 
 pub use assurance::{
     AssuranceProfile, ProfileError, ProfileRequirement, ProfileSource, ProfileStatus,
@@ -21,7 +25,7 @@ pub use evidence::{
 pub use outcome::{AggregateVerdict, Outcome};
 
 /// Project-manifest schema understood by this release.
-pub const PROJECT_SCHEMA_VERSION: u32 = 2;
+pub const PROJECT_SCHEMA_VERSION: u32 = 3;
 
 /// Project-command extension protocol understood by this release.
 pub const EXTENSION_PROTOCOL_VERSION: &str = "1.0.0";

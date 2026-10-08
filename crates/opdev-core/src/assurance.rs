@@ -3,9 +3,10 @@ use std::collections::HashSet;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-use crate::{RuleCatalog, RuleId, embedded_catalog};
+use crate::{RuleCatalog, RuleId, catalog_for_version};
 
 const PROFILE_DOCUMENTS: &[&str] = &[
+    include_str!("../../../profiles/minimumcd/1.yaml"),
     include_str!("../../../profiles/opdev-core/1.yaml"),
     include_str!("../../../profiles/nist-ssdf-derived/1.1.yaml"),
     include_str!("../../../profiles/slsa-build-provenance/1.2.yaml"),
@@ -66,6 +67,8 @@ pub enum ProfileError {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ProfileStatus {
+    /// Complete exact-source assessment, requiring actual evidence-backed findings.
+    Assessment,
     /// The profile is the normative `OpDev` baseline.
     Normative,
     /// The profile is an informative mapping to an external framework.
@@ -172,7 +175,7 @@ impl AssuranceProfile {
 /// Returns [`ProfileError`] when a document is malformed or its rule mappings
 /// are inconsistent with the embedded catalog.
 pub fn embedded_profiles() -> Result<Vec<AssuranceProfile>, ProfileError> {
-    let catalog = embedded_catalog()?;
+    let catalog = catalog_for_version(3)?;
     PROFILE_DOCUMENTS
         .iter()
         .map(|document| {
@@ -223,7 +226,7 @@ mod tests {
             .iter()
             .map(|profile| (&profile.name, &profile.version))
             .collect();
-        assert_eq!(profiles.len(), 5);
+        assert_eq!(profiles.len(), 6);
         assert_eq!(identities.len(), profiles.len());
         Ok(())
     }

@@ -5,7 +5,7 @@ use std::process::ExitCode;
 
 use anyhow::{Context, Result, bail};
 use clap::{Args, Subcommand};
-use opdev_core::{Gate, Outcome, embedded_catalog};
+use opdev_core::{Gate, Outcome};
 use opdev_engine::{CheckOptions, evaluate};
 use opdev_project::{
     ADOPTION_PATH, AdoptionRecord, AdoptionReview, EVIDENCE_PATH, EvidenceLedger, adoption_catalog,
@@ -448,7 +448,8 @@ fn check(
 }
 
 fn review_blockers(root: &std::path::Path, fingerprint: Option<&str>) -> Result<Vec<String>> {
-    let ledger = EvidenceLedger::load_optional(root, &embedded_catalog()?)?;
+    let (_, manifest) = crate::load_project(root)?;
+    let ledger = EvidenceLedger::load_optional(root, &manifest.catalog()?)?;
     let reviewed =
         fingerprint.and_then(|fingerprint| ledger.as_ref()?.matching_change(fingerprint));
     let mut blockers = Vec::new();

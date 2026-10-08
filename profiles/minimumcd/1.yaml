@@ -1,0 +1,30 @@
+schema: 1
+name: minimumcd
+version: "1"
+title: MinimumCD assessment mapping 1
+status: assessment
+claim: OpDev assessment of the complete applicable pinned MinimumCD requirements, not third-party certification. Mapping coverage alone never establishes compliance.
+source:
+  name: MinimumCD manifesto
+  version: "86665f375a3a7f5c56be22ad67f4aad20348fade"
+  url: https://github.com/Minimum-CD/cd-manifesto/blob/86665f375a3a7f5c56be22ad67f4aad20348fade/content/_index.md
+requirements:
+  - { id: cd-ci, title: Use continuous integration, coverage: full, mapped_rules: [MCD-CI-001, MCD-TRUNK-001, MCD-TRUNK-002, MCD-TRUNK-003, MCD-TEST-001, MCD-TEST-002, MCD-FLOW-001, MCD-COMPAT-001], limitation: All CI and branching clauses below must also qualify. }
+  - { id: cd-path, title: Pipeline is the only deployment path, coverage: full, mapped_rules: [MCD-DELIVERY-001], limitation: "Review actual delivery paths, not just configured commands." }
+  - { id: cd-verdict, title: Definitive pipeline releasability verdict, coverage: full, mapped_rules: [MCD-PIPELINE-001], limitation: Requires the applicable observed pipeline sequence. }
+  - { id: cd-deployable, title: Outputs meet definition of deployable, coverage: full, mapped_rules: [MCD-ARTIFACT-001], limitation: Requires identified and qualified artifacts. }
+  - { id: cd-immutable, title: Immutable artifacts, coverage: full, mapped_rules: [MCD-ARTIFACT-002], limitation: Trace the same bytes through promotion. }
+  - { id: cd-red, title: Stop feature work when pipeline is red, coverage: full, mapped_rules: [MCD-FLOW-001], limitation: Current pipeline state and restoration priority must be reviewed. }
+  - { id: cd-environment, title: Production-like test environment, coverage: full, mapped_rules: [MCD-ENV-001], limitation: Applicability follows actual consumer runtime capabilities. }
+  - { id: cd-rollback, title: Rollback on demand, coverage: full, mapped_rules: [MCD-RECOVERY-002], limitation: The broader MCD-RECOVERY-001 recovery finding does not establish rollback. }
+  - { id: cd-config, title: Application configuration deploys with artifact, coverage: full, mapped_rules: [MCD-CONFIG-001, MCD-CONFIG-002], limitation: Versioned behavior and external environment values must be evidenced. }
+  - { id: ci-trunk, title: Trunk-based development, coverage: full, mapped_rules: [MCD-TRUNK-001, MCD-TRUNK-002], limitation: Maintenance allowances in engineering policy do not automatically qualify this stricter mapping. }
+  - { id: ci-daily, title: Integrate at minimum daily, coverage: full, mapped_rules: [MCD-TRUNK-003], limitation: Dated active-work evidence; not a forced merge timer. }
+  - { id: ci-before, title: Automated testing before merge, coverage: full, mapped_rules: [MCD-TEST-001], limitation: Current execution and acceptance review are required. }
+  - { id: ci-after, title: Automated testing on merge, coverage: full, mapped_rules: [MCD-TEST-002], limitation: Integrated-source execution is separate from pre-merge execution. }
+  - { id: ci-red, title: Stop feature work when build is red, coverage: full, mapped_rules: [MCD-FLOW-001], limitation: Diagnosis and repair remain permitted. }
+  - { id: ci-compatibility, title: Do not break delivered work, coverage: full, mapped_rules: [MCD-COMPAT-001], limitation: Requires affected supported-behavior verification. }
+  - { id: trunk-all, title: All changes integrate to trunk, coverage: full, mapped_rules: [MCD-TRUNK-001, MCD-TRUNK-002], limitation: Branch labels are not proof of integration behavior. }
+  - { id: trunk-origin, title: Branches originate from trunk, coverage: full, mapped_rules: [MCD-TRUNK-002], limitation: Review actual branch ancestry. }
+  - { id: trunk-return, title: Branches reintegrate to trunk, coverage: full, mapped_rules: [MCD-TRUNK-002], limitation: Review actual integration rather than a future intention. }
+  - { id: trunk-lifetime, title: Branches are short-lived and removed after merge, coverage: full, mapped_rules: [MCD-TRUNK-002], limitation: No arbitrary one-day substitute; branch history and cleanup evidence are required. }

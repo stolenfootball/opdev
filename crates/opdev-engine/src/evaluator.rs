@@ -1,10 +1,11 @@
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+#[cfg(test)]
+use opdev_core::embedded_catalog;
 use opdev_core::{
     AggregateVerdict, EXTENSION_PROTOCOL_VERSION, Evidence, ExtensionRequest, ExtensionResponse,
     Gate, GateVerdict, Outcome, Rule, RuleCatalog, RuleResult, VerificationSource,
-    embedded_catalog,
 };
 use opdev_project::{
     CiProvider, CoverageMode, DeliveryStatus, EVIDENCE_PATH, EvidenceAssertion, EvidenceLedger,
@@ -52,6 +53,12 @@ impl CheckOptions {
 /// Failures that prevent creation of a complete check report.
 #[derive(Debug, Error)]
 pub enum EvaluationError {
+    /// Invalid or unsupported assessment mapping.
+    #[error("could not evaluate the selected assessment: {0}")]
+    Profile(#[from] opdev_core::ProfileError),
+    /// A report cannot be aggregated under a different or incomplete policy.
+    #[error("cannot aggregate report: {0}")]
+    Report(String),
     /// Authenticated execution no longer describes this evaluation subject.
     #[error("saved execution cannot qualify this change: {0}")]
     ExecutionBinding(String),
@@ -108,7 +115,7 @@ fn evaluate_inner(
     options: CheckOptions,
     executions: Option<&crate::ValidatedExecutions>,
 ) -> Result<CheckReport, EvaluationError> {
-    let catalog = embedded_catalog()?;
+    let catalog = manifest.catalog()?;
     let evaluated_at = unix_timestamp();
     let subject = root.display().to_string();
     let acceptance_ledger = EvidenceLedger::load_optional(root, &catalog)?;
@@ -129,22 +136,7 @@ fn evaluate_inner(
         .collect();
     apply_evidence_ledger(root, &catalog, &mut rules)?;
     explain_source_gap(&mut rules, initial_fingerprint.as_ref().err());
-    // A known workflow contradiction must not be hidden behind a generic ledger pass.
-    if let Some(record) = opdev_project::AdoptionRecord::load(root)
-        .map_err(|error| opdev_project::EvidenceError::Semantic(error.to_string()))?
-        && record.workflow.is_some()
-        && let Some(result) = rules
-            .iter_mut()
-            .find(|r| r.rule_id.as_str() == "MCD-TRUNK-001")
-    {
-        let blockers = record.workflow_blockers(manifest);
-        if !blockers.is_empty() {
-            result.outcome = Outcome::MigrationRequired;
-            result.verifier = VerificationSource::Manifest;
-            result.diagnostic = Some(blockers.join("; "));
-            result.evidence.clear();
-        }
-    }
+    apply_workflow_contradictions(root, manifest, &mut rules)?;
     let checks = collect_checks(root, manifest, options, executions)?;
     if let Some(executions) = executions {
         crate::execution_record::current_subject(
@@ -191,16 +183,50 @@ fn evaluate_inner(
         options.test_stage,
         acceptance_outcome,
     );
-    let gates = aggregate_gates(&catalog, &rules, &checks);
-    Ok(CheckReport {
-        schema: 1,
+    let mut report = CheckReport {
+        engineering: manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .map(|p| crate::EngineeringAssessment::requested(p.minimumcd.as_deref())),
+        schema: if manifest.assurance.engineering.is_some() {
+            2
+        } else {
+            1
+        },
         catalog_version: catalog.catalog_version,
         subject,
         evaluated_at,
         rules,
         checks,
-        gates,
-    })
+        gates: vec![],
+    };
+    reaggregate(&mut report)?;
+    Ok(report)
+}
+
+fn apply_workflow_contradictions(
+    root: &Path,
+    manifest: &ProjectManifest,
+    rules: &mut [RuleResult],
+) -> Result<(), EvaluationError> {
+    // A known workflow contradiction must not be hidden behind a generic ledger pass.
+    if let Some(record) = opdev_project::AdoptionRecord::load(root)
+        .map_err(|error| opdev_project::EvidenceError::Semantic(error.to_string()))?
+        && record.workflow.is_some()
+        && let Some(result) = rules
+            .iter_mut()
+            .find(|r| r.rule_id.as_str() == "MCD-TRUNK-001")
+    {
+        let blockers = record.workflow_blockers(manifest);
+        if !blockers.is_empty() {
+            result.outcome = Outcome::MigrationRequired;
+            result.verifier = VerificationSource::Manifest;
+            result.diagnostic = Some(blockers.join("; "));
+            result.evidence.clear();
+        }
+    }
+    Ok(())
 }
 
 fn apply_acceptance_results(
@@ -446,8 +472,43 @@ fn apply_assertion(result: &mut RuleResult, assertion: &EvidenceAssertion, work:
 ///
 /// Returns [`EvaluationError`] when the embedded catalog cannot be loaded.
 pub fn reaggregate(report: &mut CheckReport) -> Result<(), EvaluationError> {
-    let catalog = embedded_catalog()?;
+    let mut catalog = opdev_core::catalog_for_version(report.catalog_version)?;
+    if (report.schema, report.catalog_version)
+        != if report.engineering.is_some() {
+            (2, 3)
+        } else {
+            (1, 2)
+        }
+    {
+        return Err(EvaluationError::Report(
+            "schema, catalog and policy identity do not agree".into(),
+        ));
+    }
+    if let Some(policy) = &report.engineering {
+        if policy.version != "1" {
+            return Err(EvaluationError::Report(
+                "unsupported engineering policy version".into(),
+            ));
+        }
+        for result in &mut report.rules {
+            if result.outcome == Outcome::NotApplicable
+                && opdev_core::rule_class(result.rule_id.as_str())
+                    == Some(opdev_core::RuleClass::Baseline)
+            {
+                result.outcome = Outcome::Unverified;
+                result.diagnostic = Some("This engineering baseline requirement cannot be marked not applicable. Supply evidence of an appropriate implementation; tool choice remains flexible.".into());
+            }
+        }
+        for rule in &mut catalog.rules {
+            if opdev_core::rule_class(rule.id.as_str())
+                == Some(opdev_core::RuleClass::MinimumcdAssessment)
+            {
+                rule.gates.clear();
+            }
+        }
+    }
     report.gates = aggregate_gates(&catalog, &report.rules, &report.checks);
+    crate::assessment::refresh(report)?;
     Ok(())
 }
 
@@ -920,11 +981,13 @@ fn aggregate_gates(
         let blocking_rules: Vec<_> = catalog
             .rules
             .iter()
-            .zip(results)
-            .filter(|(rule, result)| {
-                rule.gates.contains(&gate) && !result.outcome.satisfies_required_rule()
+            .filter(|rule| {
+                rule.gates.contains(&gate)
+                    && !results.iter().any(|result| {
+                        result.rule_id == rule.id && result.outcome.satisfies_required_rule()
+                    })
             })
-            .map(|(_, result)| result.rule_id.clone())
+            .map(|rule| rule.id.clone())
             .collect();
         let blocking_checks: Vec<_> = checks
             .iter()
@@ -1279,6 +1342,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                engineering: None,
                 profiles: vec![Profile {
                     name: "opdev-core".into(),
                     version: "1".into(),
@@ -1660,6 +1724,68 @@ mod tests {
         let validator = jsonschema::validator_for(&schema)?;
         let errors: Vec<_> = validator.iter_errors(&value).collect();
         assert!(errors.is_empty(), "schema errors: {errors:#?}");
+        Ok(())
+    }
+    #[test]
+    fn engineering_assessment_reuses_one_execution_and_missing_evidence_stays_visible()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let (root, mut project, _) = counting_fixture()?;
+        project.schema = 3;
+        project.assurance.profiles.clear();
+        project.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+            version: "1".into(),
+            minimumcd: Some("1".into()),
+            review_reference: "synthetic decision".into(),
+            maintenance_branches: vec![],
+        });
+        project.testing.suites.truncate(1);
+        std::fs::write(root.path().join(".opdev/project.yaml"), project.to_yaml()?)?;
+        assert!(
+            std::process::Command::new("git")
+                .arg("-C")
+                .arg(root.path())
+                .args(["add", "."])
+                .status()?
+                .success()
+        );
+        let report = evaluate(root.path(), &project, CheckOptions::pre_merge())?;
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "1");
+        assert_eq!(report.checks.len(), 1);
+        assert_eq!(report.checks[0].outcome, Outcome::Passed);
+        assert!(
+            !report.gate_passed(Gate::Integration),
+            "a command pass does not prove review/CI"
+        );
+        assert_eq!(
+            report
+                .engineering
+                .as_ref()
+                .and_then(|p| p.minimumcd.as_ref())
+                .ok_or("assessment")?
+                .verdict,
+            AggregateVerdict::Blocked
+        );
+        let mut projected = report.clone();
+        let projection_started = std::time::Instant::now();
+        for _ in 0..100 {
+            reaggregate(&mut projected)?;
+        }
+        eprintln!(
+            "100 engineering/MinimumCD projections: {:?}; additional command executions: 0",
+            projection_started.elapsed()
+        );
+        assert_eq!(projected, report);
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "1");
+        let no_exec = evaluate(
+            root.path(),
+            &project,
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::pre_merge()
+            },
+        )?;
+        assert_eq!(no_exec.checks[0].outcome, Outcome::Unverified);
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "1");
         Ok(())
     }
 }

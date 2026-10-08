@@ -102,6 +102,14 @@ mandatory cache, private transcript copy or migration just to resume ordinary wo
 
 ## Gates
 
+For explicitly migrated schema-3 projects, [engineering policy](project-contract.md#engineering-policy)
+determines gate membership. The four gates assess the mandatory engineering
+baseline; MinimumCD is a separate exact-version assessment. `check --require-minimumcd`
+also requires its selected assessment for the exit without running a second set of
+checks or authorizing release. If not selected, it stops before command execution.
+Missing evidence remains explicit; no agent may opt out of an applicable baseline
+requirement. Legacy project/report semantics remain unchanged.
+
 The four aggregates are development, integration, delivery, and compliance. A gate is blocked when any applicable required rule or blocking project check is not `passed` or justified `not_applicable`. A report may be useful even while blocked; never summarize it as successful.
 
 On a CLI advertising `check.post-merge-integration.v1` in `doctor`,

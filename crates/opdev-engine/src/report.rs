@@ -45,6 +45,9 @@ pub struct CheckResult {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct CheckReport {
+    /// Explicit policy identity and external assessment; absent for historical reports.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub engineering: Option<crate::EngineeringAssessment>,
     /// Report schema version.
     pub schema: u32,
     /// Rule catalog version.

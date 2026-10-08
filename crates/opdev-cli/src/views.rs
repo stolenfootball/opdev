@@ -7,7 +7,9 @@ use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 use anyhow::{Context, Result, bail};
-use opdev_core::{AggregateVerdict, Gate, GateVerdict, Outcome, RuleId, embedded_catalog};
+#[cfg(test)]
+use opdev_core::embedded_catalog;
+use opdev_core::{AggregateVerdict, Gate, GateVerdict, Outcome, RuleId};
 use opdev_engine::{CheckKind, CheckReport, reaggregate};
 use opdev_project::{
     ChangeEvidence, EVIDENCE_PATH, EvidenceAssertion, EvidenceLedger, staged_fingerprint,
@@ -75,6 +77,8 @@ struct CheckSummary<'a> {
 
 #[derive(Debug, Serialize)]
 struct ReportSummary<'a> {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    engineering: Option<&'a opdev_engine::EngineeringAssessment>,
     schema: u32,
     kind: &'static str,
     catalog_version: u32,
@@ -102,11 +106,11 @@ fn outcome_name(outcome: Outcome) -> &'static str {
 }
 
 fn validate_report(report: &CheckReport) -> Result<()> {
-    let catalog = embedded_catalog()?;
-    if report.schema != 1 || report.catalog_version != catalog.catalog_version {
+    let catalog = opdev_core::catalog_for_version(report.catalog_version)?;
+    if !matches!((report.schema, report.catalog_version), (1, 2) | (2, 3)) {
         bail!("unsupported report schema or catalog version; use the originating CLI");
     }
-    // Aggregation uses catalog order. Reject incomplete, duplicate or reordered input.
+    // Saved reports must retain the complete canonical catalog order.
     if report.rules.len() != catalog.rules.len()
         || report
             .rules
@@ -128,7 +132,10 @@ fn validate_report(report: &CheckReport) -> Result<()> {
     }
     let mut recomputed = report.clone();
     reaggregate(&mut recomputed)?;
-    if recomputed.gates != report.gates {
+    if recomputed.gates != report.gates
+        || recomputed.engineering != report.engineering
+        || recomputed.rules != report.rules
+    {
         bail!("recorded gates are inconsistent with the report's rules and checks");
     }
     Ok(())
@@ -151,6 +158,7 @@ fn project_report(report: &CheckReport, source: ReportSource) -> Result<ReportSu
         *rule_counts.entry(outcome_name(rule.outcome)).or_default() += 1;
     }
     Ok(ReportSummary {
+        engineering: report.engineering.as_ref(),
         schema: 1,
         kind: "check_summary",
         catalog_version: report.catalog_version,
@@ -259,7 +267,8 @@ struct CurrentEvidence {
 }
 
 fn current_evidence(root: &Path, rule: Option<&RuleId>) -> Result<CurrentEvidence> {
-    let catalog = embedded_catalog()?;
+    let (_, manifest) = crate::load_project(root)?;
+    let catalog = manifest.catalog()?;
     if let Some(rule) = rule
         && catalog.find(rule).is_none()
     {
@@ -334,6 +343,7 @@ mod tests {
             })
             .collect();
         let mut report = CheckReport {
+            engineering: None,
             schema: 1,
             catalog_version: catalog.catalog_version,
             subject: "fixture".into(),
@@ -466,6 +476,54 @@ mod tests {
     }
 
     #[test]
+    fn engineering_projection_rejects_a_forged_assessment() -> Result<()> {
+        let mut report = report()?;
+        let template = report.rules[0].clone();
+        report.rules = opdev_core::catalog_for_version(3)?
+            .rules
+            .into_iter()
+            .map(|rule| {
+                let mut result = template.clone();
+                result.rule_id = rule.id;
+                result.catalog_version = 3;
+                result
+            })
+            .collect();
+        report.schema = 2;
+        report.catalog_version = 3;
+        report.engineering = Some(serde_json::from_value(serde_json::json!({
+            "version": "1", "minimumcd": {
+                "version": "1", "source_version": "", "verdict": "blocked",
+                "requirements": [], "blocking_checks": []
+            }
+        }))?);
+        reaggregate(&mut report)?;
+        assert_eq!(
+            project_report(&report, source())?.engineering,
+            report.engineering.as_ref()
+        );
+        report
+            .engineering
+            .as_mut()
+            .context("policy")?
+            .minimumcd
+            .as_mut()
+            .context("assessment")?
+            .requirements
+            .pop();
+        assert!(project_report(&report, source()).is_err());
+        reaggregate(&mut report)?;
+        report
+            .rules
+            .iter_mut()
+            .find(|r| r.rule_id.as_str() == "MCD-CI-001")
+            .context("rule")?
+            .outcome = Outcome::NotApplicable;
+        assert!(project_report(&report, source()).is_err());
+        Ok(())
+    }
+
+    #[test]
     fn saved_source_digest_and_no_overwrite_are_enforced() -> Result<()> {
         let temp = tempfile::tempdir()?;
         let path = temp.path().join("report.json");
@@ -499,8 +557,11 @@ mod tests {
         let temp = tempfile::tempdir()?;
         git(temp.path(), &["init", "--quiet"])?;
         std::fs::create_dir(temp.path().join(".opdev"))?;
+        opdev_project::discover(temp.path())?
+            .manifest
+            .write_new(&temp.path().join(opdev_project::MANIFEST_PATH))?;
         std::fs::write(temp.path().join("file"), "one")?;
-        git(temp.path(), &["add", "file"])?;
+        git(temp.path(), &["add", "file", opdev_project::MANIFEST_PATH])?;
         Ok(temp)
     }
 

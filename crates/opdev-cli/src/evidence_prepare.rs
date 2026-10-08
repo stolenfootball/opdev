@@ -1,7 +1,7 @@
 //! Mechanical preparation of an existing schema-2 ledger; never approval.
 use anyhow::{Context, Result, bail};
 use clap::Args;
-use opdev_core::{Outcome, embedded_catalog};
+use opdev_core::Outcome;
 use opdev_project::{
     AcceptanceEvidence, ChangeEvidence, EVIDENCE_PATH, EvidenceLedger, TrackedEvidence,
     staged_fingerprint,
@@ -120,7 +120,8 @@ fn candidate(root: &Path, draft: &Draft, bytes: &[u8]) -> Result<EvidenceLedger>
         );
     }
     let mut ledger: EvidenceLedger = serde_saphyr::from_slice(bytes)?;
-    let catalog = embedded_catalog()?;
+    let (_, manifest) = crate::load_project(root)?;
+    let catalog = manifest.catalog()?;
     ledger.validate(&catalog)?;
     if ledger.schema != 2 {
         bail!(
