@@ -14548,6 +14548,16 @@ changes:
 - fingerprint: e31d6e2e626bda926cf8340ddd2762f08e2f52b95011a6971f7f6634c20fc6c2
   work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83
   assertions:
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: The maintainer explicitly approved the representative changed wording after the current automated interface checks passed.
+    evidence:
+    - kind: human_review
+      summary: "The actual response was: Yes, wording is approved. It followed the engineering-baseline, MinimumCD-not-requested and no-release-authorization messages at unchanged material checkpoint 98ecfa5. Existing keyboard, plain-text and structured-output targets are preserved; this is not universal accessibility certification or release authorization."
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974601886
+    - kind: automated_review
+      summary: Canonical workspace tests including consumer-interface cases passed on this exact material source before the approval. Only this review assertion changed; required remote CI will verify the candidate independently.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/83#note_3974581660
   - rule_id: MCD-TEST-001
     outcome: passed
     summary: Canonical pre-merge formatting, strict lint and full workspace tests passed on this exact material source and acceptance subject.
