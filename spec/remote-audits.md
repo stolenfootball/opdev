@@ -251,6 +251,18 @@ their existing local behavior. See [schema migration](compatibility.md).
 
 ### Verification
 
+Capability `ci.qualify.v1` exposes the same exact-trunk qualification as
+`ci qualify [--format json]`, independently of local suite aggregation. It requires
+a clean committed checkout, reads the declared reviewed policy, and rechecks local
+source after the provider snapshot. Dirty or changed source, missing policy,
+pending jobs or drift cannot pass. It never runs suites, chooses review storage,
+changes policy or upgrades a saved report. Exit 0 means remote CI qualification
+only; exit 1 is an unsatisfied qualification and exit 2 is an input/tool error.
+JSON format 1 has kind `remote_ci_qualification`, source identity, unchanged flag,
+the existing typed qualification, `local_tests: not_run` and
+`artifact_readiness: not_evaluated`. Use this for a final remote observation rather
+than rerunning suites or treating intentional `--no-exec` blockers as test failures.
+
 Offline fixtures cover run selection, wrong producers, pending/missing/failed
 checks, pagination, permissions, classic/ruleset distinctions, wildcard/access
 drift, snapshot disagreement, migration and preservation of existing failures.

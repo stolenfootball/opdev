@@ -22,6 +22,22 @@ review; never choose an earlier green note. Check each required stage, without
 rerunning equivalent suites for paperwork. Local preparation is not provider
 authentication, human consent or execution.
 
+With `evidence.review-handoff.v1`, use `ci prepare-review --change NUMBER --note ID
+--acceptance-sha256 ID [--post-merge]` after the reviewed comment is posted. Inspect
+its proposed description and locator; it writes nothing and preserves other-stage
+selection and unrelated text. Recheck the original description digest immediately
+before an authorized provider edit. Do not derive approval or the independently
+selected acceptance ID from the comment. In CI, `ci review-check [--post-merge]`
+checks input readiness before expensive tool setup; actual gates still use current
+review and real execution, never a preflight receipt.
+
+Discussion export now requires `evidence.discussion-wire.v2` on both local and CI
+readers. It losslessly shares repeated strings within the bounded note; the full
+typed review, assertions and digests are unchanged. Existing v1 notes remain
+readable. This is not the experimental compact-context feature, a larger retention
+store or permission to omit review details. Missing reader support is a capability
+gap; do not silently install a new runtime.
+
 Requirements may use a minimal `observe-work` observation directly as condition
 `source`; tests still reference tracked assertions. This avoids committing a
 duplicate of issue requirements. Use the original issue or a separate description,

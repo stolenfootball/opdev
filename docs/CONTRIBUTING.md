@@ -89,6 +89,16 @@ selects an older passing record or converts a source-head run into post-merge pr
 It refuses fork inputs; extending this credential/trust scope needs separate review.
 Tag quality verifies integrated source, not release authorization or delivery readiness.
 
+Use `ci prepare-review --change NUMBER --note ID --acceptance-sha256 ID` (add
+`--post-merge` for integrated source) to prepare the locator and description edit
+from the exact posted comment. It prints a proposal only. Inspect it and recheck
+the original description digest before applying it through authenticated `glab`.
+The source-built CLI and CI reader support lossless discussion format 2; published
+older readers may not. The quality job runs `ci review-check` before check-only
+tool installation, then executes the real check after setup. Neither handoff nor
+input readiness is approval or qualification. After integrated checks, `ci qualify`
+observes remote CI without rerunning local suites or claiming artifact readiness.
+
 GitLab jobs use the automatically issued `CI_JOB_TOKEN`, sent as `JOB-TOKEN`.
 That short-lived identity takes precedence over developer credentials in CI.
 Local explicit-locator checks keep the existing authenticated `glab` fallback;

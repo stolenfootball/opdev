@@ -276,6 +276,14 @@ checks; do not rerun adoption research on every change.
 
 ## Completion evidence
 
+Capability `adoption.preflight.v1` adds `check --preflight`: inspect review inputs
+without running suites, saving a core report, or claiming completed adoption.
+It uses the normal early guards, including delivery-path and acceptance review,
+and reports independently detectable gaps together. External authority and source
+freshness are rechecked. Exit 0 means inputs ready only; `complete` stays false.
+See [preparation](evidence-preparation.md#adoption-input-preflight). The ordinary
+check repeats these guards before executing; no readiness receipt replaces them.
+
 With capability `adoption.external-review.v1` and selected external review storage,
 `adoption check --review-locator FILE --review-acceptance-sha256 ID` uses the same
 authenticated exact-provider selection as ordinary `check`. The independently

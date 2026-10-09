@@ -89,6 +89,9 @@ enum AdoptionCommand {
     },
     /// Verify all decisions, fresh reviewed evidence, executable checks and all core gates.
     Check {
+        /// Inspect all required inputs without running suites or claiming completed adoption.
+        #[arg(long, conflicts_with = "report")]
+        preflight: bool,
         /// Diagnose the selected older policy only; never reports current adoption complete.
         #[arg(long)]
         legacy_assessment: bool,
@@ -146,6 +149,7 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             remote,
         } => status(root, *format, *remote)?,
         AdoptionCommand::Check {
+            preflight,
             legacy_assessment,
             review_locator,
             review_acceptance_sha256,
@@ -161,7 +165,10 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                 *format,
                 review_locator.as_ref(),
                 review_acceptance_sha256.as_deref(),
-                *legacy_assessment,
+                CheckMode {
+                    legacy_assessment: *legacy_assessment,
+                    preflight: *preflight,
+                },
             );
         }
     }
@@ -389,7 +396,7 @@ fn prepare_evidence(root: &std::path::Path) -> Result<()> {
     AdoptionRecord::load(&root)?.context("no adoption record")?;
     let mut questionnaire = opdev_project::EvidenceBootstrap::new(
         staged_fingerprint(&root)?,
-        [],
+        ["MCD-PIPELINE-001".into()],
         ["OPDEV-WORK-001".into(), "OPDEV-TEST-002".into()],
     );
     questionnaire.change.evidence.push(opdev_core::Evidence {
@@ -402,9 +409,14 @@ fn prepare_evidence(root: &std::path::Path) -> Result<()> {
         summary: String::new(),
         location: Some(ADOPTION_PATH.into()),
     });
+    questionnaire.project.evidence.push(opdev_core::Evidence {
+        kind: "delivery_gate".into(),
+        summary: String::new(),
+        location: None,
+    });
     print!("{}", questionnaire.to_yaml()?);
     eprintln!(
-        "Review-required preparation only; writes no ledger and asserts no pass. Fill the actual review summary/work reference, then merge reviewed assertions into the current ledger. This partial worksheet is not a full evidence bootstrap answers file."
+        "Review-required preparation only; writes no review record and asserts no pass. Fill the actual summaries and references, including the delivery dependency path, then merge reviewed assertions into the selected review record. This partial worksheet is not a full evidence bootstrap answers file."
     );
     Ok(())
 }
@@ -445,6 +457,12 @@ fn adoption_core_report(
     Ok(report)
 }
 
+#[derive(Clone, Copy)]
+struct CheckMode {
+    legacy_assessment: bool,
+    preflight: bool,
+}
+
 fn check(
     root: &std::path::Path,
     remote: bool,
@@ -452,27 +470,16 @@ fn check(
     format: OutputFormat,
     review_locator: Option<&PathBuf>,
     review_acceptance_sha256: Option<&str>,
-    legacy_assessment: bool,
+    mode: CheckMode,
 ) -> Result<ExitCode> {
+    let legacy_assessment = mode.legacy_assessment;
     if report_path.is_some_and(|path| path.symlink_metadata().is_ok()) {
         bail!("report output already exists; choose a new path");
     }
     let (root, manifest) = load_project(root)?;
     let record = AdoptionRecord::load(&root)?
         .context("no adoption assessment; run opdev adoption start explicitly")?;
-    let mut blockers = record.blockers(&manifest)?;
-    if !legacy_assessment {
-        blockers.extend(opdev_project::clean_adoption::decision_gaps(
-            &manifest,
-            Some(&record),
-        ));
-        if let Some(target) = &record.clean_target {
-            blockers.extend(
-                opdev_project::clean_adoption::retirement_gaps(&root, target)
-                    .map_err(anyhow::Error::msg)?,
-            );
-        }
-    }
+    let mut blockers = decision_blockers(&root, &manifest, &record, legacy_assessment)?;
     if remote && let Some(gap) = manifest.remote_qualification_gap() {
         blockers.push(format!("remote qualification: {gap}; resolve developer choices before running adoption verification"));
     }
@@ -497,7 +504,7 @@ fn check(
     };
     let ledger = if manifest.assurance.review_storage.is_some() {
         if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
-            blockers.push("adoption review: both external storage and a legacy ledger exist. Complete the reviewed storage migration before verification; preserve required history".into());
+            blockers.push("adoption review: both external storage and a legacy ledger exist. Complete the reviewed storage migration before verification; no evidence source was silently chosen".into());
         }
         if let Some(review) = &review {
             Some(
@@ -513,18 +520,26 @@ fn check(
     } else {
         EvidenceLedger::load_optional(&root, &manifest.catalog()?)?
     };
-    blockers.extend(review_blockers(
+    blockers.extend(input_blockers(
+        &root,
+        &manifest,
         ledger.as_ref(),
         fingerprint.as_deref(),
         !legacy_assessment,
     ));
-    for name in ["AGENTS.md", "CLAUDE.md"] {
-        if !root.join(name).is_file() {
-            blockers.push(format!("agents: missing {name}"));
-        }
+    if mode.preflight
+        && !preflight_unchanged(
+            &root,
+            &manifest,
+            review.as_ref(),
+            ledger.as_ref(),
+            fingerprint.as_deref(),
+        )?
+    {
+        blockers.push("Adoption inputs changed during inspection; inspect the current source and selected review before retrying. No project checks ran.".into());
     }
     // Never run project commands until decisions and their explicit review are ready.
-    let core_report = if blockers.is_empty() {
+    let core_report = if blockers.is_empty() && !mode.preflight {
         let (report, verification_gaps) = verify_core(
             &root,
             &manifest,
@@ -545,7 +560,7 @@ fn check(
     present_adoption(
         format,
         passed,
-        legacy_assessment,
+        mode,
         fingerprint.as_deref(),
         &blockers,
         core_report.as_ref(),
@@ -557,21 +572,90 @@ fn check(
     })
 }
 
+fn decision_blockers(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    record: &AdoptionRecord,
+    legacy: bool,
+) -> Result<Vec<String>> {
+    let mut blockers = record.blockers(manifest)?;
+    if !legacy {
+        blockers.extend(opdev_project::clean_adoption::decision_gaps(
+            manifest,
+            Some(record),
+        ));
+        if let Some(target) = &record.clean_target {
+            blockers.extend(
+                opdev_project::clean_adoption::retirement_gaps(root, target)
+                    .map_err(anyhow::Error::msg)?,
+            );
+        }
+    }
+    Ok(blockers)
+}
+
+fn preflight_unchanged(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    review: Option<&opdev_engine::ValidatedReview>,
+    ledger: Option<&EvidenceLedger>,
+    fingerprint: Option<&str>,
+) -> Result<bool> {
+    if let Some(review) = review {
+        // Input gaps were already collected; this repeats current authority/source
+        // checks at the end, never turns the readiness inspection into execution.
+        review
+            .preflight(root, manifest, opdev_project::TestStage::PreMerge)
+            .map_err(anyhow::Error::msg)?;
+    } else if manifest.assurance.review_storage.is_none()
+        && EvidenceLedger::load_optional(root, &manifest.catalog()?)?.as_ref() != ledger
+    {
+        return Ok(false);
+    }
+    Ok(staged_fingerprint(root).ok().as_deref() == fingerprint)
+}
+
+fn input_blockers(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    ledger: Option<&EvidenceLedger>,
+    fingerprint: Option<&str>,
+    clean_target: bool,
+) -> Vec<String> {
+    let mut blockers = review_blockers(ledger, fingerprint, clean_target);
+    blockers.extend(delivery_input_blockers(manifest, ledger, fingerprint));
+    blockers.extend(opdev_engine::acceptance_input_gaps(
+        root,
+        manifest,
+        ledger,
+        fingerprint,
+        opdev_project::TestStage::PreMerge,
+    ));
+    for name in ["AGENTS.md", "CLAUDE.md"] {
+        if !root.join(name).is_file() {
+            blockers.push(format!("agents: missing {name}"));
+        }
+    }
+    blockers
+}
+
 fn present_adoption(
     format: OutputFormat,
     passed: bool,
-    legacy_assessment: bool,
+    mode: CheckMode,
     fingerprint: Option<&str>,
     blockers: &[String],
     core_report: Option<&opdev_engine::CheckReport>,
 ) -> Result<()> {
-    let complete = passed && !legacy_assessment;
+    let complete = passed && !mode.legacy_assessment && !mode.preflight;
     if matches!(format, OutputFormat::Json) {
         println!(
             "{}",
             serde_json::to_string_pretty(&serde_json::json!({
                 "schema":1,"complete":complete,"target":opdev_project::clean_adoption::TARGET,
-                "legacy_policy_passed":legacy_assessment.then_some(passed),
+                "legacy_policy_passed":(mode.legacy_assessment && !mode.preflight).then_some(passed),
+                "inputs_ready": mode.preflight.then_some(passed),
+                "checks_ran": core_report.is_some(),
                 "fingerprint":fingerprint,"blockers":blockers,"core_report":core_report
             }))?
         );
@@ -579,7 +663,12 @@ fn present_adoption(
         if let Some(report) = core_report {
             print_human_report(report);
         }
-        if legacy_assessment {
+        if mode.preflight {
+            println!(
+                "Adoption inputs are {} for verification. No project checks ran; adoption is not complete.",
+                if passed { "ready" } else { "not ready" }
+            );
+        } else if mode.legacy_assessment {
             println!(
                 "Legacy policy assessment: {}. Current adoption is not verified.",
                 if passed { "passed" } else { "blocked" }
@@ -599,6 +688,40 @@ fn present_adoption(
         }
     }
     Ok(())
+}
+
+fn delivery_input_blockers(
+    manifest: &opdev_project::ProjectManifest,
+    ledger: Option<&EvidenceLedger>,
+    fingerprint: Option<&str>,
+) -> Vec<String> {
+    let assertion = ledger.and_then(|ledger| {
+        fingerprint
+            .and_then(|f| ledger.matching_change(f))
+            .and_then(|c| {
+                c.assertions
+                    .iter()
+                    .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+            })
+            .or_else(|| {
+                ledger
+                    .project
+                    .iter()
+                    .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+            })
+    });
+    if assertion.is_some_and(|a| {
+        (a.outcome == Outcome::Passed
+            && a.evidence.iter().any(|e| {
+                e.kind == "delivery_gate"
+                    && e.location.as_ref().is_some_and(|p| !p.trim().is_empty())
+            }))
+            || (manifest.assurance.engineering.is_some() && a.outcome == Outcome::NotApplicable)
+    }) {
+        Vec::new()
+    } else {
+        vec!["delivery: review the actual release/tag publication dependency path and provide MCD-PIPELINE-001 delivery_gate evidence; integration-only CI is insufficient".into()]
+    }
 }
 
 fn verify_core(
@@ -699,7 +822,7 @@ fn review_blockers(
         return vec!["adoption review: staged fingerprint unavailable; resolve the reported unstaged/untracked inputs first".into()];
     }
     if reviewed.is_none() {
-        return vec!["adoption review: no ledger change matches the current staged fingerprint; review this state rather than copying old assertions".into()];
+        return vec!["adoption review: no selected review record matches the current staged fingerprint; review this state rather than copying old assertions".into()];
     }
     for id in ["OPDEV-WORK-001", "OPDEV-TEST-002"] {
         if !reviewed.is_some_and(|change| {

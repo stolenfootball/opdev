@@ -2,6 +2,7 @@
 
 #![forbid(unsafe_code)]
 mod acceptance;
+pub use acceptance::acceptance_input_gaps;
 mod assessment;
 pub use assessment::{EngineeringAssessment, FrameworkAssessment, RequirementAssessment};
 

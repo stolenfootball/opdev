@@ -53,3 +53,20 @@ reviewed candidate outside source. Its no-execution preparation assessment is no
 a project check report. Neither bootstrap nor preparation creates approvals or
 infers adoption completion; an external-policy project cannot omit the new output
 and silently recreate the legacy ledger.
+
+### Adoption input preflight
+
+With `adoption.preflight.v1`, `adoption check --preflight` shares ordinary adoption
+input validation but never invokes suites or emits a core check report. It checks
+decisions/retirements, explicit adoption/cleanup review, delivery-path input,
+current acceptance and stage mappings, references and agent files. Independently
+detectable gaps are reported together; unresolved decisions still prevent remote
+review retrieval. A malformed contract or inaccessible authenticated review is
+an error, not readiness. `--report` is incompatible with this input-only mode.
+Exit 0 and `inputs_ready: true` mean only readiness: `complete: false`,
+`checks_ran: false`, and no legacy-policy pass. Normal adoption runs the same
+guards before commands, then retains all existing gate and freshness checks.
+
+`adoption prepare-evidence` includes unresolved adoption/cleanup evidence and a
+separate unresolved MCD-PIPELINE-001 delivery-gate candidate. Fill real locations
+and review each decision; placeholders do not establish applicability or a pass.

@@ -30,14 +30,18 @@ quality:
   stage: verify
   image: rust:1.97.0-bookworm
   before_script:
+    # Fail on missing/stale review inputs before installing check-only tooling.
+    - cargo build --locked -p opdev-cli
+    - |
+      stage_args=""
+      if [ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]; then stage_args="--post-merge"; fi
+      ./target/debug/opdev ci review-check $stage_args
     - apt-get update
     - apt-get install --yes --no-install-recommends python3 python-is-python3
     - python scripts/setup_style.py
     - rustup component add llvm-tools-preview
     - cargo install cargo-llvm-cov --version "$CARGO_LLVM_COV_VERSION" --locked
   script:
-    # Build the evaluator, then let it execute the contract's canonical suites once.
-    - cargo build --locked -p opdev-cli
     - |
       # Instrument that same canonical execution; reporting does not rerun tests.
       cargo llvm-cov clean --workspace

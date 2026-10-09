@@ -12,6 +12,25 @@ pub struct ValidatedReview {
 }
 
 impl ValidatedReview {
+    /// Inspect semantic input readiness without executing or qualifying checks.
+    /// # Errors
+    /// Reject changed source or provider authorities; never reuse saved reports.
+    pub fn preflight(
+        &self,
+        root: &Path,
+        manifest: &ProjectManifest,
+        stage: TestStage,
+    ) -> Result<Vec<String>, String> {
+        let ledger = self.reviewed_ledger(root, manifest, stage)?;
+        let fingerprint = opdev_project::staged_fingerprint(root)
+            .map_err(|_| "Current staged source is unavailable")?;
+        let gaps =
+            crate::acceptance_input_gaps(root, manifest, Some(ledger), Some(&fingerprint), stage);
+        self.recheck_authorities()?;
+        self.current(root, manifest, stage)?;
+        Ok(gaps)
+    }
+
     /// Read the selected semantic inputs only while their exact subject is current.
     /// This does not establish consent or replace current command execution.
     ///
@@ -254,6 +273,70 @@ mod tests {
             location: "unit fixture (not live provider evidence)".into(),
         };
         Ok((temp, manifest, review))
+    }
+
+    #[test]
+    fn preflight_checks_input_review_and_stage_without_executing() -> anyhow::Result<()> {
+        let (temp, manifest, mut review) = fixture()?;
+        let fingerprint = opdev_project::staged_fingerprint(temp.path())?;
+        assert!(
+            review
+                .preflight(temp.path(), &manifest, TestStage::PreMerge)
+                .map_err(anyhow::Error::msg)?
+                .is_empty()
+        );
+        assert!(
+            !temp.path().join("__pycache__").exists(),
+            "canonical Python suite was not executed"
+        );
+        let stage_gaps = crate::acceptance_input_gaps(
+            temp.path(),
+            &manifest,
+            Some(&review.record.ledger),
+            Some(&fingerprint),
+            TestStage::PostMerge,
+        );
+        assert!(stage_gaps.join(";").contains("not assigned to this stage"));
+        let change = &mut review.record.ledger.changes[0];
+        let acceptance = change
+            .acceptance
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("acceptance"))?;
+        acceptance.review.outcome = Outcome::Unverified;
+        let gaps = crate::acceptance_input_gaps(
+            temp.path(),
+            &manifest,
+            Some(&review.record.ledger),
+            Some(&fingerprint),
+            TestStage::PreMerge,
+        );
+        assert!(gaps.join(";").contains("selected retained archive review"));
+        assert!(!gaps.join(";").contains(".opdev/evidence.yaml"));
+        let mut discussion_manifest = manifest.clone();
+        discussion_manifest
+            .assurance
+            .review_storage
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("policy"))?
+            .version = 2;
+        let gaps = crate::acceptance_input_gaps(
+            temp.path(),
+            &discussion_manifest,
+            Some(&review.record.ledger),
+            Some(&fingerprint),
+            TestStage::PreMerge,
+        );
+        assert!(gaps.join(";").contains("selected MR/PR review"));
+        discussion_manifest.assurance.review_storage = None;
+        let gaps = crate::acceptance_input_gaps(
+            temp.path(),
+            &discussion_manifest,
+            Some(&review.record.ledger),
+            Some(&fingerprint),
+            TestStage::PreMerge,
+        );
+        assert!(gaps.join(";").contains(".opdev/evidence.yaml"));
+        Ok(())
     }
 
     #[test]

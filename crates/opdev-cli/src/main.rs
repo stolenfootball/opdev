@@ -24,6 +24,7 @@ use semver::{Version, VersionReq};
 use serde::Deserialize;
 
 mod adoption;
+mod ci_review;
 mod ci_run;
 mod delegation;
 mod doctor;
@@ -275,6 +276,12 @@ enum CiCommand {
     Execute(execution_reuse::ExecuteArgs),
     /// Verify an explicitly selected remote CI run, not whole-project qualification.
     VerifyRun(ci_run::VerifyRunArgs),
+    /// Qualify only remote CI for the unchanged current trunk; never run local suites.
+    Qualify(ci_run::QualifyArgs),
+    /// Prepare an explicitly selected posted review for CI; print a proposal, never write it.
+    PrepareReview(ci_review::PrepareArgs),
+    /// Inspect current native CI review inputs before expensive setup or suites.
+    ReviewCheck(ci_review::CheckArgs),
     /// Render a pinned baseline configuration.
     Generate(CiGenerateArgs),
     /// Inspect the initialized project's local CI configuration.
@@ -1010,6 +1017,9 @@ fn ci_command(args: &CiArgs) -> Result<ExitCode> {
         CiCommand::Generate(args) => generate_ci(args).map(|()| ExitCode::SUCCESS),
         CiCommand::Inspect(args) => inspect_ci(args).map(|()| ExitCode::SUCCESS),
         CiCommand::VerifyRun(args) => ci_run::run(args),
+        CiCommand::Qualify(args) => ci_run::qualify(args),
+        CiCommand::PrepareReview(args) => ci_review::prepare(args),
+        CiCommand::ReviewCheck(args) => ci_review::check(args),
     }
 }
 
