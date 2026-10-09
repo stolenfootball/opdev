@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Exact OpDev MR/PR review selection",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "kind", "selector", "source_commit", "body_sha256"],
+  "properties": {
+    "schema": {"const": 1}, "kind": {"const": "discussion_review"},
+    "source_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "body_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "selector": {
+      "type": "object", "additionalProperties": false,
+      "required": ["provider", "repository_id", "kind", "number"],
+      "properties": {
+        "provider": {"enum": ["github", "gitlab"]},
+        "repository_id": {"type": "integer", "minimum": 1},
+        "kind": {"const": "merge_request"}, "number": {"type": "integer", "minimum": 1},
+        "note_id": {"type": ["integer", "null"], "minimum": 1}
+      }
+    }
+  }
+}

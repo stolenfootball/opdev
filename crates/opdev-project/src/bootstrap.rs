@@ -87,7 +87,7 @@ pub fn shared_guidance() -> String {
     );
     legacy.lines().map(|line| {
         if line.starts_with("7. When a rule needs evidence") {
-            "7. Follow the project's explicitly selected evidence storage policy. With assurance.review_storage, prepare source-bound reviews outside product source, retain them at the reviewed authority, and supply their independently selected exact locator and acceptance identity to current checks. Never recreate an active .opdev/evidence.yaml alongside external review. Without that selection, retain the legacy ledger until an explicitly reviewed migration verifies historical retention and recovery. Review actual facts and assertions; attributed review is not authenticated consent and saved reports never replace current execution."
+            "7. Follow the explicitly selected evidence policy. Review storage 2 uses the existing code repository's MR/PR for source-bound acceptance review and bounded CI reports, not an evidence repository or growing ledger. Never recreate an active .opdev/evidence.yaml alongside external review. Keep useful decisions and failure findings in existing work; let routine detail expire under reviewed retention. Remove the obsolete ledger during reviewed migration with temporary rollback protection only; no historical-copy verification or archive is required. Storage 1 retains its archive semantics; without a storage selection, legacy ledger behavior remains until reviewed migration. Supply the exact current locator and acceptance identity to checks; attributed review is not human consent, expired reports do not revoke past merges, and saved reports cannot replace current execution."
         } else { line }
     }).collect::<Vec<_>>().join("\n")
 }

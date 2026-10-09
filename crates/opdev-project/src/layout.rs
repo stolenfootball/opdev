@@ -277,7 +277,7 @@ fn inspect_file(
         return Ok(());
     }
     if path == ".opdev/evidence.yaml" {
-        report.finding(path, "Legacy evidence needs a verified storage migration", "Preserve this ledger until exported evidence can be retained and retrieved; do not delete or archive it inside .opdev");
+        report.finding(path, "Legacy evidence needs a reviewed storage migration", "Remove the obsolete ledger through the selected storage migration. MR/PR storage needs only temporary rollback protection, not an archive; legacy archive policy retains its original requirements. No automatic cleanup");
         return Ok(());
     }
     if !permitted(path) {

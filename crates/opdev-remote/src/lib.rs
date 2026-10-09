@@ -3,6 +3,8 @@
 #![forbid(unsafe_code)]
 
 mod archive;
+mod discussion_review;
+pub use discussion_review::{DiscussionLocator, DiscussionObservation, retrieve_discussion};
 mod work_observation;
 pub use work_observation::{observe_work, recheck_work};
 mod run;

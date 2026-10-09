@@ -8,7 +8,7 @@ mod adoption;
 pub mod clean_adoption;
 pub use acceptance::{
     AcceptanceCondition, AcceptanceEvidence, AcceptanceMethod, AcceptanceReview, AcceptanceScope,
-    AcceptanceVerification, TrackedEvidence,
+    AcceptanceVerification, RequirementSource, TrackedEvidence,
 };
 mod bootstrap;
 mod discovery;

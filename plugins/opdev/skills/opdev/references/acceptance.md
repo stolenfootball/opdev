@@ -65,7 +65,11 @@ Capability-check `opdev evidence acceptance-digest --help`. Older CLIs can suppo
 semantic review but cannot enforce this contract. Report that gap and offer an
 appropriate runtime upgrade; do not call policy-only passes acceptance qualification.
 
-Use schema 2 of `.opdev/evidence.yaml`, under the exact current change's
+For selected MR/PR storage version 2, use the current record described in
+[evidence.md](evidence.md#mrpr-native-review-selected-storage-version-2); do not
+recreate a source ledger. Conditions can reference provider-observed work excerpts
+without committed copies. The mappings/review duties and fresh execution below
+remain unchanged. For legacy ledger projects, use schema 2 of `.opdev/evidence.yaml`, under the exact current change's
 `acceptance`. New bootstrap includes an unresolved template. Existing ledgers need
 an explicit reviewed schema-2 edit preserving history and unrelated assertions,
 not create-new bootstrap or automatic migration. On a CLI supporting

@@ -208,7 +208,7 @@ fn adoption(
     if let Some(target) = clean_target {
         opdev_project::clean_adoption::validate_target(&target).map_err(anyhow::Error::msg)?;
         ensure!(
-            opdev_project::clean_adoption::policy_gaps(candidate).is_empty(),
+            opdev_project::clean_adoption::policy_gaps_for(candidate, target.version).is_empty(),
             "Clean adoption target requires the complete reviewed policy bundle"
         );
         if serde_json::to_value(&record.clean_target)? != serde_json::to_value(&target)? {
@@ -233,6 +233,21 @@ fn history(plan: &mut MigrationPlan, candidate: &ProjectManifest) -> Result<()> 
     let Some(before) = inventory::text(&plan.root.join(EVIDENCE_PATH))? else {
         return Ok(());
     };
+    if candidate
+        .assurance
+        .review_storage
+        .as_ref()
+        .is_some_and(|p| p.version == 2)
+    {
+        ensure!(
+            plan.history.is_none(),
+            "MR/PR migration retains existing Git history; do not select a separate archive"
+        );
+        plan.changes.push(Change {path: EVIDENCE_PATH.into(), before: Some(before), after: None,
+            reason: "Remove the obsolete active ledger under reviewed MR/PR policy. Temporary migration recovery protects interruption, not permanent evidence storage".into()});
+        plan.finding("history", Outcome::Passed, "Legacy ledger selected for removal. No archive or historical-copy verification is required. Keep temporary rollback protection only until the migration is verified; existing Git history is not rewritten.");
+        return Ok(());
+    }
     let original = ProjectManifest::load(&plan.root.join(MANIFEST_PATH))?;
     opdev_project::EvidenceLedger::load_optional(&plan.root, &original.catalog()?)
         .map_err(|_| anyhow::anyhow!("Original ledger is malformed or unsupported; preserve it for explicit recovery. No record contents echoed"))?;
@@ -359,14 +374,31 @@ fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
         .iter()
         .find(|c| c.path == EVIDENCE_PATH && c.after.is_none())
     {
-        let observed = opdev_remote::retrieve_archive(
-            plan.history.as_ref().context("History locator missing")?,
-        )
-        .map_err(anyhow::Error::msg)?;
-        ensure!(
-            Some(observed.bytes()) == change.before.as_deref().map(str::as_bytes),
-            "Historical archive changed or unavailable; migration stopped"
-        );
+        let policy = plan
+            .changes
+            .iter()
+            .find(|c| c.path == MANIFEST_PATH)
+            .and_then(|c| c.after.as_deref())
+            .context("Migration policy missing")?;
+        if ProjectManifest::from_yaml(policy)?
+            .assurance
+            .review_storage
+            .is_some_and(|p| p.version == 2)
+        {
+            ensure!(
+                plan.history.is_none(),
+                "MR/PR migration does not require a separate evidence archive"
+            );
+        } else {
+            let observed = opdev_remote::retrieve_archive(
+                plan.history.as_ref().context("History locator missing")?,
+            )
+            .map_err(anyhow::Error::msg)?;
+            ensure!(
+                Some(observed.bytes()) == change.before.as_deref().map(str::as_bytes),
+                "Historical archive changed or unavailable; migration stopped"
+            );
+        }
     }
     for (count, change) in plan.changes.iter().enumerate() {
         ensure!(

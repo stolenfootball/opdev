@@ -98,9 +98,13 @@ an agent-created owner label. `upgrade --migration FILE` previews exact changes;
 unknown internal content needs purpose/owner resolution, not cleanup to satisfy
 an allowlist. Adequate outside authorities stay intact.
 
-Retain the complete original ledger at the approved archive and verify its exact
-retrieval and independent recovery first. Supply its original locator; do not
-replace history with a projection of the latest green attempt. Review plugin/local
+For MR/PR storage policy 2, remove the obsolete active ledger through the reviewed
+migration. Do not move it to a permanent archive, require a historical copy, make
+an archival commit or rewrite existing Git history. Temporary rollback protection
+is for interruption only; remove the owned recovery file after verification and
+when rollback is no longer needed, using ordinary filesystem safety. For legacy
+storage policy 1 only, retain the complete original at its selected archive and
+verify exact retrieval before removal. Review plugin/local
 runtime/CI capability separately, including custom CI/download/signature behavior.
 Only actual approved CI edits belong in the request; matching pins do not prove
 qualification. Preview does no provider writes or installations.
@@ -109,7 +113,7 @@ After scoped developer approval, apply the exact plan with a new external recove
 snapshot. Catalog additions stay pending and previous approval is not reissued for
 new policy. Inspect partial writes; use `upgrade --resume RECOVERY --apply
 ORIGINAL_PLAN_ID` only with unchanged original/target states. Never overwrite later
-work or hide interruption by creating a new approval. Preserve required history,
+work or hide interruption by creating a new approval. Preserve applicable required history,
 original decision scope and revocations. Stage the settled result, review current
 acceptance, run required checks and verify integration; migration apply alone is
 not completed adoption or release permission. No new project migration registry.
@@ -120,7 +124,7 @@ reviewed retirement list. Classify actual content first. Move preserves exact UT
 text and refuses different existing destinations; consolidate mixed content through
 its owner before retirement. Empty-directory removal is nonrecursive and limited
 to inventoried OpDev/CI namespaces. Current managed files and the legacy ledger
-cannot be deleted through generic cleanup; use the ledger's retained-history path.
+cannot be deleted through generic cleanup; use the selected policy's ledger-removal path.
 Actual authority changes need `authority_review_reference` and reviewed content,
 not a relabel to suppress a finding. The recovery snapshot is private text recovery,
 not a complete ACL/executable-mode/binary backup or durable history authority.

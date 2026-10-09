@@ -49,6 +49,9 @@ enum BundleCommand {
         /// Explicit minimal observations to bind; saved attribution is not authenticated consent.
         #[arg(long)]
         work_observation: Vec<PathBuf>,
+        /// Render one bounded MR/PR Markdown section instead of a Git archive record.
+        #[arg(long)]
+        discussion: bool,
         #[arg(long)]
         output: PathBuf,
     },
@@ -130,6 +133,14 @@ fn sha(bytes: &[u8]) -> String {
 
 fn valid_digest(value: &str) -> bool {
     value.len() == 64 && value.bytes().all(|b| b.is_ascii_hexdigit())
+}
+
+fn validate_expected_digests(acceptance: &str, runtime: Option<&str>) -> Result<()> {
+    ensure!(
+        valid_digest(acceptance) && runtime.is_none_or(valid_digest),
+        "Expected identities must be SHA-256 digests"
+    );
+    Ok(())
 }
 
 impl Bundle {
@@ -331,6 +342,7 @@ fn export_review(
     stage: &str,
     ledger: Option<&PathBuf>,
     observations: &[PathBuf],
+    discussion: bool,
     output: &Path,
 ) -> Result<()> {
     let (root, manifest) = crate::load_project(root)?;
@@ -355,7 +367,21 @@ fn export_review(
         .collect::<Result<Vec<_>>>()?;
     record.bind_observations(observations)?;
     let output = export_destination(&root, output)?;
-    let serialized = serde_json::to_vec_pretty(&record)?;
+    if discussion {
+        ensure!(
+            manifest
+                .assurance
+                .review_storage
+                .as_ref()
+                .is_some_and(|p| p.version == 2),
+            "Select reviewed MR/PR storage policy 2 before preparing discussion review; nothing written"
+        );
+    }
+    let serialized = if discussion {
+        record.discussion_body()?.into_bytes()
+    } else {
+        serde_json::to_vec_pretty(&record)?
+    };
     ensure!(
         serialized.len() <= 8 * 1024 * 1024,
         "Semantic review exceeds the 8 MiB supported limit"
@@ -395,8 +421,16 @@ pub(super) fn run(args: &BundleArgs) -> Result<()> {
             stage,
             ledger,
             work_observation,
+            discussion,
             output,
-        } => export_review(root, stage, ledger.as_ref(), work_observation, output),
+        } => export_review(
+            root,
+            stage,
+            ledger.as_ref(),
+            work_observation,
+            *discussion,
+            output,
+        ),
         BundleCommand::Export {
             root,
             stage,
@@ -436,11 +470,7 @@ pub(super) fn run(args: &BundleArgs) -> Result<()> {
                 .context("Archive locator is missing")?;
             let locator: opdev_remote::ArchiveLocator = serde_json::from_slice(&bytes)?;
             locator.validate().map_err(anyhow::Error::msg)?;
-            ensure!(
-                valid_digest(acceptance_sha256)
-                    && attempt_runtime_sha256.as_deref().is_none_or(valid_digest),
-                "Expected identities must be SHA-256 digests"
-            );
+            validate_expected_digests(acceptance_sha256, attempt_runtime_sha256.as_deref())?;
             let (root, manifest) = crate::load_project(root)?;
             let before = local_state::subject(&root, &manifest, stage)?;
             let output = export_destination(&root, output)?;

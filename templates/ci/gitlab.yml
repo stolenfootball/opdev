@@ -32,6 +32,9 @@ opdev:
     - export PATH="$install_dir:$PATH"
     - opdev version
   script:
+    # For review storage 2, supply the reviewed --review-locator and
+    # --review-acceptance-sha256 inputs from the existing MR/CI handoff.
+    # This baseline does not select an MR, grant approval or configure credentials.
     - |
       set -e
       report_file="$(mktemp)"
@@ -47,6 +50,8 @@ opdev:
       exit "$opdev_status"
   artifacts:
     when: always
+    # Match the reviewed report lifetime; inspect GitLab's keep-latest setting too.
+    expire_in: 30 days
     paths:
       - opdev-report.json
   rules:

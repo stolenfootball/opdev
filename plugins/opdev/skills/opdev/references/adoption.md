@@ -11,20 +11,21 @@ agent-selected plan does not substitute for resolving material developer choices
 
 ## Validate recommendations before asking for approval
 
-Full adoption targets exact bundled `clean-1` on a CLI with `adoption.clean-target.v1`:
-project schema 3, engineering policy 1, layout 1, external semantic-review storage
-1, capability safeguards 1 and inventory 2. Check local/plugin/CI capabilities.
+Full adoption targets exact bundled `clean-2` on a CLI with `adoption.clean-target.v2`:
+project schema 3, engineering policy 1, layout 1, MR/PR-native semantic-review storage
+2, capability safeguards 1 and inventory 2. Check local/plugin/CI capabilities.
 Missing support is an upgrade gap, not permission to finish on legacy policy.
 Ordinary work and tooling-only updates do not select this target or restart adoption.
 
-Keep work tracking and semantic-review storage separate when recommending the
-destination. Permission to use a repository-owned work folder permits scoped work
-notes there; it does not make that folder an external evidence store. For clean-1,
-select a supported provider/repository and review retention, retrieval and recovery
-through `assurance.review_storage`. Neither a committed Markdown review, Git
-history nor ignored local recovery replaces that selection. If remote access or
-the storage decision is unavailable, keep it unresolved and continue independent
-authorized local work; do not offer a local-folder substitute as compliant.
+Recommend the existing code repository's GitLab MR or GitHub PR for current-change
+acceptance review under `assurance.review_storage.version: 2`. Reuse work conditions
+and record their actual test mappings in one bounded review section; no separate
+evidence repository or accumulating file. Recommend 30-day routine CI reports,
+review provider limits and keep-latest settings, and retain useful unresolved failure
+findings at their work owner. Release evidence belongs with actual released artifacts.
+Follow [evidence.md](evidence.md) for exact source/body checks. Missing access or a
+storage decision remains unresolved; do not invent a local-store substitute.
+Legacy clean-1/archive contracts remain readable, but are not current adoption.
 
 First inspect the selected policy. Engineering policy 1 (project schema 3) uses
 adoption inventory 2: coding conventions, appropriate formatting/static checks,
@@ -53,9 +54,9 @@ For existing code, inventory real components, build/test/CI entry points, agent
 instructions, docs, active compatibility paths and evidence. Review content and
 references, not filenames. Classify material groups as retain verified adequate
 content, migrate/consolidate useful content, retire obsolete active content,
-retain history externally, or unresolved. Put reasoning/sequencing in the existing
+temporary migration recovery needs, or unresolved. Put reasoning/sequencing in the existing
 adoption work item, not another repository ledger. Record `clean_target` in the
-existing adoption record: version 1, actual `inventory_reference`, and exact
+existing adoption record: version 2, actual `inventory_reference`, and exact
 `retirements` with path, reason and nullable retained replacement. An empty list
 needs actual inventory review. Obsolete instructions/configuration/evidence cannot
 remain merely because harmless or costly to remove; unfinished retirement blocks
@@ -115,7 +116,7 @@ roles compliant and expect a later CLI failure to correct the recommendation.
 ### Keep schema versions separate
 
 The target uses project **schema 3**, adoption **schema 2**, inventory 2 and
-`clean_target.version: 1`. These are separate contracts.
+`clean_target.version: 2`. These are separate contracts.
 Inspect the adoption record's own schema before proposing schema migration. An
 existing schema-1 **adoption record** needs `adoption migrate`; do not prescribe
 `init` followed by migration just because the project manifest is schema 1.
@@ -289,7 +290,7 @@ separate integration evidence. This is not permission to omit integrated testing
 
 ## Verify completion
 
-Default `adoption check` requires clean-1, resolved capability facts and completed
+Default `adoption check` requires clean-2, resolved capability facts and completed
 reviewed retirements in checkout and staged source, including ignored leftovers.
 Named replacements must be retained staged regular files. It inspects, never
 cleans automatically. Review actual retained content, updated references and

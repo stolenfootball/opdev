@@ -140,7 +140,18 @@ never report current completion; ordinary checks do not migrate existing policy.
 Development capability `upgrade.reviewed-retirement.v1` adds explicit bounded text
 moves/file retirement/nonrecursive empty-directory removal to coordinated migration,
 bound to clean-target decisions and mandatory private recovery. It is not a generic
-filesystem mover or permission to delete legacy evidence without retained history.
+filesystem mover or permission to delete legacy evidence outside the selected
+reviewed storage migration. Archive policy 1 still requires retained history;
+discussion policy 2 deliberately removes the obsolete ledger without an archive.
+
+Development capabilities `evidence.discussion-review.v1` and
+`adoption.clean-target.v2` add MR/PR-native semantic review and the clean-2 adoption
+destination. Explicit storage policy 2 selects the code repository's existing
+discussion and bounded report retention; it does not select archive policy 1 or
+require its historical-copy verification. Old ledgers/contracts remain readable
+for ordinary work, but current adoption completion requires the new reviewed
+destination. Older clients must refuse unsupported policy/target versions. Installing
+new guidance does not migrate policy, delete files or update CI credentials.
 
 Development capability `adoption.external-review.v1` uses the selected authenticated
 semantic review for adoption verification without a legacy repository ledger.

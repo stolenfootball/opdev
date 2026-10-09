@@ -102,14 +102,17 @@ impl WorkObservation {
 pub struct ReviewStorage {
     /// Supported boundary version.
     pub version: u32,
-    /// Hosted provider supplying authenticated exact Git bytes.
+    /// Hosted provider supplying authenticated review content.
     pub provider: CiProvider,
-    /// Stable archive repository identity, not a mutable name.
+    /// Stable code repository identity in version 2; archive repository in version 1.
     pub repository_id: u64,
     /// Actual scoped developer decision; a string does not authenticate consent.
     pub review_reference: String,
     /// Existing authority for owner, access, lifetime, reachability and recovery evidence.
     pub retention_authority: String,
+    /// Routine CI report lifetime for discussion storage (version 2), not review expiry.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub report_retention_days: Option<u32>,
 }
 
 impl ReviewStorage {
@@ -117,13 +120,18 @@ impl ReviewStorage {
     /// # Errors
     /// Reject unsupported boundaries and missing authority references.
     pub fn validate(&self) -> Result<(), ManifestError> {
-        if self.version != 1
+        if !matches!(self.version, 1 | 2)
             || self.repository_id == 0
             || !matches!(self.provider, CiProvider::Github | CiProvider::Gitlab)
             || self.review_reference.trim().is_empty()
             || self.retention_authority.trim().is_empty()
+            || match self.version {
+                1 => self.report_retention_days.is_some(),
+                2 => !matches!(self.report_retention_days, Some(1..=3650)),
+                _ => true,
+            }
         {
-            return Err(ManifestError::Semantic("review storage needs version 1, a supported provider, numeric repository identity, actual decision and retention authority; no retention or consent inferred".into()));
+            return Err(ManifestError::Semantic("Review storage needs a supported provider, repository identity, decision and retention authority. Version 1 selects a Git archive; version 2 selects MR/PR review and requires report_retention_days (1-3650). Configuration does not prove retention or consent.".into()));
         }
         Ok(())
     }
@@ -153,6 +161,65 @@ pub struct ReviewRecord {
 }
 
 impl ReviewRecord {
+    /// All external authorities needed by this exact review, including requirements.
+    #[must_use]
+    pub fn authority_observations(&self) -> Vec<WorkObservation> {
+        let mut observations = self.work_observations.clone();
+        for change in &self.ledger.changes {
+            if let Some(inventory) = &change.acceptance {
+                for condition in &inventory.conditions {
+                    if let crate::acceptance::RequirementSource::Work(observation) =
+                        &condition.source
+                        && !observations.contains(observation)
+                    {
+                        observations.push(observation.clone());
+                    }
+                }
+            }
+        }
+        observations
+    }
+    /// Render one bounded review for an existing MR/PR, without logs or older changes.
+    /// # Errors
+    /// Refuse records exceeding the portable 60 KiB discussion limit.
+    pub fn discussion_body(&self) -> anyhow::Result<String> {
+        let json = serde_json::to_string_pretty(self)?
+            .replace('<', "\\u003c")
+            .replace('>', "\\u003e")
+            .replace('`', "\\u0060");
+        let body = format!(
+            "### OpDev acceptance review\n\nSource: `{}`\n\nStage: `{:?}`. Review identity: `{}`.\n\nThis records assertion review, not test execution or developer consent. Required checks remain separate.\n\n<details><summary>Conditions, test mappings and review limits</summary>\n\n<!-- opdev-review:v1 -->\n```json\n{json}\n```\n<!-- opdev-review:end -->\n</details>\n",
+            self.source_sha256, self.stage, self.acceptance_sha256
+        );
+        anyhow::ensure!(
+            body.len() <= 60 * 1024,
+            "Review exceeds 60 KiB. Keep only this change's conditions, mappings and necessary context; do not attach logs or history."
+        );
+        Ok(body)
+    }
+
+    /// Parse only an unambiguous current review section; never infer the latest record.
+    /// # Errors
+    /// Refuse missing, duplicate, oversized or malformed records without echoing content.
+    pub fn from_discussion_body(body: &str) -> anyhow::Result<Self> {
+        const START: &str = "<!-- opdev-review:v1 -->\n```json\n";
+        const END: &str = "\n```\n<!-- opdev-review:end -->";
+        anyhow::ensure!(
+            body.len() <= 60 * 1024
+                && body.matches("<!-- opdev-review:v1 -->").count() == 1
+                && body.matches("<!-- opdev-review:end -->").count() == 1,
+            "Select exactly one bounded MR/PR review section; missing or ambiguous content cannot qualify a check."
+        );
+        let json = body
+            .split_once(START)
+            .and_then(|(_, rest)| rest.split_once(END))
+            .map(|(json, _)| json)
+            .ok_or_else(|| anyhow::anyhow!("MR/PR review section is incomplete or unsupported"))?;
+        serde_json::from_str(json).map_err(|_| {
+            anyhow::anyhow!("MR/PR review is malformed or unsupported; no private content echoed")
+        })
+    }
+
     /// Bind explicitly selected retained work observations into the review identity.
     /// # Errors
     /// Reject unsupported/malformed observations; never infer decision meaning.
@@ -272,6 +339,17 @@ impl ReviewRecord {
             "Semantic review does not match the selected source, configuration, stage or acceptance inventory"
         );
         for condition in &inventory.conditions {
+            anyhow::ensure!(
+                !matches!(
+                    condition.source,
+                    crate::acceptance::RequirementSource::Work(_)
+                ) || manifest
+                    .assurance
+                    .review_storage
+                    .as_ref()
+                    .is_some_and(|p| p.version == 2),
+                "Work requirement observations need selected MR/PR review policy 2; no local capture can qualify legacy acceptance"
+            );
             condition.source.verify(root)?;
         }
         for mapping in &inventory.verifications {
@@ -286,4 +364,40 @@ fn configuration_digest(manifest: &ProjectManifest) -> anyhow::Result<String> {
         "{:x}",
         Sha256::digest(serde_json::to_vec(manifest)?)
     ))
+}
+
+#[cfg(test)]
+mod policy_tests {
+    use super::*;
+    #[test]
+    fn bounded_report_policy_is_explicit_and_archive_version_is_unchanged() -> anyhow::Result<()> {
+        let mut policy = ReviewStorage {
+            version: 2,
+            provider: CiProvider::Gitlab,
+            repository_id: 7,
+            review_reference: "actual project decision".into(),
+            retention_authority: "existing work policy".into(),
+            report_retention_days: Some(30),
+        };
+        policy.validate()?;
+        for days in [None, Some(0), Some(3651)] {
+            policy.report_retention_days = days;
+            assert!(policy.validate().is_err());
+        }
+        policy.version = 1;
+        policy.report_retention_days = None;
+        policy.validate()?;
+        assert!(
+            serde_json::to_value(&policy)?
+                .get("report_retention_days")
+                .is_none(),
+            "legacy serialization and digests unchanged"
+        );
+        policy.report_retention_days = Some(30);
+        assert!(
+            policy.validate().is_err(),
+            "no automatic reinterpretation of archive lifetime"
+        );
+        Ok(())
+    }
 }

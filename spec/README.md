@@ -33,7 +33,9 @@ See [engineering policy and assurance profiles](assurance-profiles.md) for the
 explicit schema-3 baseline, conditional requirements, preferences and separately
 versioned MinimumCD assessment. Legacy contracts keep their original selection.
 
-Schema-validated project evidence follows [`evidence-ledger.md`](evidence-ledger.md).
+Schema-validated project evidence follows [`evidence-ledger.md`](evidence-ledger.md),
+including MR/PR-native current review with bounded CI retention under storage 2.
+An external archive or growing source ledger is not required by that policy.
 It may satisfy an otherwise unverified rule only when the catalog explicitly
 allows evidence verification; it cannot override a concrete failure, error, or
 migration requirement.

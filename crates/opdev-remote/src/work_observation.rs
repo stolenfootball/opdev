@@ -64,6 +64,14 @@ fn observe_with(
     excerpt: &str,
     mut get: impl FnMut(&str) -> Result<Vec<u8>, String>,
 ) -> Result<WorkObservation, String> {
+    let value = read_body_with(selector, &mut get)?;
+    record(selector, excerpt, &value)
+}
+
+pub(crate) fn read_body_with(
+    selector: &WorkSelector,
+    mut get: impl FnMut(&str) -> Result<Vec<u8>, String>,
+) -> Result<Value, String> {
     let json = |bytes: Vec<u8>| {
         serde_json::from_slice::<Value>(&bytes)
             .map_err(|_| "Work provider metadata is unsupported".to_owned())
@@ -141,11 +149,10 @@ fn observe_with(
     } else {
         parent
     };
-    let record = record(selector, excerpt, &value)?;
     if json(get(&endpoint)?)?["id"].as_u64() != Some(selector.repository_id) {
         return Err("Work repository changed during observation".into());
     }
-    Ok(record)
+    Ok(value)
 }
 
 fn record(

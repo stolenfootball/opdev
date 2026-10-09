@@ -37,6 +37,7 @@ fn initialize_external(root: &std::path::Path) -> Result<(), Box<dyn std::error:
     let manifest_path = root.join(opdev_project::MANIFEST_PATH);
     let mut manifest = opdev_project::ProjectManifest::load(&manifest_path)?;
     manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        report_retention_days: None,
         version: 1,
         provider: opdev_project::CiProvider::Gitlab,
         repository_id: 7,

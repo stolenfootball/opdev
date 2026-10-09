@@ -102,7 +102,13 @@ fn prepare(root: &Path, path: &Path) -> Result<AcceptanceEvidence> {
         condition
             .as_object_mut()
             .context("condition must be an object")?;
-        bind(root, &mut condition["source"])?;
+        if condition["source"].get("selector").is_some() {
+            let source: opdev_project::RequirementSource =
+                serde_json::from_value(condition["source"].clone())?;
+            source.verify(root)?;
+        } else {
+            bind(root, &mut condition["source"])?;
+        }
     }
     for mapping in input["verifications"]
         .as_array_mut()

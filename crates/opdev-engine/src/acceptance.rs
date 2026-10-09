@@ -53,7 +53,7 @@ pub(crate) fn evaluate(
     if review.outcome == Outcome::Failed {
         return (Outcome::Failed, acceptance.scope, "The current acceptance review records a contradiction; a green suite cannot override it".into());
     }
-    if let Some(diagnostic) = safeguard_gap(manifest, acceptance) {
+    if let Some(diagnostic) = acceptance_policy_gap(manifest, acceptance) {
         return incomplete(&diagnostic);
     }
     if acceptance.scope == AcceptanceScope::NoMaterialConditions {
@@ -122,6 +122,32 @@ pub(crate) fn evaluate(
         format!("{reason}; {}", diagnostics.join("; "))
     };
     (outcome, acceptance.scope, reason)
+}
+
+fn acceptance_policy_gap(
+    manifest: &ProjectManifest,
+    acceptance: &opdev_project::AcceptanceEvidence,
+) -> Option<String> {
+    if acceptance
+        .conditions
+        .iter()
+        .any(|condition| !source_policy_allows(manifest, condition))
+    {
+        return Some("Work-based requirements need authenticated MR/PR review policy 2. A local observation cannot substitute for the current authority.".into());
+    }
+    safeguard_gap(manifest, acceptance)
+}
+
+fn source_policy_allows(
+    manifest: &ProjectManifest,
+    condition: &opdev_project::AcceptanceCondition,
+) -> bool {
+    !matches!(condition.source, opdev_project::RequirementSource::Work(_))
+        || manifest
+            .assurance
+            .review_storage
+            .as_ref()
+            .is_some_and(|p| p.version == 2)
 }
 
 fn safeguard_gap(

@@ -83,7 +83,7 @@ fn project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
         rationale: "Only the agreed order/count behavior changes; invalid inputs are excluded.".into(),
         conditions: vec![AcceptanceCondition { id: "R1".into(),
             statement: "Preserve caller order and return no more than the requested count".into(),
-            authority: "requirements.md".into(), source: reference(root, "requirements.md", "R1: Preserve caller order")? }],
+            authority: "requirements.md".into(), source: opdev_project::RequirementSource::Tracked(reference(root, "requirements.md", "R1: Preserve caller order")?) }],
         verifications: vec![AcceptanceVerification { condition: "R1".into(), stages: None, method: AcceptanceMethod::Automated,
             target: reference(root, "tests.py", "assert items[:2] == ['c', 'a']")?,
             assertion: "Exact sequence checks order and count together".into(),
@@ -372,7 +372,13 @@ fn green_suite_cannot_hide_missing_pending_or_contradicted_mappings() -> Result 
             }
             "unknown-suite" => acceptance.verifications[0].suite = Some("absent".into()),
             "review-failed" => acceptance.review.outcome = Outcome::Failed,
-            _ => acceptance.conditions[0].source.sha256 = "0".repeat(64),
+            _ => {
+                if let opdev_project::RequirementSource::Tracked(source) =
+                    &mut acceptance.conditions[0].source
+                {
+                    source.sha256 = "0".repeat(64);
+                }
+            }
         }
         bind(&mut candidate)?;
         save(temp.path(), &candidate)?;

@@ -243,6 +243,12 @@ impl ProjectManifest {
                 ));
             }
             storage.validate()?;
+            if storage.version == 2
+                && (storage.provider != self.project.ci.provider
+                    || self.project.ci.remote.is_none())
+            {
+                return Err(ManifestError::Semantic("MR/PR review storage must use the project's declared CI provider and code repository".into()));
+            }
         }
         if let Some(layout) = &self.layout
             && (self.schema != 3

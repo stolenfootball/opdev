@@ -532,6 +532,23 @@ mod tests {
     }
 
     #[test]
+    fn routine_report_retention_is_bounded_and_includes_failures()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let lab: serde_json::Value = serde_saphyr::from_str(&rendered(CiProvider::Gitlab)?)?;
+        assert_eq!(lab["opdev"]["artifacts"]["expire_in"], "30 days");
+        assert_eq!(lab["opdev"]["artifacts"]["when"], "always");
+        let hub: serde_json::Value = serde_saphyr::from_str(&rendered(CiProvider::Github)?)?;
+        let steps = hub["jobs"]["opdev"]["steps"].as_array().ok_or("steps")?;
+        let report = steps
+            .iter()
+            .find(|s| s["with"]["name"] == "opdev-report")
+            .ok_or("report")?;
+        assert_eq!(report["with"]["retention-days"], 30);
+        assert_eq!(report["if"], "always()");
+        Ok(())
+    }
+
+    #[test]
     fn gitlab_headers_and_nested_includes_preserve_effective_controls()
     -> Result<(), Box<dyn std::error::Error>> {
         let root = tempfile::tempdir()?;

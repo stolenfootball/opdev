@@ -96,8 +96,10 @@ Optional internal durable documents use `.opdev/docs/{design,development,testing
 `docs/assets/` under `.opdev/`. Keep adequate outside authorities unchanged.
 No scratch, backlog, runtime, cache or history archive belongs inside this strict
 namespace. Do not create empty scaffolds or use valid paths/headings as evidence
-of useful content. Preserve a legacy ledger until verified storage migration;
-do not delete it to make a structural check pass.
+of useful content. Remove a legacy ledger through reviewed storage migration,
+not merely to make a structural check pass. Storage 2 requires no retained archive;
+temporary rollback protection is retired after verification. Storage 1 retains
+its existing archive obligations.
 
 `layout format` previews deterministic configuration YAML and explicit
 `--apply <plan-id>` applies that unchanged reviewed diff. Comments/style may change;
@@ -117,7 +119,7 @@ required files (project/adoption/shared guidance) and optional `.opdev/docs/`
 roles; it does not migrate existing projects or enable new check enforcement.
 Inspect findings and actual content purpose, preserve adequate external authorities,
 and never delete the old evidence ledger merely to obtain a clean layout report.
-Retention and retrieval must be proved before evidence migration. Exit zero is
+Apply the selected storage policy's migration safeguards before removal. Exit zero is
 structural inspection only, not useful-document certification or agent behavior.
 Do not run this assessment on every ordinary task or silently install a new CLI.
 

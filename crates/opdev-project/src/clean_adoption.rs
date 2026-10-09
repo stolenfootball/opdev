@@ -9,13 +9,13 @@ use std::{
 };
 
 /// Exact destination bundled with this CLI; never resolved through a moving network alias.
-pub const TARGET: &str = "clean-1";
+pub const TARGET: &str = "clean-2";
 
 /// Permanent adoption decisions stay in the existing adoption record, not a new registry.
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct CleanTarget {
-    /// Destination revision, currently 1.
+    /// Destination revision; current 2, legacy 1 remains readable.
     pub version: u32,
     /// Existing work/review authority covering inventory scope, purpose and retained content.
     pub inventory_reference: String,
@@ -71,7 +71,7 @@ pub fn valid_path(path: &str) -> bool {
 /// # Errors
 /// Reject unsafe, overlapping or protected paths before binding plan approval.
 pub fn validate_target(target: &CleanTarget) -> Result<(), String> {
-    if target.version != 1 || target.retirements.len() > 256 {
+    if !matches!(target.version, 1 | 2) || target.retirements.len() > 256 {
         return Err(
             "Unsupported destination or retirement inventory exceeds 256 exact paths".into(),
         );
@@ -122,6 +122,12 @@ pub fn validate_target(target: &CleanTarget) -> Result<(), String> {
 /// Missing target requirements; declarations alone never qualify behavior.
 #[must_use]
 pub fn policy_gaps(project: &ProjectManifest) -> Vec<String> {
+    policy_gaps_for(project, 2)
+}
+
+/// Inspect the exact selected destination; legacy clean-1 keeps its archive policy.
+#[must_use]
+pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
     let mut gaps = Vec::new();
     if project.schema != 3
         || project
@@ -139,11 +145,13 @@ pub fn policy_gaps(project: &ProjectManifest) -> Vec<String> {
         .assurance
         .review_storage
         .as_ref()
-        .is_none_or(|p| p.version != 1)
+        .is_none_or(|p| p.version != version)
     {
-        gaps.push(
-            "Select external semantic-review storage with reviewed retention and recovery".into(),
-        );
+        gaps.push(if version == 2 {
+            "Select MR/PR review storage 2 with a reviewed bounded CI report lifetime".into()
+        } else {
+            "Select external semantic-review storage with reviewed retention and recovery".into()
+        });
     }
     if project
         .assurance
@@ -178,11 +186,11 @@ pub fn decision_gaps(project: &ProjectManifest, record: Option<&AdoptionRecord>)
     }
     match record.and_then(|r| r.clean_target.as_ref()) {
         None => gaps.push(
-            "Review the clean-1 destination and repository inventory in the adoption record".into(),
+            "Review the clean-2 destination and repository inventory in the adoption record".into(),
         ),
         Some(target) => {
-            if target.version != 1 {
-                gaps.push("Unsupported clean adoption destination".into());
+            if target.version != 2 {
+                gaps.push("Current adoption requires clean-2. Preview a reviewed migration; existing policy is not changed automatically".into());
             }
             if target.inventory_reference.trim().is_empty() {
                 gaps.push("Repository inventory needs its actual review reference, including retained and retired content".into());

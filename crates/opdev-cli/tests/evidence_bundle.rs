@@ -59,6 +59,110 @@ struct Fixture {
     root: PathBuf,
     state: PathBuf,
 }
+
+#[test]
+fn discussion_export_is_bounded_and_external_requirements_need_no_tracked_copy() -> Result {
+    let f = Fixture::new()?;
+    let mut project = opdev_project::ProjectManifest::load(&f.root.join(MANIFEST_PATH))?;
+    project.schema = 3;
+    project
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    project.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "fixture explicit policy".into(),
+        maintenance_branches: vec![],
+    });
+    project.project.ci.provider = opdev_project::CiProvider::Gitlab;
+    project.project.ci.remote = Some("https://gitlab.com/fixture/product".into());
+    project.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        version: 2,
+        provider: opdev_project::CiProvider::Gitlab,
+        repository_id: 7,
+        review_reference: "fixture choice".into(),
+        retention_authority: "fixture normal MR history and 30-day CI artifacts".into(),
+        report_retention_days: Some(30),
+    });
+    fs::write(f.root.join(MANIFEST_PATH), project.to_yaml()?)?;
+    let mut ledger: Value =
+        serde_json::from_slice(&fs::read(f.root.join(".opdev/evidence.yaml"))?)?;
+    fs::remove_file(f.root.join(".opdev/evidence.yaml"))?;
+    git(&f.root, &["add", "-A"])?;
+    ledger["changes"][0]["fingerprint"] = json!(staged_fingerprint(&f.root)?);
+    ledger["changes"][0]["acceptance"]["conditions"][0]["source"] = json!({"schema":1,"selector":{"provider":"gitlab","repository_id":7,"kind":"issue","number":3},"author_id":9,"created_at":"2026-10-08T01:00:00Z","updated_at":"2026-10-08T01:00:00Z","body_sha256":"a".repeat(64),"excerpt":"Return declared caller order.","observed_at":1_790_000_000});
+    let schema: Value = serde_json::from_str(include_str!("../../../schema/evidence.schema.json"))?;
+    assert!(jsonschema::validator_for(&schema)?.is_valid(&ledger));
+    let input = f.temp.path().join("current-review.yaml");
+    fs::write(&input, serde_json::to_vec(&ledger)?)?;
+    let output = f.temp.path().join("review.md");
+    let run = f.cli(
+        &f.root,
+        &[
+            "evidence",
+            "bundle",
+            "export-review",
+            "--stage",
+            "local",
+            "--ledger",
+            input.to_str().ok_or("path")?,
+            "--discussion",
+            "--output",
+            output.to_str().ok_or("path")?,
+        ],
+    )?;
+    assert!(
+        run.status.success(),
+        "{}",
+        String::from_utf8_lossy(&run.stderr)
+    );
+    let body = fs::read_to_string(&output)?;
+    let record = opdev_project::ReviewRecord::from_discussion_body(&body)?;
+    assert_eq!(record.authority_observations().len(), 1);
+    assert!(!f.root.join(".opdev/evidence.yaml").exists());
+    assert_eq!(
+        serde_json::from_slice::<Value>(&run.stdout)?["sha256"],
+        format!("{:x}", Sha256::digest(body.as_bytes()))
+    );
+    assert!(body.len() < 60 * 1024);
+    assert_eq!(
+        record.ledger.changes[0]
+            .acceptance
+            .as_ref()
+            .ok_or("acceptance")?
+            .review
+            .outcome,
+        opdev_core::Outcome::Unverified,
+        "formatting must not approve the review"
+    );
+    let locator = f.temp.path().join("wrong-project.json");
+    fs::write(
+        &locator,
+        serde_json::to_vec(
+            &json!({"schema":1,"kind":"discussion_review","selector":{"provider":"gitlab","repository_id":8,"kind":"merge_request","number":3},"source_commit":"b".repeat(40),"body_sha256":format!("{:x}",Sha256::digest(body.as_bytes()))}),
+        )?,
+    )?;
+    let rejected = f.cli(
+        &f.root,
+        &[
+            "check",
+            "--no-exec",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            &record.acceptance_sha256,
+        ],
+    )?;
+    assert_eq!(rejected.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("no provider request made"));
+    let missing = f.cli(&f.root, &["check", "--no-exec"])?;
+    assert!(
+        !missing.status.success(),
+        "no cached/local review substituted"
+    );
+    Ok(())
+}
 impl Fixture {
     fn new() -> Result<Self> {
         let temp = tempfile::tempdir()?;
@@ -219,6 +323,7 @@ fn semantic_review_export_is_separate_and_wrong_origin_is_rejected_before_networ
         maintenance_branches: vec![],
     });
     project.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        report_retention_days: None,
         version: 1,
         provider: opdev_project::CiProvider::Gitlab,
         repository_id: 7,
