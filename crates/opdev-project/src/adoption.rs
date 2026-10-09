@@ -90,6 +90,9 @@ pub struct AdoptionDecision {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct AdoptionRecord {
+    /// Reviewed destination and required retirement decisions; absent in legacy records.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub clean_target: Option<crate::clean_adoption::CleanTarget>,
     /// Record schema version.
     pub schema: u32,
     /// Pinned practice-catalog version.
@@ -218,6 +221,7 @@ impl AdoptionRecord {
     pub fn pending_for_catalog(version: u32) -> Result<Self, AdoptionError> {
         let catalog = adoption_catalog_version(version)?;
         Ok(Self {
+            clean_target: None,
             schema: 2,
             catalog_version: catalog.version,
             scope: String::new(),
@@ -279,6 +283,9 @@ impl AdoptionRecord {
             return Err(AdoptionError::Invalid(errors.join("; ")));
         }
         let record: Self = serde_json::from_value(value)?;
+        if let Some(target) = &record.clean_target {
+            crate::clean_adoption::validate_target(target).map_err(AdoptionError::Invalid)?;
+        }
         let catalog = adoption_catalog_version(record.catalog_version)?;
         let expected: BTreeSet<_> = catalog.practices.iter().map(|p| p.id.as_str()).collect();
         let actual: BTreeSet<_> = record.practices.keys().map(String::as_str).collect();

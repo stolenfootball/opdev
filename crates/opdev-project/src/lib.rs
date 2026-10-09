@@ -4,6 +4,8 @@
 
 mod acceptance;
 mod adoption;
+/// Current adoption destination and reviewed retirement postconditions.
+pub mod clean_adoption;
 pub use acceptance::{
     AcceptanceCondition, AcceptanceEvidence, AcceptanceMethod, AcceptanceReview, AcceptanceScope,
     AcceptanceVerification, TrackedEvidence,

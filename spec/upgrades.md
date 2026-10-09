@@ -116,10 +116,11 @@ ordinary upgrades. No release version or installed host change is selected.
 Read-only preview inventories all bounded `.opdev` contents (including ignored
 files), root instructions, parsed adoption, local provider CI/includes and optional
 plugin metadata. Unknown directories, unsafe links, conflicting ownership and
-unsupported schemas remain blockers. Existing outside authorities cannot be
-reassigned by this command: classify/move mixed legacy content through its actual
-owner in a separate reviewed change, then preview again. No filename-based cleanup
-or adoption restart is performed. Namespace limits are 4096 entries/32 levels,
+unsupported schemas remain blockers. Existing outside authorities stay unchanged
+unless `authority_review_reference` records the actual content-ownership migration
+decision. A string is not proof of consent or content adequacy. Classify and split
+mixed content through its owner; reviewed text moves below do not infer consolidation.
+No filename-based cleanup or adoption restart is performed. Namespace limits are 4096 entries/32 levels,
 8 MiB per input and 32 MiB total namespace bytes. Exceeding a limit fails rather
 than accepting a partial inventory or trimming old evidence.
 
@@ -171,3 +172,39 @@ has no changes. Later developer edits are preserved and require a new reviewed
 resolution, never automatic rollback. Keep recovery until required qualification
 and independent durable retention are confirmed; the CLI performs no snapshot
 cleanup. A successful apply remains `qualification: unverified`.
+
+### Reviewed retirement toward clean adoption
+
+Capability `upgrade.reviewed-retirement.v1` adds optional `clean_target`, `cleanup`
+and `authority_review_reference` to the same ephemeral request. `clean_target`
+selects the [versioned destination and retirement decisions](adoption.md#current-destination)
+in the existing adoption record; it requires the complete policy bundle and clears
+old approval when changed. Leaving it absent preserves existing target decisions.
+This does not reassess every unchanged practice or claim completion.
+
+Each explicit cleanup action has `path`, `kind`, nonblank `reason`, and optional
+`destination`. Its source must be covered by the reviewed target retirement list:
+
+- `move` copies a bounded regular UTF-8 file's exact content to a new destination
+  before retiring the original. An existing destination must match exactly; no
+  overwrite/merge is guessed. Consolidate different content in an ordinary reviewed
+  change first, then use `retire_file` with its retained replacement declared.
+- `retire_file` removes only that exact reviewed obsolete file after the mandatory
+  external recovery snapshot retains its original bytes. This snapshot is recovery,
+  not a substitute for externally retained history where that is required.
+- `empty_directory` removes only a named inventoried OpDev/CI directory after its
+  explicitly selected children are gone. Removal is nonrecursive; unplanned or
+  later content stops application. Other directories require a separate reviewed edit.
+
+Portable contained paths, no links/reparse points, protected current agent/policy
+files, duplicate/cyclic destinations and Git metadata are checked before writes.
+Legacy `.opdev/evidence.yaml` cannot use this generic cleanup: exact authenticated
+history retrieval remains mandatory. All unselected content/ownership findings
+remain blockers. The same snapshot and before/after checks support interruption
+and idempotent continuation; later edits are preserved, not rolled back. Snapshot
+copies contain text bytes, not a complete filesystem metadata/ACL backup; projects
+needing executable-mode, ACL, binary or encoding migration use a reviewed separate
+mechanism with appropriate recovery rather than treating this as a general mover.
+Stage the settled result: an obsolete path remaining in Git's index still blocks
+clean adoption, even after the working file is gone. Reconcile references, semantics,
+capabilities, required checks and integration after application. No automatic release.

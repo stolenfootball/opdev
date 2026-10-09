@@ -11,6 +11,21 @@ pub struct ValidatedReview {
 }
 
 impl ValidatedReview {
+    /// Read the selected semantic inputs only while their exact subject is current.
+    /// This does not establish consent or replace current command execution.
+    ///
+    /// # Errors
+    /// Reject source, configuration, stage or acceptance changes since retrieval.
+    pub fn reviewed_ledger(
+        &self,
+        root: &Path,
+        manifest: &ProjectManifest,
+        stage: TestStage,
+    ) -> Result<&EvidenceLedger, String> {
+        self.current(root, manifest, stage)?;
+        Ok(self.ledger())
+    }
+
     /// Validate exact provider bytes against selected policy and independent subject.
     /// # Errors
     /// Refuse absent/wrong storage policy, unsupported bytes or mismatched subjects.
@@ -184,6 +199,37 @@ mod tests {
             location: "unit fixture (not live provider evidence)".into(),
         };
         Ok((temp, manifest, review))
+    }
+
+    #[test]
+    fn adoption_can_read_current_selected_review_without_a_repository_ledger() -> anyhow::Result<()>
+    {
+        let (temp, manifest, review) = fixture()?;
+        assert!(!temp.path().join(opdev_project::EVIDENCE_PATH).exists());
+        let ledger = review
+            .reviewed_ledger(temp.path(), &manifest, TestStage::PreMerge)
+            .map_err(anyhow::Error::msg)?;
+        assert!(
+            ledger
+                .matching_change(&opdev_project::staged_fingerprint(temp.path())?)
+                .is_some()
+        );
+        assert!(
+            review
+                .reviewed_ledger(temp.path(), &manifest, TestStage::PostMerge)
+                .is_err()
+        );
+        fs::write(
+            temp.path().join("product.py"),
+            "def select(items):\n    return []\n",
+        )?;
+        git(temp.path(), &["add", "product.py"])?;
+        assert!(
+            review
+                .reviewed_ledger(temp.path(), &manifest, TestStage::PreMerge)
+                .is_err()
+        );
+        Ok(())
     }
 
     #[test]

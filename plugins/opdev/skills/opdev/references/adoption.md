@@ -11,6 +11,21 @@ agent-selected plan does not substitute for resolving material developer choices
 
 ## Validate recommendations before asking for approval
 
+Full adoption targets exact bundled `clean-1` on a CLI with `adoption.clean-target.v1`:
+project schema 3, engineering policy 1, layout 1, external semantic-review storage
+1, capability safeguards 1 and inventory 2. Check local/plugin/CI capabilities.
+Missing support is an upgrade gap, not permission to finish on legacy policy.
+Ordinary work and tooling-only updates do not select this target or restart adoption.
+
+Keep work tracking and semantic-review storage separate when recommending the
+destination. Permission to use a repository-owned work folder permits scoped work
+notes there; it does not make that folder an external evidence store. For clean-1,
+select a supported provider/repository and review retention, retrieval and recovery
+through `assurance.review_storage`. Neither a committed Markdown review, Git
+history nor ignored local recovery replaces that selection. If remote access or
+the storage decision is unavailable, keep it unresolved and continue independent
+authorized local work; do not offer a local-folder substitute as compliant.
+
 First inspect the selected policy. Engineering policy 1 (project schema 3) uses
 adoption inventory 2: coding conventions, appropriate formatting/static checks,
 dependencies, reproducible setup and review are required outcomes, not optional
@@ -18,10 +33,9 @@ tool preferences. Legacy inventory 1 stays unchanged until explicit migration.
 An existing codebase without an OpDev contract has no selected OpDev policy to
 preserve. Preserve its adequate tools and authorities, but present engineering
 policy 1 and the separate MinimumCD assessment choice before initialization.
-Recommend the current baseline when supported; explain any concrete runtime/CI
-compatibility reason for proposing legacy policy instead. The legacy default of
-bare `init` is not a developer decision. Do not select either policy without an
-actual response or scoped delegation.
+Present target policy, separate MinimumCD assessment, storage ownership and
+material project choices for an actual response or bounded delegation. Older
+policy may be assessed diagnostically, but cannot count as current adoption.
 Use adequate equivalents (including compiler checks) without installing overlapping
 tools. Unsupported formatting needs a justified executable equivalent convention
 check, not automatic N/A. Reuse clean CI setup evidence; do not reinstall tools
@@ -32,6 +46,27 @@ material unknowns: first useful outcome, language/runtime, supported platforms,
 interfaces and data/security needs. Research unresolved gaps, recommend suitable
 defaults, then implement runnable setup/checks and a first thin behavior test
 within approved scope. Discovery of no files does not settle those choices.
+If first-behavior implementation is outside scope, report the agreed scaffold
+checkpoint as incomplete adoption; do not add fake passing suites.
+
+For existing code, inventory real components, build/test/CI entry points, agent
+instructions, docs, active compatibility paths and evidence. Review content and
+references, not filenames. Classify material groups as retain verified adequate
+content, migrate/consolidate useful content, retire obsolete active content,
+retain history externally, or unresolved. Put reasoning/sequencing in the existing
+adoption work item, not another repository ledger. Record `clean_target` in the
+existing adoption record: version 1, actual `inventory_reference`, and exact
+`retirements` with path, reason and nullable retained replacement. An empty list
+needs actual inventory review. Obsolete instructions/configuration/evidence cannot
+remain merely because harmless or costly to remove; unfinished retirement blocks
+completion. Preserve supported product compatibility and adequate custom tools/docs.
+This does not authorize rewriting the product, erasing Git history or deleting
+unknown/user-owned files.
+
+Older OpDev projects compare their actual contracts/runtime support with this same
+target, preserve settled compliant choices, reopen changed gaps only and use the
+reviewed [coordinated migration](upgrades.md#explicit-baselinelayoutstorage-migration).
+Tooling-only updates remain a distinct, narrower outcome.
 
 For noncritical existing debt, propose a reviewed no-new-regression boundary with
 exact known findings, enforced changed-code checks, an owner and remediation in
@@ -79,28 +114,34 @@ roles compliant and expect a later CLI failure to correct the recommendation.
 
 ### Keep schema versions separate
 
-Without an explicit policy choice, `init` creates `.opdev/project.yaml` with **schema 1**
-and `.opdev/adoption.yaml` with **schema 2**. These are different contracts.
+The target uses project **schema 3**, adoption **schema 2**, inventory 2 and
+`clean_target.version: 1`. These are separate contracts.
 Inspect the adoption record's own schema before proposing schema migration. An
 existing schema-1 **adoption record** needs `adoption migrate`; do not prescribe
 `init` followed by migration just because the project manifest is schema 1.
 
-On a CLI advertising `adoption.engineering-baseline.v1`, an approved new project
-can use `init --engineering-policy 1 --policy-review-reference <actual-decision>
---minimumcd-assessment none --dry-run` (choose `1` instead of `none` if the separate
-assessment was requested). Remove `--dry-run` within the actual implementation
-authorization. This creates project schema 3 and adoption inventory 2, with all
-decisions pending. A reference does not authenticate consent. Existing contracts
-cannot be migrated through init; preview the explicit policy upgrade, then
-`adoption migrate --catalog-version 2` and apply `--write` only when authorized.
+Use `adoption plan` before initialization for a read-only destination/gap proposal.
+Prepare the full reviewed project contract outside source as an ephemeral input,
+preview `init --project FILE --dry-run`, then remove `--dry-run` within the actual
+implementation authorization. Practices/inventory review start pending; references
+do not authenticate consent. Existing contracts cannot be replaced through init;
+preview coordinated migration instead.
 That upgrade preserves old claims, adds pending entries and invalidates approval;
 newly required ignored entries become visible gaps. Do not manufacture approval
 or reset adequate implementations. Check local and CI capabilities first.
 
-`adoption plan` and `adoption status` are read-only; `plan` needs an initialized
-project, not write permission. `init` and `adoption approve` write records;
+`adoption plan` and `adoption status` are read-only; `plan` needs a Git repository,
+not initialization or write permission. `init` and `adoption approve` write records;
 `adoption check` runs project commands. Distinguish a missing prerequisite from
 host permission denial, and do not describe every command as a write.
+
+For assessment-only requests, prefer inspections without generated files or other
+project changes. A diagnostic command may still write caches or outputs; do not
+call the assessment read-only merely because it made no tracked diff. Avoid such
+writes where possible and disclose any generated state. If a host denies cleanup,
+leave that state disclosed rather than trying another shell, tool or Git cleanup
+command to accomplish the denied deletion. A new implementation decision and an
+execution permission are separate; neither can be inferred from this assessment.
 
 ## Assess and recommend
 
@@ -127,7 +168,7 @@ decisions with verified approval on future tasks. Do not research or replace wor
 because another tool is fashionable. If a necessary choice cannot be justified,
 leave it pending and ask a focused question.
 
-Assess decisions as preserve, add/change, ignore and unresolved. Sequence the
+Assess decisions as retain, migrate/consolidate, retire, optional ignore and unresolved. Sequence the
 approved work using [outcome-based planning](planning.md), including when asked
 what to do next. The checklist is not a requirement to build every foundation
 before a useful increment; pending practices still prevent adoption completion. Ask
@@ -210,7 +251,7 @@ developer requests them or the approved plan needs independently owned work.
 Never close issues solely because files exist, a proposal was written, a practice
 was labelled N/A, or integration CI is green. Reconcile acceptance evidence first.
 
-Run `opdev init` to create new scaffolding, or `opdev adoption start` to explicitly
+Run `opdev init --project FILE` with the reviewed contract, or `opdev adoption start` to explicitly
 assess a legacy project. These commands preserve existing decisions on retry.
 New projects get `.opdev/adoption.yaml` with every item pending; no tool stack is
 installed automatically. Existing authorities and project-owned files win over
@@ -247,6 +288,27 @@ the referenced pre-merge suites, not both sets at once, and still requires the
 separate integration evidence. This is not permission to omit integrated testing.
 
 ## Verify completion
+
+Default `adoption check` requires clean-1, resolved capability facts and completed
+reviewed retirements in checkout and staged source, including ignored leftovers.
+Named replacements must be retained staged regular files. It inspects, never
+cleans automatically. Review actual retained content, updated references and
+retention/recovery, then include source-bound OPDEV-WORK-001
+`adoption_cleanup_review` evidence at `.opdev/adoption.yaml`, alongside the review
+below. A folder allowlist or green tests cannot prove semantic cleanup.
+`--legacy-assessment` is diagnostic only: even exit 0 reports `complete: false`;
+never use it as a completion workaround.
+
+Inspect the selected evidence store before preparing verification. With external
+`assurance.review_storage`, require `adoption.external-review.v1` and use
+`adoption check --review-locator FILE --review-acceptance-sha256 ID` with the exact
+authenticated record selected at the existing work authority. Prepare and retain
+the semantic review through [evidence.md](evidence.md); its current change still
+needs the adoption assertions below. Do not recreate `.opdev/evidence.yaml` to
+satisfy an old verifier. Missing capability is an upgrade gap, not permission to
+restore retired evidence or manufacture qualification. Legacy projects use the
+ledger flow below. Neither path uploads evidence, migrates storage or authorizes
+release. Final integration evidence remains separately required.
 
 Stage all material files, including the adoption record. Follow [evidence.md](evidence.md)
 for a new ledger or direct maintenance. The matching change must have passed

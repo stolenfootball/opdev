@@ -18,6 +18,214 @@ struct Fixture {
     root: PathBuf,
     request: PathBuf,
 }
+
+fn with_cleanup() -> Result<Fixture> {
+    let f = Fixture::new()?;
+    fs::create_dir(f.root.join(".opdev/old"))?;
+    fs::write(
+        f.root.join(".opdev/old/design.md"),
+        "Durable behavior and recovery details.\n",
+    )?;
+    fs::write(
+        f.root.join("OBSOLETE.md"),
+        "Superseded development instructions.\n",
+    )?;
+    git(&f.root, &["add", "."])?;
+    let mut request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    request["project"]["assurance"]["safeguards"] =
+        json!({"version":1,"review_reference":"fixture:reviewed facts","capabilities":{}});
+    request["project"]["authorities"]["design"] =
+        json!({"kind":"path","location":".opdev/docs/design.md"});
+    request["clean_target"] = json!({"version":1,"inventory_reference":"fixture:retain durable content; obsolete instructions superseded",
+        "retirements":[{"path":".opdev/old","reason":"Move all durable content to declared owner","replacement":".opdev/docs/design.md"},
+        {"path":"OBSOLETE.md","reason":"Superseded by current managed guidance; recoverable original","replacement":null}]});
+    request["cleanup"] = json!([
+        {"path":".opdev/old/design.md","kind":"move","destination":".opdev/docs/design.md","reason":"Preserve exact durable content"},
+        {"path":".opdev/old","kind":"empty_directory","reason":"Retire empty obsolete namespace"},
+        {"path":"OBSOLETE.md","kind":"retire_file","reason":"Retire reviewed superseded instructions"}
+    ]);
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    Ok(f)
+}
+
+#[test]
+fn reviewed_cleanup_preserves_content_recovery_and_idempotent_continuation() -> Result<()> {
+    let f = with_cleanup()?;
+    let before = fs::read(f.root.join(".opdev/old/design.md"))?;
+    let plan = f.preview()?;
+    assert!(
+        !plan.blocked(),
+        "{}",
+        serde_json::to_string(&plan.findings)?
+    );
+    assert!(f.root.join("OBSOLETE.md").exists(), "preview is read only");
+    let recovery = f.temp.path().join("cleanup-recovery.json");
+    run(
+        &f.root,
+        Some(&f.request),
+        None,
+        Some(&plan.plan_id),
+        Some(&recovery),
+        None,
+    )?;
+    assert_eq!(fs::read(f.root.join(".opdev/docs/design.md"))?, before);
+    assert!(!f.root.join(".opdev/old").exists());
+    assert!(!f.root.join("OBSOLETE.md").exists());
+    let saved: MigrationPlan = serde_json::from_slice(&fs::read(&recovery)?)?;
+    assert_eq!(
+        saved
+            .changes
+            .iter()
+            .find(|c| c.path == "OBSOLETE.md")
+            .context("retained original")?
+            .before
+            .as_deref(),
+        Some("Superseded development instructions.\n")
+    );
+    assert!(
+        fs::read_to_string(f.root.join("knowledge/design.md"))?
+            .contains("never owned by the migration")
+    );
+    let record = AdoptionRecord::load(&f.root)?.context("record")?;
+    let target = record.clean_target.as_ref().context("target")?;
+    assert!(record.review.is_none(), "no transferred consent");
+    assert!(
+        !opdev_project::clean_adoption::retirement_gaps(&f.root, target)
+            .map_err(anyhow::Error::msg)?
+            .is_empty(),
+        "old index still ships obsolete paths until staging"
+    );
+    git(&f.root, &["add", "-A"])?;
+    assert!(
+        opdev_project::clean_adoption::retirement_gaps(&f.root, target)
+            .map_err(anyhow::Error::msg)?
+            .is_empty()
+    );
+    run(
+        &f.root,
+        None,
+        Some(&recovery),
+        Some(&plan.plan_id),
+        None,
+        None,
+    )?;
+    let repeated = f.preview()?;
+    assert!(!repeated.blocked());
+    assert!(!repeated.changed(), "applied request is idempotent");
+    Ok(())
+}
+
+#[test]
+fn cleanup_rejects_unplanned_content_changed_destination_and_unknown_retirements() -> Result<()> {
+    let f = with_cleanup()?;
+    let plan = f.preview()?;
+    fs::write(f.root.join(".opdev/old/unplanned.md"), "Do not delete")?;
+    assert!(f.preview().is_err());
+    assert!(apply_plan(&plan, usize::MAX).is_err());
+    assert!(f.root.join(".opdev/old/design.md").exists());
+    fs::remove_file(f.root.join(".opdev/old/unplanned.md"))?;
+    fs::create_dir(f.root.join(".opdev/docs"))?;
+    fs::write(f.root.join(".opdev/docs/design.md"), "Later user content")?;
+    assert!(f.preview().is_err());
+    assert!(apply_plan(&plan, usize::MAX).is_err());
+    assert_eq!(
+        fs::read_to_string(f.root.join(".opdev/docs/design.md"))?,
+        "Later user content"
+    );
+    let mut request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    request["cleanup"] = json!([{"path":"knowledge/design.md","kind":"retire_file","reason":"not authorized by retirement decisions"}]);
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    assert!(f.preview().is_err());
+    assert!(f.root.join("knowledge/design.md").exists());
+    Ok(())
+}
+
+#[test]
+fn cleanup_interruption_retains_both_copies_and_never_overwrites_later_edits() -> Result<()> {
+    let f = with_cleanup()?;
+    let plan = f.preview()?;
+    let copied = plan
+        .changes
+        .iter()
+        .position(|c| c.path == ".opdev/docs/design.md")
+        .context("copy")?;
+    assert!(apply_plan(&plan, copied + 1).is_err());
+    assert!(f.root.join(".opdev/old/design.md").exists());
+    assert!(f.root.join(".opdev/docs/design.md").exists());
+    fs::write(f.root.join(".opdev/docs/design.md"), "later edit")?;
+    assert!(apply_plan(&plan, usize::MAX).is_err());
+    assert!(f.root.join(".opdev/old/design.md").exists());
+    fs::write(
+        f.root.join(".opdev/docs/design.md"),
+        "Durable behavior and recovery details.\n",
+    )?;
+    apply_plan(&plan, usize::MAX)?;
+    assert!(!f.root.join(".opdev/old").exists());
+    Ok(())
+}
+
+#[test]
+fn cleanup_never_accepts_git_metadata_active_ledger_or_current_agent_files() -> Result<()> {
+    let f = with_cleanup()?;
+    let original: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    for path in [
+        ".git/config",
+        "../outside",
+        ".opdev/evidence.yaml",
+        "AGENTS.md",
+        ".opdev/project.yaml",
+        "CON.md",
+    ] {
+        let mut request = original.clone();
+        request["cleanup"] = json!([{"path":path,"kind":"retire_file","reason":"must reject"}]);
+        fs::write(&f.request, serde_json::to_vec(&request)?)?;
+        assert!(f.preview().is_err(), "{path}");
+        assert!(f.root.join(".opdev/old/design.md").exists());
+    }
+    Ok(())
+}
+
+#[test]
+fn text_cleanup_refuses_to_silently_drop_executable_modes() -> Result<()> {
+    let f = with_cleanup()?;
+    git(
+        &f.root,
+        &["update-index", "--chmod=+x", ".opdev/old/design.md"],
+    )?;
+    let error = f
+        .preview()
+        .err()
+        .context("must reject executable migration")?;
+    assert!(error.to_string().contains("mode-preserving"));
+    assert!(f.root.join(".opdev/old/design.md").exists());
+    assert!(!f.root.join(".opdev/docs/design.md").exists());
+    Ok(())
+}
+
+#[test]
+fn later_executable_mode_change_stops_apply_before_any_write() -> Result<()> {
+    let f = with_cleanup()?;
+    let plan = f.preview()?;
+    let manifest = fs::read(f.root.join(MANIFEST_PATH))?;
+    git(
+        &f.root,
+        &["update-index", "--chmod=+x", ".opdev/old/design.md"],
+    )?;
+    assert!(apply_plan(&plan, usize::MAX).is_err());
+    assert_eq!(fs::read(f.root.join(MANIFEST_PATH))?, manifest);
+    assert!(f.root.join(".opdev/old/design.md").exists());
+    assert!(!f.root.join(".opdev/docs/design.md").exists());
+    Ok(())
+}
+
+#[test]
+fn text_retirement_also_preserves_executable_recovery_requirements() -> Result<()> {
+    let f = with_cleanup()?;
+    git(&f.root, &["update-index", "--chmod=+x", "OBSOLETE.md"])?;
+    assert!(f.preview().is_err());
+    assert!(f.root.join("OBSOLETE.md").exists());
+    Ok(())
+}
 impl Fixture {
     fn new() -> Result<Self> {
         let temp = tempfile::tempdir()?;
@@ -313,6 +521,12 @@ fn request_schema_and_runtime_refuse_unknown_policy_without_normalization() -> R
     let f = Fixture::new()?;
     let registry = jsonschema::Registry::new()
         .extend([
+            (
+                "https://opdev.dev/schema/adoption.json",
+                serde_json::from_str::<serde_json::Value>(include_str!(
+                    "../../../../schema/adoption.schema.json"
+                ))?,
+            ),
             (
                 "https://opdev.dev/schema/project.json",
                 serde_json::from_str::<serde_json::Value>(include_str!(

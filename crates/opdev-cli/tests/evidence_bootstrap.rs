@@ -151,7 +151,7 @@ fn bootstrap_cli_requires_review_previews_and_writes_once() -> Result<(), Box<dy
     )?;
     assert!(
         opdev()
-            .args(["init", "--root"])
+            .args(["init", "--legacy-policy", "--root"])
             .arg(root)
             .status()?
             .success()

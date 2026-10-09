@@ -11,6 +11,12 @@
     "project": {"$ref": "https://opdev.dev/schema/project.json"},
     "ci_review_reference": {"type": "string", "minLength": 1},
     "ci": {"type": "object", "additionalProperties": {"type": "string"}},
+    "clean_target": {"anyOf": [{"type":"null"}, {"$ref":"https://opdev.dev/schema/adoption.json#/properties/clean_target"}]},
+    "authority_review_reference": {"type":["string","null"]},
+    "cleanup": {"type":"array","maxItems":256,"items":{
+      "type":"object","additionalProperties":false,"required":["path","kind","reason"],
+      "properties":{"path":{"type":"string","minLength":1},"kind":{"enum":["move","retire_file","empty_directory"]},"destination":{"type":["string","null"]},"reason":{"type":"string","pattern":"\\S"}}
+    }},
     "history": {"anyOf": [{"type": "null"}, {"$ref": "https://opdev.dev/schema/evidence-archive-v1.json"}]}
   }
 }

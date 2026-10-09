@@ -3,13 +3,7 @@ use super::{MigrationPlan as Plan, sha};
 use anyhow::{Context, Result, ensure};
 use opdev_core::Outcome;
 use opdev_project::ProjectManifest;
-use std::{
-    collections::BTreeMap,
-    fs,
-    io::Read,
-    path::{Component, Path},
-    process::Command,
-};
+use std::{collections::BTreeMap, fs, io::Read, path::Path, process::Command};
 
 fn regular(meta: &fs::Metadata) -> bool {
     #[cfg(windows)]
@@ -52,14 +46,7 @@ pub(super) fn text(path: &Path) -> Result<Option<String>> {
 
 pub(super) fn target(root: &Path, relative: &str) -> Result<()> {
     ensure!(
-        !relative.is_empty()
-            && !relative.contains('\\')
-            && relative
-                .bytes()
-                .all(|b| b.is_ascii_alphanumeric() || b"/._-".contains(&b))
-            && Path::new(relative)
-                .components()
-                .all(|c| matches!(c, Component::Normal(_))),
+        opdev_project::clean_adoption::valid_path(relative),
         "Migration paths must be contained relative paths"
     );
     let mut path = root.to_owned();
@@ -211,13 +198,15 @@ pub(super) fn collect(plan: &mut Plan, plugin: Option<&Path>) -> Result<()> {
     {
         // These exact owned targets are replaced/retired by the coordinated plan.
         // Every other structural/content-ownership finding remains blocking.
-        if !matches!(
-            finding.path.as_str(),
-            ".opdev/project.yaml"
-                | ".opdev/adoption.yaml"
-                | ".opdev/guidance.md"
-                | ".opdev/evidence.yaml"
-        ) {
+        if !plan.cleanup.iter().any(|a| a.path == finding.path)
+            && !matches!(
+                finding.path.as_str(),
+                ".opdev/project.yaml"
+                    | ".opdev/adoption.yaml"
+                    | ".opdev/guidance.md"
+                    | ".opdev/evidence.yaml"
+            )
+        {
             plan.finding(
                 "layout",
                 Outcome::Failed,
@@ -239,7 +228,12 @@ pub(super) fn collect(plan: &mut Plan, plugin: Option<&Path>) -> Result<()> {
 
 pub(super) fn owners(plan: &mut Plan, original: &ProjectManifest, candidate: &ProjectManifest) {
     for (name, authority) in &original.authorities {
-        if candidate.authorities.get(name) != Some(authority) {
+        if candidate.authorities.get(name) != Some(authority)
+            && plan
+                .authority_review_reference
+                .as_ref()
+                .is_none_or(|r| r.trim().is_empty())
+        {
             plan.finding("authority", Outcome::Failed, format!("Authority '{name}' changes ownership. Resolve its explicit content migration separately; coordinated policy migration cannot move or relabel it"));
         }
     }
@@ -253,20 +247,31 @@ pub(super) fn owners(plan: &mut Plan, original: &ProjectManifest, candidate: &Pr
 }
 
 pub(super) fn unchanged(plan: &Plan) -> Result<()> {
+    super::cleanup::validate_text_modes(plan)?;
     let mut current_namespace = namespace(&plan.root)?;
     for directory in [".github/workflows", ".gitlab"] {
         walk(&plan.root, directory, &mut current_namespace, &mut 0)?;
     }
     for key in current_namespace.keys() {
         ensure!(
-            plan.inputs.contains_key(key) || plan.changes.iter().any(|c| c.path == *key),
+            plan.inputs.contains_key(key)
+                || plan.changes.iter().any(|c| c.path == *key)
+                || key.strip_prefix("@directory:").is_some_and(|dir| plan
+                    .changes
+                    .iter()
+                    .any(|c| c.after.is_some() && c.path.starts_with(&format!("{dir}/")))),
             "New namespace content appeared after migration review; preserve it and inspect before continuing"
         );
     }
     for (key, expected) in &plan.inputs {
         if key.starts_with("@directory:") {
             ensure!(
-                current_namespace.get(key) == Some(expected),
+                current_namespace.get(key) == Some(expected)
+                    || (!current_namespace.contains_key(key)
+                        && super::cleanup::retired_directory(
+                            plan,
+                            key.trim_start_matches("@directory:")
+                        )),
                 "Migration directory inventory changed"
             );
             continue;

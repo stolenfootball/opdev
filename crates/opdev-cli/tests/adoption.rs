@@ -21,6 +21,162 @@ fn cli(root: &Path, args: &[&str]) -> Result<Output, std::io::Error> {
         .output()
 }
 
+// Older-policy fixtures below use --legacy-assessment explicitly so their engine
+// regression coverage does not depend on the strengthened default destination.
+// These tests exercise the real default independently.
+#[test]
+fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy()
+-> Result<(), Box<dyn std::error::Error>> {
+    for existing_code in [false, true] {
+        let repo = repo()?;
+        let root = repo.path();
+        if existing_code {
+            fs::write(root.join("product.rs"), "fn main() {}\n")?;
+        }
+        let plan = cli(root, &["adoption", "plan"])?;
+        assert!(
+            plan.status.success(),
+            "{}",
+            String::from_utf8_lossy(&plan.stderr)
+        );
+        let value: Value = serde_json::from_slice(&plan.stdout)?;
+        assert_eq!(value["target"], "clean-1");
+        assert_eq!(value["starting_state"], "uninitialized_project");
+        assert!(value["plan_id"].is_null());
+        assert!(value["required_migrations"].as_array().ok_or("gaps")?.len() >= 4);
+        assert!(!root.join(".opdev").exists());
+        let init = cli(root, &["init"])?;
+        assert_eq!(init.status.code(), Some(2));
+        assert!(String::from_utf8(init.stderr)?.contains("init --project FILE"));
+        assert!(!root.join(".opdev").exists());
+        assert_eq!(root.join("product.rs").exists(), existing_code);
+    }
+    Ok(())
+}
+
+#[test]
+fn default_completion_rejects_otherwise_passing_legacy_policy_without_running_checks()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let before = fs::read(root.join(MANIFEST_PATH))?;
+    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    let value: Value = serde_json::from_slice(&output.stdout)?;
+    assert_eq!(value["complete"], false);
+    assert_eq!(value["target"], "clean-1");
+    assert!(value["legacy_policy_passed"].is_null());
+    assert!(value["core_report"].is_null());
+    assert!(value["blockers"].to_string().contains("engineering policy"));
+    assert!(
+        value["blockers"]
+            .to_string()
+            .contains("adoption_cleanup_review")
+    );
+    assert_eq!(fs::read(root.join(MANIFEST_PATH))?, before);
+    // Ordinary verification of the selected older policy is not implicitly migrated.
+    assert!(cli(root, &["check", "--ci"])?.status.success());
+    Ok(())
+}
+
+#[test]
+fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = repo()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.schema = 3;
+    manifest
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic actual choice".into(),
+        maintenance_branches: vec![],
+    });
+    manifest.layout = Some(opdev_project::LayoutPolicy {
+        version: 1,
+        review_reference: "synthetic actual choice".into(),
+    });
+    manifest.project.ci.provider = CiProvider::Gitlab;
+    manifest.project.ci.remote = Some("https://gitlab.com/example/private-fixture.git".into());
+    manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        version: 1,
+        provider: CiProvider::Gitlab,
+        repository_id: 7,
+        review_reference: "synthetic actual choice".into(),
+        retention_authority: "synthetic retention decision".into(),
+    });
+    manifest.assurance.safeguards = Some(opdev_project::SafeguardPolicy {
+        version: 1,
+        review_reference: "synthetic actual choice".into(),
+        capabilities: std::collections::BTreeMap::new(),
+    });
+    let input = tempfile::tempdir()?;
+    let path = input.path().join("reviewed.yaml");
+    fs::write(&path, manifest.to_yaml()?)?;
+    let args = ["init", "--project", path.to_str().ok_or("path")?];
+    let preview = cli(root, &[args[0], args[1], args[2], "--dry-run"])?;
+    assert!(
+        preview.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preview.stderr)
+    );
+    assert!(!root.join(".opdev").exists());
+    let init = cli(root, &args)?;
+    assert!(
+        init.status.success(),
+        "{}",
+        String::from_utf8_lossy(&init.stderr)
+    );
+    assert_eq!(discover(root)?.manifest.to_yaml()?, manifest.to_yaml()?);
+    assert!(manifest.commands.is_empty(), "do not invent a tool stack");
+    assert!(root.join(".opdev/guidance.md").is_file());
+    assert!(!root.join(EVIDENCE_PATH).exists());
+    let record = AdoptionRecord::load(root)?.ok_or("record")?;
+    assert_eq!(record.catalog_version, 2);
+    assert!(record.review.is_none());
+    assert!(
+        record
+            .clean_target
+            .as_ref()
+            .ok_or("target")?
+            .inventory_reference
+            .is_empty()
+    );
+    assert!(
+        record
+            .practices
+            .values()
+            .all(|d| d.state == AdoptionState::Pending)
+    );
+    let status: Value =
+        serde_json::from_slice(&cli(root, &["adoption", "status", "--format", "json"])?.stdout)?;
+    assert_eq!(status["complete"], false);
+    assert!(
+        status["blockers"]
+            .to_string()
+            .contains("unknown is not an exemption")
+    );
+    let original = fs::read(root.join(MANIFEST_PATH))?;
+    assert!(cli(root, &args)?.status.success(), "identical retry");
+    manifest.project.trunk = "changed".into();
+    fs::write(&path, manifest.to_yaml()?)?;
+    assert_eq!(cli(root, &args)?.status.code(), Some(2));
+    assert_eq!(fs::read(root.join(MANIFEST_PATH))?, original);
+    // An interrupted initial write can reuse its pending decisions.
+    fs::remove_file(root.join(MANIFEST_PATH))?;
+    fs::write(&path, &original)?;
+    assert!(cli(root, &args)?.status.success());
+    assert_eq!(
+        AdoptionRecord::load(root)?.ok_or("record")?.to_yaml()?,
+        record.to_yaml()?
+    );
+    Ok(())
+}
+
 fn git(root: &Path, args: &[&str]) -> Result<Output, std::io::Error> {
     Command::new("git").arg("-C").arg(root).args(args).output()
 }
@@ -92,7 +248,7 @@ fn engineering_initialization_requires_choices_and_preserves_existing_projects()
     assert_eq!(record_before, fs::read(root.join(ADOPTION_PATH))?);
     // Simulate interruption after the inventory write but before the contract.
     fs::remove_file(root.join(MANIFEST_PATH))?;
-    assert!(!cli(root, &["init"])?.status.success());
+    assert!(!cli(root, &["init", "--legacy-policy"])?.status.success());
     assert!(!root.join(MANIFEST_PATH).exists());
     assert_eq!(record_before, fs::read(root.join(ADOPTION_PATH))?);
     args[4] = "synthetic-decision";
@@ -265,7 +421,7 @@ fn initialization_is_unresolved_read_only_on_preview_and_resumable()
     assert!(preview.status.success());
     assert!(!root.join(".opdev").exists());
     assert!(String::from_utf8(preview.stderr)?.contains("formatting"));
-    assert!(cli(root, &["init"])?.status.success());
+    assert!(cli(root, &["init", "--legacy-policy"])?.status.success());
     let mut record = AdoptionRecord::load(root)?.ok_or("missing record")?;
     assert_eq!(record.schema, 2);
     let project: Value = serde_saphyr::from_slice(&fs::read(root.join(MANIFEST_PATH))?)?;
@@ -290,13 +446,18 @@ fn initialization_is_unresolved_read_only_on_preview_and_resumable()
         .reason = "Preserve the existing style; research a compatible check.".into();
     fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
     let before = fs::read(root.join(ADOPTION_PATH))?;
-    assert!(cli(root, &["init"])?.status.success());
+    assert!(cli(root, &["init", "--legacy-policy"])?.status.success());
     assert!(cli(root, &["adoption", "start"])?.status.success());
     assert_eq!(fs::read(root.join(ADOPTION_PATH))?, before);
     let status: Value =
         serde_json::from_slice(&cli(root, &["adoption", "status", "--format", "json"])?.stdout)?;
     assert_eq!(status["status"], "pending");
-    assert_eq!(cli(root, &["adoption", "check"])?.status.code(), Some(1));
+    assert_eq!(
+        cli(root, &["adoption", "check", "--legacy-assessment"])?
+            .status
+            .code(),
+        Some(1)
+    );
     Ok(())
 }
 
@@ -325,7 +486,17 @@ fn remote_policy_gap_is_visible_before_commands_or_migration()
         assert!(gap.contains("project schema 2") && gap.contains("adoption-record schema"));
         assert_eq!(value["delivery_readiness"], "not_run");
     }
-    let checked = cli(root, &["adoption", "check", "--remote", "--format", "json"])?;
+    let checked = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--remote",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(checked.status.code(), Some(1));
     let report: Value = serde_json::from_slice(&checked.stdout)?;
     assert!(
@@ -354,7 +525,7 @@ fn legacy_projects_are_not_silently_migrated() -> Result<(), Box<dyn std::error:
         .manifest
         .write_new(&root.join(MANIFEST_PATH))?;
     let before = fs::read(root.join(MANIFEST_PATH))?;
-    assert!(cli(root, &["init"])?.status.success());
+    assert!(cli(root, &["init", "--legacy-policy"])?.status.success());
     assert!(!root.join(ADOPTION_PATH).exists());
     let status: Value =
         serde_json::from_slice(&cli(root, &["adoption", "status", "--format", "json"])?.stdout)?;
@@ -376,11 +547,14 @@ fn interrupted_initialization_preserves_pending_record_for_retry()
     let repo = repo()?;
     let root = repo.path();
     fs::write(root.join("AGENTS.md"), "<!-- opdev:start -->\nmalformed")?;
-    assert_eq!(cli(root, &["init"])?.status.code(), Some(2));
+    assert_eq!(
+        cli(root, &["init", "--legacy-policy"])?.status.code(),
+        Some(2)
+    );
     assert!(root.join(MANIFEST_PATH).exists());
     let record = fs::read(root.join(ADOPTION_PATH))?;
     fs::write(root.join("AGENTS.md"), "# Repaired project instructions\n")?;
-    assert!(cli(root, &["init"])?.status.success());
+    assert!(cli(root, &["init", "--legacy-policy"])?.status.success());
     assert_eq!(fs::read(root.join(ADOPTION_PATH))?, record);
     assert!(root.join("CLAUDE.md").exists());
     Ok(())
@@ -451,7 +625,7 @@ fn inventory_and_decisions_fail_closed() -> Result<(), Box<dyn std::error::Error
 fn ready_fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
     let repo = repo()?;
     let root = repo.path();
-    assert!(cli(root, &["init"])?.status.success());
+    assert!(cli(root, &["init", "--legacy-policy"])?.status.success());
     let mut manifest = discover(root)?.manifest;
     manifest.project.ci.provider = CiProvider::Gitlab;
     manifest.delivery.status = DeliveryStatus::Configured;
@@ -586,6 +760,132 @@ fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 #[test]
+#[allow(clippy::too_many_lines)] // One ordered preservation/selection regression scenario.
+fn external_adoption_requires_selected_review_and_never_recreates_legacy_evidence()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.schema = 3;
+    manifest
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "synthetic choice".into(),
+        maintenance_branches: vec![],
+    });
+    manifest.layout = Some(opdev_project::LayoutPolicy {
+        version: 1,
+        review_reference: "synthetic layout".into(),
+    });
+    manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        version: 1,
+        provider: CiProvider::Gitlab,
+        repository_id: 7,
+        review_reference: "synthetic choice".into(),
+        retention_authority: "synthetic retention".into(),
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    opdev_project::reconcile_agent_files(root)?;
+    let old = AdoptionRecord::load(root)?.ok_or("record")?;
+    let mut record = AdoptionRecord::pending_for_catalog(2)?;
+    record.scope = old.scope;
+    let example = old.practices.get("integration").ok_or("example")?.clone();
+    for value in record.practices.values_mut() {
+        *value = example.clone();
+    }
+    fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
+    bind_review(root)?;
+    // Synthetic history only: the production migration must verify archive retention.
+    fs::remove_file(root.join(EVIDENCE_PATH))?;
+    assert!(git(root, &["add", "-A"])?.status.success());
+    let before = fs::read(root.join(ADOPTION_PATH))?;
+    let missing = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
+    assert_eq!(missing.status.code(), Some(1));
+    let value: Value = serde_json::from_slice(&missing.stdout)?;
+    assert_eq!(value["complete"], false);
+    assert!(
+        value["core_report"].is_null(),
+        "no commands without selected review"
+    );
+    assert!(
+        value["blockers"]
+            .as_array()
+            .ok_or("blockers")?
+            .iter()
+            .any(|b| b.as_str().is_some_and(|s| s.contains("--review-locator")))
+    );
+    assert!(!root.join(EVIDENCE_PATH).exists());
+    assert_eq!(fs::read(root.join(ADOPTION_PATH))?, before);
+
+    let outside = tempfile::tempdir()?;
+    let locator = outside.path().join("locator.json");
+    fs::write(
+        &locator,
+        serde_json::to_vec(&serde_json::json!({
+            "schema":1, "provider":"github", "repository_id":8, "commit":"a".repeat(40), "path":"review.json", "sha256":"b".repeat(64)
+        }))?,
+    )?;
+    let wrong = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            &"c".repeat(64),
+        ],
+    )?;
+    assert_eq!(wrong.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&wrong.stderr).contains("outside the selected storage policy"));
+    assert!(!root.join(EVIDENCE_PATH).exists());
+
+    fs::write(
+        root.join(EVIDENCE_PATH),
+        "schema: 2\nproject: []\nchanges: []\n",
+    )?;
+    let conflict = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
+    let conflict: Value = serde_json::from_slice(&conflict.stdout)?;
+    assert!(
+        conflict["blockers"]
+            .as_array()
+            .ok_or("blockers")?
+            .iter()
+            .any(|b| b
+                .as_str()
+                .is_some_and(|s| s.contains("both external storage and a legacy ledger")))
+    );
+    assert!(
+        root.join(EVIDENCE_PATH).exists(),
+        "verification never cleans up evidence"
+    );
+    Ok(())
+}
+
+#[test]
 fn approval_is_separate_stale_choices_fail_and_progress_preserves_approval()
 -> Result<(), Box<dyn std::error::Error>> {
     let repo = ready_fixture()?;
@@ -702,7 +1002,12 @@ fn migration_preserves_decisions_without_inventing_consent()
     let preview = cli(root, &["adoption", "migrate"])?;
     assert!(preview.status.success());
     assert_eq!(before, fs::read(root.join(ADOPTION_PATH))?);
-    assert_eq!(cli(root, &["adoption", "check"])?.status.code(), Some(1));
+    assert_eq!(
+        cli(root, &["adoption", "check", "--legacy-assessment"])?
+            .status
+            .code(),
+        Some(1)
+    );
     assert!(
         cli(root, &["adoption", "migrate", "--write"])?
             .status
@@ -814,7 +1119,16 @@ fn implemented_labels_do_not_authorize_commands_or_complete_adoption()
     record.review = None;
     fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
     assert!(git(root, &["add", "."])?.status.success());
-    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    let output = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(output.status.code(), Some(1));
     let report: Value = serde_json::from_slice(&output.stdout)?;
     assert!(report["core_report"].is_null());
@@ -885,7 +1199,16 @@ fn adoption_requires_release_path_review_not_a_generic_pipeline_pass()
         .ok_or("pipeline")?;
     pipeline.evidence[0].kind = "generic_pipeline".into();
     fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
-    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    let output = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(output.status.code(), Some(1));
     let result: Value = serde_json::from_slice(&output.stdout)?;
     assert!(result["blockers"].to_string().contains("delivery_gate"));
@@ -922,7 +1245,16 @@ fn completion_requires_current_review_and_all_core_gates() -> Result<(), Box<dyn
 {
     let repo = ready_fixture()?;
     let root = repo.path();
-    let result = cli(root, &["adoption", "check", "--format", "json"])?;
+    let result = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert!(
         result.status.success(),
         "{} {}",
@@ -930,18 +1262,38 @@ fn completion_requires_current_review_and_all_core_gates() -> Result<(), Box<dyn
         String::from_utf8_lossy(&result.stderr)
     );
     let result: Value = serde_json::from_slice(&result.stdout)?;
-    assert_eq!(result["complete"], true);
+    assert_eq!(result["complete"], false);
+    assert_eq!(result["legacy_policy_passed"], true);
     assert_eq!(result["core_report"]["checks"][0]["outcome"], "passed");
     fs::write(root.join("new-component.txt"), "Unreviewed component")?;
-    assert_eq!(cli(root, &["adoption", "check"])?.status.code(), Some(1));
+    assert_eq!(
+        cli(root, &["adoption", "check", "--legacy-assessment"])?
+            .status
+            .code(),
+        Some(1)
+    );
     assert!(git(root, &["add", "."])?.status.success());
-    assert_eq!(cli(root, &["adoption", "check"])?.status.code(), Some(1));
+    assert_eq!(
+        cli(root, &["adoption", "check", "--legacy-assessment"])?
+            .status
+            .code(),
+        Some(1)
+    );
     bind_review(root)?;
     let mut manifest = discover(root)?.manifest;
     manifest.delivery.status = DeliveryStatus::MigrationRequired;
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     bind_review(root)?;
-    let result = cli(root, &["adoption", "check", "--format", "json"])?;
+    let result = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(result.status.code(), Some(1));
     let result: Value = serde_json::from_slice(&result.stdout)?;
     assert_eq!(result["complete"], false);
@@ -983,12 +1335,22 @@ fn engineering_fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>
 }
 
 #[test]
+#[allow(clippy::too_many_lines)] // Positive and negative variants share the same policy fixture.
 fn engineering_adoption_executes_checks_and_does_not_hide_violations()
 -> Result<(), Box<dyn std::error::Error>> {
     for probe in ["format", "lint", "behavior", "missing_ci"] {
         let repo = engineering_fixture()?;
         let root = repo.path();
-        let output = cli(root, &["adoption", "check", "--format", "json"])?;
+        let output = cli(
+            root,
+            &[
+                "adoption",
+                "check",
+                "--legacy-assessment",
+                "--format",
+                "json",
+            ],
+        )?;
         assert!(
             output.status.success(),
             "{probe}: {} {}",
@@ -1050,7 +1412,16 @@ fn engineering_adoption_executes_checks_and_does_not_hide_violations()
         manifest.commands.get_mut("verify").ok_or("command")?.argv = argv;
         fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
         bind_review(root)?;
-        let output = cli(root, &["adoption", "check", "--format", "json"])?;
+        let output = cli(
+            root,
+            &[
+                "adoption",
+                "check",
+                "--legacy-assessment",
+                "--format",
+                "json",
+            ],
+        )?;
         assert_eq!(
             output.status.code(),
             Some(1),
@@ -1092,7 +1463,16 @@ fn engineering_inapplicable_pipeline_is_distinct_from_missing_delivery_review()
     pipeline.summary = "Synthetic capability-absence plumbing, not a real qualification".into();
     pipeline.evidence[0].kind = "applicability_review".into();
     fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
-    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    let output = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert!(
         output.status.success(),
         "{}",
@@ -1105,7 +1485,16 @@ fn engineering_inapplicable_pipeline_is_distinct_from_missing_delivery_review()
         .ok_or("pipeline")?;
     pipeline.outcome = Outcome::Passed;
     fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
-    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    let output = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(output.status.code(), Some(1));
     assert!(String::from_utf8(output.stdout)?.contains("delivery_gate"));
     Ok(())
@@ -1134,7 +1523,16 @@ fn engineering_adoption_accepts_distinct_pre_and_post_checks_but_not_a_missing_b
     }
     fs::write(root.join(ADOPTION_PATH), record.to_yaml()?)?;
     bind_review(root)?;
-    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    let output = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert!(
         output.status.success(),
         "{}",
@@ -1155,7 +1553,16 @@ fn engineering_adoption_accepts_distinct_pre_and_post_checks_but_not_a_missing_b
     manifest.testing.suites.pop();
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     bind_review(root)?;
-    let output = cli(root, &["adoption", "check", "--format", "json"])?;
+    let output = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(output.status.code(), Some(1));
     let report: Value = serde_json::from_slice(&output.stdout)?;
     assert!(report["core_report"].is_null());
@@ -1177,8 +1584,19 @@ fn implemented_without_review_or_with_failing_checks_cannot_complete()
         assertion.evidence[0].kind = "generic_review".into();
     }
     fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
-    let result: Value =
-        serde_json::from_slice(&cli(root, &["adoption", "check", "--format", "json"])?.stdout)?;
+    let result: Value = serde_json::from_slice(
+        &cli(
+            root,
+            &[
+                "adoption",
+                "check",
+                "--legacy-assessment",
+                "--format",
+                "json",
+            ],
+        )?
+        .stdout,
+    )?;
     assert_eq!(result["complete"], false);
     assert!(result["core_report"].is_null());
     let mut manifest = discover(root)?.manifest;
@@ -1190,7 +1608,16 @@ fn implemented_without_review_or_with_failing_checks_cannot_complete()
     ];
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     bind_review(root)?;
-    let result = cli(root, &["adoption", "check", "--format", "json"])?;
+    let result = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(result.status.code(), Some(1));
     assert_eq!(
         serde_json::from_slice::<Value>(&result.stdout)?["core_report"]["checks"][0]["outcome"],
@@ -1212,7 +1639,16 @@ fn verification_cannot_change_the_reviewed_state() -> Result<(), Box<dyn std::er
     ];
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     bind_review(root)?;
-    let result = cli(root, &["adoption", "check", "--format", "json"])?;
+    let result = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ],
+    )?;
     assert_eq!(result.status.code(), Some(1));
     let result: Value = serde_json::from_slice(&result.stdout)?;
     assert_eq!(result["complete"], false);

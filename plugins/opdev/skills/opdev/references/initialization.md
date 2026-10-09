@@ -11,8 +11,8 @@ completion workflow. Check CLI capability first; scaffolding alone is not comple
 Initial discovery and scaffolding:
 
 1. Run `opdev init --dry-run` and show material inferences, authority conflicts, and migration gaps. Follow [documentation ownership](project-contract.md#documentation-locations-and-ownership); existing project locations take precedence over suggested folder defaults.
-2. If the proposal is reasonable, run `opdev init`.
-3. Review `.opdev/project.yaml` with the user where delivery, recovery, coverage, or project kind remains uncertain.
+2. Use `adoption plan` to inspect the bundled current target. Resolve material choices before writing; discovery is not consent.
+3. Prepare the full reviewed contract as an ephemeral external input, preview `opdev init --project FILE --dry-run`, then initialize within approved scope. Follow adoption guidance for capability decisions, first behavior and mandatory retirement; scaffolding is incomplete adoption.
 4. Do not overwrite an existing CI configuration. Use `opdev ci generate --provider github|gitlab` for review, then repeat with `--write` only after approval. GitLab generation infers an official image from exact project toolchain metadata; for mixed or custom stacks, review and pass `--image` explicitly. Never accept an image guess that does not contain the project's canonical command toolchain.
 
 Development CLIs create `.opdev/project.yaml`, pending `.opdev/adoption.yaml`, and

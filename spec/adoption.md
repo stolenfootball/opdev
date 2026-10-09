@@ -8,6 +8,38 @@ separate from project-manifest schema 1 and the core rule catalog.
 
 ## Engineering baseline inventory
 
+### Current destination
+
+Capability `adoption.clean-target.v1` makes default completion target exactly
+`clean-1`: project schema 3, engineering policy 1, strict layout 1, external
+semantic-review storage 1, capability safeguards 1, adoption schema 2/inventory 2.
+This bundled combination is not a network `latest` alias. All seven capabilities
+need supported reviewed facts; unknown/missing entries cannot exempt requirements.
+Ordinary work on older policy and tooling-only upgrades remain usable without
+automatic migration. Full adoption must reach this destination.
+
+Empty, existing non-OpDev and older OpDev projects share the destination, not the
+same transformation. Empty projects resolve material product choices and need
+runnable first behavior with meaningful checks before verification; an authorized
+scaffold-only checkpoint remains incomplete. Existing code is assessed across
+actual components/entry points, retaining adequate tooling and supported behavior.
+Older projects compare versioned contracts, migrate supported formats, retain
+verified compatible choices and reopen changed gaps only. Adoption never authorizes
+unrelated product rewrites, Git history erasure or release.
+
+Review the repository inventory in the existing work authority: retained adequate
+content, useful content to migrate/consolidate, obsolete active content to retire,
+history needing retained recovery, and unresolved findings. The existing record
+gains optional `clean_target` (required for current completion): `version: 1`,
+`inventory_reference`, and `retirements` with exact `path`, nonblank `reason` and
+nullable `replacement`. These bind the existing plan hash; no parallel registry
+or completion stamp. Unsupported/ambiguous/protected paths are rejected. Retired
+paths must be absent from checkout and staged source, including ignored leftovers;
+replacements must be retained staged regular files. Inspection never deletes.
+Semantic completeness requires actual review, not filename heuristics or existence
+of replacement text. Known obsolete artifacts cannot remain simply because removal
+is inconvenient. Preserve useful docs, supported compatibility and required history.
+
 Legacy project policy retains [inventory 1](../rules/adoption.json). Explicit
 engineering policy 1 selects [inventory 2](../rules/adoption-engineering.json):
 coding conventions, formatting, static analysis and dependency controls are
@@ -19,17 +51,19 @@ convention check rather than inventing a successful formatter or choosing N/A.
 Setup verification can reuse a clean CI build from declared versioned inputs;
 it does not require reinstalling dependencies on every feedback iteration.
 
-On a CLI advertising `adoption.engineering-baseline.v1`, new-project scaffolding
-can explicitly select the reviewed policy:
+Current initialization consumes the full reviewed target contract:
 
 ```text
-opdev init --engineering-policy 1 --policy-review-reference <actual-decision> --minimumcd-assessment none --dry-run
+opdev init --project <reviewed-project.yaml> --dry-run
 ```
 
-Use `1` instead of `none` when the separate MinimumCD assessment was selected.
-Remove `--dry-run` only within the approved implementation scope. The caller's
-reference is not authenticated consent. No tools run or install during init.
-Omitting these flags retains legacy behavior; existing contracts are never
+The input is an ephemeral external proposal, not a second permanent contract.
+It selects target policies but leaves inventory review/practices unresolved.
+Remove `--dry-run` only within approved scope; references do not authenticate
+consent. No tools run or install. Bare `init --dry-run` retains read-only discovery;
+bare new `init` refuses inferred policy writes. `--legacy-policy` explicitly
+scaffolds older policy for compatibility work; older engineering-only flags remain
+partial scaffolding. Neither is current adoption. Existing contracts are never
 migrated by init. For an existing project, review the project-policy upgrade
 first, then preview `adoption migrate --catalog-version 2`. Explicit `--write`
 preserves existing decisions, adds pending setup/review entries and clears stale
@@ -159,7 +193,10 @@ prints a schema-2 preview; `--write` preserves all old dispositions and referenc
 without inventing approval. Without `--catalog-version`, no catalog or
 project-manifest version is changed.
 
-`adoption plan` prints the record, full project contract and a SHA-256 plan ID.
+`adoption plan` works before initialization and prints the destination, required
+migrations, discovery warnings and proposed/existing contract. Record/plan ID are
+absent before assessment; neither discovery nor a missing ID authorizes policy.
+With a record it also prints a SHA-256 plan ID.
 The ID binds scope, choices, rationale, owners, references, suites, research and
 workflow roles to the contract. It excludes the approval itself and normalizes
 pending/in-progress/implemented as one implementation choice, so approved work
@@ -211,7 +248,7 @@ project commands; local verification retains its existing meaning.
 
 1. `opdev init --dry-run` prints the proposed project contract on stdout and the
    assessment inventory on stderr for new projects. It writes nothing.
-2. `opdev init` creates pending adoption state, the project contract and managed
+2. `opdev init --project FILE` creates pending adoption state, the reviewed contract and managed
    AGENTS/CLAUDE guidance. It does not install selected tools or execute discovery
    proposals. Exit 0 means scaffolding succeeded, not adoption completed.
 3. Review and implement the approved plan. Edit canonical project settings and
@@ -235,9 +272,23 @@ checks; do not rerun adoption research on every change.
 
 ## Completion evidence
 
+With capability `adoption.external-review.v1` and selected external review storage,
+`adoption check --review-locator FILE --review-acceptance-sha256 ID` uses the same
+authenticated exact-provider selection as ordinary `check`. The independently
+selected acceptance identity, source, configuration and pre-merge stage must match.
+The selected semantic record supplies the adoption assertions described below;
+there is no active repository ledger. Missing selection, wrong origin, stale
+inputs or conflicting legacy evidence cannot execute or qualify checks. Provider
+retrieval authenticates storage origin, not consent or the truth of assertions.
+The normal engine executes current checks and revalidates the subject; adoption
+also checks final source/evidence freshness. Saved reports are not review inputs.
+Unresolved adoption choices do not trigger provider retrieval. Explicit legacy
+diagnostics retain the ledger flow below. This capability does not select policy, migrate
+storage, delete history, upload evidence or authorize release.
+
 The checker first validates all dispositions, suite references and stages, agent
 file presence, and staged freshness. Before it will run project commands, the
-matching change in `.opdev/evidence.yaml` MUST contain passed OPDEV-WORK-001 and
+matching change in the selected semantic review (or legacy `.opdev/evidence.yaml`) MUST contain passed OPDEV-WORK-001 and
 OPDEV-TEST-002 assertions with an `adoption_review` evidence entry pointing to
 `.opdev/adoption.yaml`. The entry's summary identifies the actual reviewed scope,
 accepted choices/opt-outs, implementation and acceptance evidence. This specific
@@ -245,6 +296,11 @@ review cannot be replaced by durable project assertions or unrelated generic wor
 evidence. Use the existing bootstrap review process for a new ledger; add the
 entry to the change evidence after explicit review. No new attestation mechanism
 or fingerprint exclusion is introduced.
+
+Current completion also requires OPDEV-WORK-001 `adoption_cleanup_review` evidence
+at `.opdev/adoption.yaml`, covering actual retained content, retired paths, updated
+references and retention/recovery. An empty retirement list still needs inventory
+review. This does not authenticate consent or prove claims automatically.
 
 `adoption prepare-evidence` prints an unresolved partial review worksheet with
 the staged fingerprint and required `adoption_review` kind/location. It never
@@ -274,7 +330,7 @@ is unchanged. Engineering gates and the separately requested MinimumCD assessmen
 retain their distinct meanings; adoption completion is not a MinimumCD claim or
 permission to release.
 
-Exit 0 from `check` means completion verified for this state under the existing
+Default exit 0 from `check` means completion verified for this state under the existing
 reviewed-evidence trust model. Exit 1 means pending decisions, insufficient/stale
 review, failed checks or blocked gates. Exit 2 means malformed/unsupported input
 or tooling failure. `status` exits 0 when inspection succeeds, even while pending.
@@ -282,6 +338,11 @@ If prerequisites are unresolved, `check` executes no project commands. Ignoring
 practices never changes core result aggregation. Review references are project
 claims, not proof of reviewer identity or reference authenticity; source isolation,
 meaningful assertions and complete component coverage require competent review.
+
+`adoption check --legacy-assessment` diagnoses the selected older policy without
+requiring clean-1, retaining its source/evidence and executable gate requirements.
+Exit 0 means `legacy_policy_passed: true`, always `complete: false`. It is never
+a current-adoption completion path.
 
 ## Legacy projects, interruption and runtime compatibility
 

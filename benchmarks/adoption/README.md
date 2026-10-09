@@ -1,5 +1,10 @@
 # Adoption conversation canary
 
+The [clean-destination canary](clean-target-canary.md) covers current adoption of
+design-only, existing-code and older OpDev projects, including strict storage,
+reviewed retirement and tooling-only/routine controls. Historical results below
+retain their original runtime and policy scope; they do not qualify `clean-1`.
+
 The [early-offer scenario](early-offer-canary.md) checks unsolicited but optional
 adoption offers before substantive research in design-only projects, including
 no-Git folders, negative controls and acceptance/decline/unanswered continuations.

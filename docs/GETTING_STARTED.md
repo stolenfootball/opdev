@@ -74,13 +74,23 @@ From an existing Git repository, inspect discovery before writing anything:
 ```sh
 cd path/to/your-project
 opdev init --dry-run
-opdev init
+opdev adoption plan
 ```
 
-Discovery reads static metadata; it does not run repository-controlled commands.
-The legacy initialization shown above writes `.opdev/project.yaml` and managed blocks in `AGENTS.md`
-and `CLAUDE.md`. It preserves unrelated instructions, is idempotent, and does
-not move or create documentation folders.
+Discovery reads static metadata; it does not run repository-controlled commands
+or approve its inferred choices. On a current development build, bare `init`
+refuses to write a new project policy. Review the plan and resolve material
+choices before supplying the approved complete contract:
+
+```sh
+opdev init --project path/to/reviewed-project.yaml --dry-run
+opdev init --project path/to/reviewed-project.yaml
+```
+
+The proposal is temporary input, not a second contract to keep in the repository.
+Use `--legacy-policy` only for intentional older-policy compatibility scaffolding,
+not for current adoption. Older published CLIs have different initialization
+behavior; check capabilities before using these commands.
 
 Development builds also create `.opdev/adoption.yaml` with every practice
 pending for new projects. Re-running initialization preserves existing decisions;
@@ -90,11 +100,13 @@ legacy projects are not silently migrated. See the completion workflow below.
 
 Check `opdev init --help` and compatibility first; the historical installer
 example above does not supply these newer capabilities. A new project can select
-engineering policy 1, the separate MinimumCD assessment (`1` or `none`), and
-layout 1 using `--engineering-policy`, `--minimumcd-assessment`,
-`--layout-version`, and an actual `--policy-review-reference`. Preview with
-`--dry-run` before the approved initialization. A supplied reference is attribution,
-not proof of developer consent; do not fill it with an invented approval.
+the versioned `clean-1` destination in its reviewed contract: schema 3,
+engineering policy 1, the separately selected MinimumCD assessment, layout 1,
+external semantic-review storage 1 and capability safeguards 1. See
+[current adoption destination](../spec/adoption.md#current-destination).
+The older individual engineering/layout flags still support partial scaffolding;
+they are not a complete current-adoption contract. A supplied decision reference
+is attribution, not proof of developer consent; do not invent an approval.
 
 Engineering policy makes baseline outcomes mandatory while preserving adequate
 tools. Applicability depends on real capabilities, not missing configuration.
