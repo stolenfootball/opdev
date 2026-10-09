@@ -17,7 +17,7 @@ const REQUIRED: [&str; 3] = [
     ".opdev/adoption.yaml",
     ".opdev/guidance.md",
 ];
-const LIMITS: &str = "Proposed layout inspection only: no policy was selected, no file was changed, and no project checks ran. This is not an atomic filesystem snapshot. Content purpose, document adequacy, asset references and fresh-agent behavior still need review. Existing policy and evidence remain authoritative; do not delete the evidence ledger before verified retention and retrieval.";
+const LIMITS: &str = "Proposed layout inspection only: no policy was selected, no file was changed, and no project checks ran. This is not an atomic filesystem snapshot. Content purpose, document adequacy, asset references and fresh-agent behavior still need review. Remove legacy evidence only through a reviewed migration under the selected storage policy. MR/PR storage requires no archive; keep temporary rollback protection until verification. Legacy archive policy retains its original requirements.";
 
 /// Filesystem observations or this worktree's staged index.
 #[derive(Debug, Clone, Copy, Serialize)]

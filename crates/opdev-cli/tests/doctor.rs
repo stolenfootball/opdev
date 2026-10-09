@@ -13,7 +13,9 @@ type TestResult = Result<(), Box<dyn std::error::Error>>;
 
 fn fixture() -> Result<(tempfile::TempDir, ProjectManifest), Box<dyn std::error::Error>> {
     let root = tempfile::tempdir()?;
-    let mut manifest = ProjectManifest::from_yaml(include_str!("../../../.opdev/project.yaml"))?;
+    // This diagnostic fixture deliberately has legacy policy and unconfigured
+    // coverage. OpDev's own adoption must not silently change these test inputs.
+    let mut manifest = ProjectManifest::from_yaml(include_str!("fixtures/doctor-project.yaml"))?;
     manifest.commands.clear();
     manifest.testing.suites.clear();
     manifest.authorities.values_mut().for_each(|authority| {

@@ -1,32 +1,57 @@
-schema: 1
+schema: 3
+layout:
+  version: 1
+  review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
 project:
   kind: plugin
   trunk: main
   ci:
     provider: gitlab
     remote: git@gitlab.com:stolenfootball-tools/opdev.git
+    qualification:
+      review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+      source: push
+      required_jobs:
+      - quality
+      - plugin-validation
+      - installer-linux
+      - installer-arm64
+      - installer-windows
+      - qualify-dist
+      - qualify-dist-windows
+      required_checks: []
+      protection:
+        kind: gitlab
+        rules:
+        - name: main
+          push:
+          - kind: role
+            id: 0
+          merge:
+          - kind: role
+            id: 40
 authorities:
-  documentation:
-    kind: path
-    location: docs
-  security:
-    kind: path
-    location: docs/SECURITY.md
-  contributing:
-    kind: path
-    location: docs/CONTRIBUTING.md
-  delivery:
-    kind: path
-    location: release
   architecture:
     kind: path
     location: spec
   contracts:
     kind: path
     location: spec
+  contributing:
+    kind: path
+    location: docs/CONTRIBUTING.md
+  delivery:
+    kind: path
+    location: release
+  documentation:
+    kind: path
+    location: docs
   implementation:
     kind: path
     location: crates
+  security:
+    kind: path
+    location: docs/SECURITY.md
   testing:
     kind: path
     location: spec
@@ -49,6 +74,12 @@ commands:
     - --
     - --check
     timeout_seconds: 300
+  script_format:
+    argv: [python, scripts/check_scripts.py, format]
+    timeout_seconds: 900
+  script_lint:
+    argv: [python, scripts/check_scripts.py, lint]
+    timeout_seconds: 900
   lint:
     argv:
     - cargo
@@ -89,8 +120,14 @@ testing:
     retries_visible: true
     quarantine_requires_owner_issue_expiry: true
   coverage:
-    mode: unconfigured
+    mode: report
   suites:
+  - id: script_format
+    command: script_format
+    stages: [local, pre_merge, post_merge]
+  - id: script_lint
+    command: script_lint
+    stages: [local, pre_merge, post_merge]
   - id: format
     command: format
     stages:
@@ -135,9 +172,64 @@ delivery:
   recovery:
     strategy: roll_forward
 assurance:
-  profiles:
-  - name: opdev-core
+  review_storage:
+    version: 2
+    provider: gitlab
+    repository_id: 85892266
+    review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+    retention_authority: contributing
+    report_retention_days: 30
+  safeguards:
+    version: 1
+    review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+    capabilities:
+      persistent_data:
+        state: present
+        rationale: >-
+          Project/adoption contracts, local continuation and migration recovery state
+          survive invocations; compatibility and interrupted writes need checks.
+        authority: contracts
+      public_contract:
+        state: present
+        rationale: >-
+          CLI arguments, exit codes, JSON schemas, extension protocols and generated
+          agent guidance have external consumers.
+        authority: contracts
+      distribution:
+        state: present
+        rationale: >-
+          Native binaries and Codex/Claude plugins have signed installation and update
+          paths.
+        authority: delivery
+      security_boundary:
+        state: present
+        rationale: >-
+          Untrusted repository input, process execution, provider authentication and
+          signed downloads cross trust boundaries.
+        authority: contracts
+      operations:
+        state: present
+        rationale: >-
+          On-demand checks, timeouts, diagnostics, interrupted writes and installation
+          recovery have operational behavior.
+        authority: contracts
+      user_interface:
+        state: present
+        rationale: >-
+          Human CLI output and agent decision prompts follow spec/consumer-interface.md,
+          not a universal accessibility certification.
+        authority: contracts
+      effectiveness:
+        state: present
+        rationale: >-
+          Agent guidance is intended to improve real development outcomes; bounded
+          workflow trials measure utility separately from Rust correctness.
+        authority: contracts
+  engineering:
     version: "1"
+    minimumcd: "1"
+    review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+  profiles:
   - name: nist-ssdf-derived
     version: "1.1"
     level: baseline
@@ -145,21 +237,18 @@ context:
   always:
   - contracts
   routes:
-    documentation_change:
-    - documentation
-    - contracts
-    delivery_change:
-    - delivery
-    - contracts
-    security_change:
-    - security
-    - contracts
     architecture_change:
     - architecture
     - contracts
     code_change:
     - implementation
     - testing
+    - contracts
+    delivery_change:
+    - delivery
+    - contracts
+    documentation_change:
+    - documentation
     - contracts
     effectiveness_evaluation:
     - contracts
@@ -168,3 +257,6 @@ context:
     - testing
     - delivery
     - work
+    security_change:
+    - security
+    - contracts

@@ -87,11 +87,11 @@ pub(crate) fn read_body_with(
             selector.repository_id
         )
     };
-    let project = json(get(&numeric)?)?;
-    if project["id"].as_u64() != Some(selector.repository_id) {
-        return Err("Work repository identity changed".into());
-    }
     let endpoint = if selector.provider == CiProvider::Github {
+        let project = json(get(&numeric)?)?;
+        if project["id"].as_u64() != Some(selector.repository_id) {
+            return Err("Work repository identity changed".into());
+        }
         let slug = text(&project, "full_name")?;
         let parts: Vec<_> = slug.split('/').collect();
         if parts.len() != 2
@@ -149,7 +149,9 @@ pub(crate) fn read_body_with(
     } else {
         parent
     };
-    if json(get(&endpoint)?)?["id"].as_u64() != Some(selector.repository_id) {
+    if selector.provider == CiProvider::Github
+        && json(get(&endpoint)?)?["id"].as_u64() != Some(selector.repository_id)
+    {
         return Err("Work repository changed during observation".into());
     }
     Ok(value)
@@ -266,7 +268,10 @@ mod tests {
         replies: Vec<(String, Value)>,
         excerpt: &str,
     ) -> Result<WorkObservation, String> {
-        let mut replies = replies.into_iter();
+        let mut replies = replies.into_iter().filter(|(url, _)| {
+            selection.provider != CiProvider::Gitlab
+                || url != "https://gitlab.com/api/v4/projects/7"
+        });
         observe_with(selection, excerpt, |url| {
             let (expected, value) = replies.next().ok_or("Unexpected additional request")?;
             assert_eq!(url, expected);
@@ -314,7 +319,10 @@ mod tests {
             for fault in 0..7 {
                 let (selection, mut replies) = fixture(provider, WorkKind::Issue, Some(11));
                 match fault {
-                    0 => replies[0].1["id"] = json!(8),
+                    0 => {
+                        replies[0].1["id"] = json!(8);
+                        replies[1].1["project_id"] = json!(8);
+                    }
                     1 => {
                         replies[1].1["number"] = json!(4);
                         replies[1].1["iid"] = json!(4);
@@ -329,7 +337,10 @@ mod tests {
                         replies[2].1["body"] =
                             json!("Changed to reject this decision; private context");
                     }
-                    5 => replies[3].1["id"] = json!(8),
+                    5 => {
+                        replies[3].1["id"] = json!(8);
+                        replies[2].1["author"] = json!({});
+                    }
                     _ => replies[2].1["system"] = json!(true),
                 }
                 let error = run_fixture(&selection, replies, "retain the interface")

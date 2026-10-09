@@ -52,6 +52,58 @@ See [Google's change descriptions](https://google.github.io/eng-practices/review
 [GitLab artifact retention](https://docs.gitlab.com/ci/jobs/job_artifacts/), and
 [SLSA artifact-bound provenance](https://slsa.dev/spec/v1.2/distributing-provenance).
 
+## Native CI review integration
+
+Capability `evidence.ci-review.v1` supplies `check --ci --review-ci`, optionally
+`--post-merge`, under explicit storage policy 2. This replaces per-repository
+authentication/discovery scripts. It reads one explicit selection in the current
+MR/PR description, between `<!-- opdev-ci-selection:start -->` and
+`<!-- opdev-ci-selection:end -->`. JSON format 1 contains `schema: 1` and `stages`
+with optional `pre_merge`/`post_merge` entries. Each selected entry has exactly
+`revision` (full stage commit), `note_id` (positive comment ID), `body_sha256`
+(whole comment), and `acceptance_sha256` (independently reviewed inventory).
+Duplicate/unknown fields, ambiguous markers, missing stages and invalid identities
+fail before canonical execution. The description selects the comment; the comment
+cannot select its own expected acceptance identity. Attribution is not consent.
+
+GitLab uses its automatic short-lived `CI_JOB_TOKEN` with `JOB-TOKEN` ahead of
+local credentials when `GITLAB_CI=true`. Native selection requires that job token;
+the authenticated `/job` response must match the project's ID and exact checkout.
+Review reads use the supported MR/details/notes APIs, including the authenticated
+MR's numeric target ID and web path instead of general project metadata. Local
+explicit-locator reads preserve existing `glab` authentication. Never copy a human
+token into CI, create a project token by default or alias a job token to a personal
+token variable. GitLab issues and general policy/branch-protection audits are not
+supported by this limited token: use accessible original MR scope for CI review
+references, or keep unavailable authority checks visibly blocked. Do not silently
+capture issue text as if it were the current original authority.
+
+GitHub uses the supplied `GITHUB_TOKEN`; grant only needed read access (`contents`,
+`pull-requests` and `issues` for the endpoints used here). Pass it to the CLI's
+environment from the workflow token. Source-head PR checks must check out the
+actual head, not Actions' default synthetic merge ref. Native selection rejects
+`pull_request_target`, forks, synthetic GitLab merge-result/train contexts and
+other unsupported contexts; these need an explicitly reviewed future path, not
+broader credentials or execution of untrusted code in a privileged job.
+
+Post-merge selection uses the commit-to-MR/PR endpoint and exactly one actual
+merged change, then checks its target trunk, source project and integrated commit.
+Discovery is bounded to fewer than 100 returned candidates; ambiguous/truncated
+results fail, never select latest green. The current-stage record still binds
+actual source/configuration/acceptance and fresh execution. The selection and
+review content are re-read after execution. No saved artifact substitutes for
+current review, execution or authorization. Routine reports use existing bounded
+CI artifacts, not an additional source registry.
+
+Rationale: providers already supply job authentication, change identity and report
+storage. OpDev owns only its requirement/test checks and a shared provider adapter.
+Retain explicit manual locators for local/legacy consumers; revisit discovery when
+a real supported fork, merge-queue or large-history case needs it. No automatic
+policy migration, publication or credential provisioning occurs. See
+[GitLab job-token access](https://docs.gitlab.com/ci/jobs/ci_job_token/),
+[glab CI authentication](https://docs.gitlab.com/cli/authentication/), and
+[GitHub workflow tokens](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token).
+
 ## Qualification freshness (independent of storage lifetime)
 
 OpDev does not implement a general cross-revision test cache or infer unaffected

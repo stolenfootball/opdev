@@ -3,7 +3,7 @@
 set -eu
 umask 077
 fail() { printf 'OpDev setup: %s\n' "$*" >&2; exit 1; }
-plugin_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+plugin_root=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
 lock="$plugin_root/runtime.lock"
 field() { awk -v key="$1" '$1 == key {print $2}' "$lock"; }
 version=$(field version)

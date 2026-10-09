@@ -419,6 +419,13 @@ fn fresh_and_upgraded_guidance_matches_repository_contract()
         .ok_or("end")?
         .0;
     let directory = tempfile::tempdir()?;
+    // Exercise the repository's selected layout, not an uninitialized legacy
+    // fixture against a now-thin AGENTS entry point.
+    fs::create_dir(directory.path().join(".opdev"))?;
+    fs::copy(
+        root.join(".opdev/project.yaml"),
+        directory.path().join(".opdev/project.yaml"),
+    )?;
     for original in [
         "project-owned guidance\n",
         "project-owned guidance\n<!-- opdev:start -->\nold\n<!-- opdev:end -->\nproject-owned suffix\n",
@@ -446,7 +453,12 @@ fn fresh_and_upgraded_guidance_matches_repository_contract()
             expected
         );
         let claude = fs::read_to_string(directory.path().join("CLAUDE.md"))?;
-        assert_eq!(claude.matches("@AGENTS.md").count(), 1);
+        assert_eq!(claude.matches(".opdev/guidance.md").count(), 1);
+        assert!(!claude.contains("@AGENTS.md"));
+        assert_eq!(
+            fs::read_to_string(directory.path().join(".opdev/guidance.md"))?.replace("\r\n", "\n"),
+            fs::read_to_string(root.join(".opdev/guidance.md"))?.replace("\r\n", "\n")
+        );
         assert!(claude.starts_with("claude-owned prefix\n"));
         assert!(claude.ends_with("claude-owned suffix\n"));
         opdev_project::reconcile_agent_files(directory.path())?;

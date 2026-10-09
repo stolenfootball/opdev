@@ -41,14 +41,14 @@ def replace_once(text, old, new):
 
 
 def harden(text, extension, tag):
-    rows = [l.split() for l in (ROOT / 'plugins/opdev/runtime.lock').read_text().splitlines() if l and not l.startswith('#')]
+    rows = [line.split() for line in (ROOT / 'plugins/opdev/runtime.lock').read_text().splitlines() if line and not line.startswith('#')]
     pins = {r[0]: r[1] for r in rows if len(r) == 2}
     identity = f'https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/{tag}'
     addition = (ROOT / f'release/installers/verify.{extension}').read_text()
     addition = addition.replace('@COSIGN_VERSION@', pins['cosign']).replace('@IDENTITY@', identity)
     if extension == 'sh':
         cases = '\n'.join(f'        {r[1]}/{r[2]}) verifier_asset={r[4]}; verifier_digest={r[5]};;' for r in rows if r[0] == 'target' and r[1] != 'Windows')
-        addition = addition.replace('@VERIFIER_CASES@', cases)
+        addition = addition.replace('        # @VERIFIER_CASES@', cases)
         text = replace_once(text, '    # unpack the archive', '    opdev_verify_archive "$_file" "$_url" || { rm -rf "$_dir"; exit 1; }\n\n    # unpack the archive')
         text = replace_once(text, 'download_binary_and_run_installer "$@" || exit 1', addition + '\ndownload_binary_and_run_installer "$@" || exit 1')
         text = replace_once(text, '    INSTALL_UPDATER=1', '    INSTALL_UPDATER=0 # Optional updater is not qualified by OpDev.')

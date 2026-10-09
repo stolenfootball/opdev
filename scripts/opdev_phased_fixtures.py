@@ -4,7 +4,6 @@ The runner gives agents fixture files/requests, never this oracle module. Review
 planning, consent and completion claims separately against actual events.
 """
 import hashlib
-import json
 from pathlib import Path
 import subprocess
 import sys

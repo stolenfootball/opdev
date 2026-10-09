@@ -57,7 +57,8 @@ def payloads(cases, tokenizer=None):
     if tokenizer:
         import tiktoken  # Optional, pinned in the benchmark requirements file.
         encoder = tiktoken.get_encoding(tokenizer)
-        count = lambda text: len(encoder.encode(text, disallowed_special=()))
+        def count(text):
+            return len(encoder.encode(text, disallowed_special=()))
         version = importlib.metadata.version('tiktoken')
     rows = []
     for case in cases:

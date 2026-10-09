@@ -188,6 +188,9 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
+    /// Read this CI change's explicit MR/PR review selection using built-in job authentication.
+    #[arg(long, requires = "ci", conflicts_with_all = ["review_locator", "review_acceptance_sha256", "plan", "delivery", "remote"])]
+    review_ci: bool,
     /// Exact MR/PR or legacy archive selection matching the reviewed storage policy.
     #[arg(long, requires = "review_acceptance_sha256", conflicts_with = "plan")]
     review_locator: Option<PathBuf>,
@@ -1143,13 +1146,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         print_execution_plan(args.format, &plan)?;
         return Ok(ExitCode::SUCCESS);
     }
-    let review = selected_review(
-        args.review_locator.as_ref(),
-        args.review_acceptance_sha256.as_deref(),
-        &root,
-        &manifest,
-        options.test_stage,
-    )?;
+    let (review, ci_selection) = check_review(args, &root, &manifest, options.test_stage)?;
     let retained = args
         .retain_state
         .then(|| local_state::Attempt::start(&root, &manifest, options))
@@ -1174,6 +1171,9 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     if args.ci {
         apply_local_ci(&root, &manifest, &mut report)?;
     }
+    if let Some(selection) = &ci_selection {
+        selection.recheck().map_err(anyhow::Error::msg)?;
+    }
     if args.remote {
         apply_remote_audit(&root, &manifest, &mut report, remote_revision.as_deref())?;
     }
@@ -1182,6 +1182,44 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     }
     present_check(args, &report)?;
     Ok(check_exit(args, &report))
+}
+
+fn check_review(
+    args: &CheckArgs,
+    root: &Path,
+    manifest: &ProjectManifest,
+    stage: opdev_project::TestStage,
+) -> Result<(
+    Option<opdev_engine::ValidatedReview>,
+    Option<opdev_remote::CiReviewSelection>,
+)> {
+    if !args.review_ci {
+        return Ok((
+            selected_review(
+                args.review_locator.as_ref(),
+                args.review_acceptance_sha256.as_deref(),
+                root,
+                manifest,
+                stage,
+            )?,
+            None,
+        ));
+    }
+    let revision = clean_remote_revision(root)
+        .context("CI review requires a clean committed checkout; no checks ran")?;
+    let selection =
+        opdev_remote::select_ci_review(manifest, stage, &revision).map_err(anyhow::Error::msg)?;
+    let observed =
+        opdev_remote::retrieve_discussion(selection.locator()).map_err(anyhow::Error::msg)?;
+    let review = opdev_engine::ValidatedReview::from_discussion(
+        root,
+        manifest,
+        stage,
+        selection.acceptance(),
+        observed,
+    )
+    .map_err(anyhow::Error::msg)?;
+    Ok((Some(review), Some(selection)))
 }
 
 fn print_execution_plan(format: CheckFormat, plan: &opdev_engine::CheckPlan) -> Result<()> {

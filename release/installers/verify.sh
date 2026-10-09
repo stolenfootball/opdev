@@ -1,5 +1,8 @@
 # OpDev verification extension for cargo-dist 0.32.0 (Apache-2.0).
 # The release generator substitutes reviewed pins and the exact signing identity.
+# shellcheck shell=sh
+# These variables are assigned by the generated, pinned platform cases below.
+# shellcheck disable=SC2154
 opdev_verify_archive() (
     set -eu
     umask 077
@@ -11,7 +14,7 @@ opdev_verify_archive() (
     trap 'exit 130' INT
     trap 'exit 143' TERM
     case "$(uname -s)/$(uname -m)" in
-@VERIFIER_CASES@
+        # @VERIFIER_CASES@
         *) echo 'Unsupported signature-verifier platform.' >&2; exit 1;;
     esac
     download_verified_input() {

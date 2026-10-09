@@ -106,8 +106,10 @@ Its bounded walk/config reads are safety limits, not universal project file quot
 exceeding them is an inspection error rather than a partial success. Observations
 are not an atomic snapshot and cannot establish source freshness for a gate.
 
-An old `.opdev/evidence.yaml` produces a specific storage-migration finding with
-instructions to preserve it pending verified retention/retrieval. There is no
+An old `.opdev/evidence.yaml` produces a storage-migration finding. Follow the
+selected policy: MR/PR storage 2 removes it without an archive, with temporary
+rollback protection until verification; legacy storage 1 retains its verified
+archive requirements. The general inspection notice must make the same distinction. There is no
 `.opdev/archive` exception. Content placement, meaningful asset references,
 managed-guide currency and actual fresh-agent behavior require their own review;
 an empty or misleading Markdown file is not certified by this structural check.

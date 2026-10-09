@@ -1,0 +1,17 @@
+{
+  "ruff": {"version": "0.16.10", "assets": {
+    "Windows": ["https://github.com/astral-sh/ruff/releases/download/0.16.10/ruff-x86_64-pc-windows-msvc.zip", "6b90457fbd249923db196044d5f3c26e4f7cefacc769c26fd52520fa033f736e", "ruff.exe"],
+    "Linux": ["https://github.com/astral-sh/ruff/releases/download/0.16.10/ruff-x86_64-unknown-linux-gnu.tar.gz", "9567ff1201e2fb3da31ff04c35587d768c66d6cb42dfa84de474e2bfe360b608", "ruff"]
+  }},
+  "shfmt": {"version": "3.14.1", "assets": {
+    "Windows": ["https://github.com/mvdan/sh/releases/download/v3.14.1/shfmt_v3.14.1_windows_amd64.exe", "13629ce28442ca80b6b5a819f7574ab39e1c28c6e26734ca816c9714e04851df", "shfmt.exe"],
+    "Linux": ["https://github.com/mvdan/sh/releases/download/v3.14.1/shfmt_v3.14.1_linux_amd64", "76e77641faa025814b77f153b29796b8e6fa2fca03e0c76a691608b86c7ea7bf", "shfmt"]
+  }},
+  "shellcheck": {"version": "0.11.0", "assets": {
+    "Windows": ["https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.zip", "8a4e35ab0b331c85d73567b12f2a444df187f483e5079ceffa6bda1faa2e740e", "shellcheck.exe"],
+    "Linux": ["https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.gz", "b7af85e41cc99489dcc21d66c6d5f3685138f06d34651e6d34b42ec6d54fe6f6", "shellcheck"]
+  }},
+  "PSScriptAnalyzer": {"version": "1.25.0", "assets": {
+    "Windows": ["https://github.com/PowerShell/PSScriptAnalyzer/releases/download/1.25.0/PSScriptAnalyzer.1.25.0.nupkg", "14e634c828eb98efb9f40b2918ba90f139ed5eccdf663a2a747736d996995d60", "PSScriptAnalyzer"]
+  }}
+}

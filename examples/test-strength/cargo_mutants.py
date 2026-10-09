@@ -87,8 +87,9 @@ def classify(report, exit_code, selected):
         raise ValueError("producer exit contradicts its report")
     actual = [item["scenario"]["Mutant"] for item in mutations]
     # --list includes an explanatory diff not repeated in outcome identities.
-    canonical = lambda item: json.dumps({k: v for k, v in item.items() if k != "diff"},
-                                       sort_keys=True, separators=(",", ":"))
+    def canonical(item):
+        return json.dumps({k: v for k, v in item.items() if k != "diff"},
+                          sort_keys=True, separators=(",", ":"))
     if Counter(map(canonical, actual)) != Counter(map(canonical, selected)):
         return "unverified", "Selected mutation inventory was not fully evaluated."
     if counts["Timeout"] or counts["Success"]:

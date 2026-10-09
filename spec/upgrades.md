@@ -177,7 +177,7 @@ For storage policy 1 it rechecks historical availability before retiring its pat
 no-ops, so repeating continuation is safe; a fresh preview of the applied request
 has no changes. Later developer edits are preserved and require a new reviewed
 resolution, never automatic rollback. Keep recovery until required qualification
-and independent durable retention are confirmed; the CLI performs no snapshot
+and, for storage policy 1 only, independent durable retention are confirmed; the CLI performs no snapshot
 cleanup. A successful apply remains `qualification: unverified`.
 
 ### Reviewed retirement toward clean adoption
@@ -205,8 +205,9 @@ Each explicit cleanup action has `path`, `kind`, nonblank `reason`, and optional
 
 Portable contained paths, no links/reparse points, protected current agent/policy
 files, duplicate/cyclic destinations and Git metadata are checked before writes.
-Legacy `.opdev/evidence.yaml` cannot use this generic cleanup: exact authenticated
-history retrieval remains mandatory. All unselected content/ownership findings
+Legacy `.opdev/evidence.yaml` cannot use this generic cleanup: use the dedicated
+ledger-removal path with the selected storage policy's safeguards. Only storage
+policy 1 requires authenticated history retrieval. All unselected content/ownership findings
 remain blockers. The same snapshot and before/after checks support interruption
 and idempotent continuation; later edits are preserved, not rolled back. Snapshot
 copies contain text bytes, not a complete filesystem metadata/ACL backup; projects

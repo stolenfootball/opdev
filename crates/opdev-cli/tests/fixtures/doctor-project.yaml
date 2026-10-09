@@ -1,0 +1,170 @@
+schema: 1
+project:
+  kind: plugin
+  trunk: main
+  ci:
+    provider: gitlab
+    remote: git@gitlab.com:stolenfootball-tools/opdev.git
+authorities:
+  documentation:
+    kind: path
+    location: docs
+  security:
+    kind: path
+    location: docs/SECURITY.md
+  contributing:
+    kind: path
+    location: docs/CONTRIBUTING.md
+  delivery:
+    kind: path
+    location: release
+  architecture:
+    kind: path
+    location: spec
+  contracts:
+    kind: path
+    location: spec
+  implementation:
+    kind: path
+    location: crates
+  testing:
+    kind: path
+    location: spec
+  work:
+    kind: tracker
+    location: https://gitlab.com/stolenfootball-tools/opdev/-/issues
+commands:
+  check:
+    argv:
+    - cargo
+    - test
+    - --workspace
+    - --all-features
+    timeout_seconds: 1800
+  format:
+    argv:
+    - cargo
+    - fmt
+    - --all
+    - --
+    - --check
+    timeout_seconds: 300
+  lint:
+    argv:
+    - cargo
+    - clippy
+    - --workspace
+    - --all-targets
+    - --all-features
+    - --
+    - -D
+    - warnings
+    timeout_seconds: 900
+  package:
+    argv:
+    - cargo
+    - build
+    - --release
+    - --locked
+    timeout_seconds: 1800
+  setup:
+    argv:
+    - cargo
+    - fetch
+    - --locked
+    timeout_seconds: 900
+quality:
+  risks:
+  - functional
+  - reliability
+  - security
+  - compatibility
+  - maintainability
+  - recoverability
+testing:
+  strategy_authority: testing
+  change_tests: required
+  escaped_defect_regressions: required_or_justified
+  flake_policy:
+    retries_visible: true
+    quarantine_requires_owner_issue_expiry: true
+  coverage:
+    mode: unconfigured
+  suites:
+  - id: format
+    command: format
+    stages:
+    - local
+    - pre_merge
+    - post_merge
+  - id: lint
+    command: lint
+    stages:
+    - local
+    - pre_merge
+    - post_merge
+  - id: check
+    command: check
+    stages:
+    - local
+    - pre_merge
+    - post_merge
+delivery:
+  status: configured
+  mode: release
+  artifact:
+    kind: native-cli-and-agent-plugin
+    locator: https://github.com/stolenfootball/opdev/releases
+  environments:
+  - name: windows-x86_64
+    production_like: true
+  - name: windows-aarch64
+    production_like: true
+  - name: linux-x86_64
+    production_like: true
+  - name: linux-aarch64
+    production_like: true
+  - name: macos-x86_64
+    production_like: true
+  - name: macos-aarch64
+    production_like: true
+  - name: codex-plugin-validator
+    production_like: true
+  - name: claude-code-plugin-validator
+    production_like: true
+  recovery:
+    strategy: roll_forward
+assurance:
+  profiles:
+  - name: opdev-core
+    version: "1"
+  - name: nist-ssdf-derived
+    version: "1.1"
+    level: baseline
+context:
+  always:
+  - contracts
+  routes:
+    documentation_change:
+    - documentation
+    - contracts
+    delivery_change:
+    - delivery
+    - contracts
+    security_change:
+    - security
+    - contracts
+    architecture_change:
+    - architecture
+    - contracts
+    code_change:
+    - implementation
+    - testing
+    - contracts
+    effectiveness_evaluation:
+    - contracts
+    experimental_change:
+    - contracts
+    - testing
+    - delivery
+    - work

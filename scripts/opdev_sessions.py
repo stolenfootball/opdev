@@ -234,7 +234,8 @@ def preserved_tests(root):
 def grade(root, case, seed, opdev, final):
     results = {}
     paths = git(root, 'diff', '--name-only', seed).splitlines()
-    allowed = lambda p: p == 'README.md' if case == 'stale' else p.startswith(('parcel/', 'tests/'))
+    def allowed(path):
+        return path == 'README.md' if case == 'stale' else path.startswith(('parcel/', 'tests/'))
     results['scope'] = bool(paths) and all(allowed(p) for p in paths)
     results['existing_tests_preserved'] = preserved_tests(root)
     tests = command(['python', '-m', 'unittest', 'discover', '-s', 'tests'], cwd=root, check=False)
@@ -286,7 +287,8 @@ def serve_staging(root, case, stop, actions):
         try:
             changed = git(root, 'diff', '--name-only').splitlines()
             changed += git(root, 'ls-files', '--others', '--exclude-standard').splitlines()
-            allowed = lambda p: p == 'README.md' if case == 'stale' else p.startswith(('parcel/', 'tests/'))
+            def allowed(path):
+                return path == 'README.md' if case == 'stale' else path.startswith(('parcel/', 'tests/'))
             if any(not allowed(p) or '..' in Path(p).parts or (root / p).is_symlink() for p in changed):
                 raise ValueError('staging request changes protected or unexpected paths')
             if changed:
