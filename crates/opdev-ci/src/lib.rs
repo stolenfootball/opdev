@@ -2,6 +2,7 @@
 
 #![forbid(unsafe_code)]
 
+mod github;
 pub mod gitlab;
 
 use std::fs;
@@ -46,7 +47,7 @@ pub struct CiInspection {
     pub pre_merge: Capability,
     /// Trunk pipelines invoke the `OpDev` integration gate.
     pub post_merge: Capability,
-    /// The pinned CLI archive declares checksum and signing-identity verification.
+    /// The gate declares a verified release runtime or an exact-checkout source build.
     pub integrity: Capability,
 }
 
@@ -100,6 +101,14 @@ pub trait CiAdapter: Sync {
     ///
     /// Returns [`CiError`] when the local configuration cannot be read.
     fn inspect(&self, root: &Path) -> Result<CiInspection, CiError>;
+
+    /// Inspect against the project's declared integration branch, not a guessed name.
+    ///
+    /// # Errors
+    /// Returns [`CiError`] when local configuration cannot be read.
+    fn inspect_for_trunk(&self, root: &Path, _trunk: &str) -> Result<CiInspection, CiError> {
+        self.inspect(root)
+    }
 }
 
 struct GithubAdapter;
@@ -168,20 +177,11 @@ impl CiAdapter for GithubAdapter {
     }
 
     fn inspect(&self, root: &Path) -> Result<CiInspection, CiError> {
-        inspect_file(
-            &root.join(self.configuration_path()),
-            &ProviderRequirements {
-                pre_merge: &["pull_request", "opdev check --ci"],
-                post_merge: &["push", "opdev check --ci"],
-                integrity: &[
-                    "SHA256SUMS",
-                    "sha256sum -c",
-                    "verify-blob",
-                    "--certificate-identity",
-                    "--certificate-oidc-issuer",
-                ],
-            },
-        )
+        self.inspect_for_trunk(root, "main")
+    }
+
+    fn inspect_for_trunk(&self, root: &Path, trunk: &str) -> Result<CiInspection, CiError> {
+        Ok(github::inspect(root, trunk))
     }
 }
 
@@ -413,37 +413,6 @@ fn inspect_gitlab(
     }
 }
 
-fn inspect_file(path: &Path, requirements: &ProviderRequirements) -> Result<CiInspection, CiError> {
-    let content = match fs::read_to_string(path) {
-        Ok(content) => content,
-        Err(source) if source.kind() == std::io::ErrorKind::NotFound => {
-            return Ok(missing_inspection(path));
-        }
-        Err(source) => {
-            return Err(CiError::Read {
-                path: path.to_path_buf(),
-                source,
-            });
-        }
-    };
-    let parsed = serde_saphyr::from_str::<serde_json::Value>(&content);
-    let Ok(parsed) = parsed else {
-        let diagnostic = parsed.err().map(|error| error.to_string());
-        let error = Capability {
-            outcome: Outcome::Error,
-            evidence: Vec::new(),
-            diagnostic,
-        };
-        return Ok(CiInspection {
-            configuration: error.clone(),
-            pre_merge: error.clone(),
-            post_merge: error.clone(),
-            integrity: error,
-        });
-    };
-    inspect_value(path, &parsed, requirements)
-}
-
 fn inspect_value(
     path: &Path,
     parsed: &serde_json::Value,
@@ -656,7 +625,11 @@ mod tests {
     #[test]
     fn generated_evaluators_keep_reports_outside_the_worktree_until_opdev_exits()
     -> Result<(), Box<dyn std::error::Error>> {
-        for provider in [CiProvider::Github, CiProvider::Gitlab] {
+        for (provider, github_step) in [
+            (CiProvider::Github, 2),
+            (CiProvider::Github, 3),
+            (CiProvider::Gitlab, 0),
+        ] {
             let project = tempfile::tempdir()?;
             let runner_temp = tempfile::tempdir()?;
             let fake_opdev = runner_temp.path().join("opdev");
@@ -671,7 +644,7 @@ mod tests {
             let rendered = rendered(provider)?;
             let parsed: serde_json::Value = serde_saphyr::from_str(&rendered)?;
             let script = match provider {
-                CiProvider::Github => parsed["jobs"]["opdev"]["steps"][2]["run"]
+                CiProvider::Github => parsed["jobs"]["opdev"]["steps"][github_step]["run"]
                     .as_str()
                     .ok_or_else(|| {
                         std::io::Error::other("GitHub evaluation step is not a string")
