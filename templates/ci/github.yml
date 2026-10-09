@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Install pinned OpDev
         env:
           OPDEV_VERSION: {{VERSION_JSON}}
@@ -35,6 +37,7 @@ jobs:
           tar -xOzf "$install_dir/$archive" opdev > "$install_dir/opdev"
           install -m 0755 "$install_dir/opdev" "$RUNNER_TEMP/opdev"
       - name: Evaluate integration gate
+        if: github.event_name == 'pull_request'
         # For review storage 2, supply the reviewed --review-locator and
         # --review-acceptance-sha256 inputs from the existing PR/CI handoff.
         # This baseline does not select a PR, grant approval or configure credentials.
@@ -42,6 +45,20 @@ jobs:
           set +e
           export PATH="$RUNNER_TEMP:$PATH"
           opdev check --ci --format json > "$RUNNER_TEMP/opdev-report.json"
+          opdev_status=$?
+          cp "$RUNNER_TEMP/opdev-report.json" opdev-report.json
+          copy_status=$?
+          if [ "$copy_status" -ne 0 ]; then
+            echo "Could not preserve the OpDev report" >&2
+            exit "$copy_status"
+          fi
+          exit "$opdev_status"
+      - name: Evaluate integrated trunk
+        if: github.event_name == 'push'
+        run: |
+          set +e
+          export PATH="$RUNNER_TEMP:$PATH"
+          opdev check --ci --post-merge --format json > "$RUNNER_TEMP/opdev-report.json"
           opdev_status=$?
           cp "$RUNNER_TEMP/opdev-report.json" opdev-report.json
           copy_status=$?

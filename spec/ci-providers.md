@@ -72,6 +72,54 @@ promises. This repair retains the existing baseline and isolates its consequence
 
 Additional providers implement the same Rust trait or, in a future external rule-pack protocol, contribute equivalent evidence without altering core rule IDs. Unknown providers remain `unverified`; they never inherit a pass from GitHub or GitLab assumptions.
 
+### GitHub inspection and custom layouts
+
+The generation destination `.github/workflows/opdev.yml` is a default, not an
+adoption requirement. Inspection inventories all `.yml` and `.yaml` files directly
+in `.github/workflows`, including custom filenames, and uses the project's declared
+trunk. It does not rename or replace adequate project CI. The adapter's legacy
+`inspect` API assumes `main`; project-aware callers use `inspect_for_trunk`.
+
+The supported offline subset connects an event to its job, checkout, runtime
+setup and actual gate invocation. PR checks select the PR head, not an assumed
+merge ref; trunk push checks select the integrated commit and use `--post-merge`.
+Same-commit local reusable workflows are followed without network access. Static
+event conditions and literal trunk filters are supported. Disabled, optional,
+inspection-only, wrong-stage and disconnected command text do not establish a
+required gate. More than one applicable gate is ambiguous rather than permission
+to choose a convenient passing candidate.
+
+Runtime setup can be the generated signed-release bootstrap or a locked
+`opdev-cli` Cargo build connected to an exact checkout and its directly invoked
+debug/release binary. A separate source checkout must name a repository and full
+commit identifier. Native POSIX and PowerShell commands are supported. This
+recognizes a reviewed source-build alternative; it does not authenticate that
+repository's implementation, execute the build, or waive runtime review. Custom
+installer scripts, shell wrappers and intermediate actions whose effects cannot
+be established remain `unverified`, not grounds to rewrite the project's CI.
+
+Unsupported conditions, path/glob filters, dependency collectors, matrices,
+remote or parameterized reuse, environment/path overrides and unresolved setup
+remain explicit review limitations. The reader is not a GitHub expression or
+shell interpreter. Malformed, missing referenced or linked inputs are errors;
+limits produce `unverified`, never a partial success. Limits are 256 directory
+entries, 64 workflow files, 1 MiB per file, 4 MiB total, 256 jobs per workflow,
+512 steps per inspected job, reusable depth 8 and 128 expansion visits.
+
+A configuration `passed` means only the supported wiring was found. It cannot
+erase a failed current check, prove that a provider job ran, or establish branch
+protection. Qualification separately requires the correct event, revision,
+required job conclusions and reviewed protection policy. In particular, a skipped
+job can appear successful to required-check protection; do not substitute its
+conclusion for an executed verification. Generated report wrappers retain both
+pre-merge and post-merge failures without changing their exit status.
+
+These distinctions follow GitHub's [workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax),
+[checkout source selection](https://github.com/actions/checkout), and
+[required-check behavior](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks).
+Use effective-provider review for unsupported constructs, retaining the precise
+limitation; do not label an unknown configuration verified or invent a waiver.
+
 GitLab local inspection supports a single pipeline document or a separate `spec`
 header followed by the pipeline. Explicit local includes (string, mapping or
 array) are resolved recursively from the repository root, in provider merge

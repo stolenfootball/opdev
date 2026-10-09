@@ -1060,7 +1060,7 @@ fn generate_ci(args: &CiGenerateArgs) -> Result<()> {
 fn inspect_ci(args: &CiInspectArgs) -> Result<()> {
     let (root, manifest) = load_project(&args.root)?;
     let adapter = adapter_for(manifest.project.ci.provider)?;
-    let inspection = adapter.inspect(&root)?;
+    let inspection = adapter.inspect_for_trunk(&root, &manifest.project.trunk)?;
     print_capability("configuration", &inspection.configuration);
     print_capability("pre_merge", &inspection.pre_merge);
     print_capability("post_merge", &inspection.post_merge);
@@ -1317,7 +1317,7 @@ fn apply_local_ci(root: &Path, manifest: &ProjectManifest, report: &mut CheckRep
         reaggregate(report)?;
         return Ok(());
     };
-    let inspection = adapter.inspect(root)?;
+    let inspection = adapter.inspect_for_trunk(root, &manifest.project.trunk)?;
     apply_capability(report, "MCD-CI-001", &inspection.configuration);
     if inspection.integrity.outcome != Outcome::Passed {
         apply_capability(report, "MCD-CI-001", &inspection.integrity);
