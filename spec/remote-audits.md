@@ -6,6 +6,8 @@ Remote URLs are accepted only for the first-class `github.com` and `gitlab.com` 
 
 Authentication is optional. GitHub reads `OPDEV_GITHUB_TOKEN`, `GITHUB_TOKEN`,
 then `GH_TOKEN`, and sends the selected value as a bearer credential. GitLab
+uses `CI_JOB_TOKEN` as `JOB-TOKEN` first when `GITLAB_CI=true`, avoiding a
+developer's stored login in runners. Without that built-in job identity, it
 uses the first non-empty source in this exact order:
 
 1. `OPDEV_GITLAB_OAUTH_TOKEN`, sent as `Authorization: Bearer`;
@@ -22,6 +24,12 @@ shape detection. OpDev does not retry a rejected credential under another
 header. The optional `glab` lookup keeps browser or device OAuth login seamless
 without reading credential files or keyrings directly. A missing `glab`
 executable or credential simply leaves the audit unauthenticated.
+
+Job tokens deliberately cannot perform the general project/settings audit.
+Unsupported reads remain unavailable, never fall back to broader credentials.
+The [native CI review path](evidence-lifetimes.md#native-ci-review-integration)
+uses supported MR/comment endpoints and requires authentication even for public
+projects; optional anonymous policy inspection is not authenticated review.
 
 Tokens are added only to request headers, captured in memory only as long as
 needed, and never copied into evidence or diagnostics. Missing permission,

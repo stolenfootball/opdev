@@ -68,13 +68,26 @@ def classify(report, exit_code, selected):
         last = phases[-1]
         status = last.get("process_status")
         caught = item["summary"] == "CaughtMutant"
-        valid = (isinstance(status, dict) and set(status) == {"Failure"}
-                 and type(status["Failure"]) is int and status["Failure"] > 0) if caught else status == "Success"
+        valid = (
+            (
+                isinstance(status, dict)
+                and set(status) == {"Failure"}
+                and type(status["Failure"]) is int
+                and status["Failure"] > 0
+            )
+            if caught
+            else status == "Success"
+        )
         if last.get("phase") != "Test" or not valid:
             return "unverified", "A successful or caught scenario lacks actual test-phase evidence."
     counts = Counter(item.get("summary") for item in mutations)
-    keys = {"caught": "CaughtMutant", "missed": "MissedMutant",
-            "timeout": "Timeout", "unviable": "Unviable", "success": "Success"}
+    keys = {
+        "caught": "CaughtMutant",
+        "missed": "MissedMutant",
+        "timeout": "Timeout",
+        "unviable": "Unviable",
+        "success": "Success",
+    }
     if set(counts) - set(keys.values()):
         raise ValueError("unsupported mutation outcome")
     for key, value in keys.items():
@@ -86,9 +99,13 @@ def classify(report, exit_code, selected):
     if exit_code != expected_exit:
         raise ValueError("producer exit contradicts its report")
     actual = [item["scenario"]["Mutant"] for item in mutations]
+
     # --list includes an explanatory diff not repeated in outcome identities.
-    canonical = lambda item: json.dumps({k: v for k, v in item.items() if k != "diff"},
-                                       sort_keys=True, separators=(",", ":"))
+    def canonical(item):
+        return json.dumps(
+            {k: v for k, v in item.items() if k != "diff"}, sort_keys=True, separators=(",", ":")
+        )
+
     if Counter(map(canonical, actual)) != Counter(map(canonical, selected)):
         return "unverified", "Selected mutation inventory was not fully evaluated."
     if counts["Timeout"] or counts["Success"]:
@@ -98,7 +115,10 @@ def classify(report, exit_code, selected):
     # This example's selected policy is no missed viable mutations in its narrow scope.
     # A finding describes the tests, not proof of a defect in the original software.
     if counts["MissedMutant"]:
-        return "failed", "Selected test-strength policy not met: viable mutations escaped the tests."
+        return (
+            "failed",
+            "Selected test-strength policy not met: viable mutations escaped the tests.",
+        )
     return "passed", "Tests caught all evaluated viable mutations in the selected scope."
 
 
@@ -120,10 +140,13 @@ def source_identity(root):
 def run_producer(argv, root, directory, label):
     # Files preserve diagnostics without accumulating producer output in memory.
     # The enclosing OpDev invocation provides the total deadline/tree containment.
-    with (directory / (label + ".stdout")).open("xb") as stdout, \
-            (directory / (label + ".stderr")).open("xb") as stderr:
-        return subprocess.run(argv, cwd=root, stdout=stdout, stderr=stderr,
-                              stdin=subprocess.DEVNULL).returncode
+    with (
+        (directory / (label + ".stdout")).open("xb") as stdout,
+        (directory / (label + ".stderr")).open("xb") as stderr,
+    ):
+        return subprocess.run(
+            argv, cwd=root, stdout=stdout, stderr=stderr, stdin=subprocess.DEVNULL
+        ).returncode
 
 
 def evaluate(args, request, evidence):
@@ -136,14 +159,22 @@ def evaluate(args, request, evidence):
     if revision is None:
         return "unverified", "Commit reviewed inputs first; this example requires clean source."
     base = root / "target" / "opdev-test-strength"
-    ignored = subprocess.run(["git", "-C", str(root), "check-ignore", "-q", "--", str(base)],
-                             capture_output=True, timeout=15)
+    ignored = subprocess.run(
+        ["git", "-C", str(root), "check-ignore", "-q", "--", str(base)],
+        capture_output=True,
+        timeout=15,
+    )
     if ignored.returncode != 0:
         raise ValueError("target/opdev-test-strength must be Git-ignored before running")
     base.mkdir(parents=True, exist_ok=True)
     directory = Path(tempfile.mkdtemp(prefix="run-", dir=base))
-    evidence.append({"kind": "run", "summary": "Fresh producer logs and reports; review before sharing.",
-                     "location": directory.relative_to(root).as_posix()})
+    evidence.append(
+        {
+            "kind": "run",
+            "summary": "Fresh producer logs and reports; review before sharing.",
+            "location": directory.relative_to(root).as_posix(),
+        }
+    )
     producer = [args.producer, "mutants"]
     if run_producer(producer + ["--version"], root, directory, "version") != 0:
         raise ValueError("producer version lookup failed")
@@ -151,8 +182,16 @@ def evaluate(args, request, evidence):
         version = stream.read(256).decode("utf-8").strip()
     if version != "cargo-mutants " + VERSION:
         raise ValueError("example requires cargo-mutants " + VERSION)
-    common = producer + ["--no-config", "--file", args.file, "--re", args.mutant,
-                         "--colors", "never", "--no-shuffle"]
+    common = producer + [
+        "--no-config",
+        "--file",
+        args.file,
+        "--re",
+        args.mutant,
+        "--colors",
+        "never",
+        "--no-shuffle",
+    ]
     if run_producer(common + ["--list", "--json"], root, directory, "selection") != 0:
         raise ValueError("producer selection failed")
     selected = read_json(directory / "selection.stdout")
@@ -160,22 +199,53 @@ def evaluate(args, request, evidence):
         raise ValueError("unsupported selection report")
     if not 0 < len(selected) <= args.max_mutants:
         return "unverified", "Selection is empty or exceeds the explicit mutation budget."
-    command = common + ["--baseline", "run", "--jobs", "1", "--jobserver-tasks", "1",
-                        "--test-tool", "cargo", "--timeout", str(args.test_timeout),
-                        "--build-timeout", str(args.build_timeout), "--output", str(directory),
-                        "--cargo-arg=--locked", "--cargo-arg=--offline"]
+    command = common + [
+        "--baseline",
+        "run",
+        "--jobs",
+        "1",
+        "--jobserver-tasks",
+        "1",
+        "--test-tool",
+        "cargo",
+        "--timeout",
+        str(args.test_timeout),
+        "--build-timeout",
+        str(args.build_timeout),
+        "--output",
+        str(directory),
+        "--cargo-arg=--locked",
+        "--cargo-arg=--offline",
+    ]
     evidence.append({"kind": "invocation", "summary": json.dumps(command)})
-    evidence.append({"kind": "source", "summary": "Clean committed source before execution.",
-                     "location": revision})
+    evidence.append(
+        {
+            "kind": "source",
+            "summary": "Clean committed source before execution.",
+            "location": revision,
+        }
+    )
     code = run_producer(command, root, directory, "execution")
     if source_identity(root) != revision:
         return "unverified", "Source changed during analysis; results cannot qualify this source."
     report_path = directory / "mutants.out" / "outcomes.json"
     report = read_json(report_path)
-    evidence.append({"kind": "producer", "summary": "cargo-mutants " + VERSION,
-                     "location": report_path.relative_to(root).as_posix()})
-    evidence.append({"kind": "report_digest", "summary": "parsed_json_sha256=" + hashlib.sha256(
-        json.dumps(report, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()})
+    evidence.append(
+        {
+            "kind": "producer",
+            "summary": "cargo-mutants " + VERSION,
+            "location": report_path.relative_to(root).as_posix(),
+        }
+    )
+    evidence.append(
+        {
+            "kind": "report_digest",
+            "summary": "parsed_json_sha256="
+            + hashlib.sha256(
+                json.dumps(report, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            ).hexdigest(),
+        }
+    )
     return classify(report, code, selected)
 
 
@@ -188,7 +258,9 @@ def positive(value):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--producer", default="cargo-mutants", help="native executable, not a shell command")
+    parser.add_argument(
+        "--producer", default="cargo-mutants", help="native executable, not a shell command"
+    )
     parser.add_argument("--file", required=True, help="reviewed source-file filter")
     parser.add_argument("--mutant", required=True, help="reviewed mutation-name regex")
     parser.add_argument("--max-mutants", required=True, type=positive)
@@ -206,10 +278,25 @@ def main():
         outcome, summary = "error", "Test-strength evaluation could not complete."
         # Avoid echoing arbitrary producer output/JSON through exception strings.
         diagnostic = str(error) if type(error) is ValueError else type(error).__name__
-        evidence.append({"kind": "diagnostic", "summary": diagnostic + "; inspect retained logs and supported inputs."})
-    evidence.append({"kind": "duration", "summary": f"elapsed_seconds={time.monotonic() - started:.3f}"})
-    print(json.dumps({"protocol_version": "1.0.0", "outcome": outcome,
-                      "summary": summary, "evidence": evidence}))
+        evidence.append(
+            {
+                "kind": "diagnostic",
+                "summary": diagnostic + "; inspect retained logs and supported inputs.",
+            }
+        )
+    evidence.append(
+        {"kind": "duration", "summary": f"elapsed_seconds={time.monotonic() - started:.3f}"}
+    )
+    print(
+        json.dumps(
+            {
+                "protocol_version": "1.0.0",
+                "outcome": outcome,
+                "summary": summary,
+                "evidence": evidence,
+            }
+        )
+    )
 
 
 if __name__ == "__main__":

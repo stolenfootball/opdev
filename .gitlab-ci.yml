@@ -17,6 +17,8 @@ variables:
   RUSTUP_VERSION: "1.29.0"
   CLAUDE_CODE_VERSION: "2.1.251"
   OPDEV_USE_GITLAB_HOSTED_RELEASE_RUNNERS: "false"
+  CARGO_LLVM_COV_VERSION: "0.9.1"
+  GIT_DEPTH: "0"
 
 workflow:
   rules:
@@ -29,23 +31,38 @@ quality:
   image: rust:1.97.0-bookworm
   before_script:
     - apt-get update
-    - apt-get install --yes --no-install-recommends python3
+    - apt-get install --yes --no-install-recommends python3 python-is-python3
+    - python scripts/setup_style.py
+    - rustup component add llvm-tools-preview
+    - cargo install cargo-llvm-cov --version "$CARGO_LLVM_COV_VERSION" --locked
   script:
     # Build the evaluator, then let it execute the contract's canonical suites once.
     - cargo build --locked -p opdev-cli
     - |
+      # Instrument that same canonical execution; reporting does not rerun tests.
+      cargo llvm-cov clean --workspace
+      eval "$(cargo llvm-cov show-env --export-prefix)"
       report_file="$(mktemp)"
+      rm "$report_file"
       set +e
-      ./target/debug/opdev check --ci --format json > "$report_file"
+      stage_args=""
+      if [ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]; then stage_args="--post-merge"; fi
+      ./target/debug/opdev check --ci --review-ci $stage_args --report "$report_file"
       opdev_status=$?
       set -e
-      mv "$report_file" opdev-report.json
+      if [ -f "$report_file" ]; then mv "$report_file" opdev-report.json; fi
+      mkdir -p coverage
+      if [ "$opdev_status" -eq 0 ]; then
+        cargo llvm-cov report --lcov --output-path coverage/lcov.info
+        cargo llvm-cov report --summary-only > coverage/summary.txt
+      fi
       exit "$opdev_status"
   artifacts:
     when: always
     paths:
       - opdev-report.json
       - target/debug/opdev
+      - coverage/
     expire_in: 30 days
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -96,6 +113,9 @@ installer-windows:
   stage: verify
   tags: [windows, powershell, hyperv]
   script:
+    - python scripts/setup_style.py
+    - powershell -NoProfile -File scripts/check_powershell.ps1 -Mode format
+    - powershell -NoProfile -File scripts/check_powershell.ps1 -Mode lint
     - powershell -NoProfile -File tests/runtime_test.ps1
     - powershell -NoProfile -File tests/runtime_smoke.ps1
   rules:

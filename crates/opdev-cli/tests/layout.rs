@@ -428,6 +428,11 @@ fn local_inventory_sees_ignored_junk_while_index_uses_only_staged_files() -> Res
     assert!(findings.contains(".opdev/scratch"));
     assert!(!value.to_string().contains("original historical proof"));
     assert!(!value.to_string().contains("Do not expose"));
+    let limits = value["limits"].as_str().ok_or("limits")?;
+    assert!(limits.contains("selected storage policy"));
+    assert!(limits.contains("no archive"));
+    assert!(!limits.contains("before verified retention and retrieval"));
+    assert!(findings.contains("legacy archive policy retains its original requirements"));
     assert_eq!(
         report(root, &["--scope", "index"], 0)?["findings"],
         serde_json::json!([])

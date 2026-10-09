@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -135,8 +134,10 @@ def validate(plugin_root: Path) -> list[str]:
         ):
             require_string(interface, key, "plugin.interface", errors)
         capabilities = interface.get("capabilities")
-        if not isinstance(capabilities, list) or not capabilities or not all(
-            isinstance(item, str) and item.strip() for item in capabilities
+        if (
+            not isinstance(capabilities, list)
+            or not capabilities
+            or not all(isinstance(item, str) and item.strip() for item in capabilities)
         ):
             errors.append("plugin.interface.capabilities must be a non-empty string array")
         if "defaultPrompt" not in interface and "default_prompt" not in interface:

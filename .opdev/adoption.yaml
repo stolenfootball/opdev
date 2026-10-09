@@ -1,0 +1,314 @@
+clean_target:
+  version: 2
+  inventory_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+  retirements:
+  - path: .opdev/evidence.yaml
+    reason: >-
+      Replaced by bounded current-change MR review under storage 2; no archive
+      required.
+    replacement: null
+  - path: .github/workflows/opdev.yml
+    reason: >-
+      Obsolete duplicate mirror gate reads the retired ledger; GitLab owns source
+      qualification.
+    replacement: .gitlab-ci.yml
+schema: 2
+catalog_version: 2
+scope: >-
+  Rust workspace; Python test/evaluation/release helpers; POSIX and PowerShell
+  installers; versioned schemas and agent guidance; Codex/Claude plugins; GitLab CI
+  and GitHub native-build/publication handoff. Clean-2 self-adoption with preserved
+  supported behavior.
+practices:
+  accessibility:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve approved noninteractive/readable-text/explicit-consent targets; verify
+      changed output. No universal WCAG or host-interface certification.
+    references:
+    - spec/consumer-interface.md
+    - crates/opdev-cli/tests/consumer_interface.rs
+    suites:
+    - check
+    research: []
+  agents:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Migrate to shared guidance and thin regular-file root pointers; verify routing
+      without changing installed plugins.
+    references:
+    - .opdev/guidance.md
+    - AGENTS.md
+    - CLAUDE.md
+    suites:
+    - check
+    research: []
+  coding_style:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve rustfmt/Clippy; maintained supporting scripts use Ruff, shfmt,
+      ShellCheck and PSScriptAnalyzer with versioned high-signal rules. Frozen benchmark
+      inputs are excluded, not rewritten to satisfy style checks.
+    references:
+    - Cargo.toml
+    - docs/CONTRIBUTING.md
+    suites:
+    - format
+    - lint
+    - script_format
+    - script_lint
+    - check
+    research: []
+  configuration:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Versioned schemas, manifests, rules and toolchain pins control behavior.
+      Runtime location and CI secrets remain external.
+    references:
+    - schema
+    - plugins/opdev/runtime.lock
+    - docs/SECURITY.md
+    suites:
+    - check
+    research: []
+  coverage:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Advisory Rust coverage with no percentage gate; instrument the same canonical
+      Linux execution. Other languages/native targets and agent effectiveness are
+      outside measurement.
+    references:
+    - .gitlab-ci.yml
+    - docs/CONTRIBUTING.md
+    suites:
+    - check
+    research:
+    - https://github.com/taiki-e/cargo-llvm-cov/tree/v0.9.1
+  delivery:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve six native targets, signed immutable GitHub assets and sole GitLab tag
+      publisher. Verify qualification dependencies; adoption does not authorize a
+      release.
+    references:
+    - .gitlab-ci.yml
+    - .github/workflows/release-build.yml
+    - release/README.md
+    suites:
+    - check
+    research: []
+  dependencies:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve locked Rust and pinned CI tools; review changed dependencies/security
+      risks. SBOM and signatures do not establish absence of vulnerabilities.
+    references:
+    - Cargo.lock
+    - docs/SECURITY.md
+    - spec/release-evidence.md
+    - scripts/style-tools.json
+    suites:
+    - check
+    research: []
+  effectiveness:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Reuse bounded workflow/adoption trials with actual sample/model/failure
+      limitations. Correctness is not utility; no new live-agent trials implied.
+    references:
+    - benchmarks/workflow-usability/README.md
+    - benchmarks/adoption/README.md
+    - spec/workflow-usability.md
+    suites:
+    - check
+    research: []
+  experiments:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Compact views remain explicit experimental opt-in; adoption neither activates
+      nor promotes them. Keep existing accountable experiment/evaluation work.
+    references:
+    - spec/experiments.md
+    - spec/token-efficiency.md
+    - benchmarks/sessions/compact-experiment.yaml
+    - https://gitlab.com/stolenfootball-tools/opdev/-/issues/28
+    suites:
+    - check
+    research: []
+  extensions:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Retain additive checks and NIST-derived informative profile. Engineering
+      mandatory; MinimumCD assessment separate. Extensions cannot waive required rules.
+    references:
+    - spec/assurance-profiles.md
+    suites:
+    - check
+    research: []
+  formatting:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Rust uses rustfmt, Python Ruff, POSIX shell shfmt and PowerShell
+      PSScriptAnalyzer formatting. Canonical checks cover maintained sources; frozen benchmarks
+      retain their original input bytes.
+    references:
+    - docs/CONTRIBUTING.md
+    - scripts
+    - tests
+    suites:
+    - format
+    - script_format
+    - check
+    research: []
+  integration:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Main is sole trunk/release source; direct pushes disabled, maintainer merging
+      retained. Verify required jobs and exact pre/post-merge review consumption live.
+    references:
+    - .gitlab-ci.yml
+    - crates/opdev-remote/src/ci_review.rs
+    - https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+    suites:
+    - check
+    research: []
+  linting:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Deny-warnings Clippy/compiler checks, Ruff high-signal Python rules, ShellCheck
+      and PSScriptAnalyzer enforce reviewed component conventions. Linux qualification
+      does not substitute for the required Windows checks.
+    references:
+    - Cargo.toml
+    - scripts
+    - tests
+    suites:
+    - lint
+    - script_lint
+    - check
+    research: []
+  observability:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve actionable text/JSON, stderr/exit status, bounds and interrupted-write
+      diagnostics. Hosted telemetry is not required for the on-demand CLI.
+    references:
+    - spec/consumer-interface.md
+    - crates/opdev-cli/tests/consumer_interface.rs
+    suites:
+    - check
+    research: []
+  project:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve existing scope and authority ownership; GitLab issue owns adoption
+      work, not repository backlog.
+    references:
+    - .opdev/project.yaml
+    - spec/README.md
+    suites: []
+    research: []
+  recovery:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve automated installer/publication recovery and safe roll-forward.
+      Separate MinimumCD rollback finding needs actual evidence, not a general recovery
+      declaration.
+    references:
+    - release/README.md
+    - tests/runtime_test.py
+    - tests/runtime_test.ps1
+    - tests/dist_test.py
+    suites:
+    - check
+    research: []
+  review:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Use exact MR review and independent selection, current source/stage binding and
+      actual assertion/content review; attribution is not human consent.
+    references:
+    - docs/CONTRIBUTING.md
+    - spec/evidence-ledger.md
+    - crates/opdev-remote/src/discussion_review.rs
+    suites:
+    - check
+    research: []
+  security:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Preserve fail-closed input/process/authentication/signature boundaries and
+      negative tests. CI uses built-in short-lived job identity; no dedicated token
+      provisioning or personal credential in MR jobs.
+    references:
+    - docs/SECURITY.md
+    - spec/remote-audits.md
+    - crates/opdev-remote/src/ci_review.rs
+    suites:
+    - check
+    research: []
+  setup:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Use Rust 1.97.0, Cargo.lock, Python 3 and versioned CI inputs; verify clean CI
+      including pinned coverage tooling.
+    references:
+    - rust-toolchain.toml
+    - Cargo.lock
+    - .gitlab-ci.yml
+    - scripts/setup_style.py
+    - scripts/style-tools.json
+    suites:
+    - check
+    research: []
+  testing:
+    state: implemented
+    owner: Jeremy (maintainer); Codex implementation and evidence review
+    reason: >-
+      Keep meaningful acceptance/regression assertions, visible retries and
+      owner/issue/expiry quarantine. Verify pre/post-merge and native coverage.
+    references:
+    - docs/CONTRIBUTING.md
+    - crates/opdev-cli/tests/ci_routing.rs
+    - crates/opdev-cli/tests/layout.rs
+    suites:
+    - check
+    research: []
+review:
+  plan_id: 736021ce91fa251b4ab8cd71ed07587d292abdcb72be853fed8c554971dba71f
+  reviewer: Jeremy
+  reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+  delegation: >-
+    Implement approved clean-2 self-adoption, approved
+    Ruff/shfmt/ShellCheck/PSScriptAnalyzer conventions, and approved native built-in CI authentication in place
+    of dedicated-token provisioning. Preserve supported behavior and required native
+    qualification. No release, installed-tool changes, consumer migration, delegation
+    or new live-agent trials.
+workflow:
+  integration_branches:
+  - main
+  release_source: main
+  main_option: already_main
+  references:
+  - https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+  - .gitlab-ci.yml
+  - release/README.md

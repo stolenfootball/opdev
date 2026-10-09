@@ -196,7 +196,8 @@ try {
         if ($signatureFails) {
             Assert-True ($failure.Contains('Signature failure')) 'Cleanup masked original signature failure'
             Assert-True ($script:Executions -eq 0) 'Failed verification executed CLI'
-        } else { Assert-True ($failure.Contains('Runtime was installed')) 'Partial success was not distinguished'
+        } else {
+            Assert-True ($failure.Contains('Runtime was installed')) 'Partial success was not distinguished'
         }
         Assert-True (@(Get-ChildItem -LiteralPath $env:OPDEV_DATA_DIR -Recurse -Force | Where-Object { $_.Name -like '*.lock' }).Count -eq 0) 'Staging failure prevented lock cleanup'
     }

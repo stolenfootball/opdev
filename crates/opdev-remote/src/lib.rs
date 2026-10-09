@@ -5,6 +5,8 @@
 mod archive;
 mod discussion_review;
 pub use discussion_review::{DiscussionLocator, DiscussionObservation, retrieve_discussion};
+mod ci_review;
+pub use ci_review::{CiReviewSelection, select_ci_review};
 mod work_observation;
 pub use work_observation::{observe_work, recheck_work};
 mod run;
@@ -375,6 +377,9 @@ fn gitlab_request(
         Some(credential) if credential.scheme == GitlabAuthScheme::Bearer => {
             request.bearer_auth(&credential.secret)
         }
+        Some(credential) if credential.scheme == GitlabAuthScheme::JobToken => {
+            request.header("JOB-TOKEN", &credential.secret)
+        }
         Some(credential) => request.header("PRIVATE-TOKEN", &credential.secret),
         None => request,
     }
@@ -384,6 +389,7 @@ fn gitlab_request(
 enum GitlabAuthScheme {
     Bearer,
     PrivateToken,
+    JobToken,
 }
 
 struct GitlabCredential {
@@ -400,6 +406,15 @@ where
     F: FnMut(&str) -> Option<String>,
     G: FnOnce() -> Option<String>,
 {
+    // A runner's short-lived identity must not pick up an unrelated developer login.
+    if environment("GITLAB_CI").as_deref() == Some("true")
+        && let Some(secret) = environment("CI_JOB_TOKEN").filter(|value| !value.trim().is_empty())
+    {
+        return Some(GitlabCredential {
+            scheme: GitlabAuthScheme::JobToken,
+            secret,
+        });
+    }
     for (name, scheme) in [
         ("OPDEV_GITLAB_OAUTH_TOKEN", GitlabAuthScheme::Bearer),
         ("OPDEV_GITLAB_PRIVATE_TOKEN", GitlabAuthScheme::PrivateToken),
@@ -659,6 +674,44 @@ mod tests {
     }
 
     #[test]
+    fn ci_job_identity_precedes_local_credentials_without_relabeling_the_token()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let mut local_login_read = false;
+        let selected = gitlab_credential_with(
+            |name| match name {
+                "GITLAB_CI" => Some("true".into()),
+                "CI_JOB_TOKEN" => Some("job-fixture".into()),
+                "GITLAB_TOKEN" => Some("unrelated-personal-fixture".into()),
+                _ => None,
+            },
+            || {
+                local_login_read = true;
+                Some("unrelated-stored-login".into())
+            },
+        )
+        .ok_or("job identity missing")?;
+        let request = gitlab_request(
+            test_client()?.get("https://gitlab.com/api/v4/job"),
+            Some(&selected),
+        )
+        .build()?;
+        assert_eq!(
+            request
+                .headers()
+                .get("JOB-TOKEN")
+                .ok_or("job header missing")?,
+            "job-fixture"
+        );
+        assert!(!request.headers().contains_key("Authorization"));
+        assert!(!request.headers().contains_key("PRIVATE-TOKEN"));
+        assert!(
+            !local_login_read,
+            "CI must not read a developer's stored login"
+        );
+        Ok(())
+    }
+
+    #[test]
     fn gitlab_mock_accepts_bearer_and_private_token_headers()
     -> Result<(), Box<dyn std::error::Error>> {
         let client = test_client()?;
@@ -677,6 +730,7 @@ mod tests {
             let secret = match scheme {
                 GitlabAuthScheme::Bearer => "bearer-fixture",
                 GitlabAuthScheme::PrivateToken => "private-fixture",
+                GitlabAuthScheme::JobToken => "job-fixture",
             };
             let (url, request, server) = mock_response(200, "{}")?;
             let credential = GitlabCredential {

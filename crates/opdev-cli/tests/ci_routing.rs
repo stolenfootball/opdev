@@ -50,6 +50,21 @@ fn quality_has_one_canonical_execution_and_no_feature_push_pipeline()
             .iter()
             .any(|command| s.contains(command))
     })));
+    let body = scripts
+        .iter()
+        .filter_map(Value::as_str)
+        .collect::<Vec<_>>()
+        .join("\n");
+    assert!(body.contains("cargo llvm-cov show-env --export-prefix"));
+    assert!(body.contains("opdev check --ci --review-ci"));
+    assert!(body.contains("--post-merge"));
+    assert!(!body.contains("ci_review.py"));
+    assert!(!body.contains("GITLAB_TOKEN="));
+    assert!(body.contains("cargo llvm-cov report --lcov"));
+    assert!(!body.contains("cargo llvm-cov test"));
+    assert_eq!(ci["quality"]["artifacts"]["expire_in"], "30 days");
+    assert_eq!(ci["quality"]["artifacts"]["when"], "always");
+    assert_ne!(ci["quality"]["allow_failure"], true);
     let rules = ci["workflow"]["rules"].as_array().ok_or("workflow rules")?;
     assert_eq!(rules.len(), 3);
     assert!(
@@ -63,6 +78,55 @@ fn quality_has_one_canonical_execution_and_no_feature_push_pipeline()
             .any(|rule| rule["if"] == "$CI_PIPELINE_SOURCE == \"merge_request_event\"")
     );
     assert!(rules.iter().any(|rule| rule["if"] == "$CI_COMMIT_TAG"));
+    Ok(())
+}
+
+#[test]
+fn native_ci_review_requires_explicit_ci_context_and_does_not_run_on_plan()
+-> Result<(), Box<dyn std::error::Error>> {
+    for args in [
+        vec!["check", "--review-ci"],
+        vec!["check", "--ci", "--review-ci", "--plan"],
+        vec!["check", "--ci", "--review-ci", "--remote"],
+        vec!["check", "--ci", "--review-ci", "--delivery"],
+    ] {
+        let output = std::process::Command::new(env!("CARGO_BIN_EXE_opdev"))
+            .args(args)
+            .output()?;
+        assert_eq!(output.status.code(), Some(2));
+        assert!(String::from_utf8_lossy(&output.stderr).contains("error:"));
+    }
+    Ok(())
+}
+
+#[test]
+fn standard_script_checks_cover_maintained_sources_without_rewriting_fixtures()
+-> Result<(), Box<dyn std::error::Error>> {
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let output = std::process::Command::new(if cfg!(windows) { "python" } else { "python3" })
+        .arg(root.join("tests/style_tools_test.py"))
+        .current_dir(root)
+        .output()?;
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let ci: Value = serde_saphyr::from_str(include_str!("../../../.gitlab-ci.yml"))?;
+    let windows = ci["installer-windows"]["script"]
+        .as_array()
+        .ok_or("Windows script")?;
+    for mode in ["format", "lint"] {
+        assert!(windows.contains(&json!(format!(
+            "powershell -NoProfile -File scripts/check_powershell.ps1 -Mode {mode}"
+        ))));
+    }
+    assert!(
+        ci["quality"]["before_script"]
+            .as_array()
+            .ok_or("quality setup")?
+            .contains(&json!("python scripts/setup_style.py"))
+    );
     Ok(())
 }
 

@@ -192,11 +192,16 @@ fn check_head(
             selection.repository_id
         )
     };
-    let project: Value = serde_json::from_slice(&get(&numeric)?)
-        .map_err(|_| "Review repository metadata is malformed")?;
-    if project["id"].as_u64() != Some(selection.repository_id) {
-        return Err("Review repository identity differs".into());
-    }
+    let project: Value = if github {
+        let project: Value = serde_json::from_slice(&get(&numeric)?)
+            .map_err(|_| "Review repository metadata is malformed")?;
+        if project["id"].as_u64() != Some(selection.repository_id) {
+            return Err("Review repository identity differs".into());
+        }
+        project
+    } else {
+        Value::Null
+    };
     let endpoint = if github {
         let slug = text(&project, "full_name")?;
         if slug.split('/').count() != 2
@@ -234,15 +239,13 @@ fn check_head(
     {
         return Err("MR/PR source changed or belongs to another project. Review the current change before verification.".into());
     }
-    let repository_name = text(
-        &project,
-        if github {
-            "full_name"
-        } else {
-            "path_with_namespace"
-        },
-    )?
-    .into();
+    let repository_name = if github {
+        text(&project, "full_name")?.to_owned()
+    } else {
+        // The authenticated MR response binds numeric project identity and web path.
+        // General GET /projects/:id is deliberately unavailable to CI_JOB_TOKEN.
+        gitlab_mr_repository(&item, selection.number)?
+    };
     let merged = if github {
         item["merged"] == true
     } else {
@@ -260,6 +263,27 @@ fn check_head(
         merged,
         merge_commit,
     })
+}
+
+pub(crate) fn gitlab_mr_repository(item: &Value, number: u64) -> Result<String, String> {
+    let web = text(item, "web_url")?;
+    let suffix = format!("/-/merge_requests/{number}");
+    let slug = web
+        .strip_prefix("https://gitlab.com/")
+        .and_then(|v| v.strip_suffix(&suffix))
+        .ok_or("Review repository URL is unsupported")?;
+    if slug.split('/').count() < 2
+        || slug.split('/').any(|p| {
+            p.is_empty()
+                || matches!(p, "." | "..")
+                || !p
+                    .bytes()
+                    .all(|b| b.is_ascii_alphanumeric() || b"._-".contains(&b))
+        })
+    {
+        return Err("Review repository name is unsupported".into());
+    }
+    Ok(slug.to_owned())
 }
 
 fn verify_commit_tree(root: &std::path::Path, commit: &str) -> Result<(), String> {
@@ -346,7 +370,7 @@ mod tests {
             "{endpoint}/{}/3",
             if github { "pulls" } else { "merge_requests" }
         );
-        let head = json!({"number":3,"iid":3,"target_project_id":7,"base":{"repo":{"id":7}},"sha":locator.source_commit,"head":{"sha":locator.source_commit}});
+        let head = json!({"number":3,"iid":3,"target_project_id":7,"web_url":"https://gitlab.com/fixture/product/-/merge_requests/3","base":{"repo":{"id":7}},"sha":locator.source_commit,"head":{"sha":locator.source_commit}});
         let parent_url = format!(
             "{endpoint}/{}/3",
             if github { "issues" } else { "merge_requests" }
@@ -385,7 +409,11 @@ mod tests {
         locator: &DiscussionLocator,
         replies: Vec<(String, Value)>,
     ) -> std::result::Result<DiscussionObservation, String> {
-        let mut replies = replies.into_iter();
+        // No generic project endpoint may be requested on GitLab's job-token path.
+        let mut replies = replies.into_iter().filter(|(url, _)| {
+            locator.selector.provider != CiProvider::Gitlab
+                || url != "https://gitlab.com/api/v4/projects/7"
+        });
         retrieve_with(locator, |url| {
             let (expected, value) = replies.next().ok_or("Unexpected extra request")?;
             assert_eq!(url, expected);
@@ -439,7 +467,10 @@ mod tests {
                 let last = replies.len() - 1;
                 match fault {
                     0 => locator.source_commit = "e".repeat(40),
-                    1 => replies[0].1["id"] = json!(8),
+                    1 => {
+                        replies[0].1["id"] = json!(8);
+                        replies[1].1["target_project_id"] = json!(8);
+                    }
                     2 => replies[4].1["body"] = json!("edited private text"),
                     3 => replies[4].1["id"] = json!(12),
                     4 => {
