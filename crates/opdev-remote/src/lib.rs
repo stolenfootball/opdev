@@ -6,7 +6,7 @@ mod archive;
 mod discussion_review;
 pub use discussion_review::{DiscussionLocator, DiscussionObservation, retrieve_discussion};
 mod ci_review;
-pub use ci_review::{CiReviewSelection, select_ci_review};
+pub use ci_review::{CiReviewSelection, ReviewHandoff, prepare_review_handoff, select_ci_review};
 mod work_observation;
 pub use work_observation::{observe_work, recheck_work};
 mod run;

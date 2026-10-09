@@ -104,6 +104,45 @@ policy migration, publication or credential provisioning occurs. See
 [glab CI authentication](https://docs.gitlab.com/cli/authentication/), and
 [GitHub workflow tokens](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token).
 
+## Bounded review handoff and representation
+
+`evidence.review-handoff.v1` provides `ci prepare-review --change NUMBER --note ID
+--acceptance-sha256 ID [--post-merge]`. It reads the explicitly selected posted
+comment through existing provider authentication and verifies current source,
+configuration, stage, acceptance review and referenced authorities. It returns
+JSON containing the locator, independent acceptance identity, original description
+digest and proposed description. Only the selected stage is changed; other-stage
+selection and surrounding text are preserved. Ambiguous/malformed existing blocks,
+forks, wrong source and observed drift fail. No upload, approval, retry or issue
+creation occurs. Inspect the proposal and recheck the original description digest
+immediately before an authorized provider write; this proposal is not a write lock.
+
+`ci review-check [--post-merge]` uses the same built-in CI identity and selection
+as normal verification, rechecks mutable authorities and reports only input
+readiness. Exit 0 is **not** integration qualification. Run it before expensive
+check-only tool setup; actual `check --ci --review-ci` still validates current
+inputs and executes required suites. The normal path never trusts a preflight
+receipt. No project command is run by either preparation command.
+
+`evidence.discussion-wire.v2` changes only the discussion representation, not
+semantic review schema 1 or any acceptance digest. A `opdev-review:v2` Markdown
+section contains JSON with `schema: 2`, `record`, `strings` and `references`.
+Each reference has a JSON-pointer `path` to a null slot in `record` and an `index`
+into `strings`. The writer interns repeated strings of at least 80 bytes only
+when pointer overhead still saves bytes. Expansion restores the original typed
+record before ordinary validation: no summaries, omitted claims or new consent.
+References cannot overwrite values or other references, missing indexes/paths
+fail, strings must be used at least twice, and unknown fields fail. Limits are
+4,096 references/strings, 32 pointer segments, 1 MiB expanded JSON and the unchanged
+60 KiB whole-comment bound. Strings are escaped against Markdown delimiter
+injection. Old v1 sections remain readable; mixed/unknown versions fail closed.
+Older readers cannot read v2: check local **and CI** capabilities before exporting.
+
+This lossless representation was chosen over increasing the note limit, deleting
+review details, or storing another evidence archive. Revisit the dictionary if
+measured usability or payload savings do not justify it; the typed record and v1
+reader allow a different bounded encoding without changing review semantics.
+
 ## Qualification freshness (independent of storage lifetime)
 
 OpDev does not implement a general cross-revision test cache or infer unaffected

@@ -65,6 +65,26 @@ fn quality_has_one_canonical_execution_and_no_feature_push_pipeline()
     assert_eq!(ci["quality"]["artifacts"]["expire_in"], "30 days");
     assert_eq!(ci["quality"]["artifacts"]["when"], "always");
     assert_ne!(ci["quality"]["allow_failure"], true);
+    let setup = ci["quality"]["before_script"].as_array().ok_or("setup")?;
+    let preflight = setup
+        .iter()
+        .position(|s| s.as_str().is_some_and(|s| s.contains("ci review-check")))
+        .ok_or("input preflight")?;
+    for expensive in [
+        "apt-get update",
+        "python scripts/setup_style.py",
+        "rustup component add llvm-tools-preview",
+        "cargo install cargo-llvm-cov",
+    ] {
+        let position = setup
+            .iter()
+            .position(|s| s.as_str().is_some_and(|s| s.contains(expensive)))
+            .ok_or("setup command")?;
+        assert!(
+            preflight < position,
+            "review selection should fail before {expensive}"
+        );
+    }
     let rules = ci["workflow"]["rules"].as_array().ok_or("workflow rules")?;
     assert_eq!(rules.len(), 3);
     assert!(

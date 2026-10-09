@@ -183,12 +183,12 @@ impl ReviewRecord {
     /// # Errors
     /// Refuse records exceeding the portable 60 KiB discussion limit.
     pub fn discussion_body(&self) -> anyhow::Result<String> {
-        let json = serde_json::to_string_pretty(self)?
+        let json = crate::review_wire::encode(self)?
             .replace('<', "\\u003c")
             .replace('>', "\\u003e")
             .replace('`', "\\u0060");
         let body = format!(
-            "### OpDev acceptance review\n\nSource: `{}`\n\nStage: `{:?}`. Review identity: `{}`.\n\nThis records assertion review, not test execution or developer consent. Required checks remain separate.\n\n<details><summary>Conditions, test mappings and review limits</summary>\n\n<!-- opdev-review:v1 -->\n```json\n{json}\n```\n<!-- opdev-review:end -->\n</details>\n",
+            "### OpDev acceptance review\n\nSource: `{}`\n\nStage: `{:?}`. Review identity: `{}`.\n\nThis records assertion review, not test execution or developer consent. Required checks remain separate.\n\n<details><summary>Conditions, test mappings and review limits</summary>\n\n<!-- opdev-review:v2 -->\n```json\n{json}\n```\n<!-- opdev-review:end -->\n</details>\n",
             self.source_sha256, self.stage, self.acceptance_sha256
         );
         anyhow::ensure!(
@@ -202,20 +202,27 @@ impl ReviewRecord {
     /// # Errors
     /// Refuse missing, duplicate, oversized or malformed records without echoing content.
     pub fn from_discussion_body(body: &str) -> anyhow::Result<Self> {
-        const START: &str = "<!-- opdev-review:v1 -->\n```json\n";
+        const V1: &str = "<!-- opdev-review:v1 -->\n```json\n";
+        const V2: &str = "<!-- opdev-review:v2 -->\n```json\n";
         const END: &str = "\n```\n<!-- opdev-review:end -->";
         anyhow::ensure!(
             body.len() <= 60 * 1024
-                && body.matches("<!-- opdev-review:v1 -->").count() == 1
+                && body.matches("<!-- opdev-review:").count() == 2
                 && body.matches("<!-- opdev-review:end -->").count() == 1,
             "Select exactly one bounded MR/PR review section; missing or ambiguous content cannot qualify a check."
         );
+        let version_two = body.contains(V2);
         let json = body
-            .split_once(START)
+            .split_once(if version_two { V2 } else { V1 })
             .and_then(|(_, rest)| rest.split_once(END))
             .map(|(json, _)| json)
             .ok_or_else(|| anyhow::anyhow!("MR/PR review section is incomplete or unsupported"))?;
-        serde_json::from_str(json).map_err(|_| {
+        (if version_two {
+            crate::review_wire::decode(json)
+        } else {
+            serde_json::from_str(json).map_err(Into::into)
+        })
+        .map_err(|_| {
             anyhow::anyhow!("MR/PR review is malformed or unsupported; no private content echoed")
         })
     }

@@ -1,7 +1,7 @@
 //! Resolve a current MR/PR review using built-in CI identity and provider APIs.
 //! This reads an explicit selection; it never creates reviews or consent.
 use opdev_project::{CiProvider, ProjectManifest, TestStage, WorkKind, WorkSelector};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 
@@ -236,25 +236,199 @@ fn read(get: &mut impl FnMut(&str) -> Result<Vec<u8>, String>, url: &str) -> Res
     serde_json::from_slice(&get(url)?).map_err(|_| "CI provider metadata is malformed".into())
 }
 
-#[derive(Deserialize)]
+#[derive(Default, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct Selection {
     schema: u32,
     stages: Stages,
 }
-#[derive(Deserialize)]
+#[derive(Default, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct Stages {
     pre_merge: Option<Choice>,
     post_merge: Option<Choice>,
 }
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct Choice {
     revision: String,
     note_id: u64,
     body_sha256: String,
     acceptance_sha256: String,
+}
+
+/// Proposed CI selection; caller must review and explicitly apply it through the
+/// provider. This read-only handoff never posts or authenticates approval.
+#[derive(Serialize)]
+pub struct ReviewHandoff {
+    /// Output format.
+    pub schema: u32,
+    /// Explicit comment identity and observed body digest.
+    pub locator: DiscussionLocator,
+    /// Independently supplied acceptance identity, not adopted from the comment.
+    pub acceptance_sha256: String,
+    /// Full original description digest: check again before applying a proposal.
+    pub original_description_sha256: String,
+    /// Only the selected stage changes; all other description text is preserved.
+    pub proposed_description: String,
+}
+
+/// Prepare an exact local-source handoff using provider-authenticated GETs only.
+/// # Errors
+/// Reject missing policy, forks, wrong source/stage, malformed selections or drift.
+pub fn prepare_review_handoff(
+    manifest: &ProjectManifest,
+    stage: TestStage,
+    revision: &str,
+    number: u64,
+    note_id: u64,
+    acceptance: &str,
+) -> Result<ReviewHandoff, String> {
+    let policy = manifest
+        .assurance
+        .review_storage
+        .as_ref()
+        .filter(|p| p.version == 2)
+        .ok_or("Review handoff needs the selected MR/PR storage policy")?;
+    let repository = crate::Repository::parse(
+        manifest
+            .project
+            .ci
+            .remote
+            .as_deref()
+            .ok_or("Project remote is missing")?,
+    )
+    .map_err(|_| "Project remote is unsupported")?;
+    if repository.provider != policy.provider
+        || manifest.project.ci.provider != policy.provider
+        || number == 0
+        || note_id == 0
+        || !hex(revision, 40)
+        || !hex(acceptance, 64)
+        || !matches!(stage, TestStage::PreMerge | TestStage::PostMerge)
+    {
+        return Err("Review handoff needs the project's exact change, comment, source, stage and independent acceptance identity".into());
+    }
+    let context = Context {
+        provider: policy.provider,
+        repository_id: policy.repository_id,
+        slug: repository.slug(),
+        trunk: manifest.project.trunk.clone(),
+        revision: revision.into(),
+        stage,
+        number: Some(number),
+    };
+    super::archive::authenticated_reads(policy.provider, |get| {
+        prepare_with(&context, number, note_id, acceptance, |url| get(url, false))
+    })
+}
+
+fn prepare_with(
+    context: &Context,
+    number: u64,
+    note_id: u64,
+    acceptance: &str,
+    mut get: impl FnMut(&str) -> Result<Vec<u8>, String>,
+) -> Result<ReviewHandoff, String> {
+    let hub = context.provider == CiProvider::Github;
+    let url = if hub {
+        format!(
+            "https://api.github.com/repos/{}/pulls/{number}",
+            context.slug
+        )
+    } else {
+        format!(
+            "https://gitlab.com/api/v4/projects/{}/merge_requests/{number}",
+            context.repository_id
+        )
+    };
+    let item = read(&mut get, &url)?;
+    let key = if hub { "body" } else { "description" };
+    let body = item[key].as_str().unwrap_or("");
+    let selector = WorkSelector {
+        provider: context.provider,
+        repository_id: context.repository_id,
+        kind: WorkKind::MergeRequest,
+        number,
+        note_id: Some(note_id),
+    };
+    let note = super::work_observation::read_body_with(&selector, &mut get)?;
+    let note_body = note["body"]
+        .as_str()
+        .ok_or("Review comment body is missing")?;
+    let record = opdev_project::ReviewRecord::from_discussion_body(note_body)
+        .map_err(|_| "Review comment is malformed or unsupported")?;
+    if record.acceptance_sha256 != acceptance || record.stage != context.stage {
+        return Err(
+            "Selected comment differs from the independently reviewed acceptance identity or stage"
+                .into(),
+        );
+    }
+    let proposed = update_description(
+        body,
+        context.stage,
+        Choice {
+            revision: context.revision.clone(),
+            note_id,
+            body_sha256: format!("{:x}", Sha256::digest(note_body.as_bytes())),
+            acceptance_sha256: acceptance.into(),
+        },
+    )?;
+    let mut updated = item.clone();
+    updated[key] = proposed.clone().into();
+    let selection = select(context, number, &updated)?;
+    if read(&mut get, &url)? != item {
+        return Err("MR/PR changed during handoff preparation; inspect the current description before retrying".into());
+    }
+    Ok(ReviewHandoff {
+        schema: 1,
+        locator: selection.locator,
+        acceptance_sha256: acceptance.into(),
+        original_description_sha256: format!("{:x}", Sha256::digest(body.as_bytes())),
+        proposed_description: proposed,
+    })
+}
+
+fn update_description(body: &str, stage: TestStage, choice: Choice) -> Result<String, String> {
+    if body.len() > 1024 * 1024 {
+        return Err("MR/PR description exceeds handoff bound".into());
+    }
+    let starts = body.matches(START).count();
+    let ends = body.matches(END).count();
+    let (prefix, section, suffix) = match (starts, ends) {
+        (0, 0) => (body, None, ""),
+        (1, 1) => {
+            let (prefix, tail) = body.split_once(START).ok_or("Missing selection start")?;
+            let (section, suffix) = tail
+                .split_once(END)
+                .ok_or("CI review selection markers are out of order")?;
+            (prefix, Some(section), suffix)
+        }
+        _ => return Err("MR/PR selection is ambiguous; no description proposed".into()),
+    };
+    let mut data: Selection = match section {
+        Some(s) => serde_json::from_str(s)
+            .map_err(|_| "Existing CI review selection is malformed; no description proposed")?,
+        None => Selection {
+            schema: 1,
+            stages: Stages::default(),
+        },
+    };
+    if data.schema != 1 {
+        return Err("Existing CI review selection is unsupported".into());
+    }
+    match stage {
+        TestStage::PreMerge => data.stages.pre_merge = Some(choice),
+        TestStage::PostMerge => data.stages.post_merge = Some(choice),
+        _ => return Err("CI handoff needs a pre-merge or post-merge stage".into()),
+    }
+    let json = serde_json::to_string(&data).map_err(|_| "Cannot encode CI selection")?;
+    let separator = if section.is_none() { "\n\n" } else { "" };
+    let result = format!("{prefix}{separator}{START}\n{json}\n{END}{suffix}");
+    if result.len() > 1024 * 1024 {
+        return Err("Proposed description exceeds handoff bound".into());
+    }
+    Ok(result)
 }
 
 fn select(context: &Context, number: u64, item: &Value) -> Result<CiReviewSelection, String> {
@@ -375,6 +549,102 @@ mod tests {
     use super::*;
     use serde_json::json;
     type Result<T = ()> = std::result::Result<T, Box<dyn std::error::Error>>;
+
+    fn choice(revision: &str) -> Choice {
+        Choice {
+            revision: revision.into(),
+            note_id: 11,
+            body_sha256: "b".repeat(64),
+            acceptance_sha256: "c".repeat(64),
+        }
+    }
+
+    #[test]
+    fn handoff_preserves_surrounding_text_other_stage_and_refuses_ambiguous_input() -> Result {
+        let (context, mut item) = fixture(CiProvider::Gitlab, TestStage::PreMerge);
+        let original = format!(
+            "Human scope\n{}\nOther decisions",
+            item["description"].as_str().ok_or("body")?
+        );
+        let updated = update_description(&original, TestStage::PostMerge, choice(&"e".repeat(40)))?;
+        assert!(updated.starts_with("Human scope\n") && updated.ends_with("\nOther decisions"));
+        item["description"] = updated.into();
+        let selection = select(&context, 3, &item)?;
+        assert_eq!(selection.locator.source_commit, context.revision);
+        assert_eq!(selection.acceptance, "c".repeat(64));
+        for body in [
+            format!("{START}{{}}{END}{START}{{}}{END}"),
+            format!("{END}{START}"),
+            format!("{START}{{\"schema\":99,\"stages\":{{}}}}{END}"),
+            format!("{START}not json{END}"),
+            format!("{START}missing end"),
+        ] {
+            assert!(
+                update_description(&body, TestStage::PreMerge, choice(&context.revision)).is_err()
+            );
+        }
+        let new = update_description(
+            "Exact original scope",
+            TestStage::PreMerge,
+            choice(&context.revision),
+        )?;
+        assert!(new.starts_with("Exact original scope\n\n"));
+        Ok(())
+    }
+
+    #[test]
+    fn handoff_both_providers_require_explicit_note_and_unchanged_parent() -> Result {
+        for provider in [CiProvider::Gitlab, CiProvider::Github] {
+            for stage in [TestStage::PreMerge, TestStage::PostMerge] {
+                let (context, mut item) = fixture(provider, stage);
+                item["project_id"] = json!(7);
+                item["pull_request"] = json!({});
+                let record: opdev_project::ReviewRecord = serde_json::from_value(
+                    json!({"schema":1,"kind":"semantic_review",
+                    "source_sha256":"a".repeat(64),"configuration_sha256":"b".repeat(64),"stage":stage,
+                    "acceptance_sha256":"c".repeat(64),"ledger":{"schema":2,"project":[],"changes":[]}}),
+                )?;
+                let hub = provider == CiProvider::Github;
+                let parent_url = if hub {
+                    "https://api.github.com/repos/fixture/product/issues/3"
+                } else {
+                    "https://gitlab.com/api/v4/projects/7/merge_requests/3"
+                };
+                let note = json!({"id":11,"noteable_iid":3,"issue_url":parent_url,"body":record.discussion_body()?});
+                for drift in [false, true] {
+                    let mut parent_reads = 0;
+                    let result = prepare_with(&context, 3, 11, &"c".repeat(64), |url| {
+                        let value =
+                            if url.ends_with("/notes/11") || url.ends_with("/issues/comments/11") {
+                                note.clone()
+                            } else if url.ends_with("/repositories/7")
+                                || url.ends_with("/repos/fixture/product")
+                            {
+                                json!({"id":7,"full_name":"fixture/product"})
+                            } else {
+                                parent_reads += 1;
+                                let mut parent = item.clone();
+                                if drift && parent_reads > 2 {
+                                    parent["description"] = json!("later edit");
+                                    parent["body"] = json!("later edit");
+                                }
+                                parent
+                            };
+                        serde_json::to_vec(&value).map_err(|e| e.to_string())
+                    });
+                    if drift {
+                        assert!(result.is_err());
+                    } else {
+                        let result = result?;
+                        assert_eq!(result.locator.selector.note_id, Some(11));
+                        assert_eq!(result.acceptance_sha256, "c".repeat(64));
+                        assert!(result.proposed_description.contains(&context.revision));
+                    }
+                }
+            }
+        }
+        Ok(())
+    }
 
     fn fixture(provider: CiProvider, stage: TestStage) -> (Context, Value) {
         let context = Context {

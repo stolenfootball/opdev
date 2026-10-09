@@ -1214,6 +1214,69 @@ fn adoption_requires_release_path_review_not_a_generic_pipeline_pass()
     assert_eq!(output.status.code(), Some(1));
     let result: Value = serde_json::from_slice(&output.stdout)?;
     assert!(result["blockers"].to_string().contains("delivery_gate"));
+    assert!(
+        result["core_report"].is_null(),
+        "missing review input must stop before suites run"
+    );
+    Ok(())
+}
+
+#[test]
+fn preflight_reports_missing_inputs_together_and_never_executes_suites()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = ready_fixture()?;
+    let root = repo.path();
+    // A command that cannot run makes accidental execution visible even when
+    // all review inputs are otherwise valid.
+    let mut manifest = opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    manifest.commands.get_mut("verify").ok_or("command")?.argv =
+        vec!["opdev-must-not-execute-missing-program".into()];
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    bind_review(root)?;
+    let ready = cli(
+        root,
+        &[
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--preflight",
+            "--format",
+            "json",
+        ],
+    )?;
+    let value: Value = serde_json::from_slice(&ready.stdout)?;
+    assert!(ready.status.success(), "{value}");
+    assert_eq!(value["inputs_ready"], true);
+    assert_eq!(value["complete"], false);
+    assert_eq!(value["checks_ran"], false);
+    assert!(value["core_report"].is_null());
+    let mut ledger = EvidenceLedger::load_optional(root, &embedded_catalog()?)?.ok_or("ledger")?;
+    ledger.changes[0]
+        .assertions
+        .retain(|a| !matches!(a.rule_id.as_str(), "MCD-PIPELINE-001" | "OPDEV-WORK-001"));
+    ledger.changes[0].acceptance = None;
+    fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+    for extra in [vec!["--preflight"], vec![]] {
+        let mut args = vec![
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+        ];
+        args.extend(extra);
+        let output = cli(root, &args)?;
+        let value: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(output.status.code(), Some(1));
+        let gaps = value["blockers"].to_string();
+        assert!(
+            gaps.contains("delivery_gate")
+                && gaps.contains("adoption_review")
+                && gaps.contains("acceptance inventory"),
+            "{gaps}"
+        );
+        assert_eq!(value["checks_ran"], false);
+    }
     Ok(())
 }
 

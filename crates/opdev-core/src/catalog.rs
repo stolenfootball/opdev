@@ -202,10 +202,10 @@ impl Rule {
                 "Next: identify the issue tracker or other place that holds current work and progress in .opdev/project.yaml."
             }
             "OPDEV-WORK-001" => {
-                "Next: record what this change should achieve, its limits, and how you will test it in the existing work item; then link the reviewed facts in .opdev/evidence.yaml."
+                "Next: record what this change should achieve, its limits, and how you will test it in the existing work item; then link the facts in the project's selected review record."
             }
             "OPDEV-DESIGN-001" => {
-                "Next: record the important design decision, alternatives, reasons, and when to revisit it in the project's existing design source; link that review in .opdev/evidence.yaml."
+                "Next: record the important design decision, alternatives, reasons, and when to revisit it in the project's existing design source; link that review in the project's selected review record."
             }
             "MCD-CI-001" => {
                 "Next: configure the automated CI pipeline to check proposed changes and the main development branch."
@@ -259,7 +259,7 @@ impl Rule {
                 "Next: identify the risks of this project and the tests that address them in .opdev/project.yaml."
             }
             "OPDEV-TEST-002" => {
-                "Next: link each expected result for this change to a test or reviewed observation in .opdev/evidence.yaml. Review the actual assertions; a green test suite alone is not enough."
+                "Next: link each expected result for this change to a test or reviewed observation in the project's selected review record. Review the actual assertions; a green test suite alone is not enough."
             }
             "OPDEV-TEST-003" => {
                 "Next: add or identify tests that check the changed behavior, review their assertions, and run the required suites for this stage."

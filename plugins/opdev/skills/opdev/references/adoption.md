@@ -340,6 +340,15 @@ that files/evidence did not change during verification. It does not run a remote
 pipeline or publish artifacts. Required CI, qualification and recovery evidence
 must still exist. Never register this command as a suite that calls itself.
 
+On a CLI with `adoption.preflight.v1`, first use `adoption check --preflight`
+with the same selected review arguments to catch missing decisions, adoption/
+cleanup/delivery review and current acceptance inputs before expensive suites.
+It reports input readiness only, never completed adoption or executed checks.
+Ordinary adoption check repeats these guards; a saved preflight cannot qualify it.
+`prepare-evidence` includes an unresolved delivery-gate candidate, not approval.
+After local verification, use capable `ci qualify` for the separate current-trunk
+remote observation. Do not rerun equivalent suites just to refresh provider state.
+
 Applicable delivery also needs MCD-PIPELINE-001 `delivery_gate` evidence pointing to the
 reviewed release/tag pipeline path. Identify its required qualification job,
 publication ordering, trigger coverage and actual run; generic pipeline evidence

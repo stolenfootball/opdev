@@ -18,6 +18,7 @@ mod experiment;
 pub mod layout;
 mod manifest;
 mod review;
+mod review_wire;
 pub use review::{ReviewRecord, ReviewStorage, WorkKind, WorkObservation, WorkSelector};
 mod qualification;
 mod safeguards;

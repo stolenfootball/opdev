@@ -31,6 +31,35 @@ pub(crate) fn evaluate(
             "Acceptance evidence needs one unchanged staged source and ledger before and after checks: the files selected for commit or .opdev/evidence.yaml changed while checking. Stage the intended files, review the affected test links, and check again once those contents are stable",
         );
     }
+    inspect(root, manifest, Some(checks), ledger, fingerprint, stage)
+}
+
+/// Validate review inputs without executing or crediting any suite. Empty gaps
+/// mean inputs are ready, never that acceptance or a gate has passed.
+#[must_use]
+pub fn acceptance_input_gaps(
+    root: &Path,
+    manifest: &ProjectManifest,
+    ledger: Option<&EvidenceLedger>,
+    fingerprint: Option<&str>,
+    stage: TestStage,
+) -> Vec<String> {
+    let (outcome, _, diagnostic) = inspect(root, manifest, None, ledger, fingerprint, stage);
+    if matches!(outcome, Outcome::Passed | Outcome::NotApplicable) {
+        Vec::new()
+    } else {
+        vec![crate::evaluator::review_diagnostic(manifest, &diagnostic)]
+    }
+}
+
+fn inspect(
+    root: &Path,
+    manifest: &ProjectManifest,
+    checks: Option<&[CheckResult]>,
+    ledger: Option<&EvidenceLedger>,
+    fingerprint: Option<&str>,
+    stage: TestStage,
+) -> (Outcome, AcceptanceScope, String) {
     let Some(change) = ledger
         .filter(|ledger| ledger.schema == 2)
         .and_then(|ledger| fingerprint.and_then(|fingerprint| ledger.matching_change(fingerprint)))
@@ -90,10 +119,13 @@ pub(crate) fn evaluate(
                 .suites
                 .iter()
                 .find(|suite| Some(&suite.id) == mapping.suite.as_ref());
-            let run = checks.iter().find(|check| {
+            if checks.is_none() && declared.is_some_and(|suite| suite.stages.contains(&stage)) {
+                continue;
+            }
+            let run = checks.unwrap_or_default().iter().find(|check| {
                 check.kind == CheckKind::Suite && Some(&check.id) == mapping.suite.as_ref()
             });
-            match run.filter(|_| declared.is_some()) {
+            match run.filter(|_| declared.is_some_and(|suite| suite.stages.contains(&stage))) {
                 Some(check) if check.outcome == Outcome::Passed => (),
                 Some(check) if check.outcome == Outcome::Failed => failed = true,
                 Some(check) if check.outcome == Outcome::Error => error = true,

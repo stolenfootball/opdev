@@ -9,6 +9,64 @@ use opdev_remote::{RunExpectation, verify_run_with_jobs};
 use crate::OutputFormat;
 
 #[derive(Debug, Args)]
+pub(crate) struct QualifyArgs {
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    #[arg(long, value_enum, default_value_t = OutputFormat::Human)]
+    format: OutputFormat,
+}
+
+pub(crate) fn qualify(args: &QualifyArgs) -> Result<ExitCode> {
+    let (root, manifest) = crate::load_project(&args.root)?;
+    let revision = crate::clean_remote_revision(&root);
+    let result = revision
+        .as_ref()
+        .map(|r| opdev_remote::qualify_trunk(&manifest, r))
+        .transpose()?;
+    let unchanged = revision.is_some() && crate::clean_remote_revision(&root) == revision;
+    let outcome = if unchanged {
+        result.as_ref().map_or(Outcome::Unverified, |r| r.outcome)
+    } else {
+        Outcome::Unverified
+    };
+    let diagnostic = if revision.is_none() {
+        "Remote CI qualification needs a clean committed checkout. Commit or safely park local changes; no project checks ran."
+    } else if !unchanged {
+        "Source changed during remote qualification; the remote snapshot cannot qualify this checkout."
+    } else {
+        "Local tests and artifact readiness were not evaluated."
+    };
+    match args.format {
+        OutputFormat::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&serde_json::json!({
+                "schema": 1, "kind": "remote_ci_qualification", "outcome": outcome,
+                "revision": revision, "source_unchanged": unchanged, "qualification": result,
+                "local_tests": "not_run", "artifact_readiness": "not_evaluated", "diagnostic": diagnostic
+            }))?
+        ),
+        OutputFormat::Human => {
+            println!(
+                "Remote CI qualification: {}. {diagnostic}",
+                serde_json::to_value(outcome)?.as_str().unwrap_or("error")
+            );
+            if let Some(result) = result {
+                for finding in [&result.pipeline, &result.checks, &result.protection] {
+                    if let Some(message) = &finding.diagnostic {
+                        println!("  {message}");
+                    }
+                }
+            }
+        }
+    }
+    Ok(if outcome == Outcome::Passed {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    })
+}
+
+#[derive(Debug, Args)]
 pub(crate) struct VerifyRunArgs {
     /// Directory inside the initialized Git repository.
     #[arg(long, default_value = ".")]

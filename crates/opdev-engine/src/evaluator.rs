@@ -144,7 +144,7 @@ fn selected_ledger(
 ) -> Result<Option<EvidenceLedger>, EvaluationError> {
     Ok(if manifest.assurance.review_storage.is_some() {
         if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
-            return Err(EvaluationError::ReviewBinding("Both legacy ledger and external review policy exist. Complete the reviewed storage migration without discarding history; no evidence source was silently chosen".into()));
+            return Err(EvaluationError::ReviewBinding("Both legacy ledger and external review policy exist. Complete the reviewed storage migration before verification; no evidence source was silently chosen".into()));
         }
         let review = review.ok_or_else(|| EvaluationError::ReviewBinding("Selected policy needs an authenticated exact review locator and acceptance identity. No local cache or previous ledger substituted; no checks ran".into()))?;
         review
@@ -312,15 +312,17 @@ fn evaluate_inner(
     )
 }
 
-fn review_diagnostic(manifest: &ProjectManifest, diagnostic: &str) -> String {
-    if manifest
-        .assurance
-        .review_storage
-        .as_ref()
-        .is_some_and(|p| p.version == 2)
-    {
+pub(crate) fn review_diagnostic(manifest: &ProjectManifest, diagnostic: &str) -> String {
+    if let Some(policy) = &manifest.assurance.review_storage {
         diagnostic
-            .replace(".opdev/evidence.yaml", "the selected MR/PR review")
+            .replace(
+                ".opdev/evidence.yaml",
+                if policy.version == 2 {
+                    "the selected MR/PR review"
+                } else {
+                    "the selected retained archive review"
+                },
+            )
             .replace("ledger", "review record")
     } else {
         diagnostic.into()
