@@ -17,16 +17,25 @@ def commands(mode, system):
         return str(ROOT / "target/style-tools" / name / pins[name]["version"] / (name + suffix))
 
     # Maintained scripts and installers only. Frozen benchmark inputs stay untouched.
-    shell = sorted(str(path.relative_to(ROOT)) for base in ("scripts", "tests", "plugins", "release")
-                   for path in (ROOT / base).rglob("*.sh"))
+    shell = sorted(
+        str(path.relative_to(ROOT))
+        for base in ("scripts", "tests", "plugins", "release")
+        for path in (ROOT / base).rglob("*.sh")
+    )
     if mode == "format":
-        result = [[tool("ruff"), "format", "--check", "scripts", "tests", "examples"],
-                  [tool("shfmt"), "-d", "-i", "4", "-ci", *shell]]
+        result = [
+            [tool("ruff"), "format", "--check", "scripts", "tests", "examples"],
+            [tool("shfmt"), "-d", "-i", "4", "-ci", *shell],
+        ]
     else:
-        result = [[tool("ruff"), "check", "scripts", "tests", "examples"],
-                  [tool("shellcheck"), "--severity=warning", *shell]]
+        result = [
+            [tool("ruff"), "check", "scripts", "tests", "examples"],
+            [tool("shellcheck"), "--severity=warning", *shell],
+        ]
     if system == "Windows":
-        result.append(["powershell", "-NoProfile", "-File", "scripts/check_powershell.ps1", "-Mode", mode])
+        result.append(
+            ["powershell", "-NoProfile", "-File", "scripts/check_powershell.ps1", "-Mode", mode]
+        )
     return result
 
 

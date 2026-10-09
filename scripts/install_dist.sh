@@ -2,7 +2,10 @@
 # CI-only, pinned cargo-dist installation. Consumer installers never require Rust.
 set -eu
 destination=$1
-[ ! -e "$destination" ] || { echo 'Refusing to overwrite cargo-dist tools.' >&2; exit 1; }
+[ ! -e "$destination" ] || {
+    echo 'Refusing to overwrite cargo-dist tools.' >&2
+    exit 1
+}
 mkdir -p "$destination"
 archive="$destination/dist.tar.xz"
 curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --tlsv1.2 --connect-timeout 15 --max-time 180 https://github.com/axodotdev/cargo-dist/releases/download/v0.32.0/cargo-dist-x86_64-unknown-linux-gnu.tar.xz --output "$archive"

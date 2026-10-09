@@ -1,4 +1,5 @@
 """Neutral, bounded CI wiring fixture; no dependency, service or model access."""
+
 import hashlib
 import json
 from pathlib import Path
@@ -15,9 +16,13 @@ def main():
     source = Path(__file__)
     output = Path("feedback-artifacts")
     if mode == "diagnose":
-        observed = {"kind": "diagnostic", "qualification": "unverified",
-                    "system": platform.system(), "python": platform.python_version(),
-                    "whitespace_result": normalize(" alpha\t beta ")}
+        observed = {
+            "kind": "diagnostic",
+            "qualification": "unverified",
+            "system": platform.system(),
+            "python": platform.python_version(),
+            "whitespace_result": normalize(" alpha\t beta "),
+        }
         print(json.dumps(observed))
         if len(sys.argv) != 3 or observed["system"] != sys.argv[2]:
             raise RuntimeError("diagnostic expectation differs from observed environment")
@@ -28,7 +33,9 @@ def main():
         report = output / "verification.json"
         if report.exists():
             raise RuntimeError("verification already ran in this workspace")
-        report.write_text(json.dumps({"source_sha256": hashlib.sha256(source.read_bytes()).hexdigest()}))
+        report.write_text(
+            json.dumps({"source_sha256": hashlib.sha256(source.read_bytes()).hexdigest()})
+        )
     elif mode == "candidate":
         expected = json.loads((output / "verification.json").read_text())["source_sha256"]
         data = source.read_bytes()
