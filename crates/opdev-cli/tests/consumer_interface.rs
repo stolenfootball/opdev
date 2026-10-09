@@ -1,4 +1,4 @@
-//! Process-level consumer interface checks; not a substitute for human review.
+//! Process-level consumer interface checks; not a substitute for required developer review.
 
 use std::{
     fs,
