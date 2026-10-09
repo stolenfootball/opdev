@@ -1,9 +1,8 @@
 # OpDev consumer interface targets
 
-These project-specific targets were approved by the maintainer for the 0.2.1
-patch. They govern OpDev's CLI, retained reports and agent guidance, not the
-software projects using OpDev. They do not claim WCAG conformance or certify
-Codex/Claude host interfaces, terminals or assistive technology.
+These project-specific targets govern OpDev's CLI, retained reports and agent
+guidance, not the software projects using OpDev. They do not claim WCAG conformance
+or certify Codex/Claude host interfaces, terminals or assistive technology.
 
 ## Accessibility
 
@@ -16,18 +15,51 @@ Codex/Claude host interfaces, terminals or assistive technology.
 - Instructions require actual answers to material adoption choices. Silence,
   timeout, skipped answers and preselection are not approval. Where a host's
   question UI is unsuitable or unavailable, use the documented chat fallback.
-- The release review combines process-level automated checks with a maintainer
-  review of representative help, error, blocked-report and decision-question
-  output. Record the reviewer's actual response and limitations; approving this
-  target is not evidence that the subsequent outputs were reviewed.
+- Review representative help, error, blocked-report and decision-question output
+  as part of the existing change review, using the proportional review policy
+  below. Release review reuses adequate current review; it does not require fresh
+  approval for every string. Release execution still needs separate authorization.
 
 Automated coverage is in `crates/opdev-cli/tests/consumer_interface.rs`, with
 consent/staleness coverage in `tests/adoption.rs` and the host conversation
 scenario in `benchmarks/adoption/decision-review-canary.md`. Run through the
-canonical check suite before and after integration. Human review is required
-when wording, outcome presentation or consent interaction changes. If a user
+canonical check suite before and after integration. If a user
 reports a terminal/assistive-technology barrier, retain the failing scenario and
 evaluate it explicitly; plain text alone is not universal accessibility proof.
+
+## Proportional interface review
+
+Agent review is the default for routine help, error messages, spelling,
+clarifications and presentation changes that preserve meaning. Check clarity,
+actionability, accessibility and consistency with actual behavior. These changes
+do not require a separate developer wording-approval round.
+
+Developer review is required when a change materially alters:
+
+- consent or authorization: what the user agrees to or what actions approval permits;
+- required developer decisions: the choices the user must resolve or their consequences;
+- outcome meaning: what is verified, incomplete, failed or blocked, or what may
+  happen next.
+
+For example, explaining an unchanged blocked result in plain language uses agent
+review; making that result non-blocking or presenting an unverified result as
+verified changes its meaning and requires developer review. Improving a question's
+grammar is routine; adding an adoption choice or broadening what its answer
+authorizes is material. Classify the actual effect, not whether a string changed.
+Approval cannot turn an unverified result into a verified one or waive core rules.
+
+Batch necessary representative output and its semantic changes into the existing
+change review. Reuse actual developer approval within its accepted scope; do not
+ask again for every message, file or increment. Ask a focused question only when
+a material decision remains unresolved or the change exceeds that approval.
+Record the actual response and review limitations in the existing work/MR review,
+not a new approval registry. Agent review does not require a second agent.
+
+Automated checks remain required where applicable but do not replace material
+developer decisions or human evidence for accessibility claims. Approval of this
+policy is not proof that later output was reviewed, and a wording clarification
+does not supply consent for the action it describes. Revisit this boundary if
+routine classifications repeatedly conceal material changes or reported barriers.
 
 ## Operational diagnostics
 
