@@ -1226,11 +1226,13 @@ fn preflight_reports_missing_inputs_together_and_never_executes_suites()
 -> Result<(), Box<dyn std::error::Error>> {
     let repo = ready_fixture()?;
     let root = repo.path();
-    // A command that cannot run makes accidental execution visible even when
-    // all review inputs are otherwise valid.
+    // A real sentinel also catches accidental execution whose result was discarded.
     let mut manifest = opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?;
-    manifest.commands.get_mut("verify").ok_or("command")?.argv =
-        vec!["opdev-must-not-execute-missing-program".into()];
+    manifest.commands.get_mut("verify").ok_or("command")?.argv = vec![
+        if cfg!(windows) { "python" } else { "python3" }.into(),
+        "-c".into(),
+        "from pathlib import Path; Path('unexpected-suite-execution').touch()".into(),
+    ];
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     bind_review(root)?;
     let ready = cli(
@@ -1250,6 +1252,7 @@ fn preflight_reports_missing_inputs_together_and_never_executes_suites()
     assert_eq!(value["complete"], false);
     assert_eq!(value["checks_ran"], false);
     assert!(value["core_report"].is_null());
+    assert!(!root.join("unexpected-suite-execution").exists());
     let mut ledger = EvidenceLedger::load_optional(root, &embedded_catalog()?)?.ok_or("ledger")?;
     ledger.changes[0]
         .assertions
@@ -1276,6 +1279,7 @@ fn preflight_reports_missing_inputs_together_and_never_executes_suites()
             "{gaps}"
         );
         assert_eq!(value["checks_ran"], false);
+        assert!(!root.join("unexpected-suite-execution").exists());
     }
     Ok(())
 }
