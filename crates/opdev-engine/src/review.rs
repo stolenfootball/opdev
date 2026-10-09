@@ -8,6 +8,7 @@ use std::path::Path;
 pub struct ValidatedReview {
     record: ReviewRecord,
     location: String,
+    discussion: Option<opdev_remote::DiscussionObservation>,
 }
 
 impl ValidatedReview {
@@ -38,15 +39,19 @@ impl ValidatedReview {
     ) -> Result<Self, String> {
         let policy = manifest.assurance.review_storage.as_ref().ok_or("External semantic review policy was not selected; do not substitute an archive for the project ledger")?;
         let locator = observed.locator();
-        if policy.provider != locator.provider || policy.repository_id != locator.repository_id {
+        if policy.version != 1
+            || policy.provider != locator.provider
+            || policy.repository_id != locator.repository_id
+        {
             return Err(
                 "Semantic review came from a repository outside the selected policy".into(),
             );
         }
         let record = validate_bytes(root, manifest, stage, acceptance, observed.bytes())?;
-        opdev_remote::recheck_work(&record.work_observations)?;
+        opdev_remote::recheck_work(&record.authority_observations())?;
         Ok(Self {
             record,
+            discussion: None,
             location: format!(
                 "authenticated archive {:?}:{}/{}:{}#sha256={}",
                 locator.provider,
@@ -58,12 +63,57 @@ impl ValidatedReview {
         })
     }
 
+    /// Validate a provider-observed current MR/PR record under explicit storage policy 2.
+    /// # Errors
+    /// Reject other policies, identities and stale semantic inputs; never supply execution.
+    pub fn from_discussion(
+        root: &Path,
+        manifest: &ProjectManifest,
+        stage: TestStage,
+        acceptance: &str,
+        observed: opdev_remote::DiscussionObservation,
+    ) -> Result<Self, String> {
+        let policy = manifest
+            .assurance
+            .review_storage
+            .as_ref()
+            .ok_or("MR/PR review policy was not selected")?;
+        let selection = &observed.locator().selector;
+        if policy.version != 2
+            || policy.provider != selection.provider
+            || policy.repository_id != selection.repository_id
+        {
+            return Err("MR/PR review is outside the selected project policy".into());
+        }
+        let record = observed.record().clone();
+        observed.verify_project(manifest)?;
+        observed.verify_source(root, stage)?;
+        record.verify_current(root, manifest, stage, acceptance).map_err(|_| "MR/PR review does not match the current source, configuration, stage or acceptance conditions")?;
+        opdev_remote::recheck_work(&record.authority_observations())?;
+        let location = format!(
+            "provider-observed MR/PR {:?}:{}/{} note {:?} body {}",
+            selection.provider,
+            selection.repository_id,
+            selection.number,
+            selection.note_id,
+            observed.locator().body_sha256
+        );
+        Ok(Self {
+            record,
+            location,
+            discussion: Some(observed),
+        })
+    }
+
     pub(crate) fn current(
         &self,
         root: &Path,
         manifest: &ProjectManifest,
         stage: TestStage,
     ) -> Result<(), String> {
+        if let Some(observed) = &self.discussion {
+            observed.verify_source(root, stage)?;
+        }
         self.record.verify_current(root, manifest, stage, &self.record.acceptance_sha256)
             .map_err(|_| "Selected review no longer matches the current source, configuration, stage or inventory".into())
     }
@@ -76,7 +126,10 @@ impl ValidatedReview {
     }
 
     pub(crate) fn recheck_authorities(&self) -> Result<(), String> {
-        opdev_remote::recheck_work(&self.record.work_observations)
+        if let Some(observed) = &self.discussion {
+            observed.recheck()?;
+        }
+        opdev_remote::recheck_work(&self.record.authority_observations())
     }
 }
 
@@ -131,6 +184,7 @@ mod tests {
             maintenance_branches: vec![],
         });
         manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
+            report_retention_days: None,
             version: 1,
             provider: opdev_project::CiProvider::Gitlab,
             repository_id: 7,
@@ -196,6 +250,7 @@ mod tests {
         // Unit-only injection exercises evaluation, not provider authentication.
         let review = ValidatedReview {
             record,
+            discussion: None,
             location: "unit fixture (not live provider evidence)".into(),
         };
         Ok((temp, manifest, review))
@@ -270,6 +325,81 @@ mod tests {
             review
                 .current(temp.path(), &manifest, TestStage::PreMerge)
                 .is_err()
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn discussion_requirements_bind_original_work_without_qualifying_legacy_captures()
+    -> anyhow::Result<()> {
+        let (temp, mut manifest, review) = fixture()?;
+        let root = temp.path();
+        let mut ledger = review.record.ledger.clone();
+        let observation = opdev_project::WorkObservation {
+            schema: 1,
+            selector: opdev_project::WorkSelector {
+                provider: opdev_project::CiProvider::Gitlab,
+                repository_id: 7,
+                kind: opdev_project::WorkKind::Issue,
+                number: 3,
+                note_id: None,
+            },
+            author_id: 9,
+            created_at: "2026-10-08T01:00:00Z".into(),
+            updated_at: "2026-10-08T01:00:00Z".into(),
+            body_sha256: "a".repeat(64),
+            excerpt: "Preserve caller order".into(),
+            observed_at: 1_790_000_000,
+        };
+        ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("inventory"))?
+            .conditions[0]
+            .source = opdev_project::RequirementSource::Work(observation);
+        assert!(
+            ReviewRecord::prepare(root, &manifest, TestStage::PreMerge, &ledger).is_err(),
+            "archive policy cannot trust a local work capture"
+        );
+        let policy = manifest
+            .assurance
+            .review_storage
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("storage"))?;
+        policy.version = 2;
+        policy.report_retention_days = Some(30);
+        manifest.project.ci.provider = opdev_project::CiProvider::Gitlab;
+        manifest.project.ci.remote = Some("https://gitlab.com/fixture/product".into());
+        fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+        git(root, &["add", "."])?;
+        let change = &mut ledger.changes[0];
+        change.fingerprint = opdev_project::staged_fingerprint(root)?;
+        let acceptance = change
+            .acceptance
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("inventory"))?;
+        acceptance.review.subject_sha256 = acceptance.digest(&change.fingerprint, &change.work)?;
+        let mut record = ReviewRecord::prepare(root, &manifest, TestStage::PreMerge, &ledger)?;
+        assert_eq!(record.authority_observations().len(), 1);
+        let original = record.acceptance_sha256.clone();
+        if let opdev_project::RequirementSource::Work(source) = &mut record.ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("inventory"))?
+            .conditions[0]
+            .source
+        {
+            source.body_sha256 = "b".repeat(64);
+        }
+        assert!(
+            record
+                .verify_current(root, &manifest, TestStage::PreMerge, &original)
+                .is_err(),
+            "new requirement body invalidates review even with unchanged code"
+        );
+        assert!(
+            crate::evaluate(root, &manifest, crate::CheckOptions::pre_merge()).is_err(),
+            "saved work capture is not a provider-observed review"
         );
         Ok(())
     }
@@ -402,6 +532,7 @@ mod tests {
             .review
             .outcome = Outcome::Unverified;
         let pending = ValidatedReview {
+            discussion: None,
             record: pending,
             location: "unit only".into(),
         };
@@ -454,6 +585,7 @@ mod tests {
             .ok_or_else(|| anyhow::anyhow!("inventory"))?;
         inventory.review.subject_sha256 = inventory.digest(&change.fingerprint, &change.work)?;
         let current = ValidatedReview {
+            discussion: None,
             record: ReviewRecord::prepare(root, &manifest, TestStage::PreMerge, &ledger)?,
             location: "unit synthetic refreshed mapping; assertion is unchanged".into(),
         };

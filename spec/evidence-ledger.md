@@ -1,5 +1,10 @@
 # Project evidence ledger
 
+For newly adopted projects, use MR/PR-native review (storage policy 2) below.
+The offline envelope and exact archive interfaces remain compatibility/diagnostic
+tools. Their retention requirements do not apply to policy-2 ledger removal;
+the reviewed migration needs no archive or verified historical copy.
+
 ## Explicit offline evidence envelopes
 
 `evidence bundle export --stage STAGE --output FILE [--attempt ID]` exports one
@@ -135,7 +140,71 @@ symlinks and therefore is not by itself proof of a regular archived file.
 
 ## Schema-2 acceptance evidence
 
-### Separate authenticated semantic review
+### MR/PR-native review (storage policy 2)
+
+Capability `evidence.discussion-review.v1` supports explicit schema-3
+`assurance.review_storage.version: 2`. The provider and numeric repository ID
+identify the project's own code repository; `review_reference` records the actual
+policy decision, `retention_authority` owns the lifetime policy and
+`report_retention_days` declares a bounded routine CI lifetime (recommended 30).
+Neither configuration nor attribution proves retention, human consent or correctness.
+
+Use the same current-change acceptance inventory and exact assertion references,
+prepared outside source. `evidence bundle export-review --discussion --stage STAGE
+--ledger FILE --output NEW_FILE` renders one bounded Markdown review section for
+an existing MR/PR description or exact comment. It includes no execution reports
+or older changes and does not upload or approve anything. Failed/unverified
+judgments remain unchanged. The complete body must be at most 60 KiB, with exactly
+one marked review section; minimize scope/context rather than splitting it into
+an accumulating archive. Only store necessary review facts, never secrets or raw
+private conversation. Additional stage-specific bindings may use separate exact
+comments; do not post a new historical ledger for each local attempt.
+
+`check` and `adoption check` reuse `--review-locator FILE` and
+`--review-acceptance-sha256 ID`. Policy 2 requires the strict
+[discussion locator](../schema/discussion-review-locator.schema.json):
+
+```json
+{"schema":1,"kind":"discussion_review","selector":{"provider":"gitlab","repository_id":123,"kind":"merge_request","number":7,"note_id":456},"source_commit":"FULL_40_CHARACTER_SOURCE_COMMIT","body_sha256":"FULL_64_CHARACTER_BODY_SHA256"}
+```
+
+The placeholders are not valid identities. Obtain the actual head and comment
+identity through the existing authorized provider workflow; the export's `sha256`
+is the expected whole body hash only if posted byte-for-byte. If placing the
+section in an existing description, independently select its complete updated
+body hash. Keep ephemeral locators outside source; CI may receive the exact
+selection via its reviewed input/artifact path. Never substitute a latest-green
+link. Supply the acceptance ID from the reviewed candidate independently.
+
+Authenticated fixed-origin reads validate repository, item kind, exact parent
+membership, source head, author metadata, complete body digest and record shape.
+The engine also verifies the declared code remote, current staged source,
+configuration, selected stage and complete acceptance digest. Mutable discussions
+and required work authorities are rechecked after the actual canonical checks;
+edits/deletions/access failures cannot fall back to a cache. Before merge, the
+staged tree must equal the provider-observed source-head commit; fetch that exact
+commit and configure the reviewed CI checkout accordingly. Synthetic merge/queue
+trees are not silently treated as source-head qualification. Post-merge requires
+the provider to report the MR/PR merged, and matches the staged tree to its observed
+merge commit (source head for fast-forward where no distinct commit is reported).
+An integrated combination must have its own current stage-bound review; matching
+a branch name or original head is not proof of equivalent content. The exact Git
+objects must be available locally; the reader does not fetch them automatically.
+Review never supplies execution or developer permission. Failed tests still fail.
+
+Requirement `source` may be a tracked reference as before, or an exact minimal
+`WorkObservation` from `evidence bundle observe-work`; test targets remain tracked
+assertions. Work sources require policy 2 and live provider freshness checks, so
+the project need not commit a duplicate of its issue acceptance text. Capture
+requirements from their original issue/description, not from the review section
+being generated (which would create a circular body binding). Existing legacy
+digests are unchanged; a local saved work observation alone never qualifies them.
+
+See [retention](evidence-lifetimes.md) and [migration](upgrades.md). An active legacy
+ledger alongside policy 2 is an incomplete migration; remove it through the
+reviewed migration, not by choosing whichever input passes.
+
+### Separate authenticated semantic review (legacy storage policy 1)
 
 Development capability `evidence.authenticated-review.v1` supports schema-3
 `assurance.review_storage`: version 1, hosted provider, numeric archive repository

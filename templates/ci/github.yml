@@ -35,6 +35,9 @@ jobs:
           tar -xOzf "$install_dir/$archive" opdev > "$install_dir/opdev"
           install -m 0755 "$install_dir/opdev" "$RUNNER_TEMP/opdev"
       - name: Evaluate integration gate
+        # For review storage 2, supply the reviewed --review-locator and
+        # --review-acceptance-sha256 inputs from the existing PR/CI handoff.
+        # This baseline does not select a PR, grant approval or configure credentials.
         run: |
           set +e
           export PATH="$RUNNER_TEMP:$PATH"
@@ -54,3 +57,5 @@ jobs:
           name: opdev-report
           path: opdev-report.json
           if-no-files-found: warn
+          # Match the reviewed report lifetime and provider/organization limits.
+          retention-days: 30

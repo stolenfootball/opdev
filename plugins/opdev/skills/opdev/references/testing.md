@@ -4,7 +4,9 @@ Derive tests from behavior, acceptance conditions, and declared quality risks ra
 
 Follow [acceptance evidence](acceptance.md) before implementation and at
 verification. Review actual assertions, not just suite success. The schema-2
-ledger records the scoped inventory/mappings without another project file.
+record stores the scoped inventory/mappings at the selected evidence owner: the
+existing MR/PR for storage 2, not a growing source ledger. Detailed CI reports can
+expire under its bounded retention policy; current required checks cannot be skipped.
 Capable CLIs require reviewed mappings and current suite execution for TEST-002/003;
 a declared policy is not current-change evidence.
 

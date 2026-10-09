@@ -40,7 +40,7 @@ fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_poli
             String::from_utf8_lossy(&plan.stderr)
         );
         let value: Value = serde_json::from_slice(&plan.stdout)?;
-        assert_eq!(value["target"], "clean-1");
+        assert_eq!(value["target"], "clean-2");
         assert_eq!(value["starting_state"], "uninitialized_project");
         assert!(value["plan_id"].is_null());
         assert!(value["required_migrations"].as_array().ok_or("gaps")?.len() >= 4);
@@ -64,7 +64,7 @@ fn default_completion_rejects_otherwise_passing_legacy_policy_without_running_ch
     assert_eq!(output.status.code(), Some(1));
     let value: Value = serde_json::from_slice(&output.stdout)?;
     assert_eq!(value["complete"], false);
-    assert_eq!(value["target"], "clean-1");
+    assert_eq!(value["target"], "clean-2");
     assert!(value["legacy_policy_passed"].is_null());
     assert!(value["core_report"].is_null());
     assert!(value["blockers"].to_string().contains("engineering policy"));
@@ -103,7 +103,8 @@ fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools
     manifest.project.ci.provider = CiProvider::Gitlab;
     manifest.project.ci.remote = Some("https://gitlab.com/example/private-fixture.git".into());
     manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
-        version: 1,
+        report_retention_days: Some(30),
+        version: 2,
         provider: CiProvider::Gitlab,
         repository_id: 7,
         review_reference: "synthetic actual choice".into(),
@@ -787,6 +788,7 @@ fn external_adoption_requires_selected_review_and_never_recreates_legacy_evidenc
         repository_id: 7,
         review_reference: "synthetic choice".into(),
         retention_authority: "synthetic retention".into(),
+        report_retention_days: None,
     });
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     opdev_project::reconcile_agent_files(root)?;

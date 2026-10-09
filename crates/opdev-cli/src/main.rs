@@ -159,7 +159,7 @@ struct PluginRequirements {
 
 #[derive(Debug, Args)]
 struct InitArgs {
-    /// Full reviewed clean-1 project contract; never inferred from discovery defaults.
+    /// Full reviewed project contract; never inferred from discovery defaults.
     #[arg(long, conflicts_with_all = ["engineering_policy", "legacy_policy", "layout_version"])]
     project: Option<PathBuf>,
     /// Explicit older-policy scaffold for compatibility work; cannot complete current adoption.
@@ -188,10 +188,10 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
-    /// Exact provider archive selection for the explicitly selected semantic-review policy.
+    /// Exact MR/PR or legacy archive selection matching the reviewed storage policy.
     #[arg(long, requires = "review_acceptance_sha256", conflicts_with = "plan")]
     review_locator: Option<PathBuf>,
-    /// Independently selected acceptance identity; archive contents cannot choose it.
+    /// Independently selected acceptance identity; stored review contents cannot choose it.
     #[arg(long, requires = "review_locator")]
     review_acceptance_sha256: Option<String>,
     /// Retain this attempt outside Git, including unfinished or failed execution; never reuse it as qualification.
@@ -817,22 +817,31 @@ fn show_profiles(args: ProfilesArgs) -> Result<()> {
     Ok(())
 }
 
+fn review_storage_version(project: &ProjectManifest) -> u32 {
+    project
+        .assurance
+        .review_storage
+        .as_ref()
+        .map_or(2, |p| p.version)
+}
+
 fn initialize(args: &InitArgs) -> Result<()> {
     let mut discovery = discover(&args.root).context("could not inspect the repository")?;
     let manifest_path = discovery.root.join(MANIFEST_PATH);
     let adoption = opdev_project::AdoptionRecord::load(&discovery.root)?;
     if let Some(path) = &args.project {
         let proposed = opdev_project::ProjectManifest::load(path)?;
-        let gaps = opdev_project::clean_adoption::policy_gaps(&proposed);
+        let target_version = review_storage_version(&proposed);
+        let gaps = opdev_project::clean_adoption::policy_gaps_for(&proposed, target_version);
         if !gaps.is_empty() {
             bail!(
-                "The supplied contract does not select clean-1: {}. Nothing changed.",
+                "The supplied contract does not select a supported clean adoption policy: {}. Nothing changed.",
                 gaps.join("; ")
             );
         }
         if manifest_path.exists() && proposed.to_yaml()? != discovery.manifest.to_yaml()? {
             bail!(
-                "Existing project preserved. Use coordinated migration to review and apply the clean-1 destination; init cannot replace it."
+                "Existing project preserved. Use coordinated migration to review and apply the current adoption destination; init cannot replace it."
             );
         }
         discovery.manifest = proposed;
@@ -900,7 +909,7 @@ fn initialize(args: &InitArgs) -> Result<()> {
             let mut record = opdev_project::AdoptionRecord::pending_for_catalog(catalog_version)?;
             if args.project.is_some() {
                 record.clean_target = Some(opdev_project::clean_adoption::CleanTarget {
-                    version: 1,
+                    version: review_storage_version(&discovery.manifest),
                     inventory_reference: String::new(),
                     retirements: vec![],
                 });
@@ -1065,6 +1074,17 @@ fn selected_review(
         anyhow::ensure!(acceptance.len() == 64 && acceptance.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
             "Acceptance identity must be a lowercase SHA-256 digest; no provider request made");
         let bytes = local_state::read(&std::path::absolute(path)?)?.context("Semantic review locator is missing")?;
+        let selected = manifest.assurance.review_storage.as_ref().context("External semantic review policy was not selected; no provider request made")?;
+        if selected.version == 2 {
+            let locator: opdev_remote::DiscussionLocator = serde_json::from_slice(&bytes)
+                .map_err(|_| anyhow::anyhow!("MR/PR review locator is malformed; no private content echoed"))?;
+            locator.validate().map_err(anyhow::Error::msg)?;
+            if locator.selector.provider != selected.provider || locator.selector.repository_id != selected.repository_id {
+                bail!("MR/PR review is outside the selected project policy; no provider request made");
+            }
+            let observed = opdev_remote::retrieve_discussion(&locator).map_err(anyhow::Error::msg)?;
+            return opdev_engine::ValidatedReview::from_discussion(root, manifest, stage, acceptance, observed).map_err(anyhow::Error::msg);
+        }
         let locator: opdev_remote::ArchiveLocator = serde_json::from_slice(&bytes)
             .map_err(|_| anyhow::anyhow!("Semantic review locator is malformed; no private content echoed"))?;
         locator.validate().map_err(anyhow::Error::msg)?;

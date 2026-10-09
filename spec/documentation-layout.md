@@ -40,7 +40,8 @@ explicit version-aware project migration. Existing schema-1/2/3 contracts and
 their authorities are not automatically rewritten or opted into enforcement.
 The read-only inspection below checks a proposed destination structure; it is
 not evidence that migration, shared entry guidance or external evidence storage
-is implemented. Old ledgers must remain until retention/retrieval is verified.
+is implemented. A reviewed storage migration owns ledger removal: policy 2 removes
+it without an archive; legacy archive policy 1 retains its retrieval requirements.
 
 | Required location | Owner and meaning |
 | --- | --- |
@@ -142,7 +143,7 @@ Other required checks, source-bound acceptance and adoption remain separate.
 A structurally valid layout does not prove document purpose, asset references,
 developer consent or fresh-agent behavior. Source review must still examine those
 claims. A legacy ledger remains a blocking storage-migration finding: no command
-silently deletes it or treats export alone as verified retention. Complete strict
+silently deletes it or treats export alone as a completed migration. Complete strict
 layout adoption requires the coordinated evidence-storage migration, not a manual
 ledger deletion to make this check pass.
 

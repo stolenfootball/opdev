@@ -19,6 +19,119 @@ struct Fixture {
     request: PathBuf,
 }
 
+#[test]
+fn discussion_migration_removes_ledger_without_archive_or_archival_commit() -> Result<()> {
+    let f = Fixture::new()?;
+    let ledger = "schema: 2\nproject: []\nchanges: []\n";
+    fs::write(f.root.join(EVIDENCE_PATH), ledger)?;
+    // No commit or history locator exists: removal must not require either.
+    let mut request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    request["project"]["project"]["ci"]["provider"] = json!("gitlab");
+    request["project"]["project"]["ci"]["remote"] = json!("https://gitlab.com/fixture/product");
+    request["project"]["assurance"]["review_storage"]["version"] = json!(2);
+    request["project"]["assurance"]["review_storage"]["report_retention_days"] = json!(30);
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    let plan = f.preview()?;
+    assert!(
+        !plan.blocked(),
+        "{}",
+        serde_json::to_string(&plan.findings)?
+    );
+    assert_eq!(
+        fs::read_to_string(f.root.join(EVIDENCE_PATH))?,
+        ledger,
+        "preview is read-only"
+    );
+    let recovery = f.temp.path().join("temporary-rollback.json");
+    run(
+        &f.root,
+        Some(&f.request),
+        None,
+        Some(&plan.plan_id),
+        Some(&recovery),
+        None,
+    )?;
+    assert!(!f.root.join(EVIDENCE_PATH).exists());
+    let snapshot: MigrationPlan = serde_json::from_slice(&fs::read(&recovery)?)?;
+    assert_eq!(
+        snapshot
+            .changes
+            .iter()
+            .find(|c| c.path == EVIDENCE_PATH)
+            .context("retirement")?
+            .before
+            .as_deref(),
+        Some(ledger)
+    );
+    assert!(snapshot.history.is_none());
+    run(
+        &f.root,
+        None,
+        Some(&recovery),
+        Some(&plan.plan_id),
+        None,
+        None,
+    )?;
+    assert!(
+        !f.root.join(EVIDENCE_PATH).exists(),
+        "resume must not resurrect retired data"
+    );
+    assert!(
+        AdoptionRecord::load(&f.root)?
+            .context("adoption")?
+            .review
+            .is_none()
+    );
+    Ok(())
+}
+
+#[test]
+fn discussion_migration_preserves_later_ledger_edits() -> Result<()> {
+    let f = Fixture::new()?;
+    fs::write(
+        f.root.join(EVIDENCE_PATH),
+        "schema: 2\nproject: []\nchanges: []\n",
+    )?;
+    let mut request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    request["project"]["project"]["ci"] =
+        json!({"provider":"gitlab","remote":"https://gitlab.com/fixture/product"});
+    request["project"]["assurance"]["review_storage"]["version"] = json!(2);
+    request["project"]["assurance"]["review_storage"]["report_retention_days"] = json!(30);
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    let plan = f.preview()?;
+    let later = "schema: 2\n# Later user edit must survive\nproject: []\nchanges: []\n";
+    fs::write(f.root.join(EVIDENCE_PATH), later)?;
+    assert!(apply_plan(&plan, usize::MAX).is_err());
+    assert_eq!(fs::read_to_string(f.root.join(EVIDENCE_PATH))?, later);
+    Ok(())
+}
+
+#[test]
+fn obsolete_malformed_ledger_does_not_require_repair_before_reviewed_removal() -> Result<()> {
+    let f = Fixture::new()?;
+    let bytes = "obsolete: [unsupported-format\n";
+    fs::write(f.root.join(EVIDENCE_PATH), bytes)?;
+    let mut request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    request["project"]["project"]["ci"] =
+        json!({"provider":"gitlab","remote":"https://gitlab.com/fixture/product"});
+    request["project"]["assurance"]["review_storage"]["version"] = json!(2);
+    request["project"]["assurance"]["review_storage"]["report_retention_days"] = json!(30);
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    let plan = f.preview()?;
+    assert!(!plan.blocked());
+    assert_eq!(fs::read_to_string(f.root.join(EVIDENCE_PATH))?, bytes);
+    run(
+        &f.root,
+        Some(&f.request),
+        None,
+        Some(&plan.plan_id),
+        Some(&f.temp.path().join("temporary-rollback.json")),
+        None,
+    )?;
+    assert!(!f.root.join(EVIDENCE_PATH).exists());
+    Ok(())
+}
+
 fn with_cleanup() -> Result<Fixture> {
     let f = Fixture::new()?;
     fs::create_dir(f.root.join(".opdev/old"))?;
@@ -283,6 +396,7 @@ impl Fixture {
             review_reference: "fixture:selected layout".into(),
         });
         candidate.assurance.review_storage = Some(ReviewStorage {
+            report_retention_days: None,
             version: 1,
             provider: opdev_project::CiProvider::Gitlab,
             repository_id: 7,

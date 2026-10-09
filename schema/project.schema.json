@@ -227,11 +227,13 @@
           "type": "object", "additionalProperties": false,
           "required": ["version", "provider", "repository_id", "review_reference", "retention_authority"],
           "properties": {
-            "version": {"const": 1}, "provider": {"enum": ["github", "gitlab"]},
+            "version": {"enum": [1, 2]}, "provider": {"enum": ["github", "gitlab"]},
             "repository_id": {"type": "integer", "minimum": 1},
             "review_reference": {"type": "string", "minLength": 1},
-            "retention_authority": {"type": "string", "minLength": 1}
-          }
+            "retention_authority": {"type": "string", "minLength": 1},
+            "report_retention_days": {"type": "integer", "minimum": 1, "maximum": 3650}
+          },
+          "allOf": [{"if":{"properties":{"version":{"const":2}}},"then":{"required":["report_retention_days"]},"else":{"not":{"required":["report_retention_days"]}}}]
         },
         "safeguards": {"type":"object","additionalProperties":false,"required":["version","review_reference","capabilities"],"properties":{"version":{"const":1},"review_reference":{"type":"string","minLength":1},"capabilities":{"type":"object","propertyNames":{"enum":["persistent_data","public_contract","distribution","security_boundary","operations","user_interface","effectiveness"]},"additionalProperties":{"type":"object","additionalProperties":false,"required":["state","rationale","authority"],"properties":{"state":{"enum":["present","absent","unknown"]},"rationale":{"type":"string","minLength":1},"authority":{"type":"string","minLength":1}}}}}},
         "engineering": {

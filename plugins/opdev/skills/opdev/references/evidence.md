@@ -1,5 +1,46 @@
 # Reviewable evidence
 
+## MR/PR-native review (selected storage version 2)
+
+With `assurance.review_storage.version: 2`, require `evidence.discussion-review.v1`.
+Keep acceptance conditions at their existing work/design authority and their actual
+assertion mappings in a bounded review on the existing code repository's MR/PR.
+Do not create an evidence repository, accumulating ledger or permanent copy of
+the old ledger. Current reviewed source, configuration, condition/test bindings
+and actual stage execution remain required. Finalize at integration handoff,
+not on each local edit or feedback cycle.
+
+Prepare the one current record outside source with the existing bootstrap/prepare
+flow, then `evidence bundle export-review --discussion --stage STAGE --ledger FILE
+--output NEW_FILE`. It renders a review section, does not post or approve it.
+Review sensitive content before authorized posting through the existing provider
+workflow. Select its exact MR/PR/comment, source-head commit, whole-body SHA-256
+and independently reviewed acceptance ID; use `check --review-locator FILE
+--review-acceptance-sha256 ID`. Keep temporary selection inputs outside source or
+in the reviewed CI input path. Changed body/head/source/conditions need current
+review; never choose an earlier green note. Check each required stage, without
+rerunning equivalent suites for paperwork. Local preparation is not provider
+authentication, human consent or execution.
+
+Requirements may use a minimal `observe-work` observation directly as condition
+`source`; tests still reference tracked assertions. This avoids committing a
+duplicate of issue requirements. Use the original issue or a separate description,
+not the generated review's own body. The CLI rechecks current provider content;
+saved observations alone cannot qualify it.
+
+Use the reviewed `report_retention_days` (recommend 30) for detailed routine CI
+reports, including failures. Review actual provider expiry/keep-latest behavior;
+configuration is not proof it operates. Keep a concise outcome and significant
+failure/retry findings in existing work, not every log or invocation. Keep active
+verification inputs available until the handoff completes. Expired old reports
+limit historical detail; they neither invalidate past merges nor satisfy new
+checks. Actual releases retain artifact-bound provenance/qualification separately,
+without granting release authority. Remove owned temporary drafts/rollback files
+when no longer needed; do not replace the ledger with an accumulating local archive.
+Legacy paths below apply only to their explicitly selected policies.
+
+## Legacy evidence paths
+
 For TEST-002/003 use typed schema-2 [acceptance evidence](acceptance.md), not
 generic rule assertions. Capable bootstrap includes an unresolved acceptance
 section. Schema-1 ledgers remain readable but cannot satisfy those strengthened
@@ -8,7 +49,7 @@ checks. Migration is explicit and reviewed; preserve history and unrelated rules
 In legacy projects, use `.opdev/evidence.yaml` only when a core rule accepts evidence and the CLI
 cannot infer the fact safely. It is not a waiver or override mechanism.
 
-If the actual schema-3 policy selects `assurance.review_storage`, require capability
+If the actual schema-3 policy selects `assurance.review_storage.version: 1`, require capability
 `evidence.authenticated-review.v1`; do not recreate the old ledger. Obtain the exact
 archive locator and expected review identity from the existing authorized work
 authority. `check --review-locator FILE --review-acceptance-sha256 ID` reads that

@@ -131,7 +131,38 @@ pub struct AcceptanceCondition {
     /// Original authority (including a tracker URL when applicable).
     pub authority: String,
     /// Versioned source or explicitly identified captured authority excerpt.
-    pub source: TrackedEvidence,
+    pub source: RequirementSource,
+}
+
+/// A permanent source file or a minimal provider-observed work excerpt.
+/// Work observations qualify only through authenticated discussion policy 2.
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(untagged)]
+pub enum RequirementSource {
+    /// Legacy representation preserved byte-for-byte in acceptance digests.
+    Tracked(TrackedEvidence),
+    /// No duplicate requirement capture is committed to the project.
+    Work(crate::WorkObservation),
+}
+
+impl RequirementSource {
+    /// Shape/source check only. Work currency is checked by the sealed provider reader.
+    /// # Errors
+    /// Reject malformed work observations or stale tracked bytes.
+    pub fn verify(&self, root: &Path) -> Result<(), EvidenceError> {
+        match self {
+            Self::Tracked(source) => source.verify(root),
+            Self::Work(_) => self.validate(),
+        }
+    }
+    fn validate(&self) -> Result<(), EvidenceError> {
+        match self {
+            Self::Tracked(source) => source.validate(),
+            Self::Work(observation) => observation.validate().map_err(|_| {
+                EvidenceError::Semantic("Invalid work requirement observation".into())
+            }),
+        }
+    }
 }
 
 /// Tool-independent method; no reporter or test-runner dependency.

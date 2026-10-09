@@ -234,6 +234,8 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "state.local.v1",
                 "evidence.bundle.v1",
                 "evidence.authenticated-review.v1",
+                "evidence.discussion-review.v1",
+                "adoption.clean-target.v2",
                 "layout.enforcement.v1",
                 "upgrade.coordinated-migration.v1",
                 "acceptance.safeguards.v1",

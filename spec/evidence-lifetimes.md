@@ -1,5 +1,59 @@
 # Evidence lifetimes and conservative reuse
 
+## Current-change review and bounded retention
+
+Explicit `assurance.review_storage.version: 2` selects acceptance review in the
+project's existing GitLab MR or GitHub PR, not a separate evidence repository or
+an append-only source ledger. It requires `evidence.discussion-review.v1` in local
+and CI runtimes. Version 1 retains its Git-archive meaning; legacy projects are
+not migrated by a runtime update. Current adoption recommends version 2.
+
+Preserve the reason a change was accepted in the existing work/review authority.
+Keep code and meaningful tests in ordinary Git history. A review identifies
+conditions, actual assertions, discriminating examples and limitations; a green
+suite alone is insufficient. Detailed routine reports/logs have a bounded
+project-selected lifetime (`report_retention_days`, 1-3650; recommended 30), not
+permanent storage. The declaration does not configure or prove provider retention.
+Keep required inputs through remaining active verification, retain unresolved
+failure/retry findings and reproductions in their work item, and do not relabel a
+failed attempt after repair. There is no mandatory archive of every invocation,
+agent conversation, old draft or diagnostic. Remove owned temporary drafts and
+migration rollback files after their purpose is complete, with normal path and
+authorization safety; do not accumulate a replacement evidence store.
+
+After expiry, an old detailed result is unavailable, not newly failed and not
+fresh proof for another check. Existing merges are not retroactively revoked.
+Missing inputs needed for current qualification remain unverified/error as
+appropriate; recheck current source or retrieve the required current record.
+Never fall back to an older green run. Stronger selected regulatory/retention
+requirements remain explicit and are not silently shortened.
+
+Actual releases retain artifact identity, provenance and applicable qualification
+at the existing artifact owner for their support/obligation lifetime. Routine
+milestone completion does not authorize a release or require release archiving.
+No infinite detailed historical reconstruction is claimed. MR/PR bodies are
+mutable/deletable; concise review history is not an immutable attestation service.
+
+CI templates retain both successful and failed reports for 30 days. Review actual
+provider limits and keep-latest settings (GitLab can keep per-ref artifacts beyond
+`expire_in`), including active handoffs, before selecting a different lifetime.
+Select exact job/run/attempt identities, not a mutable latest-success link. Do not
+rerun equivalent tests solely to manufacture a second report.
+
+Rationale: current qualification and indefinite reconstruction are different
+requirements. Existing review systems preserve useful intent with less duplication;
+bounded CI storage limits routine detail. Alternatives are a replace-in-place
+source file (offline but still bookkeeping/history growth) and no structured
+review (simpler but weaker requirement/test enforcement). Revisit the selected
+design if measured setup cost, provider availability or inadequate historical
+diagnosis outweighs this benefit, without weakening source/current-check binding.
+See [Google's change descriptions](https://google.github.io/eng-practices/review/developer/cl-descriptions.html),
+[reviewed test adequacy](https://google.github.io/eng-practices/review/reviewer/looking-for.html),
+[GitLab artifact retention](https://docs.gitlab.com/ci/jobs/job_artifacts/), and
+[SLSA artifact-bound provenance](https://slsa.dev/spec/v1.2/distributing-provenance).
+
+## Qualification freshness (independent of storage lifetime)
+
 OpDev does not implement a general cross-revision test cache or infer unaffected
 files from filenames, comments, documentation labels or agent judgment. Source,
 configuration and stage remain whole-subject bindings by default. A newer source
@@ -27,7 +81,7 @@ digest. A changed review need not erase unchanged execution history, but the
 projection itself never qualifies that execution. Existing core evaluation and
 provider validators remain responsible for gates and current source observations.
 
-All supporting references must be available and unchanged. Expired, future-dated,
+All supporting references used for current qualification must be available and unchanged. Expired, future-dated,
 conflicting, revoked and superseded facts stay visible. Cooperative concurrent
 updates use the journal's expected-head check; an older observation cannot replace
 new facts. No derived index is required or authoritative. Historical diagnostic

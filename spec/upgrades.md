@@ -139,7 +139,14 @@ targets need a separate reviewed edit. Plugin compatibility, local runtime ident
 declared CI pins, unknown dynamic configuration and actual qualification are separate
 observations; matching versions or a caller's review reference never proves CI.
 
-An existing ledger is retired only with an independently selected exact archive
+For storage policy 2, the obsolete active ledger is removed after reviewed
+migration with temporary interruption/rollback protection. No external archive,
+historical-copy verification or archival commit is required. Existing Git history
+is not rewritten. Retire the temporary recovery file after migration verification
+and when rollback is no longer needed; it is not a permanent evidence authority.
+Late file edits still stop removal and original adoption approval is not transferred.
+
+For legacy storage policy 1, an existing ledger is retired only with an independently selected exact archive
 locator in the chosen storage repository. The provider must return every original
 byte, with a supported original ledger schema. No old assertion is rewritten as a
 current success. Retention/access/protection ownership remains an explicit reviewed
@@ -166,7 +173,7 @@ or regenerate approvals to conceal partial state.
 `upgrade --resume RECOVERY.json --apply ORIGINAL_PLAN_ID` continues only when every
 target still equals its original or approved final bytes and untouched inputs
 remain unchanged. Changed snapshots, runtimes, roots and unknown targets fail.
-It rechecks historical availability before retiring its path. Applied files are
+For storage policy 1 it rechecks historical availability before retiring its path. Applied files are
 no-ops, so repeating continuation is safe; a fresh preview of the applied request
 has no changes. Later developer edits are preserved and require a new reviewed
 resolution, never automatic rollback. Keep recovery until required qualification

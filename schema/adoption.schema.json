@@ -9,7 +9,7 @@
       "type":"object", "additionalProperties":false,
       "required":["version","inventory_reference","retirements"],
       "properties": {
-        "version":{"const":1}, "inventory_reference":{"type":"string"},
+        "version":{"enum":[1,2]}, "inventory_reference":{"type":"string"},
         "retirements":{"type":"array","maxItems":256,"items":{
           "type":"object","additionalProperties":false,"required":["path","reason","replacement"],
           "properties":{"path":{"type":"string","minLength":1},"reason":{"type":"string","pattern":"\\S"},"replacement":{"type":["string","null"]}}

@@ -10,9 +10,11 @@ separate from project-manifest schema 1 and the core rule catalog.
 
 ### Current destination
 
-Capability `adoption.clean-target.v1` makes default completion target exactly
-`clean-1`: project schema 3, engineering policy 1, strict layout 1, external
-semantic-review storage 1, capability safeguards 1, adoption schema 2/inventory 2.
+Capability `adoption.clean-target.v2` makes default completion target exactly
+`clean-2`: project schema 3, engineering policy 1, strict layout 1, MR/PR-native
+semantic-review storage 2, capability safeguards 1, adoption schema 2/inventory 2.
+`clean-1` remains readable with its original archive policy; ordinary checks do
+not migrate it. Current full adoption requires the reviewed clean-2 transition.
 This bundled combination is not a network `latest` alias. All seven capabilities
 need supported reviewed facts; unknown/missing entries cannot exempt requirements.
 Ordinary work on older policy and tooling-only upgrades remain usable without
@@ -29,8 +31,10 @@ unrelated product rewrites, Git history erasure or release.
 
 Review the repository inventory in the existing work authority: retained adequate
 content, useful content to migrate/consolidate, obsolete active content to retire,
-history needing retained recovery, and unresolved findings. The existing record
-gains optional `clean_target` (required for current completion): `version: 1`,
+temporary migration rollback needs, and unresolved findings. Remove obsolete
+evidence ledgers; no archive or historical-copy verification is required for
+storage policy 2. The existing record gains optional `clean_target` (required for
+current completion): `version: 2`,
 `inventory_reference`, and `retirements` with exact `path`, nonblank `reason` and
 nullable `replacement`. These bind the existing plan hash; no parallel registry
 or completion stamp. Unsupported/ambiguous/protected paths are rejected. Retired
@@ -340,7 +344,7 @@ claims, not proof of reviewer identity or reference authenticity; source isolati
 meaningful assertions and complete component coverage require competent review.
 
 `adoption check --legacy-assessment` diagnoses the selected older policy without
-requiring clean-1, retaining its source/evidence and executable gate requirements.
+requiring clean-2, retaining its source/evidence and executable gate requirements.
 Exit 0 means `legacy_policy_passed: true`, always `complete: false`. It is never
 a current-adoption completion path.
 

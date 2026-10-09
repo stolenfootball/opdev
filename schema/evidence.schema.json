@@ -28,6 +28,20 @@
     "acceptance": false, "assertions": { "minItems": 1 }
   } } } } },
   "$defs": {
+    "work_observation": {
+      "type":"object","additionalProperties":false,
+      "required":["schema","selector","author_id","created_at","updated_at","body_sha256","excerpt","observed_at"],
+      "properties":{
+        "schema":{"const":1},"author_id":{"type":"integer","minimum":1},
+        "created_at":{"type":"string","minLength":1},"updated_at":{"type":"string","minLength":1},
+        "body_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "excerpt":{"type":"string","minLength":1,"maxLength":16384},"observed_at":{"type":"integer","minimum":1},
+        "selector":{"type":"object","additionalProperties":false,"required":["provider","repository_id","kind","number"],"properties":{
+          "provider":{"enum":["github","gitlab"]},"repository_id":{"type":"integer","minimum":1},
+          "kind":{"enum":["issue","merge_request"]},"number":{"type":"integer","minimum":1},"note_id":{"type":["integer","null"],"minimum":1}
+        }}
+      }
+    },
     "acceptance": {
       "type": "object",
       "additionalProperties": false,
@@ -75,7 +89,7 @@
                 "minLength": 1
               },
               "source": {
-                "$ref": "#/$defs/acceptance/$defs/tracked"
+                "oneOf": [{"$ref": "#/$defs/acceptance/$defs/tracked"}, {"$ref":"#/$defs/work_observation"}]
               }
             }
           }

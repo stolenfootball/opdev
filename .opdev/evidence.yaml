@@ -19866,109 +19866,209 @@ changes:
   assertions:
   - rule_id: MCD-TEST-001
     outcome: passed
-    summary: Current material source and reviewed acceptance passed the canonical pre-merge format, lint and full workspace suites. Post-merge execution remains separately required.
+    summary: >-
+      Current material source and reviewed acceptance passed the canonical pre-merge
+      format, lint and full workspace suites. Post-merge execution remains separately
+      required.
     evidence:
     - kind: observed
-      summary: Actual opdev check --ci executed all three canonical vectors successfully; development and integration passed. This records pre-merge execution, not delivery or full compliance.
+      summary: >-
+        Actual opdev check --ci executed all three canonical vectors successfully;
+        development and integration passed. This records pre-merge execution, not delivery or
+        full compliance.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981441001"
   - rule_id: OPDEV-WORK-001
     outcome: passed
-    summary: "Issues 96-99 and milestone 16 preserve the accepted clean-adoption scope across three entry states; user authorized completion, pending wording and bounded follow-ups, not release or consumer migration."
+    summary: >-
+      Issues 96-99 and milestone 16 preserve the accepted clean-adoption scope across
+      three entry states; user authorized completion, pending wording and bounded
+      follow-ups, not release or consumer migration.
     evidence:
     - kind: source_review
-      summary: "Issues 96-99 and milestone 16 preserve the accepted clean-adoption scope across three entry states; user authorized completion, pending wording and bounded follow-ups, not release or consumer migration."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/16"
+      summary: >-
+        Issues 96-99 and milestone 16 preserve the accepted clean-adoption scope across
+        three entry states; user authorized completion, pending wording and bounded
+        follow-ups, not release or consumer migration.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/milestones/16
   - rule_id: OPDEV-DESIGN-001
     outcome: passed
-    summary: "Versioned clean-1 destination, reviewed full-contract init, source-bound external review and exact recoverable retirement reuse existing authorities and evidence; specification records compatibility, limits and reversal triggers."
+    summary: >-
+      Versioned clean-1 destination, reviewed full-contract init, source-bound
+      external review and exact recoverable retirement reuse existing authorities and
+      evidence; specification records compatibility, limits and reversal triggers.
     evidence:
     - kind: source_review
-      summary: "Versioned clean-1 destination, reviewed full-contract init, source-bound external review and exact recoverable retirement reuse existing authorities and evidence; specification records compatibility, limits and reversal triggers."
-      location: "spec/adoption.md"
+      summary: >-
+        Versioned clean-1 destination, reviewed full-contract init, source-bound
+        external review and exact recoverable retirement reuse existing authorities and
+        evidence; specification records compatibility, limits and reversal triggers.
+      location: spec/adoption.md
   - rule_id: MCD-CI-001
     outcome: passed
-    summary: "GitLab remains integration authority. Actual main ac6fa227 pipeline 2928254841 passed; required canonical, installer and affected packaging definitions are unchanged. This candidate still requires its own remote and post-merge checks."
+    summary: >-
+      GitLab remains integration authority. Actual main ac6fa227 pipeline 2928254841
+      passed; required canonical, installer and affected packaging definitions are
+      unchanged. This candidate still requires its own remote and post-merge checks.
     evidence:
     - kind: source_review
-      summary: "GitLab remains integration authority. Actual main ac6fa227 pipeline 2928254841 passed; required canonical, installer and affected packaging definitions are unchanged. This candidate still requires its own remote and post-merge checks."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928254841"
+      summary: >-
+        GitLab remains integration authority. Actual main ac6fa227 pipeline 2928254841
+        passed; required canonical, installer and affected packaging definitions are
+        unchanged. This candidate still requires its own remote and post-merge checks.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928254841
   - rule_id: MCD-TRUNK-001
     outcome: passed
-    summary: "Main is the sole integration and release source; current branch descends from verified current main, with no alternate product stream or project-policy migration."
+    summary: >-
+      Main is the sole integration and release source; current branch descends from
+      verified current main, with no alternate product stream or project-policy
+      migration.
     evidence:
     - kind: source_review
-      summary: "Main is the sole integration and release source; current branch descends from verified current main, with no alternate product stream or project-policy migration."
-      location: ".opdev/project.yaml"
+      summary: >-
+        Main is the sole integration and release source; current branch descends from
+        verified current main, with no alternate product stream or project-policy
+        migration.
+      location: .opdev/project.yaml
   - rule_id: MCD-TRUNK-002
     outcome: passed
-    summary: "One bounded branch integrates the dependent external-review, target, safe-retirement and trial corrections; merge/delete after current CI and verification, no indefinite feedback branch."
+    summary: >-
+      One bounded branch integrates the dependent external-review, target,
+      safe-retirement and trial corrections; merge/delete after current CI and verification, no
+      indefinite feedback branch.
     evidence:
     - kind: source_review
-      summary: "One bounded branch integrates the dependent external-review, target, safe-retirement and trial corrections; merge/delete after current CI and verification, no indefinite feedback branch."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/16"
+      summary: >-
+        One bounded branch integrates the dependent external-review, target,
+        safe-retirement and trial corrections; merge/delete after current CI and verification, no
+        indefinite feedback branch.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/milestones/16
   - rule_id: MCD-FLOW-001
     outcome: passed
-    summary: "Live current main pipeline 2928254841 is green; no red-trunk delivery bypass or release action. Required source CI remains mandatory."
+    summary: >-
+      Live current main pipeline 2928254841 is green; no red-trunk delivery bypass or
+      release action. Required source CI remains mandatory.
     evidence:
     - kind: source_review
-      summary: "Live current main pipeline 2928254841 is green; no red-trunk delivery bypass or release action. Required source CI remains mandatory."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928254841"
+      summary: >-
+        Live current main pipeline 2928254841 is green; no red-trunk delivery bypass or
+        release action. Required source CI remains mandatory.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928254841
   - rule_id: MCD-COMPAT-001
     outcome: passed
-    summary: "Deliberate current-adoption boundary changes bare new init and default completion; explicit legacy scaffolding/assessment and ordinary older-policy work remain. Reviewed contract retry preserves choices; changed policy requires migration. No runtime pin or consumer upgrade."
+    summary: >-
+      Deliberate current-adoption boundary changes bare new init and default
+      completion; explicit legacy scaffolding/assessment and ordinary older-policy work remain.
+      Reviewed contract retry preserves choices; changed policy requires migration. No
+      runtime pin or consumer upgrade.
     evidence:
     - kind: source_review
-      summary: "Deliberate current-adoption boundary changes bare new init and default completion; explicit legacy scaffolding/assessment and ordinary older-policy work remain. Reviewed contract retry preserves choices; changed policy requires migration. No runtime pin or consumer upgrade."
-      location: "crates/opdev-cli/tests/adoption.rs"
+      summary: >-
+        Deliberate current-adoption boundary changes bare new init and default
+        completion; explicit legacy scaffolding/assessment and ordinary older-policy work remain.
+        Reviewed contract retry preserves choices; changed policy requires migration. No
+        runtime pin or consumer upgrade.
+      location: crates/opdev-cli/tests/adoption.rs
   - rule_id: OPDEV-TEST-001
     outcome: passed
-    summary: "Eight conditions connect actual requirement-derived Rust assertions, known mode-edit red/green, original/corrected agent scopes, authenticated provider negatives and one real complete-adoption canary. Scope limits remain visible."
+    summary: >-
+      Eight conditions connect actual requirement-derived Rust assertions, known
+      mode-edit red/green, original/corrected agent scopes, authenticated provider
+      negatives and one real complete-adoption canary. Scope limits remain visible.
     evidence:
     - kind: source_review
-      summary: "Eight conditions connect actual requirement-derived Rust assertions, known mode-edit red/green, original/corrected agent scopes, authenticated provider negatives and one real complete-adoption canary. Scope limits remain visible."
-      location: "benchmarks/adoption/clean-target-canary.md"
+      summary: >-
+        Eight conditions connect actual requirement-derived Rust assertions, known
+        mode-edit red/green, original/corrected agent scopes, authenticated provider
+        negatives and one real complete-adoption canary. Scope limits remain visible.
+      location: benchmarks/adoption/clean-target-canary.md
   - rule_id: OPDEV-TEST-004
     outcome: passed
-    summary: "Regression tests reject legacy-only completion, active old ledgers, mismatched selectors, stale source/stage, ignored/index leftovers and late executable-mode changes. The mode-only red failure was observed before repair; new assertion passed afterward."
+    summary: >-
+      Regression tests reject legacy-only completion, active old ledgers, mismatched
+      selectors, stale source/stage, ignored/index leftovers and late executable-mode
+      changes. The mode-only red failure was observed before repair; new assertion
+      passed afterward.
     evidence:
     - kind: source_review
-      summary: "Regression tests reject legacy-only completion, active old ledgers, mismatched selectors, stale source/stage, ignored/index leftovers and late executable-mode changes. The mode-only red failure was observed before repair; new assertion passed afterward."
-      location: "crates/opdev-cli/src/migration/tests.rs"
+      summary: >-
+        Regression tests reject legacy-only completion, active old ledgers, mismatched
+        selectors, stale source/stage, ignored/index leftovers and late executable-mode
+        changes. The mode-only red failure was observed before repair; new assertion
+        passed afterward.
+      location: crates/opdev-cli/src/migration/tests.rs
   - rule_id: OPDEV-TEST-005
     outcome: passed
-    summary: "No hidden retry or quarantine. Original nine sessions retain 6/9 accepted and three failed; separately authorized frozen follow-up accepted 3/3. Provider harness/setup failures and incomplete CI attempts remain separate from later success."
+    summary: >-
+      No hidden retry or quarantine. Original nine sessions retain 6/9 accepted and
+      three failed; separately authorized frozen follow-up accepted 3/3. Provider
+      harness/setup failures and incomplete CI attempts remain separate from later success.
     evidence:
     - kind: source_review
-      summary: "No hidden retry or quarantine. Original nine sessions retain 6/9 accepted and three failed; separately authorized frozen follow-up accepted 3/3. Provider harness/setup failures and incomplete CI attempts remain separate from later success."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99"
+      summary: >-
+        No hidden retry or quarantine. Original nine sessions retain 6/9 accepted and
+        three failed; separately authorized frozen follow-up accepted 3/3. Provider
+        harness/setup failures and incomplete CI attempts remain separate from later success.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/99
   - rule_id: OPDEV-A11Y-001
     outcome: passed
-    summary: "CLI remains plain-text and noninteractive, with explicit incomplete, legacy diagnostic, missing review, changed input and no-write outcomes. Developer approved representative wording in actual conversation responses, including final blanket approval for pending wording; no universal usability claim."
+    summary: >-
+      CLI remains plain-text and noninteractive, with explicit incomplete, legacy
+      diagnostic, missing review, changed input and no-write outcomes. Developer approved
+      representative wording in actual conversation responses, including final blanket
+      approval for pending wording; no universal usability claim.
     evidence:
     - kind: source_review
-      summary: "CLI remains plain-text and noninteractive, with explicit incomplete, legacy diagnostic, missing review, changed input and no-write outcomes. Developer approved representative wording in actual conversation responses, including final blanket approval for pending wording; no universal usability claim."
-      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/97"
+      summary: >-
+        CLI remains plain-text and noninteractive, with explicit incomplete, legacy
+        diagnostic, missing review, changed input and no-write outcomes. Developer approved
+        representative wording in actual conversation responses, including final blanket
+        approval for pending wording; no universal usability claim.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/97
   - rule_id: OPDEV-AI-001
     outcome: passed
-    summary: "Controller read actual implementation, assertions, changed durable docs and schemas, original scope, trial command histories and final files. Actual negative cases and provider/current-source execution supplement producer claims; no unauthorized review delegation."
+    summary: >-
+      Controller read actual implementation, assertions, changed durable docs and
+      schemas, original scope, trial command histories and final files. Actual negative
+      cases and provider/current-source execution supplement producer claims; no
+      unauthorized review delegation.
     evidence:
     - kind: source_review
-      summary: "Controller read actual implementation, assertions, changed durable docs and schemas, original scope, trial command histories and final files. Actual negative cases and provider/current-source execution supplement producer claims; no unauthorized review delegation."
+      summary: >-
+        Controller read actual implementation, assertions, changed durable docs and
+        schemas, original scope, trial command histories and final files. Actual negative
+        cases and provider/current-source execution supplement producer claims; no
+        unauthorized review delegation.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981423546"
   - rule_id: OPDEV-LEARN-001
     outcome: passed
-    summary: "Preserved failures drove the mode-freshness regression and narrow distinction between work tracking/external storage plus assessment/denial guidance. Follow-ups validate the corrected observed cases without relabelling original failures or claiming speed superiority."
+    summary: >-
+      Preserved failures drove the mode-freshness regression and narrow distinction
+      between work tracking/external storage plus assessment/denial guidance. Follow-ups
+      validate the corrected observed cases without relabelling original failures or
+      claiming speed superiority.
     evidence:
     - kind: source_review
-      summary: "Preserved failures drove the mode-freshness regression and narrow distinction between work tracking/external storage plus assessment/denial guidance. Follow-ups validate the corrected observed cases without relabelling original failures or claiming speed superiority."
+      summary: >-
+        Preserved failures drove the mode-freshness regression and narrow distinction
+        between work tracking/external storage plus assessment/denial guidance. Follow-ups
+        validate the corrected observed cases without relabelling original failures or
+        claiming speed superiority.
       location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981411464"
   - rule_id: OPDEV-SEC-001
     outcome: passed
-    summary: "Migration validates exact bounded portable paths and original/final bytes, refuses links/reparse points, Git metadata, protected files, arbitrary ledger retirement and executable mode loss. Authenticated archive and independently reread recovery precede deletion; token values absent from source and public evidence."
+    summary: >-
+      Migration validates exact bounded portable paths and original/final bytes,
+      refuses links/reparse points, Git metadata, protected files, arbitrary ledger
+      retirement and executable mode loss. Authenticated archive and independently reread
+      recovery precede deletion; token values absent from source and public evidence.
     evidence:
     - kind: source_review
-      summary: "Migration validates exact bounded portable paths and original/final bytes, refuses links/reparse points, Git metadata, protected files, arbitrary ledger retirement and executable mode loss. Authenticated archive and independently reread recovery precede deletion; token values absent from source and public evidence."
-      location: "crates/opdev-cli/src/migration/cleanup.rs"
+      summary: >-
+        Migration validates exact bounded portable paths and original/final bytes,
+        refuses links/reparse points, Git metadata, protected files, arbitrary ledger
+        retirement and executable mode loss. Authenticated archive and independently reread
+        recovery precede deletion; token values absent from source and public evidence.
+      location: crates/opdev-cli/src/migration/cleanup.rs
   acceptance:
     scope: behavioral
     rationale: "Issues 96-99: current clean adoption and safe coordinated retirement across empty, existing and older entry states. Automated assertions reviewed against original conditions; original failed agent proposals retained, three corrected frozen follow-ups reviewed, and one real positive whole-adoption provider canary passed. Separate older/existing component tests are not claimed as full production adoptions. No release, consumer migration or installed update."
@@ -20183,3 +20283,453 @@ changes:
       reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/99#note_3981423546"
       rationale: "Reviewed all eight material conditions against original #96-99 scope, exact Rust assertions, implementation, schemas, compatibility and packaged guidance. Current sealed review preserves source/stage checks; current clean target cannot be bypassed with old policy; cleanup preserves exact content and recovery, refuses unknown or mode-only later edits. Red/green mode regression retained. Original nine sessions remain 6/9 accepted; separately approved three unchanged-input corrected sessions accepted 3/3 after action/file review. Actual private whole-adoption passed on fresh integrated source after PR and main CI; negative identity and idempotent plan checked. Separate existing/older provider composition and local canaries do not imply three production migrations. No Claude, statistical reliability, speed improvement or release claim. Developer approved representative wording and bounded trials in this conversation. Canonical OpDev integration and post-merge execution remain required."
       subject_sha256: 2dd3bdb3d9183cb1e3e42df8edad7959c5a3070991f63effc101eea7e6d7a43b
+- fingerprint: c36634f5758908fd064e4d2dd7182ea1562bdc39e4d3a8b1a0de332c7a147c06
+  work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+  assertions:
+  - rule_id: OPDEV-WORK-001
+    outcome: passed
+    summary: >-
+      Issue 100 owns the accepted MR/PR review, bounded reports and explicit
+      ledger-removal scope; the developer clarified no archive or historical-copy requirement.
+      No release, installation or consumer migration.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Issue 100 owns the accepted MR/PR review, bounded reports and explicit
+        ledger-removal scope; the developer clarified no archive or historical-copy requirement.
+        No release, installation or consumer migration.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+  - rule_id: OPDEV-DESIGN-001
+    outcome: passed
+    summary: >-
+      Current-change semantic input uses existing provider discussions and typed
+      acceptance records; exact origin/body/head and stage/source checks remain. The
+      durable specifications explain expiry, limitations and alternatives.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Current-change semantic input uses existing provider discussions and typed
+        acceptance records; exact origin/body/head and stage/source checks remain. The
+        durable specifications explain expiry, limitations and alternatives.
+      location: spec/evidence-lifetimes.md
+  - rule_id: MCD-CI-001
+    outcome: passed
+    summary: >-
+      GitLab remains integration authority. Current main d14291a pipeline 2928573676
+      passed; this candidate still needs its own required CI. Delivery workflows,
+      runtime pins and release versions are unchanged.
+    evidence:
+    - kind: source_review
+      summary: >-
+        GitLab remains integration authority. Current main d14291a pipeline 2928573676
+        passed; this candidate still needs its own required CI. Delivery workflows,
+        runtime pins and release versions are unchanged.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928573676
+  - rule_id: MCD-TRUNK-001
+    outcome: passed
+    summary: >-
+      Main remains the sole integration/release source; this bounded branch descends
+      from current verified main. No alternate product stream or automatic
+      project-policy selection.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Main remains the sole integration/release source; this bounded branch descends
+        from current verified main. No alternate product stream or automatic
+        project-policy selection.
+      location: .opdev/project.yaml
+  - rule_id: MCD-TRUNK-002
+    outcome: passed
+    summary: >-
+      One bounded branch covers issue 100's connected storage transition,
+      compatibility, migration, tests and guidance. Integrate after required CI and delete the
+      implementation branch; no indefinite feedback branch.
+    evidence:
+    - kind: source_review
+      summary: >-
+        One bounded branch covers issue 100's connected storage transition,
+        compatibility, migration, tests and guidance. Integrate after required CI and delete the
+        implementation branch; no indefinite feedback branch.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+  - rule_id: MCD-FLOW-001
+    outcome: passed
+    summary: >-
+      Latest observed main pipeline 2928573676 is green. No red-trunk bypass,
+      delivery, tag or release action is authorized or performed.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Latest observed main pipeline 2928573676 is green. No red-trunk bypass,
+        delivery, tag or release action is authorized or performed.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/pipelines/2928573676
+  - rule_id: MCD-COMPAT-001
+    outcome: passed
+    summary: >-
+      Policy 1 retains archive meaning; old manifests/ledgers and ordinary checks
+      remain supported. New storage 2 and clean-2 adoption require explicit reviewed
+      selection; older clients reject new versions. No automatic consumer migration.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Policy 1 retains archive meaning; old manifests/ledgers and ordinary checks
+        remain supported. New storage 2 and clean-2 adoption require explicit reviewed
+        selection; older clients reject new versions. No automatic consumer migration.
+      location: spec/compatibility.md
+  - rule_id: OPDEV-TEST-001
+    outcome: passed
+    summary: >-
+      Requirement-derived conditions map to actual provider, engine, process and
+      migration assertions. Tests cover both positive paths and wrong identities, mutable
+      content, stale stages, late edits and unmerged claims; code review does not claim
+      universal agent behavior.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Requirement-derived conditions map to actual provider, engine, process and
+        migration assertions. Tests cover both positive paths and wrong identities, mutable
+        content, stale stages, late edits and unmerged claims; code review does not claim
+        universal agent behavior.
+      location: crates/opdev-remote/src/discussion_review.rs
+  - rule_id: OPDEV-TEST-004
+    outcome: passed
+    summary: "Regression protection covers the user-reported retention mismatch: reviewed storage-2 removal needs neither archive nor archival commit, even for malformed obsolete ledger content, and refuses later edits."
+    evidence:
+    - kind: source_review
+      summary: "Regression protection covers the user-reported retention mismatch: reviewed storage-2 removal needs neither archive nor archival commit, even for malformed obsolete ledger content, and refuses later edits."
+      location: crates/opdev-cli/src/migration/tests.rs
+  - rule_id: OPDEV-TEST-005
+    outcome: passed
+    summary: >-
+      No quarantine or hidden retry. Initial provider fixture lacked git init;
+      generated-guidance test caught a removed invariant. Both were corrected and failures
+      retained in the work summary; intermediate workspace and focused tests passed.
+      Final staged checks remain mandatory.
+    evidence:
+    - kind: source_review
+      summary: >-
+        No quarantine or hidden retry. Initial provider fixture lacked git init;
+        generated-guidance test caught a removed invariant. Both were corrected and failures
+        retained in the work summary; intermediate workspace and focused tests passed.
+        Final staged checks remain mandatory.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/100#note_3981613798"
+  - rule_id: OPDEV-A11Y-001
+    outcome: passed
+    summary: >-
+      The developer approved representative changed-review/removal messages in the
+      actual conversation. Errors remain plain-text, distinguish missing/current evidence
+      from executed checks and identify next actions. No universal accessibility or
+      host qualification claim.
+    evidence:
+    - kind: source_review
+      summary: >-
+        The developer approved representative changed-review/removal messages in the
+        actual conversation. Errors remain plain-text, distinguish missing/current evidence
+        from executed checks and identify next actions. No universal accessibility or
+        host qualification claim.
+      location: spec/consumer-interface.md
+  - rule_id: OPDEV-AI-001
+    outcome: passed
+    summary: >-
+      Single controller reviewed actual implementations, assertion bodies, schemas,
+      compatibility and packaged guidance against issue 100 and the deletion
+      clarification. No delegation or inference of authenticated human consent from stored author
+      labels.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Single controller reviewed actual implementations, assertion bodies, schemas,
+        compatibility and packaged guidance against issue 100 and the deletion
+        clarification. No delegation or inference of authenticated human consent from stored author
+        labels.
+      location: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/100#note_3981613798"
+  - rule_id: OPDEV-LEARN-001
+    outcome: passed
+    summary: >-
+      The user clarification removed an unintended preservation obligation. Review
+      added exact provider-commit tree checking and a malformed-ledger removal
+      regression, rather than weakening current verification or requiring repair of discarded
+      history.
+    evidence:
+    - kind: source_review
+      summary: >-
+        The user clarification removed an unintended preservation obligation. Review
+        added exact provider-commit tree checking and a malformed-ledger removal
+        regression, rather than weakening current verification or requiring repair of discarded
+        history.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+  - rule_id: OPDEV-SEC-001
+    outcome: passed
+    summary: >-
+      Provider reads reuse fixed authenticated HTTPS origins, bounded responses and
+      denied redirects; selectors bind numeric repository, item, exact body and source.
+      Migration retains bounded path, late-edit and temporary recovery safety. No
+      secrets or private consumer data are posted.
+    evidence:
+    - kind: source_review
+      summary: >-
+        Provider reads reuse fixed authenticated HTTPS origins, bounded responses and
+        denied redirects; selectors bind numeric repository, item, exact body and source.
+        Migration retains bounded path, late-edit and temporary recovery safety. No
+        secrets or private consumer data are posted.
+      location: crates/opdev-remote/src/discussion_review.rs
+  acceptance:
+    scope: behavioral
+    rationale: >-
+      Issue 100 implements source-bound MR/PR semantic review and bounded report
+      retention with explicit archive-free migration. Ten conditions cover origin,
+      source/stage/authority/execution, removal, compatibility, retention and guidance.
+      Existing legacy repository policy remains pending separate self-adoption.
+    conditions:
+    - id: origin
+      statement: >-
+        An exact current review belongs to the declared code repository and rejects
+        wrong or concurrently changed identities, bodies and heads.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bd6e4bda0715137c8d4e7cb73404fd989f1d17b6f25a70fd40be9a03aa619dbe
+        excerpt: membership, source head, author metadata, complete body digest and record shape.
+    - id: source-tree
+      statement: >-
+        Qualification checks the actual provider-observed source or merged tree; an
+        unmerged item cannot claim post-merge verification.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bd6e4bda0715137c8d4e7cb73404fd989f1d17b6f25a70fd40be9a03aa619dbe
+        excerpt: Post-merge
+    - id: current-authority
+      statement: >-
+        Work requirements need current provider observations under storage 2 and cannot
+        qualify legacy local captures.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bd6e4bda0715137c8d4e7cb73404fd989f1d17b6f25a70fd40be9a03aa619dbe
+        excerpt: Requirement `source` may be a tracked reference as before
+    - id: bounded-export
+      statement: >-
+        The current review is bounded, remains unapproved when originally unverified,
+        and avoids a tracked duplicate requirement or repository ledger.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bd6e4bda0715137c8d4e7cb73404fd989f1d17b6f25a70fd40be9a03aa619dbe
+        excerpt: 60 KiB
+    - id: execution
+      statement: >-
+        Semantic review never substitutes for real stage execution or authenticates
+        human consent.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/evidence-ledger.md
+        sha256: bd6e4bda0715137c8d4e7cb73404fd989f1d17b6f25a70fd40be9a03aa619dbe
+        excerpt: >-
+          Review never supplies execution or developer permission. Failed tests still
+          fail.
+    - id: removal
+      statement: >-
+        Reviewed storage-2 migration removes the active old ledger without archive,
+        archival commit or historical-copy verification and does not resurrect it on resume.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/upgrades.md
+        sha256: 18db14424b666bef782d2f82a32e8b064fb64c5fdcef83361260c7219779522d
+        excerpt: No external archive
+    - id: later-edits
+      statement: >-
+        Reviewed removal must preserve later developer edits and may discard obsolete
+        malformed history without first repairing it.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/upgrades.md
+        sha256: 18db14424b666bef782d2f82a32e8b064fb64c5fdcef83361260c7219779522d
+        excerpt: Later developer edits are preserved
+    - id: current-target
+      statement: >-
+        New current adoption uses clean-2 but ordinary legacy work remains possible
+        without automatic migration.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/adoption.md
+        sha256: 289f88220e9f86cc82437f75559bbb027b35248e9e876ef9b1d4a63a4b6b017a
+        excerpt: Current full adoption requires
+    - id: retention
+      statement: >-
+        Routine CI examples retain failed and successful reports for 30 days, with
+        explicit policy and provider caveats.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/evidence-lifetimes.md
+        sha256: a51dbe67d45d4b5b71b4bb6fb05c56f788dd1a1887edf0ba360648f1508e6338
+        excerpt: CI templates retain both successful and failed reports for 30 days.
+    - id: guidance
+      statement: >-
+        Agent guidance routes new policy to existing MR/PR review, bounded reports and
+        removal without an archive while preserving actual approval and release
+        boundaries.
+      authority: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
+      source:
+        path: spec/evidence-lifetimes.md
+        sha256: a51dbe67d45d4b5b71b4bb6fb05c56f788dd1a1887edf0ba360648f1508e6338
+        excerpt: Remove owned temporary drafts
+    verifications:
+    - condition: origin
+      method: automated
+      target:
+        path: crates/opdev-remote/src/discussion_review.rs
+        sha256: 5508eab4ad26518247bed274dab940980c13e479d5c1baa9a3c9d41f33d969b7
+        excerpt: fn edited_wrong_missing_and_concurrently_changed_reviews_fail_without_fallback
+      assertion: >-
+        Ten faults per provider and unavailable access fail without fallback; companion
+        positive tests bind descriptions/comments and the project remote.
+      discriminating_case: >-
+        An older body or another repository cannot qualify even if caller supplies
+        internally consistent data.
+      suite: check
+      outcome: passed
+    - condition: source-tree
+      method: automated
+      target:
+        path: crates/opdev-remote/src/discussion_review.rs
+        sha256: 5508eab4ad26518247bed274dab940980c13e479d5c1baa9a3c9d41f33d969b7
+        excerpt: fn qualification_requires_the_actual_provider_commit_tree_and_merged_boundary
+      assertion: >-
+        Actual Git commits distinguish reviewed source, wrong tree and integrated
+        content; only merged state permits the post-merge tree.
+      discriminating_case: Unmerged source passes pre-merge tree comparison but must fail post-merge.
+      suite: check
+      outcome: passed
+    - condition: current-authority
+      method: automated
+      target:
+        path: crates/opdev-engine/src/review.rs
+        sha256: ec3fc33fb551ad5f48f762239e82dd6ff6e5ab74aa5a6b5f8e2a1c7d030dc342
+        excerpt: fn discussion_requirements_bind_original_work_without_qualifying_legacy_captures
+      assertion: >-
+        Legacy prepare rejects Work sources; storage 2 binds them, body changes
+        invalidate acceptance, and ordinary evaluation cannot substitute a local capture.
+      discriminating_case: >-
+        An unchanged code tree does not preserve acceptance when the original
+        requirement body changes.
+      suite: check
+      outcome: passed
+    - condition: bounded-export
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/evidence_bundle.rs
+        sha256: dcc35a2a8fc32c6f08c4b8977f8b2c48074c8535ae185b53a9d935bd81d41cc6
+        excerpt: fn discussion_export_is_bounded_and_external_requirements_need_no_tracked_copy
+      assertion: >-
+        Process export round-trips direct work source, emits matching body hash under
+        the size limit, preserves unverified review, creates no ledger and rejects
+        wrong/missing selection.
+      discriminating_case: >-
+        Formatting a record must not manufacture approval or allow a wrong project to
+        initiate retrieval.
+      suite: check
+      outcome: passed
+    - condition: execution
+      method: automated
+      target:
+        path: crates/opdev-engine/src/review.rs
+        sha256: ec3fc33fb551ad5f48f762239e82dd6ff6e5ab74aa5a6b5f8e2a1c7d030dc342
+        excerpt: >-
+          fn
+          semantic_review_never_substitutes_for_actual_execution_or_authenticates_consent
+      assertion: >-
+        No-exec leaves acceptance unverified; executing the mapped behavior verifies
+        exact output; conflicting legacy ledger and missing selected input fail.
+      discriminating_case: An internally valid attributed review is not a successful command run.
+      suite: check
+      outcome: passed
+    - condition: removal
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 2d7f4346480fa91dea6b08d5bf9323ad33172e325e8349c2af48cded70491cbd
+        excerpt: fn discussion_migration_removes_ledger_without_archive_or_archival_commit
+      assertion: >-
+        Preview is read-only, apply removes exact ledger, temporary recovery captures
+        before bytes, no archive exists, resume remains removed and old consent is not
+        transferred.
+      discriminating_case: >-
+        A repo without any archival commit must still migrate; resume must not restore
+        discarded evidence.
+      suite: check
+      outcome: passed
+    - condition: later-edits
+      method: automated
+      target:
+        path: crates/opdev-cli/src/migration/tests.rs
+        sha256: 2d7f4346480fa91dea6b08d5bf9323ad33172e325e8349c2af48cded70491cbd
+        excerpt: fn discussion_migration_preserves_later_ledger_edits
+      assertion: >-
+        Later ledger edits cause apply to stop with original edited bytes intact;
+        separate malformed-ledger test verifies removal without parser repair.
+      discriminating_case: Deleting a newly edited ledger using stale preview is refused.
+      suite: check
+      outcome: passed
+    - condition: current-target
+      method: automated
+      target:
+        path: crates/opdev-cli/tests/adoption.rs
+        sha256: b3287205ca464a637867d0eba2cf5ca4879b5e9feca2f48c82a63e66a7690473
+        excerpt: >-
+          fn
+          default_completion_rejects_otherwise_passing_legacy_policy_without_running_checks
+      assertion: >-
+        Passing old-policy fixture reports current completion false without executing
+        adoption checks; ordinary check remains usable; companion reviewed-contract test
+        selects version 2 explicitly.
+      discriminating_case: An all-green old project cannot silently claim current adoption.
+      suite: check
+      outcome: passed
+    - condition: retention
+      method: automated
+      target:
+        path: crates/opdev-ci/src/lib.rs
+        sha256: 2996dd7c842885b24624fae3201fc04552d9334fc07da45f19e0218f86f38bd9
+        excerpt: fn routine_report_retention_is_bounded_and_includes_failures
+      assertion: >-
+        Rendered GitHub and GitLab YAML include always-upload and thirty-day artifact
+        lifetime; policy unit tests reject absent/out-of-range days and keep v1
+        serialization unchanged.
+      discriminating_case: >-
+        Failure-only or success-only retention and omitted/unbounded configuration fail
+        the checks.
+      suite: check
+      outcome: passed
+    - condition: guidance
+      method: review
+      target:
+        path: plugins/opdev/skills/opdev/references/evidence.md
+        sha256: dc225d1ffea8de1eeecf51731cac22a6e50f08db2b87ce8c9486383b4c451474
+        excerpt: "## MR/PR-native review (selected storage version 2)"
+      assertion: >-
+        Controller compared the actual main skill, evidence/adoption/upgrades/project
+        references and generated shared guide to the durable storage design and developer
+        deletion clarification.
+      discriminating_case: >-
+        Legacy instructions must not cause an agent using selected storage 2 to
+        recreate a ledger or demand an archive.
+      automation_limitation: >-
+        Manual source/wording review and skill validation only. No new live
+        Codex/Claude sessions or end-to-end hosted policy-2 qualification claim; deterministic
+        provider fixtures and existing engine composition cover mechanics.
+      outcome: passed
+    review:
+      outcome: passed
+      reviewer: "Codex controller: source and assertion review; not authenticated developer identity"
+      reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/100#note_3981613798"
+      rationale: >-
+        Reviewed ten conditions against the accepted storage design and explicit
+        no-archive clarification, actual assertion bodies, schemas, implementation and
+        conditional host guidance. Provider fixtures cover both hosted APIs and exact negative
+        controls; engine/process tests preserve real execution and current bindings. Clean
+        migration deletes the ledger without archival prerequisites while refusing late
+        edits. Legacy policy remains readable. Developer approved representative wording
+        in the actual conversation. No new live model sessions, production provider
+        qualification, speed claim, release or consumer migration. Final canonical and
+        integrated checks remain required.
+      subject_sha256: 3ab7cef759ced0ae6c320dd2abcefdaab45b44b08e4a6684d56ecc2800fa04c0

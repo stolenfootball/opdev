@@ -329,7 +329,7 @@ fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
             "branch_choices": branch_choices,
             "remote_qualification": {"verification":"not_run", "policy_ready":manifest.remote_qualification_gap().is_none(), "gap":manifest.remote_qualification_gap(), "worksheet":policy_worksheet(&manifest, remote)?},
             "delivery_readiness":"not_run",
-            "notice": "Review retained, changed and retired content against clean-1. An empty project needs real behavior before verification; setup alone is incomplete. Resolve material choices before implementation. A plan hash is not consent."
+            "notice": "Review retained, changed and retired content against clean-2. An empty project needs real behavior before verification; setup alone is incomplete. Resolve material choices before implementation. A plan hash is not consent."
         }))?
     );
     Ok(())

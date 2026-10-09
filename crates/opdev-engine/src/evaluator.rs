@@ -292,7 +292,7 @@ fn evaluate_inner(
         &mut rules,
         acceptance_outcome,
         scope,
-        &diagnostic,
+        &review_diagnostic(manifest, &diagnostic),
         acceptance_fingerprint,
     );
     qualify_test_execution(
@@ -310,6 +310,21 @@ fn evaluate_inner(
         rules,
         checks,
     )
+}
+
+fn review_diagnostic(manifest: &ProjectManifest, diagnostic: &str) -> String {
+    if manifest
+        .assurance
+        .review_storage
+        .as_ref()
+        .is_some_and(|p| p.version == 2)
+    {
+        diagnostic
+            .replace(".opdev/evidence.yaml", "the selected MR/PR review")
+            .replace("ledger", "review record")
+    } else {
+        diagnostic.into()
+    }
 }
 
 fn layout_check(root: &Path, version: u32) -> CheckResult {
