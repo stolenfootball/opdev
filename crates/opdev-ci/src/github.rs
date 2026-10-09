@@ -566,7 +566,7 @@ fn environment(workflow: &Value, job: &Value, step: &Value) -> Result<()> {
     Ok(())
 }
 
-fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
+fn runner(job: &Value) -> Result<()> {
     if !job.get("runs-on").is_some_and(|runner| {
         runner.as_str().is_some_and(|s| !s.is_empty())
             || runner.as_array().is_some_and(|labels| {
@@ -577,6 +577,11 @@ fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
             "Gate runner selection is missing or unsupported; provider execution is not established",
         ));
     }
+    Ok(())
+}
+
+fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
+    runner(job)?;
     let steps = job["steps"]
         .as_array()
         .ok_or_else(|| invalid("Gate job needs a steps array"))?;
