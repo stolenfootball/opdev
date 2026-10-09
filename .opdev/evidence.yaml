@@ -20286,6 +20286,13 @@ changes:
 - fingerprint: c36634f5758908fd064e4d2dd7182ea1562bdc39e4d3a8b1a0de332c7a147c06
   work: https://gitlab.com/stolenfootball-tools/opdev/-/issues/100
   assertions:
+  - rule_id: MCD-TEST-001
+    outcome: passed
+    summary: Current material source passed the canonical pre-merge suites with reviewed acceptance before MR 72 was merged; this retained observation does not substitute for post-merge execution.
+    evidence:
+    - kind: observed
+      summary: Actual source-bound opdev check --ci passed format, strict Clippy and the full workspace suite at de721778e38609fba48e0b75af1ca1307d215b6f; MR pipeline 2928701246 also passed all required jobs. The unchanged material fingerprint binds this fact to the integrated source.
+      location: https://gitlab.com/stolenfootball-tools/opdev/-/merge_requests/72#note_3981639151
   - rule_id: OPDEV-WORK-001
     outcome: passed
     summary: >-
