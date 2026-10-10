@@ -1,7 +1,7 @@
 schema: 3
 layout:
-  version: 1
-  review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+  version: 2
+  review_reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727"
 project:
   kind: plugin
   trunk: main
@@ -74,12 +74,6 @@ commands:
     - --
     - --check
     timeout_seconds: 300
-  script_format:
-    argv: [python, scripts/check_scripts.py, format]
-    timeout_seconds: 900
-  script_lint:
-    argv: [python, scripts/check_scripts.py, lint]
-    timeout_seconds: 900
   lint:
     argv:
     - cargo
@@ -98,6 +92,18 @@ commands:
     - --release
     - --locked
     timeout_seconds: 1800
+  script_format:
+    argv:
+    - python
+    - scripts/check_scripts.py
+    - format
+    timeout_seconds: 900
+  script_lint:
+    argv:
+    - python
+    - scripts/check_scripts.py
+    - lint
+    timeout_seconds: 900
   setup:
     argv:
     - cargo
@@ -124,10 +130,16 @@ testing:
   suites:
   - id: script_format
     command: script_format
-    stages: [local, pre_merge, post_merge]
+    stages:
+    - local
+    - pre_merge
+    - post_merge
   - id: script_lint
     command: script_lint
-    stages: [local, pre_merge, post_merge]
+    stages:
+    - local
+    - pre_merge
+    - post_merge
   - id: format
     command: format
     stages:
@@ -172,6 +184,14 @@ delivery:
   recovery:
     strategy: roll_forward
 assurance:
+  requirements:
+    version: 1
+    review_reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727"
+    configurations:
+      default:
+      - local
+      - pre_merge
+      - post_merge
   review_storage:
     version: 2
     provider: gitlab

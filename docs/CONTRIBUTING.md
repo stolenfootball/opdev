@@ -59,6 +59,43 @@ Neither a Linux pass nor a syntax-only test proves the Windows checks passed.
 Checks never auto-fix. Keep one-time mechanical formatting separate from behavior
 repairs and preserve regression assertions and frozen inputs.
 
+### Requirements and current verification
+
+This repository selects requirements policy 1 and layout 2. The capability files
+in `.opdev/requirements/` connect supported guarantees to their existing `spec/`
+owners and reviewed assertions. Read the relevant capability alongside its spec;
+do not copy the specification or use the catalog as a backlog. The `default`
+configuration denotes the existing canonical workspace checks, including tests
+that explicitly exercise stable and opt-in compact behavior; it does not enable
+compact output or claim an exhaustive platform/configuration matrix.
+
+Each criterion has separate local, pre-merge and post-merge plans. Reuse the
+canonical suite execution at that boundary; catalog verification does not need
+another test run. Automated mappings use suite assurance, not proof that a named
+case ran. Whole referenced files, assertion helpers, fixture inputs, Cargo
+manifests/lockfile and toolchain are review inputs. Recheck relevant dependencies
+when changing tests; an input list is not an automatically complete dependency graph.
+
+After staging intended changes, use `requirements inspect`, `requirements show ID`
+and `requirements diff --base COMMIT`. The baseline must be the MR's actual
+provider-observed target snapshot. Review stale mappings against actual assertions
+before refreshing their subjects; a new digest is not review. The current MR
+acceptance selects candidate/baseline catalog identities and explains change
+impact. One-off migration/change conditions remain in that review.
+
+The catalog records executable deterministic guarantees, not a claim that all
+software behavior is mechanically proven. Native installation/publication jobs,
+release artifact identity, security review and bounded live-agent effectiveness
+evidence retain their existing required owners and verification boundaries.
+Routing/string assertions do not prove live-agent compliance; lock metadata does
+not prove a working installation. Do not downgrade these obligations to a green
+Rust suite or rerun live trials for an unrelated catalog edit. New supported
+behavior needs corresponding criteria and meaningful checks, not only test names.
+
+See [the requirements guide](requirements-and-verification.md) for authoring,
+freshness, manual observations and retention. No committed database, active
+execution ledger or external evidence repository is introduced.
+
 Before requesting integration, stage all material files and bind acceptance
 conditions to the actual assertions and current source. Store the bounded review
 in this repository's GitLab MR, using review storage policy 2. Do not recreate
