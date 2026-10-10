@@ -236,6 +236,21 @@ impl ProjectManifest {
 
     fn validate_boundaries(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
+        if let Some(policy) = &self.assurance.requirements {
+            policy
+                .validate()
+                .map_err(|e| ManifestError::Semantic(e.to_string()))?;
+            if self.schema != 3
+                || self.layout.as_ref().is_none_or(|l| l.version != 2)
+                || self
+                    .assurance
+                    .review_storage
+                    .as_ref()
+                    .is_none_or(|s| s.version != 2)
+            {
+                return Err(ManifestError::Semantic("Requirements catalog needs explicit schema-3, layout-2 and MR/PR review-storage-2 selection; upgrade preview never selects these automatically".into()));
+            }
+        }
         if let Some(storage) = &self.assurance.review_storage {
             if self.schema != 3 {
                 return Err(ManifestError::Semantic(
@@ -252,10 +267,10 @@ impl ProjectManifest {
         }
         if let Some(layout) = &self.layout
             && (self.schema != 3
-                || layout.version != 1
+                || !matches!(layout.version, 1 | 2)
                 || layout.review_reference.trim().is_empty())
         {
-            return Err(ManifestError::Semantic("Strict layout needs project schema 3, supported layout version 1 and the actual migration decision reference".into()));
+            return Err(ManifestError::Semantic("Strict layout needs project schema 3, supported layout version 1 or 2 and the actual migration decision reference".into()));
         }
         if let Some(policy) = &self.assurance.safeguards
             && (self.assurance.engineering.is_none()
@@ -852,6 +867,9 @@ impl Operations {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Assurance {
+    /// Explicit requirements policy; absence preserves change-only acceptance.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub requirements: Option<crate::requirements::RequirementsPolicy>,
     /// Explicit external semantic-review storage selection; absent keeps the ledger.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub review_storage: Option<crate::ReviewStorage>,
@@ -1021,6 +1039,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                requirements: None,
                 review_storage: None,
                 safeguards: None,
                 engineering: None,

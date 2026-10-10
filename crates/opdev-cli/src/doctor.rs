@@ -220,6 +220,8 @@ fn inspect(args: &DoctorArgs) -> Report {
             project_schemas: (1..=PROJECT_SCHEMA_VERSION).collect(),
             evidence_schemas: vec![1, 2],
             capabilities: vec![
+                "requirements.catalog.v1",
+                "layout.enforcement.v2",
                 "doctor.v1",
                 "documentation.plan.v1",
                 "execution.same-run.v1",

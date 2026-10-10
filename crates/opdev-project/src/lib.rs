@@ -6,6 +6,8 @@ mod acceptance;
 mod adoption;
 /// Current adoption destination and reviewed retirement postconditions.
 pub mod clean_adoption;
+/// Durable requirements and verification plans, separate from execution and consent.
+pub mod requirements;
 pub use acceptance::{
     AcceptanceCondition, AcceptanceEvidence, AcceptanceMethod, AcceptanceReview, AcceptanceScope,
     AcceptanceVerification, RequirementSource, TrackedEvidence,

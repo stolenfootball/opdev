@@ -713,6 +713,7 @@ fn bind_review(root: &Path) -> Result<(), Box<dyn std::error::Error>> {
     // Synthetic gate plumbing, not a behavioral product acceptance assessment.
     let fingerprint = staged_fingerprint(root)?;
     let mut acceptance = opdev_project::AcceptanceEvidence {
+        requirements: None,
         scope: opdev_project::AcceptanceScope::NoMaterialConditions,
         rationale: "Synthetic adoption fixture with no product acceptance conditions".into(),
         ..Default::default()

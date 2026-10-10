@@ -264,6 +264,8 @@ See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are p
 - [Getting started with the CLI](docs/GETTING_STARTED.md): installation,
   initialization, a first change, evidence review, and CI.
 - [Normative specification](spec/README.md): lifecycle, rules, and authority order.
+- [Requirements and verification](docs/requirements-and-verification.md): durable
+  product guarantees, test relationships, current observations and explicit migration.
 - [Evidence ledger](spec/evidence-ledger.md): review and freshness requirements.
 - [Acceptance evidence](spec/evidence-ledger.md#schema-2-acceptance-evidence): development
   CLIs bind reviewed requirements and assertions to the current change and suite

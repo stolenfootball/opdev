@@ -7,7 +7,7 @@
   "required": ["schema", "project", "authorities", "commands", "quality", "testing", "delivery", "assurance", "context"],
   "properties": {
     "schema": { "enum": [1, 2, 3] },
-    "layout": {"type":"object","additionalProperties":false,"required":["version","review_reference"],"properties":{"version":{"const":1},"review_reference":{"type":"string","minLength":1}}},
+    "layout": {"type":"object","additionalProperties":false,"required":["version","review_reference"],"properties":{"version":{"enum":[1,2]},"review_reference":{"type":"string","minLength":1}}},
     "project": { "$ref": "#/$defs/project" },
     "authorities": {
       "type": "object",
@@ -223,6 +223,18 @@
       "additionalProperties": false,
       "required": ["profiles"],
       "properties": {
+        "requirements": {
+          "type": "object", "additionalProperties": false,
+          "required": ["version", "review_reference", "configurations"],
+          "properties": {
+            "version": {"const": 1},
+            "review_reference": {"type": "string", "minLength": 1},
+            "configurations": {"type": "object", "minProperties": 1, "maxProperties": 64,
+              "propertyNames": {"pattern": "^[a-zA-Z0-9_.-]{1,128}$"},
+              "additionalProperties": {"type": "array", "minItems": 1, "uniqueItems": true,
+                "items": {"enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"]}}}
+          }
+        },
         "review_storage": {
           "type": "object", "additionalProperties": false,
           "required": ["version", "provider", "repository_id", "review_reference", "retention_authority"],

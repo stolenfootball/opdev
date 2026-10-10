@@ -43,6 +43,10 @@ migration requirement.
 See [documentation ownership and folder defaults](documentation-layout.md) for
 authority placement and conflict handling.
 
+See [requirements and verification catalog](requirements-catalog.md) for explicitly
+selected durable guarantees, all-members verification plans and their independent
+review/execution lifetimes. Unmigrated projects retain change-only acceptance.
+
 See [compact report and evidence views](compact-views.md) for read-only
 projections, retained diagnostics, freshness, and compatibility.
 

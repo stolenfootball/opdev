@@ -138,7 +138,11 @@ pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
     {
         gaps.push("Select reviewed engineering policy 1 in project schema 3".into());
     }
-    if project.layout.as_ref().is_none_or(|p| p.version != 1) {
+    if project
+        .layout
+        .as_ref()
+        .is_none_or(|p| !matches!(p.version, 1 | 2))
+    {
         gaps.push("Migrate to strict layout 1 with shared guidance and thin host entries".into());
     }
     if project

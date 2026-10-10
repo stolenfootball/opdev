@@ -1,5 +1,9 @@
 # Testing requirements
 
+With explicit requirements policy 1, use [catalog verification](requirements.md)
+alongside this guidance: persistent mapping adequacy and current execution have
+different lifetimes, and every member of a selected plan is required.
+
 Derive tests from behavior, acceptance conditions, and declared quality risks rather than from language-specific quotas.
 
 Follow [acceptance evidence](acceptance.md) before implementation and at

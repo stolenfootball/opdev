@@ -108,7 +108,10 @@ fn regular(meta: &fs::Metadata) -> bool {
     !meta.file_type().is_symlink() && (meta.is_file() || meta.is_dir())
 }
 
-fn directory(path: &str) -> bool {
+fn directory(path: &str, version: u32) -> bool {
+    if version == 2 && path == ".opdev/requirements" {
+        return true;
+    }
     matches!(
         path,
         ".opdev"
@@ -214,7 +217,7 @@ fn walk(
     if !regular(&meta) {
         files.insert(path.into(), "unsafe".into());
     } else if meta.is_dir() {
-        if !directory(path) {
+        if !directory(path, report.layout_version) {
             report.finding(
                 path,
                 "Directory is outside the proposed namespace",
@@ -280,11 +283,23 @@ fn inspect_file(
         report.finding(path, "Legacy evidence needs a reviewed storage migration", "Remove the obsolete ledger through the selected storage migration. MR/PR storage needs only temporary rollback protection, not an archive; legacy archive policy retains its original requirements. No automatic cleanup");
         return Ok(());
     }
-    if !permitted(path) {
+    if !(permitted(path)
+        || report.layout_version == 2 && crate::requirements::portable_catalog_path(path))
+    {
         report.finding(path, "File is outside the proposed namespace", "Classify its actual purpose and use the declared document, work or local-state owner; no automatic cleanup");
         return Ok(());
     }
     report.inspected_files.push(path.into());
+    if path.starts_with(".opdev/requirements/") {
+        if crate::requirements::CatalogDocument::parse(&contents(root, path, scope)?).is_err() {
+            report.finding(
+                path,
+                "Invalid requirements catalog document",
+                "Inspect catalog schema and identities; no checks ran and no review was approved",
+            );
+        }
+        return Ok(());
+    }
     if !matches!(path, ".opdev/project.yaml" | ".opdev/adoption.yaml") {
         return Ok(());
     }
@@ -305,9 +320,9 @@ fn inspect_file(
 /// # Errors
 /// Rejects unsupported versions, unreadable metadata and bounded traversal failures.
 pub fn inspect(root: &Path, layout_version: u32, scope: Scope) -> Result<Report> {
-    if layout_version != 1 {
+    if !matches!(layout_version, 1 | 2) {
         bail!(
-            "Unsupported proposed layout version {layout_version}; supported version is 1. Nothing changed"
+            "Unsupported proposed layout version {layout_version}; supported versions are 1 and 2. Nothing changed"
         );
     }
     let bytes = git(root, &["rev-parse", "--show-toplevel"])?;
@@ -316,7 +331,7 @@ pub fn inspect(root: &Path, layout_version: u32, scope: Scope) -> Result<Report>
     let mut report = Report {
         schema: 1,
         kind: "layout_inspection",
-        layout_version: 1,
+        layout_version,
         scope,
         qualification: "unverified",
         findings: vec![],
