@@ -25,6 +25,9 @@ struct Request {
     schema: u32,
     decision_reference: String,
     project: ProjectManifest,
+    /// Explicit capability documents; migration never invents requirements or approvals.
+    #[serde(default)]
+    requirements: BTreeMap<String, opdev_project::requirements::CatalogDocument>,
     /// CI changes are explicit exact file contents, never inferred version bumps.
     #[serde(default)]
     ci: BTreeMap<String, String>,
@@ -186,6 +189,27 @@ fn assess(root: &Path, request_path: &Path, plugin: Option<&Path>) -> Result<Mig
         plan.replacement(path, after.clone(), "Explicit CI transition; syntax, runtime capability and pipeline qualification remain separate checks")?;
     }
     history(&mut plan, &candidate)?;
+    for (path, document) in &request.requirements {
+        ensure!(
+            candidate.assurance.requirements.is_some()
+                && opdev_project::requirements::portable_catalog_path(path),
+            "Catalog migration needs selected requirements policy and exact portable capability paths"
+        );
+        let bytes = serde_json::to_vec(document)?;
+        opdev_project::requirements::CatalogDocument::parse(&bytes)?;
+        ensure!(
+            document
+                .plans
+                .iter()
+                .all(|p| p.review.outcome == Outcome::Unverified),
+            "Migration catalog reviews must start unverified; old reviews cannot be promoted into the new policy"
+        );
+        plan.replacement(
+            path,
+            format!("{}\n", serde_json::to_string_pretty(document)?),
+            "Explicit catalog facts only; mapping adequacy and current execution remain unverified",
+        )?;
+    }
     cleanup::prepare(&mut plan)?;
     inventory::owners(&mut plan, &original, &candidate);
     plan.finding("verification", Outcome::Unverified, "Migration writes do not verify adoption, local/CI compatibility, project tests, delivery or release. Review each separate finding and run current required checks after staging.");
@@ -343,7 +367,7 @@ pub(super) fn run(
     Ok(ExitCode::from(u8::from(blocked)))
 }
 
-fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
+fn validate_targets(plan: &MigrationPlan) -> Result<()> {
     cleanup::validate_plan(plan)?;
     let mut paths = std::collections::BTreeSet::new();
     for change in &plan.changes {
@@ -358,6 +382,7 @@ fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
                         | "AGENTS.md"
                         | "CLAUDE.md"
                 ) || inventory::ci_path(&change.path)
+                    || opdev_project::requirements::portable_catalog_path(&change.path)
                     || cleanup::file_target(plan, &change.path)),
             "Unsupported or repeated migration target; no arbitrary recovery instructions executed"
         );
@@ -367,7 +392,40 @@ fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
                 || cleanup::retired_file(plan, &change.path),
             "Unsupported migration deletion"
         );
+        if opdev_project::requirements::portable_catalog_path(&change.path) {
+            let policy = plan
+                .changes
+                .iter()
+                .find(|c| c.path == MANIFEST_PATH)
+                .and_then(|c| c.after.as_deref())
+                .context("Catalog migration policy missing")?;
+            ensure!(
+                ProjectManifest::from_yaml(policy)?
+                    .assurance
+                    .requirements
+                    .is_some(),
+                "Catalog migration requires selected policy"
+            );
+            let doc = opdev_project::requirements::CatalogDocument::parse(
+                change
+                    .after
+                    .as_deref()
+                    .context("Catalog migration cannot silently delete guarantees")?
+                    .as_bytes(),
+            )?;
+            ensure!(
+                doc.plans
+                    .iter()
+                    .all(|p| p.review.outcome == Outcome::Unverified),
+                "Migration cannot transfer mapping approval"
+            );
+        }
     }
+    Ok(())
+}
+
+fn apply_plan(plan: &MigrationPlan, stop_after: usize) -> Result<()> {
+    validate_targets(plan)?;
     inventory::unchanged(plan)?;
     if let Some(change) = plan
         .changes

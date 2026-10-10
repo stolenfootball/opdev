@@ -35,6 +35,13 @@ and rationale, not a second copy of the live backlog.
 
 ## Strict namespace contract (layout 1)
 
+Explicit layout 2 retains layout 1 and adds only
+`.opdev/requirements/<capability>.json`, validated against the
+[requirements catalog](requirements-catalog.md) format. Lowercase ASCII
+letters/digits, hyphens and underscores name capability files; no nested scratch
+namespace or database files are allowed. Layout selection alone does not enable
+catalog qualification: select requirements policy explicitly too.
+
 The strict target replaces the internal placement defaults above only through an
 explicit version-aware project migration. Existing schema-1/2/3 contracts and
 their authorities are not automatically rewritten or opted into enforcement.

@@ -1,5 +1,11 @@
 # Acceptance evidence for substantive changes
 
+When requirements policy 1 is explicitly selected, also use the
+[durable catalog workflow](requirements.md). Its current MR/PR catalog selection
+replaces copying enduring conditions into each change, not one-off acceptance,
+impact review, authorization or current execution. Legacy behavior below remains
+unchanged without that selection.
+
 Use during normal OpDev development, not only requested audits. Review-only tasks
 still authorize only reading and an answer, not tests, ledger writes or faults.
 

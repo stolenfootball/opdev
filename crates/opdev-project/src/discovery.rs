@@ -138,6 +138,7 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
             delivery,
             operations: Operations::default(),
             assurance: Assurance {
+                requirements: None,
                 review_storage: None,
                 safeguards: None,
                 engineering: None,

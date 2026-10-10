@@ -206,6 +206,7 @@ fn aggregate_evaluation(
     Ok(report)
 }
 
+#[allow(clippy::too_many_lines)] // One invocation owns before/after freshness and both acceptance paths.
 fn evaluate_inner(
     root: &Path,
     manifest: &ProjectManifest,
@@ -217,6 +218,11 @@ fn evaluate_inner(
     let evaluated_at = unix_timestamp();
     let subject = root.display().to_string();
     let acceptance_ledger = selected_ledger(root, manifest, options.test_stage, review)?;
+    let requirements = manifest
+        .assurance
+        .requirements
+        .as_ref()
+        .map(|_| opdev_project::requirements::load_index(root));
     let initial_fingerprint = staged_fingerprint(root);
     let acceptance_fingerprint = initial_fingerprint.as_ref().ok();
     let mut rules: Vec<_> = catalog
@@ -302,6 +308,20 @@ fn evaluate_inner(
         options.test_stage,
         acceptance_outcome,
     );
+    if let Some(snapshot) = requirements {
+        let findings = crate::requirements::evaluate(
+            root,
+            manifest,
+            snapshot,
+            &checks,
+            options.test_stage,
+            fresh,
+            acceptance_ledger.as_ref(),
+            acceptance_fingerprint.map(String::as_str),
+            acceptance_outcome,
+        );
+        checks.extend(findings);
+    }
     aggregate_evaluation(
         manifest,
         subject,
@@ -1497,6 +1517,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                requirements: None,
                 review_storage: None,
                 safeguards: None,
                 engineering: None,

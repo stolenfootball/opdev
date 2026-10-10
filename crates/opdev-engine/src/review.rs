@@ -107,6 +107,7 @@ impl ValidatedReview {
         let record = observed.record().clone();
         observed.verify_project(manifest)?;
         observed.verify_source(root, stage)?;
+        verify_catalog_baseline(manifest, &record, &observed)?;
         record.verify_current(root, manifest, stage, acceptance).map_err(|_| "MR/PR review does not match the current source, configuration, stage or acceptance conditions")?;
         opdev_remote::recheck_work(&record.authority_observations())?;
         let location = format!(
@@ -132,6 +133,7 @@ impl ValidatedReview {
     ) -> Result<(), String> {
         if let Some(observed) = &self.discussion {
             observed.verify_source(root, stage)?;
+            verify_catalog_baseline(manifest, &self.record, observed)?;
         }
         self.record.verify_current(root, manifest, stage, &self.record.acceptance_sha256)
             .map_err(|_| "Selected review no longer matches the current source, configuration, stage or inventory".into())
@@ -150,6 +152,26 @@ impl ValidatedReview {
         }
         opdev_remote::recheck_work(&self.record.authority_observations())
     }
+}
+
+fn verify_catalog_baseline(
+    manifest: &ProjectManifest,
+    record: &ReviewRecord,
+    observed: &opdev_remote::DiscussionObservation,
+) -> Result<(), String> {
+    if manifest.assurance.requirements.is_none() {
+        return Ok(());
+    }
+    let selected = record
+        .ledger
+        .matching_change(&record.source_sha256)
+        .and_then(|c| c.acceptance.as_ref())
+        .and_then(|a| a.requirements.as_ref())
+        .ok_or("Catalog policy needs a current MR/PR catalog change review")?;
+    if observed.baseline_commit() != Some(selected.baseline_commit.as_str()) {
+        return Err("Catalog baseline differs from the provider-observed MR/PR target snapshot, or that metadata is unavailable. Inspect the actual comparison; no caller-selected fallback".into());
+    }
+    Ok(())
 }
 
 fn validate_bytes(
@@ -336,6 +358,155 @@ mod tests {
             TestStage::PreMerge,
         );
         assert!(gaps.join(";").contains(".opdev/evidence.yaml"));
+        Ok(())
+    }
+
+    #[test]
+    #[allow(clippy::too_many_lines)] // Real canonical execution with synthetic semantic inputs, not a provider-authentication claim.
+    fn catalog_consumer_path_runs_real_commands_and_never_reuses_saved_success()
+    -> anyhow::Result<()> {
+        use opdev_project::requirements::{self, ChangeReview};
+        let (temp, mut manifest, mut review) = fixture()?;
+        let root = temp.path();
+        git(
+            root,
+            &[
+                "-c",
+                "user.name=Fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "accepted baseline",
+            ],
+        )?;
+        let baseline_commit = Command::new("git")
+            .arg("-C")
+            .arg(root)
+            .args(["rev-parse", "HEAD"])
+            .output()?;
+        let baseline_commit = String::from_utf8(baseline_commit.stdout)?.trim().to_owned();
+        let baseline = requirements::load_revision(root, &baseline_commit)?.digest()?;
+        manifest.layout = Some(opdev_project::LayoutPolicy {
+            version: 2,
+            review_reference: "fixture decision".into(),
+        });
+        let storage = manifest
+            .assurance
+            .review_storage
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("storage"))?;
+        storage.version = 2;
+        storage.report_retention_days = Some(1);
+        manifest.project.ci.provider = opdev_project::CiProvider::Gitlab;
+        manifest.project.ci.remote = Some("https://gitlab.com/fixture/catalog.git".into());
+        manifest.assurance.requirements = Some(serde_json::from_value(
+            json!({"version":1,"review_reference":"fixture decision","configurations":{"default":["pre_merge","post_merge"]}}),
+        )?);
+        manifest.testing.suites[0].stages.push(TestStage::PostMerge);
+        fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+        fs::create_dir_all(root.join(requirements::DIRECTORY))?;
+        git(root, &["add", "."])?;
+        let target = TrackedEvidence::bind(
+            root,
+            "tests.py".into(),
+            "assert select(items) == ['c', 'a']".into(),
+        )?;
+        let doc = json!({"schema":1,"requirements":[{"id":"RC","title":"Caller order","statement":{"kind":"inline","text":"Preserve caller order and return two items"},"origin":"fixture accepted behavior","rationale":"Consumer sequence","configurations":["default"],"criteria":[{"id":"CC","expected":"c,a,b returns c,a"}]}],
+            "verifications":[{"id":"VC","target":target,"inputs":[],"method":{"kind":"automated","suite":"behavior","assurance":"suite"}}],
+            "plans":(["pre_merge","post_merge"].map(|s| json!({"id":format!("PC-{s}"),"criterion":"CC","configuration":"default","stage":s,"members":[{"verification":"VC","assertion":"Exact sequence compares value, order and count","discriminating_case":"Sorting or zero items fails"}],"review":{"outcome":"passed","reviewer":"fixture","reference":"fixture review","rationale":"Requirement-derived assertion inspected","subject_sha256":""}}))) });
+        let path = root.join(requirements::DIRECTORY).join("order.json");
+        fs::write(&path, serde_json::to_vec(&doc)?)?;
+        git(root, &["add", "."])?;
+        let mut snapshot = requirements::load_index(root)?;
+        let subjects: Vec<_> = snapshot
+            .plans()
+            .map(|p| snapshot.plan_digest(p, &manifest))
+            .collect::<anyhow::Result<_>>()?;
+        let doc = snapshot
+            .documents
+            .values_mut()
+            .next()
+            .ok_or_else(|| anyhow::anyhow!("catalog"))?;
+        for (p, s) in doc.plans.iter_mut().zip(subjects) {
+            p.review.subject_sha256 = s;
+        }
+        fs::write(path, serde_json::to_vec(doc)?)?;
+        git(root, &["add", "."])?;
+        let catalog_digest = requirements::load_index(root)?.digest()?;
+        let mut ledger = review.record.ledger.clone();
+        let change = &mut ledger.changes[0];
+        let acceptance = change
+            .acceptance
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("acceptance"))?;
+        acceptance.conditions.clear();
+        acceptance.verifications.clear();
+        acceptance.requirements = Some(ChangeReview {
+            catalog_sha256: catalog_digest.clone(),
+            baseline_commit,
+            baseline_catalog_sha256: baseline,
+            rationale: "Fixture new guarantee with no one-off conditions".into(),
+            decision_reference: "fixture decision".into(),
+            manual_observations: vec![],
+        });
+        for expected in [Outcome::Passed, Outcome::Failed] {
+            if expected == Outcome::Failed {
+                fs::write(
+                    root.join("product.py"),
+                    "def select(items):\n    return []\n",
+                )?;
+                git(root, &["add", "."])?;
+            }
+            let change = &mut ledger.changes[0];
+            change.fingerprint = opdev_project::staged_fingerprint(root)?;
+            let acceptance = change
+                .acceptance
+                .as_mut()
+                .ok_or_else(|| anyhow::anyhow!("acceptance"))?;
+            acceptance.review.subject_sha256 =
+                acceptance.digest(&change.fingerprint, &change.work)?;
+            review.record = ReviewRecord::prepare(root, &manifest, TestStage::PreMerge, &ledger)?;
+            let report = crate::evaluate_with_review(
+                root,
+                &manifest,
+                crate::CheckOptions::pre_merge(),
+                &review,
+                None,
+            )?;
+            assert!(
+                report
+                    .checks
+                    .iter()
+                    .any(|c| c.id == "behavior" && c.outcome == expected),
+                "{:?}",
+                report.checks
+            );
+            assert!(
+                report
+                    .checks
+                    .iter()
+                    .any(|c| c.id.starts_with("requirements:") && c.outcome == expected),
+                "{:?}",
+                report.checks
+            );
+            assert_eq!(
+                catalog_digest,
+                requirements::load_index(root)?.digest()?,
+                "Implementation does not rewrite mapping review"
+            );
+        }
+        let options = crate::CheckOptions {
+            execute_checks: false,
+            ..crate::CheckOptions::pre_merge()
+        };
+        let report = crate::evaluate_with_review(root, &manifest, options, &review, None)?;
+        assert!(
+            report
+                .checks
+                .iter()
+                .any(|c| c.id.starts_with("requirements:") && c.outcome == Outcome::Unverified)
+        );
         Ok(())
     }
 

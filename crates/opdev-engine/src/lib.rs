@@ -15,6 +15,7 @@ pub use execution_policy::{
 };
 mod plan;
 mod report;
+mod requirements;
 mod review;
 pub use execution_record::{
     ExecutionBinding, ExecutionRecord, ValidatedExecutions, validate_producer_records,

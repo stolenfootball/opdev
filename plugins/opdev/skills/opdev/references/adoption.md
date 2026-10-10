@@ -1,5 +1,11 @@
 # Adopt OpDev in an existing or new project
 
+If the requested destination includes requirements policy 1, also follow
+[catalog adoption](requirements.md). Inventory actual supported promises and
+verification gaps; installing the capability does not choose this policy or
+convert old reviews into current approval. Capability JSON is permanent product
+knowledge, while migration work and observations retain their existing owners.
+
 An explicit request such as "convert this repo to OpDev" already consents to
 assessment. Do not ask again whether to adopt it. Check `opdev adoption --help`:
 older compatible runtimes may lack this development capability. Report the gap

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/requirements.schema.json",
+  "title": "OpDev requirements and verification catalog 1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "requirements", "verifications", "plans"],
+  "properties": {
+    "schema": {"const": 1},
+    "requirements": {"type": "array", "items": {"$ref": "#/$defs/requirement"}},
+    "verifications": {"type": "array", "items": {"$ref": "#/$defs/verification"}},
+    "plans": {"type": "array", "items": {"$ref": "#/$defs/plan"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-zA-Z0-9_.-]{1,128}$"},
+    "text": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "source": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256", "excerpt"],
+      "properties": {"path": {"$ref": "#/$defs/text"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "excerpt": {"$ref": "#/$defs/text"}}
+    },
+    "statement": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["kind", "text"], "properties": {"kind": {"const": "inline"}, "text": {"$ref": "#/$defs/text"}}},
+        {"type": "object", "additionalProperties": false, "required": ["kind", "source"], "properties": {"kind": {"const": "source"}, "source": {"$ref": "#/$defs/source"}}}
+      ]
+    },
+    "requirement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "statement", "origin", "rationale", "configurations", "criteria"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "title": {"$ref": "#/$defs/text"},
+        "statement": {"$ref": "#/$defs/statement"}, "origin": {"$ref": "#/$defs/text"}, "rationale": {"$ref": "#/$defs/text"},
+        "configurations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "criteria": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "expected"], "properties": {"id": {"$ref": "#/$defs/id"}, "expected": {"$ref": "#/$defs/text"}}}}
+      }
+    },
+    "verification": {
+      "type": "object", "additionalProperties": false, "required": ["id", "target", "inputs", "method"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "target": {"$ref": "#/$defs/source"}, "inputs": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+        "method": {"oneOf": [
+          {"type": "object", "additionalProperties": false, "required": ["kind", "suite", "assurance"], "properties": {"kind": {"const": "automated"}, "suite": {"$ref": "#/$defs/id"}, "assurance": {"enum": ["suite", "case"]}}},
+          {"type": "object", "additionalProperties": false, "required": ["kind", "technique", "automation_limitation", "recheck", "max_age_seconds"], "properties": {"kind": {"const": "manual"}, "technique": {"enum": ["inspection", "analysis", "demonstration"]}, "automation_limitation": {"$ref": "#/$defs/text"}, "recheck": {"$ref": "#/$defs/text"}, "max_age_seconds":{"type":"integer","minimum":1,"maximum":31536000}}}
+        ]}
+      }
+    },
+    "plan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "criterion", "configuration", "stage", "members", "review"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "criterion": {"$ref": "#/$defs/id"}, "configuration": {"$ref": "#/$defs/id"},
+        "stage": {"enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"]},
+        "members": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["verification", "assertion", "discriminating_case"], "properties": {"verification": {"$ref": "#/$defs/id"}, "assertion": {"$ref": "#/$defs/text"}, "discriminating_case": {"$ref": "#/$defs/text"}}}},
+        "review": {"type": "object", "additionalProperties": false, "required": ["outcome", "reviewer", "reference", "rationale", "subject_sha256"], "properties": {"outcome": {"enum": ["passed", "failed", "unverified"]}, "reviewer": {"type": "string"}, "reference": {"type": "string"}, "rationale": {"type": "string"}, "subject_sha256": {"type": "string"}}}
+      }
+    }
+  }
+}

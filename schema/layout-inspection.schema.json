@@ -7,7 +7,7 @@
   "properties": {
     "schema": { "const": 1 },
     "kind": { "const": "layout_inspection" },
-    "layout_version": { "const": 1 },
+    "layout_version": { "enum": [1, 2] },
     "scope": { "enum": ["working_tree", "index"] },
     "qualification": { "const": "unverified" },
     "findings": {

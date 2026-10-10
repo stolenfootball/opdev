@@ -36,6 +36,7 @@ mod inspection;
 mod layout;
 mod local_state;
 mod migration;
+mod requirements;
 mod state_io;
 mod test_execution;
 mod test_report;
@@ -60,6 +61,8 @@ enum Command {
     Init(InitArgs),
     /// Evaluate project requirements.
     Check(CheckArgs),
+    /// Inspect durable requirements, verification plans and their source bindings.
+    Requirements(requirements::RequirementsArgs),
     /// Inspect a saved check report without executing project commands.
     Report(ReportArgs),
     /// Inspect structured test evidence without qualifying a change.
@@ -529,6 +532,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         },
         Command::Doctor(args) => doctor::run(&args),
         Command::Documentation(args) => documentation::run(&args),
+        Command::Requirements(args) => requirements::run(&args),
         Command::Layout(args) => layout::run(&args),
         Command::Workflow(args) => workflow::run(&args),
         Command::Delegation(args) => delegation::run(&args),

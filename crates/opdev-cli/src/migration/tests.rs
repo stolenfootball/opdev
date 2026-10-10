@@ -13,6 +13,71 @@ fn git(root: &Path, args: &[&str]) -> Result<()> {
     Ok(())
 }
 
+#[test]
+fn catalog_migration_is_explicit_unreviewed_and_preserves_later_edits() -> Result<()> {
+    let f = Fixture::new()?;
+    let mut request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    request["project"]["project"]["ci"]["provider"] = json!("gitlab");
+    request["project"]["project"]["ci"]["remote"] = json!("https://gitlab.com/fixture/product");
+    request["project"]["assurance"]["review_storage"]["version"] = json!(2);
+    request["project"]["assurance"]["review_storage"]["report_retention_days"] = json!(30);
+    request["project"]["layout"]["version"] = json!(2);
+    request["project"]["assurance"]["requirements"] = json!({"version":1,"review_reference":"fixture approved catalog assessment","configurations":{"default":["pre_merge","post_merge"]}});
+    let path = ".opdev/requirements/product.json";
+    request["requirements"] = json!({path:{"schema":1,"requirements":[{"id":"R1","title":"Product promise","statement":{"kind":"inline","text":"Rejected input preserves stored data"},"origin":"fixture design","rationale":"Data integrity","configurations":["default"],"criteria":[]}],"verifications":[],"plans":[]}});
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    let plan = f.preview()?;
+    assert!(!plan.blocked());
+    assert!(
+        !f.root.join(path).exists(),
+        "preview must not create catalog"
+    );
+    let recovery = f.temp.path().join("catalog-recovery.json");
+    run(
+        &f.root,
+        Some(&f.request),
+        None,
+        Some(&plan.plan_id),
+        Some(&recovery),
+        None,
+    )?;
+    assert!(f.root.join(path).is_file());
+    assert!(
+        AdoptionRecord::load(&f.root)?
+            .context("record")?
+            .review
+            .is_none()
+    );
+    git(&f.root, &["add", "."])?;
+    let manifest = ProjectManifest::load(&f.root.join(MANIFEST_PATH))?;
+    let snapshot = opdev_project::requirements::load_index(&f.root)?;
+    assert!(
+        snapshot
+            .inspect(&f.root, &manifest)?
+            .findings
+            .iter()
+            .any(|f| f.code == "missing_criteria"),
+        "migration is not qualification"
+    );
+    fs::write(f.root.join(path), "later developer edit\n")?;
+    assert!(
+        run(
+            &f.root,
+            None,
+            Some(&recovery),
+            Some(&plan.plan_id),
+            None,
+            None
+        )
+        .is_err()
+    );
+    assert_eq!(
+        fs::read_to_string(f.root.join(path))?,
+        "later developer edit\n"
+    );
+    Ok(())
+}
+
 struct Fixture {
     temp: tempfile::TempDir,
     root: PathBuf,
@@ -635,6 +700,12 @@ fn request_schema_and_runtime_refuse_unknown_policy_without_normalization() -> R
     let f = Fixture::new()?;
     let registry = jsonschema::Registry::new()
         .extend([
+            (
+                "https://opdev.dev/schema/requirements.schema.json",
+                serde_json::from_str::<serde_json::Value>(include_str!(
+                    "../../../../schema/requirements.schema.json"
+                ))?,
+            ),
             (
                 "https://opdev.dev/schema/adoption.json",
                 serde_json::from_str::<serde_json::Value>(include_str!(

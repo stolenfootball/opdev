@@ -45,11 +45,24 @@ pub fn acceptance_input_gaps(
     stage: TestStage,
 ) -> Vec<String> {
     let (outcome, _, diagnostic) = inspect(root, manifest, None, ledger, fingerprint, stage);
-    if matches!(outcome, Outcome::Passed | Outcome::NotApplicable) {
+    let mut gaps = if matches!(outcome, Outcome::Passed | Outcome::NotApplicable) {
         Vec::new()
     } else {
         vec![crate::evaluator::review_diagnostic(manifest, &diagnostic)]
+    };
+    if manifest.assurance.requirements.is_some() {
+        match opdev_project::requirements::load_index(root).and_then(|s| s.inspect(root, manifest))
+        {
+            Ok(report) => gaps.extend(
+                report
+                    .findings
+                    .into_iter()
+                    .map(|f| format!("{}: {}", f.subject, f.message)),
+            ),
+            Err(error) => gaps.push(error.to_string()),
+        }
     }
+    gaps
 }
 
 fn inspect(
@@ -82,7 +95,7 @@ fn inspect(
     if review.outcome == Outcome::Failed {
         return (Outcome::Failed, acceptance.scope, "The current acceptance review records a contradiction; a green suite cannot override it".into());
     }
-    if let Some(diagnostic) = acceptance_policy_gap(manifest, acceptance) {
+    if let Some(diagnostic) = acceptance_policy_gap(root, manifest, acceptance) {
         return incomplete(&diagnostic);
     }
     if acceptance.scope == AcceptanceScope::NoMaterialConditions {
@@ -92,7 +105,7 @@ fn inspect(
             incomplete("No-material-conditions scope contradicts a nonempty acceptance inventory")
         };
     }
-    if acceptance.conditions.is_empty() {
+    if acceptance.conditions.is_empty() && acceptance.requirements.is_none() {
         return incomplete("A material change needs a nonempty reviewed acceptance inventory");
     }
     let mut missing = false;
@@ -157,9 +170,20 @@ fn inspect(
 }
 
 fn acceptance_policy_gap(
+    root: &Path,
     manifest: &ProjectManifest,
     acceptance: &opdev_project::AcceptanceEvidence,
 ) -> Option<String> {
+    match (&manifest.assurance.requirements, &acceptance.requirements) {
+        (Some(_), Some(selection)) => {
+            if let Err(error) = opdev_project::requirements::load_index(root).and_then(|s| selection.verify(root, &s)) {
+                return Some(error.to_string());
+            }
+        }
+        (Some(_), None) => return Some("Current change needs its catalog identity and reviewed baseline comparison in the MR/PR; enduring criteria are not copied into the change record".into()),
+        (None, Some(_)) => return Some("Catalog review supplied without selected requirements policy; no implicit migration".into()),
+        (None, None) => {},
+    }
     if acceptance
         .conditions
         .iter()
@@ -167,7 +191,7 @@ fn acceptance_policy_gap(
     {
         return Some("Work-based requirements need authenticated MR/PR review policy 2. A local observation cannot substitute for the current authority.".into());
     }
-    safeguard_gap(manifest, acceptance)
+    safeguard_gap(root, manifest, acceptance)
 }
 
 fn source_policy_allows(
@@ -183,6 +207,7 @@ fn source_policy_allows(
 }
 
 fn safeguard_gap(
+    root: &Path,
     manifest: &ProjectManifest,
     acceptance: &opdev_project::AcceptanceEvidence,
 ) -> Option<String> {
@@ -240,9 +265,14 @@ fn safeguard_gap(
         let ids = review.objectives.get(objective);
         if ids.is_none_or(|ids| {
             ids.is_empty()
-                || ids
-                    .iter()
-                    .any(|id| !acceptance.conditions.iter().any(|c| &c.id == id))
+                || ids.iter().any(|id| {
+                    !(acceptance.conditions.iter().any(|c| &c.id == id)
+                        || acceptance.requirements.is_some()
+                            && opdev_project::requirements::load_index(root).is_ok_and(|s| {
+                                s.requirements()
+                                    .any(|r| r.criteria.iter().any(|c| &c.id == id))
+                            }))
+                })
         }) {
             let name = serde_json::to_value(objective).unwrap_or_default();
             return Some(format!(

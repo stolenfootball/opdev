@@ -53,7 +53,7 @@ impl TrackedEvidence {
         Ok(())
     }
 
-    fn staged_bytes(&self, root: &Path) -> Result<Vec<u8>, EvidenceError> {
+    pub(crate) fn staged_bytes(&self, root: &Path) -> Result<Vec<u8>, EvidenceError> {
         self.validate()?;
         let entries = git_output(
             root,
@@ -89,7 +89,7 @@ impl TrackedEvidence {
         git_output(root, &["cat-file", "blob", &object])
     }
 
-    fn validate(&self) -> Result<(), EvidenceError> {
+    pub(crate) fn validate(&self) -> Result<(), EvidenceError> {
         if self.path.is_empty()
             || self.path.contains(['\\', ':', '\0', '\n', '\r'])
             || self
@@ -232,6 +232,9 @@ pub struct AcceptanceReview {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct AcceptanceEvidence {
+    /// Current catalog and accepted baseline selection; no duplicate enduring criteria.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub requirements: Option<crate::requirements::ChangeReview>,
     /// Optional versioned safeguard mappings covered by this same review.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub safeguards: Option<crate::SafeguardReview>,
@@ -251,6 +254,7 @@ impl Default for AcceptanceEvidence {
     fn default() -> Self {
         Self {
             safeguards: None,
+            requirements: None,
             scope: AcceptanceScope::Behavioral,
             rationale: String::new(),
             conditions: Vec::new(),
@@ -280,6 +284,9 @@ impl AcceptanceEvidence {
         // Omission keeps every historical digest stable. Present mappings are material.
         if let Some(safeguards) = &self.safeguards {
             payload["safeguards"] = serde_json::to_value(safeguards)?;
+        }
+        if let Some(requirements) = &self.requirements {
+            payload["requirements"] = serde_json::to_value(requirements)?;
         }
         Ok(format!(
             "{:x}",

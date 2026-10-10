@@ -54,9 +54,16 @@ struct HeadSnapshot {
     repository_name: String,
     merged: bool,
     merge_commit: Option<String>,
+    baseline_commit: Option<String>,
 }
 
 impl DiscussionObservation {
+    /// Provider-observed target snapshot for the selected change comparison.
+    /// Missing metadata is not a caller-selectable fallback baseline.
+    #[must_use]
+    pub fn baseline_commit(&self) -> Option<&str> {
+        self.head.baseline_commit.as_deref()
+    }
     /// Observed exact selection, not evidence of human consent.
     #[must_use]
     pub const fn locator(&self) -> &DiscussionLocator {
@@ -259,6 +266,13 @@ fn check_head(
         return Err("Integrated commit identity is unsupported".into());
     }
     Ok(HeadSnapshot {
+        baseline_commit: match locator.selector.provider {
+            CiProvider::Github => item["base"]["sha"].as_str(),
+            CiProvider::Gitlab => item["diff_refs"]["start_sha"].as_str(),
+            _ => None,
+        }
+        .filter(|sha| hex(sha, 40))
+        .map(str::to_owned),
         repository_name,
         merged,
         merge_commit,
@@ -456,6 +470,29 @@ mod tests {
                 manifest.project.ci.remote = Some("https://gitlab.com/another/project".into());
                 assert!(observed.verify_project(&manifest).is_err());
             }
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn catalog_baseline_is_provider_observed_and_rechecked() -> Result {
+        for provider in [CiProvider::Github, CiProvider::Gitlab] {
+            let (locator, mut replies) = fixture(provider, Some(11))?;
+            assert!(read(&locator, replies.clone())?.baseline_commit().is_none());
+            for (_, item) in &mut replies {
+                if item.get("head").is_some() {
+                    item["base"]["sha"] = json!("b".repeat(40));
+                    item["diff_refs"] = json!({"start_sha":"b".repeat(40)});
+                }
+            }
+            assert_eq!(
+                read(&locator, replies.clone())?.baseline_commit(),
+                Some("b".repeat(40).as_str())
+            );
+            let last = replies.last_mut().ok_or("fixture")?;
+            last.1["base"]["sha"] = json!("c".repeat(40));
+            last.1["diff_refs"]["start_sha"] = json!("c".repeat(40));
+            assert!(read(&locator, replies).is_err());
         }
         Ok(())
     }
