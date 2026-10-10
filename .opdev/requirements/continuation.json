@@ -1,0 +1,378 @@
+{
+  "schema": 1,
+  "requirements": [
+    {
+      "id": "R-context",
+      "title": "Local context is references, not consent",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/workflow-records.md",
+          "sha256": "c2a164f1148e4fdbb5a095b7af30c279f0609cf7bff214b97093b37e2f7d55ae",
+          "excerpt": "`state context --input FILE --expected SHA256|absent` stores a schema-1 derived\npointer with only `subject` (the existing workflow subject), original `work` and\nbounded `references`. It has no decision, approval, policy, transcript or gate\nfields. The supplied source/configuration subject must be current. Cooperative\nlocking and an expected-byte digest prevent stale updates; old pointer bytes are\nretained by digest before atomic replacement. An unsupported existing schema or\nunknown field is not silently repaired. Interrupted temporary writes are not heads."
+        }
+      },
+      "origin": "spec/workflow-records.md",
+      "rationale": "Save a revocation reference then retry an old digest; preserve the current pointer and reject fabricated approval.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-context",
+          "expected": "Saved context stays unqualified; stale writers preserve the newer head and prior pointers; injected approval fields and unsupported versions are rejected."
+        }
+      ]
+    },
+    {
+      "id": "R-attempts",
+      "title": "Retained attempts cannot qualify new runs",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/workflow-records.md",
+          "sha256": "c2a164f1148e4fdbb5a095b7af30c279f0609cf7bff214b97093b37e2f7d55ae",
+          "excerpt": "`state attempt <id>` reads one attempt, rejects unsupported records, unsafe names\nand changed/missing completed-report bytes, and distinguishes a completed observation\nfrom unfinished/interrupted execution. No prior attempt is selected as a fallback.\nSaved reports remain diagnostics: ordinary check never reads them as qualification.\nThere is no cross-revision execution reuse, automatic upload or release authority."
+        }
+      },
+      "origin": "spec/workflow-records.md",
+      "rationale": "After a failed run, no-exec remains unverified; a later passing command must not rewrite the original failure.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-attempts",
+          "expected": "Failed, unexecuted and later repaired attempts remain distinct; edited reports and traversal are rejected and old reports never supply a later gate."
+        }
+      ]
+    },
+    {
+      "id": "R-artifacts",
+      "title": "Artifact observations bind exact bytes",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/evidence-lifetimes.md",
+          "sha256": "f500d9f4951dd11b8bf5b27bacd757386e90bbde02ce656d341d2687240770b7",
+          "excerpt": "| Fact | Lifetime and invalidation |\n| --- | --- |\n| Assertion review | Exact source, complete acceptance inventory and current assertions; new conditions invalidate review even when execution is unchanged |\n| Canonical execution | Exact reviewed input/configuration/environment identities, provider producer/run/attempt and stage; newer attempts and unavailable evidence cannot fall back to old green |\n| Artifact qualification | Exact retained artifact bytes and separate qualification evidence; replacement or missing bytes cannot inherit old qualification |\n| Developer decision | Original attributed scope, authority, revocation/supersession and applicable expiry; permission is not feedback or release authority |\n| Remote observation | Explicit observation context and freshness, rechecked through the provider when qualification requires it; local journals cannot refresh or authenticate it |"
+        }
+      },
+      "origin": "spec/evidence-lifetimes.md",
+      "rationale": "Keep the claimed digest unchanged but replace artifact bytes, then remove the proof; both invalidate the reference.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-artifacts",
+          "expected": "Replacing or removing artifact/proof bytes makes retained qualification references unresolved without rewriting the journal."
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-context-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/local_state.rs",
+        "sha256": "4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1",
+        "excerpt": "fn context_resumes_references_but_never_consent_and_stale_writers_preserve_history("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/local-state.schema.json",
+          "sha256": "fda25dc8e7b4d5801788bef0db326b969a2560bad59098aefe7436e0f3950307",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-attempts-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/local_state.rs",
+        "sha256": "4517d3b51c3bd7fa1ea7fc40e64acae6e60cb8b852e24a3e383ca04a93c25cf1",
+        "excerpt": "fn retained_checks_keep_distinct_failures_and_never_supply_a_later_gate("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/local-state.schema.json",
+          "sha256": "fda25dc8e7b4d5801788bef0db326b969a2560bad59098aefe7436e0f3950307",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-artifacts-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/workflow.rs",
+        "sha256": "42df28df748ccb7960cdade960ef619eb0136a9405dd08a9607b13fcf127bee7",
+        "excerpt": "fn artifact_replacement_and_missing_bytes_never_reuse_old_qualification("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/workflow-journal.schema.json",
+          "sha256": "8d6e68d8240d8cb016f24b35f2a04f3f6872003d81900e89177b3c1390ddef52",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "P-context-local",
+      "criterion": "C-context",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-context-1",
+          "assertion": "context_resumes_references_but_never_consent_and_stale_writers_preserve_history: reviewed assertions contribute to: Saved context stays unqualified; stale writers preserve the newer head and prior pointers; injected approval fields and unsupported versions are rejected.",
+          "discriminating_case": "Save a revocation reference then retry an old digest; preserve the current pointer and reject fabricated approval."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Save a revocation reference then retry an old digest; preserve the current pointer and reject fabricated approval. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "4dc8f684aaa554ac7f73d71b59c5ccd25d4ae6c9dc4096b737a16e61a068baaa"
+      }
+    },
+    {
+      "id": "P-context-pre-merge",
+      "criterion": "C-context",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-context-1",
+          "assertion": "context_resumes_references_but_never_consent_and_stale_writers_preserve_history: reviewed assertions contribute to: Saved context stays unqualified; stale writers preserve the newer head and prior pointers; injected approval fields and unsupported versions are rejected.",
+          "discriminating_case": "Save a revocation reference then retry an old digest; preserve the current pointer and reject fabricated approval."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Save a revocation reference then retry an old digest; preserve the current pointer and reject fabricated approval. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "c6a52249121362a37f8638e4f8cd3e73cf946d4c94d1131d636c0fc4b8b02a66"
+      }
+    },
+    {
+      "id": "P-context-post-merge",
+      "criterion": "C-context",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-context-1",
+          "assertion": "context_resumes_references_but_never_consent_and_stale_writers_preserve_history: reviewed assertions contribute to: Saved context stays unqualified; stale writers preserve the newer head and prior pointers; injected approval fields and unsupported versions are rejected.",
+          "discriminating_case": "Save a revocation reference then retry an old digest; preserve the current pointer and reject fabricated approval."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Save a revocation reference then retry an old digest; preserve the current pointer and reject fabricated approval. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "0613b02bf9bc2453b802ae92d1d036653ffbbfaa6ff75ed6a36f17909c5538a8"
+      }
+    },
+    {
+      "id": "P-attempts-local",
+      "criterion": "C-attempts",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-attempts-1",
+          "assertion": "retained_checks_keep_distinct_failures_and_never_supply_a_later_gate: reviewed assertions contribute to: Failed, unexecuted and later repaired attempts remain distinct; edited reports and traversal are rejected and old reports never supply a later gate.",
+          "discriminating_case": "After a failed run, no-exec remains unverified; a later passing command must not rewrite the original failure."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. After a failed run, no-exec remains unverified; a later passing command must not rewrite the original failure. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "ee408759f035934d80adf0ebbbe0b0e1d5beb128eeb85a90164859a477909783"
+      }
+    },
+    {
+      "id": "P-attempts-pre-merge",
+      "criterion": "C-attempts",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-attempts-1",
+          "assertion": "retained_checks_keep_distinct_failures_and_never_supply_a_later_gate: reviewed assertions contribute to: Failed, unexecuted and later repaired attempts remain distinct; edited reports and traversal are rejected and old reports never supply a later gate.",
+          "discriminating_case": "After a failed run, no-exec remains unverified; a later passing command must not rewrite the original failure."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. After a failed run, no-exec remains unverified; a later passing command must not rewrite the original failure. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "ff1614afe4e98a845136c052b902f5d3b0f5fa66fe726ac4b7e3a3abc63189e3"
+      }
+    },
+    {
+      "id": "P-attempts-post-merge",
+      "criterion": "C-attempts",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-attempts-1",
+          "assertion": "retained_checks_keep_distinct_failures_and_never_supply_a_later_gate: reviewed assertions contribute to: Failed, unexecuted and later repaired attempts remain distinct; edited reports and traversal are rejected and old reports never supply a later gate.",
+          "discriminating_case": "After a failed run, no-exec remains unverified; a later passing command must not rewrite the original failure."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. After a failed run, no-exec remains unverified; a later passing command must not rewrite the original failure. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "18a0af64ec9679d1081e5725fc66d0a773682a7ddb705cfe4a3610cb8693ad23"
+      }
+    },
+    {
+      "id": "P-artifacts-local",
+      "criterion": "C-artifacts",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-artifacts-1",
+          "assertion": "artifact_replacement_and_missing_bytes_never_reuse_old_qualification: reviewed assertions contribute to: Replacing or removing artifact/proof bytes makes retained qualification references unresolved without rewriting the journal.",
+          "discriminating_case": "Keep the claimed digest unchanged but replace artifact bytes, then remove the proof; both invalidate the reference."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Keep the claimed digest unchanged but replace artifact bytes, then remove the proof; both invalidate the reference. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "ba9f1f8114855e4fcce727e9ec3f6906c6e001fdf55297baea6e6cf1500ba2a7"
+      }
+    },
+    {
+      "id": "P-artifacts-pre-merge",
+      "criterion": "C-artifacts",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-artifacts-1",
+          "assertion": "artifact_replacement_and_missing_bytes_never_reuse_old_qualification: reviewed assertions contribute to: Replacing or removing artifact/proof bytes makes retained qualification references unresolved without rewriting the journal.",
+          "discriminating_case": "Keep the claimed digest unchanged but replace artifact bytes, then remove the proof; both invalidate the reference."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Keep the claimed digest unchanged but replace artifact bytes, then remove the proof; both invalidate the reference. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "b0096a007a56516ee153d209dc1df5f3074d940ea9485c48d7ef2c0fa7e670bb"
+      }
+    },
+    {
+      "id": "P-artifacts-post-merge",
+      "criterion": "C-artifacts",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-artifacts-1",
+          "assertion": "artifact_replacement_and_missing_bytes_never_reuse_old_qualification: reviewed assertions contribute to: Replacing or removing artifact/proof bytes makes retained qualification references unresolved without rewriting the journal.",
+          "discriminating_case": "Keep the claimed digest unchanged but replace artifact bytes, then remove the proof; both invalidate the reference."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Keep the claimed digest unchanged but replace artifact bytes, then remove the proof; both invalidate the reference. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "44eac3490e9c134b841f350b4ec4c1dedaaac3343b8ecd9d616fda8f9cbb1ef8"
+      }
+    }
+  ]
+}

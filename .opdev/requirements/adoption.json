@@ -1,0 +1,596 @@
+{
+  "schema": 1,
+  "requirements": [
+    {
+      "id": "R-initialization",
+      "title": "Discovery cannot choose adoption policy",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/adoption.md",
+          "sha256": "eaa7e50794b496f16b5bfac110e85ad10de808b81c527a4f7c479d62166f47dc",
+          "excerpt": "The input is an ephemeral external proposal, not a second permanent contract.\nIt selects target policies but leaves inventory review/practices unresolved.\nRemove `--dry-run` only within approved scope; references do not authenticate\nconsent. No tools run or install. Bare `init --dry-run` retains read-only discovery;\nbare new `init` refuses inferred policy writes. `--legacy-policy` explicitly\nscaffolds older policy for compatibility work; older engineering-only flags remain\npartial scaffolding. Neither is current adoption. Existing contracts are never\nmigrated by init. For an existing project, review the project-policy upgrade\nfirst, then preview `adoption migrate --catalog-version 2`. Explicit `--write`\npreserves existing decisions, adds pending setup/review entries and clears stale\napproval when the inventory changes. Newly mandatory ignored decisions remain\nvisible blockers, not silently rewritten as implemented. Same-catalog migration\nis idempotent; downgrade is rejected. Ordinary work never upgrades an inventory."
+        }
+      },
+      "origin": "spec/adoption.md",
+      "rationale": "An otherwise empty repository and one with product code both need an explicit contract.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-initialization",
+          "expected": "For empty and existing-code repositories, adoption planning is read-only and bare init rejects inferred policy without creating .opdev or removing code."
+        }
+      ]
+    },
+    {
+      "id": "R-approval",
+      "title": "Approval binds choices, not progress labels",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/adoption.md",
+          "sha256": "eaa7e50794b496f16b5bfac110e85ad10de808b81c527a4f7c479d62166f47dc",
+          "excerpt": "`adoption plan` works before initialization and prints the destination, required\nmigrations, discovery warnings and proposed/existing contract. Record/plan ID are\nabsent before assessment; neither discovery nor a missing ID authorizes policy.\nWith a record it also prints a SHA-256 plan ID.\nThe ID binds scope, choices, rationale, owners, references, suites, research and\nworkflow roles to the contract. It excludes the approval itself and normalizes\npending/in-progress/implemented as one implementation choice, so approved work\ncan progress without a new policy decision. Changing an exclusion, rationale,\nscope, references or the contract requires a new review. This ID is not the staged\nacceptance fingerprint: repository changes still require fresh acceptance evidence."
+        }
+      },
+      "origin": "spec/adoption.md",
+      "rationale": "Changing integration from pending to implemented differs from changing its policy meaning.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-approval",
+          "expected": "Progress-only state changes preserve approval; changed policy rationale invalidates it; stale approve refuses without writes and approved but unfinished work is not complete."
+        }
+      ]
+    },
+    {
+      "id": "R-migration",
+      "title": "Coordinated migration preserves later edits",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/upgrades.md",
+          "sha256": "aef631ffc8abfef9545c0b211d6de89fa42f8820cafd483f304885ecc0044a2a",
+          "excerpt": "Writes are atomic per file, not a multi-file transaction. Project, adoption,\nmanaged routing and supplied CI replacements precede retiring the old active ledger.\nEach step rechecks the inventory and all original/target states; linked paths or\nlater edits stop the operation. Exclude concurrent writers during application;\nthese checks do not provide hostile-writer filesystem locking. On interruption,\ninspect the actual diff and original snapshot; do not run `init`, blindly roll back,\nor regenerate approvals to conceal partial state."
+        }
+      },
+      "origin": "spec/upgrades.md",
+      "rationale": "Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-migration",
+          "expected": "Catalog migration is explicit, read-only on preview and unverified after import; interrupted writes can resume original states but must reject later developer edits."
+        }
+      ]
+    },
+    {
+      "id": "R-layout",
+      "title": "Strict layout uses staged source and preserves ownership",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/documentation-layout.md",
+          "sha256": "886501f6df1fea5f9a8ae561cb1daab2d0bbf599e8005b41235460592765a17b",
+          "excerpt": "`check` adds a blocking `policy` check named `opdev-layout` for integration,\ndelivery and compliance. This is a built-in structural observation, not a project\ncommand or reusable CI execution receipt. It reads staged regular files, checks\nthe selected namespace and exact managed guide/pointers, and does not trust\nunstaged repairs. The standalone proposed-layout inspector remains read-only and\nunqualified. The check report adds the `policy` kind; consumers must support it\nand capability `layout.enforcement.v1`, not reinterpret it as an executed suite.\nOther required checks, source-bound acceptance and adoption remain separate."
+        }
+      },
+      "origin": "spec/documentation-layout.md",
+      "rationale": "Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-layout",
+          "expected": "Strict layout generates thin pointers without overwriting unrelated instructions; staged junk, stale guidance and indexed symlinks fail even when checkout bytes appear regular."
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-initialization-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/adoption.rs",
+        "sha256": "12b5d1b1447cb67caaed72c362f87b5504cca2e3525f4df13c944823afbde6b9",
+        "excerpt": "fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-approval-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/adoption.rs",
+        "sha256": "12b5d1b1447cb67caaed72c362f87b5504cca2e3525f4df13c944823afbde6b9",
+        "excerpt": "fn approval_is_separate_stale_choices_fail_and_progress_preserves_approval("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-migration-1",
+      "target": {
+        "path": "crates/opdev-cli/src/migration/tests.rs",
+        "sha256": "092b8861e291ecc90a0c2bf17a892e19a08098c603e0405448c01e45e992260a",
+        "excerpt": "fn catalog_migration_is_explicit_unreviewed_and_preserves_later_edits("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/requirements.schema.json",
+          "sha256": "d9185830cbf12d0441186381ceb4a8c1d2d85799651ba2934c84df6fc4c8c17c",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/adoption.schema.json",
+          "sha256": "6ebcd4bcab896b424c5ba7878e5c0aad38b992f6563d368b9310ae3a94614cba",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "23cb7bb1f3a77540d013f3523e780ae3ed4ffec662f53d8ef2d3c15dd9c47cd9",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/evidence-archive.schema.json",
+          "sha256": "207666ba6d74acc893054af9cb071af1cb045268318d39f0a0ff72eca21444be",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/migration-request.schema.json",
+          "sha256": "9365e1f0c277d8082dd0213d58e0750b3c80c0f2d532fbb72ea71f6b5914fa2b",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-migration-2",
+      "target": {
+        "path": "crates/opdev-cli/src/migration/tests.rs",
+        "sha256": "092b8861e291ecc90a0c2bf17a892e19a08098c603e0405448c01e45e992260a",
+        "excerpt": "fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/requirements.schema.json",
+          "sha256": "d9185830cbf12d0441186381ceb4a8c1d2d85799651ba2934c84df6fc4c8c17c",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/adoption.schema.json",
+          "sha256": "6ebcd4bcab896b424c5ba7878e5c0aad38b992f6563d368b9310ae3a94614cba",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "23cb7bb1f3a77540d013f3523e780ae3ed4ffec662f53d8ef2d3c15dd9c47cd9",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/evidence-archive.schema.json",
+          "sha256": "207666ba6d74acc893054af9cb071af1cb045268318d39f0a0ff72eca21444be",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/migration-request.schema.json",
+          "sha256": "9365e1f0c277d8082dd0213d58e0750b3c80c0f2d532fbb72ea71f6b5914fa2b",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-layout-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/layout.rs",
+        "sha256": "26cf0fc13172a0505110f5115a43099c3fafbd839e830a57724984022d3412f3",
+        "excerpt": "fn explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_check("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "89c01dc6ea967ee828922d0fc3500c0a66cfc4815c66211eb4f81bfa9b1c00a4",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/configuration-format.schema.json",
+          "sha256": "bc6e7b943974de094cb94964082db0957d7f61f5756c4f7c8bd33128e0cd402f",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/layout-inspection.schema.json",
+          "sha256": "4e783700571c04a8c666f820bb8126668afb6e5266bfb876d809f56b0c6d2654",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "P-initialization-local",
+      "criterion": "C-initialization",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-initialization-1",
+          "assertion": "discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy: reviewed assertions contribute to: For empty and existing-code repositories, adoption planning is read-only and bare init rejects inferred policy without creating .opdev or removing code.",
+          "discriminating_case": "An otherwise empty repository and one with product code both need an explicit contract."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "9049a64765c2c97f5f3e484552eed0d9bc85a72f096f87b212c79f4176794714"
+      }
+    },
+    {
+      "id": "P-initialization-pre-merge",
+      "criterion": "C-initialization",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-initialization-1",
+          "assertion": "discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy: reviewed assertions contribute to: For empty and existing-code repositories, adoption planning is read-only and bare init rejects inferred policy without creating .opdev or removing code.",
+          "discriminating_case": "An otherwise empty repository and one with product code both need an explicit contract."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "4114a82e237dbee65f87116e6e436df4b6f1ed3bbc86b650f8a07ac4619bb7bd"
+      }
+    },
+    {
+      "id": "P-initialization-post-merge",
+      "criterion": "C-initialization",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-initialization-1",
+          "assertion": "discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy: reviewed assertions contribute to: For empty and existing-code repositories, adoption planning is read-only and bare init rejects inferred policy without creating .opdev or removing code.",
+          "discriminating_case": "An otherwise empty repository and one with product code both need an explicit contract."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "a5012c8eecf286059e119145d9bd7b74f416bf3f9e27fd676d32ccaca6db7c48"
+      }
+    },
+    {
+      "id": "P-approval-local",
+      "criterion": "C-approval",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-approval-1",
+          "assertion": "approval_is_separate_stale_choices_fail_and_progress_preserves_approval: reviewed assertions contribute to: Progress-only state changes preserve approval; changed policy rationale invalidates it; stale approve refuses without writes and approved but unfinished work is not complete.",
+          "discriminating_case": "Changing integration from pending to implemented differs from changing its policy meaning."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "02717e9075b045f2bc55a28522fc4d757773fce7d294811eec4343e067d97247"
+      }
+    },
+    {
+      "id": "P-approval-pre-merge",
+      "criterion": "C-approval",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-approval-1",
+          "assertion": "approval_is_separate_stale_choices_fail_and_progress_preserves_approval: reviewed assertions contribute to: Progress-only state changes preserve approval; changed policy rationale invalidates it; stale approve refuses without writes and approved but unfinished work is not complete.",
+          "discriminating_case": "Changing integration from pending to implemented differs from changing its policy meaning."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "35aebb12a0f496aaa14143bfc2a877b1e923047e7db0e32dfc26b530268c42b8"
+      }
+    },
+    {
+      "id": "P-approval-post-merge",
+      "criterion": "C-approval",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-approval-1",
+          "assertion": "approval_is_separate_stale_choices_fail_and_progress_preserves_approval: reviewed assertions contribute to: Progress-only state changes preserve approval; changed policy rationale invalidates it; stale approve refuses without writes and approved but unfinished work is not complete.",
+          "discriminating_case": "Changing integration from pending to implemented differs from changing its policy meaning."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "63f777df081446affa8f823e0d0ebbe1b75d218894bd26c52f2b13e3fcce525f"
+      }
+    },
+    {
+      "id": "P-migration-local",
+      "criterion": "C-migration",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-migration-1",
+          "assertion": "catalog_migration_is_explicit_unreviewed_and_preserves_later_edits: reviewed assertions contribute to: Catalog migration is explicit, read-only on preview and unverified after import; interrupted writes can resume original states but must reject later developer edits.",
+          "discriminating_case": "Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval."
+        },
+        {
+          "verification": "V-migration-2",
+          "assertion": "interrupted_apply_resumes_original_states_but_never_overwrites_later_work: reviewed assertions contribute to: Catalog migration is explicit, read-only on preview and unverified after import; interrupted writes can resume original states but must reject later developer edits.",
+          "discriminating_case": "Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "0b1bb94dc8994760055f865d5f00984685f1cd3dac11413f0c746bf313f68785"
+      }
+    },
+    {
+      "id": "P-migration-pre-merge",
+      "criterion": "C-migration",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-migration-1",
+          "assertion": "catalog_migration_is_explicit_unreviewed_and_preserves_later_edits: reviewed assertions contribute to: Catalog migration is explicit, read-only on preview and unverified after import; interrupted writes can resume original states but must reject later developer edits.",
+          "discriminating_case": "Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval."
+        },
+        {
+          "verification": "V-migration-2",
+          "assertion": "interrupted_apply_resumes_original_states_but_never_overwrites_later_work: reviewed assertions contribute to: Catalog migration is explicit, read-only on preview and unverified after import; interrupted writes can resume original states but must reject later developer edits.",
+          "discriminating_case": "Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "069c298c5eaf58c16518bbdb24aa955944d1c04f03ddb3da298b08aae171437a"
+      }
+    },
+    {
+      "id": "P-migration-post-merge",
+      "criterion": "C-migration",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-migration-1",
+          "assertion": "catalog_migration_is_explicit_unreviewed_and_preserves_later_edits: reviewed assertions contribute to: Catalog migration is explicit, read-only on preview and unverified after import; interrupted writes can resume original states but must reject later developer edits.",
+          "discriminating_case": "Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval."
+        },
+        {
+          "verification": "V-migration-2",
+          "assertion": "interrupted_apply_resumes_original_states_but_never_overwrites_later_work: reviewed assertions contribute to: Catalog migration is explicit, read-only on preview and unverified after import; interrupted writes can resume original states but must reject later developer edits.",
+          "discriminating_case": "Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "e794afc32d55792e17d26a1f4bcdf30e52c12a07b6af479cc19b18378adeca6f"
+      }
+    },
+    {
+      "id": "P-layout-local",
+      "criterion": "C-layout",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-layout-1",
+          "assertion": "explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_check: reviewed assertions contribute to: Strict layout generates thin pointers without overwriting unrelated instructions; staged junk, stale guidance and indexed symlinks fail even when checkout bytes appear regular.",
+          "discriminating_case": "Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "b91b35811715eaaa0101104f071b28437988b7a3350f727e77ba273917f4620c"
+      }
+    },
+    {
+      "id": "P-layout-pre-merge",
+      "criterion": "C-layout",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-layout-1",
+          "assertion": "explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_check: reviewed assertions contribute to: Strict layout generates thin pointers without overwriting unrelated instructions; staged junk, stale guidance and indexed symlinks fail even when checkout bytes appear regular.",
+          "discriminating_case": "Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "bbc90c6b8f1da67438368fa309ee24972c4ebfb2f5edbb829b119762fe2de52f"
+      }
+    },
+    {
+      "id": "P-layout-post-merge",
+      "criterion": "C-layout",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-layout-1",
+          "assertion": "explicit_layout_has_thin_entries_shared_guide_and_index_bound_structural_check: reviewed assertions contribute to: Strict layout generates thin pointers without overwriting unrelated instructions; staged junk, stale guidance and indexed symlinks fail even when checkout bytes appear regular.",
+          "discriminating_case": "Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "10f85f58bc18df5b0da8eef58602a0602107f2471b21e724fb9d5de59b1f8d41"
+      }
+    }
+  ]
+}

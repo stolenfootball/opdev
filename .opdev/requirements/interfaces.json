@@ -1,0 +1,373 @@
+{
+  "schema": 1,
+  "requirements": [
+    {
+      "id": "R-text",
+      "title": "CLI help and errors remain noninteractive text",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/consumer-interface.md",
+          "sha256": "285075662428fa014822daf48c7665a74f890754dd7f66bf1e7108497a742a21",
+          "excerpt": "- All native CLI operations are keyboard/argument driven. Help, validation and\n  checks must work without interactive input or a pointer. Mutations require\n  explicit command arguments rather than timed or defaulted prompt acceptance.\n- Redirected help, errors and human reports are readable text without required\n  ANSI control sequences. Outcomes and blocked-rule identifiers appear in words,\n  not solely as color or symbols. JSON is available for full check reports.\n- Instructions require actual answers to material adoption choices. Silence,\n  timeout, skipped answers and preselection are not approval. Where a host's\n  question UI is unsuitable or unavailable, use the documented chat fallback.\n- Review representative help, error, blocked-report and decision-question output\n  as part of the existing change review, using the proportional review policy\n  below. Release review reuses adequate current review; it does not require fresh\n  approval for every string. Release execution still needs separate authorization."
+        }
+      },
+      "origin": "spec/consumer-interface.md",
+      "rationale": "Redirect output with closed input and request an unknown option; error output must not depend on color or an interactive prompt.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-text",
+          "expected": "Representative help and version succeed with textual output; invalid arguments exit 2 with actionable stderr and no stdout."
+        }
+      ]
+    },
+    {
+      "id": "R-reports",
+      "title": "Blocked reports are clear and preserved",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/consumer-interface.md",
+          "sha256": "285075662428fa014822daf48c7665a74f890754dd7f66bf1e7108497a742a21",
+          "excerpt": "Human check reports explain blocked actions in ordinary language, show the\nrequirement name alongside its ID, distinguish missing evidence from failed\nbehavior and broken tooling, and provide a concrete next step. A rule ID, an\nunexplained \"gate\", or an applicability phrase alone is not an explanation.\nDaily-cadence advice must not suggest that a merge is blocked when only compliance\nis unresolved. Machine outcome names remain stable for automation."
+        }
+      },
+      "origin": "spec/consumer-interface.md",
+      "rationale": "An existing report remains byte-identical when a second invocation requests that destination.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-reports",
+          "expected": "Blocked reports explain action and missing evidence; JSON retention preserves the full result, and a retry refuses to overwrite it."
+        }
+      ]
+    },
+    {
+      "id": "R-runtime-pin",
+      "title": "Runtime pin matches its declared compatibility",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/installation.md",
+          "sha256": "d647f4eed1cd2875db9824c79088fbfd6ece9052634aec250cf81629395f9e8f",
+          "excerpt": "The plugin can install a compatible native CLI from the canonical release host\nwithout requiring a Rust toolchain or a global signature-verifier installation.\nPlugin 0.4.2 pins the qualified, immutable CLI 0.4.0 GitHub release. The\npin is deliberately separate from the plugin version so a source-marketplace\nupdate never depends on an unpublished archive. The declared CLI compatibility\nrange MUST accept the pin. Updating the pin is a reviewed source change."
+        }
+      },
+      "origin": "spec/installation.md",
+      "rationale": "Malformed scalar/tag/range/duplicate target metadata must be rejected; this structural check is not live installation qualification.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-runtime-pin",
+          "expected": "The pinned runtime tag, identity and compatibility range agree and the lock contains exactly the six supported unique target identities with valid checksum shapes."
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-text-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/consumer_interface.rs",
+        "sha256": "71091be02958ebb5acf9583c784ae93065e3a205a8c4e0ec1e853c9b620d3470",
+        "excerpt": "fn help_and_errors_are_textual_without_interactive_input("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-reports-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/consumer_interface.rs",
+        "sha256": "71091be02958ebb5acf9583c784ae93065e3a205a8c4e0ec1e853c9b620d3470",
+        "excerpt": "fn blocked_reports_are_named_retained_and_never_overwritten("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-runtime-pin-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/installer.rs",
+        "sha256": "07bf454065572a96d57be2d798c43095eecf8bb8af77a64d85f7b1bbb32b79d6",
+        "excerpt": "fn runtime_pin_is_compatible_and_covers_supported_platforms("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "plugins/opdev/runtime.lock",
+          "sha256": "f3c13c22d65f3da61e28086be972509c7a761d16b792bb1410f1069b9c36abb9",
+          "excerpt": "# Pinned CLI and verifier assets. Whitespace-separated data, never sourced as code.\nversion 0.4.0\ntag v0.4.0\nidentity https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v0.4.0\ncosign v3.1.3\n# target OS architecture Rust-triple cosign-asset cosign-SHA256\n# Windows ARM64 uses the x64 verifier under Windows 11 x64 emulation.\ntarget Darwin x86_64 x86_64-apple-darwin cosign-darwin-amd64 2347488e5d5b25336644024dfeca5601b190e91197a71a917bda44744aff106c\ntarget Darwin arm64 aarch64-apple-darwin cosign-darwin-arm64 5cf948c2f4dfe59687bdd0b8523709067383e03982cc543475c8a7dc70e92a76\ntarget Linux x86_64 x86_64-unknown-linux-gnu cosign-linux-amd64 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71\ntarget Linux aarch64 aarch64-unknown-linux-gnu cosign-linux-arm64 c5d324e091826b0d7a78eb16fef316450b4eb9aaec045611c08ba06f5e73220a\ntarget Windows X64 x86_64-pc-windows-msvc cosign-windows-amd64.exe 9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be\ntarget Windows Arm64 aarch64-pc-windows-msvc cosign-windows-amd64.exe 9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be"
+        },
+        {
+          "path": "plugins/opdev/opdev-compatibility.json",
+          "sha256": "454b4fd25e8a1ce8dd87dd84f7d7358c7cfa83b996ddea90297616fdd4884969",
+          "excerpt": "{\n  \"schema\": 1,\n  \"plugin\": {\n    \"name\": \"opdev\",\n    \"version\": \"0.4.2\"\n  },\n  \"requires\": {\n    \"cli\": \">=0.2.0, <0.5.0\"\n  }\n}"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "P-text-local",
+      "criterion": "C-text",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-text-1",
+          "assertion": "help_and_errors_are_textual_without_interactive_input: reviewed assertions contribute to: Representative help and version succeed with textual output; invalid arguments exit 2 with actionable stderr and no stdout.",
+          "discriminating_case": "Redirect output with closed input and request an unknown option; error output must not depend on color or an interactive prompt."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Redirect output with closed input and request an unknown option; error output must not depend on color or an interactive prompt. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "16bda2b7d0fb7c058aa78afef3c4facbc3535e44adc949bac677e02d390771f7"
+      }
+    },
+    {
+      "id": "P-text-pre-merge",
+      "criterion": "C-text",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-text-1",
+          "assertion": "help_and_errors_are_textual_without_interactive_input: reviewed assertions contribute to: Representative help and version succeed with textual output; invalid arguments exit 2 with actionable stderr and no stdout.",
+          "discriminating_case": "Redirect output with closed input and request an unknown option; error output must not depend on color or an interactive prompt."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Redirect output with closed input and request an unknown option; error output must not depend on color or an interactive prompt. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "0d413af3830435c9b00c71c9bb0953aa47cc0eae9806634889d80c7cbc92d8e4"
+      }
+    },
+    {
+      "id": "P-text-post-merge",
+      "criterion": "C-text",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-text-1",
+          "assertion": "help_and_errors_are_textual_without_interactive_input: reviewed assertions contribute to: Representative help and version succeed with textual output; invalid arguments exit 2 with actionable stderr and no stdout.",
+          "discriminating_case": "Redirect output with closed input and request an unknown option; error output must not depend on color or an interactive prompt."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Redirect output with closed input and request an unknown option; error output must not depend on color or an interactive prompt. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "7dcf47b689257e9582e40d2b25b52534ec5526768f7ea556eb96a9ffd9fcacc6"
+      }
+    },
+    {
+      "id": "P-reports-local",
+      "criterion": "C-reports",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-reports-1",
+          "assertion": "blocked_reports_are_named_retained_and_never_overwritten: reviewed assertions contribute to: Blocked reports explain action and missing evidence; JSON retention preserves the full result, and a retry refuses to overwrite it.",
+          "discriminating_case": "An existing report remains byte-identical when a second invocation requests that destination."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An existing report remains byte-identical when a second invocation requests that destination. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "a0bebc4f90dcd8c5b23bbb98ece2ebc65767322a4fcbd9f476305220490d173c"
+      }
+    },
+    {
+      "id": "P-reports-pre-merge",
+      "criterion": "C-reports",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-reports-1",
+          "assertion": "blocked_reports_are_named_retained_and_never_overwritten: reviewed assertions contribute to: Blocked reports explain action and missing evidence; JSON retention preserves the full result, and a retry refuses to overwrite it.",
+          "discriminating_case": "An existing report remains byte-identical when a second invocation requests that destination."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An existing report remains byte-identical when a second invocation requests that destination. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "2916cec7327b10799873757f1a6e769f38d68ed13bffeec60e442c1ec5997b7a"
+      }
+    },
+    {
+      "id": "P-reports-post-merge",
+      "criterion": "C-reports",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-reports-1",
+          "assertion": "blocked_reports_are_named_retained_and_never_overwritten: reviewed assertions contribute to: Blocked reports explain action and missing evidence; JSON retention preserves the full result, and a retry refuses to overwrite it.",
+          "discriminating_case": "An existing report remains byte-identical when a second invocation requests that destination."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An existing report remains byte-identical when a second invocation requests that destination. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "8c674d75d33ddb8df9adad2438694bd58e6e14b7e187fa9a36f243b2e4b42290"
+      }
+    },
+    {
+      "id": "P-runtime-pin-local",
+      "criterion": "C-runtime-pin",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-runtime-pin-1",
+          "assertion": "runtime_pin_is_compatible_and_covers_supported_platforms: reviewed assertions contribute to: The pinned runtime tag, identity and compatibility range agree and the lock contains exactly the six supported unique target identities with valid checksum shapes.",
+          "discriminating_case": "Malformed scalar/tag/range/duplicate target metadata must be rejected; this structural check is not live installation qualification."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Malformed scalar/tag/range/duplicate target metadata must be rejected; this structural check is not live installation qualification. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "17cac98561a42c5cf1724f3326417129129777c53f4e6adb72aa277c974ee41c"
+      }
+    },
+    {
+      "id": "P-runtime-pin-pre-merge",
+      "criterion": "C-runtime-pin",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-runtime-pin-1",
+          "assertion": "runtime_pin_is_compatible_and_covers_supported_platforms: reviewed assertions contribute to: The pinned runtime tag, identity and compatibility range agree and the lock contains exactly the six supported unique target identities with valid checksum shapes.",
+          "discriminating_case": "Malformed scalar/tag/range/duplicate target metadata must be rejected; this structural check is not live installation qualification."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Malformed scalar/tag/range/duplicate target metadata must be rejected; this structural check is not live installation qualification. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "fdb565df8dfbdae54d83ae7ffba50fb825f8ce8b54eb1a18145e248fae7c878f"
+      }
+    },
+    {
+      "id": "P-runtime-pin-post-merge",
+      "criterion": "C-runtime-pin",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-runtime-pin-1",
+          "assertion": "runtime_pin_is_compatible_and_covers_supported_platforms: reviewed assertions contribute to: The pinned runtime tag, identity and compatibility range agree and the lock contains exactly the six supported unique target identities with valid checksum shapes.",
+          "discriminating_case": "Malformed scalar/tag/range/duplicate target metadata must be rejected; this structural check is not live installation qualification."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Malformed scalar/tag/range/duplicate target metadata must be rejected; this structural check is not live installation qualification. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "1868fdc98047cf3c5c2c82c5cc93968d457b68eca3b50b1551549c3f0efdeb9c"
+      }
+    }
+  ]
+}

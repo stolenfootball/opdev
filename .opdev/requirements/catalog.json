@@ -1,0 +1,636 @@
+{
+  "schema": 1,
+  "requirements": [
+    {
+      "id": "R-completeness",
+      "title": "Catalog plans cannot pass vacuously",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/requirements-catalog.md",
+          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "excerpt": "All requirement, criterion, verification and plan IDs MUST be unique across the\ncatalog. Stable identities are independent of file placement. A requirement has\nexactly one normative inline statement or exact tracked source, explicit supported\nconfiguration applicability and observable criteria. Empty criteria remain\nincomplete. Definitions may be reused; every criterion/configuration/required-stage\ncombination needs exactly one all-members plan. Empty/ambiguous/missing plans,\ndangling links and unknown configurations cannot qualify."
+        }
+      },
+      "origin": "spec/requirements-catalog.md",
+      "rationale": "An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-completeness",
+          "expected": "Empty criteria or member lists produce findings; every selected member and stage requires current execution; unsupported case assurance remains unverified."
+        }
+      ]
+    },
+    {
+      "id": "R-freshness",
+      "title": "Mapping reviews bind their actual inputs",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/requirements-catalog.md",
+          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "excerpt": "Mapping subjects include requirement identity, normative owner, origin/rationale,\napplicability, criterion, plan/stage/configuration, relationships, full assertion\nand declared input references, suite/command and testing/quality/assurance policy.\nThey exclude the review itself and unrelated implementation bytes. An input list\ndoes not prove dependency completeness; unknown/shared changes broaden semantic\nreview. Mechanical binding MUST NOT write a passed review."
+        }
+      },
+      "origin": "spec/requirements-catalog.md",
+      "rationale": "A filtered command or duplicate excerpt cannot keep an earlier review current.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-freshness",
+          "expected": "Stage, configuration, assertions, helper membership, criteria, source and command changes invalidate review; ambiguous source excerpts cannot bind current assertions."
+        }
+      ]
+    },
+    {
+      "id": "R-observations",
+      "title": "Manual observation identity and age matter",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/requirements-catalog.md",
+          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "excerpt": "Suite assurance establishes canonical command execution, not named-case selection.\nUnsupported selected case-level assurance remains unverified. There is no required\nJUnit adapter. Manual observation is a separate attributed current-change record\nwith exact plan subject, method context, actual result, observer, reference and\nbounded age. It cannot qualify another source/stage. Future, stale, absent and\nambiguous observations fail closed; known contradictions remain visible."
+        }
+      },
+      "origin": "spec/requirements-catalog.md",
+      "rationale": "Test the inclusive age boundary, one second beyond it, a future observation and a changed plan subject.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-observations",
+          "expected": "Manual observations need the current subject, attribution and bounded age; future, expired or wrongly bound observations cannot pass."
+        }
+      ]
+    },
+    {
+      "id": "R-baseline",
+      "title": "Catalog changes bind a real provider baseline",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/requirements-catalog.md",
+          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "excerpt": "Current change review selects candidate and baseline catalog identities in the\nexisting MR/PR. Provider-observed target snapshot metadata binds the baseline;\nmissing or changed metadata MUST NOT select an older/caller-supplied substitute.\nReview removals and applicability reductions against that accepted baseline and\nactual authorization. Enduring conditions need not be copied into each change;\none-off conditions and capability-impact reviews remain required when applicable."
+        }
+      },
+      "origin": "spec/requirements-catalog.md",
+      "rationale": "A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-baseline",
+          "expected": "A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected."
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-completeness-1",
+      "target": {
+        "path": "crates/opdev-project/tests/requirements.rs",
+        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "excerpt": "fn empty_criteria_and_empty_members_never_pass_vacuously("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-completeness-2",
+      "target": {
+        "path": "crates/opdev-engine/src/requirements.rs",
+        "sha256": "3cfa0fe7d0a0fdda1d111233d997d0610f958229e0888a7e85c2b2b1953a4a9e",
+        "excerpt": "fn all_members_current_stage_missing_execution_and_case_assurance("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-engine/Cargo.toml",
+          "sha256": "b7667e94b181d70059d4d0612151e018fce2808d62855b218ee266c236a19b31",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-freshness-1",
+      "target": {
+        "path": "crates/opdev-project/tests/requirements.rs",
+        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "excerpt": "fn stage_configuration_policy_and_assertion_changes_invalidate_review("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-freshness-2",
+      "target": {
+        "path": "crates/opdev-project/tests/requirements.rs",
+        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "excerpt": "fn ambiguous_excerpts_and_git_errors_never_become_current_sources("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-observations-1",
+      "target": {
+        "path": "crates/opdev-engine/src/requirements.rs",
+        "sha256": "3cfa0fe7d0a0fdda1d111233d997d0610f958229e0888a7e85c2b2b1953a4a9e",
+        "excerpt": "fn manual_expiry_future_missing_attribution_and_stale_subject_are_unverified("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-engine/Cargo.toml",
+          "sha256": "b7667e94b181d70059d4d0612151e018fce2808d62855b218ee266c236a19b31",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-baseline-1",
+      "target": {
+        "path": "crates/opdev-project/tests/requirements.rs",
+        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "excerpt": "fn change_review_binds_real_commit_and_rejects_ambiguous_or_wrong_manual_members("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-baseline-2",
+      "target": {
+        "path": "crates/opdev-remote/src/discussion_review.rs",
+        "sha256": "a737b6e3685a6a6e12a3663c48bab75dcbdaca4861de7cf5bc4f0d70fbbcad57",
+        "excerpt": "fn catalog_baseline_is_provider_observed_and_rechecked("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-remote/Cargo.toml",
+          "sha256": "a64431448cfdfbc84b5f8cce2ecc9931e0f9109085d6c24d945cf6802dddcfab",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/discussion-review-locator.schema.json",
+          "sha256": "7c6b12d5a08f4f863cfbb31102c2c2fae9d8259d51f9942c2c1b8ac0d41a314a",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "P-completeness-local",
+      "criterion": "C-completeness",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-completeness-1",
+          "assertion": "empty_criteria_and_empty_members_never_pass_vacuously: reviewed assertions contribute to: Empty criteria or member lists produce findings; every selected member and stage requires current execution; unsupported case assurance remains unverified.",
+          "discriminating_case": "An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing."
+        },
+        {
+          "verification": "V-completeness-2",
+          "assertion": "all_members_current_stage_missing_execution_and_case_assurance: reviewed assertions contribute to: Empty criteria or member lists produce findings; every selected member and stage requires current execution; unsupported case assurance remains unverified.",
+          "discriminating_case": "An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "8b536624dde590ab652b270ece247245029ff893832a9e01491f8d6b346216e9"
+      }
+    },
+    {
+      "id": "P-completeness-pre-merge",
+      "criterion": "C-completeness",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-completeness-1",
+          "assertion": "empty_criteria_and_empty_members_never_pass_vacuously: reviewed assertions contribute to: Empty criteria or member lists produce findings; every selected member and stage requires current execution; unsupported case assurance remains unverified.",
+          "discriminating_case": "An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing."
+        },
+        {
+          "verification": "V-completeness-2",
+          "assertion": "all_members_current_stage_missing_execution_and_case_assurance: reviewed assertions contribute to: Empty criteria or member lists produce findings; every selected member and stage requires current execution; unsupported case assurance remains unverified.",
+          "discriminating_case": "An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "a2a5412acd215f90a63b2ccc5099230d06bae490d11639dd3c28236f3033464e"
+      }
+    },
+    {
+      "id": "P-completeness-post-merge",
+      "criterion": "C-completeness",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-completeness-1",
+          "assertion": "empty_criteria_and_empty_members_never_pass_vacuously: reviewed assertions contribute to: Empty criteria or member lists produce findings; every selected member and stage requires current execution; unsupported case assurance remains unverified.",
+          "discriminating_case": "An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing."
+        },
+        {
+          "verification": "V-completeness-2",
+          "assertion": "all_members_current_stage_missing_execution_and_case_assurance: reviewed assertions contribute to: Empty criteria or member lists produce findings; every selected member and stage requires current execution; unsupported case assurance remains unverified.",
+          "discriminating_case": "An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An empty inventory is not successful coverage; one green unit member is insufficient when a consumer member is missing. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "b7e54d31fbe200538c2e65bc5167dc9f5f3cdf72a7496f928d3a86b183613230"
+      }
+    },
+    {
+      "id": "P-freshness-local",
+      "criterion": "C-freshness",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-freshness-1",
+          "assertion": "stage_configuration_policy_and_assertion_changes_invalidate_review: reviewed assertions contribute to: Stage, configuration, assertions, helper membership, criteria, source and command changes invalidate review; ambiguous source excerpts cannot bind current assertions.",
+          "discriminating_case": "A filtered command or duplicate excerpt cannot keep an earlier review current."
+        },
+        {
+          "verification": "V-freshness-2",
+          "assertion": "ambiguous_excerpts_and_git_errors_never_become_current_sources: reviewed assertions contribute to: Stage, configuration, assertions, helper membership, criteria, source and command changes invalidate review; ambiguous source excerpts cannot bind current assertions.",
+          "discriminating_case": "A filtered command or duplicate excerpt cannot keep an earlier review current."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A filtered command or duplicate excerpt cannot keep an earlier review current. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "b431e5a0e3369ea3955b52a7b9cb9efd8116492a163e6ca63f4a7a7d6178908c"
+      }
+    },
+    {
+      "id": "P-freshness-pre-merge",
+      "criterion": "C-freshness",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-freshness-1",
+          "assertion": "stage_configuration_policy_and_assertion_changes_invalidate_review: reviewed assertions contribute to: Stage, configuration, assertions, helper membership, criteria, source and command changes invalidate review; ambiguous source excerpts cannot bind current assertions.",
+          "discriminating_case": "A filtered command or duplicate excerpt cannot keep an earlier review current."
+        },
+        {
+          "verification": "V-freshness-2",
+          "assertion": "ambiguous_excerpts_and_git_errors_never_become_current_sources: reviewed assertions contribute to: Stage, configuration, assertions, helper membership, criteria, source and command changes invalidate review; ambiguous source excerpts cannot bind current assertions.",
+          "discriminating_case": "A filtered command or duplicate excerpt cannot keep an earlier review current."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A filtered command or duplicate excerpt cannot keep an earlier review current. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "e6c71941bc31528de13534130433a7764956205116a03a12524d723efb416923"
+      }
+    },
+    {
+      "id": "P-freshness-post-merge",
+      "criterion": "C-freshness",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-freshness-1",
+          "assertion": "stage_configuration_policy_and_assertion_changes_invalidate_review: reviewed assertions contribute to: Stage, configuration, assertions, helper membership, criteria, source and command changes invalidate review; ambiguous source excerpts cannot bind current assertions.",
+          "discriminating_case": "A filtered command or duplicate excerpt cannot keep an earlier review current."
+        },
+        {
+          "verification": "V-freshness-2",
+          "assertion": "ambiguous_excerpts_and_git_errors_never_become_current_sources: reviewed assertions contribute to: Stage, configuration, assertions, helper membership, criteria, source and command changes invalidate review; ambiguous source excerpts cannot bind current assertions.",
+          "discriminating_case": "A filtered command or duplicate excerpt cannot keep an earlier review current."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A filtered command or duplicate excerpt cannot keep an earlier review current. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "3892d88c259e0f33734e7411a4ad2c6e9a709143c20d8de897f15bbc8706b64e"
+      }
+    },
+    {
+      "id": "P-observations-local",
+      "criterion": "C-observations",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-observations-1",
+          "assertion": "manual_expiry_future_missing_attribution_and_stale_subject_are_unverified: reviewed assertions contribute to: Manual observations need the current subject, attribution and bounded age; future, expired or wrongly bound observations cannot pass.",
+          "discriminating_case": "Test the inclusive age boundary, one second beyond it, a future observation and a changed plan subject."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Test the inclusive age boundary, one second beyond it, a future observation and a changed plan subject. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "267d36d3b353c7ee03db57bd00e6eb4837b4aa80595e182d14df53e5f68d9ee1"
+      }
+    },
+    {
+      "id": "P-observations-pre-merge",
+      "criterion": "C-observations",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-observations-1",
+          "assertion": "manual_expiry_future_missing_attribution_and_stale_subject_are_unverified: reviewed assertions contribute to: Manual observations need the current subject, attribution and bounded age; future, expired or wrongly bound observations cannot pass.",
+          "discriminating_case": "Test the inclusive age boundary, one second beyond it, a future observation and a changed plan subject."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Test the inclusive age boundary, one second beyond it, a future observation and a changed plan subject. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "053bc69f84a3afa0300b8efc3faa6e2b72d6273fd7c5f3d0a1b63755e4a299d9"
+      }
+    },
+    {
+      "id": "P-observations-post-merge",
+      "criterion": "C-observations",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-observations-1",
+          "assertion": "manual_expiry_future_missing_attribution_and_stale_subject_are_unverified: reviewed assertions contribute to: Manual observations need the current subject, attribution and bounded age; future, expired or wrongly bound observations cannot pass.",
+          "discriminating_case": "Test the inclusive age boundary, one second beyond it, a future observation and a changed plan subject."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Test the inclusive age boundary, one second beyond it, a future observation and a changed plan subject. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "96dba63d503d386b861c16c0619e35cc631488c0760d88ab01e65b1cb187ddd4"
+      }
+    },
+    {
+      "id": "P-baseline-local",
+      "criterion": "C-baseline",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-baseline-1",
+          "assertion": "change_review_binds_real_commit_and_rejects_ambiguous_or_wrong_manual_members: reviewed assertions contribute to: A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected.",
+          "discriminating_case": "A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify."
+        },
+        {
+          "verification": "V-baseline-2",
+          "assertion": "catalog_baseline_is_provider_observed_and_rechecked: reviewed assertions contribute to: A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected.",
+          "discriminating_case": "A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "4d64ddf74ead22774e111f86a666b3dfbaad6ce4c9a77a994dc36f3ff015d546"
+      }
+    },
+    {
+      "id": "P-baseline-pre-merge",
+      "criterion": "C-baseline",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-baseline-1",
+          "assertion": "change_review_binds_real_commit_and_rejects_ambiguous_or_wrong_manual_members: reviewed assertions contribute to: A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected.",
+          "discriminating_case": "A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify."
+        },
+        {
+          "verification": "V-baseline-2",
+          "assertion": "catalog_baseline_is_provider_observed_and_rechecked: reviewed assertions contribute to: A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected.",
+          "discriminating_case": "A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "de22e27b8f5e944f4559daa994cf8a6d71d144ba83f2f2a0721f174ca58b3eb9"
+      }
+    },
+    {
+      "id": "P-baseline-post-merge",
+      "criterion": "C-baseline",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-baseline-1",
+          "assertion": "change_review_binds_real_commit_and_rejects_ambiguous_or_wrong_manual_members: reviewed assertions contribute to: A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected.",
+          "discriminating_case": "A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify."
+        },
+        {
+          "verification": "V-baseline-2",
+          "assertion": "catalog_baseline_is_provider_observed_and_rechecked: reviewed assertions contribute to: A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected.",
+          "discriminating_case": "A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A tree ID is not a baseline commit; duplicate manual members and a changed provider base cannot silently qualify. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "859d1f0ef23a2e5b8af5e1782c611f6ccec0b7800a2e57b61b1a4898a06b02cd"
+      }
+    }
+  ]
+}
