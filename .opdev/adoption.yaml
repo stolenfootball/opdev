@@ -294,15 +294,9 @@ practices:
     - check
     research: []
 review:
-  plan_id: 736021ce91fa251b4ab8cd71ed07587d292abdcb72be853fed8c554971dba71f
+  plan_id: b930fb34616c01423bd48c06db798cfbae9c475083c6abdc6bc5b96b3d5686ac
   reviewer: Jeremy
-  reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
-  delegation: >-
-    Implement approved clean-2 self-adoption, approved
-    Ruff/shfmt/ShellCheck/PSScriptAnalyzer conventions, and approved native built-in CI authentication in place
-    of dedicated-token provisioning. Preserve supported behavior and required native
-    qualification. No release, installed-tool changes, consumer migration, delegation
-    or new live-agent trials.
+  reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727"
 workflow:
   integration_branches:
   - main

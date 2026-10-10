@@ -1,0 +1,744 @@
+{
+  "schema": 1,
+  "requirements": [
+    {
+      "id": "R-missing-execution",
+      "title": "Missing execution cannot qualify",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/result-semantics.md",
+          "sha256": "bed67b9803c814a3c9965fb0c370eed5b3b9ca73bd3d101b3285c400d54485f4",
+          "excerpt": "At every evaluation-only boundary, all selected missing canonical suites and\nextensions appear as `unverified` checks with their normal blocking policy. No\nexecution is performed to fill those gaps. Supported same-run reuse supplies only\nits authenticated, current-subject results; every uncovered check remains visible.\n`--delivery --no-exec` remains rejected by the CLI; the engine's evaluation-only\nsemantics do not create a publication shortcut."
+        }
+      },
+      "origin": "spec/result-semantics.md",
+      "rationale": "A configured check or rewritten rule outcome must not conceal an unexecuted selected command.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-missing-execution",
+          "expected": "Selected local, pre-merge and post-merge suites/extensions remain visible and unverified without execution; no command side effect occurs."
+        }
+      ]
+    },
+    {
+      "id": "R-post-merge",
+      "title": "Post-merge failures block integration",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/result-semantics.md",
+          "sha256": "bed67b9803c814a3c9965fb0c370eed5b3b9ca73bd3d101b3285c400d54485f4",
+          "excerpt": "The CLI's default exit follows development; `check --ci` follows integration.\nWith capability `check.post-merge-integration.v1`, `check --ci --post-merge`\nexecutes the selected integrated-trunk suites/extensions and follows integration,\nnot delivery. Selected blocking post-merge checks contribute to both integration\nand delivery, including unavailable reuse evidence. Delivery-only rules remain\nvisible and blocking for delivery, without preventing otherwise verified\nintegration. Pre-merge and post-merge executions are not interchangeable.\nIn post-merge evaluation-only mode, selected checks without verified execution\nare reported as `unverified`, not omitted, even without a reuse policy.\n`check --ci --delivery` executes the delivery stage and follows the delivery gate;\nit cannot be combined with `--no-exec`. Inspect all reported gates before making\nbroader claims. An integration-only baseline does not enforce the release path.\nGate success is evidence, not developer authorization to release."
+        }
+      },
+      "origin": "spec/result-semantics.md",
+      "rationale": "Distinguish successful command execution, nonzero suite exit, extension crash and no-exec.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-post-merge",
+          "expected": "Post-merge suite failure, extension error and missing execution block integration and delivery; successful checks retain their actual outcomes."
+        }
+      ]
+    },
+    {
+      "id": "R-policy-separation",
+      "title": "Engineering and MinimumCD remain separate",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/assurance-profiles.md",
+          "sha256": "98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f",
+          "excerpt": "Schema-2 check reports contain the engineering policy identity and a separate\n`minimumcd` assessment. Null means not requested, not passed or not applicable.\nThe six rule outcomes do not change. Operational gates and the compliance gate\ndescribe the engineering baseline; only the separate assessment may support a\nMinimumCD claim. Legacy schema-1 reports retain their original aggregate meaning.\nSaved reports remain diagnostics, not fresh qualification inputs or certification."
+        }
+      },
+      "origin": "spec/assurance-profiles.md",
+      "rationale": "Library, CLI and service labels must not convert absent evidence into certification.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-policy-separation",
+          "expected": "Legacy and engineering reports retain distinct schemas; unrequested MinimumCD is null, requested but unverified assessment is blocked."
+        }
+      ]
+    },
+    {
+      "id": "R-extensions",
+      "title": "Extensions are additive and fail closed",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/extensions.md",
+          "sha256": "4577ed2ef9c4b58960d7d828c2c9b8c0ba43b3adc993be8a6e3c870366a2a762",
+          "excerpt": "Extensions cannot target, replace, suppress, reinterpret, or change the applicability of core rule IDs. Their project-local IDs occupy a separate result collection. Core gate aggregation runs independently before additive blocking checks are included. This structural separation enforces `OPDEV-EXT-001` without requiring every project to learn a general policy language."
+        }
+      },
+      "origin": "spec/extensions.md",
+      "rationale": "Compare every core result to a baseline across advisory/blocking producers and positive, negative, malformed, oversized and timeout outputs.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-extensions",
+          "expected": "Extension results do not change core outcomes; non-satisfying blocking extensions block only their applicable stage and malformed/crashed/timed-out producers report error."
+        }
+      ]
+    },
+    {
+      "id": "R-same-run",
+      "title": "Producer observations preserve failures and identity",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/execution-reuse.md",
+          "sha256": "0f7f064afc7cd2ae6fd9c6452363cdc0bd98dd6e7196ebf9491669df5b02dab8",
+          "excerpt": "The canonical wrapper captures child output and emits one escaped JSON record\nper suite. The evaluator retrieves the exact provider-owned job log, not a local\nreceipt or latest-ref artifact. A completed producer can be consumed while the\nevaluator and overall run are still running. Provider identity, current attempt,\nselected job inventory and source are checked again after retrieval. No older\ngreen attempt substitutes for a newer failed, pending, skipped or missing job.\nPrior observed GitLab jobs remain visible; GitHub run-attempt identity is retained,\nwithout claiming complete history of every prior attempt."
+        }
+      },
+      "origin": "spec/execution-reuse.md",
+      "rationale": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-same-run",
+          "expected": "Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution."
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-missing-execution-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/check_plan.rs",
+        "sha256": "5f2a8b96f2981c52e4e66cbe0069515d5515d9be1fa7a4bf8e641dba50ed1e25",
+        "excerpt": "fn evaluation_only_keeps_selected_checks_visible_at_every_boundary("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/check-plan.schema.json",
+          "sha256": "89c4a6b50bd77163ed3d01132da9fbf997e757c44c6673b737ce0c8d8ef5f9e9",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-post-merge-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/check_plan.rs",
+        "sha256": "5f2a8b96f2981c52e4e66cbe0069515d5515d9be1fa7a4bf8e641dba50ed1e25",
+        "excerpt": "fn post_merge_process_failures_and_skipped_execution_remain_blocking("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/check-plan.schema.json",
+          "sha256": "89c4a6b50bd77163ed3d01132da9fbf997e757c44c6673b737ce0c8d8ef5f9e9",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-separation-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/engineering_policy.rs",
+        "sha256": "be6fe7dbcfedbbe4e5a9a90d16591b3b734f23e40d4d4c79681285d5a0a8b75b",
+        "excerpt": "fn cli_reports_separate_assessment_without_claiming_verification("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "89c01dc6ea967ee828922d0fc3500c0a66cfc4815c66211eb4f81bfa9b1c00a4",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-extensions-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/extensions.rs",
+        "sha256": "74c4e7cb6fa2ea3ff6493f106d8e6167da2e65cde33419efaadb683cc5cd0145",
+        "excerpt": "fn extensions_preserve_findings_errors_stages_and_core_verdicts("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-same-run-1",
+      "target": {
+        "path": "crates/opdev-cli/tests/execution_reuse.rs",
+        "sha256": "ed171406ec317914dedce8cfcc38c49a4130b2315a1318524ec1b8c4c9817cf3",
+        "excerpt": "fn both_provider_contexts_execute_once_and_escape_child_markers("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/execution-policy.schema.json",
+          "sha256": "ec69abcd16a8a4373972d0356d375578ebc48d3317cfd0289512cc44ffb6c122",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/execution-record.schema.json",
+          "sha256": "e3c04eca14c08eb19bf05c1c2354243336bdacb9f94b80297f18699ef1b0848d",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-same-run-2",
+      "target": {
+        "path": "crates/opdev-cli/tests/execution_reuse.rs",
+        "sha256": "ed171406ec317914dedce8cfcc38c49a4130b2315a1318524ec1b8c4c9817cf3",
+        "excerpt": "fn producer_preserves_failure_timeout_and_source_mutation("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/execution-policy.schema.json",
+          "sha256": "ec69abcd16a8a4373972d0356d375578ebc48d3317cfd0289512cc44ffb6c122",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/execution-record.schema.json",
+          "sha256": "e3c04eca14c08eb19bf05c1c2354243336bdacb9f94b80297f18699ef1b0848d",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-same-run-3",
+      "target": {
+        "path": "crates/opdev-cli/tests/execution_reuse.rs",
+        "sha256": "ed171406ec317914dedce8cfcc38c49a4130b2315a1318524ec1b8c4c9817cf3",
+        "excerpt": "fn invalid_policy_context_and_post_merge_subject_stop_before_execution("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "9b9c647381109728ee4ceb22987600b9a72ab54fc8be4abcbfa730f6675ed33a",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "schema/execution-policy.schema.json",
+          "sha256": "ec69abcd16a8a4373972d0356d375578ebc48d3317cfd0289512cc44ffb6c122",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        },
+        {
+          "path": "schema/execution-record.schema.json",
+          "sha256": "e3c04eca14c08eb19bf05c1c2354243336bdacb9f94b80297f18699ef1b0848d",
+          "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "P-missing-execution-local",
+      "criterion": "C-missing-execution",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-missing-execution-1",
+          "assertion": "evaluation_only_keeps_selected_checks_visible_at_every_boundary: reviewed assertions contribute to: Selected local, pre-merge and post-merge suites/extensions remain visible and unverified without execution; no command side effect occurs.",
+          "discriminating_case": "A configured check or rewritten rule outcome must not conceal an unexecuted selected command."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A configured check or rewritten rule outcome must not conceal an unexecuted selected command. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "b36c6852932725969e99180a2ad5833d069dfe0857be0f2d09b469b89950371a"
+      }
+    },
+    {
+      "id": "P-missing-execution-pre-merge",
+      "criterion": "C-missing-execution",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-missing-execution-1",
+          "assertion": "evaluation_only_keeps_selected_checks_visible_at_every_boundary: reviewed assertions contribute to: Selected local, pre-merge and post-merge suites/extensions remain visible and unverified without execution; no command side effect occurs.",
+          "discriminating_case": "A configured check or rewritten rule outcome must not conceal an unexecuted selected command."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A configured check or rewritten rule outcome must not conceal an unexecuted selected command. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "99d200dab46e0046426d3259b3ea411c0193b731bf4204f459fa1a6662376b04"
+      }
+    },
+    {
+      "id": "P-missing-execution-post-merge",
+      "criterion": "C-missing-execution",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-missing-execution-1",
+          "assertion": "evaluation_only_keeps_selected_checks_visible_at_every_boundary: reviewed assertions contribute to: Selected local, pre-merge and post-merge suites/extensions remain visible and unverified without execution; no command side effect occurs.",
+          "discriminating_case": "A configured check or rewritten rule outcome must not conceal an unexecuted selected command."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A configured check or rewritten rule outcome must not conceal an unexecuted selected command. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "ac310d2ffef6cae79a08918570c5ec60e443f7957e77c123e8dc6e6bd949eab8"
+      }
+    },
+    {
+      "id": "P-post-merge-local",
+      "criterion": "C-post-merge",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-post-merge-1",
+          "assertion": "post_merge_process_failures_and_skipped_execution_remain_blocking: reviewed assertions contribute to: Post-merge suite failure, extension error and missing execution block integration and delivery; successful checks retain their actual outcomes.",
+          "discriminating_case": "Distinguish successful command execution, nonzero suite exit, extension crash and no-exec."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Distinguish successful command execution, nonzero suite exit, extension crash and no-exec. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "c02590b3d3f483dd255f6f13d111f8e5ac29e20f4b27173cc6dfcf6caae477b3"
+      }
+    },
+    {
+      "id": "P-post-merge-pre-merge",
+      "criterion": "C-post-merge",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-post-merge-1",
+          "assertion": "post_merge_process_failures_and_skipped_execution_remain_blocking: reviewed assertions contribute to: Post-merge suite failure, extension error and missing execution block integration and delivery; successful checks retain their actual outcomes.",
+          "discriminating_case": "Distinguish successful command execution, nonzero suite exit, extension crash and no-exec."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Distinguish successful command execution, nonzero suite exit, extension crash and no-exec. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "30c7bd662634471e15e5cd416ad5952c47d05e45b3daa3f96fdc98c556198d8d"
+      }
+    },
+    {
+      "id": "P-post-merge-post-merge",
+      "criterion": "C-post-merge",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-post-merge-1",
+          "assertion": "post_merge_process_failures_and_skipped_execution_remain_blocking: reviewed assertions contribute to: Post-merge suite failure, extension error and missing execution block integration and delivery; successful checks retain their actual outcomes.",
+          "discriminating_case": "Distinguish successful command execution, nonzero suite exit, extension crash and no-exec."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Distinguish successful command execution, nonzero suite exit, extension crash and no-exec. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "a37a3ae0d5025dea4324075747bd23270a705b89a14729a55131a9bbeda9d9dc"
+      }
+    },
+    {
+      "id": "P-policy-separation-local",
+      "criterion": "C-policy-separation",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-policy-separation-1",
+          "assertion": "cli_reports_separate_assessment_without_claiming_verification: reviewed assertions contribute to: Legacy and engineering reports retain distinct schemas; unrequested MinimumCD is null, requested but unverified assessment is blocked.",
+          "discriminating_case": "Library, CLI and service labels must not convert absent evidence into certification."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Library, CLI and service labels must not convert absent evidence into certification. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "f1f04a403ff9f61463acc7e1e3aa8a4154d5ddde352a941739f79d1a2200727e"
+      }
+    },
+    {
+      "id": "P-policy-separation-pre-merge",
+      "criterion": "C-policy-separation",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-policy-separation-1",
+          "assertion": "cli_reports_separate_assessment_without_claiming_verification: reviewed assertions contribute to: Legacy and engineering reports retain distinct schemas; unrequested MinimumCD is null, requested but unverified assessment is blocked.",
+          "discriminating_case": "Library, CLI and service labels must not convert absent evidence into certification."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Library, CLI and service labels must not convert absent evidence into certification. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "510a013be10287705e053b0d28706aa496b1c01ff18bc8a1449f51b6973e47b5"
+      }
+    },
+    {
+      "id": "P-policy-separation-post-merge",
+      "criterion": "C-policy-separation",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-policy-separation-1",
+          "assertion": "cli_reports_separate_assessment_without_claiming_verification: reviewed assertions contribute to: Legacy and engineering reports retain distinct schemas; unrequested MinimumCD is null, requested but unverified assessment is blocked.",
+          "discriminating_case": "Library, CLI and service labels must not convert absent evidence into certification."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Library, CLI and service labels must not convert absent evidence into certification. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "101f216ef0e69312ff40a075bcd9bfc7c7b0a0bcad2dafaba91c598ba3fbbe7c"
+      }
+    },
+    {
+      "id": "P-extensions-local",
+      "criterion": "C-extensions",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-extensions-1",
+          "assertion": "extensions_preserve_findings_errors_stages_and_core_verdicts: reviewed assertions contribute to: Extension results do not change core outcomes; non-satisfying blocking extensions block only their applicable stage and malformed/crashed/timed-out producers report error.",
+          "discriminating_case": "Compare every core result to a baseline across advisory/blocking producers and positive, negative, malformed, oversized and timeout outputs."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Compare every core result to a baseline across advisory/blocking producers and positive, negative, malformed, oversized and timeout outputs. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "f2c5e45bcd8ddf6b76bfa4c1f6ca8149fc0bcd45063e6a8224eb5ba5569ff6b6"
+      }
+    },
+    {
+      "id": "P-extensions-pre-merge",
+      "criterion": "C-extensions",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-extensions-1",
+          "assertion": "extensions_preserve_findings_errors_stages_and_core_verdicts: reviewed assertions contribute to: Extension results do not change core outcomes; non-satisfying blocking extensions block only their applicable stage and malformed/crashed/timed-out producers report error.",
+          "discriminating_case": "Compare every core result to a baseline across advisory/blocking producers and positive, negative, malformed, oversized and timeout outputs."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Compare every core result to a baseline across advisory/blocking producers and positive, negative, malformed, oversized and timeout outputs. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "9c182da6e8064f63689566a5a1d173a3c2715cd496cf54e7194d9d9676c30f30"
+      }
+    },
+    {
+      "id": "P-extensions-post-merge",
+      "criterion": "C-extensions",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-extensions-1",
+          "assertion": "extensions_preserve_findings_errors_stages_and_core_verdicts: reviewed assertions contribute to: Extension results do not change core outcomes; non-satisfying blocking extensions block only their applicable stage and malformed/crashed/timed-out producers report error.",
+          "discriminating_case": "Compare every core result to a baseline across advisory/blocking producers and positive, negative, malformed, oversized and timeout outputs."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Compare every core result to a baseline across advisory/blocking producers and positive, negative, malformed, oversized and timeout outputs. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "b9f0bf827f343c6f4de2b51f8cb32eeeed15d75e02402ad68865286aa6221fdb"
+      }
+    },
+    {
+      "id": "P-same-run-local",
+      "criterion": "C-same-run",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-same-run-1",
+          "assertion": "both_provider_contexts_execute_once_and_escape_child_markers: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        },
+        {
+          "verification": "V-same-run-2",
+          "assertion": "producer_preserves_failure_timeout_and_source_mutation: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        },
+        {
+          "verification": "V-same-run-3",
+          "assertion": "invalid_policy_context_and_post_merge_subject_stop_before_execution: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A child marker cannot forge producer success; a passed command that changed inputs remains unusable. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "3889ef5e26087776b856ea47118c36183a22b441e5a2b13241a21ac1e9f559f7"
+      }
+    },
+    {
+      "id": "P-same-run-pre-merge",
+      "criterion": "C-same-run",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-same-run-1",
+          "assertion": "both_provider_contexts_execute_once_and_escape_child_markers: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        },
+        {
+          "verification": "V-same-run-2",
+          "assertion": "producer_preserves_failure_timeout_and_source_mutation: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        },
+        {
+          "verification": "V-same-run-3",
+          "assertion": "invalid_policy_context_and_post_merge_subject_stop_before_execution: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A child marker cannot forge producer success; a passed command that changed inputs remains unusable. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "4f28ffb7b9bf5de7079ae4831a8b2c1ba3fd4378eaebdd69c490b460d4ba7428"
+      }
+    },
+    {
+      "id": "P-same-run-post-merge",
+      "criterion": "C-same-run",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-same-run-1",
+          "assertion": "both_provider_contexts_execute_once_and_escape_child_markers: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        },
+        {
+          "verification": "V-same-run-2",
+          "assertion": "producer_preserves_failure_timeout_and_source_mutation: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        },
+        {
+          "verification": "V-same-run-3",
+          "assertion": "invalid_policy_context_and_post_merge_subject_stop_before_execution: reviewed assertions contribute to: Provider-context producers execute once, preserve failed/timeout/mutated-source outcomes and reject invalid job/revision/stage context before execution.",
+          "discriminating_case": "A child marker cannot forge producer success; a passed command that changed inputs remains unusable."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A child marker cannot forge producer success; a passed command that changed inputs remains unusable. Suite-level adequacy only; current execution at this stage is separately required.",
+        "subject_sha256": "2721bff3f8aefd8e8d94fb4d88be43c861d9dfe17c74b073b500a6253f328f48"
+      }
+    }
+  ]
+}
