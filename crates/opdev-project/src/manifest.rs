@@ -252,6 +252,7 @@ impl ProjectManifest {
 
     fn validate_boundaries(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
+        self.validate_standards()?;
         if let Some(policy) = &self.assurance.requirements {
             policy
                 .validate()
@@ -394,6 +395,34 @@ impl ProjectManifest {
                 .map_err(|error| ManifestError::Semantic(error.to_string()))?;
         }
 
+        Ok(())
+    }
+
+    fn validate_standards(&self) -> Result<(), ManifestError> {
+        if !self.assurance.standards.is_empty() && self.schema != 4 {
+            return Err(ManifestError::Semantic("Additional standard modes require explicit schema-4 policy selection; older projects are not migrated automatically.".into()));
+        }
+        if self.assurance.standards.len() > 16 {
+            return Err(ManifestError::Semantic(
+                "At most 16 additional standards may be selected.".into(),
+            ));
+        }
+        let mut names = HashSet::new();
+        for standard in &self.assurance.standards {
+            standard
+                .resolve()
+                .map_err(|e| ManifestError::Semantic(e.to_string()))?;
+            if !names.insert(&standard.name)
+                || (standard.name == "minimumcd"
+                    && self
+                        .assurance
+                        .engineering
+                        .as_ref()
+                        .is_some_and(|p| p.minimumcd.is_some()))
+            {
+                return Err(ManifestError::Semantic("Select each standard once. Do not combine the legacy MinimumCD assessment shortcut with another MinimumCD selection.".into()));
+            }
+        }
         Ok(())
     }
 
@@ -883,6 +912,9 @@ impl Operations {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Assurance {
+    /// Additional exact standards; no selection can remove baseline requirements.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub standards: Vec<crate::StandardSelection>,
     /// Explicit requirements policy; absence preserves change-only acceptance.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub requirements: Option<crate::requirements::RequirementsPolicy>,
@@ -1055,6 +1087,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                standards: Vec::new(),
                 requirements: None,
                 review_storage: None,
                 safeguards: None,

@@ -9,6 +9,7 @@
     "engineering": {
       "type": "object", "additionalProperties": false, "required": ["version", "minimumcd"],
       "properties": {
+        "standards": {"type":"array","maxItems":16,"items":{"$ref":"#/$defs/standard_assessment"}},
         "version": { "enum": ["1", "2"] },
         "definition_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
         "stage": { "enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"] },
@@ -51,7 +52,7 @@
     { "if": { "properties": { "schema": { "const": 2 } } },
       "then": { "required": ["engineering"], "properties": {
         "catalog_version": { "const": 3 },
-        "engineering": { "properties": { "version": { "const": "1" } }, "not": { "anyOf": [{"required":["definition_sha256"]},{"required":["stage"]}] } }
+        "engineering": { "properties": { "version": { "const": "1" } }, "not": { "anyOf": [{"required":["definition_sha256"]},{"required":["stage"]},{"required":["standards"]}] } }
       } } },
     { "if": { "properties": { "schema": { "const": 3 } } },
       "then": { "required": ["engineering"], "properties": {
@@ -60,6 +61,38 @@
       } } }
   ],
   "$defs": {
+    "standard_assessment": {
+      "type":"object","additionalProperties":false,
+      "required":["selection","definition_sha256","source","claim","complete_mapping","diagnostic"],
+      "properties":{
+        "selection":{"$ref":"#/$defs/standard_selection"},
+        "definition_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "source":{"type":"object","additionalProperties":false,"required":["name","version","url"],"properties":{"name":{"type":"string"},"version":{"type":"string"},"url":{"type":"string"}}},
+        "claim":{"type":"string"},"complete_mapping":{"type":"boolean"},"diagnostic":{"type":"string"},
+        "assessment":{
+          "type":"object","additionalProperties":false,
+          "required":["version","source_version","verdict","requirements","blocking_checks"],
+          "properties":{
+            "version":{"type":"string"},"source_version":{"type":"string"},"verdict":{"enum":["passed","blocked"]},
+            "blocking_checks":{"type":"array","items":{"type":"string"}},
+            "requirements":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["id","outcome","blocking_rules"],"properties":{"id":{"type":"string"},"outcome":{"$ref":"#/$defs/outcome"},"blocking_rules":{"type":"array","items":{"type":"string"}}}}}
+          }
+        }
+      },
+      "if":{"properties":{"selection":{"properties":{"mode":{"const":"guidance"}}}}},
+      "then":{"not":{"required":["assessment"]}}
+    },
+    "standard_selection": {
+      "type":"object","additionalProperties":false,"required":["name","version","mode"],
+      "properties":{
+        "name":{"type":"string","minLength":1,"maxLength":128},"version":{"type":"string","minLength":1,"maxLength":128},
+        "mode":{"enum":["guidance","assess","require"]},"level":{"type":"string","minLength":1,"maxLength":128},
+        "stages":{"type":"array","maxItems":8,"uniqueItems":true,"items":{"enum":["local","pre_merge","post_merge","package","delivery","recovery","scheduled","evaluation"]}}
+      },
+      "if":{"properties":{"mode":{"const":"guidance"}}},
+      "then":{"properties":{"stages":{"maxItems":0}}},
+      "else":{"required":["stages"],"properties":{"stages":{"minItems":1}}}
+    },
     "outcome": {
       "enum": ["passed", "failed", "unverified", "not_applicable", "error", "migration_required"]
     },

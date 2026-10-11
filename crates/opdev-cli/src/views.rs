@@ -138,6 +138,7 @@ fn validate_report(report: &CheckReport) -> Result<()> {
     if recomputed.gates != report.gates
         || recomputed.engineering != report.engineering
         || recomputed.rules != report.rules
+        || recomputed.checks != report.checks
     {
         bail!("recorded gates are inconsistent with the report's rules and checks");
     }
@@ -522,6 +523,63 @@ mod tests {
             .find(|r| r.rule_id.as_str() == "MCD-CI-001")
             .context("rule")?
             .outcome = Outcome::NotApplicable;
+        assert!(project_report(&report, source()).is_err());
+        Ok(())
+    }
+
+    #[test]
+    fn standard_projection_rejects_forged_results_even_with_identical_gate_blockers() -> Result<()>
+    {
+        let mut report = report()?;
+        let template = report.rules[0].clone();
+        report.rules = opdev_core::catalog_for_version(4)?
+            .rules
+            .into_iter()
+            .map(|r| {
+                let mut result = template.clone();
+                result.rule_id = r.id;
+                result.catalog_version = 4;
+                result
+            })
+            .collect();
+        report.schema = 3;
+        report.catalog_version = 4;
+        let selection = opdev_project::StandardSelection {
+            name: "minimumcd".into(),
+            version: "1".into(),
+            mode: opdev_project::StandardMode::Require,
+            stages: vec![opdev_project::TestStage::Local],
+            level: None,
+        };
+        let resolved = selection.resolve()?;
+        report.engineering = Some(serde_json::from_value(serde_json::json!({
+            "version":"2", "minimumcd":null,
+            "definition_sha256":opdev_core::resolve_engineering_policy("2")?.definition_sha256,
+            "stage":"local", "standards":[{
+                "selection":selection, "definition_sha256":resolved.definition_sha256,
+                "source":resolved.profile.source, "claim":resolved.profile.claim,
+                "complete_mapping":true, "diagnostic":"before projection"
+            }]
+        }))?);
+        reaggregate(&mut report)?;
+        assert!(project_report(&report, source()).is_ok());
+        let index = report
+            .checks
+            .iter()
+            .position(|c| c.id == "opdev-standard:minimumcd@1")
+            .context("standard check")?;
+        let original = report.checks[index].outcome;
+        report.checks[index].outcome = if original == Outcome::Failed {
+            Outcome::Error
+        } else {
+            Outcome::Failed
+        };
+        assert!(
+            project_report(&report, source()).is_err(),
+            "gate blocker IDs alone cannot validate a changed result"
+        );
+        reaggregate(&mut report)?;
+        report.engineering.as_mut().context("policy")?.standards[0].claim = "certified".into();
         assert!(project_report(&report, source()).is_err());
         Ok(())
     }

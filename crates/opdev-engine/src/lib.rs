@@ -4,7 +4,9 @@
 mod acceptance;
 pub use acceptance::acceptance_input_gaps;
 mod assessment;
+mod standard_assessment;
 pub use assessment::{EngineeringAssessment, FrameworkAssessment, RequirementAssessment};
+pub use standard_assessment::StandardAssessment;
 
 mod command;
 mod evaluator;

@@ -8,6 +8,9 @@ use crate::{CheckReport, EvaluationError};
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct EngineeringAssessment {
+    /// Explicit additional standard selections and boundary-scoped results.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub standards: Vec<crate::StandardAssessment>,
     /// Exact engineering policy version.
     pub version: String,
     /// Exact embedded definition identity for policy 2; absent in legacy reports.
@@ -51,6 +54,7 @@ pub struct RequirementAssessment {
 impl EngineeringAssessment {
     pub(crate) fn requested(minimumcd: Option<&str>) -> Self {
         Self {
+            standards: Vec::new(),
             version: "1".into(),
             definition_sha256: None,
             stage: None,
@@ -67,8 +71,10 @@ impl EngineeringAssessment {
     pub(crate) fn for_policy(
         policy: &opdev_core::EngineeringPolicy,
         stage: opdev_project::TestStage,
+        standards: &[opdev_project::StandardSelection],
     ) -> Result<Self, EvaluationError> {
         let mut assessment = Self::requested(policy.minimumcd.as_deref());
+        assessment.standards = crate::standard_assessment::selected(policy, standards)?;
         assessment.version.clone_from(&policy.version);
         if policy.version == "2" {
             assessment.definition_sha256 =
@@ -80,6 +86,12 @@ impl EngineeringAssessment {
 }
 
 pub(crate) fn refresh(report: &mut CheckReport) -> Result<(), EvaluationError> {
+    crate::standard_assessment::remove_generated_checks(report);
+    refresh_minimumcd(report)?;
+    crate::standard_assessment::refresh(report)
+}
+
+fn refresh_minimumcd(report: &mut CheckReport) -> Result<(), EvaluationError> {
     let Some(assessment) = report
         .engineering
         .as_mut()
@@ -110,7 +122,7 @@ pub(crate) fn refresh(report: &mut CheckReport) -> Result<(), EvaluationError> {
     Ok(())
 }
 
-fn assess_requirements(
+pub(crate) fn assess_requirements(
     assessment: &mut FrameworkAssessment,
     requirements: &[opdev_core::ProfileRequirement],
     rules: &[opdev_core::RuleResult],
@@ -234,6 +246,7 @@ mod tests {
                 maintenance_branches: vec![],
             },
             opdev_project::TestStage::Delivery,
+            &[],
         )?);
         report.rules = catalog
             .rules

@@ -180,31 +180,20 @@ fn review_still_current(
 }
 
 fn aggregate_evaluation(
-    manifest: &ProjectManifest,
+    engineering: Option<crate::EngineeringAssessment>,
     subject: String,
     evaluated_at: u64,
     catalog_version: u32,
     rules: Vec<RuleResult>,
     checks: Vec<CheckResult>,
-    stage: TestStage,
 ) -> Result<CheckReport, EvaluationError> {
     let mut report = CheckReport {
-        engineering: manifest
-            .assurance
-            .engineering
-            .as_ref()
-            .map(|p| crate::EngineeringAssessment::for_policy(p, stage))
-            .transpose()?,
-        schema: match manifest
-            .assurance
-            .engineering
-            .as_ref()
-            .map(|p| p.version.as_str())
-        {
+        schema: match engineering.as_ref().map(|p| p.version.as_str()) {
             Some("2") => 3,
             Some(_) => 2,
             None => 1,
         },
+        engineering,
         catalog_version,
         subject,
         evaluated_at,
@@ -225,6 +214,23 @@ fn evaluate_inner(
     review: Option<&crate::ValidatedReview>,
 ) -> Result<CheckReport, EvaluationError> {
     let catalog = manifest.catalog()?;
+    if manifest.assurance.engineering.is_none() && !manifest.assurance.standards.is_empty() {
+        return Err(EvaluationError::Report(
+            "Additional standards need explicit engineering policy 2; no checks ran.".into(),
+        ));
+    }
+    let engineering = manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .map(|p| {
+            crate::EngineeringAssessment::for_policy(
+                p,
+                options.test_stage,
+                &manifest.assurance.standards,
+            )
+        })
+        .transpose()?;
     let evaluated_at = unix_timestamp();
     let subject = root.display().to_string();
     let acceptance_ledger = selected_ledger(root, manifest, options.test_stage, review)?;
@@ -343,13 +349,12 @@ fn evaluate_inner(
         options.test_stage,
     );
     aggregate_evaluation(
-        manifest,
+        engineering,
         subject,
         evaluated_at,
         catalog.catalog_version,
         rules,
         checks,
-        options.test_stage,
     )
 }
 
@@ -691,7 +696,10 @@ pub fn reaggregate(report: &mut CheckReport) -> Result<(), EvaluationError> {
             {
                 return Err(EvaluationError::Report("Policy 2 needs its exact definition and evaluated stage; no older policy or stage substituted".into()));
             }
-        } else if policy.definition_sha256.is_some() || policy.stage.is_some() {
+        } else if policy.definition_sha256.is_some()
+            || policy.stage.is_some()
+            || !policy.standards.is_empty()
+        {
             return Err(EvaluationError::Report(
                 "Legacy report cannot contain policy-2 definition or stage fields".into(),
             ));
@@ -713,8 +721,8 @@ pub fn reaggregate(report: &mut CheckReport) -> Result<(), EvaluationError> {
             }
         }
     }
-    report.gates = aggregate_gates(&catalog, &report.rules, &report.checks);
     crate::assessment::refresh(report)?;
+    report.gates = aggregate_gates(&catalog, &report.rules, &report.checks);
     Ok(())
 }
 
@@ -1203,6 +1211,7 @@ fn aggregate_gates(
             })
             .map(|rule| rule.id.clone())
             .collect();
+        let mut seen_checks = std::collections::HashSet::new();
         let blocking_checks: Vec<_> = checks
             .iter()
             .filter(|check| {
@@ -1211,6 +1220,7 @@ fn aggregate_gates(
                     && !check.outcome.satisfies_required_rule()
             })
             .map(|check| check.id.clone())
+            .filter(|id| seen_checks.insert(id.clone()))
             .collect();
         let verdict = if blocking_rules.is_empty() && blocking_checks.is_empty() {
             AggregateVerdict::Passed
@@ -1557,6 +1567,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                standards: Vec::new(),
                 requirements: None,
                 review_storage: None,
                 safeguards: None,

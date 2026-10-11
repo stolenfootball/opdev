@@ -24,6 +24,7 @@ mod review_wire;
 pub use review::{ReviewRecord, ReviewStorage, WorkKind, WorkObservation, WorkSelector};
 mod qualification;
 mod safeguards;
+mod standards;
 pub use qualification::{
     AccessPrincipal, GitlabBranchPolicy, ProtectionPolicy, QualificationPolicy, RequiredCheck,
 };
@@ -31,6 +32,7 @@ pub use safeguards::{
     Capability, CapabilityFact, CapabilityImpact, CapabilityState, Impact, SafeguardObjective,
     SafeguardPolicy, SafeguardReview,
 };
+pub use standards::{ResolvedStandard, StandardMode, StandardSelection};
 
 pub use adoption::{
     ADOPTION_PATH, AdoptionCatalog, AdoptionDecision, AdoptionError, AdoptionRecord,

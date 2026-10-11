@@ -46,6 +46,29 @@
           "expected": "Schema-4 policy-2 evaluation preserves old selections, enforces capability/current source-stage control links, keeps known failures and external verdicts distinct, and does not qualify recovery without actual appropriate execution."
         }
       ]
+    },
+    {
+      "id": "R-policy-standards",
+      "title": "Additional standards are exact, additive and honest about scope",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/assurance-profiles.md",
+          "sha256": "b76fd9bfdff23b70bcb2d2b756a74591db00e0ede401dff5b1825543f06f4ed1",
+          "excerpt": "`assess` is independent and adds no gate check. `require` contributes a blocking"
+        }
+      },
+      "origin": "spec/assurance-profiles.md",
+      "rationale": "A selected external mapping must neither waive the baseline nor repeat verification, conceal incomplete conformance or qualify another boundary.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-policy-standards",
+          "expected": "Exact validated selections distinguish no-verdict guidance, nonblocking assessment and stage-scoped required obligations using one current execution; partial mappings, changed definitions, known failures and forged reports cannot become full conformance."
+        }
+      ]
     }
   ],
   "verifications": [
@@ -104,12 +127,12 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "024ba5e18ec925851b1d1b8edc376464046ed4690b2e208797de37ede4f9d228",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
           "excerpt": "fn difference("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -174,12 +197,12 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "024ba5e18ec925851b1d1b8edc376464046ed4690b2e208797de37ede4f9d228",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
           "excerpt": "fn difference("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -244,12 +267,12 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "024ba5e18ec925851b1d1b8edc376464046ed4690b2e208797de37ede4f9d228",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
           "excerpt": "fn difference("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -314,12 +337,12 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "024ba5e18ec925851b1d1b8edc376464046ed4690b2e208797de37ede4f9d228",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
           "excerpt": "fn difference("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -384,12 +407,12 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "024ba5e18ec925851b1d1b8edc376464046ed4690b2e208797de37ede4f9d228",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
           "excerpt": "fn difference("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -449,7 +472,7 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "b1290ddf04f3f3469604fc998b30d0c78c2f9eeaecb6c33c04e1ed633230d5a9",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
           "excerpt": "fn validate_engineering("
         },
         {
@@ -464,7 +487,7 @@
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "23822431ef27a9f1c8637709df06642e6fd8c0b49e60f4b4fa869b71cc01ea6e",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -479,7 +502,7 @@
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "35745ef2a97c2ad5c3164713eb4736aa8c8782711550c979ce4d3ccef0dd288a",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
@@ -489,12 +512,12 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "e8165b3d4ebf31c30b6fa211803a28e25e6f2bd363f583bd15aff12d5e8db403",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
@@ -504,7 +527,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -518,7 +541,7 @@
       "id": "V-policy-enforcement-2",
       "target": {
         "path": "crates/opdev-engine/src/assessment.rs",
-        "sha256": "35745ef2a97c2ad5c3164713eb4736aa8c8782711550c979ce4d3ccef0dd288a",
+        "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
         "excerpt": "fn policy_two_membership_keeps_old_standard_failures_separate"
       },
       "inputs": [
@@ -564,7 +587,7 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "b1290ddf04f3f3469604fc998b30d0c78c2f9eeaecb6c33c04e1ed633230d5a9",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
           "excerpt": "fn validate_engineering("
         },
         {
@@ -579,7 +602,7 @@
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "23822431ef27a9f1c8637709df06642e6fd8c0b49e60f4b4fa869b71cc01ea6e",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -594,7 +617,7 @@
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "35745ef2a97c2ad5c3164713eb4736aa8c8782711550c979ce4d3ccef0dd288a",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
@@ -604,12 +627,12 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "e8165b3d4ebf31c30b6fa211803a28e25e6f2bd363f583bd15aff12d5e8db403",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
@@ -619,7 +642,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -679,7 +702,7 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "b1290ddf04f3f3469604fc998b30d0c78c2f9eeaecb6c33c04e1ed633230d5a9",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
           "excerpt": "fn validate_engineering("
         },
         {
@@ -694,7 +717,7 @@
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "23822431ef27a9f1c8637709df06642e6fd8c0b49e60f4b4fa869b71cc01ea6e",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -709,7 +732,7 @@
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "35745ef2a97c2ad5c3164713eb4736aa8c8782711550c979ce4d3ccef0dd288a",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
@@ -719,12 +742,12 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "e8165b3d4ebf31c30b6fa211803a28e25e6f2bd363f583bd15aff12d5e8db403",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
@@ -734,7 +757,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -794,7 +817,7 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "b1290ddf04f3f3469604fc998b30d0c78c2f9eeaecb6c33c04e1ed633230d5a9",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
           "excerpt": "fn validate_engineering("
         },
         {
@@ -809,7 +832,7 @@
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "23822431ef27a9f1c8637709df06642e6fd8c0b49e60f4b4fa869b71cc01ea6e",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -824,7 +847,7 @@
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "35745ef2a97c2ad5c3164713eb4736aa8c8782711550c979ce4d3ccef0dd288a",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
@@ -834,12 +857,12 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "e8165b3d4ebf31c30b6fa211803a28e25e6f2bd363f583bd15aff12d5e8db403",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
@@ -849,7 +872,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -909,7 +932,7 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "b1290ddf04f3f3469604fc998b30d0c78c2f9eeaecb6c33c04e1ed633230d5a9",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
           "excerpt": "fn validate_engineering("
         },
         {
@@ -924,7 +947,7 @@
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "23822431ef27a9f1c8637709df06642e6fd8c0b49e60f4b4fa869b71cc01ea6e",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -939,7 +962,7 @@
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "35745ef2a97c2ad5c3164713eb4736aa8c8782711550c979ce4d3ccef0dd288a",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
@@ -949,12 +972,12 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "e8165b3d4ebf31c30b6fa211803a28e25e6f2bd363f583bd15aff12d5e8db403",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
@@ -964,7 +987,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1024,7 +1047,7 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "b1290ddf04f3f3469604fc998b30d0c78c2f9eeaecb6c33c04e1ed633230d5a9",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
           "excerpt": "fn validate_engineering("
         },
         {
@@ -1039,7 +1062,7 @@
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "23822431ef27a9f1c8637709df06642e6fd8c0b49e60f4b4fa869b71cc01ea6e",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -1054,7 +1077,7 @@
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "35745ef2a97c2ad5c3164713eb4736aa8c8782711550c979ce4d3ccef0dd288a",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
@@ -1064,12 +1087,12 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "e8165b3d4ebf31c30b6fa211803a28e25e6f2bd363f583bd15aff12d5e8db403",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
@@ -1079,8 +1102,1928 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "a307ede5bc3576d5b2d40913793c6e24ab5125f610f81ec2830420ac430b6f4f",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
           "excerpt": "fn apply_remote_audit("
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-1",
+      "target": {
+        "path": "crates/opdev-project/src/standards.rs",
+        "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+        "excerpt": "fn exact_selection_rejects_ambiguous_pins_and_boundaries("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-engine/src/standard_assessment.rs",
+          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "excerpt": "//! Additional standards project existing observations; they never launch verification."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-2",
+      "target": {
+        "path": "crates/opdev-project/src/standards.rs",
+        "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+        "excerpt": "fn identity_is_order_independent_but_binds_mode_and_actual_stages("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-engine/src/standard_assessment.rs",
+          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "excerpt": "//! Additional standards project existing observations; they never launch verification."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-3",
+      "target": {
+        "path": "crates/opdev-project/src/standards.rs",
+        "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+        "excerpt": "fn derived_and_format_profiles_never_claim_complete_conformance("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-engine/src/standard_assessment.rs",
+          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "excerpt": "//! Additional standards project existing observations; they never launch verification."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-4",
+      "target": {
+        "path": "crates/opdev-engine/src/standard_assessment.rs",
+        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "excerpt": "fn guidance_assessment_and_requirement_have_different_effects("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-5",
+      "target": {
+        "path": "crates/opdev-engine/src/standard_assessment.rs",
+        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "excerpt": "fn required_mapping_is_scoped_and_does_not_waive_baseline("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-6",
+      "target": {
+        "path": "crates/opdev-engine/src/standard_assessment.rs",
+        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "excerpt": "fn partial_mappings_and_changed_definitions_cannot_establish_conformance("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-7",
+      "target": {
+        "path": "crates/opdev-engine/src/standard_assessment.rs",
+        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "excerpt": "fn command_failure_survives_projection_and_cannot_be_shadowed_by_a_name("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-8",
+      "target": {
+        "path": "crates/opdev-engine/src/standard_assessment.rs",
+        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "excerpt": "fn conflicts_and_forged_metadata_never_survive_reprojection("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-9",
+      "target": {
+        "path": "crates/opdev-cli/tests/policy_standards.rs",
+        "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+        "excerpt": "fn multiple_standards_do_not_repeat_execution_or_invent_conformance("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-engine/src/standard_assessment.rs",
+          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "excerpt": "//! Additional standards project existing observations; they never launch verification."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-10",
+      "target": {
+        "path": "crates/opdev-cli/tests/policy_standards.rs",
+        "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+        "excerpt": "fn invalid_selections_and_unselected_minimumcd_fail_before_execution("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-engine/src/standard_assessment.rs",
+          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "excerpt": "//! Additional standards project existing observations; they never launch verification."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-11",
+      "target": {
+        "path": "crates/opdev-cli/src/views.rs",
+        "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+        "excerpt": "fn standard_projection_rejects_forged_results_even_with_identical_gate_blockers("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-engine/src/standard_assessment.rs",
+          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "excerpt": "//! Additional standards project existing observations; they never launch verification."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-standards-12",
+      "target": {
+        "path": "crates/opdev-engine/src/assessment.rs",
+        "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+        "excerpt": "fn incomplete_mapping_cannot_turn_green_results_into_compliance("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "252c46e0e736a5708d743e763ecaa5129b26a7052181292e8e6a44c0774a2890",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "696e9aeacb5b2f25a230b9ba0da82a1550999b0f7543a050ce38ae337239cee3",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5f85ed1c63cce7e023e818765c0075c232560119efbe99519333c0aec0cf9259",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "e0db8caf09263972692df267ff6296d8c79fd31fcd074d9702d25fad1d939318",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "8f2d5fe318f1850b9a8958c44721a56eb4b909659afbd34c8b187c91ad65e2a7",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "595ce56eae077a81cd741b842386505c97a8a905aeaed1ac0f47847b91bbab47",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "2cff7ea961562e4dddfbea197a91ebfca212a26962a5257f42864e5fd9ea08f9",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "94df34fdb1d63a30165096d2a511e0ad423f9b74e931dcb0301eb97b8623f48f",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "crates/opdev-project/src/standards.rs",
+          "sha256": "819def532daf93e349efd354276c6e44b5df4700cd2e89e316a6563508b56646",
+          "excerpt": "//! Pure, exact standard selection. No execution, network lookup or permission grant."
+        },
+        {
+          "path": "crates/opdev-engine/src/standard_assessment.rs",
+          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "excerpt": "//! Additional standards project existing observations; they never launch verification."
+        },
+        {
+          "path": "crates/opdev-cli/tests/policy_standards.rs",
+          "sha256": "7533926146f58156fb91b51e7d796591de59a144f37b6fd0c95ace5e053515a9",
+          "excerpt": "//! Exact additional standards reuse commands and retain independent claim boundaries."
+        },
+        {
+          "path": "crates/opdev-cli/src/views.rs",
+          "sha256": "479002482bf0f27f5db8fe855cc22d449605f1892a0149beaa5284da57b63b33",
+          "excerpt": "//! Read-only projections. Full artifacts and the evaluator remain authoritative."
+        },
+        {
+          "path": "crates/opdev-cli/src/policy.rs",
+          "sha256": "44004144b731803564b02e298473cc98298a109112b58735575474704e8878b5",
+          "excerpt": "//! Read-only policy definition inspection, deliberately separate from qualification."
+        },
+        {
+          "path": "profiles/minimumcd/1.yaml",
+          "sha256": "78b299d58d1db0484e28ea8d124c9614e7b1eea18e857804a7fd2fe7a53f1738",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/nist-ssdf-derived/1.1.yaml",
+          "sha256": "29f0f2d0b120fce2f6f87c6aad56063c53da0cadeb574d87aa41da644cf132c6",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/slsa-build-provenance/1.2.yaml",
+          "sha256": "9e478334f3d2dbd2fa804a8f3b5f2e31ef8b9fd5c421f1606b52b9848a26f496",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/cyclonedx-sbom/1.5.yaml",
+          "sha256": "c06f75c1c82071e407c3e1343519b2bfb4ee59e31179429a90ff3581b8dd0662",
+          "excerpt": "schema: 1"
+        },
+        {
+          "path": "profiles/openssf-osps-baseline-derived/2026.02.19.yaml",
+          "sha256": "42d842d970d9f73b272085b1099b52fd7511d9a46117abbc570b2b14bb82dd7e",
+          "excerpt": "schema: 1"
         }
       ],
       "method": {
@@ -1126,9 +3069,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
-        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
-        "subject_sha256": "3a826cfe32a681e966c5b5f5e6d4f5f8f8fae43316ca8fbe272e665d32019b62"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "3a8643b1b7e49acf55258cc3029dd0640700d833381e68b17de8cc0e0066550d"
       }
     },
     {
@@ -1166,9 +3109,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
-        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
-        "subject_sha256": "1c8b6ed90f5352bc7aed21999e1c9085352e26fa4194bff9455cdb553abbea91"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "bdf62e18e09f1a9da007cc2707d0c5b80ddeaf40b6480fd364a05807b5e780d9"
       }
     },
     {
@@ -1206,9 +3149,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
-        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
-        "subject_sha256": "c2a563047718f4e65d009d5d529bba014f646c79f4927d8e09361b95920ae22b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "80a07b87de43dbbe291ce9f9fa59fdbd0b1fc28e67954869a576512c6cbf2baf"
       }
     },
     {
@@ -1251,9 +3194,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
-        "rationale": "Reviewed six all-required targets: explicit schema/version/capabilities; separate standard gates; current definitions and boundaries; digest compatibility; stale/generic/false-absence and preserved blockers; real recovery execution. Synthetic fixtures prove plumbing, not universal recovery adequacy. Suite assurance; known inputs are not a complete dependency graph. No consent or cross-stage qualification claim. Reviewed extraction of fixture setup into a helper after workspace-wide Clippy: all adversarial assertions and exercised outcomes remain unchanged. The three focused control tests and workspace Clippy passed after extraction.",
-        "subject_sha256": "ffbba5c60b343e1f3b9e23246f190c2a5dee5c8fedbad65f41d59d2ca95ce50c"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed six all-required targets: explicit schema/version/capabilities; separate standard gates; current definitions and boundaries; digest compatibility; stale/generic/false-absence and preserved blockers; real recovery execution. Synthetic fixtures prove plumbing, not universal recovery adequacy. Suite assurance; known inputs are not a complete dependency graph. No consent or cross-stage qualification claim. Reviewed extraction of fixture setup into a helper after workspace-wide Clippy: all adversarial assertions and exercised outcomes remain unchanged. The three focused control tests and workspace Clippy passed after extraction. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "a177b3c28f41078ad2ed4e68905e57827f0ff695d05e27e3cb8977d20e09c98b"
       }
     },
     {
@@ -1296,9 +3239,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
-        "rationale": "Reviewed six all-required targets: explicit schema/version/capabilities; separate standard gates; current definitions and boundaries; digest compatibility; stale/generic/false-absence and preserved blockers; real recovery execution. Synthetic fixtures prove plumbing, not universal recovery adequacy. Suite assurance; known inputs are not a complete dependency graph. No consent or cross-stage qualification claim. Reviewed extraction of fixture setup into a helper after workspace-wide Clippy: all adversarial assertions and exercised outcomes remain unchanged. The three focused control tests and workspace Clippy passed after extraction.",
-        "subject_sha256": "8894f3cb2264a47de372bd05baaaff64139e606484ac8cee0f17acdfeddfffe1"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed six all-required targets: explicit schema/version/capabilities; separate standard gates; current definitions and boundaries; digest compatibility; stale/generic/false-absence and preserved blockers; real recovery execution. Synthetic fixtures prove plumbing, not universal recovery adequacy. Suite assurance; known inputs are not a complete dependency graph. No consent or cross-stage qualification claim. Reviewed extraction of fixture setup into a helper after workspace-wide Clippy: all adversarial assertions and exercised outcomes remain unchanged. The three focused control tests and workspace Clippy passed after extraction. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "0204d944457ace2f56de7096c65e41c54c622da33502365f5998d5e1968297e9"
       }
     },
     {
@@ -1341,9 +3284,234 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
-        "rationale": "Reviewed six all-required targets: explicit schema/version/capabilities; separate standard gates; current definitions and boundaries; digest compatibility; stale/generic/false-absence and preserved blockers; real recovery execution. Synthetic fixtures prove plumbing, not universal recovery adequacy. Suite assurance; known inputs are not a complete dependency graph. No consent or cross-stage qualification claim. Reviewed extraction of fixture setup into a helper after workspace-wide Clippy: all adversarial assertions and exercised outcomes remain unchanged. The three focused control tests and workspace Clippy passed after extraction.",
-        "subject_sha256": "0bfb3ecad1da6c2f458240dd58ca6881c116be07e1fd9d268ee9a3f904ff23c8"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed six all-required targets: explicit schema/version/capabilities; separate standard gates; current definitions and boundaries; digest compatibility; stale/generic/false-absence and preserved blockers; real recovery execution. Synthetic fixtures prove plumbing, not universal recovery adequacy. Suite assurance; known inputs are not a complete dependency graph. No consent or cross-stage qualification claim. Reviewed extraction of fixture setup into a helper after workspace-wide Clippy: all adversarial assertions and exercised outcomes remain unchanged. The three focused control tests and workspace Clippy passed after extraction. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "3bce165b2a31cf69b0d3a0d38f01ef1a6512f9a0878a192256dcdac1f0cc03f5"
+      }
+    },
+    {
+      "id": "P-policy-standards-local",
+      "criterion": "C-policy-standards",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-policy-standards-1",
+          "assertion": "Exact pins and unambiguous mode/stage selection are required.",
+          "discriminating_case": "Floating/unknown versions, invalid levels, baseline-as-external, empty or duplicate stages cannot resolve."
+        },
+        {
+          "verification": "V-policy-standards-2",
+          "assertion": "Equivalent stage ordering preserves identity; changed mode or membership changes it.",
+          "discriminating_case": "Reordering stages must not invalidate identity; changing assess to require must invalidate it."
+        },
+        {
+          "verification": "V-policy-standards-3",
+          "assertion": "All bundled derived/format profiles retain incomplete-conformance status.",
+          "discriminating_case": "A derived SSDF/OSPS or SLSA/CycloneDX format selection cannot claim a complete assessment mapping."
+        },
+        {
+          "verification": "V-policy-standards-4",
+          "assertion": "Guidance has no verdict; assessment does not block; required failed rollback blocks only selected delivery, with idempotent schema-valid projection.",
+          "discriminating_case": "A failed MinimumCD rollback may not block integration or disappear from its independent assessment."
+        },
+        {
+          "verification": "V-policy-standards-5",
+          "assertion": "Complete current mapping can pass; missing required evidence blocks selected boundary; outside boundary no assessment; baseline failure still blocks.",
+          "discriminating_case": "A delivery selection cannot claim pre-merge assessment or clear an OPDEV-FLOW failure."
+        },
+        {
+          "verification": "V-policy-standards-6",
+          "assertion": "Partial/format mappings remain unverified even with green contributing rules; changed definition is rejected.",
+          "discriminating_case": "Synthetic all-green rule findings cannot turn a partial SSDF or provenance mapping into conformance."
+        },
+        {
+          "verification": "V-policy-standards-7",
+          "assertion": "Known failed/error/migration/unverified commands remain visible including colliding result names.",
+          "discriminating_case": "Projection cannot delete a suite whose ID matches a generated standard ID; unique gate blockers do not drop underlying results."
+        },
+        {
+          "verification": "V-policy-standards-8",
+          "assertion": "Current immutable mapping restores source/scope metadata and rejects duplicate/conflicting selections.",
+          "discriminating_case": "Forged certification, duplicate standards or legacy/new MinimumCD conflict cannot survive resolution."
+        },
+        {
+          "verification": "V-policy-standards-9",
+          "assertion": "Real CLI preview is read-only; three selected standards share exactly one current canonical invocation; no-exec stays missing.",
+          "discriminating_case": "Counter remains absent after preview, equals one after real check, and cannot increase during no-exec."
+        },
+        {
+          "verification": "V-policy-standards-10",
+          "assertion": "Invalid or conflicting selection and an unselected current MinimumCD assessment fail before command side effects.",
+          "discriminating_case": "Invalid schema, duplicate/legacy conflict, unknown version/mode/empty stages, guidance-only and another stage cannot launch the counter."
+        },
+        {
+          "verification": "V-policy-standards-11",
+          "assertion": "Saved report validation recomputes standard results and metadata, not only gate blockers.",
+          "discriminating_case": "Changing failure to error with the same blocker ID or changing the source claim to certified makes the saved view invalid."
+        },
+        {
+          "verification": "V-policy-standards-12",
+          "assertion": "Partial, gap and empty rule mappings stay unverified.",
+          "discriminating_case": "An empty mapping cannot pass by vacuous all-green aggregation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed all twelve required targets and actual assertions: exact pure identity, stages, complete-mapping limits, independent/additive verdicts, baseline preservation, original failure outcomes, saved-report integrity and real CLI count/nonexecution. Current stage canonical suite execution remains required. Synthetic tests verify plumbing and claim boundaries, not organizational conformance, test adequacy for every product, live-agent effectiveness or developer consent. Bound known inputs are not an automatically exhaustive dependency graph.",
+        "subject_sha256": "7f5ba5f6469f74bc3dd68aa683d81740fbfcb85763c74a397759036273ad57a0"
+      }
+    },
+    {
+      "id": "P-policy-standards-pre-merge",
+      "criterion": "C-policy-standards",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-policy-standards-1",
+          "assertion": "Exact pins and unambiguous mode/stage selection are required.",
+          "discriminating_case": "Floating/unknown versions, invalid levels, baseline-as-external, empty or duplicate stages cannot resolve."
+        },
+        {
+          "verification": "V-policy-standards-2",
+          "assertion": "Equivalent stage ordering preserves identity; changed mode or membership changes it.",
+          "discriminating_case": "Reordering stages must not invalidate identity; changing assess to require must invalidate it."
+        },
+        {
+          "verification": "V-policy-standards-3",
+          "assertion": "All bundled derived/format profiles retain incomplete-conformance status.",
+          "discriminating_case": "A derived SSDF/OSPS or SLSA/CycloneDX format selection cannot claim a complete assessment mapping."
+        },
+        {
+          "verification": "V-policy-standards-4",
+          "assertion": "Guidance has no verdict; assessment does not block; required failed rollback blocks only selected delivery, with idempotent schema-valid projection.",
+          "discriminating_case": "A failed MinimumCD rollback may not block integration or disappear from its independent assessment."
+        },
+        {
+          "verification": "V-policy-standards-5",
+          "assertion": "Complete current mapping can pass; missing required evidence blocks selected boundary; outside boundary no assessment; baseline failure still blocks.",
+          "discriminating_case": "A delivery selection cannot claim pre-merge assessment or clear an OPDEV-FLOW failure."
+        },
+        {
+          "verification": "V-policy-standards-6",
+          "assertion": "Partial/format mappings remain unverified even with green contributing rules; changed definition is rejected.",
+          "discriminating_case": "Synthetic all-green rule findings cannot turn a partial SSDF or provenance mapping into conformance."
+        },
+        {
+          "verification": "V-policy-standards-7",
+          "assertion": "Known failed/error/migration/unverified commands remain visible including colliding result names.",
+          "discriminating_case": "Projection cannot delete a suite whose ID matches a generated standard ID; unique gate blockers do not drop underlying results."
+        },
+        {
+          "verification": "V-policy-standards-8",
+          "assertion": "Current immutable mapping restores source/scope metadata and rejects duplicate/conflicting selections.",
+          "discriminating_case": "Forged certification, duplicate standards or legacy/new MinimumCD conflict cannot survive resolution."
+        },
+        {
+          "verification": "V-policy-standards-9",
+          "assertion": "Real CLI preview is read-only; three selected standards share exactly one current canonical invocation; no-exec stays missing.",
+          "discriminating_case": "Counter remains absent after preview, equals one after real check, and cannot increase during no-exec."
+        },
+        {
+          "verification": "V-policy-standards-10",
+          "assertion": "Invalid or conflicting selection and an unselected current MinimumCD assessment fail before command side effects.",
+          "discriminating_case": "Invalid schema, duplicate/legacy conflict, unknown version/mode/empty stages, guidance-only and another stage cannot launch the counter."
+        },
+        {
+          "verification": "V-policy-standards-11",
+          "assertion": "Saved report validation recomputes standard results and metadata, not only gate blockers.",
+          "discriminating_case": "Changing failure to error with the same blocker ID or changing the source claim to certified makes the saved view invalid."
+        },
+        {
+          "verification": "V-policy-standards-12",
+          "assertion": "Partial, gap and empty rule mappings stay unverified.",
+          "discriminating_case": "An empty mapping cannot pass by vacuous all-green aggregation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed all twelve required targets and actual assertions: exact pure identity, stages, complete-mapping limits, independent/additive verdicts, baseline preservation, original failure outcomes, saved-report integrity and real CLI count/nonexecution. Current stage canonical suite execution remains required. Synthetic tests verify plumbing and claim boundaries, not organizational conformance, test adequacy for every product, live-agent effectiveness or developer consent. Bound known inputs are not an automatically exhaustive dependency graph.",
+        "subject_sha256": "7a39053293579e2da69c8ab11a5026c3269ca16b7a6b0b2fd558c8cca72bd274"
+      }
+    },
+    {
+      "id": "P-policy-standards-post-merge",
+      "criterion": "C-policy-standards",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-policy-standards-1",
+          "assertion": "Exact pins and unambiguous mode/stage selection are required.",
+          "discriminating_case": "Floating/unknown versions, invalid levels, baseline-as-external, empty or duplicate stages cannot resolve."
+        },
+        {
+          "verification": "V-policy-standards-2",
+          "assertion": "Equivalent stage ordering preserves identity; changed mode or membership changes it.",
+          "discriminating_case": "Reordering stages must not invalidate identity; changing assess to require must invalidate it."
+        },
+        {
+          "verification": "V-policy-standards-3",
+          "assertion": "All bundled derived/format profiles retain incomplete-conformance status.",
+          "discriminating_case": "A derived SSDF/OSPS or SLSA/CycloneDX format selection cannot claim a complete assessment mapping."
+        },
+        {
+          "verification": "V-policy-standards-4",
+          "assertion": "Guidance has no verdict; assessment does not block; required failed rollback blocks only selected delivery, with idempotent schema-valid projection.",
+          "discriminating_case": "A failed MinimumCD rollback may not block integration or disappear from its independent assessment."
+        },
+        {
+          "verification": "V-policy-standards-5",
+          "assertion": "Complete current mapping can pass; missing required evidence blocks selected boundary; outside boundary no assessment; baseline failure still blocks.",
+          "discriminating_case": "A delivery selection cannot claim pre-merge assessment or clear an OPDEV-FLOW failure."
+        },
+        {
+          "verification": "V-policy-standards-6",
+          "assertion": "Partial/format mappings remain unverified even with green contributing rules; changed definition is rejected.",
+          "discriminating_case": "Synthetic all-green rule findings cannot turn a partial SSDF or provenance mapping into conformance."
+        },
+        {
+          "verification": "V-policy-standards-7",
+          "assertion": "Known failed/error/migration/unverified commands remain visible including colliding result names.",
+          "discriminating_case": "Projection cannot delete a suite whose ID matches a generated standard ID; unique gate blockers do not drop underlying results."
+        },
+        {
+          "verification": "V-policy-standards-8",
+          "assertion": "Current immutable mapping restores source/scope metadata and rejects duplicate/conflicting selections.",
+          "discriminating_case": "Forged certification, duplicate standards or legacy/new MinimumCD conflict cannot survive resolution."
+        },
+        {
+          "verification": "V-policy-standards-9",
+          "assertion": "Real CLI preview is read-only; three selected standards share exactly one current canonical invocation; no-exec stays missing.",
+          "discriminating_case": "Counter remains absent after preview, equals one after real check, and cannot increase during no-exec."
+        },
+        {
+          "verification": "V-policy-standards-10",
+          "assertion": "Invalid or conflicting selection and an unselected current MinimumCD assessment fail before command side effects.",
+          "discriminating_case": "Invalid schema, duplicate/legacy conflict, unknown version/mode/empty stages, guidance-only and another stage cannot launch the counter."
+        },
+        {
+          "verification": "V-policy-standards-11",
+          "assertion": "Saved report validation recomputes standard results and metadata, not only gate blockers.",
+          "discriminating_case": "Changing failure to error with the same blocker ID or changing the source claim to certified makes the saved view invalid."
+        },
+        {
+          "verification": "V-policy-standards-12",
+          "assertion": "Partial, gap and empty rule mappings stay unverified.",
+          "discriminating_case": "An empty mapping cannot pass by vacuous all-green aggregation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed all twelve required targets and actual assertions: exact pure identity, stages, complete-mapping limits, independent/additive verdicts, baseline preservation, original failure outcomes, saved-report integrity and real CLI count/nonexecution. Current stage canonical suite execution remains required. Synthetic tests verify plumbing and claim boundaries, not organizational conformance, test adequacy for every product, live-agent effectiveness or developer consent. Bound known inputs are not an automatically exhaustive dependency graph.",
+        "subject_sha256": "69762f817adee49b50d1c180d57ee1e4f75e3435763be702c2b1d719f66956cb"
       }
     }
   ]
