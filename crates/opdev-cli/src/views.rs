@@ -107,7 +107,10 @@ fn outcome_name(outcome: Outcome) -> &'static str {
 
 fn validate_report(report: &CheckReport) -> Result<()> {
     let catalog = opdev_core::catalog_for_version(report.catalog_version)?;
-    if !matches!((report.schema, report.catalog_version), (1, 2) | (2, 3)) {
+    if !matches!(
+        (report.schema, report.catalog_version),
+        (1, 2) | (2, 3) | (3, 4)
+    ) {
         bail!("unsupported report schema or catalog version; use the originating CLI");
     }
     // Saved reports must retain the complete canonical catalog order.

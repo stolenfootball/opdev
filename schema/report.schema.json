@@ -5,11 +5,13 @@
   "additionalProperties": false,
   "required": ["schema", "catalog_version", "subject", "evaluated_at", "rules", "checks", "gates"],
   "properties": {
-    "schema": { "enum": [1, 2] },
+    "schema": { "enum": [1, 2, 3] },
     "engineering": {
       "type": "object", "additionalProperties": false, "required": ["version", "minimumcd"],
       "properties": {
-        "version": { "const": "1" },
+        "version": { "enum": ["1", "2"] },
+        "definition_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "stage": { "enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"] },
         "minimumcd": {
           "oneOf": [ { "type": "null" }, {
             "type": "object", "additionalProperties": false,
@@ -44,9 +46,18 @@
     }
   },
   "allOf": [
+    { "if": { "properties": { "schema": { "const": 1 } } },
+      "then": { "not": { "required": ["engineering"] } } },
     { "if": { "properties": { "schema": { "const": 2 } } },
-      "then": { "required": ["engineering"], "properties": { "catalog_version": { "const": 3 } } },
-      "else": { "not": { "required": ["engineering"] } } }
+      "then": { "required": ["engineering"], "properties": {
+        "catalog_version": { "const": 3 },
+        "engineering": { "properties": { "version": { "const": "1" } }, "not": { "anyOf": [{"required":["definition_sha256"]},{"required":["stage"]}] } }
+      } } },
+    { "if": { "properties": { "schema": { "const": 3 } } },
+      "then": { "required": ["engineering"], "properties": {
+        "catalog_version": { "const": 4 },
+        "engineering": { "required": ["definition_sha256", "stage"], "properties": { "version": { "const": "2" } } }
+      } } }
   ],
   "$defs": {
     "outcome": {

@@ -14,6 +14,7 @@ pub use execution_policy::{
     ExecutionPolicy, ProducerPolicy, prepare_execution_bindings, run_canonical_producer,
 };
 mod plan;
+mod policy_controls;
 mod report;
 mod requirements;
 mod review;

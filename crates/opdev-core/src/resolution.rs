@@ -272,10 +272,7 @@ mod tests {
             }
         }
         assert_eq!(before, serde_json::to_vec(&catalog_for_version(3)?)?);
-        assert!(
-            catalog_for_version(4).is_err(),
-            "preview cannot activate enforcement"
-        );
+        assert_eq!(catalog_for_version(4)?.rules.len(), 46);
         assert_ne!(one.definition_sha256, two.definition_sha256);
         assert_eq!(two, resolve_engineering_policy("2")?);
         Ok(())

@@ -10,6 +10,9 @@ const EMBEDDED_CATALOG: &str = include_str!("../../../rules/core.yaml");
 /// Failures encountered while loading the normative rule catalog.
 #[derive(Debug, Error)]
 pub enum CatalogError {
+    /// Unknown engineering identities cannot select a legacy catalog.
+    #[error("unsupported engineering policy {0}; no catalog selected")]
+    UnsupportedEngineering(String),
     /// Unknown policy/catalog cannot fall back to a weaker default.
     #[error("rule catalog {0} is unsupported; use the originating compatible CLI")]
     UnsupportedVersion(u32),

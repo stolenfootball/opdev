@@ -7,7 +7,7 @@ use crate::{CatalogError, Gate, RuleCatalog, embedded_catalog};
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct EngineeringPolicy {
-    /// Exact engineering baseline version (currently `1`).
+    /// Exact engineering baseline version (`1` or `2`).
     pub version: String,
     /// Exact `MinimumCD` mapping version, or no requested assessment.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -66,11 +66,43 @@ pub fn rule_class(id: &str) -> Option<RuleClass> {
     }
 }
 
+/// Membership is versioned independently of historical rule definitions.
+#[must_use]
+pub fn engineering_rule_class(version: &str, id: &str) -> Option<RuleClass> {
+    match version {
+        "1" => rule_class(id),
+        "2" => match id {
+            "MCD-FLOW-001" | "MCD-DELIVERY-001" | "MCD-PIPELINE-001" | "MCD-RECOVERY-001" => {
+                Some(RuleClass::MinimumcdAssessment)
+            }
+            "OPDEV-FLOW-001" | "OPDEV-DELIVERY-001" | "OPDEV-PIPELINE-001"
+            | "OPDEV-RECOVERY-001" => Some(RuleClass::Conditional),
+            _ => rule_class(id),
+        },
+        _ => None,
+    }
+}
+
 /// Resolve a supported catalog without changing historical catalog 2.
 ///
 /// # Errors
 /// Rejects unknown versions and malformed embedded rules.
 pub fn catalog_for_version(version: u32) -> Result<RuleCatalog, CatalogError> {
+    if version == 4 {
+        let mut catalog = catalog_for_version(3)?;
+        let additions = RuleCatalog::from_yaml(include_str!("../../../rules/engineering-2.yaml"))?;
+        catalog.catalog_version = 4;
+        catalog.rules.extend(additions.rules);
+        for rule in &mut catalog.rules {
+            let class = engineering_rule_class("2", rule.id.as_str())
+                .ok_or_else(|| CatalogError::Unclassified(rule.id.clone()))?;
+            if class == RuleClass::MinimumcdAssessment {
+                rule.gates = vec![Gate::Compliance];
+            }
+        }
+        catalog.validate()?;
+        return Ok(catalog);
+    }
     let mut catalog = embedded_catalog()?;
     if version == 2 {
         return Ok(catalog);

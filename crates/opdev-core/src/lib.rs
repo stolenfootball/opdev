@@ -9,7 +9,8 @@ mod outcome;
 mod policy;
 mod resolution;
 pub use policy::{
-    EngineeringPolicy, MaintenanceBranch, RuleClass, catalog_for_version, rule_class,
+    EngineeringPolicy, MaintenanceBranch, RuleClass, catalog_for_version, engineering_rule_class,
+    rule_class,
 };
 pub use resolution::{
     PolicyChange, PolicyDisposition, PolicyResolution, PolicyResolutionError, ResolvedControl,
@@ -30,7 +31,7 @@ pub use evidence::{
 pub use outcome::{AggregateVerdict, Outcome};
 
 /// Project-manifest schema understood by this release.
-pub const PROJECT_SCHEMA_VERSION: u32 = 3;
+pub const PROJECT_SCHEMA_VERSION: u32 = 4;
 
 /// Project-command extension protocol understood by this release.
 pub const EXTENSION_PROTOCOL_VERSION: &str = "1.0.0";

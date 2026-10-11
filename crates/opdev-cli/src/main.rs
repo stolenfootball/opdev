@@ -1433,6 +1433,18 @@ fn apply_remote_audit(
     apply_required_remote(report, "MCD-CI-001", &qualification);
     apply_required_remote(report, "MCD-TEST-002", &qualification);
     apply_required_remote(report, "MCD-FLOW-001", &flow);
+    if report
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.version == "2")
+    {
+        // A failing check required for this exact boundary cannot be waived by an
+        // independence judgment. Green remote execution supports, but does not
+        // replace, the reviewed control's scope/restoration assessment.
+        if flow.outcome != Outcome::NotApplicable {
+            apply_required_remote(report, "OPDEV-FLOW-001", &flow);
+        }
+    }
     reaggregate(report)?;
     Ok(())
 }
@@ -1537,13 +1549,23 @@ fn print_human_report(report: &CheckReport) {
             }
             if let Some(rule) = catalog.find(&result.rule_id) {
                 println!("{} [{}]: {:?}", rule.title, rule.id, result.outcome);
-                if report.engineering.is_some()
-                    && opdev_core::rule_class(rule.id.as_str())
+                if report.engineering.as_ref().is_some_and(|p| {
+                    opdev_core::engineering_rule_class(&p.version, rule.id.as_str())
                         == Some(opdev_core::RuleClass::MinimumcdAssessment)
-                {
-                    println!(
-                        "  MinimumCD assessment only; this finding does not block engineering gates."
-                    );
+                }) {
+                    if report
+                        .engineering
+                        .as_ref()
+                        .is_some_and(|p| p.version == "1")
+                    {
+                        println!(
+                            "  MinimumCD assessment only; this finding does not block engineering gates."
+                        );
+                    } else {
+                        println!(
+                            "  Outside the engineering baseline; selected standards use their exact mappings and separate verdicts."
+                        );
+                    }
                 }
                 if let Some(diagnostic) = &result.diagnostic {
                     println!("  {diagnostic}");

@@ -10,7 +10,7 @@ pub mod clean_adoption;
 pub mod requirements;
 pub use acceptance::{
     AcceptanceCondition, AcceptanceEvidence, AcceptanceMethod, AcceptanceReview, AcceptanceScope,
-    AcceptanceVerification, RequirementSource, TrackedEvidence,
+    AcceptanceVerification, PolicyControlReview, RequirementSource, TrackedEvidence,
 };
 mod bootstrap;
 mod discovery;

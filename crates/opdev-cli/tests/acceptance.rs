@@ -78,6 +78,7 @@ fn project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     git(root, &["add", "."])?;
     let acceptance = AcceptanceEvidence {
+        policy_controls: None,
         requirements: None,
         safeguards: None,
         scope: AcceptanceScope::Behavioral,
@@ -144,6 +145,159 @@ fn outcome(report: &Value, id: &str) -> Result<String> {
         .as_str()
         .ok_or("outcome")?
         .into())
+}
+
+fn recovery_capabilities() -> opdev_project::SafeguardPolicy {
+    use opdev_project::{Capability, CapabilityFact, CapabilityState, SafeguardPolicy};
+    SafeguardPolicy {
+        version: 1,
+        review_reference: "fixture".into(),
+        capabilities: Capability::ALL
+            .into_iter()
+            .map(|c| {
+                (
+                    c,
+                    CapabilityFact {
+                        state: if c == Capability::Distribution {
+                            CapabilityState::Present
+                        } else {
+                            CapabilityState::Absent
+                        },
+                        rationale: "Isolated control-plumbing fixture; not real product adoption"
+                            .into(),
+                        authority: "implementation".into(),
+                    },
+                )
+            })
+            .collect(),
+    }
+}
+
+fn recovery_project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
+    use opdev_project::{
+        Capability, CapabilityImpact, CiProvider, DeliveryStatus, Environment, Impact,
+        PolicyControlReview, ProjectManifest, RecoveryStrategy, SafeguardReview,
+    };
+    let (temp, mut ledger) = project()?;
+    let root = temp.path();
+    let mut manifest = ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    manifest.schema = 4;
+    manifest.assurance.profiles.clear();
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "2".into(),
+        minimumcd: Some("1".into()),
+        review_reference: "synthetic fixture selection".into(),
+        maintenance_branches: vec![],
+    });
+    manifest.assurance.safeguards = Some(recovery_capabilities());
+    manifest.project.ci.provider = CiProvider::Gitlab;
+    manifest.delivery.status = DeliveryStatus::Configured;
+    manifest.delivery.recovery.strategy = RecoveryStrategy::Restore;
+    manifest.delivery.environments = vec![Environment {
+        name: "isolated local fixture".into(),
+        production_like: true,
+    }];
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    fs::write(
+        root.join("requirements.md"),
+        "R1: Interrupted replacement preserves the last committed file; no external effects.\n",
+    )?;
+    fs::write(
+        root.join("tests.py"),
+        "import tempfile\nfrom pathlib import Path\nwith tempfile.TemporaryDirectory() as d:\n    current = Path(d) / 'current'\n    candidate = Path(d) / 'candidate'\n    current.write_bytes(b'acknowledged-write')\n    candidate.write_bytes(b'incomplete-transition')\n    candidate.unlink()  # recovery after interruption before replacement\n    assert current.read_bytes() == b'acknowledged-write'\n    assert not candidate.exists()\n",
+    )?;
+    git(root, &["add", "."])?;
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    ledger.changes[0].assertions = vec![opdev_project::EvidenceAssertion {
+        rule_id: "OPDEV-RECOVERY-001".parse()?, outcome: Outcome::Passed,
+        summary: "Synthetic exact-control review: interruption before replacement restores committed bytes by discarding incomplete candidate; no external effects or unacknowledged-write guarantee. Tests routing, not production recovery adequacy.".into(),
+        evidence: vec![opdev_core::Evidence {
+            kind: "synthetic_review".into(), summary: "Inspect the actual restore condition and assertion; execution is separate".into(),
+            location: Some("requirements.md and tests.py".into()),
+        }],
+    }];
+    let a = ledger.changes[0].acceptance.as_mut().ok_or("acceptance")?;
+    a.rationale =
+        "Isolated recovery/control fixture; real required CI and other controls remain unverified."
+            .into();
+    a.conditions[0].statement =
+        "Interrupted replacement preserves acknowledged committed bytes".into();
+    a.conditions[0].source = opdev_project::RequirementSource::Tracked(reference(
+        root,
+        "requirements.md",
+        "R1: Interrupted replacement",
+    )?);
+    a.verifications[0].target = reference(
+        root,
+        "tests.py",
+        "assert current.read_bytes() == b'acknowledged-write'",
+    )?;
+    a.verifications[0].assertion = "Exact committed bytes survive interrupted replacement".into();
+    a.verifications[0].discriminating_case =
+        "An incomplete candidate must not replace the acknowledged bytes".into();
+    a.safeguards = Some(SafeguardReview {
+        version: 1,
+        impacts: [(
+            Capability::Distribution,
+            CapabilityImpact {
+                impact: Impact::Unaffected,
+                rationale: "Fixture control evaluation changes no installation/update path".into(),
+            },
+        )]
+        .into(),
+        objectives: std::collections::BTreeMap::default(),
+    });
+    a.policy_controls = Some(PolicyControlReview {
+        version: "2".into(),
+        definition_sha256: opdev_core::resolve_engineering_policy("2")?.definition_sha256,
+        stage: TestStage::Delivery,
+        bindings: [("OPDEV-RECOVERY-001".into(), vec!["R1".into()])].into(),
+    });
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    Ok((temp, ledger))
+}
+
+#[test]
+fn policy_two_recovery_uses_real_execution_not_a_strategy_or_another_stage() -> Result {
+    let (temp, mut ledger) = recovery_project()?;
+    let root = temp.path();
+    let manifest = opdev_project::ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    let absent = serde_json::to_value(opdev_engine::evaluate(
+        root,
+        &manifest,
+        opdev_engine::CheckOptions {
+            test_stage: TestStage::Delivery,
+            extension_stage: opdev_project::ExtensionStage::Deliver,
+            execute_checks: false,
+        },
+    )?)?;
+    assert_eq!(outcome(&absent, "OPDEV-RECOVERY-001")?, "unverified");
+    let executed = check(root, &["--delivery"])?;
+    assert_eq!(outcome(&executed, "OPDEV-RECOVERY-001")?, "passed");
+    assert_ne!(
+        outcome(&executed, "MCD-RECOVERY-002")?,
+        "passed",
+        "safe restoration is not literal rollback"
+    );
+    assert_eq!(
+        outcome(&check(root, &[])?, "OPDEV-RECOVERY-001")?,
+        "unverified",
+        "delivery review cannot qualify pre-merge"
+    );
+    ledger.changes[0]
+        .acceptance
+        .as_mut()
+        .ok_or("acceptance")?
+        .policy_controls = None;
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    assert_eq!(
+        outcome(&check(root, &["--delivery"])?, "OPDEV-RECOVERY-001")?,
+        "unverified",
+        "green execution still needs reviewed control links"
+    );
+    Ok(())
 }
 
 #[test]

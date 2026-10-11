@@ -104,11 +104,23 @@ impl ProjectManifest {
     /// # Errors
     /// Returns an error for invalid embedded rules.
     pub fn catalog(&self) -> Result<RuleCatalog, opdev_core::CatalogError> {
-        catalog_for_version(if self.assurance.engineering.is_some() {
-            3
-        } else {
-            2
-        })
+        catalog_for_version(
+            match self
+                .assurance
+                .engineering
+                .as_ref()
+                .map(|p| p.version.as_str())
+            {
+                Some("2") => 4,
+                Some("1") => 3,
+                Some(unknown) => {
+                    return Err(opdev_core::CatalogError::UnsupportedEngineering(
+                        unknown.into(),
+                    ));
+                }
+                None => 2,
+            },
+        )
     }
     /// Missing local policy input for a requested remote qualification.
     /// This observation neither contacts a provider nor selects policy.
@@ -203,17 +215,21 @@ impl ProjectManifest {
     }
 
     fn validate_engineering(&self) -> Result<(), ManifestError> {
-        if !matches!(self.schema, 1 | 2 | PROJECT_SCHEMA_VERSION) {
+        if !matches!(self.schema, 1 | 2 | 3 | PROJECT_SCHEMA_VERSION) {
             return Err(ManifestError::UnsupportedSchema {
                 found: self.schema,
                 supported: PROJECT_SCHEMA_VERSION,
             });
         }
         match (&self.assurance.engineering, self.schema) {
-            (Some(policy), 3) => {
-                if policy.version != "1" || policy.minimumcd.as_deref().is_some_and(|v| v != "1")
+            (Some(policy), 3 | 4) => {
+                let expected = if self.schema == 3 { "1" } else { "2" };
+                if self.schema == 4 && self.assurance.safeguards.is_none() {
+                    return Err(ManifestError::Semantic("Engineering policy 2 needs reviewed capability safeguards. Missing capability assessment cannot waive applicable controls.".into()));
+                }
+                if policy.version != expected || policy.minimumcd.as_deref().is_some_and(|v| v != "1")
                     || policy.review_reference.trim().is_empty() {
-                    return Err(ManifestError::Semantic("engineering policy requires version 1, optional MinimumCD mapping version 1, and an actual developer review reference".into()));
+                    return Err(ManifestError::Semantic("Project schema 3 selects engineering policy 1; schema 4 selects policy 2. Use an exact supported selection and actual decision reference; optional MinimumCD mapping remains version 1.".into()));
                 }
                 let mut names = HashSet::new();
                 for branch in &policy.maintenance_branches {
@@ -229,7 +245,7 @@ impl ProjectManifest {
                 }
             }
             (None, 1 | 2) => {}
-            _ => return Err(ManifestError::Semantic("engineering policy requires explicit project schema 3 migration; schema 3 requires its exact policy selection".into())),
+            _ => return Err(ManifestError::Semantic("Engineering policy requires explicit schema-3 or schema-4 migration and its matching exact policy selection.".into())),
         }
         Ok(())
     }
@@ -240,7 +256,7 @@ impl ProjectManifest {
             policy
                 .validate()
                 .map_err(|e| ManifestError::Semantic(e.to_string()))?;
-            if self.schema != 3
+            if !matches!(self.schema, 3 | 4)
                 || self.layout.as_ref().is_none_or(|l| l.version != 2)
                 || self
                     .assurance
@@ -248,13 +264,13 @@ impl ProjectManifest {
                     .as_ref()
                     .is_none_or(|s| s.version != 2)
             {
-                return Err(ManifestError::Semantic("Requirements catalog needs explicit schema-3, layout-2 and MR/PR review-storage-2 selection; upgrade preview never selects these automatically".into()));
+                return Err(ManifestError::Semantic("Requirements catalog needs explicit schema 3 or 4, layout 2 and MR/PR review storage 2; preview never selects these automatically.".into()));
             }
         }
         if let Some(storage) = &self.assurance.review_storage {
-            if self.schema != 3 {
+            if !matches!(self.schema, 3 | 4) {
                 return Err(ManifestError::Semantic(
-                    "external semantic review requires explicit schema-3 project migration".into(),
+                    "External semantic review requires explicit schema-3 or schema-4 project migration.".into(),
                 ));
             }
             storage.validate()?;
@@ -266,11 +282,11 @@ impl ProjectManifest {
             }
         }
         if let Some(layout) = &self.layout
-            && (self.schema != 3
+            && (!matches!(self.schema, 3 | 4)
                 || !matches!(layout.version, 1 | 2)
                 || layout.review_reference.trim().is_empty())
         {
-            return Err(ManifestError::Semantic("Strict layout needs project schema 3, supported layout version 1 or 2 and the actual migration decision reference".into()));
+            return Err(ManifestError::Semantic("Strict layout needs project schema 3 or 4, layout version 1 or 2 and the actual migration decision reference.".into()));
         }
         if let Some(policy) = &self.assurance.safeguards
             && (self.assurance.engineering.is_none()

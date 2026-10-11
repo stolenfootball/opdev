@@ -232,6 +232,9 @@ pub struct AcceptanceReview {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct AcceptanceEvidence {
+    /// Current policy duties linked to existing conditions, not another evidence store.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub policy_controls: Option<PolicyControlReview>,
     /// Current catalog and accepted baseline selection; no duplicate enduring criteria.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub requirements: Option<crate::requirements::ChangeReview>,
@@ -250,9 +253,24 @@ pub struct AcceptanceEvidence {
     pub review: AcceptanceReview,
 }
 
+/// Source-, definition- and stage-bound links within the ordinary acceptance review.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PolicyControlReview {
+    /// Exact engineering policy version.
+    pub version: String,
+    /// Resolved definition identity; not an authorization or execution record.
+    pub definition_sha256: String,
+    /// Boundary this review actually covers.
+    pub stage: crate::TestStage,
+    /// Control IDs to existing condition or durable criterion IDs.
+    pub bindings: std::collections::BTreeMap<String, Vec<String>>,
+}
+
 impl Default for AcceptanceEvidence {
     fn default() -> Self {
         Self {
+            policy_controls: None,
             safeguards: None,
             requirements: None,
             scope: AcceptanceScope::Behavioral,
@@ -282,6 +300,9 @@ impl AcceptanceEvidence {
             "conditions": self.conditions, "verifications": self.verifications,
         });
         // Omission keeps every historical digest stable. Present mappings are material.
+        if let Some(controls) = &self.policy_controls {
+            payload["policy_controls"] = serde_json::to_value(controls)?;
+        }
         if let Some(safeguards) = &self.safeguards {
             payload["safeguards"] = serde_json::to_value(safeguards)?;
         }
@@ -295,6 +316,31 @@ impl AcceptanceEvidence {
     }
 
     pub(crate) fn validate(&self) -> Result<(), EvidenceError> {
+        if let Some(controls) = &self.policy_controls {
+            let definition = opdev_core::resolve_engineering_policy(&controls.version)
+                .map_err(|e| EvidenceError::Semantic(e.to_string()))?;
+            if controls.version != "2"
+                || controls.definition_sha256 != definition.definition_sha256
+                || controls.bindings.iter().any(|(id, conditions)| {
+                    !matches!(
+                        id.as_str(),
+                        "OPDEV-FLOW-001"
+                            | "OPDEV-DELIVERY-001"
+                            | "OPDEV-PIPELINE-001"
+                            | "OPDEV-RECOVERY-001"
+                    ) || conditions.is_empty()
+                        || conditions.len() > 256
+                        || conditions.iter().any(|c| c.trim().is_empty())
+                        || conditions
+                            .iter()
+                            .collect::<std::collections::HashSet<_>>()
+                            .len()
+                            != conditions.len()
+                })
+            {
+                return Err(EvidenceError::Semantic("Policy control links need the exact supported definition, known controls and nonempty unique condition IDs.".into()));
+            }
+        }
         let mut ids = std::collections::HashSet::new();
         for condition in &self.conditions {
             if condition.id.trim().is_empty()

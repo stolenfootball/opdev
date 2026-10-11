@@ -114,7 +114,7 @@ pub(super) fn run(args: &PolicyArgs) -> Result<ExitCode> {
             let proposed = resolve_engineering_policy(engineering)?;
             let catalog = project.catalog()?;
             let (added_engineering, removed_engineering, changed_engineering) =
-                difference(&catalog, current.is_some(), &proposed);
+                difference(&catalog, current.map(|p| p.version.as_str()), &proposed);
             let preview = Preview {
                 schema: 1,
                 current_project_schema: project.schema,
@@ -173,16 +173,17 @@ fn print_resolution(policy: &PolicyResolution) {
 
 fn difference(
     catalog: &opdev_core::RuleCatalog,
-    engineering_selected: bool,
+    engineering: Option<&str>,
     proposed: &PolicyResolution,
 ) -> (Vec<String>, Vec<String>, Vec<String>) {
     let before: Vec<_> = catalog
         .rules
         .iter()
         .filter(|r| {
-            !engineering_selected
-                || opdev_core::rule_class(r.id.as_str())
+            engineering.is_none_or(|version| {
+                opdev_core::engineering_rule_class(version, r.id.as_str())
                     != Some(opdev_core::RuleClass::MinimumcdAssessment)
+            })
         })
         .collect();
     let after: Vec<_> = proposed.controls.iter().map(|c| &c.rule).collect();

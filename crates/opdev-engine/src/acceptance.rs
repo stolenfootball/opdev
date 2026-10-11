@@ -86,6 +86,11 @@ fn inspect(
             "The current change needs a reviewed acceptance inventory and assertion mappings: list its expected results and identify the test assertions or observations that demonstrate each one in .opdev/evidence.yaml",
         );
     };
+    if !control_selection_matches(acceptance, manifest, stage) {
+        return incomplete(
+            "Policy control review belongs to a different policy or stage. Review this boundary; no older selection or earlier execution substituted.",
+        );
+    }
     let review = &acceptance.review;
     if !review_is_current(acceptance, change) {
         return incomplete(
@@ -192,6 +197,21 @@ fn acceptance_policy_gap(
         return Some("Work-based requirements need authenticated MR/PR review policy 2. A local observation cannot substitute for the current authority.".into());
     }
     safeguard_gap(root, manifest, acceptance)
+}
+
+fn control_selection_matches(
+    acceptance: &opdev_project::AcceptanceEvidence,
+    manifest: &ProjectManifest,
+    stage: TestStage,
+) -> bool {
+    acceptance.policy_controls.as_ref().is_none_or(|c| {
+        c.stage == stage
+            && manifest
+                .assurance
+                .engineering
+                .as_ref()
+                .is_some_and(|p| p.version == c.version)
+    })
 }
 
 fn source_policy_allows(
