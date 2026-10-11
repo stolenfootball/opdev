@@ -146,7 +146,7 @@
       "id": "V-runtime-pin-1",
       "target": {
         "path": "crates/opdev-cli/tests/installer.rs",
-        "sha256": "07bf454065572a96d57be2d798c43095eecf8bb8af77a64d85f7b1bbb32b79d6",
+        "sha256": "0ec525685405b591ccea7029595d33b4f18de5f40b890e7ac7713143bb7e0b59",
         "excerpt": "fn runtime_pin_is_compatible_and_covers_supported_platforms("
       },
       "inputs": [
@@ -324,9 +324,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "b8b7645f3089e0519096464ae68eb81a8d37610018c301fab95dbe59ef7fa94e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "c8f38e6c2a5813d130aecda829f5b8f638fd933c22e44bb7748a8a27dba0f152"
       }
     },
     {
@@ -344,9 +344,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "5121d55b1b70e94523188b6076ace4b5c63764f7f5030dc607079acdae47a0d1"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "c9d8c9c6aabca16142f9ba0423e54822c77739b702d6dbeef05fa436d70fef1c"
       }
     },
     {
@@ -364,9 +364,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "5108ac8253f9b754a887ecd13a4e6c7add104ffec865f06a92cc08b9c9c3038d"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "3ca92eea980b45af159d06bd200768f98adf048f20f03215a62b55285e36fe60"
       }
     }
   ]

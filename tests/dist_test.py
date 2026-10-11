@@ -106,12 +106,36 @@ class ReleaseTests(unittest.TestCase):
                 publisher.publish(api, bundle, "v0.1.2", "a" * 40)
             self.assertTrue(api.release["draft"])
             self.assertEqual(len(api.uploaded), 1)
+            retained = dict(api.uploaded)
+            self.assertEqual(api.published, 0)
             publisher.publish(api, bundle, "v0.1.2", "a" * 40)
             self.assertFalse(api.release["draft"])
+            expected = publisher.inventory(bundle, "v0.1.2", "a" * 40)
+            self.assertEqual(api.uploaded, {n: "sha256:" + h for n, h in expected.items()})
+            self.assertTrue(all(api.uploaded[n] == h for n, h in retained.items()))
             uploads = len(api.uploaded)
             publisher.publish(api, bundle, "v0.1.2", "a" * 40)
             self.assertEqual(len(api.uploaded), uploads)
+            self.assertEqual(len(api.upload_calls), uploads)
+            self.assertEqual(len(set(api.upload_calls)), uploads)
             self.assertEqual(api.published, 1)
+
+    def test_resume_refuses_later_conflicting_asset_without_changing_remote_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle = Path(tmp)
+            self.bundle(bundle)
+            api = FakeGitHub()
+            api.interrupt_upload = True
+            with self.assertRaisesRegex(RuntimeError, "interrupted upload"):
+                publisher.publish(api, bundle, "v0.1.2", "a" * 40)
+            original = next(iter(api.uploaded))
+            api.uploaded[original] = "sha256:later-conflicting-content"
+            before = dict(api.uploaded)
+            with self.assertRaisesRegex(ValueError, "Existing release assets differ"):
+                publisher.publish(api, bundle, "v0.1.2", "a" * 40)
+            self.assertEqual(api.uploaded, before)
+            self.assertTrue(api.release["draft"])
+            self.assertEqual(api.published, 0)
 
     def test_refuses_wrong_tag_mutability_tampering_and_missing_signatures(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -152,6 +176,7 @@ class FakeGitHub:
         self.immutable = immutable
         self.release = None
         self.uploaded = {}
+        self.upload_calls = []
         self.published = 0
         self.interrupt_upload = False
 
@@ -180,7 +205,9 @@ class FakeGitHub:
             if self.interrupt_upload and self.uploaded:
                 self.interrupt_upload = False
                 raise RuntimeError("interrupted upload")
-            self.uploaded[path.split("name=")[1]] = "sha256:" + hashlib.sha256(binary).hexdigest()
+            name = path.split("name=")[1]
+            self.upload_calls.append(name)
+            self.uploaded[name] = "sha256:" + hashlib.sha256(binary).hexdigest()
             return {}
         if method == "PATCH":
             self.published += 1

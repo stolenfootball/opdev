@@ -6,7 +6,6 @@ fn managed_runtime_bootstrap_regressions() -> Result<(), Box<dyn std::error::Err
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     for suite in [
         "tests/runtime_test.py",
-        "tests/dist_test.py",
         "tests/hook_test.py",
         "tests/arm64_gate_test.py",
     ] {
