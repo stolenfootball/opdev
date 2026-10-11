@@ -91,6 +91,34 @@ Revisit controls that produce false blocks, repeated questionnaires, duplicate
 execution or unsafe passes. Revisions change explicit versioned semantics rather
 than adding hidden exceptions. Existing source/stage reuse restrictions remain.
 
+## Current-control verification binding
+
+Policy-2 replacement controls consume the ordinary current change review, not
+project-level generic passing assertions. Optional `acceptance.policy_controls`
+contains exact `version`, `definition_sha256`, `stage` and a bounded `bindings`
+map from the four replacement IDs to existing condition/criterion IDs. The
+containing acceptance digest includes this object when present; omission preserves
+historical digests. Unknown controls, mismatched versions/digests, duplicate or
+empty links are invalid, not silently discarded. Legacy catalogs reject this
+new selection rather than reinterpret it.
+
+Qualification requires the current acceptance review and its actual stage
+verification. Durable criterion links require that stage's verification plan and
+current catalog evaluation; change-only links require automated verification.
+Review-only mapping judgments alone are not observations. Recovery requires at
+least one automated exercised path among its all-required linked conditions.
+Current failed/error/migration findings remain visible; missing or stale review
+cannot convert them into passing. Reports identify the exact resolved definition
+and evaluated stage, without making saved reports reusable execution evidence.
+
+Semantic adequacy still requires review of the entire control statement. The CLI
+does not infer dependency independence, recovery safety, inventory completeness or
+developer permission from a link, strategy name, green command or stage label.
+Requested provider qualification for the current boundary cannot be waived by
+independence review. Known absence of distribution and supported operations must
+be reviewed before excluding a replacement delivery control; missing facts remain
+unverified. These rules add no per-control approval round or execution duplication.
+
 ## Standards and organization policies
 
 Exact-version selection has three modes:

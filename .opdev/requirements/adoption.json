@@ -99,7 +99,7 @@
       "id": "V-initialization-1",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "12b5d1b1447cb67caaed72c362f87b5504cca2e3525f4df13c944823afbde6b9",
+        "sha256": "41df58bf617952be5a182b8d86703d5b322c3e3386884cd6a921d300a5f391c8",
         "excerpt": "fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy("
       },
       "inputs": [
@@ -134,7 +134,7 @@
       "id": "V-approval-1",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "12b5d1b1447cb67caaed72c362f87b5504cca2e3525f4df13c944823afbde6b9",
+        "sha256": "41df58bf617952be5a182b8d86703d5b322c3e3386884cd6a921d300a5f391c8",
         "excerpt": "fn approval_is_separate_stale_choices_fail_and_progress_preserves_approval("
       },
       "inputs": [
@@ -205,7 +205,7 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "23cb7bb1f3a77540d013f3523e780ae3ed4ffec662f53d8ef2d3c15dd9c47cd9",
+          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
@@ -265,7 +265,7 @@
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "23cb7bb1f3a77540d013f3523e780ae3ed4ffec662f53d8ef2d3c15dd9c47cd9",
+          "sha256": "e6f96c69f811652a1577d7db304f6d20f364c3b0417ee41e0aa997d9250831e9",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
@@ -315,7 +315,7 @@
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "89c01dc6ea967ee828922d0fc3500c0a66cfc4815c66211eb4f81bfa9b1c00a4",
+          "sha256": "e8165b3d4ebf31c30b6fa211803a28e25e6f2bd363f583bd15aff12d5e8db403",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
@@ -352,9 +352,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "9554c207b5e9fd381b7e917c397b8ae06711745d24eb949dfadbd9456ea2c7b3"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "2e16c1d9e53d320ac1bf19ddca817a27dedfdeb52a7ff6a1ccb244b826406ccc"
       }
     },
     {
@@ -372,9 +372,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "f00cc9928c45efffd247c370b270c5fb5e4a2282801e0ff76fe7300f3e3f5c34"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "a45ff4d9c013729c5455491779a782a9ebd8b00ed30ab77e978d7b1b92d0526b"
       }
     },
     {
@@ -392,9 +392,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "72b06a244217a3b664664f55286588aaf3cb7e68cb8db65ccd5d5cbd542d0a18"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. An otherwise empty repository and one with product code both need an explicit contract. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "dd1f85d3af7cd4557e6b7b22ec883824f137f98c32bcb9fd9406ea3bf8397735"
       }
     },
     {
@@ -412,9 +412,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "4da6e2cefe04a4e3f919819d1bb2afcf7e96568f90f4efefc93f0ccebbbb5f9e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "f1e1208b620d0d4e4fc7c890fe4fa562ae926c00c519841acfe32dae84d97b43"
       }
     },
     {
@@ -432,9 +432,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "07d0c151c88f686eb70fa4f983b32b2c321b3773d97c4969fa0acfc27db6699f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "2ccce1d148fb42de9cc745c83ff70bdd456df8f9e1a5fff7e35fe666298c3b84"
       }
     },
     {
@@ -452,9 +452,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "3f88336a79546a15520d8514c4c6dee18f489d4ee98ef33296762ae11f453e87"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Changing integration from pending to implemented differs from changing its policy meaning. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "902bdff8ce6422e3f12f428b47f42b02785ebb36b4c012d0114813eddb51ad26"
       }
     },
     {
@@ -477,9 +477,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "5a26657210b8b329d0843376b1882649013a5cae94bb495993d2e634790f36a9"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "86aac4724740cb809c610947aa8d1d9dffe6447a68c24e0c16a79bd6115a02f5"
       }
     },
     {
@@ -502,9 +502,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "075036b367d2f2e4e8d59db85ca824b9f34e8379e73da58000f91b77cd8a87fa"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "abc427159dd58abd053eea5259dbbe0ff9f18e9bf6f690d633a97b9e2ec457b2"
       }
     },
     {
@@ -527,9 +527,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "17af4b0669c83efc695a2c26dac9b3f35f45a7fdd9584ec3171135b8a94eff70"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Interrupt after a subset of writes, resume, then alter a managed destination; never overwrite the later text or transfer old approval. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "41781b55360e3e2ab03b6b93d072a7e624ddca330844ecde5c4ec07c05d76843"
       }
     },
     {
@@ -547,9 +547,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "1c16c3c143b554bf83a950e18bde7db486e38f60dd075d5338abf79965bb5406"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "5817cdb3f612e2053cd022bc53d6825478e433b9e48e8b2125c822abca7e95b2"
       }
     },
     {
@@ -567,9 +567,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "bdb0c0e38c77c62b98b4ce300347067f0349d198692b90c40b619ae800f9539f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "334ded0d4f7edc0c87955a20d7ea02108435fc0014ba1c4c6817e8dba5e8d3da"
       }
     },
     {
@@ -587,9 +587,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "f07cdf03f5a8751d45f0c5e313efe67c9dc8f45ecb712f2320686cd668a983bc"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Unstaged deletion of staged junk and a Windows symlink placeholder must not make layout pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "3f6a2e0e1b8b29342f78641923f0b92f9bb7e295bd77d1f4c7349f76f1d9ce45"
       }
     }
   ]

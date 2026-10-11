@@ -10,6 +10,12 @@ use crate::{CheckReport, EvaluationError};
 pub struct EngineeringAssessment {
     /// Exact engineering policy version.
     pub version: String,
+    /// Exact embedded definition identity for policy 2; absent in legacy reports.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub definition_sha256: Option<String>,
+    /// Boundary actually evaluated, never an assertion that another stage ran.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub stage: Option<opdev_project::TestStage>,
     /// Absent means not requested, never passed or not applicable.
     pub minimumcd: Option<FrameworkAssessment>,
 }
@@ -46,6 +52,8 @@ impl EngineeringAssessment {
     pub(crate) fn requested(minimumcd: Option<&str>) -> Self {
         Self {
             version: "1".into(),
+            definition_sha256: None,
+            stage: None,
             minimumcd: minimumcd.map(|version| FrameworkAssessment {
                 version: version.into(),
                 source_version: String::new(),
@@ -54,6 +62,20 @@ impl EngineeringAssessment {
                 blocking_checks: vec![],
             }),
         }
+    }
+
+    pub(crate) fn for_policy(
+        policy: &opdev_core::EngineeringPolicy,
+        stage: opdev_project::TestStage,
+    ) -> Result<Self, EvaluationError> {
+        let mut assessment = Self::requested(policy.minimumcd.as_deref());
+        assessment.version.clone_from(&policy.version);
+        if policy.version == "2" {
+            assessment.definition_sha256 =
+                Some(opdev_core::resolve_engineering_policy("2")?.definition_sha256);
+            assessment.stage = Some(stage);
+        }
+        Ok(assessment)
     }
 }
 
@@ -195,6 +217,100 @@ mod tests {
             checks: vec![],
             gates: vec![],
         })
+    }
+
+    #[test]
+    fn policy_two_membership_keeps_old_standard_failures_separate()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let mut report = reviewed_report()?;
+        let catalog = catalog_for_version(4)?;
+        report.schema = 3;
+        report.catalog_version = 4;
+        report.engineering = Some(EngineeringAssessment::for_policy(
+            &opdev_core::EngineeringPolicy {
+                version: "2".into(),
+                minimumcd: Some("1".into()),
+                review_reference: "synthetic".into(),
+                maintenance_branches: vec![],
+            },
+            opdev_project::TestStage::Delivery,
+        )?);
+        report.rules = catalog
+            .rules
+            .iter()
+            .map(|r| RuleResult {
+                rule_id: r.id.clone(),
+                catalog_version: 4,
+                outcome: Outcome::Passed,
+                subject: report.subject.clone(),
+                verifier: VerificationSource::Agent,
+                evaluated_at: report.evaluated_at,
+                evidence: vec![],
+                diagnostic: None,
+            })
+            .collect();
+        for id in [
+            "MCD-FLOW-001",
+            "MCD-DELIVERY-001",
+            "MCD-PIPELINE-001",
+            "MCD-RECOVERY-001",
+            "MCD-RECOVERY-002",
+        ] {
+            report
+                .rules
+                .iter_mut()
+                .find(|r| r.rule_id.as_str() == id)
+                .ok_or("rule")?
+                .outcome = Outcome::Failed;
+        }
+        reaggregate(&mut report)?;
+        assert!(
+            report.gate_passed(Gate::Integration),
+            "old obligations are not secretly baseline gates"
+        );
+        assert!(report.gate_passed(Gate::Delivery));
+        assert_eq!(
+            report
+                .engineering
+                .as_ref()
+                .and_then(|p| p.minimumcd.as_ref())
+                .ok_or("standard")?
+                .verdict,
+            AggregateVerdict::Blocked
+        );
+        let schema: serde_json::Value =
+            serde_json::from_str(include_str!("../../../schema/report.schema.json"))?;
+        assert!(jsonschema::is_valid(
+            &schema,
+            &serde_json::to_value(&report)?
+        ));
+        report
+            .rules
+            .iter_mut()
+            .find(|r| r.rule_id.as_str() == "OPDEV-RECOVERY-001")
+            .ok_or("rule")?
+            .outcome = Outcome::Unverified;
+        reaggregate(&mut report)?;
+        assert!(
+            !report.gate_passed(Gate::Delivery),
+            "replacement must actually qualify"
+        );
+        assert!(
+            report.gate_passed(Gate::Integration),
+            "delivery does not become a prerequisite for ordinary integration"
+        );
+        report
+            .rules
+            .iter_mut()
+            .find(|r| r.rule_id.as_str() == "OPDEV-FLOW-001")
+            .ok_or("rule")?
+            .outcome = Outcome::Failed;
+        reaggregate(&mut report)?;
+        assert!(
+            !report.gate_passed(Gate::Integration),
+            "known affected flow failure blocks"
+        );
+        Ok(())
     }
 
     #[test]

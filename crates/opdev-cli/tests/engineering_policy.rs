@@ -10,6 +10,105 @@ use std::{
 type TestResult = Result<(), Box<dyn std::error::Error>>;
 
 #[test]
+fn policy_two_requires_explicit_schema_and_capabilities_without_claiming_execution() -> TestResult {
+    use opdev_project::{Capability, CapabilityFact, CapabilityState, SafeguardPolicy};
+    let dir = fixture()?;
+    let path = dir.path().join(MANIFEST_PATH);
+    let mut project = ProjectManifest::load(&path)?;
+    project.schema = 4;
+    project.assurance.profiles.clear();
+    project.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "2".into(),
+        minimumcd: Some("1".into()),
+        review_reference: "synthetic approved migration".into(),
+        maintenance_branches: vec![],
+    });
+    assert!(
+        project.to_yaml().is_err(),
+        "missing capabilities are not an opt-out"
+    );
+    project.assurance.safeguards = Some(SafeguardPolicy {
+        version: 1,
+        review_reference: "synthetic capability review".into(),
+        capabilities: Capability::ALL
+            .into_iter()
+            .map(|c| {
+                (
+                    c,
+                    CapabilityFact {
+                        state: CapabilityState::Absent,
+                        rationale: "isolated no-product fixture".into(),
+                        authority: "contracts".into(),
+                    },
+                )
+            })
+            .collect(),
+    });
+    fs::write(&path, project.to_yaml()?)?;
+    let output = cli(dir.path(), &["check", "--no-exec", "--format", "json"])?;
+    assert!(
+        !output.status.success(),
+        "selection does not establish verification"
+    );
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    assert_eq!(report["schema"], 3);
+    assert_eq!(report["catalog_version"], 4);
+    assert_eq!(report["engineering"]["stage"], "local");
+    assert_eq!(
+        report["engineering"]["definition_sha256"],
+        opdev_core::resolve_engineering_policy("2")?.definition_sha256
+    );
+    let rules = report["rules"].as_array().ok_or("rules")?;
+    assert_eq!(rules.len(), 46);
+    for id in ["OPDEV-FLOW-001", "OPDEV-RECOVERY-001"] {
+        assert_eq!(
+            rules.iter().find(|r| r["rule_id"] == id).ok_or("rule")?["outcome"],
+            "unverified"
+        );
+    }
+    let schema: Value = serde_json::from_str(include_str!("../../../schema/report.schema.json"))?;
+    assert!(jsonschema::is_valid(&schema, &report));
+    let mut parsed: opdev_engine::CheckReport = serde_json::from_value(report)?;
+    parsed
+        .engineering
+        .as_mut()
+        .ok_or("engineering")?
+        .definition_sha256 = Some("0".repeat(64));
+    assert!(
+        opdev_engine::reaggregate(&mut parsed).is_err(),
+        "wrong definition cannot qualify"
+    );
+    parsed
+        .engineering
+        .as_mut()
+        .ok_or("engineering")?
+        .definition_sha256 = Some(opdev_core::resolve_engineering_policy("2")?.definition_sha256);
+    parsed.engineering.as_mut().ok_or("engineering")?.stage = None;
+    assert!(
+        opdev_engine::reaggregate(&mut parsed).is_err(),
+        "stage cannot disappear"
+    );
+    project.schema = 3;
+    assert!(
+        project.to_yaml().is_err(),
+        "no reinterpretation of schema 3"
+    );
+    project.schema = 4;
+    project
+        .assurance
+        .engineering
+        .as_mut()
+        .ok_or("policy")?
+        .version = "latest".into();
+    assert!(project.to_yaml().is_err(), "no floating semantics");
+    assert!(
+        project.catalog().is_err(),
+        "unknown identity cannot fall back"
+    );
+    Ok(())
+}
+
+#[test]
 fn maintained_release_line_is_not_a_second_development_trunk() -> TestResult {
     use opdev_project::{AdoptionRecord, AdoptionWorkflow, MainOption};
     let dir = fixture()?;

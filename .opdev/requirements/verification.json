@@ -53,7 +53,7 @@
       "id": "V-acceptance-1",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "353832d2598029e59bd172b0d45c7a5a1b86098b545e80f6e9030e857f256c2e",
+        "sha256": "9f3eeb892148a6e740fad7d336b7beb8cd028c41ae28da126a11091c353759d2",
         "excerpt": "fn current_review_and_actual_suite_execution_are_both_required("
       },
       "inputs": [
@@ -88,7 +88,7 @@
       "id": "V-acceptance-2",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "353832d2598029e59bd172b0d45c7a5a1b86098b545e80f6e9030e857f256c2e",
+        "sha256": "9f3eeb892148a6e740fad7d336b7beb8cd028c41ae28da126a11091c353759d2",
         "excerpt": "fn changed_inventory_mapping_work_or_source_invalidates_review("
       },
       "inputs": [
@@ -123,7 +123,7 @@
       "id": "V-acceptance-3",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "353832d2598029e59bd172b0d45c7a5a1b86098b545e80f6e9030e857f256c2e",
+        "sha256": "9f3eeb892148a6e740fad7d336b7beb8cd028c41ae28da126a11091c353759d2",
         "excerpt": "fn distinct_stage_checks_execute_once_and_missing_execution_never_reuses_another_stage("
       },
       "inputs": [
@@ -251,9 +251,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid old digest or green pre-merge suite cannot qualify changed requirements or an unexecuted post-merge stage. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "b84ba56a309d338ab685f37313fde8218ade639def97c2a375d7c7a66aa4fb0b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid old digest or green pre-merge suite cannot qualify changed requirements or an unexecuted post-merge stage. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "2bae9dd9f379c29b409fcb7006018bcfefe4a90830eb7246b1d9e057a27a9fa8"
       }
     },
     {
@@ -281,9 +281,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid old digest or green pre-merge suite cannot qualify changed requirements or an unexecuted post-merge stage. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "d8c2901f9c4c1c3509553ba1c36a986fb42f6f475fcf11e2f0b659b1b8603ae0"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid old digest or green pre-merge suite cannot qualify changed requirements or an unexecuted post-merge stage. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "9ab3a8aaa3cc4b2ee5cb32605862a584416e81d0c471468ab7af2f01a01f6034"
       }
     },
     {
@@ -311,9 +311,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid old digest or green pre-merge suite cannot qualify changed requirements or an unexecuted post-merge stage. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "651967471c55187ce58932084e850e22860433c986c1cc4692035095eac3219c"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/108#note_3991682097",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid old digest or green pre-merge suite cannot qualify changed requirements or an unexecuted post-merge stage. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests.",
+        "subject_sha256": "69a258dbea3f5225617d1ae181828ea82404bdf437c07f7ef6a1c7c7333179b4"
       }
     },
     {

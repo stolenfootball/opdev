@@ -53,6 +53,9 @@ impl CheckOptions {
 /// Failures that prevent creation of a complete check report.
 #[derive(Debug, Error)]
 pub enum EvaluationError {
+    /// Unsupported or inconsistent versioned engineering definition.
+    #[error(transparent)]
+    Policy(#[from] opdev_core::PolicyResolutionError),
     /// External semantic review is unavailable or no longer identifies this change.
     #[error("could not use selected semantic review: {0}")]
     ReviewBinding(String),
@@ -183,17 +186,24 @@ fn aggregate_evaluation(
     catalog_version: u32,
     rules: Vec<RuleResult>,
     checks: Vec<CheckResult>,
+    stage: TestStage,
 ) -> Result<CheckReport, EvaluationError> {
     let mut report = CheckReport {
         engineering: manifest
             .assurance
             .engineering
             .as_ref()
-            .map(|p| crate::EngineeringAssessment::requested(p.minimumcd.as_deref())),
-        schema: if manifest.assurance.engineering.is_some() {
-            2
-        } else {
-            1
+            .map(|p| crate::EngineeringAssessment::for_policy(p, stage))
+            .transpose()?,
+        schema: match manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .map(|p| p.version.as_str())
+        {
+            Some("2") => 3,
+            Some(_) => 2,
+            None => 1,
         },
         catalog_version,
         subject,
@@ -322,6 +332,16 @@ fn evaluate_inner(
         );
         checks.extend(findings);
     }
+    crate::policy_controls::qualify(
+        root,
+        manifest,
+        &mut rules,
+        &checks,
+        acceptance_ledger.as_ref(),
+        acceptance_fingerprint.map(String::as_str),
+        acceptance_outcome,
+        options.test_stage,
+    );
     aggregate_evaluation(
         manifest,
         subject,
@@ -329,6 +349,7 @@ fn evaluate_inner(
         catalog.catalog_version,
         rules,
         checks,
+        options.test_stage,
     )
 }
 
@@ -647,26 +668,37 @@ fn apply_assertion(
 /// Returns [`EvaluationError`] when the embedded catalog cannot be loaded.
 pub fn reaggregate(report: &mut CheckReport) -> Result<(), EvaluationError> {
     let mut catalog = opdev_core::catalog_for_version(report.catalog_version)?;
-    if (report.schema, report.catalog_version)
-        != if report.engineering.is_some() {
-            (2, 3)
-        } else {
-            (1, 2)
+    let expected = match report.engineering.as_ref().map(|p| p.version.as_str()) {
+        None => (1, 2),
+        Some("1") => (2, 3),
+        Some("2") => (3, 4),
+        _ => {
+            return Err(EvaluationError::Report(
+                "Unsupported engineering policy identity".into(),
+            ));
         }
-    {
+    };
+    if (report.schema, report.catalog_version) != expected {
         return Err(EvaluationError::Report(
             "schema, catalog and policy identity do not agree".into(),
         ));
     }
     if let Some(policy) = &report.engineering {
-        if policy.version != "1" {
+        if policy.version == "2" {
+            let definition = opdev_core::resolve_engineering_policy("2")?;
+            if policy.definition_sha256.as_deref() != Some(definition.definition_sha256.as_str())
+                || policy.stage.is_none()
+            {
+                return Err(EvaluationError::Report("Policy 2 needs its exact definition and evaluated stage; no older policy or stage substituted".into()));
+            }
+        } else if policy.definition_sha256.is_some() || policy.stage.is_some() {
             return Err(EvaluationError::Report(
-                "unsupported engineering policy version".into(),
+                "Legacy report cannot contain policy-2 definition or stage fields".into(),
             ));
         }
         for result in &mut report.rules {
             if result.outcome == Outcome::NotApplicable
-                && opdev_core::rule_class(result.rule_id.as_str())
+                && opdev_core::engineering_rule_class(&policy.version, result.rule_id.as_str())
                     == Some(opdev_core::RuleClass::Baseline)
             {
                 result.outcome = Outcome::Unverified;
@@ -674,7 +706,7 @@ pub fn reaggregate(report: &mut CheckReport) -> Result<(), EvaluationError> {
             }
         }
         for rule in &mut catalog.rules {
-            if opdev_core::rule_class(rule.id.as_str())
+            if opdev_core::engineering_rule_class(&policy.version, rule.id.as_str())
                 == Some(opdev_core::RuleClass::MinimumcdAssessment)
             {
                 rule.gates.clear();
@@ -713,6 +745,11 @@ type Evaluation = (Outcome, VerificationSource, Vec<Evidence>, Option<String>);
 
 fn evaluate_project_policy(rule: &Rule, manifest: &ProjectManifest) -> Option<Evaluation> {
     let evaluation = match rule.id.as_str() {
+        "OPDEV-DELIVERY-001" | "OPDEV-PIPELINE-001" | "OPDEV-RECOVERY-001"
+            if crate::policy_controls::delivery_absent(manifest) =>
+        {
+            configured_review("Declared absence of distribution and supported operations needs current capability review; no delivery qualification claimed".into(), Some(".opdev/project.yaml"))
+        }
         "OPDEV-AUTH-001" if !manifest.authorities.is_empty() => manifest_pass(
             format!(
                 "{} authoritative sources are declared",
@@ -899,6 +936,9 @@ fn is_delivery_rule(id: &str) -> bool {
     matches!(
         id,
         "MCD-DELIVERY-001"
+            | "OPDEV-DELIVERY-001"
+            | "OPDEV-PIPELINE-001"
+            | "OPDEV-RECOVERY-001"
             | "MCD-PIPELINE-001"
             | "MCD-ARTIFACT-001"
             | "MCD-ARTIFACT-002"

@@ -407,6 +407,9 @@ impl EvidenceLedger {
                     ));
                 }
                 acceptance.validate()?;
+                if acceptance.policy_controls.is_some() && catalog.catalog_version != 4 {
+                    return Err(EvidenceError::Semantic("Policy-2 control links need explicitly selected catalog 4; older policy meaning is unchanged.".into()));
+                }
                 if catalog.catalog_version < 3
                     && acceptance
                         .verifications
