@@ -86,7 +86,7 @@ fn inspect(
             "The current change needs a reviewed acceptance inventory and assertion mappings: list its expected results and identify the test assertions or observations that demonstrate each one in .opdev/evidence.yaml",
         );
     };
-    if !control_selection_matches(acceptance, manifest, stage) {
+    if !control_selection_matches(root, acceptance, manifest, stage) {
         return incomplete(
             "Policy control review belongs to a different policy or stage. Review this boundary; no older selection or earlier execution substituted.",
         );
@@ -200,18 +200,20 @@ fn acceptance_policy_gap(
 }
 
 fn control_selection_matches(
+    root: &Path,
     acceptance: &opdev_project::AcceptanceEvidence,
     manifest: &ProjectManifest,
     stage: TestStage,
 ) -> bool {
-    acceptance.policy_controls.as_ref().is_none_or(|c| {
-        c.stage == stage
-            && manifest
-                .assurance
-                .engineering
-                .as_ref()
-                .is_some_and(|p| p.version == c.version)
-    })
+    organization_selection_matches(root, acceptance, manifest, stage)
+        && acceptance.policy_controls.as_ref().is_none_or(|c| {
+            c.stage == stage
+                && manifest
+                    .assurance
+                    .engineering
+                    .as_ref()
+                    .is_some_and(|p| p.version == c.version)
+        })
 }
 
 fn source_policy_allows(
@@ -224,6 +226,43 @@ fn source_policy_allows(
             .review_storage
             .as_ref()
             .is_some_and(|p| p.version == 2)
+}
+
+fn organization_selection_matches(
+    root: &Path,
+    acceptance: &opdev_project::AcceptanceEvidence,
+    manifest: &ProjectManifest,
+    stage: TestStage,
+) -> bool {
+    if manifest.assurance.organization_policies.is_empty() {
+        return acceptance.organization_controls.is_none();
+    }
+    let Ok(snapshot) =
+        opdev_project::organization::load_selected(root, &manifest.assurance.organization_policies)
+    else {
+        return false;
+    };
+    let controls: Vec<_> = snapshot
+        .policies
+        .iter()
+        .flat_map(|p| &p.definition.controls)
+        .collect();
+    let selected: Vec<_> = controls
+        .iter()
+        .filter(|c| c.stages.contains(&stage))
+        .collect();
+    let Some(review) = &acceptance.organization_controls else {
+        return selected.is_empty();
+    };
+    review.stage == stage
+        && review.resolution_sha256 == snapshot.resolution_sha256
+        && review
+            .bindings
+            .iter()
+            .all(|b| controls.iter().any(|c| c.id == b.control))
+        && selected
+            .iter()
+            .all(|c| review.bindings.iter().any(|b| b.control == c.id))
 }
 
 fn safeguard_gap(

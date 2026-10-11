@@ -17,6 +17,16 @@ pub(super) struct PolicyArgs {
 
 #[derive(Debug, Subcommand)]
 enum PolicyCommand {
+    /// Inspect a local organization definition and its content pin; never execute it.
+    InspectPack {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        /// Exact portable filename stem under .opdev/policies.
+        #[arg(long)]
+        id: String,
+        #[arg(long, value_enum, default_value_t = OutputFormat::Human)]
+        format: OutputFormat,
+    },
     /// Explain an exact embedded policy; does not load or migrate a project.
     Explain {
         /// Exact engineering definition version, not a latest alias.
@@ -48,6 +58,8 @@ struct Preview {
     current_minimumcd: Option<String>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     current_standards: Vec<opdev_project::ResolvedStandard>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    current_organization_policies: Option<opdev_project::organization::PolicySnapshot>,
     added_engineering: Vec<String>,
     removed_engineering: Vec<String>,
     changed_engineering: Vec<String>,
@@ -55,8 +67,29 @@ struct Preview {
     limits: &'static str,
 }
 
+fn inspect_pack(root: &std::path::Path, id: &str, format: OutputFormat) -> Result<()> {
+    let definition = opdev_project::organization::inspect_file(root, id)?;
+    let digest = definition.definition_sha256()?;
+    let limits = "Local definition only. This pin does not select policy, approve applicability, verify controls or authorize execution. No checks ran.";
+    if matches!(format, OutputFormat::Json) {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&serde_json::json!({
+                "schema": 1, "definition": definition, "definition_sha256": digest, "limits": limits
+            }))?
+        );
+    } else {
+        println!(
+            "{}@{}: {}\nDefinition SHA-256: {digest}\n{limits}",
+            definition.id, definition.version, definition.title
+        );
+    }
+    Ok(())
+}
+
 pub(super) fn run(args: &PolicyArgs) -> Result<ExitCode> {
     match &args.command {
+        PolicyCommand::InspectPack { root, id, format } => inspect_pack(root, id, *format)?,
         PolicyCommand::Explain {
             engineering,
             rule,
@@ -111,7 +144,7 @@ pub(super) fn run(args: &PolicyArgs) -> Result<ExitCode> {
             engineering,
             format,
         } => {
-            let (_, project) = load_project(root)?;
+            let (project_root, project) = load_project(root)?;
             let current = project.assurance.engineering.as_ref();
             let proposed = resolve_engineering_policy(engineering)?;
             let catalog = project.catalog()?;
@@ -123,6 +156,15 @@ pub(super) fn run(args: &PolicyArgs) -> Result<ExitCode> {
                 current_catalog: project.catalog()?.catalog_version,
                 current_engineering: current.map(|p| p.version.clone()),
                 current_minimumcd: current.and_then(|p| p.minimumcd.clone()),
+                current_organization_policies: if project.assurance.organization_policies.is_empty()
+                {
+                    None
+                } else {
+                    Some(opdev_project::organization::load_selected(
+                        &project_root,
+                        &project.assurance.organization_policies,
+                    )?)
+                },
                 current_standards: project
                     .assurance
                     .standards
@@ -175,6 +217,12 @@ fn print_preview(preview: &Preview) {
     );
     print_resolution(&preview.proposed);
     print_standards(&preview.current_standards);
+    if let Some(snapshot) = &preview.current_organization_policies {
+        println!(
+            "Organization policy resolution: {}. Definition inspection only; controls not verified.",
+            snapshot.resolution_sha256
+        );
+    }
     println!(
         "Compared with this project's engineering obligations:\nAdded: {:?}\nRemoved: {:?}\nChanged: {:?}",
         preview.added_engineering, preview.removed_engineering, preview.changed_engineering

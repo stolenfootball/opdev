@@ -140,7 +140,7 @@ fn mapping_gap(
     None
 }
 
-fn verified_condition(
+pub(crate) fn verified_condition(
     acceptance: &AcceptanceEvidence,
     catalog: Option<&CatalogSnapshot>,
     checks: &[CheckResult],
@@ -165,7 +165,7 @@ fn verified_condition(
         })
 }
 
-fn automated(
+pub(crate) fn automated(
     acceptance: &AcceptanceEvidence,
     catalog: Option<&CatalogSnapshot>,
     id: &str,
@@ -455,6 +455,261 @@ mod tests {
         let roundtrip: AcceptanceEvidence = serde_json::from_value(encoded)?;
         assert_eq!(legacy, roundtrip.digest("fingerprint", "work")?);
         assert_ne!(bound, legacy);
+        Ok(())
+    }
+
+    fn organization_fixture()
+    -> Result<(Fixture, opdev_project::organization::PolicySnapshot), Box<dyn std::error::Error>>
+    {
+        use opdev_project::organization::{
+            Applicability, OrganizationControl, PolicyPack, PolicySelection,
+            VerificationRequirement,
+        };
+        let mut f = fixture()?;
+        let pack = PolicyPack {
+            schema: 1,
+            id: "example".into(),
+            version: "1".into(),
+            title: "Example".into(),
+            source: "fixture authority".into(),
+            parameters: std::collections::BTreeMap::new(),
+            controls: vec![OrganizationControl {
+                id: "ORG-EXAMPLE-001".into(),
+                statement: "Recover retained writes".into(),
+                source: "fixture".into(),
+                stages: vec![TestStage::Recovery],
+                applicability: Applicability::Always,
+                verification: VerificationRequirement::Automated,
+            }],
+        };
+        f.project.assurance.organization_policies = vec![PolicySelection {
+            id: pack.id.clone(),
+            version: pack.version.clone(),
+            definition_sha256: pack.definition_sha256()?,
+            parameters: std::collections::BTreeMap::new(),
+        }];
+        std::fs::create_dir_all(f.temp.path().join(".opdev/policies"))?;
+        std::fs::write(
+            f.temp.path().join(".opdev/policies/example.json"),
+            serde_json::to_vec(&pack)?,
+        )?;
+        assert!(
+            std::process::Command::new("git")
+                .current_dir(f.temp.path())
+                .args(["add", "."])
+                .status()?
+                .success()
+        );
+        let snapshot = opdev_project::organization::load_selected(
+            f.temp.path(),
+            &f.project.assurance.organization_policies,
+        )?;
+        f.ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or("acceptance")?
+            .organization_controls = Some(opdev_project::OrganizationControlReview {
+            resolution_sha256: snapshot.resolution_sha256.clone(),
+            stage: TestStage::Recovery,
+            bindings: vec![opdev_project::OrganizationControlBinding {
+                control: "ORG-EXAMPLE-001".into(),
+                conditions: vec!["restore".into()],
+                extensions: vec![],
+            }],
+        });
+        Ok((f, snapshot))
+    }
+
+    fn organization_results(
+        f: &Fixture,
+        snapshot: &opdev_project::organization::PolicySnapshot,
+        outcome: Outcome,
+        stage: TestStage,
+    ) -> Vec<CheckResult> {
+        crate::organization_controls::qualify(
+            f.temp.path(),
+            &f.project,
+            snapshot,
+            &[],
+            Some(&f.ledger),
+            Some(&"a".repeat(64)),
+            outcome,
+            stage,
+        )
+    }
+
+    #[test]
+    fn organization_controls_require_current_accepted_verification_and_stage() -> TestResult {
+        let (mut f, snapshot) = organization_fixture()?;
+        // This pure projection consumes the acceptance evaluator's actual outcome;
+        // it does not claim to execute the synthetic mapping below.
+        assert_eq!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::Recovery)[0].outcome,
+            Outcome::Passed
+        );
+        assert!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::PreMerge).is_empty()
+        );
+        for outcome in [Outcome::Failed, Outcome::Error, Outcome::Unverified] {
+            assert_eq!(
+                organization_results(&f, &snapshot, outcome, TestStage::Recovery)[0].outcome,
+                outcome
+            );
+        }
+        let original = f.ledger.clone();
+        f.ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or("acceptance")?
+            .organization_controls
+            .as_mut()
+            .ok_or("review")?
+            .stage = TestStage::PreMerge;
+        assert_eq!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::Recovery)[0].outcome,
+            Outcome::Unverified
+        );
+        f.ledger = original.clone();
+        f.ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or("acceptance")?
+            .organization_controls
+            .as_mut()
+            .ok_or("review")?
+            .resolution_sha256 = "b".repeat(64);
+        assert_eq!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::Recovery)[0].outcome,
+            Outcome::Unverified
+        );
+        f.ledger = original.clone();
+        f.ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or("acceptance")?
+            .verifications[0]
+            .method = AcceptanceMethod::Review;
+        assert_eq!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::Recovery)[0].outcome,
+            Outcome::Unverified
+        );
+        f.ledger = original;
+        f.ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or("acceptance")?
+            .organization_controls
+            .as_mut()
+            .ok_or("review")?
+            .bindings[0]
+            .extensions
+            .push("missing-extension".into());
+        assert_eq!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::Recovery)[0].outcome,
+            Outcome::Unverified
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn organization_source_edits_during_checks_invalidate_positive_projection() -> TestResult {
+        let (f, snapshot) = organization_fixture()?;
+        assert_eq!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::Recovery)[0].outcome,
+            Outcome::Passed
+        );
+        std::fs::write(f.temp.path().join(".opdev/policies/example.json"), "{}")?;
+        assert_eq!(
+            organization_results(&f, &snapshot, Outcome::Passed, TestStage::Recovery)[0].outcome,
+            Outcome::Unverified
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn organization_extension_links_require_the_declared_current_stage_and_result() -> TestResult {
+        let (mut f, snapshot) = organization_fixture()?;
+        f.project
+            .extensions
+            .checks
+            .push(opdev_project::ExtensionCheck {
+                id: "extra".into(),
+                stage: opdev_project::ExtensionStage::Recover,
+                command: "already-executed".into(),
+                blocking: false,
+                authority: None,
+                timeout_seconds: None,
+            });
+        f.ledger.changes[0]
+            .acceptance
+            .as_mut()
+            .ok_or("acceptance")?
+            .organization_controls
+            .as_mut()
+            .ok_or("review")?
+            .bindings[0]
+            .extensions
+            .push("extra".into());
+        for (stage, result, expected) in [
+            (
+                opdev_project::ExtensionStage::Recover,
+                Outcome::Passed,
+                Outcome::Passed,
+            ),
+            (
+                opdev_project::ExtensionStage::Deliver,
+                Outcome::Passed,
+                Outcome::Unverified,
+            ),
+            (
+                opdev_project::ExtensionStage::Recover,
+                Outcome::Failed,
+                Outcome::Failed,
+            ),
+            (
+                opdev_project::ExtensionStage::Recover,
+                Outcome::Error,
+                Outcome::Error,
+            ),
+            (
+                opdev_project::ExtensionStage::Recover,
+                Outcome::NotApplicable,
+                Outcome::Unverified,
+            ),
+        ] {
+            f.project.extensions.checks[0].stage = stage;
+            let checks = [CheckResult {
+                id: "extra".into(),
+                kind: crate::CheckKind::Extension,
+                blocking: false,
+                gates: vec![],
+                outcome: result,
+                summary: "existing invocation result".into(),
+                evidence: vec![],
+                stdout: None,
+                stderr: None,
+                duration_ms: None,
+            }];
+            let additional = crate::organization_controls::qualify(
+                f.temp.path(),
+                &f.project,
+                &snapshot,
+                &checks,
+                Some(&f.ledger),
+                Some(&"a".repeat(64)),
+                Outcome::Passed,
+                TestStage::Recovery,
+            );
+            assert_eq!(additional[0].outcome, expected);
+            assert!(
+                additional[0].blocking,
+                "selected organization obligation remains mandatory even for an otherwise advisory extension"
+            );
+            assert_eq!(
+                checks[0].outcome, result,
+                "projection must not rewrite the original result"
+            );
+        }
         Ok(())
     }
 }

@@ -147,6 +147,78 @@ claim third-party certification for any standard.
 Organization definitions are a separate policy mechanism, not arbitrary external
 scripts, an automatic download or a per-rule exception list.
 
+## Organization policies
+
+Organization policies add concrete obligations to the baseline. They cannot
+replace a core rule, change its result, waive missing evidence or authorize their
+own removal. Changes use the project's existing decision authority. A definition's
+source URL attributes its owner; OpDev does not fetch it or treat it as consent.
+
+Keep only current selected definitions in `.opdev/policies/<id>.json`. This
+namespace requires project schema 4, engineering policy 2 and layout 3. Definitions
+are regular non-executable JSON files, not scripts, symlinks, nested folders,
+reports or a place for policy history. Retiring a selection includes reviewing
+removal of its now-obsolete definition; the inspector never deletes it for you.
+
+A minimal definition at `.opdev/policies/example.json` looks like this:
+
+```json
+{
+  "schema": 1,
+  "id": "example",
+  "version": "1",
+  "title": "Example organization policy",
+  "source": "https://example.org/policy/1",
+  "controls": [{
+    "id": "ORG-EXAMPLE-001",
+    "statement": "Verify compatibility of the supported public interface",
+    "source": "https://example.org/policy/1#compatibility",
+    "stages": ["pre_merge", "post_merge"],
+    "applicability": {"kind": "always"},
+    "verification": "automated"
+  }]
+}
+```
+
+Inspect it with `opdev policy inspect-pack --id example --format json`. The output
+includes `definition_sha256`, computed from canonical typed data. Equivalent JSON
+formatting and checkout line endings do not alter the identity; changed duties do.
+After the developer reviews the actual obligations, select its exact ID, version
+and returned digest under `assurance.organization_policies`. Do not paste a
+placeholder digest or treat computing one as approval. Stage both the reviewed
+selection and its definition before qualification.
+
+The definition format is deliberately bounded: at most eight selected policies,
+256 KiB per definition, 32 controls and 16 parameters per policy. Parameters are
+explicit booleans, bounded integers or members of a finite string vocabulary.
+There are no defaults, coercions, expressions, substitutions or remote loading.
+Every declared parameter must be supplied and used. Applicability is either
+`always` or a flat `all` conjunction of reviewed present capabilities and exact
+parameter values. A missing capability remains unknown, not absent. Integer
+parameters select applicability; they do not automatically measure a coverage
+threshold or prove a numeric objective.
+
+The ordinary source-bound acceptance review links each control to existing
+acceptance conditions or durable requirement criteria at the actual stage.
+`organization_controls` records the resolved policy identity, stage and links;
+it lives in the same current review, not a new ledger or database. Changing a
+definition, value, boundary or link changes the review subject. Pins identify
+data, while reviewed links explain test adequacy; neither proves execution.
+
+An `automated` control requires a current automated path. An `observation` control
+may instead use a current attributed manual observation through the requirements
+catalog. An older review-only acceptance mapping is an adequacy judgment, not an
+observation. Optional links to existing extensions require those extensions to
+pass in the same invocation and still need accepted condition links. Reuse
+existing suites and commands: selecting more policies does not execute them again.
+
+Missing definitions, changed pins or disagreement between staged and checkout
+definitions stop qualification before project commands. Definitions are rechecked
+after execution; a changed source cannot reuse the earlier result. Applicable
+controls with missing review or verification block their selected boundary.
+Reviewed non-applicability affects only that additional control, never the core
+baseline. Stages outside a control's selection are not assessed, not passed.
+
 For exact semantics, rationale, compatibility and evidence responsibilities, see
 the [engineering policy specification](../spec/engineering-policy.md). Existing
 Policy 1 behavior is documented in [assurance profiles](../spec/assurance-profiles.md).

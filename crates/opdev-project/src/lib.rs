@@ -6,11 +6,14 @@ mod acceptance;
 mod adoption;
 /// Current adoption destination and reviewed retirement postconditions.
 pub mod clean_adoption;
+/// Strict additive organization-policy definitions and explicit selections.
+pub mod organization;
 /// Durable requirements and verification plans, separate from execution and consent.
 pub mod requirements;
 pub use acceptance::{
     AcceptanceCondition, AcceptanceEvidence, AcceptanceMethod, AcceptanceReview, AcceptanceScope,
-    AcceptanceVerification, PolicyControlReview, RequirementSource, TrackedEvidence,
+    AcceptanceVerification, OrganizationControlBinding, OrganizationControlReview,
+    PolicyControlReview, RequirementSource, TrackedEvidence,
 };
 mod bootstrap;
 mod discovery;

@@ -138,6 +138,7 @@ pub fn discover(start: &Path) -> Result<Discovery, DiscoveryError> {
             delivery,
             operations: Operations::default(),
             assurance: Assurance {
+                organization_policies: Vec::new(),
                 standards: Vec::new(),
                 requirements: None,
                 review_storage: None,
