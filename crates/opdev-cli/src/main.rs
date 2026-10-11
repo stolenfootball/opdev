@@ -37,6 +37,7 @@ mod layout;
 mod local_state;
 mod migration;
 mod policy;
+mod prior_stage;
 mod requirements;
 mod state_io;
 mod test_execution;
@@ -195,6 +196,9 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
+    /// Stop remaining canonical suites after the first failure; unrun checks remain blocking.
+    #[arg(long, conflicts_with = "no_exec")]
+    fail_fast: bool,
     /// Read this CI change's explicit MR/PR review selection using built-in job authentication.
     #[arg(long, requires = "ci", conflicts_with_all = ["review_locator", "review_acceptance_sha256", "plan", "delivery", "remote"])]
     review_ci: bool,
@@ -278,6 +282,8 @@ struct CiArgs {
 
 #[derive(Debug, Subcommand)]
 enum CiCommand {
+    /// Prepare exact prior-stage provider facts for review; never qualifies post-merge execution.
+    ObservePriorStage(prior_stage::ObserveArgs),
     /// Run a reviewed canonical producer once and emit its versioned execution record.
     Execute(execution_reuse::ExecuteArgs),
     /// Verify an explicitly selected remote CI run, not whole-project qualification.
@@ -438,7 +444,7 @@ struct EvidenceArgs {
 enum EvidenceCommand {
     /// Local export, exact provider retrieval and inspection; never qualification or upload.
     Bundle(evidence_bundle::BundleArgs),
-    /// Prepare, preview or apply a reviewed acceptance update to an existing ledger.
+    /// Prepare unresolved acceptance links, then export an explicitly reviewed candidate.
     Prepare(evidence_prepare::PrepareArgs),
     /// Print the staged index fingerprint used by change evidence.
     Fingerprint(EvidenceFingerprintArgs),
@@ -1034,6 +1040,7 @@ fn ci_command(args: &CiArgs) -> Result<ExitCode> {
         CiCommand::VerifyRun(args) => ci_run::run(args),
         CiCommand::Qualify(args) => ci_run::qualify(args),
         CiCommand::PrepareReview(args) => ci_review::prepare(args),
+        CiCommand::ObservePriorStage(args) => prior_stage::observe(args),
         CiCommand::ReviewCheck(args) => ci_review::check(args),
     }
 }
@@ -1150,6 +1157,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         options.extension_stage = opdev_project::ExtensionStage::Deliver;
     }
     options.execute_checks = !args.no_exec;
+    options.fail_fast = args.fail_fast;
     if args.post_merge {
         options.test_stage = opdev_project::TestStage::PostMerge;
         options.extension_stage = opdev_project::ExtensionStage::PostMerge;
@@ -1165,6 +1173,18 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         return Ok(ExitCode::SUCCESS);
     }
     let (review, ci_selection) = check_review(args, &root, &manifest, options.test_stage)?;
+    if args.fail_fast
+        && let Some(review) = &review
+    {
+        let gaps = review
+            .preflight(&root, &manifest, options.test_stage)
+            .map_err(anyhow::Error::msg)?;
+        anyhow::ensure!(
+            gaps.is_empty(),
+            "Verification inputs are not ready: {}. No project checks ran",
+            gaps.join("; ")
+        );
+    }
     let retained = args
         .retain_state
         .then(|| local_state::Attempt::start(&root, &manifest, options))

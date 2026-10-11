@@ -9,6 +9,7 @@
     "test_stage": {"enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"]},
     "extension_stage": {"enum": ["specify", "design", "verify", "pre_merge", "post_merge", "package", "deliver", "smoke", "recover", "evaluate"]},
     "qualification": {"const": "unverified"},
+    "fail_fast": {"type": "boolean", "default": false},
     "commands": {"type": "array", "items": {
       "type": "object", "additionalProperties": false,
       "required": ["id", "kind", "command", "argv", "working_directory", "timeout_seconds", "blocking"],

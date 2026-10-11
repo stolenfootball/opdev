@@ -311,6 +311,7 @@ mod tests {
                 test_stage: TestStage::PostMerge,
                 extension_stage: opdev_project::ExtensionStage::PostMerge,
                 execute_checks: true,
+                fail_fast: false,
             },
             "controlled unavailable provider",
             None,

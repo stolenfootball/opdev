@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/result-semantics.md",
-          "sha256": "bed67b9803c814a3c9965fb0c370eed5b3b9ca73bd3d101b3285c400d54485f4",
+          "sha256": "565c0695ad6ea66f9fe90d0a3aa9f4b7ac61a12b18a65cd150819b32cacd2bb0",
           "excerpt": "At every evaluation-only boundary, all selected missing canonical suites and\nextensions appear as `unverified` checks with their normal blocking policy. No\nexecution is performed to fill those gaps. Supported same-run reuse supplies only\nits authenticated, current-subject results; every uncovered check remains visible.\n`--delivery --no-exec` remains rejected by the CLI; the engine's evaluation-only\nsemantics do not create a publication shortcut."
         }
       },
@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "spec/result-semantics.md",
-          "sha256": "bed67b9803c814a3c9965fb0c370eed5b3b9ca73bd3d101b3285c400d54485f4",
+          "sha256": "565c0695ad6ea66f9fe90d0a3aa9f4b7ac61a12b18a65cd150819b32cacd2bb0",
           "excerpt": "The CLI's default exit follows development; `check --ci` follows integration.\nWith capability `check.post-merge-integration.v1`, `check --ci --post-merge`\nexecutes the selected integrated-trunk suites/extensions and follows integration,\nnot delivery. Selected blocking post-merge checks contribute to both integration\nand delivery, including unavailable reuse evidence. Delivery-only rules remain\nvisible and blocking for delivery, without preventing otherwise verified\nintegration. Pre-merge and post-merge executions are not interchangeable.\nIn post-merge evaluation-only mode, selected checks without verified execution\nare reported as `unverified`, not omitted, even without a reuse policy.\n`check --ci --delivery` executes the delivery stage and follows the delivery gate;\nit cannot be combined with `--no-exec`. Inspect all reported gates before making\nbroader claims. An integration-only baseline does not enforce the release path.\nGate success is evidence, not developer authorization to release."
         }
       },
@@ -122,7 +122,7 @@
       "id": "V-missing-execution-1",
       "target": {
         "path": "crates/opdev-cli/tests/check_plan.rs",
-        "sha256": "5f2a8b96f2981c52e4e66cbe0069515d5515d9be1fa7a4bf8e641dba50ed1e25",
+        "sha256": "76394125fadd51d5554b6dc7ed0110d4f1b246565cc7e0cee9821a3a1157fcbf",
         "excerpt": "fn evaluation_only_keeps_selected_checks_visible_at_every_boundary("
       },
       "inputs": [
@@ -148,7 +148,7 @@
         },
         {
           "path": "schema/check-plan.schema.json",
-          "sha256": "89c4a6b50bd77163ed3d01132da9fbf997e757c44c6673b737ce0c8d8ef5f9e9",
+          "sha256": "e9f982ff62c862ed8463a1318c744dd2e19a4959c17db94fe8aa99f5547b8889",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         }
       ],
@@ -162,7 +162,7 @@
       "id": "V-post-merge-1",
       "target": {
         "path": "crates/opdev-cli/tests/check_plan.rs",
-        "sha256": "5f2a8b96f2981c52e4e66cbe0069515d5515d9be1fa7a4bf8e641dba50ed1e25",
+        "sha256": "76394125fadd51d5554b6dc7ed0110d4f1b246565cc7e0cee9821a3a1157fcbf",
         "excerpt": "fn post_merge_process_failures_and_skipped_execution_remain_blocking("
       },
       "inputs": [
@@ -188,7 +188,7 @@
         },
         {
           "path": "schema/check-plan.schema.json",
-          "sha256": "89c4a6b50bd77163ed3d01132da9fbf997e757c44c6673b737ce0c8d8ef5f9e9",
+          "sha256": "e9f982ff62c862ed8463a1318c744dd2e19a4959c17db94fe8aa99f5547b8889",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         }
       ],
@@ -423,11 +423,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "3d2fb746a83b5f8c8cfc27cfca761857518ee8f1b97f8cba07098e8fbd9ba24f",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "c3005b1809bdb5962f0cf29f0b27151159648930f2f55641c967647b5a8b62f0"
+        "outcome": "passed"
       }
     },
     {
@@ -443,11 +443,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "0b0660336e016879d119a54e39b8924826acbf2813d0dfce4458c3814881f53b",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "5a1ce5e7de9085a198a6b7b7376e087ae42d860795268d606df3cee639273f28"
+        "outcome": "passed"
       }
     },
     {
@@ -463,11 +463,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "9dfbb44cf9fed039fa1214b5030b1ddb89baf0305308c99302b6aa1f88ad77e2",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "921fb43c41490ab56b51c9f6eaf4aa809519460b94813ea5fd9b5acc54f0a329"
+        "outcome": "passed"
       }
     },
     {
@@ -483,11 +483,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "98f08f853293b402798f9fd26046f6fe58baa2fd27ba2773d0a8a842a8871517",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "da40f0a926712a6eea9848331d76056af8b22c214d71dac56b35d8edc4e1c0c8"
+        "outcome": "passed"
       }
     },
     {
@@ -503,11 +503,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "f16e2d4de727381e81b663cfde1d3a775ef9bbd24fbca8e4819062909fda086f",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "b75cb6070632cb01e6e4a6f0625f8297f3d0f00ded4038f8b05fd533a156a33e"
+        "outcome": "passed"
       }
     },
     {
@@ -523,11 +523,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "8b72778fbbb024b9df675d20afc66271a84661648c295085e4bfea3d2b516ac9",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "12e1683979c10ca6f0399f10b548d67348532ad1d9f8281d34169b4724d07833"
+        "outcome": "passed"
       }
     },
     {

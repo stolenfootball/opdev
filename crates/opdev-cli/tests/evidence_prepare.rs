@@ -371,3 +371,74 @@ fn preparation_preserves_disjoint_stages_without_approving_or_migrating() -> Res
     assert_eq!(plan["review_current"], false);
     Ok(())
 }
+
+#[test]
+fn discussion_preparation_needs_no_legacy_ledger_and_exports_only_reviewed_drafts() -> Result {
+    let (repo, scratch) = fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    manifest.schema = 3;
+    manifest.project.ci.provider = opdev_project::CiProvider::Gitlab;
+    manifest.project.ci.remote = Some("https://gitlab.com/fixture/product".into());
+    manifest.assurance.profiles.clear();
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "1".into(),
+        minimumcd: None,
+        review_reference: "fixture decision".into(),
+        maintenance_branches: vec![],
+    });
+    manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
+        version: 2,
+        provider: opdev_project::CiProvider::Gitlab,
+        repository_id: 1,
+        review_reference: "synthetic fixture decision".into(),
+        retention_authority: "contract.md".into(),
+        report_retention_days: Some(30),
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    fs::remove_file(root.join(EVIDENCE_PATH))?;
+    git(root, &["add", "."])?;
+    let path = scratch.path().join("external.yaml");
+    let input = scratch.path().join("input.json");
+    let output = cli(
+        root,
+        &[
+            "--input",
+            input.to_str().ok_or("path")?,
+            "--work",
+            "fixture",
+            "--output",
+            path.to_str().ok_or("path")?,
+        ],
+    )?;
+    assert_eq!(parse(&output)?["review"], "unverified");
+    let mut prepared: Value = serde_saphyr::from_slice(&fs::read(&path)?)?;
+    assert_eq!(prepared["acceptance"]["review"]["outcome"], "unverified");
+    let exported = scratch.path().join("reviewed.yaml");
+    let write = [
+        "--draft",
+        path.to_str().ok_or("path")?,
+        "--write",
+        "--ledger-output",
+        exported.to_str().ok_or("path")?,
+    ];
+    assert!(!cli(root, &write)?.status.success());
+    assert!(!exported.exists());
+    prepared["acceptance"]["verifications"][0]["outcome"] = json!("passed");
+    let proposal = preview(root, &path, &prepared)?;
+    prepared["acceptance"]["review"] = json!({"outcome":"passed","reviewer":"synthetic fixture reviewer","reference":"fixture","rationale":"Order assertion inspected","subject_sha256":proposal["subject_sha256"]});
+    preview(root, &path, &prepared)?;
+    assert!(cli(root, &write)?.status.success());
+    assert!(
+        !cli(root, &write)?.status.success(),
+        "overwrote existing export"
+    );
+    assert!(!root.join(EVIDENCE_PATH).exists());
+    let record: Value = serde_saphyr::from_slice(&fs::read(exported)?)?;
+    assert_eq!(
+        record["changes"][0]["acceptance"]["review"]["outcome"],
+        "passed"
+    );
+    assert_eq!(record["project"], json!([]));
+    Ok(())
+}

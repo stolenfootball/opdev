@@ -119,3 +119,22 @@ variability; a single fast run or YAML inspection does not prove a speedup.
 Choose the next small change from evidence, including no change when appropriate.
 Keep work in the existing tracker and enduring decisions in their routed authority.
 No new ledger, automatic gate, ten-minute deadline or optimization score is added.
+
+### Review readiness without manufactured failures
+
+When qualification needs a review selected after source publication or merge,
+avoid routinely launching expensive jobs with knowingly missing inputs. Prefer a
+provider-native blocking readiness hold where supported. For GitLab, a manual
+required job must explicitly set `allow_failure: false`; the authorized controller
+selects the exact review and starts that job. This is scheduling, not an extra
+human approval or permission to leave required work unfinished. Pending/manual,
+missing, skipped, canceled and failed checks must still prevent qualification.
+Validate actual provider behavior and downstream dependencies before adopting it.
+Do not translate this blindly to GitHub, where skipped-job and workflow-trigger
+semantics differ. Preserve adequate existing pipelines and developer choices.
+
+Recheck source/review readiness in the job itself to detect edits after dispatch.
+Missing or stale inputs must fail closed; a hold is not a reusable readiness receipt.
+Use opt-in fail-fast canonical execution when supported to avoid spending on full
+suites after cheap failures. Preserve failed attempts and do not add broad tokens,
+polling services or custom schedulers merely to coordinate a review.

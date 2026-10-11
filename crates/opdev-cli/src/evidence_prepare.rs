@@ -1,4 +1,4 @@
-//! Mechanical preparation of an existing schema-2 ledger; never approval.
+//! Mechanical acceptance preparation for legacy or MR/PR review; never approval.
 use anyhow::{Context, Result, bail};
 use clap::Args;
 use opdev_core::Outcome;
@@ -17,11 +17,14 @@ use std::{
 
 #[derive(Debug, Args)]
 pub(super) struct PrepareArgs {
+    /// Save a new unresolved draft outside source (machine-readable stdout remains separate).
+    #[arg(long, requires = "input", conflicts_with_all = ["retain_draft", "draft", "write"])]
+    output: Option<PathBuf>,
     /// Read an explicit retained draft ledger instead of the legacy project ledger.
     #[arg(long)]
     ledger_input: Option<PathBuf>,
     /// Create a new reviewed ledger outside source; never overwrite retained history.
-    #[arg(long, requires_all = ["write", "ledger_input"])]
+    #[arg(long, requires = "write")]
     ledger_output: Option<PathBuf>,
     /// Save a newly prepared, unreviewed draft in private CLI-owned state; emit its path as JSON.
     #[arg(long, requires = "input", conflicts_with_all = ["draft", "write"])]
@@ -187,6 +190,33 @@ fn reviewed(draft: &Draft) -> Result<()> {
     Ok(())
 }
 
+fn emit_draft(args: &PrepareArgs, root: &Path, draft: &Draft) -> Result<()> {
+    let yaml = serde_saphyr::to_string(draft)?;
+    let output = if let Some(path) = &args.output {
+        let path = crate::evidence_bundle::export_destination(root, path)?;
+        crate::local_state::write_new(&path, yaml.as_bytes())?;
+        Some(path)
+    } else if args.retain_draft {
+        Some(crate::local_state::retain_draft(root, yaml.as_bytes())?)
+    } else {
+        None
+    };
+    if let Some(path) = output {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(
+                &json!({"schema":1,"draft":path,"review":"unverified","qualification":"unverified"})
+            )?
+        );
+    } else {
+        print!("{yaml}");
+    }
+    eprintln!(
+        "Draft only; mappings and review are unverified. No suites ran and ledger unchanged. This proposes links between expected results and tests; it does not verify them or approve the change."
+    );
+    Ok(())
+}
+
 pub(super) fn run(args: &PrepareArgs) -> Result<()> {
     let (root, manifest) = crate::load_project(&args.root)?;
     if args.write
@@ -199,6 +229,19 @@ pub(super) fn run(args: &PrepareArgs) -> Result<()> {
     }
     let read_input = || match &args.ledger_input {
         Some(path) => read(path),
+        None if manifest
+            .assurance
+            .review_storage
+            .as_ref()
+            .is_some_and(|p| p.version == 2) =>
+        {
+            if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
+                bail!(
+                    "Both external review and a legacy ledger exist. Complete the reviewed migration first; nothing written"
+                );
+            }
+            Ok(b"{\"schema\":2,\"project\":[],\"changes\":[]}".to_vec())
+        }
         None => ledger_bytes(&root),
     };
     let before = read_input()?;
@@ -215,21 +258,7 @@ pub(super) fn run(args: &PrepareArgs) -> Result<()> {
     };
     let ledger = candidate(&root, &draft, &before)?;
     if args.draft.is_none() {
-        let yaml = serde_saphyr::to_string(&draft)?;
-        if args.retain_draft {
-            let path = crate::local_state::retain_draft(&root, yaml.as_bytes())?;
-            println!(
-                "{}",
-                serde_json::to_string_pretty(
-                    &json!({"schema":1,"draft":path,"review":"unverified","qualification":"unverified"})
-                )?
-            );
-        } else {
-            print!("{yaml}");
-        }
-        eprintln!(
-            "Draft only; mappings and review are unverified. No suites ran and ledger unchanged. This proposes links between expected results and tests; it does not verify them or approve the change."
-        );
+        emit_draft(args, &root, &draft)?;
     } else if args.write {
         reviewed(&draft)?;
         if let Some(output) = &args.ledger_output {

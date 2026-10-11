@@ -116,6 +116,13 @@ Use one consumer-facing delivery path and an automated, tested recovery strategy
 
 ## Operate and learn
 
+Before closing tracked work, reconcile actual issue/MR state, the accepted scope,
+source and required integrated verification. A merge or provider auto-closure is
+not completion evidence. While follow-up/post-merge work remains, use neutral
+references rather than closing keywords, including negated closing phrases that
+the provider may still parse. Repair an unintended closure within authorization
+and record what remains; do not let a closed checkbox erase unfinished work.
+
 For operated software, collect user-centered health and diagnostic evidence after delivery. Reconcile defects, incidents, decisions, tests, and the project contract. Evaluate intended effectiveness separately from deterministic correctness.
 
 ## Resume from existing evidence

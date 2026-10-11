@@ -204,8 +204,8 @@ pub(super) fn run(args: &DoctorArgs) -> Result<ExitCode> {
     Ok(ExitCode::from(report.exit_code))
 }
 
-fn inspect(args: &DoctorArgs) -> Report {
-    let mut report = Report {
+fn initial_report(args: &DoctorArgs) -> Report {
+    Report {
         schema: 1,
         root: args.root.clone(),
         remote_requested: args.remote,
@@ -245,6 +245,11 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "evidence.ci-review.v1",
                 "evidence.discussion-wire.v2",
                 "evidence.review-handoff.v1",
+                "evidence.review-preparation.v2",
+                "evidence.prior-stage-observation.v1",
+                "check.fail-fast.v1",
+                "delivery.subject.v1",
+                "adoption.project-scope.v1",
                 "adoption.preflight.v1",
                 "ci.qualify.v1",
                 "adoption.clean-target.v2",
@@ -269,7 +274,11 @@ fn inspect(args: &DoctorArgs) -> Report {
             .plugin_root
             .as_ref()
             .and_then(|p| p.canonicalize().ok()),
-    };
+    }
+}
+
+fn inspect(args: &DoctorArgs) -> Report {
+    let mut report = initial_report(args);
     match report
         .runtime
         .path

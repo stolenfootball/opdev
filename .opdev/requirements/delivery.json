@@ -53,7 +53,7 @@
       "id": "V-delivery-path",
       "target": {
         "path": "crates/opdev-cli/tests/delivery_recovery.rs",
-        "sha256": "863b760e7af256f2700a0ff541e22e5e2c2f96f7aa1f3fc159235997b5326e2c",
+        "sha256": "073930a8376601823ed422e3e058ae5b6004f97eeedf7ebbc4aad2ee4e39ed04",
         "excerpt": "fn publication_requires_the_complete_controlled_dependency_path("
       },
       "inputs": [
@@ -79,7 +79,7 @@
         },
         {
           "path": ".gitlab-ci.yml",
-          "sha256": "bcef4d7d36ee0ed6f394898c463e923278289d037845f5f5f85490047b16feb3",
+          "sha256": "a4bcea8eeb9303d2669237633312e8160219b1521aa624157500d262ade2840c",
           "excerpt": "publish-github:"
         }
       ],
@@ -93,7 +93,7 @@
       "id": "V-publication-recovery",
       "target": {
         "path": "crates/opdev-cli/tests/delivery_recovery.rs",
-        "sha256": "863b760e7af256f2700a0ff541e22e5e2c2f96f7aa1f3fc159235997b5326e2c",
+        "sha256": "073930a8376601823ed422e3e058ae5b6004f97eeedf7ebbc4aad2ee4e39ed04",
         "excerpt": "fn publication_recovery_preserves_uploaded_bytes_and_rejects_conflicts("
       },
       "inputs": [
@@ -154,11 +154,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "fc8375b1795f90792066f71fe73ba00922fd9336ff60331b299d82e50725508a",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "1db58f554cfcebefe2f70615f75d3bb11f78601661631b03f224cb15e5ae45b9"
+        "outcome": "passed"
       }
     },
     {
@@ -174,11 +174,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "38041a34470b0e6556fa29b37f8441f7c1440e4a8ba4bbb7b32a5a9b381031ab",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "13224b17dab70fe6ecca8ab847bf8653f4ab8cfdc27afdac641fee28b373dffa"
+        "outcome": "passed"
       }
     },
     {
@@ -194,11 +194,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "6217dd4bb2732b8dbb4d3760a573c8e6ac459e8110442bd48a093741c63cd378",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "d3320bc7712632075a7dd8a8f6a747772b4e971ea50dccaad7978ed914ca08f9"
+        "outcome": "passed"
       }
     },
     {
@@ -214,11 +214,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "8a730326590971f8d8b1a2c19c3f478bc4172ddddad382296d36dad273edaf14",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "366e4ff4a86c3217e6fa26994c38ac373846fcaf3ba07c3c12add8fb44935788"
+        "outcome": "passed"
       }
     },
     {
@@ -234,11 +234,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "a661514cdea8b889b04e5e929b92df40256393b8c297ad5cabe95b4ab1b7f595",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "f53c08188e12cfeaa765d6fd9e4f25946030ce9c1d3714fb98156b3ab2e1a4c0"
+        "outcome": "passed"
       }
     },
     {
@@ -254,11 +254,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "a2307924d808fd1b5eff667eb8816bf7f2d48805e4818927f83058b13f52f09a",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "743ecceced56ac4391b831c4841e21e7c55290c8eadc2df350d0aed9bf10309f"
+        "outcome": "passed"
       }
     }
   ]

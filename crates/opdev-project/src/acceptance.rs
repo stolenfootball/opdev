@@ -232,6 +232,9 @@ pub struct AcceptanceReview {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct AcceptanceEvidence {
+    /// Exact bytes selected for delivery, never inferred from a project path or version label.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub delivery_subject: Option<DeliverySubject>,
     /// Additional organization duties, bound to this same source and review.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub organization_controls: Option<OrganizationControlReview>,
@@ -254,6 +257,28 @@ pub struct AcceptanceEvidence {
     pub verifications: Vec<AcceptanceVerification>,
     /// Review bound to this exact payload and staged change.
     pub review: AcceptanceReview,
+}
+
+/// A single artifact or immutable manifest identifying a complete artifact inventory.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DeliverySubject {
+    /// SHA-256 of the artifact or inventory manifest bytes.
+    pub sha256: String,
+    /// Immutable retrieval reference reviewed with those bytes.
+    pub locator: String,
+    /// Whether the digest identifies an artifact or its inventory manifest.
+    pub kind: DeliverySubjectKind,
+}
+
+/// Exact identity scope; a version name alone is neither variant.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DeliverySubjectKind {
+    /// One deliverable.
+    Artifact,
+    /// Manifest of the immutable artifact inventory.
+    Inventory,
 }
 
 /// Source-, definition- and stage-bound links within the ordinary acceptance review.
@@ -329,6 +354,7 @@ impl OrganizationControlReview {
 impl Default for AcceptanceEvidence {
     fn default() -> Self {
         Self {
+            delivery_subject: None,
             organization_controls: None,
             policy_controls: None,
             safeguards: None,
@@ -360,6 +386,9 @@ impl AcceptanceEvidence {
             "conditions": self.conditions, "verifications": self.verifications,
         });
         // Omission keeps every historical digest stable. Present mappings are material.
+        if let Some(subject) = &self.delivery_subject {
+            payload["delivery_subject"] = serde_json::to_value(subject)?;
+        }
         if let Some(controls) = &self.organization_controls {
             payload["organization_controls"] = serde_json::to_value(controls)?;
         }
@@ -379,6 +408,16 @@ impl AcceptanceEvidence {
     }
 
     pub(crate) fn validate(&self) -> Result<(), EvidenceError> {
+        if let Some(subject) = &self.delivery_subject
+            && (!digest_valid(&subject.sha256)
+                || subject.locator.trim().is_empty()
+                || subject.locator.len() > 4096
+                || subject.locator.chars().any(char::is_control))
+        {
+            return Err(EvidenceError::Semantic(
+                "Delivery needs an exact artifact or inventory SHA-256 and a bounded retrieval reference; a release label is not byte identity.".into(),
+            ));
+        }
         if let Some(controls) = &self.organization_controls {
             controls.validate()?;
         }
@@ -474,6 +513,32 @@ fn digest_valid(value: &str) -> bool {
 #[cfg(test)]
 mod organization_tests {
     use super::*;
+
+    #[test]
+    fn delivery_subject_is_material_and_malformed_identity_is_rejected() -> Result<(), EvidenceError>
+    {
+        let mut acceptance = AcceptanceEvidence::default();
+        let legacy = acceptance.digest("source", "work")?;
+        acceptance.delivery_subject = Some(DeliverySubject {
+            sha256: "a".repeat(64),
+            locator: "https://example.test/immutable".into(),
+            kind: DeliverySubjectKind::Artifact,
+        });
+        acceptance.validate()?;
+        let digest = acceptance.digest("source", "work")?;
+        assert_ne!(legacy, digest);
+        for value in ["version-1", "", &"A".repeat(64)] {
+            acceptance
+                .delivery_subject
+                .as_mut()
+                .ok_or_else(|| EvidenceError::Semantic("missing fixture subject".into()))?
+                .sha256 = value.into();
+            assert!(acceptance.validate().is_err());
+        }
+        acceptance.delivery_subject = None;
+        assert_eq!(acceptance.digest("source", "work")?, legacy);
+        Ok(())
+    }
 
     #[test]
     fn organization_links_are_material_and_legacy_digest_is_unchanged() -> Result<(), EvidenceError>

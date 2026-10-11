@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -500,17 +500,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -530,7 +530,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -550,7 +550,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -615,17 +615,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -645,7 +645,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -665,7 +665,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -730,17 +730,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -760,7 +760,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -780,7 +780,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -845,17 +845,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -875,7 +875,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -895,7 +895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -960,17 +960,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -990,7 +990,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -1010,7 +1010,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1024,7 +1024,7 @@
       "id": "V-policy-enforcement-6",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "e9f635bb5a655c5d71d05cd00c23fbb50fe323dce631d8afb710e9191590483a",
+        "sha256": "c89eb34c493ad027939e8d18fc709aff878759dd3a687dc6343cc5dcec060e34",
         "excerpt": "fn policy_two_recovery_uses_real_execution_not_a_strategy_or_another_stage"
       },
       "inputs": [
@@ -1075,17 +1075,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -1105,7 +1105,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -1125,7 +1125,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1190,17 +1190,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -1220,7 +1220,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -1240,7 +1240,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1350,17 +1350,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -1380,7 +1380,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -1400,7 +1400,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1510,17 +1510,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -1540,7 +1540,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -1560,7 +1560,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1670,17 +1670,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -1700,7 +1700,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -1720,7 +1720,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1830,17 +1830,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -1860,7 +1860,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -1880,7 +1880,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1990,17 +1990,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -2020,7 +2020,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -2040,7 +2040,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2150,17 +2150,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -2180,7 +2180,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2310,17 +2310,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -2340,7 +2340,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -2360,7 +2360,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2470,17 +2470,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -2500,7 +2500,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -2520,7 +2520,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2630,17 +2630,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -2660,7 +2660,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -2680,7 +2680,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2790,17 +2790,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -2820,7 +2820,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -2840,7 +2840,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2950,17 +2950,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -2975,7 +2975,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -2995,7 +2995,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3110,17 +3110,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -3135,7 +3135,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -3155,7 +3155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3295,17 +3295,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -3320,7 +3320,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -3340,7 +3340,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3480,17 +3480,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -3505,7 +3505,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -3525,7 +3525,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3665,17 +3665,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -3690,7 +3690,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -3710,7 +3710,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3850,17 +3850,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -3875,7 +3875,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -3895,7 +3895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4035,17 +4035,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -4060,7 +4060,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -4080,7 +4080,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4220,17 +4220,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -4245,7 +4245,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -4265,7 +4265,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4354,7 +4354,7 @@
       "id": "V-organization-policy-8",
       "target": {
         "path": "crates/opdev-project/src/acceptance.rs",
-        "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+        "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
         "excerpt": "fn organization_links_are_material_and_legacy_digest_is_unchanged("
       },
       "inputs": [
@@ -4405,17 +4405,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -4430,7 +4430,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -4450,7 +4450,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4590,17 +4590,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -4615,7 +4615,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -4635,7 +4635,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4775,17 +4775,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -4800,7 +4800,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -4820,7 +4820,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4960,17 +4960,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -4985,7 +4985,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -5005,7 +5005,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5145,17 +5145,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -5170,7 +5170,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -5190,7 +5190,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5279,7 +5279,7 @@
       "id": "V-organization-policy-13",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "e9f635bb5a655c5d71d05cd00c23fbb50fe323dce631d8afb710e9191590483a",
+        "sha256": "c89eb34c493ad027939e8d18fc709aff878759dd3a687dc6343cc5dcec060e34",
         "excerpt": "fn organization_controls_reuse_real_current_execution_and_reject_missing_links("
       },
       "inputs": [
@@ -5330,17 +5330,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -5355,7 +5355,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -5375,7 +5375,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5515,17 +5515,17 @@
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
           "excerpt": "fn evaluate_inner("
         },
         {
@@ -5545,7 +5545,7 @@
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
           "excerpt": "\"policy_controls\": {"
         },
         {
@@ -5565,7 +5565,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5615,11 +5615,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "6d6d479e37e761b937396ea22f33a46929a8bf1b67dce01de69a87751972b896",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "b7212fbaf3486d297d3ea873463cc1b28b268441fd7e5277cdc312bf36ec1167"
+        "outcome": "passed"
       }
     },
     {
@@ -5655,11 +5655,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "494f16918092fd1adc932d310d56fd1c85492a7fcac46812a60bb0a1d7f0c85b",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "e4049a03005b494ccf6d6bc7ed859fb174fcb76afc799bb3bb70283f424466c4"
+        "outcome": "passed"
       }
     },
     {
@@ -5695,11 +5695,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "8e3d69190b4cd025bc5b130ad3d7f9ff897ee7a6a2ee054d83324dc7658b4468",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "9cfd6c9bad5de21c2af2b3cf0bccb5f7ee21e28fac78399bbb88f57af73368d8"
+        "outcome": "passed"
       }
     },
     {
@@ -5745,11 +5745,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "96ab285e843e4b114fbbcb4fa5b5ec4e61bd846c57ff0e59c7ff849701354488",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "e0aeff473e6907ba7c8898f4754566dbe24187ac8b2a49613ec6d93aa086f0e7"
+        "outcome": "passed"
       }
     },
     {
@@ -5795,11 +5795,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "6a376d401ca7b356efd245ccefde035d95663b85317e12f290726f4285cd3f2e",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "ad837b3e52e9f2579da977895cf8c72fafd922daff3d37610ff44d8fbedba4fb"
+        "outcome": "passed"
       }
     },
     {
@@ -5845,11 +5845,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "cf99da9cac3b1a7cf77e121d64366212f9d8bc241e9255936ba393c00d105ec6",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "3083cabd05599e30c79c631d30605556dab9ef758a573e7f1227bf0fea829a39"
+        "outcome": "passed"
       }
     },
     {
@@ -5920,11 +5920,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "eeb22a141c18b09539d25b51d2387c187fd7e7a5e904c87acf2b5b586bb15a92",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "be2c44471b40703991452a03f5bd422142c89e4b8e05526fbb3551b598a345b6"
+        "outcome": "passed"
       }
     },
     {
@@ -5995,11 +5995,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "ab3cb77189cccb987fdd36a99aaf8b2d410c8c1f02e2a0e9652ddc886615f8f3",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "b3a36b5f7a60f20ccabf26f0692265c0adddfc61e7e1bb9e7d387cdb9f4a74ae"
+        "outcome": "passed"
       }
     },
     {
@@ -6070,11 +6070,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "2020eb9877fade88c84f419e1bae62793b8497364fdf99490a57b137da9fd00d",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "d6645c299bbab65cd0daa158d4a7c485698c0b60db08a1dc89a4f23ece111faf"
+        "outcome": "passed"
       }
     },
     {
@@ -6150,11 +6150,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "16fe41b42563798308fcc6a9f8b5ca806945a94738ca1556c9c8a9b3129cbc49",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "1a670a0f2fd730b600c0d59285785f89c2e92c5208f6d309f5f19835b7b547e9"
+        "outcome": "passed"
       }
     },
     {
@@ -6230,11 +6230,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "7c9e1701e627d1388f27b89ba8c65f4875f9a55254e12646711407862485b598",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "938bab45c0ac56af04c55fd1935dca79d6e2cbd8ad51be0f126c5f4d00564a01"
+        "outcome": "passed"
       }
     },
     {
@@ -6310,11 +6310,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "646e34d43f4ba9701e6a8bf228b29f7d6f0cd8934c7e97f676d7b9ff4d3669ba",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "f5908416ddf65a566b393b5a14bb8912ae85f4ccc0fb731153f2a357175aab3c"
+        "outcome": "passed"
       }
     }
   ]

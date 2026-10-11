@@ -8,6 +8,9 @@ use crate::OutputFormat;
 
 #[derive(Debug, Args)]
 pub(crate) struct PrepareArgs {
+    /// Save machine-readable handoff to a new file outside source, avoiding merged console streams.
+    #[arg(long)]
+    output: Option<PathBuf>,
     #[arg(long, default_value = ".")]
     root: PathBuf,
     /// Exact existing MR/PR number; no latest-change lookup.
@@ -59,7 +62,13 @@ pub(crate) fn prepare(args: &PrepareArgs) -> Result<ExitCode> {
     if crate::clean_remote_revision(&root).as_deref() != Some(&revision) {
         bail!("Source changed during handoff; nothing posted");
     }
-    println!("{}", serde_json::to_string_pretty(&handoff)?);
+    let json = serde_json::to_vec_pretty(&handoff)?;
+    if let Some(path) = &args.output {
+        let path = crate::evidence_bundle::export_destination(&root, path)?;
+        crate::local_state::write_new(&path, &json)?;
+    } else {
+        println!("{}", String::from_utf8(json)?);
+    }
     eprintln!(
         "Review handoff prepared. Nothing was posted or approved; inspect the proposed description before applying it. Recheck its original digest before writing to avoid overwriting someone else's edit."
     );

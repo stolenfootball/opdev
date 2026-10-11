@@ -697,6 +697,8 @@ fn present_adoption(
                 "schema":1,"complete":complete,"target":opdev_project::clean_adoption::TARGET,
                 "legacy_policy_passed":(mode.legacy_assessment && !mode.preflight).then_some(passed),
                 "inputs_ready": mode.preflight.then_some(passed),
+                "qualification_scope": "project_adoption",
+                "artifact_delivery": "not_evaluated",
                 "checks_ran": core_report.is_some(),
                 "fingerprint":fingerprint,"blockers":blockers,"core_report":core_report
             }))?
@@ -716,6 +718,9 @@ fn present_adoption(
                 if passed { "passed" } else { "blocked" }
             );
         } else {
+            println!(
+                "Qualification scope: project adoption and current controls. Artifact delivery was not evaluated; no release is authorized."
+            );
             println!(
                 "Adoption: {}",
                 if complete {
@@ -827,7 +832,7 @@ fn verify_core(
         Gate::Delivery,
         Gate::Compliance,
     ] {
-        if !report.gate_passed(gate) {
+        if adoption_gate_blocked(manifest, &report, gate) {
             blockers.push(format!("core gate {gate:?} is blocked"));
         }
     }
@@ -847,6 +852,38 @@ fn verify_core(
         );
     }
     Ok((report, blockers))
+}
+
+fn adoption_gate_blocked(
+    manifest: &opdev_project::ProjectManifest,
+    report: &opdev_engine::CheckReport,
+    gate: Gate,
+) -> bool {
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_none_or(|p| p.version != "2")
+    {
+        return !report.gate_passed(gate);
+    }
+    // Adoption checks the implemented controls, not a new release's bytes. Keep
+    // every original gate result visible; do not relabel it passed. Known artifact
+    // failures and required additional-standard findings still block adoption.
+    report
+        .gates
+        .iter()
+        .find(|g| g.gate == gate)
+        .is_none_or(|g| {
+            !g.blocking_checks.is_empty()
+                || g.blocking_rules.iter().any(|id| {
+                    !opdev_engine::artifact_scoped_rule(id.as_str())
+                        || !report
+                            .rules
+                            .iter()
+                            .any(|r| r.rule_id == *id && r.outcome == Outcome::Unverified)
+                })
+        })
 }
 
 fn referenced_suite_blockers(
@@ -925,4 +962,79 @@ fn review_blockers(
         blockers.push("adoption cleanup: review actual retained content, retired paths and updated references for this source; provide adoption_cleanup_review evidence. A clean filename layout alone is insufficient".into());
     }
     blockers
+}
+
+#[cfg(test)]
+mod scope_tests {
+    use super::*;
+    #[test]
+    fn adoption_scope_preserves_delivery_gaps_and_rejects_other_blockers() -> Result<()> {
+        let temp = tempfile::tempdir()?;
+        anyhow::ensure!(
+            std::process::Command::new("git")
+                .args(["init", "--quiet"])
+                .current_dir(temp.path())
+                .status()?
+                .success(),
+            "fixture Git initialization failed"
+        );
+        let mut manifest = opdev_project::discover(temp.path())?.manifest;
+        manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+            version: "2".into(),
+            minimumcd: None,
+            review_reference: "fixture".into(),
+            maintenance_branches: vec![],
+        });
+        let id: opdev_core::RuleId = "MCD-ARTIFACT-001".parse()?;
+        let mut report = opdev_engine::CheckReport {
+            schema: 3,
+            catalog_version: 4,
+            engineering: None,
+            subject: "fixture".into(),
+            evaluated_at: 1,
+            rules: vec![opdev_core::RuleResult {
+                rule_id: id.clone(),
+                catalog_version: 4,
+                outcome: Outcome::Unverified,
+                subject: "fixture".into(),
+                verifier: opdev_core::VerificationSource::Evidence,
+                evaluated_at: 1,
+                evidence: vec![],
+                diagnostic: None,
+            }],
+            checks: vec![],
+            gates: vec![opdev_core::GateVerdict {
+                gate: Gate::Delivery,
+                verdict: opdev_core::AggregateVerdict::Blocked,
+                blocking_rules: vec![id],
+                blocking_checks: vec![],
+            }],
+        };
+        assert!(!adoption_gate_blocked(&manifest, &report, Gate::Delivery));
+        assert!(
+            !report.gate_passed(Gate::Delivery),
+            "adoption must not rewrite artifact readiness"
+        );
+        for outcome in [Outcome::Failed, Outcome::Error, Outcome::MigrationRequired] {
+            report.rules[0].outcome = outcome;
+            assert!(adoption_gate_blocked(&manifest, &report, Gate::Delivery));
+        }
+        report.rules[0].outcome = Outcome::Unverified;
+        report.gates[0]
+            .blocking_checks
+            .push("standard:required".into());
+        assert!(adoption_gate_blocked(&manifest, &report, Gate::Delivery));
+        report.gates[0].blocking_checks.clear();
+        report.gates[0]
+            .blocking_rules
+            .push("OPDEV-RECOVERY-001".parse()?);
+        assert!(adoption_gate_blocked(&manifest, &report, Gate::Delivery));
+        report.gates[0].blocking_rules.pop();
+        manifest.assurance.engineering = None;
+        assert!(
+            adoption_gate_blocked(&manifest, &report, Gate::Delivery),
+            "legacy semantics changed"
+        );
+        Ok(())
+    }
 }

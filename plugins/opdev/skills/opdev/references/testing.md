@@ -63,6 +63,15 @@ boundary; its checks establish only observed prototype behavior. Package/recover
 suites follow affected behavior and applicable delivery, not an automatic release
 after each milestone.
 
+When supported and appropriate, `check --fail-fast` runs declared suites in order
+and defers remaining suites after a required failure; deferred checks remain
+unverified and blocking. Place inexpensive checks before costly suites through
+reviewed project configuration, not implicit filename-based selection. For selected
+external review, fail-fast validates semantic inputs before project commands.
+Extensions retain their normal execution behavior. The default still collects
+all results. Do not run a second complete suite just to use this flag or treat a
+deferred suite as passed. Required integration and post-merge coverage is unchanged.
+
 `opdev check` executes the declared suites; do not run the same full suite just
 before it merely to obtain a second verification record. When execution scope is
 unclear, capability-check `check --help` for `--plan` and preview with the same

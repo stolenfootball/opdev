@@ -53,6 +53,15 @@
         "review"
       ],
       "properties": {
+        "delivery_subject": {
+          "type": "object", "additionalProperties": false,
+          "required": ["sha256", "locator", "kind"],
+          "properties": {
+            "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "locator": {"type": "string", "minLength": 1, "maxLength": 4096},
+            "kind": {"enum": ["artifact", "inventory"]}
+          }
+        },
         "organization_controls": {
           "type": "object", "additionalProperties": false,
           "required": ["resolution_sha256", "stage", "bindings"],

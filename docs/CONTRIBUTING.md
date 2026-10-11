@@ -106,6 +106,15 @@ in this repository's GitLab MR, using review storage policy 2. Do not recreate
 export with `evidence bundle export-review --discussion`, and review before
 posting. An agent's claim that its own output is correct is not evidence.
 
+For storage 2, `evidence prepare --input FILE --work REF --output NEW_FILE`
+starts a source-bound unresolved acceptance draft without a legacy ledger.
+Review its actual conditions and assertions; `evidence prepare --draft FILE`
+calculates the review identity without approving anything. After recording the
+actual review, use `--draft FILE --write --ledger-output NEW_FILE` and the existing
+discussion export. `--ledger-input` may retain explicitly selected current
+assertions; old fingerprints are not silently rebound. Keep all drafts outside
+source. Prefer native preparation/export commands to custom hash-binding helpers.
+
 ### CI review handoff
 
 The `quality` job runs native `opdev check --ci --review-ci` (adding
@@ -123,21 +132,51 @@ The placeholders are not valid selections. Obtain actual identities after postin
 the reviewed record. Before merge, use the source head. After merge, add a separate
 `post_merge` entry bound to the actual integrated commit and its current-stage
 review. Prepare that review from the integrated tree; copying the pre-merge result
-does not qualify it. Retry the same failed quality job after the missing selection
-is supplied, keeping the failed attempt visible. The native reader never writes reviews,
+does not qualify it. `quality` is a **blocking manual job** (`allow_failure: false`):
+prepare and select the review, then start that exact job using the existing
+authorized provider workflow. This is a scheduling hold, not an additional human
+approval requirement. A manual, missing, canceled or failed job cannot qualify
+integration. Do not start it while its review is missing. If an actual run fails,
+keep that attempt visible and retry only after resolving its cause. The native reader never writes reviews,
 selects an older passing record or converts a source-head run into post-merge proof.
 It refuses fork inputs; extending this credential/trust scope needs separate review.
 Tag quality verifies integrated source, not release authorization or delivery readiness.
 
 Use `ci prepare-review --change NUMBER --note ID --acceptance-sha256 ID` (add
 `--post-merge` for integrated source) to prepare the locator and description edit
-from the exact posted comment. It prints a proposal only. Inspect it and recheck
+from the exact posted comment. Use `--output NEW_FILE` for a machine-readable
+proposal independent of combined console streams. Inspect it and recheck
 the original description digest before applying it through authenticated `glab`.
 The source-built CLI and CI reader support lossless discussion format 2; published
 older readers may not. The quality job runs `ci review-check` before check-only
 tool installation, then executes the real check after setup. Neither handoff nor
 input readiness is approval or qualification. After integrated checks, `ci qualify`
 observes remote CI without rerunning local suites or claiming artifact readiness.
+
+The post-merge review must retain the actual pre-merge verification finding.
+`ci observe-prior-stage --review-locator FILE --acceptance-sha256 ID --run RUN
+--ref REF --output NEW_FILE` prepares those facts through the existing local
+provider login (GitHub additionally requires `--workflow ID`). It requires an
+actually merged change with unchanged source/merge trees, the exact pre-review,
+and observed required jobs. Its assertion deliberately starts **unverified**:
+review run context and limitations before recording the finding. It neither
+authenticates consent nor substitutes for post-merge execution. Changed merge
+content requires fresh impact review, not forced transfer. No CI token expansion
+or developer login export is needed; prepare this handoff outside CI.
+
+Required CI uses `check --ci --review-ci --fail-fast`. Review readiness is checked
+before suites, then suites run once in their declared order (cheap formatting and
+lint precede full tests). After a suite fails, remaining suites are recorded as
+unverified and still block qualification. Extensions retain their declared
+execution behavior. Without `--fail-fast`, checks keep their diagnostic collect-all
+behavior. Use the same flag for local integration handoff; do not run a redundant
+standalone full suite first. This is scheduling, not reduced required coverage.
+
+At completion, reconcile actual source, MR, current CI and issue state. Use
+neutral references such as `Related: #N` while follow-up/post-merge work remains;
+even a negated closing phrase can be parsed by the provider. Close the issue only
+after its entire accepted scope and required integrated checks are verified. A
+merged MR or an automatically closed issue is not itself completion evidence.
 
 GitLab jobs use the automatically issued `CI_JOB_TOKEN`, sent as `JOB-TOKEN`.
 That short-lived identity takes precedence over developer credentials in CI.
