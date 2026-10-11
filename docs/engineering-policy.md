@@ -46,6 +46,10 @@ versions and unknown rule IDs are errors, never a fallback to fewer requirements
 MinimumCD remains distinct. A project may meet OpDev's safe-recovery requirement
 and still lack MinimumCD's required rollback evidence. Neither engineering
 readiness nor a partial standards mapping establishes full conformance.
+Historical rules shown outside the engineering baseline are not automatically
+external obligations: the selected standard's exact mapping determines those.
+For example, MinimumCD mapping 1 uses `MCD-RECOVERY-002` for literal rollback,
+not the older, broader `MCD-RECOVERY-001` recovery statement.
 
 The policy design supports `guidance` (no conformance verdict), `assess` (separate
 nonblocking assessment), and `require` (additional blocking requirements at their

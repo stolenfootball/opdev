@@ -54,7 +54,8 @@ pub struct PolicyResolution {
     pub controls: Vec<ResolvedControl>,
     /// Complete catalog-3 accounting, including unchanged and external-only rules.
     pub changes: Vec<PolicyChange>,
-    /// Historical definitions preserved for exact external assessments.
+    /// Historical definitions outside engineering gates. A selected external
+    /// mapping determines which are actually required; this is not that mapping.
     pub external_rules: Vec<Rule>,
     /// Interpretation limits; never an approval or verification result.
     pub limits: String,

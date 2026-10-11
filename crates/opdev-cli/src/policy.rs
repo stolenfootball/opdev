@@ -86,7 +86,7 @@ pub(super) fn run(args: &PolicyArgs) -> Result<ExitCode> {
                     let role = if resolved.controls.iter().any(|c| c.rule.id == selected.id) {
                         "engineering obligation"
                     } else {
-                        "historical external-standard obligation, not an engineering gate"
+                        "historical definition outside engineering gates; external assessments use only their exact mapped rules"
                     };
                     println!(
                         "{}: {}\nRole: {role}\n{}\nApplies to: {}\nDefinition boundaries: {:?}\n{}",

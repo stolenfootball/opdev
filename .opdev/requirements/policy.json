@@ -30,7 +30,7 @@
       "id": "V-policy-preview-1",
       "target": {
         "path": "crates/opdev-core/src/resolution.rs",
-        "sha256": "adde45d67ec0382712a35ff505210c5c16104cf3004f626eba603d2bcfb9e986",
+        "sha256": "cc6acebc9deca0d683eab5a19cf5f68ae8ec3f8e7bd6d24c6a9d8b753e7fa521",
         "excerpt": "fn preview_accounts_for_every_old_rule_without_mutating_it("
       },
       "inputs": [
@@ -81,7 +81,7 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "b5fc7001676a5814c5592b4dd79b70ceaabf34e5be2bf42b3415858161ba0110",
+          "sha256": "e9cb46ff9c9ac80cd4d957e9a6d5370d50cb7cfa46bac76c4fa01cddc27a686f",
           "excerpt": "fn difference("
         },
         {
@@ -100,7 +100,7 @@
       "id": "V-policy-preview-2",
       "target": {
         "path": "crates/opdev-core/src/resolution.rs",
-        "sha256": "adde45d67ec0382712a35ff505210c5c16104cf3004f626eba603d2bcfb9e986",
+        "sha256": "cc6acebc9deca0d683eab5a19cf5f68ae8ec3f8e7bd6d24c6a9d8b753e7fa521",
         "excerpt": "fn unknown_and_conflicting_definitions_fail_closed("
       },
       "inputs": [
@@ -151,7 +151,7 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "b5fc7001676a5814c5592b4dd79b70ceaabf34e5be2bf42b3415858161ba0110",
+          "sha256": "e9cb46ff9c9ac80cd4d957e9a6d5370d50cb7cfa46bac76c4fa01cddc27a686f",
           "excerpt": "fn difference("
         },
         {
@@ -170,7 +170,7 @@
       "id": "V-policy-preview-3",
       "target": {
         "path": "crates/opdev-core/src/resolution.rs",
-        "sha256": "adde45d67ec0382712a35ff505210c5c16104cf3004f626eba603d2bcfb9e986",
+        "sha256": "cc6acebc9deca0d683eab5a19cf5f68ae8ec3f8e7bd6d24c6a9d8b753e7fa521",
         "excerpt": "fn mandatory_controls_and_semantic_identity_are_not_optional("
       },
       "inputs": [
@@ -221,7 +221,7 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "b5fc7001676a5814c5592b4dd79b70ceaabf34e5be2bf42b3415858161ba0110",
+          "sha256": "e9cb46ff9c9ac80cd4d957e9a6d5370d50cb7cfa46bac76c4fa01cddc27a686f",
           "excerpt": "fn difference("
         },
         {
@@ -240,7 +240,7 @@
       "id": "V-policy-preview-4",
       "target": {
         "path": "crates/opdev-cli/tests/policy_preview.rs",
-        "sha256": "cce4fea9b5e08db67206affbe4b41ebb19146c9bff8b074efd9da5571b71e92f",
+        "sha256": "c24a138a800d43cf2d08f31c7f8092431db0be5d3b296c4c03ed236753831689",
         "excerpt": "fn explanation_works_outside_a_project_and_rejects_unknowns("
       },
       "inputs": [
@@ -291,7 +291,7 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "b5fc7001676a5814c5592b4dd79b70ceaabf34e5be2bf42b3415858161ba0110",
+          "sha256": "e9cb46ff9c9ac80cd4d957e9a6d5370d50cb7cfa46bac76c4fa01cddc27a686f",
           "excerpt": "fn difference("
         },
         {
@@ -310,7 +310,7 @@
       "id": "V-policy-preview-5",
       "target": {
         "path": "crates/opdev-cli/tests/policy_preview.rs",
-        "sha256": "cce4fea9b5e08db67206affbe4b41ebb19146c9bff8b074efd9da5571b71e92f",
+        "sha256": "c24a138a800d43cf2d08f31c7f8092431db0be5d3b296c4c03ed236753831689",
         "excerpt": "fn project_preview_preserves_contract_and_does_not_launch_commands("
       },
       "inputs": [
@@ -361,7 +361,7 @@
         },
         {
           "path": "crates/opdev-cli/src/policy.rs",
-          "sha256": "b5fc7001676a5814c5592b4dd79b70ceaabf34e5be2bf42b3415858161ba0110",
+          "sha256": "e9cb46ff9c9ac80cd4d957e9a6d5370d50cb7cfa46bac76c4fa01cddc27a686f",
           "excerpt": "fn difference("
         },
         {
@@ -413,9 +413,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required.",
-        "subject_sha256": "54964ebe4cd9cca02e00430c4f273942d8f4d794109e241d008600c2a8becd4b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991624811",
+        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership.",
+        "subject_sha256": "8df7f360958d13ef3f3eabb4fc3caca98aa5df314d40329dac807b9743a91d01"
       }
     },
     {
@@ -453,9 +453,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required.",
-        "subject_sha256": "12b58c0304b226fc60eac4c4ddc7a0470f4680f18829b182b0ad80a51280d89f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991624811",
+        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership.",
+        "subject_sha256": "83ec273b158a555c7cdcb57145f4bf0af757519f85e1065bd2a0a67bc425d263"
       }
     },
     {
@@ -493,9 +493,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required.",
-        "subject_sha256": "bc734c64febdb2e9eb6a6bc96450cabbc71d65d7ffd7ad9c886f634b02579cf1"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991624811",
+        "rationale": "Reviewed all five assertions against this criterion: historical accounting and unchanged retained statements, invalid-definition failures, mandatory control retention/digest sensitivity, outside-project errors/nonmutation and real project diff/nonexecution. Complete input definitions and command dispatch are bound. Suite assurance, not named-case execution, conformance or approval; current execution remains required. Reviewed corrected historical-role wording and the direct human-output regression; historical presence is not automatic external-standard membership.",
+        "subject_sha256": "a4315bcd2fc4214b258aa87ef93951e75639bc7d99e32df75e87ed21bc6f9247"
       }
     }
   ]

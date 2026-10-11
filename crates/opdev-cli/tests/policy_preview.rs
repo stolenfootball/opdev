@@ -33,6 +33,18 @@ fn explanation_works_outside_a_project_and_rejects_unknowns() -> TestResult {
     assert_eq!(value["rule"]["id"], "OPDEV-RECOVERY-001");
     assert_eq!(value["change"]["rule"], "MCD-RECOVERY-001");
     assert_eq!(value["change"]["disposition"], "replaced");
+    let historical = invoke(&[
+        "policy",
+        "explain",
+        "--engineering",
+        "2",
+        "--rule",
+        "MCD-RECOVERY-001",
+    ])?;
+    assert!(historical.status.success());
+    let text = String::from_utf8(historical.stdout)?;
+    assert!(text.contains("external assessments use only their exact mapped rules"));
+    assert!(!text.contains("historical external-standard obligation"));
     assert!(
         value["limits"]
             .as_str()
