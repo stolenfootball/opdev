@@ -253,19 +253,23 @@ impl ProjectManifest {
     fn validate_boundaries(&self) -> Result<(), ManifestError> {
         self.validate_engineering()?;
         self.validate_standards()?;
+        self.validate_organization_policies()?;
         if let Some(policy) = &self.assurance.requirements {
             policy
                 .validate()
                 .map_err(|e| ManifestError::Semantic(e.to_string()))?;
             if !matches!(self.schema, 3 | 4)
-                || self.layout.as_ref().is_none_or(|l| l.version != 2)
+                || self
+                    .layout
+                    .as_ref()
+                    .is_none_or(|l| !matches!(l.version, 2 | 3))
                 || self
                     .assurance
                     .review_storage
                     .as_ref()
                     .is_none_or(|s| s.version != 2)
             {
-                return Err(ManifestError::Semantic("Requirements catalog needs explicit schema 3 or 4, layout 2 and MR/PR review storage 2; preview never selects these automatically.".into()));
+                return Err(ManifestError::Semantic("Requirements catalog needs explicit schema 3 or 4, layout 2 or 3 and MR/PR review storage 2; preview never selects these automatically.".into()));
             }
         }
         if let Some(storage) = &self.assurance.review_storage {
@@ -284,10 +288,11 @@ impl ProjectManifest {
         }
         if let Some(layout) = &self.layout
             && (!matches!(self.schema, 3 | 4)
-                || !matches!(layout.version, 1 | 2)
+                || !matches!(layout.version, 1..=3)
+                || (layout.version == 3 && self.schema != 4)
                 || layout.review_reference.trim().is_empty())
         {
-            return Err(ManifestError::Semantic("Strict layout needs project schema 3 or 4, layout version 1 or 2 and the actual migration decision reference.".into()));
+            return Err(ManifestError::Semantic("Strict layout needs a supported project schema and actual migration decision reference; layout 3 requires explicit schema 4.".into()));
         }
         if let Some(policy) = &self.assurance.safeguards
             && (self.assurance.engineering.is_none()
@@ -395,6 +400,31 @@ impl ProjectManifest {
                 .map_err(|error| ManifestError::Semantic(error.to_string()))?;
         }
 
+        Ok(())
+    }
+
+    fn validate_organization_policies(&self) -> Result<(), ManifestError> {
+        let selected = &self.assurance.organization_policies;
+        if selected.is_empty() {
+            return Ok(());
+        }
+        if self.schema != 4
+            || self.layout.as_ref().is_none_or(|l| l.version != 3)
+            || selected.len() > 8
+        {
+            return Err(ManifestError::Semantic("Organization policies need explicit schema 4, strict layout 3 and at most eight selections. No policy was migrated.".into()));
+        }
+        let mut ids = HashSet::new();
+        for policy in selected {
+            policy
+                .validate()
+                .map_err(|e| ManifestError::Semantic(e.to_string()))?;
+            if !ids.insert(&policy.id) {
+                return Err(ManifestError::Semantic(
+                    "Select each organization policy once.".into(),
+                ));
+            }
+        }
         Ok(())
     }
 
@@ -912,6 +942,9 @@ impl Operations {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Assurance {
+    /// Additional pinned organization definitions; absent means no implicit selection.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub organization_policies: Vec<crate::organization::PolicySelection>,
     /// Additional exact standards; no selection can remove baseline requirements.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub standards: Vec<crate::StandardSelection>,
@@ -1087,6 +1120,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                organization_policies: Vec::new(),
                 standards: Vec::new(),
                 requirements: None,
                 review_storage: None,

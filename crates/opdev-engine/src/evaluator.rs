@@ -232,6 +232,31 @@ fn evaluate_inner(
         })
         .transpose()?;
     let evaluated_at = unix_timestamp();
+    let organization = if manifest.layout.as_ref().is_some_and(|l| l.version == 3)
+        || !manifest.assurance.organization_policies.is_empty()
+    {
+        if manifest.schema != 4
+            || manifest
+                .assurance
+                .engineering
+                .as_ref()
+                .is_none_or(|p| p.version != "2")
+        {
+            return Err(EvaluationError::Report(
+                "Organization policy needs schema 4 and engineering policy 2; no checks ran."
+                    .into(),
+            ));
+        }
+        Some(
+            opdev_project::organization::load_selected(
+                root,
+                &manifest.assurance.organization_policies,
+            )
+            .map_err(|e| EvaluationError::Report(e.to_string()))?,
+        )
+    } else {
+        None
+    };
     let subject = root.display().to_string();
     let acceptance_ledger = selected_ledger(root, manifest, options.test_stage, review)?;
     let requirements = manifest
@@ -348,6 +373,19 @@ fn evaluate_inner(
         acceptance_outcome,
         options.test_stage,
     );
+    if let Some(snapshot) = organization {
+        let additional = crate::organization_controls::qualify(
+            root,
+            manifest,
+            &snapshot,
+            &checks,
+            acceptance_ledger.as_ref(),
+            acceptance_fingerprint.map(String::as_str),
+            acceptance_outcome,
+            options.test_stage,
+        );
+        checks.extend(additional);
+    }
     aggregate_evaluation(
         engineering,
         subject,
@@ -1567,6 +1605,7 @@ mod tests {
             },
             operations: Operations::default(),
             assurance: Assurance {
+                organization_policies: Vec::new(),
                 standards: Vec::new(),
                 requirements: None,
                 review_storage: None,

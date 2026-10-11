@@ -87,6 +87,99 @@ fn selection(name: &str, version: &str, mode: StandardMode) -> StandardSelection
 }
 
 #[test]
+fn organization_definitions_fail_closed_before_execution_and_cannot_self_verify() -> TestResult {
+    use opdev_project::organization::{
+        Applicability, OrganizationControl, PolicyPack, PolicySelection, VerificationRequirement,
+    };
+    let (dir, mut project) = fixture()?;
+    project.layout = Some(opdev_project::LayoutPolicy {
+        version: 3,
+        review_reference: "synthetic fixture".into(),
+    });
+    let pack = PolicyPack {
+        schema: 1,
+        id: "example".into(),
+        version: "1".into(),
+        title: "Example".into(),
+        source: "https://example.org/policy/1".into(),
+        parameters: std::collections::BTreeMap::new(),
+        controls: vec![OrganizationControl {
+            id: "ORG-EXAMPLE-001".into(),
+            statement: "Verify observable behavior".into(),
+            source: "https://example.org/policy/1#behavior".into(),
+            stages: vec![TestStage::Local],
+            applicability: Applicability::Always,
+            verification: VerificationRequirement::Automated,
+        }],
+    };
+    project.assurance.organization_policies = vec![PolicySelection {
+        id: pack.id.clone(),
+        version: pack.version.clone(),
+        definition_sha256: pack.definition_sha256()?,
+        parameters: std::collections::BTreeMap::new(),
+    }];
+    let path = dir.path().join(MANIFEST_PATH);
+    fs::write(&path, project.to_yaml()?)?;
+    let missing = cli(dir.path(), &["check", "--format", "json"])?;
+    assert!(!missing.status.success());
+    assert!(!dir.path().join("counter").exists());
+    fs::create_dir_all(dir.path().join(".opdev/policies"))?;
+    let definition = dir.path().join(".opdev/policies/example.json");
+    fs::write(&definition, serde_json::to_vec(&pack)?)?;
+    let inspected = cli(
+        dir.path(),
+        &[
+            "policy",
+            "inspect-pack",
+            "--id",
+            "example",
+            "--format",
+            "json",
+        ],
+    )?;
+    assert!(inspected.status.success());
+    let inspected: Value = serde_json::from_slice(&inspected.stdout)?;
+    assert_eq!(inspected["definition_sha256"], pack.definition_sha256()?);
+    assert!(!dir.path().join("counter").exists());
+    let unstaged = cli(dir.path(), &["check", "--format", "json"])?;
+    assert!(!unstaged.status.success());
+    assert!(!dir.path().join("counter").exists());
+    assert!(
+        Command::new("git")
+            .current_dir(dir.path())
+            .args(["add", "."])
+            .status()?
+            .success()
+    );
+    let unresolved = cli(dir.path(), &["check", "--format", "json"])?;
+    let report: Value = serde_json::from_slice(&unresolved.stdout)?;
+    assert_eq!(fs::read_to_string(dir.path().join("counter"))?, "1");
+    let control = report["checks"]
+        .as_array()
+        .ok_or("checks")?
+        .iter()
+        .find(|c| c["id"] == "opdev-organization:ORG-EXAMPLE-001")
+        .ok_or("control")?;
+    assert_eq!(control["outcome"], "unverified");
+    assert_eq!(control["blocking"], true);
+    assert!(!unresolved.status.success());
+    let mut changed = pack;
+    changed.controls[0].statement = "Changed obligation".into();
+    fs::write(&definition, serde_json::to_vec(&changed)?)?;
+    assert!(
+        Command::new("git")
+            .current_dir(dir.path())
+            .args(["add", ".opdev/policies/example.json"])
+            .status()?
+            .success()
+    );
+    let stale = cli(dir.path(), &["check", "--format", "json"])?;
+    assert!(!stale.status.success());
+    assert_eq!(fs::read_to_string(dir.path().join("counter"))?, "1");
+    Ok(())
+}
+
+#[test]
 fn multiple_standards_do_not_repeat_execution_or_invent_conformance() -> TestResult {
     let (dir, mut project) = fixture()?;
     project.assurance.standards = vec![

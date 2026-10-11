@@ -7,7 +7,7 @@
   "required": ["schema", "project", "authorities", "commands", "quality", "testing", "delivery", "assurance", "context"],
   "properties": {
     "schema": { "enum": [1, 2, 3, 4] },
-    "layout": {"type":"object","additionalProperties":false,"required":["version","review_reference"],"properties":{"version":{"enum":[1,2]},"review_reference":{"type":"string","minLength":1}}},
+    "layout": {"type":"object","additionalProperties":false,"required":["version","review_reference"],"properties":{"version":{"enum":[1,2,3]},"review_reference":{"type":"string","minLength":1}}},
     "project": { "$ref": "#/$defs/project" },
     "authorities": {
       "type": "object",
@@ -28,6 +28,9 @@
   "if": { "properties": { "schema": { "const": 1 } } },
   "then": { "properties": { "project": { "properties": { "ci": { "not": { "required": ["qualification"] } } } } } },
   "allOf": [
+    {"if":{"properties":{"assurance":{"required":["organization_policies"]}}},
+     "then":{"required":["layout"],"properties":{"schema":{"const":4},"layout":{"properties":{"version":{"const":3}}}}}},
+    {"if":{"required":["layout"],"properties":{"layout":{"properties":{"version":{"const":3}}}}},"then":{"properties":{"schema":{"const":4}}}},
     { "if": { "properties": { "assurance": { "required": ["standards"] } } },
       "then": { "properties": { "schema": { "const": 4 } } } },
     { "if": { "required": ["layout"] }, "then": { "properties": { "schema": { "enum": [3, 4] } } } },
@@ -42,6 +45,15 @@
       "then": { "properties": { "assurance": { "required": ["safeguards"], "properties": { "engineering": { "properties": { "version": { "const": "2" } } } } } } } }
   ],
   "$defs": {
+    "organization_selection": {
+      "type":"object","additionalProperties":false,"required":["id","version","definition_sha256"],
+      "properties":{
+        "id":{"type":"string","pattern":"^[a-z][a-z0-9-]{0,63}$"},
+        "version":{"type":"string","minLength":1,"maxLength":64,"pattern":"^[A-Za-z0-9._-]+$"},
+        "definition_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+        "parameters":{"type":"object","maxProperties":16,"propertyNames":{"pattern":"^[a-z][a-z0-9-]{0,63}$"},"additionalProperties":{"oneOf":[{"type":"boolean"},{"type":"integer","minimum":-1000000,"maximum":1000000},{"type":"string","minLength":1,"maxLength":128}]}}
+      }
+    },
     "standard_selection": {
       "type": "object", "additionalProperties": false,
       "required": ["name", "version", "mode"],
@@ -243,6 +255,7 @@
       "additionalProperties": false,
       "required": ["profiles"],
       "properties": {
+        "organization_policies": {"type":"array","maxItems":8,"items":{"$ref":"#/$defs/organization_selection"}},
         "standards": {"type":"array","maxItems":16,"items":{"$ref":"#/$defs/standard_selection"}},
         "requirements": {
           "type": "object", "additionalProperties": false,

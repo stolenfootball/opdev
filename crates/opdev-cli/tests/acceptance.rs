@@ -78,6 +78,7 @@ fn project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     git(root, &["add", "."])?;
     let acceptance = AcceptanceEvidence {
+        organization_controls: None,
         policy_controls: None,
         requirements: None,
         safeguards: None,
@@ -379,6 +380,134 @@ fn configured_ci_cannot_qualify_unexecuted_failed_or_unreviewed_tests() -> Resul
             "a template does not prove CI-exclusive delivery"
         );
     }
+    Ok(())
+}
+
+fn selected_organization_outcome(report: &Value) -> Result<String> {
+    Ok(report["checks"]
+        .as_array()
+        .ok_or("checks")?
+        .iter()
+        .find(|c| c["id"] == "opdev-organization:ORG-EXAMPLE-001")
+        .ok_or("control")?["outcome"]
+        .as_str()
+        .ok_or("outcome")?
+        .into())
+}
+
+fn organization_project() -> Result<(
+    tempfile::TempDir,
+    EvidenceLedger,
+    opdev_project::ProjectManifest,
+)> {
+    use opdev_project::organization::{
+        Applicability, OrganizationControl, PolicyPack, PolicySelection, VerificationRequirement,
+    };
+    let (temp, mut ledger) = recovery_project()?;
+    let root = temp.path();
+    let path = root.join(MANIFEST_PATH);
+    let mut manifest = opdev_project::ProjectManifest::load(&path)?;
+    manifest.layout = Some(opdev_project::LayoutPolicy {
+        version: 3,
+        review_reference: "fixture".into(),
+    });
+    let pack = PolicyPack {
+        schema: 1,
+        id: "example".into(),
+        version: "1".into(),
+        title: "Recovery requirement".into(),
+        source: "synthetic existing organization requirement".into(),
+        parameters: std::collections::BTreeMap::new(),
+        controls: vec![OrganizationControl {
+            id: "ORG-EXAMPLE-001".into(),
+            statement: "Recover committed writes".into(),
+            source: "requirements.md".into(),
+            stages: vec![TestStage::Delivery],
+            applicability: Applicability::Always,
+            verification: VerificationRequirement::Automated,
+        }],
+    };
+    manifest.assurance.organization_policies = vec![PolicySelection {
+        id: pack.id.clone(),
+        version: pack.version.clone(),
+        definition_sha256: pack.definition_sha256()?,
+        parameters: std::collections::BTreeMap::new(),
+    }];
+    fs::create_dir(root.join(".opdev/policies"))?;
+    fs::write(
+        root.join(".opdev/policies/example.json"),
+        serde_json::to_vec(&pack)?,
+    )?;
+    fs::write(&path, manifest.to_yaml()?)?;
+    git(root, &["add", "."])?;
+    let snapshot = opdev_project::organization::load_selected(
+        root,
+        &manifest.assurance.organization_policies,
+    )?;
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    ledger.changes[0]
+        .acceptance
+        .as_mut()
+        .ok_or("acceptance")?
+        .organization_controls = Some(opdev_project::OrganizationControlReview {
+        resolution_sha256: snapshot.resolution_sha256,
+        stage: TestStage::Delivery,
+        bindings: vec![opdev_project::OrganizationControlBinding {
+            control: "ORG-EXAMPLE-001".into(),
+            conditions: vec!["R1".into()],
+            extensions: vec![],
+        }],
+    });
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    Ok((temp, ledger, manifest))
+}
+
+#[test]
+fn organization_controls_reuse_real_current_execution_and_reject_missing_links() -> Result {
+    let (temp, mut ledger, manifest) = organization_project()?;
+    let root = temp.path();
+    let executed = check(root, &["--delivery"])?;
+    assert_eq!(
+        selected_organization_outcome(&executed)?,
+        "passed",
+        "{executed}"
+    );
+    assert_eq!(
+        executed["checks"]
+            .as_array()
+            .ok_or("checks")?
+            .iter()
+            .filter(|c| c["kind"] == "suite")
+            .count(),
+        1
+    );
+    let not_run = serde_json::to_value(opdev_engine::evaluate(
+        root,
+        &manifest,
+        opdev_engine::CheckOptions {
+            test_stage: TestStage::Delivery,
+            extension_stage: opdev_project::ExtensionStage::Deliver,
+            execute_checks: false,
+        },
+    )?)?;
+    assert_eq!(selected_organization_outcome(&not_run)?, "unverified");
+    ledger.changes[0]
+        .acceptance
+        .as_mut()
+        .ok_or("acceptance")?
+        .organization_controls
+        .as_mut()
+        .ok_or("controls")?
+        .bindings[0]
+        .conditions
+        .clear();
+    bind(&mut ledger)?;
+    save(root, &ledger)?;
+    assert_eq!(
+        selected_organization_outcome(&check(root, &["--delivery"])?)?,
+        "unverified"
+    );
     Ok(())
 }
 

@@ -53,6 +53,22 @@
         "review"
       ],
       "properties": {
+        "organization_controls": {
+          "type": "object", "additionalProperties": false,
+          "required": ["resolution_sha256", "stage", "bindings"],
+          "properties": {
+            "resolution_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "stage": {"enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"]},
+            "bindings": {"type": "array", "maxItems": 256, "items": {
+              "type": "object", "additionalProperties": false, "required": ["control", "conditions"],
+              "properties": {
+                "control": {"type": "string", "pattern": "^ORG-", "maxLength": 80},
+                "conditions": {"type": "array", "maxItems": 256, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 256}},
+                "extensions": {"type": "array", "maxItems": 256, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 256}}
+              }
+            }}
+          }
+        },
         "policy_controls": {
           "type": "object", "additionalProperties": false,
           "required": ["version", "definition_sha256", "stage", "bindings"],

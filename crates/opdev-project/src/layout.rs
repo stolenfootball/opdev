@@ -109,7 +109,10 @@ fn regular(meta: &fs::Metadata) -> bool {
 }
 
 fn directory(path: &str, version: u32) -> bool {
-    if version == 2 && path == ".opdev/requirements" {
+    if matches!(version, 2 | 3) && path == ".opdev/requirements" {
+        return true;
+    }
+    if version == 3 && path == ".opdev/policies" {
         return true;
     }
     matches!(
@@ -284,12 +287,23 @@ fn inspect_file(
         return Ok(());
     }
     if !(permitted(path)
-        || report.layout_version == 2 && crate::requirements::portable_catalog_path(path))
+        || matches!(report.layout_version, 2 | 3)
+            && crate::requirements::portable_catalog_path(path)
+        || report.layout_version == 3 && crate::organization::portable_path(path))
     {
         report.finding(path, "File is outside the proposed namespace", "Classify its actual purpose and use the declared document, work or local-state owner; no automatic cleanup");
         return Ok(());
     }
     report.inspected_files.push(path.into());
+    if path.starts_with(".opdev/policies/") {
+        let bytes = contents(root, path, scope)?;
+        let valid = crate::organization::PolicyPack::parse(&bytes)
+            .is_ok_and(|p| path == format!(".opdev/policies/{}.json", p.id));
+        if !valid || mode == "100755" {
+            report.finding(path, "Invalid or executable organization policy definition", "Review its strict data schema, identity and regular-file mode; no checks ran and nothing was deleted");
+        }
+        return Ok(());
+    }
     if path.starts_with(".opdev/requirements/") {
         if crate::requirements::CatalogDocument::parse(&contents(root, path, scope)?).is_err() {
             report.finding(
@@ -320,9 +334,9 @@ fn inspect_file(
 /// # Errors
 /// Rejects unsupported versions, unreadable metadata and bounded traversal failures.
 pub fn inspect(root: &Path, layout_version: u32, scope: Scope) -> Result<Report> {
-    if !matches!(layout_version, 1 | 2) {
+    if !matches!(layout_version, 1..=3) {
         bail!(
-            "Unsupported proposed layout version {layout_version}; supported versions are 1 and 2. Nothing changed"
+            "Unsupported proposed layout version {layout_version}; supported versions are 1, 2 and 3. Nothing changed"
         );
     }
     let bytes = git(root, &["rev-parse", "--show-toplevel"])?;

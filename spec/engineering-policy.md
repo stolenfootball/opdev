@@ -172,6 +172,60 @@ edits and require current inputs. Existing decisions are reused during ordinary
 work, not converted into a per-rule questionnaire. Pending required gaps remain
 incomplete adoption.
 
+## Organization definition protocol
+
+Project schema 4 with layout 3 may select up to eight additive organization
+definitions in `assurance.organization_policies`. Each selection is exact ID,
+owner-assigned version, canonical typed-definition SHA-256 and explicit typed
+parameter values. Only `.opdev/policies/<id>.json` is admitted; no additional
+directory, remote loader, executable definition or historical archive is implied.
+Layout 1/2 and older schema meanings are unchanged.
+
+Definition format 1 bounds each file to 256 KiB, 32 controls and 16 parameters.
+Control IDs are `ORG-<UPPERCASE-PACK-ID>-<three-digits>` and cannot alias core rule
+IDs. Parameters are booleans, integers within declared bounds no wider than
+[-1000000, 1000000], or one of at most 32 distinct strings of at most 128 bytes.
+All parameters are explicit and used by applicability. No numeric measurement,
+interpolation, coercion, threshold assertion or executable DSL is inferred.
+
+Applicability is `always` or one bounded flat conjunction of reviewed present
+capabilities and exact selected parameter values. An explicit false operand
+excludes that conjunction; otherwise any unknown operand keeps applicability
+unknown. Final non-applicability still requires current source/stage acceptance.
+The predicate never changes the baseline or infers absence from project kind,
+missing tools, filenames or empty configuration.
+
+The loader compares exact selections, the current regular checkout definitions
+and an immutable staged Git tree before project commands. It rejects unknown
+files, duplicate/unknown fields, symlinks/reparse points, executable entries,
+missing files, stale pins and unstaged semantic edits. Definition and resolution
+hashes use canonical typed JSON; formatting/object-member-order/newline changes are not policy
+changes. Whole-source acceptance retains its ordinary exact-source semantics.
+Loading may materialize Git tree objects, but performs no checkout/index edit,
+network fetch, project command or cleanup. The snapshot is rechecked after checks;
+this is not a claim of an atomic filesystem snapshot or adversarial host isolation.
+
+The existing acceptance object has optional `organization_controls`: exact
+resolution SHA-256, actual stage and unique bindings of control IDs to existing
+condition/criterion IDs, optionally naming existing extensions. Its full contents
+are material to the same review digest. Omission preserves legacy digests. There
+is no new evidence store, authenticated-consent record or independent approval.
+
+Every selected-stage applicable control needs nonempty verified condition links.
+`automated` additionally needs an actual automated path. `observation` permits
+current durable manual observations, not an old review-only adequacy judgment.
+All linked extensions must pass in this invocation and do not replace condition
+links. Existing acceptance and requirements verification owns source freshness,
+assertion adequacy and current observations. Additional controls reuse those
+checks without launching commands. Known failed/error results cannot turn green
+through additional mapping review; missing or changed inputs stay unverified.
+Stages not selected for a control produce no verdict for that control.
+
+The JSON schema describes the structural vocabulary. Native semantic validation
+also enforces ID/filename consistency, actual pin identity, parameter bounds and
+uses, unique control identities and current selection/source agreement. Neither
+validator certifies the external policy's completeness or authenticates its owner.
+
 ## Rationale, alternatives and limits
 
 [NIST SSDF](https://csrc.nist.gov/projects/ssdf) motivates outcome/risk-based

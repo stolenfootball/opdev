@@ -232,6 +232,9 @@ pub struct AcceptanceReview {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct AcceptanceEvidence {
+    /// Additional organization duties, bound to this same source and review.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub organization_controls: Option<OrganizationControlReview>,
     /// Current policy duties linked to existing conditions, not another evidence store.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub policy_controls: Option<PolicyControlReview>,
@@ -267,9 +270,66 @@ pub struct PolicyControlReview {
     pub bindings: std::collections::BTreeMap<String, Vec<String>>,
 }
 
+/// Links additive controls to existing verification, never an independent ledger.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct OrganizationControlReview {
+    /// Exact resolved definitions and selected parameter values.
+    pub resolution_sha256: String,
+    /// Actual boundary covered by the review.
+    pub stage: crate::TestStage,
+    /// Unique control links; every selected applicable control needs an entry.
+    pub bindings: Vec<OrganizationControlBinding>,
+}
+
+/// Existing accepted conditions/criteria, optionally reinforced by an extension.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct OrganizationControlBinding {
+    /// Exact organization control identifier.
+    pub control: String,
+    /// Reviewed existing condition or durable criterion identifiers.
+    pub conditions: Vec<String>,
+    /// Existing project extension checks; not commands or new execution routes.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub extensions: Vec<String>,
+}
+
+impl OrganizationControlReview {
+    fn validate(&self) -> Result<(), EvidenceError> {
+        let controls = self;
+        let mut ids = std::collections::HashSet::new();
+        let unique = |values: &[String]| {
+            values.len() <= 256
+                && values
+                    .iter()
+                    .all(|v| !v.trim().is_empty() && v.len() <= 256)
+                && values
+                    .iter()
+                    .collect::<std::collections::HashSet<_>>()
+                    .len()
+                    == values.len()
+        };
+        if !digest_valid(&controls.resolution_sha256)
+            || controls.bindings.len() > 256
+            || controls.bindings.iter().any(|b| {
+                !b.control.starts_with("ORG-")
+                    || b.control.len() > 80
+                    || !ids.insert(&b.control)
+                    || !unique(&b.conditions)
+                    || !unique(&b.extensions)
+            })
+        {
+            return Err(EvidenceError::Semantic("Organization control review needs the exact resolution identity and bounded unique links; definitions determine applicability, never an empty link list.".into()));
+        }
+        Ok(())
+    }
+}
+
 impl Default for AcceptanceEvidence {
     fn default() -> Self {
         Self {
+            organization_controls: None,
             policy_controls: None,
             safeguards: None,
             requirements: None,
@@ -300,6 +360,9 @@ impl AcceptanceEvidence {
             "conditions": self.conditions, "verifications": self.verifications,
         });
         // Omission keeps every historical digest stable. Present mappings are material.
+        if let Some(controls) = &self.organization_controls {
+            payload["organization_controls"] = serde_json::to_value(controls)?;
+        }
         if let Some(controls) = &self.policy_controls {
             payload["policy_controls"] = serde_json::to_value(controls)?;
         }
@@ -316,6 +379,9 @@ impl AcceptanceEvidence {
     }
 
     pub(crate) fn validate(&self) -> Result<(), EvidenceError> {
+        if let Some(controls) = &self.organization_controls {
+            controls.validate()?;
+        }
         if let Some(controls) = &self.policy_controls {
             let definition = opdev_core::resolve_engineering_policy(&controls.version)
                 .map_err(|e| EvidenceError::Semantic(e.to_string()))?;
@@ -403,4 +469,54 @@ fn digest_valid(value: &str) -> bool {
         && value
             .bytes()
             .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+}
+
+#[cfg(test)]
+mod organization_tests {
+    use super::*;
+
+    #[test]
+    fn organization_links_are_material_and_legacy_digest_is_unchanged() -> Result<(), EvidenceError>
+    {
+        let mut acceptance = AcceptanceEvidence::default();
+        let legacy = acceptance.digest("source", "work")?;
+        assert!(
+            serde_json::to_value(&acceptance)?
+                .get("organization_controls")
+                .is_none()
+        );
+        let review = OrganizationControlReview {
+            resolution_sha256: "a".repeat(64),
+            stage: crate::TestStage::Local,
+            bindings: vec![OrganizationControlBinding {
+                control: "ORG-EXAMPLE-001".into(),
+                conditions: vec!["C1".into()],
+                extensions: vec![],
+            }],
+        };
+        review.validate()?;
+        acceptance.organization_controls = Some(review.clone());
+        let bound = acceptance.digest("source", "work")?;
+        assert_ne!(legacy, bound);
+        for change in 0..4 {
+            let mut changed = review.clone();
+            match change {
+                0 => changed.resolution_sha256 = "b".repeat(64),
+                1 => changed.stage = crate::TestStage::PostMerge,
+                2 => changed.bindings[0].conditions = vec!["C2".into()],
+                _ => changed.bindings[0].extensions = vec!["security".into()],
+            }
+            acceptance.organization_controls = Some(changed);
+            assert_ne!(bound, acceptance.digest("source", "work")?);
+        }
+        acceptance.organization_controls = None;
+        assert_eq!(legacy, acceptance.digest("source", "work")?);
+        let mut duplicate = review.clone();
+        duplicate.bindings.push(duplicate.bindings[0].clone());
+        assert!(duplicate.validate().is_err());
+        duplicate = review;
+        duplicate.bindings[0].conditions.push("C1".into());
+        assert!(duplicate.validate().is_err());
+        Ok(())
+    }
 }
