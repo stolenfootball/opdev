@@ -841,6 +841,40 @@ fn external_adoption_requires_selected_review_and_never_recreates_legacy_evidenc
 
     let outside = tempfile::tempdir()?;
     let locator = outside.path().join("locator.json");
+    // An unresolved decision defers provider inspection. Supplied inputs are not
+    // missing, and a nonexistent locator proves it was not even read locally.
+    let mut unresolved = AdoptionRecord::load(root)?.ok_or("record")?;
+    unresolved.review = None;
+    fs::write(root.join(ADOPTION_PATH), unresolved.to_yaml()?)?;
+    assert!(git(root, &["add", "-A"])?.status.success());
+    for mode in [vec!["--preflight"], vec![]] {
+        let mut args = vec![
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        ];
+        args.extend(mode);
+        let deferred = cli(root, &args)?;
+        assert_eq!(deferred.status.code(), Some(1));
+        let value: Value = serde_json::from_slice(&deferred.stdout)?;
+        assert_eq!(value["complete"], false);
+        assert_eq!(value["checks_ran"], false);
+        let gaps = value["blockers"].to_string();
+        assert!(gaps.contains("not inspected") && gaps.contains("review validity is unknown"));
+        assert!(!gaps.contains("needs --review-locator"));
+        assert!(!gaps.contains("no selected review record matches"));
+        assert!(!gaps.contains("delivery_gate"));
+        assert!(!locator.exists());
+        assert!(!root.join(EVIDENCE_PATH).exists());
+    }
+    fs::write(root.join(ADOPTION_PATH), &before)?;
+    assert!(git(root, &["add", "-A"])?.status.success());
     fs::write(
         &locator,
         serde_json::to_vec(&serde_json::json!({

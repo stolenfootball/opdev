@@ -505,6 +505,10 @@ fn check(
             None
         }
     };
+    let review_deferred = !blockers.is_empty()
+        && manifest.assurance.review_storage.is_some()
+        && review_locator.is_some()
+        && review_acceptance_sha256.is_some();
     // Do not retrieve provider evidence or execute commands for unresolved choices.
     let review = if blockers.is_empty() {
         crate::selected_review(
@@ -517,30 +521,20 @@ fn check(
     } else {
         None
     };
-    let ledger = if manifest.assurance.review_storage.is_some() {
-        if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
-            blockers.push("adoption review: both external storage and a legacy ledger exist. Complete the reviewed storage migration before verification; no evidence source was silently chosen".into());
-        }
-        if let Some(review) = &review {
-            Some(
-                review
-                    .reviewed_ledger(&root, &manifest, opdev_project::TestStage::PreMerge)
-                    .map_err(anyhow::Error::msg)?
-                    .clone(),
-            )
-        } else {
-            blockers.push("adoption review: selected external storage needs --review-locator and --review-acceptance-sha256 for this change. No checks ran".into());
-            None
-        }
-    } else {
-        EvidenceLedger::load_optional(&root, &manifest.catalog()?)?
-    };
+    let ledger = adoption_ledger(
+        &root,
+        &manifest,
+        review.as_ref(),
+        review_deferred,
+        &mut blockers,
+    )?;
     blockers.extend(input_blockers(
         &root,
         &manifest,
         ledger.as_ref(),
         fingerprint.as_deref(),
         !legacy_assessment,
+        review_deferred,
     ));
     if mode.preflight
         && !preflight_unchanged(
@@ -585,6 +579,35 @@ fn check(
     } else {
         ExitCode::from(1)
     })
+}
+
+fn adoption_ledger(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    review: Option<&opdev_engine::ValidatedReview>,
+    review_deferred: bool,
+    blockers: &mut Vec<String>,
+) -> Result<Option<EvidenceLedger>> {
+    if manifest.assurance.review_storage.is_none() {
+        return Ok(EvidenceLedger::load_optional(root, &manifest.catalog()?)?);
+    }
+    if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
+        blockers.push("adoption review: both external storage and a legacy ledger exist. Complete the reviewed storage migration before verification; no evidence source was silently chosen".into());
+    }
+    if let Some(review) = review {
+        return Ok(Some(
+            review
+                .reviewed_ledger(root, manifest, opdev_project::TestStage::PreMerge)
+                .map_err(anyhow::Error::msg)?
+                .clone(),
+        ));
+    }
+    blockers.push(if review_deferred {
+        "adoption review: review arguments were supplied, but the selected record was not inspected because adoption decisions or source readiness are unresolved. Resolve those blockers, then retry; review validity is unknown and no checks ran".into()
+    } else {
+        "adoption review: selected external storage needs --review-locator and --review-acceptance-sha256 for this change. No checks ran".into()
+    });
+    Ok(None)
 }
 
 fn decision_blockers(
@@ -636,16 +659,20 @@ fn input_blockers(
     ledger: Option<&EvidenceLedger>,
     fingerprint: Option<&str>,
     clean_target: bool,
+    review_deferred: bool,
 ) -> Vec<String> {
-    let mut blockers = review_blockers(ledger, fingerprint, clean_target);
-    blockers.extend(delivery_input_blockers(manifest, ledger, fingerprint));
-    blockers.extend(opdev_engine::acceptance_input_gaps(
-        root,
-        manifest,
-        ledger,
-        fingerprint,
-        opdev_project::TestStage::PreMerge,
-    ));
+    let mut blockers = Vec::new();
+    if !review_deferred {
+        blockers.extend(review_blockers(ledger, fingerprint, clean_target));
+        blockers.extend(delivery_input_blockers(manifest, ledger, fingerprint));
+        blockers.extend(opdev_engine::acceptance_input_gaps(
+            root,
+            manifest,
+            ledger,
+            fingerprint,
+            opdev_project::TestStage::PreMerge,
+        ));
+    }
     for name in ["AGENTS.md", "CLAUDE.md"] {
         if !root.join(name).is_file() {
             blockers.push(format!("agents: missing {name}"));
