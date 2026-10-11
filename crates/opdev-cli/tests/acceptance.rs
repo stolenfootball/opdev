@@ -78,6 +78,7 @@ fn project() -> Result<(tempfile::TempDir, EvidenceLedger)> {
     fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
     git(root, &["add", "."])?;
     let acceptance = AcceptanceEvidence {
+        delivery_subject: None,
         organization_controls: None,
         policy_controls: None,
         requirements: None,
@@ -271,6 +272,7 @@ fn policy_two_recovery_uses_real_execution_not_a_strategy_or_another_stage() -> 
             test_stage: TestStage::Delivery,
             extension_stage: opdev_project::ExtensionStage::Deliver,
             execute_checks: false,
+            fail_fast: false,
         },
     )?)?;
     assert_eq!(outcome(&absent, "OPDEV-RECOVERY-001")?, "unverified");
@@ -489,6 +491,7 @@ fn organization_controls_reuse_real_current_execution_and_reject_missing_links()
             test_stage: TestStage::Delivery,
             extension_stage: opdev_project::ExtensionStage::Deliver,
             execute_checks: false,
+            fail_fast: false,
         },
     )?)?;
     assert_eq!(selected_organization_outcome(&not_run)?, "unverified");

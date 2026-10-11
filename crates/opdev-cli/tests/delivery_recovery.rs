@@ -54,7 +54,12 @@ fn release_path(ci: &Value) -> std::result::Result<(), String> {
                 let definition = &ci[name];
                 if !definition.is_object()
                     || definition.get("allow_failure").is_some_and(|v| v != false)
-                    || definition.get("when").is_some_and(|v| v != "on_success")
+                    || definition.get("when").is_some_and(|v| {
+                        v != "on_success"
+                            && !(name == "quality"
+                                && v == "manual"
+                                && definition["allow_failure"] == false)
+                    })
                 {
                     return Err(format!("{name}: missing or nonblocking job"));
                 }
@@ -112,6 +117,15 @@ fn publication_requires_the_complete_controlled_dependency_path() -> Result {
     changed["publish-github"]["needs"] =
         serde_json::json!([{"job":"sign-release","optional":true}]);
     assert!(release_path(&changed).is_err(), "optional signing");
+    changed = ci.clone();
+    changed["quality"]
+        .as_object_mut()
+        .ok_or("quality")?
+        .remove("allow_failure");
+    assert!(
+        release_path(&changed).is_err(),
+        "manual readiness hold became optional"
+    );
     changed = ci.clone();
     changed["publish-github"]["rules"] = serde_json::json!([{"if":"$CI_COMMIT_TAG"}]);
     assert!(release_path(&changed).is_err(), "unprotected publisher");

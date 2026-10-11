@@ -264,6 +264,34 @@ MUST identify the artifact digest. Revision-only evidence cannot be silently
 reused for a different artifact. Time-sensitive or external evidence MUST state
 its freshness policy.
 
+With capability `delivery.subject.v1`, new policy-2 evaluations require an
+`acceptance.delivery_subject` containing `kind` (`artifact` or `inventory`), a
+lowercase SHA-256 and a retrieval `locator`. Inventory means the digest of an
+immutable manifest identifying the complete artifact set, not a version label.
+The subject is material to the source/configuration-bound acceptance digest.
+Each applicable artifact/environment/supply-chain assertion must be current-change
+evidence with a `delivery_subject` reference whose location is that exact digest.
+Only the delivery stage with passed current acceptance may credit those claims;
+the rule subject becomes `artifact:sha256:...` or `inventory:sha256:...`.
+The identity does not prove the assertion's meaning, provenance, test coverage,
+runtime suitability or release authorization: these remain reviewed obligations.
+
+Without this current subject/stage, otherwise passing artifact claims remain
+`unverified`; explanatory historical observations may remain visible, but cannot
+produce a current-checkout delivery pass. Known failures/errors/migration gaps
+are preserved. Historical saved reports and legacy policy evaluation retain
+their original semantics; reaggregation is not fresh artifact qualification.
+
+Policy-2 adoption reports explicitly assess **project adoption**, not release
+bytes. They require current controls and checks, but an unverified artifact-only
+finding does not require a new release to complete adoption. Original delivery
+and compliance gate verdicts remain visible and blocked; they are never relabeled
+passed. Known artifact failures, missing non-artifact controls, required additional
+standards and blocking checks still prevent completion. Artifact readiness is
+reported as not evaluated. A successful adoption is not full conformance or release
+permission. This avoids both false delivery claims and release work forced merely
+to finish adoption.
+
 ## Extensions
 
 Extensions may produce additional results and may strengthen a gate. They MUST

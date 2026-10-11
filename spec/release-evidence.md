@@ -124,6 +124,11 @@ unreleased checkout or a changed delivery configuration. A green adoption or
 integration result never authorizes publication. A future release must qualify
 its exact new artifacts through the full controlled path.
 
+For capable policy-2 checks, select those bytes through the typed delivery subject
+in the current review, as defined in [result semantics](result-semantics.md).
+An ordinary adoption/integration run intentionally leaves artifact delivery
+unverified; do not paste historical artifact passes into it to make all gates green.
+
 Generation alone does not pass `OPDEV-SUPPLY-002`. The delivery gate also needs
 evidence that the bundle was published with the artifact and that the chosen
 distribution and authenticity controls match the project's risk model.

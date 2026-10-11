@@ -10,6 +10,14 @@ the old ledger. Current reviewed source, configuration, condition/test bindings
 and actual stage execution remain required. Finalize at integration handoff,
 not on each local edit or feedback cycle.
 
+With `evidence.review-preparation.v2`, `evidence prepare --input FILE --work REF
+--output NEW_FILE` creates an unresolved draft without needing a legacy ledger.
+Inspect and review actual mappings, preview its identity with `--draft FILE`, then
+export the reviewed candidate using `--draft FILE --write --ledger-output NEW_FILE`.
+Use `--ledger-input` only for explicitly selected facts; it does not refresh old
+assertions into current passes. Native preparation resets mapping judgments and
+does not approve them. Prefer this flow to custom source-hash binding scripts.
+
 Prepare the one current record outside source with the existing bootstrap/prepare
 flow, then `evidence bundle export-review --discussion --stage STAGE --ledger FILE
 --output NEW_FILE`. It renders a review section, does not post or approve it.
@@ -30,6 +38,23 @@ before an authorized provider edit. Do not derive approval or the independently
 selected acceptance ID from the comment. In CI, `ci review-check [--post-merge]`
 checks input readiness before expensive tool setup; actual gates still use current
 review and real execution, never a preflight receipt.
+
+Use handoff `--output NEW_FILE` when supported to keep JSON separate from combined
+console diagnostics. A project may use a reviewed provider-native blocking hold
+until the exact review is selected; see [CI guidance](ci-design.md). Starting that
+job is a normal authorized implementation step, not a new developer approval.
+For integrated-stage review, retain the actual prior-stage finding. Capable
+`ci observe-prior-stage` retrieves explicit run/job facts for an unchanged merged
+tree and emits an unresolved assertion outside source. Review its provenance,
+context and limitations before recording it. It never qualifies current execution;
+changed merge content requires fresh impact review. Use existing local provider
+access, not expanded CI credentials or an uploaded developer login.
+
+With `delivery.subject.v1`, policy-2 delivery review selects an exact artifact or
+inventory digest and matching current rule references. Adoption assesses current
+project controls separately and reports artifact delivery not evaluated. Historical
+release facts do not qualify new bytes; do not make every gate green by copying
+old artifact assertions. Release permission remains separate from all verdicts.
 
 Discussion export now requires `evidence.discussion-wire.v2` on both local and CI
 readers. It losslessly shares repeated strings within the bounded note; the full

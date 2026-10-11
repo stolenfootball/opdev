@@ -9,6 +9,8 @@ pub use assessment::{EngineeringAssessment, FrameworkAssessment, RequirementAsse
 pub use standard_assessment::StandardAssessment;
 
 mod command;
+mod delivery_subject;
+pub use delivery_subject::artifact_scoped_rule;
 mod evaluator;
 mod execution_policy;
 mod execution_record;

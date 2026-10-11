@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "519c7af19cd13ce112502ba284a972c510cdb1aa7ba626cdf6a4f261bafe3e4e",
+          "sha256": "14c6ce559f1fccdf63455a9d193b906fc3cfd59acefc38b9b8bc7b53239ce8b4",
           "excerpt": "The input is an ephemeral external proposal, not a second permanent contract.\nIt selects target policies but leaves inventory review/practices unresolved.\nRemove `--dry-run` only within approved scope; references do not authenticate\nconsent. No tools run or install. Bare `init --dry-run` retains read-only discovery;\nbare new `init` refuses inferred policy writes. `--legacy-policy` explicitly\nscaffolds older policy for compatibility work; older engineering-only flags remain\npartial scaffolding. Neither is current adoption. Existing contracts are never\nmigrated by init. For an existing project, review the project-policy upgrade\nfirst, then preview `adoption migrate --catalog-version 2`. Explicit `--write`\npreserves existing decisions, adds pending setup/review entries and clears stale\napproval when the inventory changes. Newly mandatory ignored decisions remain\nvisible blockers, not silently rewritten as implemented. Same-catalog migration\nis idempotent; downgrade is rejected. Ordinary work never upgrades an inventory."
         }
       },
@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "519c7af19cd13ce112502ba284a972c510cdb1aa7ba626cdf6a4f261bafe3e4e",
+          "sha256": "14c6ce559f1fccdf63455a9d193b906fc3cfd59acefc38b9b8bc7b53239ce8b4",
           "excerpt": "`adoption plan` works before initialization and prints the destination, required\nmigrations, discovery warnings and proposed/existing contract. Record/plan ID are\nabsent before assessment; neither discovery nor a missing ID authorizes policy.\nWith a record it also prints a SHA-256 plan ID.\nThe ID binds scope, choices, rationale, owners, references, suites, research and\nworkflow roles to the contract. It excludes the approval itself and normalizes\npending/in-progress/implemented as one implementation choice, so approved work\ncan progress without a new policy decision. Changing an exclusion, rationale,\nscope, references or the contract requires a new review. This ID is not the staged\nacceptance fingerprint: repository changes still require fresh acceptance evidence."
         }
       },
@@ -100,7 +100,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "519c7af19cd13ce112502ba284a972c510cdb1aa7ba626cdf6a4f261bafe3e4e",
+          "sha256": "14c6ce559f1fccdf63455a9d193b906fc3cfd59acefc38b9b8bc7b53239ce8b4",
           "excerpt": "Capability `adoption.clean-target.v3` makes default completion target exactly"
         }
       },
@@ -192,7 +192,7 @@
       "id": "V-migration-1",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
+        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
         "excerpt": "fn catalog_migration_is_explicit_unreviewed_and_preserves_later_edits("
       },
       "inputs": [
@@ -252,7 +252,7 @@
       "id": "V-migration-2",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
+        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
         "excerpt": "fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work("
       },
       "inputs": [
@@ -393,12 +393,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -493,12 +493,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -593,12 +593,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -662,7 +662,7 @@
       "id": "V-clean-policy-adoption-4",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
+        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
         "excerpt": "fn policy_two_migration_binds_definitions_and_refuses_selected_retirement("
       },
       "inputs": [
@@ -693,12 +693,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -762,7 +762,7 @@
       "id": "V-clean-policy-adoption-5",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
+        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
         "excerpt": "fn preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text("
       },
       "inputs": [
@@ -793,12 +793,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -893,12 +893,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -993,12 +993,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -1093,12 +1093,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -1193,12 +1193,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "80552703a59cc1a0eeab837164c79075262341289c5677228b48f0468addb533",
+          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -1273,11 +1273,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "9c363ccfda3cb7be03f1c10c5cb828339e2bd1aee93434b442aa5a421c18a32c",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "6ab2fc02dff25c64c6e93ffdf6c159a03f651eb8aa6d4dc031dcb25e95028256"
+        "outcome": "passed"
       }
     },
     {
@@ -1293,11 +1293,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "bd3bd9dc096c1d5a7280c10eb52c74a8ccedb67a4912280d13a4b77a9a72529c",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "40c51f95c010f35718a4f54453bc08973ca68a893e836564166ccd3fd99519ee"
+        "outcome": "passed"
       }
     },
     {
@@ -1313,11 +1313,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "ed30c0b53d0c5130e6261b096ab9d94f484914b4f4f933f1e85bde48c5fd2bcd",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "35bac9fb4bdcf2d92234801f308e8fa2c2ccd279c57669a0f7a0294d669504da"
+        "outcome": "passed"
       }
     },
     {
@@ -1333,11 +1333,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "d9b317172e4f94f7ea822b37c222cace076317864630770b81b2e64ef59878d5",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "790470795375683211c27ccd847b2b0e467f368b37f0039ec1e657f0b8991f12"
+        "outcome": "passed"
       }
     },
     {
@@ -1353,11 +1353,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "40a393b1943567e705bedb9f7a51915249e7a66125effd4733308d5d9d50df24",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "9b0c36b28065da5a694bb2328082e37b1ca762532a0e32773ba81a6786266feb"
+        "outcome": "passed"
       }
     },
     {
@@ -1373,11 +1373,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "c8688efb6552a98766ab0a15cfe45ccf81c4823f7065682b01ce5c33732d4a46",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "d907c6e4fb533a254a508faa2e660e577f149a278a81c0197829702f28079394"
+        "outcome": "passed"
       }
     },
     {
@@ -1398,11 +1398,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "7da245d1bb311b1f3f0d53582f39729174450d12caf5eb06e2689abab403c844",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "b27fe47a9d6fede2eb558cf12a6e257d994075973db4821a4f699b05c519159a"
+        "outcome": "passed"
       }
     },
     {
@@ -1423,11 +1423,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "f4a5efc9341192884ef4b5dec5514a3f9ba80e492dfb9bd590c184ed63872bed",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "98d169331c09fdfe3b7945280869a9d7fe3ddbcf0007016012d2e54c335aa01d"
+        "outcome": "passed"
       }
     },
     {
@@ -1448,11 +1448,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "5b9546fc9d48e3d0807b638af5b2842e375c67e00fe053de61c16a728fd2a5a7",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "bc8c9d3c30aa50522b0843152a2367c83513ebe82da21b2ebfe0772d904aab82"
+        "outcome": "passed"
       }
     },
     {
@@ -1568,11 +1568,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "adedd7756d03e14f5bed2a3e8d5d98e51dda8ef1b4c57ebc9148a3c5b1e4c5d7",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "4260495d2d850773a68b810f12d59a9dfb8eb4fd59d0617300a7a8dd2ebc1702"
+        "outcome": "passed"
       }
     },
     {
@@ -1628,11 +1628,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "29ef23bfcd2e0c6f82840007b0263d847e2026571a8a42d9be8463043082dea6",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "1d6139b227e64a029ed78ba86abb3126290d5f7a021364c03aec3a2ed87532a3"
+        "outcome": "passed"
       }
     },
     {
@@ -1688,11 +1688,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "4a7f1b8d6ac48c6a17824f327e7a522788b7c73b41149577054ab2e85ee5b9cd",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "602067e3c2c92e75d56e50152cee8b91db65cc8656583e147275e120bef79c29"
+        "outcome": "passed"
       }
     }
   ]

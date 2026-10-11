@@ -24,8 +24,11 @@ impl ValidatedReview {
         let ledger = self.reviewed_ledger(root, manifest, stage)?;
         let fingerprint = opdev_project::staged_fingerprint(root)
             .map_err(|_| "Current staged source is unavailable")?;
-        let gaps =
+        let mut gaps =
             crate::acceptance_input_gaps(root, manifest, Some(ledger), Some(&fingerprint), stage);
+        if prior_stage_missing(ledger, &fingerprint, stage) {
+            gaps.push("Prior-stage verification is missing from this review. Inspect the actual pre-merge run and retain its source-bound observation before starting integrated checks. Use ci observe-prior-stage for an unresolved provider-backed draft; it does not replace post-merge execution.".into());
+        }
         self.recheck_authorities()?;
         self.current(root, manifest, stage)?;
         Ok(gaps)
@@ -152,6 +155,15 @@ impl ValidatedReview {
         }
         opdev_remote::recheck_work(&self.record.authority_observations())
     }
+}
+
+fn prior_stage_missing(ledger: &EvidenceLedger, fingerprint: &str, stage: TestStage) -> bool {
+    stage == TestStage::PostMerge
+        && !ledger.matching_change(fingerprint).is_some_and(|c| {
+            c.assertions.iter().any(|a| {
+                a.rule_id.as_str() == "MCD-TEST-001" && a.outcome == opdev_core::Outcome::Passed
+            })
+        })
 }
 
 fn verify_catalog_baseline(
@@ -295,6 +307,56 @@ mod tests {
             location: "unit fixture (not live provider evidence)".into(),
         };
         Ok((temp, manifest, review))
+    }
+
+    #[test]
+    fn prior_stage_preflight_rejects_project_claims_wrong_sources_and_nonpasses()
+    -> anyhow::Result<()> {
+        let (_, _, review) = fixture()?;
+        let mut ledger = review.record.ledger;
+        let fingerprint = ledger.changes[0].fingerprint.clone();
+        let assertion = opdev_project::EvidenceAssertion {
+            rule_id: "MCD-TEST-001".parse()?,
+            outcome: Outcome::Passed,
+            summary: "Fixture prior-stage observation".into(),
+            evidence: vec![],
+        };
+        ledger.project.push(assertion.clone());
+        assert!(prior_stage_missing(
+            &ledger,
+            &fingerprint,
+            TestStage::PostMerge
+        ));
+        assert!(!prior_stage_missing(
+            &ledger,
+            &fingerprint,
+            TestStage::PreMerge
+        ));
+        ledger.changes[0].assertions.push(assertion);
+        assert!(!prior_stage_missing(
+            &ledger,
+            &fingerprint,
+            TestStage::PostMerge
+        ));
+        assert!(prior_stage_missing(
+            &ledger,
+            &"f".repeat(64),
+            TestStage::PostMerge
+        ));
+        for outcome in [
+            Outcome::Failed,
+            Outcome::Error,
+            Outcome::Unverified,
+            Outcome::NotApplicable,
+        ] {
+            ledger.changes[0].assertions[0].outcome = outcome;
+            assert!(prior_stage_missing(
+                &ledger,
+                &fingerprint,
+                TestStage::PostMerge
+            ));
+        }
+        Ok(())
     }
 
     #[test]

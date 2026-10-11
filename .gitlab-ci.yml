@@ -28,6 +28,10 @@ workflow:
 
 quality:
   stage: verify
+  # A required readiness hold, not an optional check or developer approval.
+  # The authorized controller starts this job after selecting the exact review.
+  when: manual
+  allow_failure: false
   image: rust:1.97.0-bookworm
   before_script:
     # Fail on missing/stale review inputs before installing check-only tooling.
@@ -51,7 +55,7 @@ quality:
       set +e
       stage_args=""
       if [ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]; then stage_args="--post-merge"; fi
-      ./target/debug/opdev check --ci --review-ci $stage_args --report "$report_file"
+      ./target/debug/opdev check --ci --review-ci --fail-fast $stage_args --report "$report_file"
       opdev_status=$?
       set -e
       if [ -f "$report_file" ]; then mv "$report_file" opdev-report.json; fi

@@ -407,7 +407,8 @@ impl EvidenceLedger {
                     ));
                 }
                 acceptance.validate()?;
-                if (acceptance.policy_controls.is_some()
+                if (acceptance.delivery_subject.is_some()
+                    || acceptance.policy_controls.is_some()
                     || acceptance.organization_controls.is_some())
                     && catalog.catalog_version != 4
                 {

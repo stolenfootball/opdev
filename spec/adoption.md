@@ -324,7 +324,13 @@ fingerprint freshness from missing or wrongly classified assertions.
 
 The checker then executes pre-merge suites and extensions using the existing
 engine, inspects CI, optionally audits the provider, requires every referenced
-pre-merge suite to pass and all four core gates to pass. It rechecks staged/evidence
+pre-merge suite to pass and checks all four core gates. Under engineering policy 2,
+completion covers project adoption: unverified artifact-only rules do not prevent
+completion, but known artifact failures, all other blocking rules and every required
+check still do. The original gate results remain unchanged; the report explicitly
+says artifact delivery was not evaluated. An identified artifact or inventory needs
+its own delivery-stage qualification (see `result-semantics.md`). Older policies
+continue to require all four gates to pass. It rechecks staged/evidence
 freshness after execution. A record or passing command alone cannot qualify
 delivery. Real pre/post-integration CI, artifacts and recovery still need the
 evidence required by their core rules; local execution does not become remote CI.

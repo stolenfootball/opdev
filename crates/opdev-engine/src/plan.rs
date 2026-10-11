@@ -23,6 +23,8 @@ pub struct CheckPlan {
     pub extension_stage: ExtensionStage,
     /// Always unverified: planning cannot qualify a gate.
     pub qualification: Outcome,
+    /// Whether unrun suites remain unverified after the first required failure.
+    pub fail_fast: bool,
     /// Ordered suite commands followed by extension commands.
     pub commands: Vec<PlannedCommand>,
 }
@@ -136,6 +138,7 @@ pub fn plan_checks(root: &Path, manifest: &ProjectManifest, options: CheckOption
         test_stage: options.test_stage,
         extension_stage: options.extension_stage,
         qualification: Outcome::Unverified,
+        fail_fast: options.fail_fast,
         commands,
     }
 }

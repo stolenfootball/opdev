@@ -26,6 +26,8 @@ pub struct CheckOptions {
     pub extension_stage: ExtensionStage,
     /// Whether canonical and extension commands may execute.
     pub execute_checks: bool,
+    /// Stop remaining suites after a failure/error, recording them as unverified.
+    pub fail_fast: bool,
 }
 
 impl CheckOptions {
@@ -36,6 +38,7 @@ impl CheckOptions {
             test_stage: TestStage::Local,
             extension_stage: ExtensionStage::Verify,
             execute_checks: true,
+            fail_fast: false,
         }
     }
 
@@ -46,6 +49,7 @@ impl CheckOptions {
             test_stage: TestStage::PreMerge,
             extension_stage: ExtensionStage::PreMerge,
             execute_checks: true,
+            fail_fast: false,
         }
     }
 }
@@ -386,6 +390,19 @@ fn evaluate_inner(
         );
         checks.extend(additional);
     }
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.version == "2")
+    {
+        crate::delivery_subject::qualify(
+            &mut rules,
+            acceptance_fingerprint.and_then(|f| acceptance_ledger.as_ref()?.matching_change(f)),
+            acceptance_outcome,
+            options.test_stage,
+        );
+    }
     aggregate_evaluation(
         engineering,
         subject,
@@ -591,6 +608,7 @@ fn collect_checks(
             manifest,
             options.test_stage,
             &checks,
+            options.fail_fast,
         ));
         checks.extend(run_extensions(root, manifest, options.extension_stage)?);
     } else {
@@ -999,7 +1017,12 @@ fn run_missing_suites(
     manifest: &ProjectManifest,
     stage: TestStage,
     reused: &[CheckResult],
+    fail_fast: bool,
 ) -> Vec<CheckResult> {
+    let mut stopped = fail_fast
+        && reused
+            .iter()
+            .any(|c| c.blocking && !c.outcome.satisfies_required_rule());
     selected_suites(manifest, stage)
         .filter(|suite| {
             !reused
@@ -1007,14 +1030,24 @@ fn run_missing_suites(
                 .any(|check| check.kind == CheckKind::Suite && check.id == suite.id)
         })
         .map(|suite| {
+            if stopped {
+                return CheckResult {
+                    id: suite.id.clone(), kind: CheckKind::Suite, blocking: true,
+                    gates: gates_for_test_stage(stage), outcome: Outcome::Unverified,
+                    summary: "Not run: an earlier required check did not pass and fail-fast was selected. This suite still blocks qualification.".into(),
+                    evidence: vec![], stdout: None, stderr: None, duration_ms: None,
+                };
+            }
             let command = &manifest.commands[&suite.command];
-            execution_result(
+            let result = execution_result(
                 suite.id.clone(),
                 CheckKind::Suite,
                 true,
                 gates_for_test_stage(stage),
                 execute(root, command, None),
-            )
+            );
+            stopped = fail_fast && !result.outcome.satisfies_required_rule();
+            result
         })
         .collect()
 }
@@ -1726,6 +1759,41 @@ mod tests {
         Ok(())
     }
 
+    #[test]
+    fn fail_fast_keeps_unrun_checks_blocking_and_does_not_duplicate_successful_checks()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let (root, mut project, _) = counting_fixture()?;
+        let mut fail = project.commands["check"].clone();
+        fail.argv = vec![
+            std::env::current_exe()?.to_string_lossy().into(),
+            "--invalid-opdev-test-option".into(),
+        ];
+        project.commands.insert("cheap".into(), fail);
+        project.testing.suites[0].command = "cheap".into();
+        let options = CheckOptions {
+            fail_fast: true,
+            ..CheckOptions::pre_merge()
+        };
+        let checks = collect_checks(root.path(), &project, options, None)?;
+        assert_eq!(checks[0].outcome, Outcome::Failed);
+        assert_eq!(checks[1].outcome, Outcome::Unverified);
+        assert!(checks[1].blocking);
+        assert!(checks[1].duration_ms.is_none());
+        assert!(
+            !root.path().join(".count").exists(),
+            "expensive child unexpectedly ran"
+        );
+        let checks = collect_checks(root.path(), &project, CheckOptions::pre_merge(), None)?;
+        assert_eq!(checks[0].outcome, Outcome::Failed);
+        assert_eq!(checks[1].outcome, Outcome::Passed);
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "1");
+        project.testing.suites[0].command = "check".into();
+        let checks = collect_checks(root.path(), &project, options, None)?;
+        assert!(checks.iter().all(|c| c.outcome == Outcome::Passed));
+        assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "3");
+        Ok(())
+    }
+
     #[allow(clippy::too_many_lines)] // One sequential counter scenario proves no hidden reruns across the full path.
     fn counting_scenario(
         provider: opdev_project::CiProvider,
@@ -1821,6 +1889,7 @@ mod tests {
             test_stage: TestStage::PostMerge,
             extension_stage: ExtensionStage::PostMerge,
             execute_checks: true,
+            fail_fast: false,
         };
         assert!(evaluate_with_executions(root.path(), &project, post_merge, &executions).is_err());
         assert_eq!(std::fs::read_to_string(root.path().join(".count"))?, "4");

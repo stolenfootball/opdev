@@ -690,6 +690,8 @@ fn preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text
 #[test]
 fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work() -> Result<()> {
     let f = Fixture::new()?;
+    let data = f.root.join("retained-product-data.txt");
+    fs::write(&data, "original row\n")?;
     let plan = f.preview()?;
     assert!(apply_plan(&plan, 2).is_err());
     assert_eq!(
@@ -699,8 +701,12 @@ fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work() -
     assert!(!f.root.join(".opdev/guidance.md").exists());
     // New product data outside the migration belongs to the developer, including
     // writes made after interruption. Resuming must not restore an old tree.
-    let data = f.root.join("retained-product-data.txt");
-    fs::write(&data, "original row\nnew row after interruption\n")?;
+    assert_eq!(fs::read_to_string(&data)?, "original row\n");
+    {
+        use std::io::Write;
+        let mut later = fs::OpenOptions::new().append(true).open(&data)?;
+        later.write_all(b"new row after interruption\n")?;
+    }
     apply_plan(&plan, usize::MAX)?;
     assert!(f.root.join(".opdev/guidance.md").exists());
     assert_eq!(

@@ -12,8 +12,8 @@ pub mod organization;
 pub mod requirements;
 pub use acceptance::{
     AcceptanceCondition, AcceptanceEvidence, AcceptanceMethod, AcceptanceReview, AcceptanceScope,
-    AcceptanceVerification, OrganizationControlBinding, OrganizationControlReview,
-    PolicyControlReview, RequirementSource, TrackedEvidence,
+    AcceptanceVerification, DeliverySubject, DeliverySubjectKind, OrganizationControlBinding,
+    OrganizationControlReview, PolicyControlReview, RequirementSource, TrackedEvidence,
 };
 mod bootstrap;
 mod discovery;

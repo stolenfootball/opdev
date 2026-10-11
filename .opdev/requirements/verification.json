@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/result-semantics.md",
-          "sha256": "bed67b9803c814a3c9965fb0c370eed5b3b9ca73bd3d101b3285c400d54485f4",
+          "sha256": "565c0695ad6ea66f9fe90d0a3aa9f4b7ac61a12b18a65cd150819b32cacd2bb0",
           "excerpt": "At pre-merge, `MCD-TEST-001` requires all selected suites to pass and current typed\nacceptance evidence to satisfy its requirement. Post-merge applies that rule to\n`MCD-TEST-002` instead. A known execution failure/error cannot be replaced by a\ngeneric review or successful local CI inspection. Empty selections do not pass.\nOther stages retain their own evidence requirements; this run does not execute\nor qualify them. Adequate execution plus acceptance establishes the testing\nfinding, not CI-exclusive delivery, protection, effectiveness or a release."
         }
       },
@@ -53,7 +53,7 @@
       "id": "V-acceptance-1",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "e9f635bb5a655c5d71d05cd00c23fbb50fe323dce631d8afb710e9191590483a",
+        "sha256": "c89eb34c493ad027939e8d18fc709aff878759dd3a687dc6343cc5dcec060e34",
         "excerpt": "fn current_review_and_actual_suite_execution_are_both_required("
       },
       "inputs": [
@@ -88,7 +88,7 @@
       "id": "V-acceptance-2",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "e9f635bb5a655c5d71d05cd00c23fbb50fe323dce631d8afb710e9191590483a",
+        "sha256": "c89eb34c493ad027939e8d18fc709aff878759dd3a687dc6343cc5dcec060e34",
         "excerpt": "fn changed_inventory_mapping_work_or_source_invalidates_review("
       },
       "inputs": [
@@ -123,7 +123,7 @@
       "id": "V-acceptance-3",
       "target": {
         "path": "crates/opdev-cli/tests/acceptance.rs",
-        "sha256": "e9f635bb5a655c5d71d05cd00c23fbb50fe323dce631d8afb710e9191590483a",
+        "sha256": "c89eb34c493ad027939e8d18fc709aff878759dd3a687dc6343cc5dcec060e34",
         "excerpt": "fn distinct_stage_checks_execute_once_and_missing_execution_never_reuses_another_stage("
       },
       "inputs": [
@@ -249,11 +249,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "5da1361cdabff298d51a2344c89cea00c81c4db4e3654d6d120fca898a7c6458",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "013daeb577ee7df8db6521e6d06d38425ba00df5c748ce31d13bdb5db82f6dda"
+        "outcome": "passed"
       }
     },
     {
@@ -279,11 +279,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "b924a2ab044f29902c6043099edad1434e9bf6e115c10c73dbceadb4d886f912",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "70c33957ffbcb15c308c116e18ab2d1590209b3c0fb26ea4beda878f685926af"
+        "outcome": "passed"
       }
     },
     {
@@ -309,11 +309,11 @@
         }
       ],
       "review": {
-        "outcome": "passed",
+        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
+        "subject_sha256": "df9a8c3207f6706a90bc20d9caa23eeddc9d021a9a0b2265ccb32ab1dc551baf",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "133d632be54584fc04df69ce162b7f18e5e95a4d084e30e4205aac94acfe283a"
+        "outcome": "passed"
       }
     },
     {
