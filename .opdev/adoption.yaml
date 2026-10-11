@@ -1,6 +1,6 @@
 clean_target:
-  version: 2
-  inventory_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+  version: 3
+  inventory_reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992028424"
   retirements:
   - path: .opdev/evidence.yaml
     reason: >-
@@ -33,11 +33,9 @@ practices:
     - check
     research: []
   agents:
-    state: implemented
+    state: pending
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: >-
-      Migrate to shared guidance and thin regular-file root pointers; verify routing
-      without changing installed plugins.
+    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Migrate to shared guidance and thin regular-file root pointers; verify routing without changing installed plugins."
     references:
     - .opdev/guidance.md
     - AGENTS.md
@@ -63,11 +61,9 @@ practices:
     - check
     research: []
   configuration:
-    state: implemented
+    state: pending
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: >-
-      Versioned schemas, manifests, rules and toolchain pins control behavior.
-      Runtime location and CI secrets remain external.
+    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Versioned schemas, manifests, rules and toolchain pins control behavior. Runtime location and CI secrets remain external."
     references:
     - schema
     - plugins/opdev/runtime.lock
@@ -90,12 +86,9 @@ practices:
     research:
     - https://github.com/taiki-e/cargo-llvm-cov/tree/v0.9.1
   delivery:
-    state: implemented
+    state: pending
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: >-
-      Preserve six native targets, signed immutable GitHub assets and sole GitLab tag
-      publisher. Verify qualification dependencies; adoption does not authorize a
-      release.
+    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Preserve six native targets, signed immutable GitHub assets and sole GitLab tag publisher. Verify qualification dependencies; adoption does not authorize a release."
     references:
     - .gitlab-ci.yml
     - .github/workflows/release-build.yml
@@ -172,11 +165,9 @@ practices:
     - check
     research: []
   integration:
-    state: implemented
+    state: pending
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: >-
-      Main is sole trunk/release source; direct pushes disabled, maintainer merging
-      retained. Verify required jobs and exact pre/post-merge review consumption live.
+    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Main is sole trunk/release source; direct pushes disabled, maintainer merging retained. Verify required jobs and exact pre/post-merge review consumption live."
     references:
     - .gitlab-ci.yml
     - crates/opdev-remote/src/ci_review.rs
@@ -224,12 +215,9 @@ practices:
     suites: []
     research: []
   recovery:
-    state: implemented
+    state: pending
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: >-
-      Preserve automated installer/publication recovery and safe roll-forward.
-      Separate MinimumCD rollback finding needs actual evidence, not a general recovery
-      declaration.
+    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Preserve automated installer/publication recovery and safe roll-forward. Separate MinimumCD rollback finding needs actual evidence, not a general recovery declaration."
     references:
     - release/README.md
     - tests/runtime_test.py
@@ -293,10 +281,6 @@ practices:
     suites:
     - check
     research: []
-review:
-  plan_id: b930fb34616c01423bd48c06db798cfbae9c475083c6abdc6bc5b96b3d5686ac
-  reviewer: Jeremy
-  reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727"
 workflow:
   integration_branches:
   - main

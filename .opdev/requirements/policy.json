@@ -449,7 +449,7 @@
       "id": "V-policy-enforcement-1",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "273df0ff4562aa241d7eae45e3f23c40a8198011661510309a84babc2d7067a0",
+        "sha256": "6be6dee84a1d6f77c83adf5cc0808ffed5f3ada3218247e528b0ba4a41cdfd6c",
         "excerpt": "fn policy_two_requires_explicit_schema_and_capabilities_without_claiming_execution"
       },
       "inputs": [
@@ -3230,7 +3230,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3415,7 +3415,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3600,7 +3600,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3785,7 +3785,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3970,7 +3970,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4155,7 +4155,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4340,7 +4340,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4525,7 +4525,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4710,7 +4710,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4895,7 +4895,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5080,7 +5080,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5265,7 +5265,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5450,8 +5450,128 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
+          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
           "excerpt": "# Understanding engineering policy"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-policy-shape-no-exec",
+      "target": {
+        "path": "crates/opdev-cli/tests/engineering_policy.rs",
+        "sha256": "6be6dee84a1d6f77c83adf5cc0808ffed5f3ada3218247e528b0ba4a41cdfd6c",
+        "excerpt": "fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance("
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "306a3f944a7bd2a28515ed41b419db61ae5f78ca98558618c8d290b3c64aff65",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "a7a2a0b8f2439ce8f96439dbe071563f50f19d315ccdbf159b491cb07263ad3c",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-core/Cargo.toml",
+          "sha256": "0c703b28026b346e5b29090a858a5810dc0e95ba7dac1fd9a5ebec98a01a5483",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-cli/Cargo.toml",
+          "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "rules/engineering-2.yaml",
+          "sha256": "5b42c0424949c75b4722d740b24d34c8b0569e97228107ba738f1f601d5f3421",
+          "excerpt": "catalog_version: 4"
+        },
+        {
+          "path": "rules/core.yaml",
+          "sha256": "bf0750fa018ef83bd36e6aa78fb06311add24f08cf6d75e0f1f6599171c6f587",
+          "excerpt": "catalog_version: 2"
+        },
+        {
+          "path": "rules/engineering.yaml",
+          "sha256": "d945df4c07a2539a56e1e7b119654f1f44a3444a63dd26e2ca56ae0fe7ae97f3",
+          "excerpt": "catalog_version: 3"
+        },
+        {
+          "path": "crates/opdev-project/src/manifest.rs",
+          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "excerpt": "fn validate_engineering("
+        },
+        {
+          "path": "crates/opdev-project/src/acceptance.rs",
+          "sha256": "0c23a35eeafecdd8ab4212a6ae4431694bc6b2f9d1bde61ec2b4c36290497773",
+          "excerpt": "pub struct PolicyControlReview"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "907af56586b73f2b77cc0496512b3566eef027adac344205725b080af942b99f",
+          "excerpt": "pub fn validate(&self, catalog:"
+        },
+        {
+          "path": "crates/opdev-engine/src/evaluator.rs",
+          "sha256": "99cb8de7775cf8a0bc65620753d18c2889f6daaa7c07e030787b39f0bd06e6e0",
+          "excerpt": "fn evaluate_inner("
+        },
+        {
+          "path": "crates/opdev-engine/src/acceptance.rs",
+          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "excerpt": "fn control_selection_matches("
+        },
+        {
+          "path": "crates/opdev-engine/src/policy_controls.rs",
+          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "excerpt": "pub(crate) fn qualify("
+        },
+        {
+          "path": "crates/opdev-engine/src/assessment.rs",
+          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "excerpt": "pub(crate) fn for_policy("
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "5fc1d94e4f4e80202a86060fe26952db36b1aa4794d825957077c5810b651a86",
+          "excerpt": "\"policy_controls\": {"
+        },
+        {
+          "path": "schema/project.schema.json",
+          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
+        },
+        {
+          "path": "schema/report.schema.json",
+          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
+        },
+        {
+          "path": "crates/opdev-core/src/policy.rs",
+          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "excerpt": "pub fn engineering_rule_class("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
+          "excerpt": "fn apply_remote_audit("
+        },
+        {
+          "path": "benchmarks/policy/cases.json",
+          "sha256": "e88d60bbfcfe2bc106b4eba34added5359788a933449ad9d9c404d105a833f95",
+          "excerpt": "\"id\": \"persistent-cli\""
         }
       ],
       "method": {
@@ -5497,9 +5617,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "66d476da6b3378f76a58c079bd4114eb2a809792f8b5b2346dc2f04210d00427"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "b7212fbaf3486d297d3ea873463cc1b28b268441fd7e5277cdc312bf36ec1167"
       }
     },
     {
@@ -5537,9 +5657,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "5d4ad57b5157abc96ab32ff611c97ff985d9122ab3e53eb80a4df08b6ae02008"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "e4049a03005b494ccf6d6bc7ed859fb174fcb76afc799bb3bb70283f424466c4"
       }
     },
     {
@@ -5577,9 +5697,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "007ded05745cad434025b8868f49eda23708caa644c1c9227946aad34912f53c"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "9cfd6c9bad5de21c2af2b3cf0bccb5f7ee21e28fac78399bbb88f57af73368d8"
       }
     },
     {
@@ -5617,14 +5737,19 @@
           "verification": "V-policy-enforcement-6",
           "assertion": "A real recovery suite must run at its selected boundary with current control mapping; safe restore is not MinimumCD rollback.",
           "discriminating_case": "Evaluation-only, another stage, or deleted control links stay unverified even with green other checks."
+        },
+        {
+          "verification": "V-policy-shape-no-exec",
+          "assertion": "Both policy versions preserve mandatory verification across explicit capability shapes.",
+          "discriminating_case": "Without execution or review, core tests/setup/style cannot pass or become inapplicable, MinimumCD stays blocked and policy selection remains unchanged."
         }
       ],
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "2a0c39f1a5a9c8682025c18aefcb89e93db467b576024bf75f7650d8ae949164"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "e0aeff473e6907ba7c8898f4754566dbe24187ac8b2a49613ec6d93aa086f0e7"
       }
     },
     {
@@ -5662,14 +5787,19 @@
           "verification": "V-policy-enforcement-6",
           "assertion": "A real recovery suite must run at its selected boundary with current control mapping; safe restore is not MinimumCD rollback.",
           "discriminating_case": "Evaluation-only, another stage, or deleted control links stay unverified even with green other checks."
+        },
+        {
+          "verification": "V-policy-shape-no-exec",
+          "assertion": "Both policy versions preserve mandatory verification across explicit capability shapes.",
+          "discriminating_case": "Without execution or review, core tests/setup/style cannot pass or become inapplicable, MinimumCD stays blocked and policy selection remains unchanged."
         }
       ],
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "986b5a1efdff4d0eedbbbf38f5b3344844e6e85f39359a2388b3626162c0804b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "ad837b3e52e9f2579da977895cf8c72fafd922daff3d37610ff44d8fbedba4fb"
       }
     },
     {
@@ -5707,14 +5837,19 @@
           "verification": "V-policy-enforcement-6",
           "assertion": "A real recovery suite must run at its selected boundary with current control mapping; safe restore is not MinimumCD rollback.",
           "discriminating_case": "Evaluation-only, another stage, or deleted control links stay unverified even with green other checks."
+        },
+        {
+          "verification": "V-policy-shape-no-exec",
+          "assertion": "Both policy versions preserve mandatory verification across explicit capability shapes.",
+          "discriminating_case": "Without execution or review, core tests/setup/style cannot pass or become inapplicable, MinimumCD stays blocked and policy selection remains unchanged."
         }
       ],
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "6f6f9ae3275040b0c2f7a45d6d46127bf4c6bdb54557948c3ee77686a8519512"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "3083cabd05599e30c79c631d30605556dab9ef758a573e7f1227bf0fea829a39"
       }
     },
     {
@@ -5787,9 +5922,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "b1ca8f869510269b16c76e46cd44af67748544a613ff8badd2b6cc5ce09c8573"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "be2c44471b40703991452a03f5bd422142c89e4b8e05526fbb3551b598a345b6"
       }
     },
     {
@@ -5862,9 +5997,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "23af8dee6a49e9f2a41934f8a2fcba9e4fab2f5edc828303921cb4843e305c6f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "b3a36b5f7a60f20ccabf26f0692265c0adddfc61e7e1bb9e7d387cdb9f4a74ae"
       }
     },
     {
@@ -5937,9 +6072,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "7e6ae6e58291f3bb15f0d20f899435c78095567011f7f91149b514f19da535a5"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "d6645c299bbab65cd0daa158d4a7c485698c0b60db08a1dc89a4f23ece111faf"
       }
     },
     {
@@ -6017,9 +6152,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "ad1f0561159c0ae14c51b23e1758e6a7f0d4219c26658fb205a267f0a1318b22"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "1a670a0f2fd730b600c0d59285785f89c2e92c5208f6d309f5f19835b7b547e9"
       }
     },
     {
@@ -6097,9 +6232,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "1c5b257a5981d8ceb52d39ccf6ebbbe26583ecfaaf23a420ec172bb027928c01"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "938bab45c0ac56af04c55fd1935dca79d6e2cbd8ad51be0f126c5f4d00564a01"
       }
     },
     {
@@ -6177,9 +6312,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
-        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
-        "subject_sha256": "b4421c33e6b9fc198d2b24e6ba6b3908110fb33882790a0264705de8ac6ad6f3"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "f5908416ddf65a566b393b5a14bb8912ae85f4ccc0fb731153f2a357175aab3c"
       }
     }
   ]

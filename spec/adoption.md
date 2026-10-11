@@ -330,12 +330,17 @@ delivery. Real pre/post-integration CI, artifacts and recovery still need the
 evidence required by their core rules; local execution does not become remote CI.
 Do not register `adoption check` as a suite that it would recursively execute.
 
-For applicable delivery, completion additionally requires a passed MCD-PIPELINE-001 result with a
+For applicable delivery, completion additionally requires a passed
+OPDEV-PIPELINE-001 result under policy 2 (MCD-PIPELINE-001 under older policy) with a
 `delivery_gate` evidence entry pointing to the reviewed release/tag pipeline
 dependency path. Its summary must identify the required qualification job and
 publication ordering, including trigger/rule coverage and the actual run reviewed.
 A generic pipeline assertion or green integration-only job is not this review.
 This remains a reviewable claim, not automatic proof of provider execution.
+Policy 2 requires this assertion in the current change, its ordinary stage-bound
+acceptance links and actual verification; an older project assertion or separate
+MinimumCD result cannot substitute. The unresolved preparation worksheet uses the
+same selected control and scope. Preflight checks input presence, not execution.
 Engineering-policy adoption accepts a genuinely evidence-backed not-applicable
 pipeline result when there is no applicable delivery capability; missing delivery
 configuration or a future implementation is not that evidence. Legacy behavior

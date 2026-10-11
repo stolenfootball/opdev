@@ -1,7 +1,7 @@
-schema: 3
+schema: 4
 layout:
-  version: 2
-  review_reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/101#note_3989549727"
+  version: 3
+  review_reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992028424"
 project:
   kind: plugin
   trunk: main
@@ -246,9 +246,9 @@ assurance:
           workflow trials measure utility separately from Rust correctness.
         authority: contracts
   engineering:
-    version: "1"
+    version: "2"
     minimumcd: "1"
-    review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/101
+    review_reference: https://gitlab.com/stolenfootball-tools/opdev/-/issues/106
   profiles:
   - name: nist-ssdf-derived
     version: "1.1"

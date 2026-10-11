@@ -1120,6 +1120,106 @@ fn evidence_preparation_is_unresolved_read_only_and_correctly_scoped()
 }
 
 #[test]
+fn policy_two_adoption_uses_current_pipeline_review_not_legacy_standard_assertions()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = engineering_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    let mut ledger = EvidenceLedger::load_optional(root, &manifest.catalog()?)?.ok_or("ledger")?;
+    manifest.schema = 4;
+    manifest
+        .assurance
+        .engineering
+        .as_mut()
+        .ok_or("engineering")?
+        .version = "2".into();
+    manifest.assurance.safeguards = Some(opdev_project::SafeguardPolicy {
+        version: 1,
+        review_reference: "synthetic policy migration".into(),
+        capabilities: opdev_project::Capability::ALL
+            .into_iter()
+            .map(|capability| {
+                (
+                    capability,
+                    opdev_project::CapabilityFact {
+                        state: opdev_project::CapabilityState::Present,
+                        rationale: "Synthetic supported-distribution fixture".into(),
+                        authority: "contracts".into(),
+                    },
+                )
+            })
+            .collect(),
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    assert!(git(root, &["add", "."])?.status.success());
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    let output = cli(root, &["adoption", "prepare-evidence"])?;
+    assert!(output.status.success());
+    let preparation: opdev_project::EvidenceBootstrap = serde_saphyr::from_slice(&output.stdout)?;
+    assert!(preparation.project.decisions.is_empty());
+    assert!(
+        preparation
+            .change
+            .decisions
+            .contains_key("OPDEV-PIPELINE-001")
+    );
+    assert!(
+        !preparation
+            .change
+            .decisions
+            .contains_key("MCD-PIPELINE-001")
+    );
+    assert!(
+        preparation
+            .change
+            .evidence
+            .iter()
+            .any(|e| e.kind == "delivery_gate")
+    );
+    let mut pipeline = ledger.changes[0]
+        .assertions
+        .iter()
+        .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+        .ok_or("legacy pipeline")?
+        .clone();
+    pipeline.rule_id = "OPDEV-PIPELINE-001".parse()?;
+    for current in [false, true] {
+        if current {
+            ledger.changes[0].assertions.push(pipeline.clone());
+        } else {
+            ledger.project.push(pipeline.clone());
+        }
+        fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+        let output = cli(
+            root,
+            &[
+                "adoption",
+                "check",
+                "--preflight",
+                "--legacy-assessment",
+                "--format",
+                "json",
+            ],
+        )?;
+        let result: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(result["complete"], false);
+        assert_eq!(result["checks_ran"], false);
+        let gaps = result["blockers"].as_array().ok_or("blockers")?;
+        assert_eq!(
+            gaps.iter().any(|gap| gap.as_str().is_some_and(
+                |text| text.starts_with("delivery:") && text.contains("delivery_gate")
+            )),
+            !current,
+            "only current policy-2 review satisfies the input prerequisite: {result}"
+        );
+        assert!(gaps.iter().all(|gap| !gap.as_str().is_some_and(
+            |text| text.starts_with("delivery:") && text.contains("MCD-PIPELINE-001")
+        )));
+    }
+    Ok(())
+}
+
+#[test]
 fn implemented_labels_do_not_authorize_commands_or_complete_adoption()
 -> Result<(), Box<dyn std::error::Error>> {
     let repo = ready_fixture()?;
