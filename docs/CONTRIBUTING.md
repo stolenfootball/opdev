@@ -10,7 +10,7 @@ and material risks. Durable architecture or contract changes belong in `spec/`
 and should describe alternatives, rationale, and a reversal trigger.
 
 Self-development uses the CLI built from this checkout (`cargo build --locked
--p opdev-cli`), whose capabilities must match the selected clean-2 contract.
+-p opdev-cli`), whose capabilities must match the selected clean-3 contract.
 Verify it against `plugins/opdev/opdev-compatibility.json`; do not silently use
 an older installed CLI or change the published managed-runtime pin. On Windows,
 run full checks from a temporary copy of that verified executable so Cargo can
@@ -61,7 +61,10 @@ repairs and preserve regression assertions and frozen inputs.
 
 ### Requirements and current verification
 
-This repository selects requirements policy 1 and layout 2. The capability files
+This repository selects engineering policy 2, requirements policy 1 and layout 3.
+MinimumCD remains a separate assessment, not a claim of full conformance or a
+substitute for engineering gates. Existing SSDF-derived guidance remains limited
+to its declared mapping; it is not certification. The capability files
 in `.opdev/requirements/` connect supported guarantees to their existing `spec/`
 owners and reviewed assertions. Read the relevant capability alongside its spec;
 do not copy the specification or use the catalog as a backlog. The `default`

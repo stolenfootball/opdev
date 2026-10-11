@@ -275,6 +275,29 @@ controls with missing review or verification block their selected boundary.
 Reviewed non-applicability affects only that additional control, never the core
 baseline. Stages outside a control's selection are not assessed, not passed.
 
+## Evaluating a policy change
+
+Compare the actual obligations and workflow outcomes, not just whether the new
+configuration parses. Keep the old policy's interpretation intact and use the
+same consumer task and available checks on each side. A useful comparison records
+unsafe passes, unnecessary blocking/questions, independently verified results,
+time, CI usage and reported tokens. Missing measurements stay unknown. A small
+pilot can expose defects but cannot prove universal speed or reliability gains.
+
+Deterministic tests, advice-only agent trials, complete coding sessions, provider
+verification and developer understanding answer different questions. Green unit
+tests do not prove the agent will follow the policy, and a convincing agent answer
+does not prove that checks ran. Use the [evaluation method](../spec/engineering-policy-evaluation.md)
+and neutral [comparison fixtures](../benchmarks/policy/README.md) when assessing
+these differences. Obtain a bounded allowance before starting live sessions;
+ordinary development and policy inspection do not silently start paid trials.
+
+Self-adoption follows the same clean-target migration as another project. An
+applied migration deliberately reopens affected practices and clears the old
+approval; inspect those gaps and verify the changed guarantees before recording
+completion. Do not manufacture delivery evidence, remove an inconvenient standard,
+or release software merely to make the adoption result green.
+
 For exact semantics, rationale, compatibility and evidence responsibilities, see
 the [engineering policy specification](../spec/engineering-policy.md). Existing
 Policy 1 behavior is documented in [assurance profiles](../spec/assurance-profiles.md).

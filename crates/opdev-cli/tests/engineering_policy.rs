@@ -385,3 +385,82 @@ fn cli_reports_separate_assessment_without_claiming_verification() -> TestResult
     }
     Ok(())
 }
+
+#[test]
+fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance() -> TestResult {
+    let fixtures: Value =
+        serde_json::from_str(include_str!("../../../benchmarks/policy/cases.json"))?;
+    let cases = fixtures["cases"].as_array().ok_or("cases")?;
+    assert_eq!(cases.len(), 6);
+    for case in cases {
+        let dir = fixture()?;
+        let path = dir.path().join(MANIFEST_PATH);
+        let initial = ProjectManifest::load(&path)?;
+        for version in ["1", "2"] {
+            let mut project = serde_json::to_value(&initial)?;
+            project["schema"] = serde_json::json!(if version == "1" { 3 } else { 4 });
+            project["project"]["kind"] = case["kind"].clone();
+            project["assurance"]["profiles"] = serde_json::json!([]);
+            project["assurance"]["engineering"] = serde_json::json!({
+                "version": version, "minimumcd": "1",
+                "review_reference": "synthetic paired policy fixture"
+            });
+            let capabilities = opdev_project::Capability::ALL.into_iter().map(|capability| {
+                let name = serde_json::to_value(capability)?;
+                let state = if case["present"].as_array().ok_or("capabilities")?.contains(&name) {
+                    "present"
+                } else {
+                    "absent"
+                };
+                Ok((name.as_str().ok_or("capability name")?.to_owned(), serde_json::json!({
+                    "state": state, "rationale": "Explicit neutral fixture inventory, not a project-kind inference",
+                    "authority": "contracts"
+                })))
+            }).collect::<Result<serde_json::Map<String, Value>, Box<dyn std::error::Error>>>()?;
+            project["assurance"]["safeguards"] = serde_json::json!({
+                "version": 1, "review_reference": "synthetic capability inventory",
+                "capabilities": capabilities
+            });
+            let manifest = ProjectManifest::from_yaml(&serde_json::to_string(&project)?)?;
+            fs::write(&path, manifest.to_yaml()?)?;
+            let before = fs::read(&path)?;
+            let output = cli(dir.path(), &["check", "--no-exec", "--format", "json"])?;
+            assert_eq!(output.status.code(), Some(1), "{} / {version}", case["id"]);
+            let report: Value = serde_json::from_slice(&output.stdout)?;
+            assert_eq!(
+                report["catalog_version"],
+                if version == "1" { 3 } else { 4 }
+            );
+            assert_eq!(report["engineering"]["version"], version);
+            assert_eq!(report["engineering"]["minimumcd"]["verdict"], "blocked");
+            assert_eq!(fs::read(&path)?, before, "assessment cannot migrate policy");
+            let rules = report["rules"].as_array().ok_or("rules")?;
+            for id in [
+                "MCD-TEST-001",
+                "MCD-TEST-002",
+                "OPDEV-BUILD-001",
+                "OPDEV-STYLE-001",
+            ] {
+                let rule = rules
+                    .iter()
+                    .find(|rule| rule["rule_id"] == id)
+                    .ok_or("retained obligation")?;
+                assert_ne!(
+                    rule["outcome"], "passed",
+                    "{id}: no execution or review was supplied"
+                );
+                assert_ne!(
+                    rule["outcome"], "not_applicable",
+                    "{id}: kind is not an opt-out"
+                );
+            }
+            assert_eq!(
+                rules
+                    .iter()
+                    .any(|rule| rule["rule_id"] == "OPDEV-RECOVERY-001"),
+                version == "2"
+            );
+        }
+    }
+    Ok(())
+}

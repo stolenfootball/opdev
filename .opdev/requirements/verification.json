@@ -251,9 +251,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing current-review, meaningful assertion, stage and actual-execution guarantees remain. New organization links are digest material and catalog4-only; absent fields preserve old digests. Actual new positive execution and missing/no-execution negatives are checked separately. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "73cebc20c43e6e80f40d952c57f25f7ca5d6bfa7c5b44af828a367102406ce4b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "013daeb577ee7df8db6521e6d06d38425ba00df5c748ce31d13bdb5db82f6dda"
       }
     },
     {
@@ -281,9 +281,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing current-review, meaningful assertion, stage and actual-execution guarantees remain. New organization links are digest material and catalog4-only; absent fields preserve old digests. Actual new positive execution and missing/no-execution negatives are checked separately. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "c49621e0a8e35cd653e702095fed9b6a0804b5998d477af36a15a80c12994ccf"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "70c33957ffbcb15c308c116e18ab2d1590209b3c0fb26ea4beda878f685926af"
       }
     },
     {
@@ -311,9 +311,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing current-review, meaningful assertion, stage and actual-execution guarantees remain. New organization links are digest material and catalog4-only; absent fields preserve old digests. Actual new positive execution and missing/no-execution negatives are checked separately. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "249b2e2f09cbb68bd673aa435c7654ae3f75bf14d07ef2933b0939114150a112"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "133d632be54584fc04df69ce162b7f18e5e95a4d084e30e4205aac94acfe283a"
       }
     },
     {
@@ -336,9 +336,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
-        "subject_sha256": "d653a3707b91bad9756d6d76568cee299cbf3e1f470b40aa8ea97ea1413478ac"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "cc7d82b95ae1aaf295d33126d37cd4e040a30d4d09ec7bc6da01619c40504e9b"
       }
     },
     {
@@ -361,9 +361,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
-        "subject_sha256": "b3510261c11f472a0d4c6fc1cfb30f426f30d63b4345716646ba0fc886fb378b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "fed8db1e36f6e34851fd780ed541a8c22d3970fb5406c7c6bf8f3ed22008b169"
       }
     },
     {
@@ -386,9 +386,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
-        "subject_sha256": "2c7ef67917b5dc823646c9c47ee42c3d57cb1f9b59c675d920af733bde11bd22"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "916e20a2a56cc9d5e22ba37349c8e2768df4af3fbb93433d5a0dd45a710a0e85"
       }
     }
   ]

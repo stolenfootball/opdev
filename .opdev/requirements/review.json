@@ -141,9 +141,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Change the source head between authenticated reads, or edit a selected note; reject without echoing private body text. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "0c3b59b61e78a3e692c49e6ce1eb7a5087a46cee29b4902e02e861aab6f5be8b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "466920f267c5caa04133daf4de25963421b55c78059e0c0e1b715524c9200339"
       }
     },
     {
@@ -161,9 +161,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Change the source head between authenticated reads, or edit a selected note; reject without echoing private body text. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "0882781bddb5de1e352ee294d15ac94701b30f4a6ec61dd4deeefde9d0f99089"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "c6d73328c9f4322d586962f9dba80a2d0d8c3007ea6100e00557ee960c480f9d"
       }
     },
     {
@@ -181,9 +181,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Change the source head between authenticated reads, or edit a selected note; reject without echoing private body text. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "15f9859d920553b86547dfbe6b7a61070fa8c38cfe2ab8a43fa52b13ad1c9dea"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "5225ce6dcef8df531c6bf5c14186291ed44e6bef2de0389a3df16339bd531a41"
       }
     },
     {
@@ -201,9 +201,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid note ID in a duplicate selection or a different source project is not authority for this job. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "86ed6f3e5f33d68dc707691894ceb80c82a94a1ac2b83bd732ed3aa6057ba436"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "9550537b15a7bdc538a41b4be747c2e30f2f636c1be2f177c6d4af38b75d3a69"
       }
     },
     {
@@ -221,9 +221,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid note ID in a duplicate selection or a different source project is not authority for this job. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "af0fba724101e6f4ffd0e865a11a64c6d3728e961e84ae6e1628889cbff2d036"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "4738493810707132e581469d0769103e32db9e7ea25e7065cdf71d1f5ac53e99"
       }
     },
     {
@@ -241,9 +241,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. A valid note ID in a duplicate selection or a different source project is not authority for this job. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "420b025a2736d308ea737476c0e001bcd14019f2239f9dbf949e7c37d7ef9f88"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
+        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
+        "subject_sha256": "98231d69234d6ba1dfc268659b33f064bd593bbc2e3702b79e78e01ec37aaf58"
       }
     }
   ]

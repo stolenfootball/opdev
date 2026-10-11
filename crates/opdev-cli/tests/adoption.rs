@@ -841,6 +841,40 @@ fn external_adoption_requires_selected_review_and_never_recreates_legacy_evidenc
 
     let outside = tempfile::tempdir()?;
     let locator = outside.path().join("locator.json");
+    // An unresolved decision defers provider inspection. Supplied inputs are not
+    // missing, and a nonexistent locator proves it was not even read locally.
+    let mut unresolved = AdoptionRecord::load(root)?.ok_or("record")?;
+    unresolved.review = None;
+    fs::write(root.join(ADOPTION_PATH), unresolved.to_yaml()?)?;
+    assert!(git(root, &["add", "-A"])?.status.success());
+    for mode in [vec!["--preflight"], vec![]] {
+        let mut args = vec![
+            "adoption",
+            "check",
+            "--legacy-assessment",
+            "--format",
+            "json",
+            "--review-locator",
+            locator.to_str().ok_or("path")?,
+            "--review-acceptance-sha256",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        ];
+        args.extend(mode);
+        let deferred = cli(root, &args)?;
+        assert_eq!(deferred.status.code(), Some(1));
+        let value: Value = serde_json::from_slice(&deferred.stdout)?;
+        assert_eq!(value["complete"], false);
+        assert_eq!(value["checks_ran"], false);
+        let gaps = value["blockers"].to_string();
+        assert!(gaps.contains("not inspected") && gaps.contains("review validity is unknown"));
+        assert!(!gaps.contains("needs --review-locator"));
+        assert!(!gaps.contains("no selected review record matches"));
+        assert!(!gaps.contains("delivery_gate"));
+        assert!(!locator.exists());
+        assert!(!root.join(EVIDENCE_PATH).exists());
+    }
+    fs::write(root.join(ADOPTION_PATH), &before)?;
+    assert!(git(root, &["add", "-A"])?.status.success());
     fs::write(
         &locator,
         serde_json::to_vec(&serde_json::json!({
@@ -1116,6 +1150,106 @@ fn evidence_preparation_is_unresolved_read_only_and_correctly_scoped()
             .all(|d| *d == opdev_project::ReviewDecision::ReviewRequired)
     );
     assert_eq!(before, fs::read(root.join(EVIDENCE_PATH))?);
+    Ok(())
+}
+
+#[test]
+fn policy_two_adoption_uses_current_pipeline_review_not_legacy_standard_assertions()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = engineering_fixture()?;
+    let root = repo.path();
+    let mut manifest = discover(root)?.manifest;
+    let mut ledger = EvidenceLedger::load_optional(root, &manifest.catalog()?)?.ok_or("ledger")?;
+    manifest.schema = 4;
+    manifest
+        .assurance
+        .engineering
+        .as_mut()
+        .ok_or("engineering")?
+        .version = "2".into();
+    manifest.assurance.safeguards = Some(opdev_project::SafeguardPolicy {
+        version: 1,
+        review_reference: "synthetic policy migration".into(),
+        capabilities: opdev_project::Capability::ALL
+            .into_iter()
+            .map(|capability| {
+                (
+                    capability,
+                    opdev_project::CapabilityFact {
+                        state: opdev_project::CapabilityState::Present,
+                        rationale: "Synthetic supported-distribution fixture".into(),
+                        authority: "contracts".into(),
+                    },
+                )
+            })
+            .collect(),
+    });
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    assert!(git(root, &["add", "."])?.status.success());
+    ledger.changes[0].fingerprint = staged_fingerprint(root)?;
+    let output = cli(root, &["adoption", "prepare-evidence"])?;
+    assert!(output.status.success());
+    let preparation: opdev_project::EvidenceBootstrap = serde_saphyr::from_slice(&output.stdout)?;
+    assert!(preparation.project.decisions.is_empty());
+    assert!(
+        preparation
+            .change
+            .decisions
+            .contains_key("OPDEV-PIPELINE-001")
+    );
+    assert!(
+        !preparation
+            .change
+            .decisions
+            .contains_key("MCD-PIPELINE-001")
+    );
+    assert!(
+        preparation
+            .change
+            .evidence
+            .iter()
+            .any(|e| e.kind == "delivery_gate")
+    );
+    let mut pipeline = ledger.changes[0]
+        .assertions
+        .iter()
+        .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+        .ok_or("legacy pipeline")?
+        .clone();
+    pipeline.rule_id = "OPDEV-PIPELINE-001".parse()?;
+    for current in [false, true] {
+        if current {
+            ledger.changes[0].assertions.push(pipeline.clone());
+        } else {
+            ledger.project.push(pipeline.clone());
+        }
+        fs::write(root.join(EVIDENCE_PATH), ledger.to_yaml()?)?;
+        let output = cli(
+            root,
+            &[
+                "adoption",
+                "check",
+                "--preflight",
+                "--legacy-assessment",
+                "--format",
+                "json",
+            ],
+        )?;
+        let result: Value = serde_json::from_slice(&output.stdout)?;
+        assert_eq!(result["complete"], false);
+        assert_eq!(result["checks_ran"], false);
+        let gaps = result["blockers"].as_array().ok_or("blockers")?;
+        assert_eq!(
+            gaps.iter().any(|gap| gap.as_str().is_some_and(
+                |text| text.starts_with("delivery:") && text.contains("delivery_gate")
+            )),
+            !current,
+            "only current policy-2 review satisfies the input prerequisite: {result}"
+        );
+        assert!(gaps.iter().all(|gap| !gap.as_str().is_some_and(
+            |text| text.starts_with("delivery:") && text.contains("MCD-PIPELINE-001")
+        )));
+    }
     Ok(())
 }
 

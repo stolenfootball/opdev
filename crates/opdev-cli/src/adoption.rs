@@ -392,12 +392,22 @@ fn migrate(root: &std::path::Path, write: bool, catalog_version: Option<u32>) ->
 }
 
 fn prepare_evidence(root: &std::path::Path) -> Result<()> {
-    let (root, _) = load_project(root)?;
+    let (root, manifest) = load_project(root)?;
     AdoptionRecord::load(&root)?.context("no adoption record")?;
+    let policy_two = delivery_rule(&manifest) == "OPDEV-PIPELINE-001";
+    let project_rules = if policy_two {
+        vec![]
+    } else {
+        vec!["MCD-PIPELINE-001".into()]
+    };
+    let mut change_rules = vec!["OPDEV-WORK-001".into(), "OPDEV-TEST-002".into()];
+    if policy_two {
+        change_rules.push("OPDEV-PIPELINE-001".into());
+    }
     let mut questionnaire = opdev_project::EvidenceBootstrap::new(
         staged_fingerprint(&root)?,
-        ["MCD-PIPELINE-001".into()],
-        ["OPDEV-WORK-001".into(), "OPDEV-TEST-002".into()],
+        project_rules,
+        change_rules,
     );
     questionnaire.change.evidence.push(opdev_core::Evidence {
         kind: "adoption_review".into(),
@@ -409,11 +419,16 @@ fn prepare_evidence(root: &std::path::Path) -> Result<()> {
         summary: String::new(),
         location: Some(ADOPTION_PATH.into()),
     });
-    questionnaire.project.evidence.push(opdev_core::Evidence {
+    let delivery_evidence = opdev_core::Evidence {
         kind: "delivery_gate".into(),
         summary: String::new(),
         location: None,
-    });
+    };
+    if policy_two {
+        questionnaire.change.evidence.push(delivery_evidence);
+    } else {
+        questionnaire.project.evidence.push(delivery_evidence);
+    }
     print!("{}", questionnaire.to_yaml()?);
     eprintln!(
         "Review-required preparation only; writes no review record and asserts no pass. Fill the actual summaries and references, including the delivery dependency path, then merge reviewed assertions into the selected review record. This partial worksheet is not a full evidence bootstrap answers file."
@@ -490,6 +505,10 @@ fn check(
             None
         }
     };
+    let review_deferred = !blockers.is_empty()
+        && manifest.assurance.review_storage.is_some()
+        && review_locator.is_some()
+        && review_acceptance_sha256.is_some();
     // Do not retrieve provider evidence or execute commands for unresolved choices.
     let review = if blockers.is_empty() {
         crate::selected_review(
@@ -502,30 +521,20 @@ fn check(
     } else {
         None
     };
-    let ledger = if manifest.assurance.review_storage.is_some() {
-        if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
-            blockers.push("adoption review: both external storage and a legacy ledger exist. Complete the reviewed storage migration before verification; no evidence source was silently chosen".into());
-        }
-        if let Some(review) = &review {
-            Some(
-                review
-                    .reviewed_ledger(&root, &manifest, opdev_project::TestStage::PreMerge)
-                    .map_err(anyhow::Error::msg)?
-                    .clone(),
-            )
-        } else {
-            blockers.push("adoption review: selected external storage needs --review-locator and --review-acceptance-sha256 for this change. No checks ran".into());
-            None
-        }
-    } else {
-        EvidenceLedger::load_optional(&root, &manifest.catalog()?)?
-    };
+    let ledger = adoption_ledger(
+        &root,
+        &manifest,
+        review.as_ref(),
+        review_deferred,
+        &mut blockers,
+    )?;
     blockers.extend(input_blockers(
         &root,
         &manifest,
         ledger.as_ref(),
         fingerprint.as_deref(),
         !legacy_assessment,
+        review_deferred,
     ));
     if mode.preflight
         && !preflight_unchanged(
@@ -570,6 +579,35 @@ fn check(
     } else {
         ExitCode::from(1)
     })
+}
+
+fn adoption_ledger(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    review: Option<&opdev_engine::ValidatedReview>,
+    review_deferred: bool,
+    blockers: &mut Vec<String>,
+) -> Result<Option<EvidenceLedger>> {
+    if manifest.assurance.review_storage.is_none() {
+        return Ok(EvidenceLedger::load_optional(root, &manifest.catalog()?)?);
+    }
+    if root.join(EVIDENCE_PATH).symlink_metadata().is_ok() {
+        blockers.push("adoption review: both external storage and a legacy ledger exist. Complete the reviewed storage migration before verification; no evidence source was silently chosen".into());
+    }
+    if let Some(review) = review {
+        return Ok(Some(
+            review
+                .reviewed_ledger(root, manifest, opdev_project::TestStage::PreMerge)
+                .map_err(anyhow::Error::msg)?
+                .clone(),
+        ));
+    }
+    blockers.push(if review_deferred {
+        "adoption review: review arguments were supplied, but the selected record was not inspected because adoption decisions or source readiness are unresolved. Resolve those blockers, then retry; review validity is unknown and no checks ran".into()
+    } else {
+        "adoption review: selected external storage needs --review-locator and --review-acceptance-sha256 for this change. No checks ran".into()
+    });
+    Ok(None)
 }
 
 fn decision_blockers(
@@ -621,16 +659,20 @@ fn input_blockers(
     ledger: Option<&EvidenceLedger>,
     fingerprint: Option<&str>,
     clean_target: bool,
+    review_deferred: bool,
 ) -> Vec<String> {
-    let mut blockers = review_blockers(ledger, fingerprint, clean_target);
-    blockers.extend(delivery_input_blockers(manifest, ledger, fingerprint));
-    blockers.extend(opdev_engine::acceptance_input_gaps(
-        root,
-        manifest,
-        ledger,
-        fingerprint,
-        opdev_project::TestStage::PreMerge,
-    ));
+    let mut blockers = Vec::new();
+    if !review_deferred {
+        blockers.extend(review_blockers(ledger, fingerprint, clean_target));
+        blockers.extend(delivery_input_blockers(manifest, ledger, fingerprint));
+        blockers.extend(opdev_engine::acceptance_input_gaps(
+            root,
+            manifest,
+            ledger,
+            fingerprint,
+            opdev_project::TestStage::PreMerge,
+        ));
+    }
     for name in ["AGENTS.md", "CLAUDE.md"] {
         if !root.join(name).is_file() {
             blockers.push(format!("agents: missing {name}"));
@@ -695,19 +737,22 @@ fn delivery_input_blockers(
     ledger: Option<&EvidenceLedger>,
     fingerprint: Option<&str>,
 ) -> Vec<String> {
+    let rule_id = delivery_rule(manifest);
     let assertion = ledger.and_then(|ledger| {
         fingerprint
             .and_then(|f| ledger.matching_change(f))
-            .and_then(|c| {
-                c.assertions
-                    .iter()
-                    .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
-            })
+            .and_then(|c| c.assertions.iter().find(|a| a.rule_id.as_str() == rule_id))
             .or_else(|| {
-                ledger
-                    .project
-                    .iter()
-                    .find(|a| a.rule_id.as_str() == "MCD-PIPELINE-001")
+                // Policy 2 requires current-change review; historical project
+                // assertions cannot stand in for this boundary's verification.
+                (rule_id == "MCD-PIPELINE-001")
+                    .then(|| {
+                        ledger
+                            .project
+                            .iter()
+                            .find(|a| a.rule_id.as_str() == rule_id)
+                    })
+                    .flatten()
             })
     });
     if assertion.is_some_and(|a| {
@@ -720,8 +765,33 @@ fn delivery_input_blockers(
     }) {
         Vec::new()
     } else {
-        vec!["delivery: review the actual release/tag publication dependency path and provide MCD-PIPELINE-001 delivery_gate evidence; integration-only CI is insufficient".into()]
+        vec![delivery_review_gap(manifest)]
     }
+}
+
+fn delivery_rule(manifest: &opdev_project::ProjectManifest) -> &'static str {
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.version == "2")
+    {
+        "OPDEV-PIPELINE-001"
+    } else {
+        "MCD-PIPELINE-001"
+    }
+}
+
+fn delivery_review_gap(manifest: &opdev_project::ProjectManifest) -> String {
+    let current = if delivery_rule(manifest) == "OPDEV-PIPELINE-001" {
+        " Current policy-2 acceptance links and execution are also required."
+    } else {
+        ""
+    };
+    format!(
+        "delivery: review the actual supported publication dependency path and provide {} delivery_gate evidence; integration-only CI is insufficient.{current} This review does not authorize publication",
+        delivery_rule(manifest)
+    )
 }
 
 fn verify_core(
@@ -740,7 +810,7 @@ fn verify_core(
     let report = adoption_core_report(root, manifest, remote, review)?;
     let mut blockers = Vec::new();
     if !report.rules.iter().any(|rule| {
-        rule.rule_id.as_str() == "MCD-PIPELINE-001"
+        rule.rule_id.as_str() == delivery_rule(manifest)
             && ((rule.outcome == Outcome::Passed
                 && rule.evidence.iter().any(|e| {
                     e.kind == "delivery_gate"
@@ -749,7 +819,7 @@ fn verify_core(
                 || (manifest.assurance.engineering.is_some()
                     && rule.outcome == Outcome::NotApplicable))
     }) {
-        blockers.push("delivery: review the actual release/tag publication dependency path and provide MCD-PIPELINE-001 delivery_gate evidence; integration-only CI is insufficient".into());
+        blockers.push(delivery_review_gap(manifest));
     }
     for gate in [
         Gate::Development,
