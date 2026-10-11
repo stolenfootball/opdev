@@ -227,6 +227,7 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "execution.same-run.v1",
                 "evidence.behavioral-qualification.v1",
                 "engineering.assessment.v1",
+                "policy.preview.v1",
                 "adoption.engineering-baseline.v1",
                 "adoption.external-review.v1",
                 "adoption.clean-target.v1",
