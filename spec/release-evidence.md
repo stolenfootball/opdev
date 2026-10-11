@@ -83,11 +83,9 @@ graph.
 The canonical cross-provider release matrix builds and smoke-tests six targets
 in native or production-like GitHub-hosted runner environments:
 
-- Windows MSVC on x86-64, with ARM64 cross-built using Microsoft's ARM64 tools
-  and its PE machine type verified;
+- Windows MSVC on native x86-64 and ARM64 runners, with PE machine type verified;
 - Linux GNU on native x86-64 and ARM64 runners; and
-- macOS on Apple Silicon, with both ARM64 and x86-64 binaries exercised (the
-  latter under Rosetta).
+- macOS on native Apple Silicon and Intel runners, with architecture verified.
 
 The plugin distribution is packaged independently of the native CLI archives
 and validated for both Codex and Claude Code. Source validation uses the
@@ -108,12 +106,23 @@ build immutable artifact
   -> verify digests after download
 ```
 
-Release-candidate and final tags use the same immutable pipeline. Recovery for
-the stateless CLI and plugin is a safe roll-forward: repair the source on trunk,
-repeat the complete qualification matrix, and publish a new SemVer tag. Existing
-release assets are never replaced. Consumers can continue using a prior exact
-version until the forward fix qualifies. The operational procedure and
-verification commands are defined in `release/README.md`.
+Release-candidate and final tags use the same immutable pipeline. Existing release
+assets are never replaced. OpDev retains project and local state: a previous
+executable is not automatically compatible with a migrated project. Recovery must
+preserve later edits, prior verified runtimes and matching uploaded assets.
+Interrupted migrations resume only reviewed before/after states; interrupted
+installation/publication retries must verify identity and reject conflicts.
+These exercised paths restore safe behavior for their bounded failure scopes;
+promising to publish a patch later does not establish recovery. The operational
+triggers, success criteria and data-loss/time limits are defined in the
+[recovery procedure](../release/README.md#recovery).
+
+Repository adoption verifies the current delivery controls and their recovery
+tests, alongside explicitly identified supported-artifact observations. Historical
+artifact evidence belongs only to those unchanged bytes; it cannot qualify an
+unreleased checkout or a changed delivery configuration. A green adoption or
+integration result never authorizes publication. A future release must qualify
+its exact new artifacts through the full controlled path.
 
 Generation alone does not pass `OPDEV-SUPPLY-002`. The delivery gate also needs
 evidence that the bundle was published with the artifact and that the chosen

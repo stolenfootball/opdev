@@ -697,8 +697,21 @@ fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work() -
         3
     );
     assert!(!f.root.join(".opdev/guidance.md").exists());
+    // New product data outside the migration belongs to the developer, including
+    // writes made after interruption. Resuming must not restore an old tree.
+    let data = f.root.join("retained-product-data.txt");
+    fs::write(&data, "original row\nnew row after interruption\n")?;
     apply_plan(&plan, usize::MAX)?;
     assert!(f.root.join(".opdev/guidance.md").exists());
+    assert_eq!(
+        fs::read_to_string(&data)?,
+        "original row\nnew row after interruption\n"
+    );
+    assert_eq!(
+        ProjectManifest::load(&f.root.join(MANIFEST_PATH))?.schema,
+        3
+    );
+    assert!(AdoptionRecord::load(&f.root)?.is_some());
     let changed = "Later developer instruction must survive.\n";
     fs::write(f.root.join("AGENTS.md"), changed)?;
     assert!(apply_plan(&plan, usize::MAX).is_err());

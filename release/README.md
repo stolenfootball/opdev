@@ -107,11 +107,45 @@ digest, and the scope limitation of the all-target dependency inventory.
 
 ## Recovery
 
-OpDev is a stateless CLI and agent plugin. Consumers select an exact version,
-and published releases are immutable, so an unsafe release does not require a
-data rollback or mutation of existing assets.
+OpDev retains project contracts, adoption decisions, requirement mappings and
+local continuation state. Immutable executable versions do **not** make that
+state backward compatible. Recovery must preserve later developer work and must
+not silently run an older CLI against a newer unsupported schema.
 
-Recovery is an on-demand safe roll-forward:
+The automated recovery paths are bounded by the failure they address:
+
+- **Interrupted coordinated migration:** retain the private recovery snapshot and
+  resume the same reviewed plan with `upgrade --resume FILE --apply ID`.
+  The CLI accepts only recorded before/after states. A later edit, changed input
+  or forged snapshot stops recovery without replacing that work. Inspect the
+  current conflict and prepare a newly reviewed migration; never force the old
+  snapshot over it. Successful resume yields the intended readable contracts and
+  an idempotent retry. Recovery is forward continuation, not automatic rollback.
+- **Failed managed installation:** verification failure must not execute the
+  unverified CLI or replace an existing version. Retry the same pin only after
+  the cause is corrected. Existing verified versions remain available, but their
+  use still needs compatibility with the project and plugin. Windows staging
+  cleanup has a bounded four-attempt retry; exhausted cleanup reports partial
+  installation distinctly. Do not remove another running installer's lock.
+- **Interrupted publication:** the already-authorized publisher resumes the same
+  draft and exact artifact inventory, uploads only missing matching bytes and
+  verifies the complete inventory before making it public. A conflicting digest,
+  moved tag or mutable published release stops the operation. Successful repeated
+  publication performs no replacement or duplicate publication. This recovery
+  procedure is not authorization to create or publish a release.
+
+For these controlled interruptions, the data-loss target is zero for retained
+project content, later edits, prior runtimes and already-uploaded matching assets.
+Recovery completion is recognized by the state/digest/compatibility assertions,
+not merely exit zero. There is no promised wall-clock recovery SLA: network and
+provider availability can block progress. Fail closed and retain the interrupted
+state rather than silently extending retries or claiming completion. Tests inject
+these failures in disposable fixtures; they do not simulate every filesystem
+failure, restore arbitrary user data, or authorize live fault injection.
+
+For a defect requiring new code, a future patch is remediation, **not an already
+tested recovery path**. Stop affected use, preserve project data and identify a
+compatible safe version or reviewed repair. Only after separate release approval:
 
 1. Mark the affected release and its known impact in GitHub release notes and the GitLab work tracker without deleting
    its evidence.
@@ -122,9 +156,11 @@ Recovery is an on-demand safe roll-forward:
 6. Repeat checksum, signature, installation, and fixture checks before advising
    consumers to upgrade.
 
-Until the forward fix qualifies, consumers can pin or reinstall the last known
-good exact version. This procedure must be exercised during the initial release
-candidate and whenever the delivery path materially changes.
+Pinning a previous executable is safe only after checking its data/schema and
+plugin compatibility; never promise that downgrading reverses a migration.
+Exercise affected recovery paths whenever they change. Ordinary regression and
+adoption checks do not require a new publication. New release artifacts still
+need their own complete qualification and explicit release authorization.
 
 ## Managed-runtime pin maintenance
 

@@ -17,7 +17,7 @@ catalog_version: 2
 scope: >-
   Rust workspace; Python test/evaluation/release helpers; POSIX and PowerShell
   installers; versioned schemas and agent guidance; Codex/Claude plugins; GitLab CI
-  and GitHub native-build/publication handoff. Clean-2 self-adoption with preserved
+  and GitHub native-build/publication handoff. Clean-3 self-adoption with preserved
   supported behavior.
 practices:
   accessibility:
@@ -33,9 +33,12 @@ practices:
     - check
     research: []
   agents:
-    state: pending
+    state: implemented
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Migrate to shared guidance and thin regular-file root pointers; verify routing without changing installed plugins."
+    reason: >-
+      Shared current-policy guidance and thin regular-file host pointers are present.
+      Self-development uses the verified source CLI; installed runtimes and pins
+      remain unchanged. Routing and bounded Codex trials retain their stated limits.
     references:
     - .opdev/guidance.md
     - AGENTS.md
@@ -61,9 +64,12 @@ practices:
     - check
     research: []
   configuration:
-    state: pending
+    state: implemented
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Versioned schemas, manifests, rules and toolchain pins control behavior. Runtime location and CI secrets remain external."
+    reason: >-
+      Reviewed schema 4, engineering 2, layout 3 and clean-3 retain tools,
+      capabilities, requirements and storage ownership. MinimumCD is a separate assessment; no
+      organization pack is selected. Secrets and runtime locations remain external.
     references:
     - schema
     - plugins/opdev/runtime.lock
@@ -86,13 +92,18 @@ practices:
     research:
     - https://github.com/taiki-e/cargo-llvm-cov/tree/v0.9.1
   delivery:
-    state: pending
+    state: implemented
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Preserve six native targets, signed immutable GitHub assets and sole GitLab tag publisher. Verify qualification dependencies; adoption does not authorize a release."
+    reason: >-
+      Preserve six native targets, signed immutable assets and the protected GitLab
+      publisher. Current dependency-path and publication-conflict regressions verify
+      controls; supported artifact observations identify their exact published version. No
+      historical result qualifies new source or authorizes publication.
     references:
     - .gitlab-ci.yml
     - .github/workflows/release-build.yml
     - release/README.md
+    - crates/opdev-cli/tests/delivery_recovery.rs
     suites:
     - check
     research: []
@@ -114,12 +125,14 @@ practices:
     state: implemented
     owner: Jeremy (maintainer); Codex implementation and evidence review
     reason: >-
-      Reuse bounded workflow/adoption trials with actual sample/model/failure
-      limitations. Correctness is not utility; no new live-agent trials implied.
+      Twelve approved paired advice-only Codex sessions compared actual policy 1 and
+      2. No unsafe qualification observed; no efficiency gain established. This is not
+      full coding-session, live Claude or human-comprehension evidence.
     references:
     - benchmarks/workflow-usability/README.md
     - benchmarks/adoption/README.md
     - spec/workflow-usability.md
+    - "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992444280"
     suites:
     - check
     research: []
@@ -165,9 +178,12 @@ practices:
     - check
     research: []
   integration:
-    state: pending
+    state: implemented
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Main is sole trunk/release source; direct pushes disabled, maintainer merging retained. Verify required jobs and exact pre/post-merge review consumption live."
+    reason: >-
+      Main remains sole trunk/release source with direct pushes disabled. Exact
+      pre/post-merge review selection, seven required jobs and provider protection were
+      exercised and observed; this increment repeats affected current checks.
     references:
     - .gitlab-ci.yml
     - crates/opdev-remote/src/ci_review.rs
@@ -215,14 +231,21 @@ practices:
     suites: []
     research: []
   recovery:
-    state: pending
+    state: implemented
     owner: Jeremy (maintainer); Codex implementation and evidence review
-    reason: "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: Preserve automated installer/publication recovery and safe roll-forward. Separate MinimumCD rollback finding needs actual evidence, not a general recovery declaration."
+    reason: >-
+      Interrupted migration resumes reviewed states while retaining later product
+      writes; installer failure preserves verified versions; publication resumes matching
+      assets and rejects conflicts. Zero loss is the tested bounded target, not a
+      universal SLA. Forward-patch remediation and MinimumCD rollback remain separate
+      claims. Existing snapshots are temporary, not an evidence archive.
     references:
     - release/README.md
     - tests/runtime_test.py
     - tests/runtime_test.ps1
     - tests/dist_test.py
+    - crates/opdev-cli/src/migration/tests.rs
+    - crates/opdev-cli/tests/delivery_recovery.rs
     suites:
     - check
     research: []
@@ -281,6 +304,11 @@ practices:
     suites:
     - check
     research: []
+review:
+  plan_id: b4255aee527d8ce41047c6e02c32292383a2987b948e4c5c1a0cb4f50885d47f
+  reviewer: Jeremy
+  reference: "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691"
+  delegation: "Developer explicitly instructed: Finish everything except the token efficiency work, following the enumerated remaining self-adoption tasks. Preserve already selected policy2, separate MinimumCD assessment, storage, tooling, platforms and protections; reconcile current practices and verification. No release, installed-plugin update, consumer migration, additional agent trial or token-efficiency work."
 workflow:
   integration_branches:
   - main

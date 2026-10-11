@@ -192,7 +192,7 @@
       "id": "V-migration-1",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "6510850e8c1af75821948c38fc61b71496f6abe0b09ecc14d5a3df4ef78d168b",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn catalog_migration_is_explicit_unreviewed_and_preserves_later_edits("
       },
       "inputs": [
@@ -252,7 +252,7 @@
       "id": "V-migration-2",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "6510850e8c1af75821948c38fc61b71496f6abe0b09ecc14d5a3df4ef78d168b",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work("
       },
       "inputs": [
@@ -662,7 +662,7 @@
       "id": "V-clean-policy-adoption-4",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "6510850e8c1af75821948c38fc61b71496f6abe0b09ecc14d5a3df4ef78d168b",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn policy_two_migration_binds_definitions_and_refuses_selected_retirement("
       },
       "inputs": [
@@ -762,7 +762,7 @@
       "id": "V-clean-policy-adoption-5",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "6510850e8c1af75821948c38fc61b71496f6abe0b09ecc14d5a3df4ef78d168b",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text("
       },
       "inputs": [
@@ -1400,9 +1400,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "b8685a33f922d2761a5ee712eb48c1c4a803c686574563d3fa21a428e96fb3ed"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "b27fe47a9d6fede2eb558cf12a6e257d994075973db4821a4f699b05c519159a"
       }
     },
     {
@@ -1425,9 +1425,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "6cb048c3d25552181e7483014bad7ac5cdce84f0b2d1c53b2dc7b079e006c99b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "98d169331c09fdfe3b7945280869a9d7fe3ddbcf0007016012d2e54c335aa01d"
       }
     },
     {
@@ -1450,9 +1450,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "bf0ad6816538d3feb944334368b9db30ffc01044f1a274254a711d3fa1a24dae"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "bc8c9d3c30aa50522b0843152a2367c83513ebe82da21b2ebfe0772d904aab82"
       }
     },
     {
@@ -1570,9 +1570,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "7dfb1ee6c90925d605a360324c4a73e8c7263717c64981761ba053bebc9f345d"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "4260495d2d850773a68b810f12d59a9dfb8eb4fd59d0617300a7a8dd2ebc1702"
       }
     },
     {
@@ -1630,9 +1630,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "6e34109a228edf12b0ca102558f8351ada132c17079f6d569f42897e2126ba11"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "1d6139b227e64a029ed78ba86abb3126290d5f7a021364c03aec3a2ed87532a3"
       }
     },
     {
@@ -1690,9 +1690,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992470834",
-        "rationale": "Reviewed actual assertions after deferred-review reporting fix: pending choices prevent provider/file retrieval; supplied arguments are not called missing and uninspected contents remain unknown. Existing wrong-provider and legacy ledger rejection retained. Other adoption/migration/assertion bodies unchanged; no missing verification turned into a pass.",
-        "subject_sha256": "e278df46aae665fde00bf921275ce5961875285b28188a99e98ba6155cca88bf"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
+        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
+        "subject_sha256": "602067e3c2c92e75d56e50152cee8b91db65cc8656583e147275e120bef79c29"
       }
     }
   ]
