@@ -85,6 +85,26 @@ fn fixture(
 }
 
 #[test]
+fn fail_fast_plan_is_schema_valid_and_preserves_default_shape()
+-> Result<(), Box<dyn std::error::Error>> {
+    let temp = fixture(ExtensionStage::Verify)?;
+    let ordinary = invoke(temp.path(), &["--plan", "--format", "json"])?;
+    assert!(ordinary.status.success());
+    let ordinary: Value = serde_json::from_slice(&ordinary.stdout)?;
+    assert!(ordinary.get("fail_fast").is_none());
+    validate_plan_schema(&ordinary)?;
+    let fast = invoke(temp.path(), &["--plan", "--fail-fast", "--format", "json"])?;
+    assert!(fast.status.success());
+    let mut fast: Value = serde_json::from_slice(&fast.stdout)?;
+    assert_eq!(fast["fail_fast"], true);
+    validate_plan_schema(&fast)?;
+    fast.as_object_mut().ok_or("plan")?.remove("fail_fast");
+    assert_eq!(ordinary, fast);
+    assert!(!temp.path().join("work/executed").exists());
+    Ok(())
+}
+
+#[test]
 fn plan_is_read_only_and_execution_preserves_selection_and_distinct_invocations()
 -> Result<(), Box<dyn std::error::Error>> {
     for (flags, stage, extension_stage, expected_ids) in [

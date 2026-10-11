@@ -281,6 +281,31 @@
         "suite": "check",
         "assurance": "suite"
       }
+    },
+    {
+      "id": "V-fail-fast-2",
+      "target": {
+        "path": "crates/opdev-cli/tests/check_plan.rs",
+        "sha256": "76394125fadd51d5554b6dc7ed0110d4f1b246565cc7e0cee9821a3a1157fcbf",
+        "excerpt": "fn fail_fast_plan_is_schema_valid_and_preserves_default_shape("
+      },
+      "inputs": [
+        {
+          "path": "schema/check-plan.schema.json",
+          "sha256": "e9f982ff62c862ed8463a1318c744dd2e19a4959c17db94fe8aa99f5547b8889",
+          "excerpt": "\"fail_fast\": {\"type\": \"boolean\", \"default\": false}"
+        },
+        {
+          "path": "crates/opdev-engine/src/plan.rs",
+          "sha256": "be5505cca5a78f9e361caf12004be816019b417315325bac051906392cb5493e",
+          "excerpt": "pub struct CheckPlan"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
     }
   ],
   "plans": [
@@ -474,12 +499,17 @@
           "verification": "V-fail-fast-1",
           "assertion": "Failure stops the expensive child only when opted in; the omitted suite is blocking and unverified. Default collection and successful checks preserve exact execution counts.",
           "discriminating_case": "Failure stops the expensive child only when opted in; the omitted suite is blocking and unverified. Default collection and successful checks preserve exact execution counts."
+        },
+        {
+          "verification": "V-fail-fast-2",
+          "assertion": "Default and fail-fast previews validate against the published schema; only opted-in output has the flag and neither executes commands.",
+          "discriminating_case": "The former unknown-field schema failure, a changed default shape or a preview launching commands must fail."
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "af8e6f9d8bc168a256eeb6f572e291f82316fdf984a36f93ffcf962eb3bec606",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "6294ed2945aba203f2b8755759a35b383cb2b542421957be150e7b78959866d1",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }
@@ -494,12 +524,17 @@
           "verification": "V-fail-fast-1",
           "assertion": "Failure stops the expensive child only when opted in; the omitted suite is blocking and unverified. Default collection and successful checks preserve exact execution counts.",
           "discriminating_case": "Failure stops the expensive child only when opted in; the omitted suite is blocking and unverified. Default collection and successful checks preserve exact execution counts."
+        },
+        {
+          "verification": "V-fail-fast-2",
+          "assertion": "Default and fail-fast previews validate against the published schema; only opted-in output has the flag and neither executes commands.",
+          "discriminating_case": "The former unknown-field schema failure, a changed default shape or a preview launching commands must fail."
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "595c0c909c78e2b5aa6b3f1751e7ba6a64def60a07c00af14a41fb127fe54b2e",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "63d82209c0816e6b466c141176140ecbd285ede5d281527941f24ed7ba96e67a",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }
@@ -514,12 +549,17 @@
           "verification": "V-fail-fast-1",
           "assertion": "Failure stops the expensive child only when opted in; the omitted suite is blocking and unverified. Default collection and successful checks preserve exact execution counts.",
           "discriminating_case": "Failure stops the expensive child only when opted in; the omitted suite is blocking and unverified. Default collection and successful checks preserve exact execution counts."
+        },
+        {
+          "verification": "V-fail-fast-2",
+          "assertion": "Default and fail-fast previews validate against the published schema; only opted-in output has the flag and neither executes commands.",
+          "discriminating_case": "The former unknown-field schema failure, a changed default shape or a preview launching commands must fail."
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "73a22a58a07f53870159878cf90cc9711923d8dcc78c64a83e8512e2c42cbd34",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "45859225e981e8518ee711fbc80adac26b547e01ddb735e24f2b63d5572c98d6",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }

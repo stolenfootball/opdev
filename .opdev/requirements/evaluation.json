@@ -122,7 +122,7 @@
       "id": "V-missing-execution-1",
       "target": {
         "path": "crates/opdev-cli/tests/check_plan.rs",
-        "sha256": "5f2a8b96f2981c52e4e66cbe0069515d5515d9be1fa7a4bf8e641dba50ed1e25",
+        "sha256": "76394125fadd51d5554b6dc7ed0110d4f1b246565cc7e0cee9821a3a1157fcbf",
         "excerpt": "fn evaluation_only_keeps_selected_checks_visible_at_every_boundary("
       },
       "inputs": [
@@ -148,7 +148,7 @@
         },
         {
           "path": "schema/check-plan.schema.json",
-          "sha256": "89c4a6b50bd77163ed3d01132da9fbf997e757c44c6673b737ce0c8d8ef5f9e9",
+          "sha256": "e9f982ff62c862ed8463a1318c744dd2e19a4959c17db94fe8aa99f5547b8889",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         }
       ],
@@ -162,7 +162,7 @@
       "id": "V-post-merge-1",
       "target": {
         "path": "crates/opdev-cli/tests/check_plan.rs",
-        "sha256": "5f2a8b96f2981c52e4e66cbe0069515d5515d9be1fa7a4bf8e641dba50ed1e25",
+        "sha256": "76394125fadd51d5554b6dc7ed0110d4f1b246565cc7e0cee9821a3a1157fcbf",
         "excerpt": "fn post_merge_process_failures_and_skipped_execution_remain_blocking("
       },
       "inputs": [
@@ -188,7 +188,7 @@
         },
         {
           "path": "schema/check-plan.schema.json",
-          "sha256": "89c4a6b50bd77163ed3d01132da9fbf997e757c44c6673b737ce0c8d8ef5f9e9",
+          "sha256": "e9f982ff62c862ed8463a1318c744dd2e19a4959c17db94fe8aa99f5547b8889",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         }
       ],
@@ -423,9 +423,9 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "6164f6c8c95345d0a87fc6f71be2df68879ad8b19fbc471e60cc8429c0fbd066",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "3d2fb746a83b5f8c8cfc27cfca761857518ee8f1b97f8cba07098e8fbd9ba24f",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }
@@ -443,9 +443,9 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "472e50f5ee64da693191f64a3259da50252385f92237a0f7504275ed99aeed4c",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "0b0660336e016879d119a54e39b8924826acbf2813d0dfce4458c3814881f53b",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }
@@ -463,9 +463,9 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "b2ff85fba3071117e38e174dcb79f526da2a9e2a89555f39947ae1af00a3656a",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "9dfbb44cf9fed039fa1214b5030b1ddb89baf0305308c99302b6aa1f88ad77e2",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }
@@ -483,9 +483,9 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "a7dfb0ce9afdd53141fbeb81fb2589092f9ad98e579648fecc7541af242fd75c",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "98f08f853293b402798f9fd26046f6fe58baa2fd27ba2773d0a8a842a8871517",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }
@@ -503,9 +503,9 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "83c7485240678f70907dc0bdcd5bdc32c16273ec1a199cd48be8a853153e2056",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "f16e2d4de727381e81b663cfde1d3a775ef9bbd24fbca8e4819062909fda086f",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }
@@ -523,9 +523,9 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "3a9bd63b9b1d94acbd8b1d6151115053f606b32b2895408951eed20648474180",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
+        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
+        "subject_sha256": "8b72778fbbb024b9df675d20afc66271a84661648c295085e4bfea3d2b516ac9",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
         "reviewer": "Codex (implementing agent)",
         "outcome": "passed"
       }

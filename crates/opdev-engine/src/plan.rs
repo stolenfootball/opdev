@@ -24,6 +24,7 @@ pub struct CheckPlan {
     /// Always unverified: planning cannot qualify a gate.
     pub qualification: Outcome,
     /// Whether unrun suites remain unverified after the first required failure.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub fail_fast: bool,
     /// Ordered suite commands followed by extension commands.
     pub commands: Vec<PlannedCommand>,
