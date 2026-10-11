@@ -9,13 +9,13 @@ use std::{
 };
 
 /// Exact destination bundled with this CLI; never resolved through a moving network alias.
-pub const TARGET: &str = "clean-2";
+pub const TARGET: &str = "clean-3";
 
 /// Permanent adoption decisions stay in the existing adoption record, not a new registry.
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct CleanTarget {
-    /// Destination revision; current 2, legacy 1 remains readable.
+    /// Destination revision; current 3, legacy 1 and 2 remain readable.
     pub version: u32,
     /// Existing work/review authority covering inventory scope, purpose and retained content.
     pub inventory_reference: String,
@@ -71,7 +71,7 @@ pub fn valid_path(path: &str) -> bool {
 /// # Errors
 /// Reject unsafe, overlapping or protected paths before binding plan approval.
 pub fn validate_target(target: &CleanTarget) -> Result<(), String> {
-    if !matches!(target.version, 1 | 2) || target.retirements.len() > 256 {
+    if !matches!(target.version, 1..=3) || target.retirements.len() > 256 {
         return Err(
             "Unsupported destination or retirement inventory exceeds 256 exact paths".into(),
         );
@@ -122,40 +122,63 @@ pub fn validate_target(target: &CleanTarget) -> Result<(), String> {
 /// Missing target requirements; declarations alone never qualify behavior.
 #[must_use]
 pub fn policy_gaps(project: &ProjectManifest) -> Vec<String> {
-    policy_gaps_for(project, 2)
+    policy_gaps_for(project, 3)
 }
 
 /// Inspect the exact selected destination; legacy clean-1 keeps its archive policy.
 #[must_use]
 pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
     let mut gaps = Vec::new();
-    if project.schema != 3
+    if !matches!(version, 1..=3) {
+        return vec![
+            "Unsupported clean-adoption destination; no current completion can be claimed".into(),
+        ];
+    }
+    let (schema, engineering, storage) = if version == 3 {
+        (4, "2", 2)
+    } else {
+        (3, "1", version)
+    };
+    if project.schema != schema
         || project
             .assurance
             .engineering
             .as_ref()
-            .is_none_or(|p| p.version != "1")
+            .is_none_or(|p| p.version != engineering)
     {
-        gaps.push("Select reviewed engineering policy 1 in project schema 3".into());
+        gaps.push(format!(
+            "Select reviewed engineering policy {engineering} in project schema {schema}"
+        ));
     }
-    if project
-        .layout
-        .as_ref()
-        .is_none_or(|p| !matches!(p.version, 1 | 2))
-    {
-        gaps.push("Migrate to strict layout 1 with shared guidance and thin host entries".into());
+    if project.layout.as_ref().is_none_or(|p| {
+        if version == 3 {
+            p.version != 3
+        } else {
+            !matches!(p.version, 1 | 2)
+        }
+    }) {
+        gaps.push(if version == 3 { "Select strict layout 3 with shared guidance, requirements and only current selected policy definitions".into() } else { "Migrate to strict layout 1 or 2 with shared guidance and thin host entries".into() });
     }
     if project
         .assurance
         .review_storage
         .as_ref()
-        .is_none_or(|p| p.version != version)
+        .is_none_or(|p| p.version != storage)
     {
-        gaps.push(if version == 2 {
+        gaps.push(if storage == 2 {
             "Select MR/PR review storage 2 with a reviewed bounded CI report lifetime".into()
         } else {
             "Select external semantic-review storage with reviewed retention and recovery".into()
         });
+    }
+    if version == 3
+        && project
+            .assurance
+            .requirements
+            .as_ref()
+            .is_none_or(|p| p.version != 1)
+    {
+        gaps.push("Select requirements catalog 1 and review real guarantees and stage-specific verification; an empty scaffold is not adopted".into());
     }
     if project
         .assurance
@@ -190,11 +213,11 @@ pub fn decision_gaps(project: &ProjectManifest, record: Option<&AdoptionRecord>)
     }
     match record.and_then(|r| r.clean_target.as_ref()) {
         None => gaps.push(
-            "Review the clean-2 destination and repository inventory in the adoption record".into(),
+            "Review the clean-3 destination and repository inventory in the adoption record".into(),
         ),
         Some(target) => {
-            if target.version != 2 {
-                gaps.push("Current adoption requires clean-2. Preview a reviewed migration; existing policy is not changed automatically".into());
+            if target.version != 3 {
+                gaps.push("Current adoption requires clean-3. Preview a reviewed migration; existing policy and historical completion are not changed automatically".into());
             }
             if target.inventory_reference.trim().is_empty() {
                 gaps.push("Repository inventory needs its actual review reference, including retained and retired content".into());

@@ -182,6 +182,21 @@ cleanup. A successful apply remains `qualification: unverified`.
 
 ### Reviewed retirement toward clean adoption
 
+Engineering policy 2 migrations select schema 4 and target layout 3 explicitly.
+The optional `policies` map supplies at most eight exact selected organization
+definitions, keyed by `.opdev/policies/<id>.json`. Definitions must resolve against
+the candidate's version, digest and parameters. Missing or changed definitions
+cannot qualify a selection; unselected old files need explicit retirement and
+selected files cannot also be cleanup targets. No remote loading or policy scripts.
+
+The migration reopens only affected practices: baseline changes affect integration,
+delivery, recovery and configuration; standards/organization selections affect
+project and testing; layout changes affect agents; requirements changes affect
+testing. A changed/removed referenced suite or command reopens its practice.
+Original rationale, references and scope survive, but prior approval is cleared.
+The original authority governs actual decisions; supplied reference strings do not
+authenticate consent or allow a candidate to approve its own weakened controls.
+
 Capability `upgrade.reviewed-retirement.v1` adds optional `clean_target`, `cleanup`
 and `authority_review_reference` to the same ephemeral request. `clean_target`
 selects the [versioned destination and retirement decisions](adoption.md#current-destination)

@@ -264,6 +264,14 @@ requirements before modifying the project contract.
 
 ## Workflow references
 
+`adoption.clean-target.v3` identifies clean-3: schema4 engineering2/layout3,
+requirements1, review-storage2 and safeguards1 with adoption inventory2. It does
+not reinterpret clean-1/2 or automatically migrate a project. Current adoption
+needs the reviewed transition; legacy diagnostic assessment cannot claim it.
+Organization definitions in coordinated migration use the existing request
+schema1's optional bounded `policies` member and exact selected pins. Unsupported
+older runtimes reject that member; tooling updates never imply policy consent.
+
 Workflow journal/subject schema 1 and the `workflow.references.v1` capability are
 additive. Their inspection exit is not a core gate verdict; JSON always says
 qualification is unverified. Unknown event fields or journal/subject versions

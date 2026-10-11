@@ -28,7 +28,7 @@ pub(super) struct UpgradeArgs {
     /// New external recovery snapshot, required before the first migration write.
     #[arg(long, requires_all = ["migration", "apply"])]
     recovery_output: Option<PathBuf>,
-    /// Preview an explicit engineering policy migration (currently version 1); never writes.
+    /// Preview an exact engineering policy migration (1 or 2); never writes.
     #[arg(long, conflicts_with = "apply", requires = "policy_review_reference")]
     engineering_policy: Option<String>,
     /// Keep the existing assessment intent, require mapping 1, or explicitly choose none.
@@ -182,6 +182,31 @@ pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
 
 fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
     let (root, manifest) = crate::load_project(&args.root)?;
+    if version == "2"
+        && manifest.assurance.engineering.is_none()
+        && args
+            .minimumcd_assessment
+            .as_deref()
+            .is_none_or(|v| v == "keep")
+    {
+        bail!(
+            "Legacy policy does not separate the engineering baseline from MinimumCD. Review that change and explicitly choose --minimumcd-assessment 1 or none; no assessment intent was inferred and nothing changed."
+        );
+    }
+    if args
+        .minimumcd_assessment
+        .as_deref()
+        .is_some_and(|v| v != "keep")
+        && manifest
+            .assurance
+            .standards
+            .iter()
+            .any(|s| s.name == "minimumcd")
+    {
+        bail!(
+            "This project selects MinimumCD with explicit modes and stages. Preserve those selections here, or review an explicit coordinated migration to change them; the legacy shortcut cannot overwrite them."
+        );
+    }
     let mut candidate = manifest.clone();
     let minimumcd = match args.minimumcd_assessment.as_deref().unwrap_or("keep") {
         "none" => None,
@@ -205,7 +230,11 @@ fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
             .as_ref()
             .map_or_else(Vec::new, |p| p.maintenance_branches.clone()),
     };
-    candidate.schema = 3;
+    candidate.schema = match version {
+        "1" => 3,
+        "2" => 4,
+        _ => bail!("Unsupported engineering policy; no migration preview or write occurred"),
+    };
     candidate.assurance.engineering = Some(policy);
     candidate
         .assurance
@@ -216,8 +245,12 @@ fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
     let result = serde_json::json!({
         "schema": 1, "kind": "engineering_policy_preview", "written": false,
         "project_verification": "unverified", "before_sha256": format!("{:x}", Sha256::digest(before)),
-        "from_project_schema": manifest.schema, "to_project_schema": 3,
-        "from_catalog": manifest.catalog()?.catalog_version, "to_catalog": 3,
+        "from_project_schema": manifest.schema, "to_project_schema": candidate.schema,
+        "from_catalog": manifest.catalog()?.catalog_version, "to_catalog": candidate.catalog()?.catalog_version,
+        "current_standard_selections": manifest.assurance.standards,
+        "current_organization_selections": manifest.assurance.organization_policies,
+        "decision_authority": manifest.authorities.get("work"),
+        "policy_definition": opdev_core::resolve_engineering_policy(version)?,
         "changes": [
             "Mandatory engineering baseline and a separate pinned MinimumCD assessment; no rule opt-out switches.",
             "New setup/static-quality/secret-and-dependency requirements need real review and observations.",
@@ -225,7 +258,7 @@ fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
             "MinimumCD requires separate rollback evidence; broader recovery and integration success do not establish compliance.",
             "Daily cadence remains visible without forcing merges. Release authorization is unchanged."
         ],
-        "required_capability": "engineering.assessment.v1",
+        "required_capability": if version == "2" { "engineering.assessment.v2" } else { "engineering.assessment.v1" },
         "next": "Review the exact candidate and decision reference, verify this capability in both local and CI runtimes, then explicitly edit the existing project contract. Recheck changed acceptance/evidence. No installation, CI invocation or consumer migration was performed.",
         "candidate_yaml": yaml
     });

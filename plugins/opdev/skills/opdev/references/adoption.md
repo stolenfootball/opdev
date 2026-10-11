@@ -17,9 +17,11 @@ agent-selected plan does not substitute for resolving material developer choices
 
 ## Validate recommendations before asking for approval
 
-Full adoption targets exact bundled `clean-2` on a CLI with `adoption.clean-target.v2`:
-project schema 3, engineering policy 1, layout 1, MR/PR-native semantic-review storage
-2, capability safeguards 1 and inventory 2. Check local/plugin/CI capabilities.
+Full adoption targets exact bundled `clean-3` on a CLI with `adoption.clean-target.v3`:
+project schema 4, engineering policy 2, layout 3, requirements catalog 1,
+MR/PR-native semantic-review storage 2, capability safeguards 1 and inventory 2.
+Check local/plugin/CI capabilities. Review meaningful requirement/test mappings;
+an empty catalog is a gap, not successful adoption.
 Missing support is an upgrade gap, not permission to finish on legacy policy.
 Ordinary work and tooling-only updates do not select this target or restart adoption.
 
@@ -31,7 +33,8 @@ review provider limits and keep-latest settings, and retain useful unresolved fa
 findings at their work owner. Release evidence belongs with actual released artifacts.
 Follow [evidence.md](evidence.md) for exact source/body checks. Missing access or a
 storage decision remains unresolved; do not invent a local-store substitute.
-Legacy clean-1/archive contracts remain readable, but are not current adoption.
+Legacy clean-1/archive and clean-2 contracts remain readable with their original
+meanings, but are not current adoption.
 
 First inspect the selected policy. Engineering policy 1 (project schema 3) uses
 adoption inventory 2: coding conventions, appropriate formatting/static checks,
@@ -39,7 +42,7 @@ dependencies, reproducible setup and review are required outcomes, not optional
 tool preferences. Legacy inventory 1 stays unchanged until explicit migration.
 An existing codebase without an OpDev contract has no selected OpDev policy to
 preserve. Preserve its adequate tools and authorities, but present engineering
-policy 1 and the separate MinimumCD assessment choice before initialization.
+policy 2 and the separate standards choices before initialization.
 Present target policy, separate MinimumCD assessment, storage ownership and
 material project choices for an actual response or bounded delegation. Older
 policy may be assessed diagnostically, but cannot count as current adoption.
@@ -47,6 +50,13 @@ Use adequate equivalents (including compiler checks) without installing overlapp
 tools. Unsupported formatting needs a justified executable equivalent convention
 check, not automatic N/A. Reuse clean CI setup evidence; do not reinstall tools
 or repeat adoption at every feedback iteration.
+
+Policy 2 retains inventory 2 and makes the baseline independent of optional
+standards. Preserve existing standard modes/stages and organization pins unless
+the actual developer changes them. Resolve removals or weakening under the original
+decision authority; a candidate contract cannot authorize itself. Use current
+source-bound control mappings and real requirement verification. Do not turn
+guidance into required compliance, or silently drop a required standard.
 
 For empty projects, reuse the supplied design and ask grouped questions only for
 material unknowns: first useful outcome, language/runtime, supported platforms,
@@ -62,7 +72,7 @@ references, not filenames. Classify material groups as retain verified adequate
 content, migrate/consolidate useful content, retire obsolete active content,
 temporary migration recovery needs, or unresolved. Put reasoning/sequencing in the existing
 adoption work item, not another repository ledger. Record `clean_target` in the
-existing adoption record: version 2, actual `inventory_reference`, and exact
+existing adoption record: version 3, actual `inventory_reference`, and exact
 `retirements` with path, reason and nullable retained replacement. An empty list
 needs actual inventory review. Obsolete instructions/configuration/evidence cannot
 remain merely because harmless or costly to remove; unfinished retirement blocks
@@ -100,7 +110,7 @@ writing records or presenting a decision sheet, and again on follow-up turns:
 | --- | --- | --- |
 | Integration and release roles | One integration trunk that is also the release source. For a non-main trunk, offer both keeping its name and renaming it to `main`. | Integrating on `develop` then merging into `main` to release is **not a valid completed-adoption option**. The user may defer changing it, but it stays `migration_required`; keeping a name does not permit keeping conflicting roles. |
 | Delivery | CI qualifies and publishes/promotes the same immutable artifact through the declared consumer-facing path. A human may approve a CI job; CI still performs delivery. | A tested archive followed by a maintainer's manual upload/distribution is not CI-exclusive delivery. Tags, versioned filenames and green packaging jobs alone do not resolve this. |
-| Recovery | An automated, tested way to recover delivered behavior, scaled to the product: e.g. restore a previous CLI/package artifact or qualify a forward fix. | A useful error message/nonzero exit is diagnostics, **not recovery of a bad release**. Being local, small, a library, or not hosted does not waive recovery. |
+| Recovery | An automated, exercised safe-recovery path covering retained state, new writes, external effects, failure triggers, success recognition and relevant time/data-loss constraints. | A promise to patch later or a useful error message is not recovery. Policy 2 allows safe forward recovery; selected MinimumCD still needs its separate literal rollback evidence. Missing configuration never proves inapplicability. |
 | Observability and effectiveness | Assess real operations and intended outcomes. For a local CLI, stderr/exit behavior may be proportionate operational evidence; intended user tasks supply effectiveness objectives. | No daemon/telemetry stack does not imply no operational behavior. Missing policy, risk metadata, or a synthetic evaluation fixture does not prove inapplicability. |
 
 Ask how to meet applicable requirements, not whether to waive them. An optional
@@ -121,8 +131,8 @@ roles compliant and expect a later CLI failure to correct the recommendation.
 
 ### Keep schema versions separate
 
-The target uses project **schema 3**, adoption **schema 2**, inventory 2 and
-`clean_target.version: 2`. These are separate contracts.
+The target uses project **schema 4**, adoption **schema 2**, inventory 2 and
+`clean_target.version: 3`. These are separate contracts.
 Inspect the adoption record's own schema before proposing schema migration. An
 existing schema-1 **adoption record** needs `adoption migrate`; do not prescribe
 `init` followed by migration just because the project manifest is schema 1.
@@ -296,7 +306,7 @@ separate integration evidence. This is not permission to omit integrated testing
 
 ## Verify completion
 
-Default `adoption check` requires clean-2, resolved capability facts and completed
+Default `adoption check` requires clean-3, resolved capability facts and completed
 reviewed retirements in checkout and staged source, including ignored leftovers.
 Named replacements must be retained staged regular files. It inspects, never
 cleans automatically. Review actual retained content, updated references and

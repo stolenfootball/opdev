@@ -92,6 +92,62 @@ external obligations: the selected standard's exact mapping determines those.
 For example, MinimumCD mapping 1 uses `MCD-RECOVERY-002` for literal rollback,
 not the older, broader `MCD-RECOVERY-001` recovery statement.
 
+## Adopting or upgrading to the current policy
+
+Current full adoption targets `clean-3`: project schema 4, engineering policy 2,
+strict layout 3, requirements catalog 1, capability safeguards 1, MR/PR review
+storage 2 and adoption inventory 2. These version numbers name different contracts;
+do not increment all of them together. `doctor` must advertise
+`adoption.clean-target.v3` locally and in the runtime used by CI. An older
+installation is an upgrade gap, not permission to claim current adoption.
+
+The starting point changes the work, not the destination:
+
+| Starting point | Adoption work |
+| --- | --- |
+| Empty repository | Resolve the first useful outcome and material tool/platform choices, then implement runnable setup and a meaningful first behavior test. A scaffold alone is incomplete. |
+| Existing code without OpDev | Inventory actual components, tools, branch roles and supported promises. Reuse adequate implementations; resolve gaps and retire obsolete active instructions/configuration explicitly. |
+| Older OpDev project | Compare the actual selected versions, retain compatible decisions, migrate the reviewed contract and definitions together, and reopen only affected practices. Old approval is not approval of the new policy. |
+
+Review standards separately from the baseline. Preserve an existing selection's
+version, mode and stages unless the developer actually changes them. Legacy policy
+without a separate engineering selection needs an explicit MinimumCD decision;
+the agent must not silently drop it or turn an advisory assessment into a gate.
+The existing project's decision authority governs proposed changes, including
+weakening or removing an organization policy. A candidate contract cannot authorize
+itself merely by naming a different owner.
+
+Use `policy preview --engineering 2` for an explanation, then
+`upgrade --engineering-policy 2 --policy-review-reference <actual-reference>`
+for a read-only policy proposal. The older MinimumCD shortcut accepts `keep`,
+`1` or `none`; for a legacy project choose `1` or `none` explicitly. Existing
+`assurance.standards` selections need their explicit reviewed migration, not this
+shortcut. Neither preview applies the transition or runs checks.
+
+For a new project, preview `init --project <reviewed-project.yaml> --dry-run`.
+Existing projects use coordinated `upgrade --migration <request.json>` with an
+exact reviewed proposal and temporary recovery output. The request may include
+`policies`, keyed by `.opdev/policies/<id>.json`, containing exact selected
+definitions; their pins and parameters must agree with the proposed contract.
+Unselected old definitions need explicit retirement. A selected definition cannot
+also be removed. Retain useful product documentation under its declared owner,
+not as junk or an archive inside `.opdev`.
+
+Migration preserves unaffected decisions and original rationales/references. A
+changed baseline, layout, requirements selection, additional policy or referenced
+suite reopens the affected practices for current review. It clears stale approval
+without inventing new consent. Interruption recovery accepts only the reviewed
+before/after states; later developer edits must survive. Old clean-1 and clean-2
+contracts retain their historical meanings for diagnostic assessment, but do not
+establish current adoption.
+
+Finally stage the actual target and verify real requirement-to-test mappings,
+current source-bound review, local checks, integration and applicable delivery
+controls. `adoption check --preflight` inspects readiness; it does not run the
+verification or complete adoption. Empty catalogs, missing capabilities, stale
+reviews and unfinished retirement remain gaps. Report initialization, adoption
+completion and release readiness separately. Adoption never authorizes a release.
+
 ## Choosing additional standards
 
 A CLI advertising `policy.standards.v1` supports `assurance.standards` in a

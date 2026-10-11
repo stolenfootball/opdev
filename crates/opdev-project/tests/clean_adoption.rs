@@ -31,6 +31,42 @@ fn target(path: &str, replacement: Option<&str>) -> CleanTarget {
 }
 
 #[test]
+fn current_target_is_exact_and_does_not_reinterpret_historical_destinations() -> Result {
+    use opdev_project::clean_adoption::{TARGET, policy_gaps_for};
+    let repo = tempfile::tempdir()?;
+    git(repo.path(), &["init", "-q"])?;
+    let mut value = serde_json::to_value(opdev_project::discover(repo.path())?.manifest)?;
+    value["schema"] = 4.into();
+    value["layout"] = serde_json::json!({"version":3,"review_reference":"fixture choice"});
+    value["assurance"]["engineering"] =
+        serde_json::json!({"version":"2","review_reference":"fixture choice"});
+    value["assurance"]["review_storage"] = serde_json::json!({"version":2,"provider":"gitlab","repository_id":7,"review_reference":"fixture choice","retention_authority":"work","report_retention_days":30});
+    value["assurance"]["requirements"] = serde_json::json!({"version":1,"review_reference":"fixture choice","configurations":{"default":["pre_merge","post_merge"]}});
+    value["assurance"]["safeguards"] =
+        serde_json::json!({"version":1,"review_reference":"fixture choice","capabilities":{}});
+    let current: opdev_project::ProjectManifest = serde_json::from_value(value.clone())?;
+    assert_eq!(TARGET, "clean-3");
+    assert!(
+        policy_gaps_for(&current, 3).is_empty(),
+        "structural declarations only, not qualification"
+    );
+    assert!(!policy_gaps_for(&current, 2).is_empty());
+    value["schema"] = 3.into();
+    value["layout"]["version"] = 2.into();
+    value["assurance"]["engineering"]["version"] = "1".into();
+    let historical: opdev_project::ProjectManifest = serde_json::from_value(value)?;
+    assert!(policy_gaps_for(&historical, 2).is_empty());
+    assert!(!policy_gaps_for(&historical, 3).is_empty());
+    assert!(!policy_gaps_for(&current, 99).is_empty());
+    for version in 1..=3 {
+        let mut selected = target("obsolete.md", None);
+        selected.version = version;
+        validate_target(&selected)?;
+    }
+    Ok(())
+}
+
+#[test]
 fn retirement_requires_absence_in_checkout_and_index_and_staged_replacement() -> Result {
     let repo = tempfile::tempdir()?;
     let root = repo.path();

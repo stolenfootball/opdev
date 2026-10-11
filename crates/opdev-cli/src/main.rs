@@ -173,9 +173,9 @@ struct InitArgs {
     #[arg(long, conflicts_with = "engineering_policy")]
     legacy_policy: bool,
     /// Explicit reviewed strict layout for new projects; existing layouts need migration.
-    #[arg(long, requires = "engineering_policy", value_parser = clap::value_parser!(u32).range(1..=1))]
+    #[arg(long, requires = "engineering_policy", value_parser = clap::value_parser!(u32).range(1..=3))]
     layout_version: Option<u32>,
-    /// Explicit reviewed engineering policy for a new project (currently 1).
+    /// Explicit reviewed engineering policy for a new project (1 or 2).
     #[arg(long, requires_all = ["policy_review_reference", "minimumcd_assessment"])]
     engineering_policy: Option<String>,
     /// Actual developer choice/delegation reference, not authenticated by the CLI.
@@ -835,7 +835,10 @@ fn show_profiles(args: ProfilesArgs) -> Result<()> {
     Ok(())
 }
 
-fn review_storage_version(project: &ProjectManifest) -> u32 {
+fn clean_target_version(project: &ProjectManifest) -> u32 {
+    if project.schema == 4 {
+        return 3;
+    }
     project
         .assurance
         .review_storage
@@ -849,7 +852,7 @@ fn initialize(args: &InitArgs) -> Result<()> {
     let adoption = opdev_project::AdoptionRecord::load(&discovery.root)?;
     if let Some(path) = &args.project {
         let proposed = opdev_project::ProjectManifest::load(path)?;
-        let target_version = review_storage_version(&proposed);
+        let target_version = clean_target_version(&proposed);
         let gaps = opdev_project::clean_adoption::policy_gaps_for(&proposed, target_version);
         if !gaps.is_empty() {
             bail!(
@@ -927,7 +930,7 @@ fn initialize(args: &InitArgs) -> Result<()> {
             let mut record = opdev_project::AdoptionRecord::pending_for_catalog(catalog_version)?;
             if args.project.is_some() {
                 record.clean_target = Some(opdev_project::clean_adoption::CleanTarget {
-                    version: review_storage_version(&discovery.manifest),
+                    version: clean_target_version(&discovery.manifest),
                     inventory_reference: String::new(),
                     retirements: vec![],
                 });
@@ -983,7 +986,11 @@ fn select_initial_policy(
             );
         }
     } else {
-        discovery.manifest.schema = 3;
+        discovery.manifest.schema = match version.as_str() {
+            "1" => 3,
+            "2" => 4,
+            _ => bail!("Unsupported engineering policy; no project initialized"),
+        };
         discovery
             .manifest
             .assurance

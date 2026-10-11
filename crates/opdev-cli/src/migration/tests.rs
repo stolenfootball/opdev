@@ -85,6 +85,122 @@ struct Fixture {
 }
 
 #[test]
+fn policy_two_migration_binds_definitions_and_refuses_selected_retirement() -> Result<()> {
+    let f = Fixture::new()?;
+    let mut request: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    request["project"]["schema"] = json!(4);
+    request["project"]["layout"]["version"] = json!(3);
+    request["project"]["assurance"]["engineering"]["version"] = json!("2");
+    request["project"]["assurance"]["safeguards"] =
+        json!({"version":1,"review_reference":"fixture review","capabilities":{}});
+    let path = ".opdev/policies/example.json";
+    let definition = json!({"schema":1,"id":"example","version":"1","title":"Compatibility","source":"fixture policy","controls":[{"id":"ORG-EXAMPLE-001","statement":"Reject incompatible input","source":"fixture requirement","stages":["pre_merge"],"applicability":{"kind":"always"},"verification":"automated"}]});
+    let pack = opdev_project::organization::PolicyPack::parse(&serde_json::to_vec(&definition)?)?;
+    request["project"]["assurance"]["organization_policies"] = json!([{"id":"example","version":"1","definition_sha256":pack.definition_sha256()?,"parameters":{}}]);
+    request["policies"] = json!({path:definition});
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    let plan = f.preview()?;
+    assert!(!plan.blocked());
+    assert!(
+        !f.root.join(path).exists(),
+        "preview cannot install a definition"
+    );
+    assert!(
+        plan.changes
+            .iter()
+            .any(|c| c.path == path && c.after.is_some())
+    );
+    let current = plan
+        .changes
+        .iter()
+        .find(|c| c.path == ADOPTION_PATH)
+        .and_then(|c| c.after.as_deref())
+        .context("adoption")?;
+    let adoption = AdoptionRecord::from_yaml(current)?;
+    assert!(adoption.review.is_none());
+    assert_eq!(
+        adoption.practices["testing"].state,
+        opdev_project::AdoptionState::Pending
+    );
+    request["cleanup"] = json!([{"path":path,"kind":"retire_file","reason":"conflicting target"}]);
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    assert!(
+        f.preview()
+            .err()
+            .context("must reject")?
+            .to_string()
+            .contains("cannot also be retired")
+    );
+    assert!(!f.root.join(path).exists());
+    request["cleanup"] = json!([]);
+    request["project"]["assurance"]["organization_policies"][0]["definition_sha256"] =
+        json!("0".repeat(64));
+    fs::write(&f.request, serde_json::to_vec(&request)?)?;
+    assert!(
+        f.preview().is_err(),
+        "changed definitions cannot reuse the reviewed pin"
+    );
+    reject_duplicate_definitions(&request, path)?;
+    apply_plan(&plan, usize::MAX)?;
+    assert_eq!(
+        ProjectManifest::load(&f.root.join(MANIFEST_PATH))?.schema,
+        4
+    );
+    assert_eq!(
+        opdev_project::organization::inspect_file(&f.root, "example")?.definition_sha256()?,
+        pack.definition_sha256()?
+    );
+    let mut retirement: serde_json::Value = serde_json::from_slice(&fs::read(&f.request)?)?;
+    retirement["project"]["assurance"]["organization_policies"] = json!([]);
+    retirement["policies"] = json!({});
+    fs::write(&f.request, serde_json::to_vec(&retirement)?)?;
+    let incomplete = f.preview()?;
+    assert!(incomplete.blocked());
+    assert!(
+        incomplete
+            .findings
+            .iter()
+            .any(|f| f.component == "policy" && f.detail.contains("explicit reviewed retirement"))
+    );
+    assert!(
+        f.root.join(path).is_file(),
+        "inspection cannot remove an obsolete policy"
+    );
+    assert!(
+        AdoptionRecord::load(&f.root)?
+            .context("record")?
+            .review
+            .is_none()
+    );
+    fs::write(f.root.join(path), "later developer policy edit")?;
+    assert!(apply_plan(&plan, usize::MAX).is_err());
+    assert_eq!(
+        fs::read_to_string(f.root.join(path))?,
+        "later developer policy edit"
+    );
+    Ok(())
+}
+
+fn reject_duplicate_definitions(request: &serde_json::Value, path: &str) -> Result<()> {
+    let mut duplicate = request.clone();
+    duplicate
+        .as_object_mut()
+        .context("request")?
+        .remove("policies");
+    let prefix = serde_json::to_string(&duplicate)?;
+    let definition_text = serde_json::to_string(&request["policies"][path])?;
+    let ambiguous = format!(
+        "{},\"policies\":{{\"{path}\":{definition_text},\"{path}\":{definition_text}}}}}",
+        prefix.trim_end_matches('}')
+    );
+    assert!(
+        serde_json::from_str::<Request>(&ambiguous).is_err(),
+        "duplicate definitions cannot collapse into a different proposal"
+    );
+    Ok(())
+}
+
+#[test]
 fn discussion_migration_removes_ledger_without_archive_or_archival_commit() -> Result<()> {
     let f = Fixture::new()?;
     let ledger = "schema: 2\nproject: []\nchanges: []\n";
@@ -525,10 +641,21 @@ fn preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text
         "old approval cannot authorize different policy"
     );
     for (id, decision) in original.practices {
-        assert_eq!(
-            serde_json::to_value(decision)?,
-            serde_json::to_value(&new.practices[&id])?
-        );
+        let current = &new.practices[&id];
+        if matches!(
+            id.as_str(),
+            "integration" | "delivery" | "recovery" | "configuration" | "agents"
+        ) {
+            assert_eq!(current.state, opdev_project::AdoptionState::Pending);
+            assert!(current.reason.ends_with(&decision.reason));
+            assert_eq!(current.references, decision.references);
+            assert_eq!(current.suites, decision.suites);
+        } else {
+            assert_eq!(
+                serde_json::to_value(decision)?,
+                serde_json::to_value(current)?
+            );
+        }
     }
     assert!(new.practices.values().all(|p| matches!(
         p.state,
@@ -700,6 +827,12 @@ fn request_schema_and_runtime_refuse_unknown_policy_without_normalization() -> R
     let f = Fixture::new()?;
     let registry = jsonschema::Registry::new()
         .extend([
+            (
+                "https://opdev.dev/schema/policy-pack-v1.json",
+                serde_json::from_str::<serde_json::Value>(include_str!(
+                    "../../../../schema/policy-pack.schema.json"
+                ))?,
+            ),
             (
                 "https://opdev.dev/schema/requirements.schema.json",
                 serde_json::from_str::<serde_json::Value>(include_str!(
