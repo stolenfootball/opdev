@@ -159,7 +159,7 @@ fn runtime_only_is_not_adoption_and_same_version_is_not_build_identity() -> Test
     );
     assert_eq!(
         report["runtime"]["project_schemas"],
-        serde_json::json!([1, 2, 3])
+        serde_json::json!([1, 2, 3, 4])
     );
     assert_eq!(
         report["runtime"]["evidence_schemas"],
