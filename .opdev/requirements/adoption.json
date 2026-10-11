@@ -438,7 +438,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -538,7 +538,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -638,7 +638,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -738,7 +738,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -838,7 +838,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -938,7 +938,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -1038,7 +1038,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -1138,7 +1138,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "268054f046a427823d9ad3f561412252d0176334040565eb0d0c3409784d91d1",
+          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -1465,9 +1465,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "c64f445504593809231b0e4fd8e0f4e94c9c0dc05c9230bafad73a9f417e770b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992444280",
+        "rationale": "Reviewed actual retained assertions and adoption guide against policy-2 definitions. Clarified bounded maintenance, controlled exact-byte transfer and current replacement pipeline review, without reinterpreting legacy policies or transferring approval. Eight automated targets retain their original guarantees; live pilot excludes this later prose correction.",
+        "subject_sha256": "df74aec27851f639f1282260c29541449864fed28b662030dc91f16271e2fe4c"
       }
     },
     {
@@ -1520,9 +1520,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "1a5d1fc12484fd8da9040108ca40db8d48389d605f3aa20b03533cbea063b022"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992444280",
+        "rationale": "Reviewed actual retained assertions and adoption guide against policy-2 definitions. Clarified bounded maintenance, controlled exact-byte transfer and current replacement pipeline review, without reinterpreting legacy policies or transferring approval. Eight automated targets retain their original guarantees; live pilot excludes this later prose correction.",
+        "subject_sha256": "2b5b5ce2a7dedee875ffb60d6818bcf6dca3406b059feb8817761c6103cec32c"
       }
     },
     {
@@ -1575,9 +1575,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "512857329e4e4ad26480e7650c327e656d05a72036179d21e328d39660fc7acf"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992444280",
+        "rationale": "Reviewed actual retained assertions and adoption guide against policy-2 definitions. Clarified bounded maintenance, controlled exact-byte transfer and current replacement pipeline review, without reinterpreting legacy policies or transferring approval. Eight automated targets retain their original guarantees; live pilot excludes this later prose correction.",
+        "subject_sha256": "5a46730842b6abafe0175e85957b2bb8232f132fac63fba9d5f37157e0f2769b"
       }
     }
   ]

@@ -108,8 +108,8 @@ writing records or presenting a decision sheet, and again on follow-up turns:
 
 | Decision | Valid choices | What must remain a migration gap |
 | --- | --- | --- |
-| Integration and release roles | One integration trunk that is also the release source. For a non-main trunk, offer both keeping its name and renaming it to `main`. | Integrating on `develop` then merging into `main` to release is **not a valid completed-adoption option**. The user may defer changing it, but it stays `migration_required`; keeping a name does not permit keeping conflicting roles. |
-| Delivery | CI qualifies and publishes/promotes the same immutable artifact through the declared consumer-facing path. A human may approve a CI job; CI still performs delivery. | A tested archive followed by a maintainer's manual upload/distribution is not CI-exclusive delivery. Tags, versioned filenames and green packaging jobs alone do not resolve this. |
+| Integration and release roles | One ordinary integration trunk. For a non-main trunk, offer both keeping its name and renaming it to `main`. Policy 2 also permits reviewed, bounded maintenance lines with supported scope/lifetime, protection, their own pre/post checks and retention of relevant fixes in trunk. | Integrating on `develop` then promoting ordinary feature work through `main` is not a bounded maintenance line. Keeping a name does not permit conflicting ordinary integration roles. Historical policies and selected MinimumCD retain their stricter branch meaning. |
+| Delivery | Policy 2 requires the reviewed controlled CI path and qualified immutable artifact identity at supported delivery. A reviewed constrained transfer may preserve those exact qualified bytes; inspect the actual boundary and safeguards. | Rebuilding at the destination, an uncontrolled upload or a green unrelated packaging job does not establish supported delivery. Historical policies and selected MinimumCD retain CI-exclusive delivery; do not claim that standard from a policy-2 controlled-transfer finding. |
 | Recovery | An automated, exercised safe-recovery path covering retained state, new writes, external effects, failure triggers, success recognition and relevant time/data-loss constraints. | A promise to patch later or a useful error message is not recovery. Policy 2 allows safe forward recovery; selected MinimumCD still needs its separate literal rollback evidence. Missing configuration never proves inapplicability. |
 | Observability and effectiveness | Assess real operations and intended outcomes. For a local CLI, stderr/exit behavior may be proportionate operational evidence; intended user tasks supply effectiveness objectives. | No daemon/telemetry stack does not imply no operational behavior. Missing policy, risk metadata, or a synthetic evaluation fixture does not prove inapplicability. |
 
@@ -365,8 +365,11 @@ Ordinary adoption check repeats these guards; a saved preflight cannot qualify i
 After local verification, use capable `ci qualify` for the separate current-trunk
 remote observation. Do not rerun equivalent suites just to refresh provider state.
 
-Applicable delivery also needs MCD-PIPELINE-001 `delivery_gate` evidence pointing to the
-reviewed release/tag pipeline path. Identify its required qualification job,
+Applicable delivery also needs `delivery_gate` evidence pointing to the
+reviewed release/tag pipeline path. Under policy 2, bind it to the current change's
+OPDEV-PIPELINE-001 review and actual stage-specific automated verification;
+historical policies use MCD-PIPELINE-001. A project-level assertion or old standard
+finding cannot satisfy the policy-2 input. Identify its required qualification job,
 publication ordering, trigger coverage and actual run; generic pipeline evidence
 or a green MR job does not establish that publishing cannot bypass qualification.
 For engineering policy, genuinely evidence-backed inapplicable delivery may remain
