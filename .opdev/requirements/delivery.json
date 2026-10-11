@@ -53,7 +53,7 @@
       "id": "V-delivery-path",
       "target": {
         "path": "crates/opdev-cli/tests/delivery_recovery.rs",
-        "sha256": "f1c69fbbf943de9029c1dc476b97725c98385b2b52f2b5960fa24afc518a60e6",
+        "sha256": "863b760e7af256f2700a0ff541e22e5e2c2f96f7aa1f3fc159235997b5326e2c",
         "excerpt": "fn publication_requires_the_complete_controlled_dependency_path("
       },
       "inputs": [
@@ -93,7 +93,7 @@
       "id": "V-publication-recovery",
       "target": {
         "path": "crates/opdev-cli/tests/delivery_recovery.rs",
-        "sha256": "f1c69fbbf943de9029c1dc476b97725c98385b2b52f2b5960fa24afc518a60e6",
+        "sha256": "863b760e7af256f2700a0ff541e22e5e2c2f96f7aa1f3fc159235997b5326e2c",
         "excerpt": "fn publication_recovery_preserves_uploaded_bytes_and_rejects_conflicts("
       },
       "inputs": [
@@ -158,7 +158,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "ed8d64a1ad8c1af74e06d620185762c779a68bf7d0c341a30f2f03d4edfbc457"
+        "subject_sha256": "1db58f554cfcebefe2f70615f75d3bb11f78601661631b03f224cb15e5ae45b9"
       }
     },
     {
@@ -178,7 +178,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "4835f0f58cd612fa0ba5d67242e383facaadb49752e47fa13456ebde5dde8d6c"
+        "subject_sha256": "13224b17dab70fe6ecca8ab847bf8653f4ab8cfdc27afdac641fee28b373dffa"
       }
     },
     {
@@ -198,7 +198,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "8e005590ab62626bf1f1c887f729c6ce231446eec31ee96afa5415ba86ed5b1f"
+        "subject_sha256": "d3320bc7712632075a7dd8a8f6a747772b4e971ea50dccaad7978ed914ca08f9"
       }
     },
     {
@@ -218,7 +218,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "d9b8ecbda2031c8d2bc250f7beb871add3782063869a725512825f5843d6163e"
+        "subject_sha256": "366e4ff4a86c3217e6fa26994c38ac373846fcaf3ba07c3c12add8fb44935788"
       }
     },
     {
@@ -238,7 +238,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "41397cb5c1667daee351d2f8e96accb03aca4582b9134ebbf0c07a3395254f60"
+        "subject_sha256": "f53c08188e12cfeaa765d6fd9e4f25946030ce9c1d3714fb98156b3ab2e1a4c0"
       }
     },
     {
@@ -258,7 +258,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed actual assertions and explicit negative mutations against the supported delivery/recovery contract; no new artifact or live provider failure claim.",
-        "subject_sha256": "a7bdd3fc4041c50a5f41e66f147bea713443ab027f0b5e18eb9476c9e10939ef"
+        "subject_sha256": "743ecceced56ac4391b831c4841e21e7c55290c8eadc2df350d0aed9bf10309f"
       }
     }
   ]

@@ -118,7 +118,9 @@ fn publication_requires_the_complete_controlled_dependency_path() -> Result {
     changed = ci.clone();
     changed["publish-github"]["rules"][0]["if"] = format!(
         "{} || true",
-        ci["publish-github"]["rules"][0]["if"].as_str().unwrap()
+        ci["publish-github"]["rules"][0]["if"]
+            .as_str()
+            .ok_or("missing publication condition")?
     )
     .into();
     assert!(
