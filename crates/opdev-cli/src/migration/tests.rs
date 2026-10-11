@@ -707,7 +707,10 @@ fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work() -
         fs::read_to_string(&data)?,
         "original row\nnew row after interruption\n"
     );
-    assert_eq!(ProjectManifest::load(&f.root.join(MANIFEST_PATH))?.schema, 3);
+    assert_eq!(
+        ProjectManifest::load(&f.root.join(MANIFEST_PATH))?.schema,
+        3
+    );
     assert!(AdoptionRecord::load(&f.root)?.is_some());
     let changed = "Later developer instruction must survive.\n";
     fs::write(f.root.join("AGENTS.md"), changed)?;

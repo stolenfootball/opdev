@@ -73,9 +73,10 @@ fn release_path(ci: &Value) -> std::result::Result<(), String> {
     for name in ["publish-github", "create-gitlab-release"] {
         let rules = ci[name]["rules"].as_array().ok_or("publisher rules")?;
         if rules.len() != 1
-            || !rules[0]["if"].as_str().is_some_and(|s| {
-                s.starts_with("$CI_COMMIT_REF_PROTECTED == \"true\" && $CI_COMMIT_TAG =~")
-            })
+            || rules[0]["if"].as_str()
+                != Some(
+                    r#"$CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?$/"#,
+                )
         {
             return Err(format!(
                 "{name}: publication must require a protected release tag"
@@ -114,6 +115,16 @@ fn publication_requires_the_complete_controlled_dependency_path() -> Result {
     changed = ci.clone();
     changed["publish-github"]["rules"] = serde_json::json!([{"if":"$CI_COMMIT_TAG"}]);
     assert!(release_path(&changed).is_err(), "unprotected publisher");
+    changed = ci.clone();
+    changed["publish-github"]["rules"][0]["if"] = format!(
+        "{} || true",
+        ci["publish-github"]["rules"][0]["if"].as_str().unwrap()
+    )
+    .into();
+    assert!(
+        release_path(&changed).is_err(),
+        "protected prefix with bypass"
+    );
     Ok(())
 }
 

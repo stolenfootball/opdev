@@ -192,7 +192,7 @@
       "id": "V-migration-1",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "e2729db6cf7a7b8d8db256b53c5b28c0c69c59df0120d5657bd43f86ec9a607e",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn catalog_migration_is_explicit_unreviewed_and_preserves_later_edits("
       },
       "inputs": [
@@ -252,7 +252,7 @@
       "id": "V-migration-2",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "e2729db6cf7a7b8d8db256b53c5b28c0c69c59df0120d5657bd43f86ec9a607e",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work("
       },
       "inputs": [
@@ -662,7 +662,7 @@
       "id": "V-clean-policy-adoption-4",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "e2729db6cf7a7b8d8db256b53c5b28c0c69c59df0120d5657bd43f86ec9a607e",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn policy_two_migration_binds_definitions_and_refuses_selected_retirement("
       },
       "inputs": [
@@ -762,7 +762,7 @@
       "id": "V-clean-policy-adoption-5",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "e2729db6cf7a7b8d8db256b53c5b28c0c69c59df0120d5657bd43f86ec9a607e",
+        "sha256": "05107ab9bf1ae2f313f83adf32de1fa852aba700ba8efdc51c776b46e1c63feb",
         "excerpt": "fn preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text("
       },
       "inputs": [
@@ -1402,7 +1402,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "14a6f80a61b353024d0a87cc535f1208172b089916b9761ea8a2c65b3f18453b"
+        "subject_sha256": "b27fe47a9d6fede2eb558cf12a6e257d994075973db4821a4f699b05c519159a"
       }
     },
     {
@@ -1427,7 +1427,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "562a4563ddf98d50d67f07780e67e1f71c8892c40f8438173ff8bdef3eb327e5"
+        "subject_sha256": "98d169331c09fdfe3b7945280869a9d7fe3ddbcf0007016012d2e54c335aa01d"
       }
     },
     {
@@ -1452,7 +1452,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "5aebef5e9729254fd1937c64079e98280ba2e76071ddc6dc1553d6ad06f7a935"
+        "subject_sha256": "bc8c9d3c30aa50522b0843152a2367c83513ebe82da21b2ebfe0772d904aab82"
       }
     },
     {
@@ -1572,7 +1572,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "13c7adb756d8de41ded157701c4bac610dc59e98921bab6493191d274b4433c2"
+        "subject_sha256": "4260495d2d850773a68b810f12d59a9dfb8eb4fd59d0617300a7a8dd2ebc1702"
       }
     },
     {
@@ -1632,7 +1632,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "c882f2714082254a5617c6bf60393a2467df2e8a976c7629c8cc13bdaab78da4"
+        "subject_sha256": "1d6139b227e64a029ed78ba86abb3126290d5f7a021364c03aec3a2ed87532a3"
       }
     },
     {
@@ -1692,7 +1692,7 @@
         "reviewer": "Codex (implementing agent)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992669691",
         "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification.",
-        "subject_sha256": "de5d9ac058749a7a33df570e542b4764a0c9d50950f0aa09f3d5399593c99957"
+        "subject_sha256": "602067e3c2c92e75d56e50152cee8b91db65cc8656583e147275e120bef79c29"
       }
     }
   ]
