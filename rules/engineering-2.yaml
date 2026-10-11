@@ -1,0 +1,46 @@
+catalog_version: 4
+rules:
+  - id: OPDEV-FLOW-001
+    kind: opdev
+    title: Restore failing required CI and contain its impact
+    statement: Required trunk failures MUST receive restoration priority and block affected delivery and unsafe or dependent integration. Independent work MAY continue only with reviewed evidence that it neither depends on the failure nor hinders restoration. Unknown impact MUST NOT establish independence. File separation alone is insufficient.
+    applicability: projects with a required trunk pipeline
+    gates: [development, integration, delivery, compliance]
+    verification: [remote, ci, evidence, agent]
+    sources:
+      - name: OpDev engineering policy 2
+        url: spec/engineering-policy.md
+      - name: SRE error budget policy (scoped restoration precedent, not a CI standard)
+        url: https://sre.google/workbook/error-budget-policy/
+  - id: OPDEV-DELIVERY-001
+    kind: opdev
+    title: Distinguish local feedback, authorized previews and supported delivery
+    statement: Supported delivery MUST use the reviewed controlled CI path with qualified identifiable artifacts. Local development and isolated feedback MUST NOT be presented as delivery qualification. Distributed previews MUST be authorized, identified and checked for their safe-use scope; their success MUST NOT qualify integration or supported delivery. Readiness MUST NOT authorize release execution.
+    applicability: projects that distribute software or operate a supported service
+    gates: [delivery, compliance]
+    verification: [ci, evidence, agent]
+    sources:
+      - name: DORA continuous delivery
+        url: https://dora.dev/capabilities/continuous-delivery/
+      - name: OpDev engineering policy 2
+        url: spec/engineering-policy.md
+  - id: OPDEV-PIPELINE-001
+    kind: opdev
+    title: Qualify the actual delivery boundary
+    statement: The controlled pipeline MUST provide a complete applicable qualification verdict for the exact supported artifact and configuration. Feedback and preview paths MUST NOT satisfy that boundary through missing checks, allowed failures or another subject's results. Each platform build is a distinct artifact; promoting an artifact MUST preserve its verified bytes.
+    applicability: projects that distribute software or operate a supported service
+    gates: [delivery, compliance]
+    verification: [ci, evidence, agent]
+    sources:
+      - name: OpDev engineering policy 2
+        url: spec/engineering-policy.md
+  - id: OPDEV-RECOVERY-001
+    kind: opdev
+    title: Demonstrate safe recovery for the actual failure scope
+    statement: Delivery MUST have an automated tested recovery path appropriate to the affected software, retained state and external effects. Rollback, tested forward transition, restoration or isolation/disablement MAY satisfy this only when they demonstrably restore required safe behavior. Evidence MUST cover triggers, recovery success recognition and relevant time/data-loss constraints. A strategy declaration or promise to write a patch later MUST NOT establish recovery.
+    applicability: projects that distribute software or operate a supported service
+    gates: [delivery, compliance]
+    verification: [ci, evidence, agent]
+    sources:
+      - name: OpDev engineering policy 2
+        url: spec/engineering-policy.md

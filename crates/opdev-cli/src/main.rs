@@ -36,6 +36,7 @@ mod inspection;
 mod layout;
 mod local_state;
 mod migration;
+mod policy;
 mod requirements;
 mod state_io;
 mod test_execution;
@@ -91,6 +92,8 @@ enum Command {
     Rules(RulesArgs),
     /// Inspect exact-version assurance profiles bundled with this release.
     Profiles(ProfilesArgs),
+    /// Explain or preview engineering definitions without execution or migration.
+    Policy(policy::PolicyArgs),
     /// Package already-built artifacts and generate deterministic release evidence.
     Release(ReleaseArgs),
     /// Prepare repository-state binding for reviewable project evidence.
@@ -532,6 +535,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         },
         Command::Doctor(args) => doctor::run(&args),
         Command::Documentation(args) => documentation::run(&args),
+        Command::Policy(args) => policy::run(&args),
         Command::Requirements(args) => requirements::run(&args),
         Command::Layout(args) => layout::run(&args),
         Command::Workflow(args) => workflow::run(&args),

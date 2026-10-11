@@ -7,8 +7,13 @@ mod catalog;
 mod evidence;
 mod outcome;
 mod policy;
+mod resolution;
 pub use policy::{
     EngineeringPolicy, MaintenanceBranch, RuleClass, catalog_for_version, rule_class,
+};
+pub use resolution::{
+    PolicyChange, PolicyDisposition, PolicyResolution, PolicyResolutionError, ResolvedControl,
+    resolve_engineering_policy,
 };
 
 pub use assurance::{

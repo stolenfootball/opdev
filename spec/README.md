@@ -97,6 +97,10 @@ runtime identity, actionable findings and explicit qualification limits.
 
 ## Proposed architecture
 
+The [engineering policy 2 design](engineering-policy.md) separates mandatory
+engineering guarantees from additional exact-version standards. Its read-only
+definition preview does not migrate existing policy or establish enforcement.
+
 The [resumable workflow redesign](workflow-redesign.md) consolidates the proposed
 execution/evaluation separation, evidence lifetimes, resumable decisions and
 optional specialist-agent coordination. It is a design proposal, not implemented
