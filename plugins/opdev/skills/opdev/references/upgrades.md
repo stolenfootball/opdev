@@ -89,6 +89,20 @@ targets [clean adoption](adoption.md#validate-recommendations-before-asking-for-
 including mandatory retirement, not just newer version text or thin pointers.
 Reuse adequate decisions and implementations; reopen only changed/unverified gaps.
 
+For policy 2, require `adoption.clean-target.v3` and the local/CI capabilities
+for schema 4, layout 3, requirements and any selected standard or organization
+policy. Preserve standards' exact versions, modes and stages. Legacy projects
+without a separate engineering selection need an explicit MinimumCD choice in
+the policy preview; absence is not inferred approval to drop it. A policy preview
+does not apply the migration. The request's optional `policies` map contains exact
+selected `.opdev/policies/<id>.json` definitions with matching pins/parameters.
+Unselected definitions require reviewed retirement; selected definitions cannot
+also be cleanup targets. Reopen practices affected by changed policy, layout,
+requirements or referenced suites while retaining their original rationale and
+references. Do not transfer old approval to the new contract or reset unrelated
+adequate tools. The original work authority governs removals and weakening;
+an authority reference supplied in a candidate is not authenticated consent.
+
 For a requested project migration, first check `upgrade.coordinated-migration.v1`.
 Do not interpret a missing capability as permission to install, delete the ledger,
 or manually imitate a successful migration. Use the existing work authority for

@@ -28,6 +28,9 @@ struct Request {
     /// Explicit capability documents; migration never invents requirements or approvals.
     #[serde(default)]
     requirements: BTreeMap<String, opdev_project::requirements::CatalogDocument>,
+    /// Explicit exact policy definitions; no remote loading or inferred selection.
+    #[serde(default, deserialize_with = "policy_map")]
+    policies: BTreeMap<String, opdev_project::organization::PolicyPack>,
     /// CI changes are explicit exact file contents, never inferred version bumps.
     #[serde(default)]
     ci: BTreeMap<String, String>,
@@ -41,6 +44,35 @@ struct Request {
     /// Actual review of content ownership changes, not permission inferred from policy.
     #[serde(default)]
     authority_review_reference: Option<String>,
+}
+
+fn policy_map<'de, D: serde::Deserializer<'de>>(
+    d: D,
+) -> Result<BTreeMap<String, opdev_project::organization::PolicyPack>, D::Error> {
+    struct Visitor;
+    impl<'de> serde::de::Visitor<'de> for Visitor {
+        type Value = BTreeMap<String, opdev_project::organization::PolicyPack>;
+        fn expecting(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            f.write_str("at most eight distinct policy definition paths")
+        }
+        fn visit_map<M: serde::de::MapAccess<'de>>(
+            self,
+            mut map: M,
+        ) -> Result<Self::Value, M::Error> {
+            let mut result = BTreeMap::new();
+            while let Some((key, value)) =
+                map.next_entry::<String, opdev_project::organization::PolicyPack>()?
+            {
+                if result.len() >= 8 || result.insert(key, value).is_some() {
+                    return Err(serde::de::Error::custom(
+                        "duplicate or excessive policy definitions",
+                    ));
+                }
+            }
+            Ok(result)
+        }
+    }
+    d.deserialize_map(Visitor)
 }
 
 #[derive(Clone, Deserialize, Serialize)]
@@ -137,10 +169,10 @@ fn assess(root: &Path, request_path: &Path, plugin: Option<&Path>) -> Result<Mig
     );
     let candidate = ProjectManifest::from_yaml(&request.project.to_yaml()?)?;
     ensure!(
-        candidate.schema == 3
+        matches!(candidate.schema, 3 | 4)
             && candidate.layout.is_some()
             && candidate.assurance.review_storage.is_some(),
-        "Coordinated migration needs explicitly selected schema-3 engineering, layout and review storage; no choices inferred"
+        "Coordinated migration needs explicitly selected engineering, layout and review storage in schema 3 or 4; no choices inferred"
     );
     let mut plan = MigrationPlan {
         schema: 1,
@@ -159,7 +191,13 @@ fn assess(root: &Path, request_path: &Path, plugin: Option<&Path>) -> Result<Mig
         authority_review_reference: request.authority_review_reference,
     };
     cleanup::validate_actions(&plan.cleanup)?;
-    inventory::collect(&mut plan, plugin)?;
+    policies(&mut plan, &candidate, &request.policies)?;
+    inventory::collect(
+        &mut plan,
+        plugin,
+        candidate.layout.as_ref().context("layout")?.version,
+    )?;
+    retired_policies(&mut plan, &candidate);
     plan.replacement(MANIFEST_PATH, candidate.to_yaml()?, "Explicit reviewed target policy; commands and authority changes are visible in this exact diff")?;
     adoption(&mut plan, &original, &candidate, request.clean_target)?;
     for file in opdev_project::preview_agent_files_for_layout(&plan.root, true)? {
@@ -244,13 +282,121 @@ fn adoption(
     // Preserve their original bytes in the mandatory recovery snapshot, never re-approve.
     if original != candidate {
         record.review = None;
+        reopen_affected_practices(&mut record, original, candidate);
     }
     let after = record.to_yaml()?;
-    plan.replacement(ADOPTION_PATH, after, "Preserve all existing practices/scope/workflow; add only pending catalog gaps. Old approval remains historical in recovery, never rebound as new consent")?;
+    plan.replacement(ADOPTION_PATH, after, "Preserve scope, references and unaffected decisions; reopen affected practices for current review. Old approval remains historical in recovery, never rebound as new consent")?;
     plan.finding("adoption", Outcome::Unverified, if before == record.to_yaml()? {
         "Existing dispositions retained; adoption completion is not inferred"
-    } else { "Catalog or policy changed; original dispositions retained, new gaps pending, prior approval not transferred. Review the new adoption plan before claiming completion" });
+    } else { "Catalog or policy changed; unaffected decisions retained, affected practices pending, prior approval not transferred. Review the new adoption plan before claiming completion" });
     Ok(())
+}
+
+fn reopen_affected_practices(
+    record: &mut AdoptionRecord,
+    original: &ProjectManifest,
+    candidate: &ProjectManifest,
+) {
+    let version = |p: &ProjectManifest| p.assurance.engineering.as_ref().map(|p| p.version.clone());
+    let baseline_changed = version(original) != version(candidate);
+    let policies_changed = original.assurance.standards != candidate.assurance.standards
+        || original.assurance.organization_policies != candidate.assurance.organization_policies;
+    for (id, decision) in &mut record.practices {
+        let changed = (baseline_changed
+            && matches!(
+                id.as_str(),
+                "integration" | "delivery" | "recovery" | "configuration"
+            ))
+            || (policies_changed && matches!(id.as_str(), "project" | "testing"))
+            || (original.layout != candidate.layout && id == "agents")
+            || (original.assurance.requirements != candidate.assurance.requirements
+                && id == "testing")
+            || decision.suites.iter().any(|id| {
+                let before = original.testing.suites.iter().find(|s| &s.id == id);
+                let after = candidate.testing.suites.iter().find(|s| &s.id == id);
+                before != after
+                    || before.zip(after).is_some_and(|(b, a)| {
+                        original.commands.get(&b.command) != candidate.commands.get(&a.command)
+                    })
+            });
+        if changed {
+            decision.state = opdev_project::AdoptionState::Pending;
+            decision.reason = format!(
+                "Changed policy or verification needs current review; prior rationale retained for context, not transferred verification: {}",
+                decision.reason
+            );
+        }
+    }
+}
+
+fn policies(
+    plan: &mut MigrationPlan,
+    candidate: &ProjectManifest,
+    supplied: &BTreeMap<String, opdev_project::organization::PolicyPack>,
+) -> Result<()> {
+    ensure!(
+        supplied.len() <= 8,
+        "Policy migration exceeds eight selected definitions"
+    );
+    for (path, definition) in supplied {
+        ensure!(
+            opdev_project::organization::portable_path(path)
+                && *path == format!(".opdev/policies/{}.json", definition.id),
+            "Policy migration path and definition identity disagree"
+        );
+        ensure!(
+            candidate
+                .assurance
+                .organization_policies
+                .iter()
+                .any(|s| s.id == definition.id),
+            "Migration supplied an unselected policy; no files written"
+        );
+    }
+    for selection in &candidate.assurance.organization_policies {
+        let path = format!(".opdev/policies/{}.json", selection.id);
+        ensure!(
+            !plan
+                .cleanup
+                .iter()
+                .any(|a| path == a.path || path.starts_with(&format!("{}/", a.path))),
+            "A selected organization policy cannot also be retired; review the target selection before cleanup"
+        );
+        let definition = supplied.get(&path).cloned().map_or_else(
+            || opdev_project::organization::inspect_file(&plan.root, &selection.id),
+            Ok,
+        )?;
+        definition.resolve(selection)?;
+        if supplied.contains_key(&path) {
+            let data = format!("{}\n", serde_json::to_string_pretty(&definition)?);
+            ensure!(
+                data.len() <= opdev_project::organization::MAX_PACK_BYTES,
+                "Policy definition exceeds the supported size"
+            );
+            plan.replacement(&path, data, "Explicit pinned organization definition; selection and verification remain separate")?;
+        }
+    }
+    Ok(())
+}
+
+fn retired_policies(plan: &mut MigrationPlan, candidate: &ProjectManifest) {
+    let paths: Vec<_> = plan
+        .inputs
+        .keys()
+        .filter(|p| p.starts_with(".opdev/policies/"))
+        .cloned()
+        .collect();
+    for path in paths {
+        if !candidate
+            .assurance
+            .organization_policies
+            .iter()
+            .any(|s| path == format!(".opdev/policies/{}.json", s.id))
+            && !plan.cleanup.iter().any(|a| a.path == path)
+        {
+            plan.finding("policy", Outcome::Failed, format!("Unselected policy definition {path} needs explicit reviewed retirement; no automatic deletion or hidden legacy copy."));
+        }
+    }
 }
 
 fn history(plan: &mut MigrationPlan, candidate: &ProjectManifest) -> Result<()> {
@@ -383,6 +529,7 @@ fn validate_targets(plan: &MigrationPlan) -> Result<()> {
                         | "CLAUDE.md"
                 ) || inventory::ci_path(&change.path)
                     || opdev_project::requirements::portable_catalog_path(&change.path)
+                    || opdev_project::organization::portable_path(&change.path)
                     || cleanup::file_target(plan, &change.path)),
             "Unsupported or repeated migration target; no arbitrary recovery instructions executed"
         );
@@ -392,6 +539,7 @@ fn validate_targets(plan: &MigrationPlan) -> Result<()> {
                 || cleanup::retired_file(plan, &change.path),
             "Unsupported migration deletion"
         );
+        validate_policy_target(plan, change)?;
         if opdev_project::requirements::portable_catalog_path(&change.path) {
             let policy = plan
                 .changes
@@ -420,6 +568,34 @@ fn validate_targets(plan: &MigrationPlan) -> Result<()> {
                 "Migration cannot transfer mapping approval"
             );
         }
+    }
+    Ok(())
+}
+
+fn validate_policy_target(plan: &MigrationPlan, change: &Change) -> Result<()> {
+    if !opdev_project::organization::portable_path(&change.path) {
+        return Ok(());
+    }
+    let policy = plan
+        .changes
+        .iter()
+        .find(|c| c.path == MANIFEST_PATH)
+        .and_then(|c| c.after.as_deref())
+        .context("Policy migration target missing")?;
+    let manifest = ProjectManifest::from_yaml(policy)?;
+    let selected = manifest
+        .assurance
+        .organization_policies
+        .iter()
+        .find(|s| change.path == format!(".opdev/policies/{}.json", s.id));
+    if let Some(after) = &change.after {
+        let selection = selected.context("Migration cannot install an unselected definition")?;
+        opdev_project::organization::PolicyPack::parse(after.as_bytes())?.resolve(selection)?;
+    } else {
+        ensure!(
+            selected.is_none() && cleanup::retired_file(plan, &change.path),
+            "Migration cannot remove a selected or unreviewed policy definition"
+        );
     }
     Ok(())
 }

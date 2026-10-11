@@ -23,6 +23,25 @@ design, and delivery authorities without introducing another registry.
 
 ## Engineering policy
 
+Current adoption uses schema 4 and engineering policy 2, requiring
+`engineering.assessment.v2`. Use `policy explain --engineering 2` and read-only
+`policy preview --engineering 2` to inspect the exact definition. The mandatory
+baseline remains independent of additional standards. `assurance.standards`
+selects exact supported mappings in `guidance`, `assess` or `require` mode;
+assessment/required modes name their stages. Preserve those choices and report
+outside-stage results as not assessed, never passed. Derived or partial mappings
+cannot establish full conformance. Organization controls are additive pinned
+definitions under layout 3's `.opdev/policies/`, not scripts or a network policy
+loader. They reuse current accepted conditions and actual stage checks.
+
+Use the original decision authority for policy changes. Do not remove a control,
+change its applicability or substitute a new owner to make verification pass.
+Existing adequate tools remain valid. Policy 2 requires exercised safe recovery
+including state and external effects; MinimumCD's literal rollback assessment is
+separate. Unknown impact during a trunk failure is not proven independence.
+Feedback iteration uses focused checks; integration still needs its required gates.
+Tooling/guidance updates never select these policies or authorize release.
+
 Project schema 3 explicitly selects `assurance.engineering.version: "1"` and an
 actual developer decision reference. Require CLI capability `engineering.assessment.v1`
 locally and in CI before migration; older contracts keep their original policy.
@@ -100,6 +119,12 @@ of useful content. Remove a legacy ledger through reviewed storage migration,
 not merely to make a structural check pass. Storage 2 requires no retained archive;
 temporary rollback protection is retired after verification. Storage 1 retains
 its existing archive obligations.
+
+Layout 2 additionally owns the bounded requirements catalog. Current schema-4
+layout 3 retains these routes and permits only current selected regular JSON
+organization definitions in `.opdev/policies/`; require `layout.enforcement.v3`.
+Neither namespace is for reports, old policy copies or task tracking. Both hosts
+still load the same shared guide, preserving unrelated root instructions.
 
 `layout format` previews deterministic configuration YAML and explicit
 `--apply <plan-id>` applies that unchanged reviewed diff. Comments/style may change;

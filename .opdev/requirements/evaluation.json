@@ -202,7 +202,7 @@
       "id": "V-policy-separation-1",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "297c570305902b22c2e7691a749b1305d003d0fa8a19673cb256c4d5bc748f60",
+        "sha256": "273df0ff4562aa241d7eae45e3f23c40a8198011661510309a84babc2d7067a0",
         "excerpt": "fn cli_reports_separate_assessment_without_claiming_verification("
       },
       "inputs": [
@@ -545,9 +545,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Library, CLI and service labels must not convert absent evidence into certification. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
-        "subject_sha256": "96257463fc8f9681bdb778a90c4f2017a2ded55ef02347a7c8f1111e1c7718f4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "2ff7ea0bd80b075d09c2f877bf1b4ce0d24b9df095f3946236dc821aa0fd6f49"
       }
     },
     {
@@ -565,9 +565,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Library, CLI and service labels must not convert absent evidence into certification. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
-        "subject_sha256": "0db0e4453483a0ba153d13d2aef2bacfe59a01fbf0345683c2c7876f177e3cb8"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "db4de8c6661b941fba7b1614e030ed73aabcca3bd800dcdf2c48fa6cb9ba24bf"
       }
     },
     {
@@ -585,9 +585,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Library, CLI and service labels must not convert absent evidence into certification. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 changes: original assertions and legacy semantics retained; explicit catalog4 support does not activate policy during preview. Updated changed source/input bindings; schema and acceptance paths remain under tests. The superseded catalog4 rejection expectation is replaced by explicit schema/version tests. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
-        "subject_sha256": "59f79abc64df410e599b81d75d87cca95f336be03e9059b4ca50501e9860416c"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "cfcd4f28c12abee458b2ac0b5c5a7e682a974d72fdc0461eb61be060715066c7"
       }
     },
     {

@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -449,7 +449,7 @@
       "id": "V-policy-enforcement-1",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "297c570305902b22c2e7691a749b1305d003d0fa8a19673cb256c4d5bc748f60",
+        "sha256": "273df0ff4562aa241d7eae45e3f23c40a8198011661510309a84babc2d7067a0",
         "excerpt": "fn policy_two_requires_explicit_schema_and_capabilities_without_claiming_execution"
       },
       "inputs": [
@@ -550,7 +550,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -665,7 +665,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -780,7 +780,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -895,7 +895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1010,7 +1010,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1125,7 +1125,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1240,7 +1240,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1400,7 +1400,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1560,7 +1560,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1720,7 +1720,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1880,7 +1880,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2040,7 +2040,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2360,7 +2360,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2520,7 +2520,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2680,7 +2680,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2840,7 +2840,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2995,7 +2995,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3155,7 +3155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3230,7 +3230,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3340,7 +3340,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3415,7 +3415,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3525,7 +3525,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3600,7 +3600,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3710,7 +3710,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3785,7 +3785,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3895,7 +3895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3970,7 +3970,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4080,7 +4080,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4155,7 +4155,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4265,7 +4265,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4340,7 +4340,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4450,7 +4450,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4525,7 +4525,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4635,7 +4635,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4710,7 +4710,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4820,7 +4820,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4895,7 +4895,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5005,7 +5005,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5080,7 +5080,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5190,7 +5190,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5265,7 +5265,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5375,7 +5375,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "11f99ff64c52dd6c0721dbbb4e2814fbf54bf27e7404d89a49f98b946ff62876",
+          "sha256": "c847b9bbd3db27a9a0c80243fcd897c8879f44d77bb3b7002964292a38a40d04",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5450,7 +5450,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "283ba53fc89eff127179dac75c81f2ab0fc02a5ad0a19869ff28a118137f0194",
+          "sha256": "2438f231ffb1f4d48f51f7c4e3ca5ef33b75438737a420af320d7bce278daceb",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5497,9 +5497,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing exact baseline resolution and non-mutating preview assertions retained. Organization inspection exposes pins without policy selection, command execution or approval; pure definition inspection and staged selected snapshot have distinct purposes. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "f9e70d37b52867e1b55fb8b75523147a7934fe917715c97ea7764fa216a8b5c8"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "66d476da6b3378f76a58c079bd4114eb2a809792f8b5b2346dc2f04210d00427"
       }
     },
     {
@@ -5537,9 +5537,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing exact baseline resolution and non-mutating preview assertions retained. Organization inspection exposes pins without policy selection, command execution or approval; pure definition inspection and staged selected snapshot have distinct purposes. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "ebc4402a792c2629d14e0ee22abf470a714a872d83ccdca32777b631ef522867"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "5d4ad57b5157abc96ab32ff611c97ff985d9122ab3e53eb80a4df08b6ae02008"
       }
     },
     {
@@ -5577,9 +5577,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing exact baseline resolution and non-mutating preview assertions retained. Organization inspection exposes pins without policy selection, command execution or approval; pure definition inspection and staged selected snapshot have distinct purposes. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "07e6e15db9f88e38f29d28dc31916708594293515054dbcf1c24cdaf4479e8dc"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "007ded05745cad434025b8868f49eda23708caa644c1c9227946aad34912f53c"
       }
     },
     {
@@ -5622,9 +5622,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing replacement-control, recovery, capability and current source/stage duties remain. Shared verification helpers retain their accepted-current-execution precondition; organization checks only add blockers and cannot rewrite core outcomes. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "25a684156b6ef8ab2138e02561da4f35ae06c97fb5b712bceb09ba77a5fb8954"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "2a0c39f1a5a9c8682025c18aefcb89e93db467b576024bf75f7650d8ae949164"
       }
     },
     {
@@ -5667,9 +5667,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing replacement-control, recovery, capability and current source/stage duties remain. Shared verification helpers retain their accepted-current-execution precondition; organization checks only add blockers and cannot rewrite core outcomes. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "0a8e4a8485c537eee54223fe1ae137dd59d4a73353caed3ce204f5fb97892fa7"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "986b5a1efdff4d0eedbbbf38f5b3344844e6e85f39359a2388b3626162c0804b"
       }
     },
     {
@@ -5712,9 +5712,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing replacement-control, recovery, capability and current source/stage duties remain. Shared verification helpers retain their accepted-current-execution precondition; organization checks only add blockers and cannot rewrite core outcomes. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "47cc6b748c76751d3c8161c82c3d9dafb82ebc0285d17b4dc3baefea53da7cd4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "6f6f9ae3275040b0c2f7a45d6d46127bf4c6bdb54557948c3ee77686a8519512"
       }
     },
     {
@@ -5787,9 +5787,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing exact standard modes, boundary selection, failure preservation and incomplete-mapping claims remain unchanged. Added organization input uses a separate bounded path and shared current execution, not new standard conformance or duplicate suites. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "09b3b4cb579b14b153af2123aa5ae16d3df0cb81065316eb6999076f2159cf18"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "b1ca8f869510269b16c76e46cd44af67748544a613ff8badd2b6cc5ce09c8573"
       }
     },
     {
@@ -5862,9 +5862,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing exact standard modes, boundary selection, failure preservation and incomplete-mapping claims remain unchanged. Added organization input uses a separate bounded path and shared current execution, not new standard conformance or duplicate suites. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "df04b41590e4e38e00566fa75c13483a19368f6e72379bba8404c7d487aca3db"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "23af8dee6a49e9f2a41934f8a2fcba9e4fab2f5edc828303921cb4843e305c6f"
       }
     },
     {
@@ -5937,9 +5937,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "Existing exact standard modes, boundary selection, failure preservation and incomplete-mapping claims remain unchanged. Added organization input uses a separate bounded path and shared current execution, not new standard conformance or duplicate suites. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "7589716bdd6f78ec95847a4ed82b3e072436180e2dae0155b584797f40ece43c"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "7e6ae6e58291f3bb15f0d20f899435c78095567011f7f91149b514f19da535a5"
       }
     },
     {
@@ -6017,9 +6017,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "All thirteen required targets reviewed against actual outcomes, negative and boundary assertions: bounded canonical definitions, typed applicability, immutable staged/current sources, current review identity, real no-execution and positive execution, and mandatory same-stage extension results. These are mechanism tests, not organizational certification or live utility claims. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "d01fb02b9479f669fd367cc5b74dbd6958e4d0223841f8cde45104dcc162cf83"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "ad1f0561159c0ae14c51b23e1758e6a7f0d4219c26658fb205a267f0a1318b22"
       }
     },
     {
@@ -6097,9 +6097,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "All thirteen required targets reviewed against actual outcomes, negative and boundary assertions: bounded canonical definitions, typed applicability, immutable staged/current sources, current review identity, real no-execution and positive execution, and mandatory same-stage extension results. These are mechanism tests, not organizational certification or live utility claims. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "f09903cde681620597c31868f50c030ed5140643e8d94599e246febd08a1a347"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "1c5b257a5981d8ceb52d39ccf6ebbbe26583ecfaaf23a420ec172bb027928c01"
       }
     },
     {
@@ -6177,9 +6177,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/110#note_3991970252",
-        "rationale": "All thirteen required targets reviewed against actual outcomes, negative and boundary assertions: bounded canonical definitions, typed applicability, immutable staged/current sources, current review identity, real no-execution and positive execution, and mandatory same-stage extension results. These are mechanism tests, not organizational certification or live utility claims. Canonical verification at this stage remains required; no developer consent or execution is inferred from this review.",
-        "subject_sha256": "86b447ff193e5f500616ed31e9218da423b998045baf5cb09b1dfcb2b6cd945e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/111#note_3992013655",
+        "rationale": "Reviewed unchanged guarantees and actual retained assertions against the changed adoption/dispatch/schema/doc inputs. Current target expectations deliberately move to clean3; historical diagnostic paths remain explicit and unchanged. Existing policy baseline, additive standards and organization enforcement tests retain their positive/negative assertions. No statement, required test or stage removed; this source-bound adequacy judgment does not establish execution, consent or live agent utility.",
+        "subject_sha256": "b4421c33e6b9fc198d2b24e6ba6b3908110fb33882790a0264705de8ac6ad6f3"
       }
     }
   ]

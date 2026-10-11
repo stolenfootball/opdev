@@ -178,7 +178,7 @@ pub(super) fn validate_ci(
     Ok(())
 }
 
-pub(super) fn collect(plan: &mut Plan, plugin: Option<&Path>) -> Result<()> {
+pub(super) fn collect(plan: &mut Plan, plugin: Option<&Path>, layout: u32) -> Result<()> {
     plan.inputs = namespace(&plan.root)?;
     for path in [
         "AGENTS.md",
@@ -192,13 +192,20 @@ pub(super) fn collect(plan: &mut Plan, plugin: Option<&Path>) -> Result<()> {
         plan.inputs
             .insert(path.into(), read(&plan.root.join(path))?.map(|b| sha(&b)));
     }
-    for finding in
-        opdev_project::layout::inspect(&plan.root, 1, opdev_project::layout::Scope::WorkingTree)?
-            .findings
+    for finding in opdev_project::layout::inspect(
+        &plan.root,
+        layout,
+        opdev_project::layout::Scope::WorkingTree,
+    )?
+    .findings
     {
         // These exact owned targets are replaced/retired by the coordinated plan.
         // Every other structural/content-ownership finding remains blocking.
         if !plan.cleanup.iter().any(|a| a.path == finding.path)
+            && !plan
+                .changes
+                .iter()
+                .any(|c| c.path == finding.path && c.after.is_some())
             && !matches!(
                 finding.path.as_str(),
                 ".opdev/project.yaml"

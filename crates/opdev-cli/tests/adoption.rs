@@ -40,7 +40,7 @@ fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_poli
             String::from_utf8_lossy(&plan.stderr)
         );
         let value: Value = serde_json::from_slice(&plan.stdout)?;
-        assert_eq!(value["target"], "clean-2");
+        assert_eq!(value["target"], "clean-3");
         assert_eq!(value["starting_state"], "uninitialized_project");
         assert!(value["plan_id"].is_null());
         assert!(value["required_migrations"].as_array().ok_or("gaps")?.len() >= 4);
@@ -64,7 +64,7 @@ fn default_completion_rejects_otherwise_passing_legacy_policy_without_running_ch
     assert_eq!(output.status.code(), Some(1));
     let value: Value = serde_json::from_slice(&output.stdout)?;
     assert_eq!(value["complete"], false);
-    assert_eq!(value["target"], "clean-2");
+    assert_eq!(value["target"], "clean-3");
     assert!(value["legacy_policy_passed"].is_null());
     assert!(value["core_report"].is_null());
     assert!(value["blockers"].to_string().contains("engineering policy"));
@@ -85,21 +85,25 @@ fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools
     let repo = repo()?;
     let root = repo.path();
     let mut manifest = discover(root)?.manifest;
-    manifest.schema = 3;
+    manifest.schema = 4;
     manifest
         .assurance
         .profiles
         .retain(|p| p.name != "opdev-core");
     manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
-        version: "1".into(),
+        version: "2".into(),
         minimumcd: None,
         review_reference: "synthetic actual choice".into(),
         maintenance_branches: vec![],
     });
     manifest.layout = Some(opdev_project::LayoutPolicy {
-        version: 1,
+        version: 3,
         review_reference: "synthetic actual choice".into(),
     });
+    manifest.assurance.requirements = Some(serde_json::from_value(serde_json::json!({
+        "version":1,"review_reference":"synthetic actual choice",
+        "configurations":{"default":["pre_merge","post_merge"]}
+    }))?);
     manifest.project.ci.provider = CiProvider::Gitlab;
     manifest.project.ci.remote = Some("https://gitlab.com/example/private-fixture.git".into());
     manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
@@ -138,6 +142,7 @@ fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools
     assert!(!root.join(EVIDENCE_PATH).exists());
     let record = AdoptionRecord::load(root)?.ok_or("record")?;
     assert_eq!(record.catalog_version, 2);
+    assert_eq!(record.clean_target.as_ref().ok_or("target")?.version, 3);
     assert!(record.review.is_none());
     assert!(
         record

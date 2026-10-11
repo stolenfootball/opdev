@@ -248,6 +248,7 @@ fn inspect(args: &DoctorArgs) -> Report {
                 "adoption.preflight.v1",
                 "ci.qualify.v1",
                 "adoption.clean-target.v2",
+                "adoption.clean-target.v3",
                 "layout.enforcement.v1",
                 "upgrade.coordinated-migration.v1",
                 "acceptance.safeguards.v1",

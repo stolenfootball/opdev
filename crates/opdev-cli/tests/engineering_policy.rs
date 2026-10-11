@@ -247,6 +247,63 @@ fn migration_preview_is_read_only_and_preserves_unrelated_policy() -> TestResult
 }
 
 #[test]
+fn policy_two_preview_requires_explicit_legacy_choice_and_preserves_standard_boundaries()
+-> TestResult {
+    let dir = fixture()?;
+    let root = dir.path();
+    let before = fs::read(root.join(MANIFEST_PATH))?;
+    let args = [
+        "upgrade",
+        "--engineering-policy",
+        "2",
+        "--policy-review-reference",
+        "fixture actual decision",
+        "--format",
+        "json",
+    ];
+    let missing = cli(root, &args)?;
+    assert_eq!(missing.status.code(), Some(2));
+    assert!(String::from_utf8(missing.stderr)?.contains("explicitly choose"));
+    assert_eq!(fs::read(root.join(MANIFEST_PATH))?, before);
+    // The shortcut must not silently discard a selected mode or boundary.
+    let mut manifest = ProjectManifest::load(&root.join(MANIFEST_PATH))?;
+    manifest.schema = 4;
+    manifest
+        .assurance
+        .profiles
+        .retain(|p| p.name != "opdev-core");
+    manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "2".into(),
+        minimumcd: None,
+        review_reference: "fixture original decision".into(),
+        maintenance_branches: vec![],
+    });
+    manifest.assurance.safeguards = Some(serde_json::from_value(
+        serde_json::json!({"version":1,"review_reference":"fixture capability decision","capabilities":{}}),
+    )?);
+    manifest.assurance.standards = serde_json::from_value(
+        serde_json::json!([{"name":"minimumcd","version":"1","mode":"require","stages":["delivery"]}]),
+    )?;
+    fs::write(root.join(MANIFEST_PATH), manifest.to_yaml()?)?;
+    let current = fs::read(root.join(MANIFEST_PATH))?;
+    let preserved = cli(root, &args)?;
+    assert!(
+        preserved.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preserved.stderr)
+    );
+    let preview: Value = serde_json::from_slice(&preserved.stdout)?;
+    let candidate =
+        ProjectManifest::from_yaml(preview["candidate_yaml"].as_str().ok_or("candidate")?)?;
+    assert_eq!(candidate.assurance.standards, manifest.assurance.standards);
+    let mut removal = args.to_vec();
+    removal.extend(["--minimumcd-assessment", "none"]);
+    assert_eq!(cli(root, &removal)?.status.code(), Some(2));
+    assert_eq!(fs::read(root.join(MANIFEST_PATH))?, current);
+    Ok(())
+}
+
+#[test]
 fn cli_reports_separate_assessment_without_claiming_verification() -> TestResult {
     for kind in ["library", "cli", "service"] {
         let dir = fixture()?;
