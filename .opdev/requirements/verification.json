@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "spec/assurance-profiles.md",
-          "sha256": "98d93201e2987a3aa5b981540d8912da5715f0dbcf8c89c70ccccc35af55691f",
+          "sha256": "b76fd9bfdff23b70bcb2d2b756a74591db00e0ede401dff5b1825543f06f4ed1",
           "excerpt": "One real condition may cover several objectives when its actual assertions do;\nIDs/headings or one generic green suite are not semantic evidence. The evaluator\nrejects missing, contradictory or unknown mappings before calling acceptance\nsatisfied. It then uses the same source references, review and actual canonical\nexecution for the selected stage. Saved reports, another stage and broad rule\nassertions cannot substitute. Review-only mappings retain their specific automation\nlimitation and cannot excuse an available meaningful test or a known failed control.\nUnsupported fields/versions are errors, not a per-rule waiver mechanism."
         }
       },
@@ -336,9 +336,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "1640bdbc0d41d7e9a999e919daaeb6ee46e20657dda16dc76339f153eb88e600"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "d653a3707b91bad9756d6d76568cee299cbf3e1f470b40aa8ea97ea1413478ac"
       }
     },
     {
@@ -361,9 +361,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "8064b2dbf1c7836418ea14067aa524b0626c969325b5dc85479456273a6b0365"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "b3510261c11f472a0d4c6fc1cfb30f426f30d63b4345716646ba0fc886fb378b"
       }
     },
     {
@@ -386,9 +386,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/107#note_3991608995",
-        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim.",
-        "subject_sha256": "8e54704f207f5b3572f74d564721c17e50edbb989553267db947e7c5e3e4850e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/109#note_3991773874",
+        "rationale": "Reviewed the referenced assertions, inline fixtures and included inputs against this criterion. Seed a public behavior defect with a healthy baseline and separately omit its objective; expect failed versus unverified, not a generic green-suite pass. Suite-level adequacy only; current execution at this stage is separately required. Input-only review for #107: Cargo.lock adds only the opdev-core dependency edge to already-pinned sha2; no package/version/source, assertion/helper, selector or policy changed. Existing adequacy judgment retained with the current input subject, not a new execution claim. Reviewed Policy2 standards integration: original tests and legacy paths retain their assertions. Optional omitted fields preserve serialization; pure selection happens before execution, required projections remain additive, and standard modes do not change baseline membership. New tests cover command-count reuse, conflicting selection, bounded stage effects, incomplete mapping and report tampering. Refresh reflects reviewed changed schema/dispatch/aggregation inputs, not a qualification or consent claim.",
+        "subject_sha256": "2c7ef67917b5dc823646c9c47ee42c3d57cb1f9b59c675d920af733bde11bd22"
       }
     }
   ]

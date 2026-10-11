@@ -1132,18 +1132,6 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         );
     }
     let (root, manifest) = load_project(&args.root)?;
-    if args.require_minimumcd
-        && manifest
-            .assurance
-            .engineering
-            .as_ref()
-            .and_then(|p| p.minimumcd.as_ref())
-            .is_none()
-    {
-        bail!(
-            "MinimumCD assessment was not selected. Review an explicit engineering-policy migration before requiring its result; no checks ran."
-        );
-    }
     let mut options = if args.ci {
         CheckOptions::pre_merge()
     } else {
@@ -1158,6 +1146,11 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     if args.post_merge {
         options.test_stage = opdev_project::TestStage::PostMerge;
         options.extension_stage = opdev_project::ExtensionStage::PostMerge;
+    }
+    if args.require_minimumcd && !minimumcd_selected(&manifest, options.test_stage) {
+        bail!(
+            "MinimumCD assessment was not selected for this stage. Guidance is not an assessment; select assess or require at this boundary before requiring its result. No checks ran."
+        );
     }
     if args.plan {
         let plan = plan_checks(&root, &manifest, options);
@@ -1282,6 +1275,30 @@ fn present_check(args: &CheckArgs, report: &CheckReport) -> Result<()> {
     Ok(())
 }
 
+fn minimumcd_selected(manifest: &ProjectManifest, stage: opdev_project::TestStage) -> bool {
+    manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.minimumcd.is_some())
+        || manifest.assurance.standards.iter().any(|s| {
+            s.name == "minimumcd"
+                && s.mode != opdev_project::StandardMode::Guidance
+                && s.stages.contains(&stage)
+        })
+}
+
+fn minimumcd_result(report: &CheckReport) -> Option<&opdev_engine::FrameworkAssessment> {
+    let policy = report.engineering.as_ref()?;
+    policy.minimumcd.as_ref().or_else(|| {
+        policy
+            .standards
+            .iter()
+            .find(|s| s.selection.name == "minimumcd")
+            .and_then(|s| s.assessment.as_ref())
+    })
+}
+
 fn check_exit(args: &CheckArgs, report: &CheckReport) -> ExitCode {
     let gate = if args.delivery {
         Gate::Delivery
@@ -1292,11 +1309,7 @@ fn check_exit(args: &CheckArgs, report: &CheckReport) -> ExitCode {
     };
     if report.gate_passed(gate)
         && (!args.require_minimumcd
-            || report
-                .engineering
-                .as_ref()
-                .and_then(|p| p.minimumcd.as_ref())
-                .is_some_and(|a| a.verdict == AggregateVerdict::Passed))
+            || minimumcd_result(report).is_some_and(|a| a.verdict == AggregateVerdict::Passed))
     {
         ExitCode::SUCCESS
     } else {
@@ -1622,6 +1635,14 @@ fn print_gate_summary(report: &CheckReport) {
             }
             Gate::Integration => "merging into the main development branch",
             Gate::Delivery => "publishing or deploying the software",
+            Gate::Compliance
+                if report
+                    .engineering
+                    .as_ref()
+                    .is_some_and(|p| !p.standards.is_empty()) =>
+            {
+                "claiming this stage's engineering obligations are met; see each standard's separate assessment"
+            }
             Gate::Compliance if report.engineering.is_some() => {
                 "claiming the engineering baseline is met (MinimumCD is assessed separately)"
             }
@@ -1654,12 +1675,26 @@ fn print_gate_summary(report: &CheckReport) {
 
 fn print_assessments(report: &CheckReport) {
     if let Some(policy) = &report.engineering {
-        println!(
-            "Engineering baseline: version {}. Operational gates below assess this baseline, not MinimumCD.",
-            policy.version
-        );
+        if policy.standards.is_empty() {
+            println!(
+                "Engineering baseline: version {}. Operational gates below assess this baseline, not MinimumCD.",
+                policy.version
+            );
+        } else {
+            println!(
+                "Engineering baseline: version {}. Evaluated stage: {:?}. Required additional standards can also block this stage; other stages are not verified here.",
+                policy.version, policy.stage
+            );
+        }
         match &policy.minimumcd {
-            None => println!("MinimumCD assessment: not requested; no compliance claim."),
+            None if !policy
+                .standards
+                .iter()
+                .any(|s| s.selection.name == "minimumcd") =>
+            {
+                println!("MinimumCD assessment: not requested; no compliance claim.");
+            }
+            None => {}
             Some(assessment) => {
                 println!(
                     "MinimumCD assessment (mapping {}, source {}): {:?}",
@@ -1674,6 +1709,34 @@ fn print_assessments(report: &CheckReport) {
                             requirement.blocking_rules.join(", ")
                         );
                     }
+                }
+            }
+        }
+        for standard in &policy.standards {
+            println!(
+                "Standard {}@{} ({:?}): {}",
+                standard.selection.name,
+                standard.selection.version,
+                standard.selection.mode,
+                standard.diagnostic
+            );
+            println!("  Scope: {}", standard.claim);
+            if let Some(assessment) = &standard.assessment {
+                println!(
+                    "  Assessment: {:?}; complete mapping: {}",
+                    assessment.verdict, standard.complete_mapping
+                );
+                for r in assessment
+                    .requirements
+                    .iter()
+                    .filter(|r| !r.outcome.satisfies_required_rule())
+                {
+                    println!(
+                        "  {}: {:?}; evidence needed: {}",
+                        r.id,
+                        r.outcome,
+                        r.blocking_rules.join(", ")
+                    );
                 }
             }
         }

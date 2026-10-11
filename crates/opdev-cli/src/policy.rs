@@ -46,6 +46,8 @@ struct Preview {
     current_catalog: u32,
     current_engineering: Option<String>,
     current_minimumcd: Option<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    current_standards: Vec<opdev_project::ResolvedStandard>,
     added_engineering: Vec<String>,
     removed_engineering: Vec<String>,
     changed_engineering: Vec<String>,
@@ -121,6 +123,12 @@ pub(super) fn run(args: &PolicyArgs) -> Result<ExitCode> {
                 current_catalog: project.catalog()?.catalog_version,
                 current_engineering: current.map(|p| p.version.clone()),
                 current_minimumcd: current.and_then(|p| p.minimumcd.clone()),
+                current_standards: project
+                    .assurance
+                    .standards
+                    .iter()
+                    .map(opdev_project::StandardSelection::resolve)
+                    .collect::<Result<_, _>>()?,
                 added_engineering,
                 removed_engineering,
                 changed_engineering,
@@ -130,21 +138,7 @@ pub(super) fn run(args: &PolicyArgs) -> Result<ExitCode> {
             if matches!(format, OutputFormat::Json) {
                 println!("{}", serde_json::to_string_pretty(&preview)?);
             } else {
-                println!(
-                    "Current project schema {}, catalog {}, engineering {:?}, MinimumCD {:?}",
-                    preview.current_project_schema,
-                    preview.current_catalog,
-                    preview.current_engineering,
-                    preview.current_minimumcd
-                );
-                print_resolution(&preview.proposed);
-                println!(
-                    "Compared with this project's engineering obligations:\nAdded: {:?}\nRemoved: {:?}\nChanged: {:?}",
-                    preview.added_engineering,
-                    preview.removed_engineering,
-                    preview.changed_engineering
-                );
-                println!("{}", preview.limits);
+                print_preview(&preview);
             }
         }
     }
@@ -169,6 +163,36 @@ fn print_resolution(policy: &PolicyResolution) {
         );
     }
     println!("{}", policy.limits);
+}
+
+fn print_preview(preview: &Preview) {
+    println!(
+        "Current project schema {}, catalog {}, engineering {:?}, MinimumCD {:?}",
+        preview.current_project_schema,
+        preview.current_catalog,
+        preview.current_engineering,
+        preview.current_minimumcd
+    );
+    print_resolution(&preview.proposed);
+    print_standards(&preview.current_standards);
+    println!(
+        "Compared with this project's engineering obligations:\nAdded: {:?}\nRemoved: {:?}\nChanged: {:?}",
+        preview.added_engineering, preview.removed_engineering, preview.changed_engineering
+    );
+    println!("{}", preview.limits);
+}
+
+fn print_standards(standards: &[opdev_project::ResolvedStandard]) {
+    for standard in standards {
+        println!(
+            "Unchanged standard selection {}@{}: {:?}, stages {:?}; definition {}. Mapping only, no assessment verdict.",
+            standard.selection.name,
+            standard.selection.version,
+            standard.selection.mode,
+            standard.selection.stages,
+            standard.definition_sha256
+        );
+    }
 }
 
 fn difference(

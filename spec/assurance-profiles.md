@@ -32,6 +32,60 @@ introduced as a new profile document and reviewed like a schema migration. Old
 profiles remain stable for reproducibility until a future compatibility policy
 explicitly removes them.
 
+## Explicit additional standards in engineering policy 2
+
+Project schema 4 can select up to 16 unique additional mappings through
+`assurance.standards`. Each entry contains exact `name`, `version`, `mode`, an
+optional supported `level`, and explicit `stages` for assessment/enforcement.
+`guidance` has no stages and never an assessment verdict. `assess` and `require`
+have nonempty, unique supported stages. No default all-stage enforcement is inferred.
+Normative `opdev-core` is not selectable here; the engineering baseline cannot
+be removed, replaced or weakened by additional standards. Legacy schema-3 policy
+and informative profile semantics remain unchanged. Conflicting duplicates,
+including the legacy MinimumCD shortcut, fail before command execution.
+
+Resolution is bounded, pure and offline. The standard definition SHA-256 covers
+the exact mapping, identity, level, mode and canonically ordered stage set.
+Reordering equivalent stages preserves identity; changing enforcement does not.
+This identity does not authenticate a developer decision. Existing policy-change
+authority must approve material changes, including removal of optional standards;
+the candidate policy cannot authorize its own weakening.
+
+Schema-3 reports carry `engineering.standards`: exact selection, definition
+digest, upstream source, original claim, complete-mapping flag, diagnostic and
+an optional assessment. Guidance and an unselected current stage omit assessment;
+neither is represented as passing or not applicable. At a selected stage, the
+existing rule observations and current required command checks feed each mapping.
+Projection executes no command, provider request or evidence refresh. There is
+no per-standard execution plan or evidence ledger.
+
+An assessment passes only for a nonempty complete assessment mapping, all mapped
+clauses satisfied and no failing or missing required execution. Derived or
+evidence-format mappings cannot establish complete conformance. Partial/empty
+clauses remain unverified even with green contributing rules; known failures and
+errors remain distinguishable. A full mapped assessment is not certification.
+
+`assess` is independent and adds no gate check. `require` contributes a blocking
+policy check at the actual selected boundary: local to development, pre-merge to
+integration, post-merge to integration/delivery, package/delivery/recovery to
+delivery, scheduled/evaluation to compliance. Projection is idempotent; generated
+standard checks cannot recursively block themselves or suppress existing suite
+or extension failures. Outside the selected stage no assessment or later-readiness
+claim is made. Baseline gates continue to apply regardless of standard results.
+
+`check --require-minimumcd` accepts either the legacy explicit shortcut or a
+non-guidance MinimumCD selection covering this invocation's stage. Otherwise it
+errors before running commands. It requires both the requested operational gate
+and the independent assessment, not one in place of the other.
+
+Rationale: reuse the existing exact profile catalog and six evidence outcomes,
+rather than adding tool-specific assessors, inferred compliance or repeated suite
+execution. Bounded stage selection avoids making release-wide assurance a
+prerequisite for every feedback edit. The intentionally conservative tradeoff is
+that incomplete mappings cannot be selected as a route to full conformance.
+Expand a mapping with reviewed authoritative scope and evidence semantics before
+claiming more, rather than allowing a custom success override.
+
 ## Engineering policy 1
 
 Project schema 3 explicitly selects `assurance.engineering.version: "1"` and

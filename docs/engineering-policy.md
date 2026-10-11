@@ -92,11 +92,60 @@ external obligations: the selected standard's exact mapping determines those.
 For example, MinimumCD mapping 1 uses `MCD-RECOVERY-002` for literal rollback,
 not the older, broader `MCD-RECOVERY-001` recovery statement.
 
-The policy design supports `guidance` (no conformance verdict), `assess` (separate
-nonblocking assessment), and `require` (additional blocking requirements at their
-selected boundaries). Those choices cannot weaken the baseline. Existing derived
-SSDF/OSPS/SLSA mappings are not full certifications. Organization definitions are
-intended to be constrained, pinned and additive, not scripts or an exception list.
+## Choosing additional standards
+
+A CLI advertising `policy.standards.v1` supports `assurance.standards` in a
+schema-4 project. The existing `assurance.profiles` list remains informative;
+upgrading the CLI does not convert that list into enforced requirements.
+
+| Mode | What the check does |
+| --- | --- |
+| `guidance` | Shows the pinned mapping and its limits. No conformance verdict. Omit `stages`. |
+| `assess` | Reports a separate assessment at the selected stages without adding a gate blocker. |
+| `require` | Adds a required check at each selected stage. A missing, failing or incomplete assessment blocks that boundary. |
+
+For example, these are selections to place under the existing `assurance` object
+after the developer reviews them, not a complete project contract:
+
+```yaml
+standards:
+  - name: nist-ssdf-derived
+    version: "1.1"
+    mode: guidance
+  - name: minimumcd
+    version: "1"
+    mode: require
+    stages: [delivery]
+```
+
+This example makes MinimumCD required for delivery qualification, not for every
+local feedback check. It does not relax OpDev's integration or delivery baseline.
+Outside a selected stage the standard says **not assessed**, not passed. Select
+the boundaries required by the actual project or organizational policy; an agent
+must not remove a requirement merely to get a green result.
+
+Pin exact supported names, versions and optional levels. Unknown versions,
+duplicate selections and selecting MinimumCD both here and through the legacy
+`assurance.engineering.minimumcd` shortcut are errors before project commands run.
+`check --require-minimumcd` can additionally require a selected MinimumCD
+assessment for the current invocation's exit code; guidance or an assessment
+selected only at a different stage does not satisfy that flag.
+
+All assessments reuse this check's existing rule findings and command results.
+Selecting three standards does not run a suite three times. Their definition
+digests bind the selected mode, boundaries, level and embedded mapping. These are
+identities, not evidence, permissions or reusable execution results. The report
+retains the actual upstream source, mapping limitations and missing clauses.
+
+MinimumCD mapping 1 covers its complete pinned manifesto. The derived SSDF/OSPS
+and SLSA/CycloneDX evidence-format mappings do **not** establish full conformance,
+even if all contributing checks pass. Selecting one of those as `require` leaves
+its complete-conformance check unresolved; use guidance or assessment for those
+limited mappings rather than calling a subset a certification. OpDev does not
+claim third-party certification for any standard.
+
+Organization definitions are a separate policy mechanism, not arbitrary external
+scripts, an automatic download or a per-rule exception list.
 
 For exact semantics, rationale, compatibility and evidence responsibilities, see
 the [engineering policy specification](../spec/engineering-policy.md). Existing
