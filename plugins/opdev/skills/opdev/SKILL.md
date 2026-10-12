@@ -177,6 +177,13 @@ record opt-in, ownership, review, tests, and cleanup at the existing work author
 
 ## Preserve the core
 
+With explicit engineering policy 3 and the matching CLI capability, use the
+[versioned policy guidance](references/project-contract.md#engineering-policy).
+Review is agentic by default, including a distinct pass by the implementing agent;
+no routine human sign-off or automatic delegation is required. Follow the testing
+and acceptance references for the new safeguards, while retaining actual developer
+authority over material choices and releases. New guidance does not migrate policy.
+
 Read the project's actual policy before interpreting compliance. With explicit
 project schema 3 and CLI capability `engineering.assessment.v1`, follow the
 [engineering policy guidance](references/project-contract.md#engineering-policy).

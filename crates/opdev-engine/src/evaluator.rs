@@ -193,6 +193,7 @@ fn aggregate_evaluation(
 ) -> Result<CheckReport, EvaluationError> {
     let mut report = CheckReport {
         schema: match engineering.as_ref().map(|p| p.version.as_str()) {
+            Some("3") => 4,
             Some("2") => 3,
             Some(_) => 2,
             None => 1,
@@ -244,10 +245,10 @@ fn evaluate_inner(
                 .assurance
                 .engineering
                 .as_ref()
-                .is_none_or(|p| p.version != "2")
+                .is_none_or(|p| !matches!(p.version.as_str(), "2" | "3"))
         {
             return Err(EvaluationError::Report(
-                "Organization policy needs schema 4 and engineering policy 2; no checks ran."
+                "Organization policy needs schema 4 and engineering policy 2 or 3; no checks ran."
                     .into(),
             ));
         }
@@ -377,6 +378,18 @@ fn evaluate_inner(
         acceptance_outcome,
         options.test_stage,
     );
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.version == "3")
+    {
+        crate::policy_controls::qualify_review(
+            &mut rules,
+            acceptance_fingerprint.and_then(|f| acceptance_ledger.as_ref()?.matching_change(f)),
+            acceptance_outcome,
+        );
+    }
     if let Some(snapshot) = organization {
         let additional = crate::organization_controls::qualify(
             root,
@@ -394,7 +407,7 @@ fn evaluate_inner(
         .assurance
         .engineering
         .as_ref()
-        .is_some_and(|p| p.version == "2")
+        .is_some_and(|p| matches!(p.version.as_str(), "2" | "3"))
     {
         crate::delivery_subject::qualify(
             &mut rules,
@@ -513,14 +526,67 @@ fn qualify_test_execution(
     stage: TestStage,
     acceptance: Outcome,
 ) {
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.version == "3")
+    {
+        qualify_execution_rule(
+            rules,
+            checks,
+            manifest,
+            stage,
+            acceptance,
+            "OPDEV-VERIFY-001",
+        );
+    }
     let id = match stage {
         TestStage::PreMerge => "MCD-TEST-001",
         TestStage::PostMerge => "MCD-TEST-002",
         _ => return,
     };
+    qualify_execution_rule(rules, checks, manifest, stage, acceptance, id);
+}
+
+fn qualify_execution_rule(
+    rules: &mut [RuleResult],
+    checks: &[CheckResult],
+    manifest: &ProjectManifest,
+    stage: TestStage,
+    acceptance: Outcome,
+    id: &str,
+) {
     let Some(rule) = rules.iter_mut().find(|r| r.rule_id.as_str() == id) else {
         return;
     };
+    if id == "MCD-TEST-002"
+        && checks.iter().any(|c| {
+            c.evidence
+                .iter()
+                .any(|e| e.kind == "native_candidate_execution")
+        })
+    {
+        if !matches!(
+            rule.outcome,
+            Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+        ) {
+            rule.outcome = Outcome::Unverified;
+            rule.diagnostic = Some("Equivalent native candidate verification is not literal post-merge execution. It cannot establish this separately selected MinimumCD obligation.".into());
+        }
+        return;
+    }
+    if id == "MCD-TEST-001"
+        && manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .is_some_and(|p| p.version == "3")
+        && rule.outcome == Outcome::Unverified
+    {
+        rule.diagnostic = Some("Engineering verification does not establish MinimumCD's separate deterministic-test obligation. Review that exact standard requirement; controlled statistical results alone cannot establish conformance.".into());
+        return;
+    }
     if matches!(
         rule.outcome,
         Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
@@ -733,6 +799,7 @@ pub fn reaggregate(report: &mut CheckReport) -> Result<(), EvaluationError> {
         None => (1, 2),
         Some("1") => (2, 3),
         Some("2") => (3, 4),
+        Some("3") => (4, 5),
         _ => {
             return Err(EvaluationError::Report(
                 "Unsupported engineering policy identity".into(),
@@ -745,8 +812,8 @@ pub fn reaggregate(report: &mut CheckReport) -> Result<(), EvaluationError> {
         ));
     }
     if let Some(policy) = &report.engineering {
-        if policy.version == "2" {
-            let definition = opdev_core::resolve_engineering_policy("2")?;
+        if matches!(policy.version.as_str(), "2" | "3") {
+            let definition = opdev_core::resolve_engineering_policy(&policy.version)?;
             if policy.definition_sha256.as_deref() != Some(definition.definition_sha256.as_str())
                 || policy.stage.is_none()
             {
@@ -1327,6 +1394,77 @@ mod tests {
     };
 
     #[test]
+    fn candidate_reuse_never_claims_literal_post_merge_standard_execution()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        let manifest = manifest();
+        let mut report = evaluate(
+            root.path(),
+            &manifest,
+            CheckOptions {
+                execute_checks: false,
+                ..CheckOptions::pre_merge()
+            },
+        )?;
+        let check = CheckResult {
+            id: "unit".into(),
+            kind: CheckKind::Suite,
+            blocking: true,
+            gates: gates_for_test_stage(TestStage::PostMerge),
+            outcome: Outcome::Passed,
+            summary: "Equivalent earlier source execution".into(),
+            evidence: vec![Evidence {
+                kind: "native_candidate_execution".into(),
+                summary: "Earlier native run".into(),
+                location: None,
+            }],
+            stdout: None,
+            stderr: None,
+            duration_ms: Some(1),
+        };
+        for before in [
+            Outcome::Passed,
+            Outcome::NotApplicable,
+            Outcome::Unverified,
+            Outcome::Failed,
+            Outcome::Error,
+            Outcome::MigrationRequired,
+        ] {
+            report
+                .rules
+                .iter_mut()
+                .find(|r| r.rule_id.as_str() == "MCD-TEST-002")
+                .ok_or("missing rule")?
+                .outcome = before;
+            qualify_execution_rule(
+                &mut report.rules,
+                std::slice::from_ref(&check),
+                &manifest,
+                TestStage::PostMerge,
+                Outcome::Passed,
+                "MCD-TEST-002",
+            );
+            let actual = report
+                .rules
+                .iter()
+                .find(|r| r.rule_id.as_str() == "MCD-TEST-002")
+                .ok_or("missing rule")?;
+            assert_eq!(
+                actual.outcome,
+                if matches!(
+                    before,
+                    Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+                ) {
+                    before
+                } else {
+                    Outcome::Unverified
+                }
+            );
+        }
+        Ok(())
+    }
+
+    #[test]
     fn post_merge_checks_block_integration_without_importing_delivery_rules()
     -> Result<(), Box<dyn std::error::Error>> {
         let root = tempfile::tempdir()?;
@@ -1804,6 +1942,7 @@ mod tests {
         let revision = crate::test_execution::clean_revision(root.path())?;
         let policy = crate::ExecutionPolicy {
             schema: 1,
+            candidate_reuse: None,
             review_reference: "neutral controlled test fixture".into(),
             inputs_complete: true,
             ledger_is_input: false,

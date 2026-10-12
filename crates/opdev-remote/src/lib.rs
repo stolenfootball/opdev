@@ -16,6 +16,8 @@ mod jobs;
 pub use jobs::{JobObservation, JobVerification, verify_run_with_jobs};
 mod producers;
 pub use producers::{ProducerSnapshot, observe_producers};
+mod candidate;
+pub use candidate::{CandidateSelection, IntegratedCandidate, observe_integrated_candidate};
 mod qualification;
 pub use qualification::{QualifiedTrunk, observe_qualification_policy, qualify_trunk};
 

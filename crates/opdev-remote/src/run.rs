@@ -12,6 +12,7 @@ use super::{
 
 /// Caller-selected identity, not an inferred project qualification policy.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct RunExpectation {
     /// Full expected Git commit ID.
     pub revision: String,

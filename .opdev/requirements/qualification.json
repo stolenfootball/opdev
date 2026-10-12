@@ -106,7 +106,7 @@
       "id": "V-delivery-scope-2",
       "target": {
         "path": "crates/opdev-cli/src/adoption.rs",
-        "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+        "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
         "excerpt": "fn adoption_scope_preserves_delivery_gaps_and_rejects_other_blockers"
       },
       "inputs": [
@@ -136,7 +136,7 @@
       "id": "V-delivery-scope-3",
       "target": {
         "path": "crates/opdev-project/src/acceptance.rs",
-        "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+        "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
         "excerpt": "fn delivery_subject_is_material_and_malformed_identity_is_rejected"
       },
       "inputs": [
@@ -256,7 +256,7 @@
       "id": "V-fail-fast-1",
       "target": {
         "path": "crates/opdev-engine/src/evaluator.rs",
-        "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+        "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
         "excerpt": "fn fail_fast_keeps_unrun_checks_blocking_and_does_not_duplicate_successful_checks"
       },
       "inputs": [
@@ -332,10 +332,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "0703548af594348473d88b58438fa43ef918c1145a84f973515f50efa7898589",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "36b16b7c2e9e7a6d4c6edc5474dc6dc6807bae0d6ed5ded3100a7882d70ef504",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -362,10 +362,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "d7e3aa434c49b916ed0e7391ddf3e7261136323d0f1ae6191b4871e029d69e60",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "72a63d665bc30294a9bd448395a623e853d585a731b7f112a37b2a4f8418b666",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -392,10 +392,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "079200ff883fc4550e7c62bcf5cde4b2d53adbdf16b7acfb70ef108d03c99116",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "7de3f30917dc7557ad68ec1d68e01dca6c530805e2fb481ccbfe43a5c5fca5c6",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -507,10 +507,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
-        "subject_sha256": "6294ed2945aba203f2b8755759a35b383cb2b542421957be150e7b78959866d1",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "5a46e91ef0c7b35c43265e1a7d1eeff8e5946fa1f18a804d7f3a058e260fecec",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -532,10 +532,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
-        "subject_sha256": "63d82209c0816e6b466c141176140ecbd285ede5d281527941f24ed7ba96e67a",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "894b87d8f589dd07178fed0f368493323d2065fa8054569e50d6912fe1758194",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -557,10 +557,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed unchanged stage/execution guarantees and added CLI schema regression: default shape retained, opted-in flag schema-valid, neither preview executes. Focused check_plan tests and Clippy passed after documented corrections.",
-        "subject_sha256": "45859225e981e8518ee711fbc80adac26b547e01ddb735e24f2b63d5572c98d6",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994457922",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "3966d515b86469668c5fbffd2a517f28c53115a79448cc83141d44716537ff85",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     }

@@ -76,9 +76,9 @@ impl EngineeringAssessment {
         let mut assessment = Self::requested(policy.minimumcd.as_deref());
         assessment.standards = crate::standard_assessment::selected(policy, standards)?;
         assessment.version.clone_from(&policy.version);
-        if policy.version == "2" {
+        if matches!(policy.version.as_str(), "2" | "3") {
             assessment.definition_sha256 =
-                Some(opdev_core::resolve_engineering_policy("2")?.definition_sha256);
+                Some(opdev_core::resolve_engineering_policy(&policy.version)?.definition_sha256);
             assessment.stage = Some(stage);
         }
         Ok(assessment)

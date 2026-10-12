@@ -23,7 +23,21 @@ design, and delivery authorities without introducing another registry.
 
 ## Engineering policy
 
-Current adoption uses schema 4 and engineering policy 2, requiring
+Engineering policy 3 is an explicit schema-4 selection requiring
+`engineering.assessment.v3`, safeguards 2 (`acceptance.safeguards.v2`), adoption
+inventory 3 and clean-4 for completed adoption. Keep existing policies unchanged
+until an actual reviewed migration. Policy 3 adds controlled verification,
+agentic review and lifecycle duties; privacy is independent of persistent data,
+and operational/high-consequence safeguards follow actual capability. Use the
+testing and acceptance references for review and verification. An upgrade preview
+leaves new capability questions unknown and retains existing facts; do not mark
+them absent to obtain a pass. Code review does not need routine human intervention.
+Reuse existing authorities for support/platform, reporting, dependency ownership,
+compatibility/deprecation and end-of-support expectations; no new client document
+is mandatory. Exact external standards and release/delegation authority remain
+separate. Policy 3 support does not enable cross-stage execution reuse implicitly.
+
+Policy-2 adoption uses schema 4 and engineering policy 2, requiring
 `engineering.assessment.v2`. Use `policy explain --engineering 2` and read-only
 `policy preview --engineering 2` to inspect the exact definition. The mandatory
 baseline remains independent of additional standards. `assurance.standards`

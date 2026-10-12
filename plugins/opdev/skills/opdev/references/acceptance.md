@@ -57,6 +57,19 @@ second agent, new tool, universal extra suite or routine approval round.
 
 ## Record and review
 
+For engineering policy 3, agentic review is the default for solo-developer work.
+Before integration, perform a distinct requirement-led review pass over actual
+changed source, assertions, affected interfaces/failure paths, maintainability
+and documentation. The implementing agent may do this; no second agent or human
+sign-off is required. Do not spawn a reviewer without applicable delegation
+permission. Record concrete findings and limitations in the existing current
+change review, using `OPDEV-REVIEW-001` evidence of kind `review` with its actual
+reference. A general success assertion, historical project review or green suite
+does not establish this review. Increase depth for consequences and uncertainty;
+retain unresolved material findings instead of manufacturing confidence or consent.
+Ask only for genuinely unresolved material choices, not routine review approval.
+Selected stronger domain/organization duties still apply; OpDev is not certification.
+
 Use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback) without
 finalized evidence bindings when the next decision is about direction, not merge
 readiness. This is not an exception or a passed acceptance gate.

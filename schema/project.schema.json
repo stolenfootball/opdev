@@ -28,6 +28,9 @@
   "if": { "properties": { "schema": { "const": 1 } } },
   "then": { "properties": { "project": { "properties": { "ci": { "not": { "required": ["qualification"] } } } } } },
   "allOf": [
+    {"if":{"properties":{"assurance":{"required":["engineering"],"properties":{"engineering":{"properties":{"version":{"const":"3"}}}}}}},
+     "then":{"properties":{"assurance":{"required":["safeguards"],"properties":{"safeguards":{"properties":{"version":{"const":2}}}}}}},
+     "else":{"properties":{"assurance":{"properties":{"safeguards":{"properties":{"version":{"const":1},"capabilities":{"propertyNames":{"enum":["persistent_data","public_contract","distribution","security_boundary","operations","user_interface","effectiveness"]}}}}}}}}},
     {"if":{"properties":{"assurance":{"required":["organization_policies"]}}},
      "then":{"required":["layout"],"properties":{"schema":{"const":4},"layout":{"properties":{"version":{"const":3}}}}}},
     {"if":{"required":["layout"],"properties":{"layout":{"properties":{"version":{"const":3}}}}},"then":{"properties":{"schema":{"const":4}}}},
@@ -42,7 +45,7 @@
     { "if": { "properties": { "schema": { "const": 3 } } },
       "then": { "properties": { "assurance": { "properties": { "engineering": { "properties": { "version": { "const": "1" } } } } } } } },
     { "if": { "properties": { "schema": { "const": 4 } } },
-      "then": { "properties": { "assurance": { "required": ["safeguards"], "properties": { "engineering": { "properties": { "version": { "const": "2" } } } } } } } }
+      "then": { "properties": { "assurance": { "required": ["safeguards"], "properties": { "engineering": { "properties": { "version": { "enum": ["2", "3"] } } } } } } } }
   ],
   "$defs": {
     "organization_selection": {
@@ -281,12 +284,12 @@
           },
           "allOf": [{"if":{"properties":{"version":{"const":2}}},"then":{"required":["report_retention_days"]},"else":{"not":{"required":["report_retention_days"]}}}]
         },
-        "safeguards": {"type":"object","additionalProperties":false,"required":["version","review_reference","capabilities"],"properties":{"version":{"const":1},"review_reference":{"type":"string","minLength":1},"capabilities":{"type":"object","propertyNames":{"enum":["persistent_data","public_contract","distribution","security_boundary","operations","user_interface","effectiveness"]},"additionalProperties":{"type":"object","additionalProperties":false,"required":["state","rationale","authority"],"properties":{"state":{"enum":["present","absent","unknown"]},"rationale":{"type":"string","minLength":1},"authority":{"type":"string","minLength":1}}}}}},
+        "safeguards": {"type":"object","additionalProperties":false,"required":["version","review_reference","capabilities"],"properties":{"version":{"enum":[1,2]},"review_reference":{"type":"string","minLength":1},"capabilities":{"type":"object","propertyNames":{"enum":["persistent_data","public_contract","distribution","security_boundary","operations","user_interface","effectiveness","sensitive_data","high_consequence"]},"additionalProperties":{"type":"object","additionalProperties":false,"required":["state","rationale","authority"],"properties":{"state":{"enum":["present","absent","unknown"]},"rationale":{"type":"string","minLength":1},"authority":{"type":"string","minLength":1}}}}}},
         "engineering": {
           "type": "object", "additionalProperties": false,
           "required": ["version", "review_reference"],
           "properties": {
-            "version": { "enum": ["1", "2"] },
+            "version": { "enum": ["1", "2", "3"] },
             "minimumcd": { "const": "1" },
             "review_reference": { "type": "string", "minLength": 1 },
             "maintenance_branches": {

@@ -38,6 +38,25 @@ pub struct ExecutionPolicy {
     pub github_workflow_id: Option<u64>,
     /// Required suite-to-producer mappings; no command inference from job names.
     pub producers: Vec<ProducerPolicy>,
+    /// Explicit source-only cross-boundary policy; absent preserves schema-1 identity.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub candidate_reuse: Option<CandidateReusePolicy>,
+}
+
+/// Reviewed equivalence, not inferred from matching Git trees or suite names.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CandidateReusePolicy {
+    /// Actual decision reviewing each selected command and all its transitive inputs.
+    pub review_reference: String,
+    /// Only these source checks may replace equivalent post-merge execution.
+    pub suites: Vec<String>,
+    /// Review establishes independence from commit/ref/event/stage metadata.
+    pub commit_ref_stage_independent: bool,
+    /// No live environment, deployment or artifact-dependent qualification is reused.
+    pub source_only: bool,
+    /// Maximum trusted producer-record age, never an unbounded successful receipt.
+    pub maximum_age_seconds: u64,
 }
 
 /// One reviewed canonical suite producer in the pipeline.
@@ -103,9 +122,10 @@ impl ExecutionPolicy {
         Ok(policy)
     }
 
-    fn validate(&self) -> Result<()> {
+    pub(crate) fn validate(&self) -> Result<()> {
         ensure!(
-            self.schema == 1,
+            (self.schema == 1 && self.candidate_reuse.is_none())
+                || (self.schema == 2 && self.candidate_reuse.is_some()),
             "execution policy version is unsupported; keep fresh execution or use a compatible CLI"
         );
         ensure!(
@@ -143,6 +163,23 @@ impl ExecutionPolicy {
             ensure!(
                 valid_digest(&producer.executable_sha256),
                 "the reviewed canonical executable digest must contain exactly 64 hexadecimal characters"
+            );
+        }
+        if let Some(candidate) = &self.candidate_reuse {
+            ensure!(
+                !candidate.review_reference.trim().is_empty()
+                    && candidate.commit_ref_stage_independent
+                    && candidate.source_only
+                    && (1..=86_400).contains(&candidate.maximum_age_seconds)
+                    && !candidate.suites.is_empty()
+                    && candidate.suites.len() <= self.producers.len()
+                    && candidate.suites.iter().collect::<BTreeSet<_>>().len()
+                        == candidate.suites.len()
+                    && candidate
+                        .suites
+                        .iter()
+                        .all(|s| self.producers.iter().any(|p| &p.suite == s)),
+                "candidate reuse requires reviewed source-only, commit/ref/stage-independent suites and freshness between one second and one day; retain fresh execution for other checks"
             );
         }
         Ok(())
@@ -293,6 +330,7 @@ pub fn run_canonical_producer(
     );
     Ok(ExecutionRecord {
         schema: 1,
+        completed_at: None,
         binding: binding.clone(),
         inputs_unchanged: stable().unwrap_or(false),
         result,
@@ -353,6 +391,50 @@ mod tests {
         }
         let mut value = policy_value();
         value["producers"][0]["executable_sha256"] = "bad".into();
+        assert!(
+            serde_json::from_value::<ExecutionPolicy>(value)?
+                .validate()
+                .is_err()
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn candidate_equivalence_requires_explicit_bounded_source_only_policy()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let mut value = policy_value();
+        value["schema"] = 2.into();
+        assert!(
+            serde_json::from_value::<ExecutionPolicy>(value.clone())?
+                .validate()
+                .is_err()
+        );
+        value["candidate_reuse"] = serde_json::json!({"review_reference":"actual command and complete-input review", "suites":["unit"],
+            "source_only":true,"commit_ref_stage_independent":true,"maximum_age_seconds":3600});
+        serde_json::from_value::<ExecutionPolicy>(value.clone())?.validate()?;
+        let schema: serde_json::Value =
+            serde_json::from_str(include_str!("../../../schema/execution-policy.schema.json"))?;
+        assert!(jsonschema::is_valid(&schema, &value));
+        for (key, bad) in [
+            ("review_reference", serde_json::json!("")),
+            ("suites", serde_json::json!([])),
+            ("source_only", serde_json::json!(false)),
+            ("commit_ref_stage_independent", serde_json::json!(false)),
+            ("maximum_age_seconds", serde_json::json!(0)),
+            ("maximum_age_seconds", serde_json::json!(86401)),
+        ] {
+            let mut changed = value.clone();
+            changed["candidate_reuse"][key] = bad;
+            assert!(!jsonschema::is_valid(&schema, &changed), "{key}");
+            assert!(
+                serde_json::from_value::<ExecutionPolicy>(changed)?
+                    .validate()
+                    .is_err(),
+                "{key}"
+            );
+        }
+        value["schema"] = 1.into();
+        assert!(!jsonschema::is_valid(&schema, &value));
         assert!(
             serde_json::from_value::<ExecutionPolicy>(value)?
                 .validate()

@@ -17,9 +17,13 @@ agent-selected plan does not substitute for resolving material developer choices
 
 ## Validate recommendations before asking for approval
 
-Full adoption targets exact bundled `clean-3` on a CLI with `adoption.clean-target.v3`:
-project schema 4, engineering policy 2, layout 3, requirements catalog 1,
-MR/PR-native semantic-review storage 2, capability safeguards 1 and inventory 2.
+Recommend engineering policy 3 for a new policy decision, after verifying local
+and CI support. Its exact target is `clean-4` (`adoption.clean-target.v4`): project
+schema 4, engineering policy 3, layout 3, requirements catalog 1, MR/PR-native
+semantic-review storage 2, capability safeguards 2 and inventory 3. This is a
+proposal, never consent inferred from installing a newer tool. Existing explicitly
+selected policy 2 retains `clean-3` (`adoption.clean-target.v3`), safeguards 1 and
+inventory 2; do not restart or migrate it during ordinary work.
 Check local/plugin/CI capabilities. Review meaningful requirement/test mappings;
 an empty catalog is a gap, not successful adoption.
 Missing support is an upgrade gap, not permission to finish on legacy policy.
@@ -42,7 +46,9 @@ dependencies, reproducible setup and review are required outcomes, not optional
 tool preferences. Legacy inventory 1 stays unchanged until explicit migration.
 An existing codebase without an OpDev contract has no selected OpDev policy to
 preserve. Preserve its adequate tools and authorities, but present engineering
-policy 2 and the separate standards choices before initialization.
+policy 3 and the separate standards choices before initialization. If its runtime
+support is missing, explain the upgrade gap rather than choosing an older policy
+on the developer's behalf.
 Present target policy, separate MinimumCD assessment, storage ownership and
 material project choices for an actual response or bounded delegation. Older
 policy may be assessed diagnostically, but cannot count as current adoption.
@@ -58,6 +64,13 @@ decision authority; a candidate contract cannot authorize itself. Use current
 source-bound control mappings and real requirement verification. Do not turn
 guidance into required compliance, or silently drop a required standard.
 
+Policy 3 retains that separation and adds controlled verification, agentic review,
+lifecycle responsibility, transient sensitive-data handling, high-consequence
+assurance and operational objectives. Reuse existing adequate tests/docs; these
+are not new form or service requirements. An implementing agent's distinct review
+pass is sufficient by default, with honest limits; no human sign-off or second
+agent is mandatory. Material policy choices still belong to the developer.
+
 For empty projects, reuse the supplied design and ask grouped questions only for
 material unknowns: first useful outcome, language/runtime, supported platforms,
 interfaces and data/security needs. Research unresolved gaps, recommend suitable
@@ -72,7 +85,7 @@ references, not filenames. Classify material groups as retain verified adequate
 content, migrate/consolidate useful content, retire obsolete active content,
 temporary migration recovery needs, or unresolved. Put reasoning/sequencing in the existing
 adoption work item, not another repository ledger. Record `clean_target` in the
-existing adoption record: version 3, actual `inventory_reference`, and exact
+existing adoption record: version 4 for policy 3 (3 for policy 2), actual `inventory_reference`, and exact
 `retirements` with path, reason and nullable retained replacement. An empty list
 needs actual inventory review. Obsolete instructions/configuration/evidence cannot
 remain merely because harmless or costly to remove; unfinished retirement blocks
@@ -131,8 +144,10 @@ roles compliant and expect a later CLI failure to correct the recommendation.
 
 ### Keep schema versions separate
 
-The target uses project **schema 4**, adoption **schema 2**, inventory 2 and
-`clean_target.version: 3`. These are separate contracts.
+Policy 3 uses project **schema 4**, adoption **schema 2**, inventory 3 and
+`clean_target.version: 4`. Policy 2 retains inventory 2 and clean-target 3.
+These are separate contracts. Migrating inventory 2 to 3 reopens testing, review
+and observability while retaining their rationale and adding new pending duties.
 Inspect the adoption record's own schema before proposing schema migration. An
 existing schema-1 **adoption record** needs `adoption migrate`; do not prescribe
 `init` followed by migration just because the project manifest is schema 1.
@@ -298,7 +313,7 @@ waives core/selected-profile requirements. Pending work is not complete adoption
 not proof of implementation. Run declared checks, inspect real behavior/CI and
 confirm that referenced suites cover the claimed practices and components.
 
-Engineering inventory 2 permits different referenced suites to collectively cover
+Engineering inventories 2 and 3 permit different referenced suites to collectively cover
 pre-merge and post-merge verification; legacy inventory 1 requires each referenced
 suite at both. Review the actual guarantee at each boundary. Adoption check runs
 the referenced pre-merge suites, not both sets at once, and still requires the
@@ -306,7 +321,8 @@ separate integration evidence. This is not permission to omit integrated testing
 
 ## Verify completion
 
-Default `adoption check` requires clean-3, resolved capability facts and completed
+Default `adoption check` requires the selected policy's target (clean-4 for policy
+3, clean-3 for policy 2), resolved capability facts and completed
 reviewed retirements in checkout and staged source, including ignored leftovers.
 Named replacements must be retained staged regular files. It inspects, never
 cleans automatically. Review actual retained content, updated references and
@@ -366,7 +382,7 @@ After local verification, use capable `ci qualify` for the separate current-trun
 remote observation. Do not rerun equivalent suites just to refresh provider state.
 
 Applicable delivery also needs `delivery_gate` evidence pointing to the
-reviewed release/tag pipeline path. Under policy 2, bind it to the current change's
+reviewed release/tag pipeline path. Under policy 2 or 3, bind it to the current change's
 OPDEV-PIPELINE-001 review and actual stage-specific automated verification;
 historical policies use MCD-PIPELINE-001. A project-level assertion or old standard
 finding cannot satisfy the policy-2 input. Identify its required qualification job,

@@ -88,8 +88,12 @@ fn current_run(manifest: &ProjectManifest, policy: &ExecutionPolicy) -> Result<C
             // API identifies the head commit. Until explicitly modeled, reject
             // this mismatch rather than use a same-SHA or branch-name shortcut.
             ensure!(
-                event == "push" || event == "workflow_dispatch",
-                "this execution-reuse version supports GitHub push and workflow_dispatch runs only; use fresh execution for other event subjects"
+                event == "push"
+                    || event == "workflow_dispatch"
+                    || (event == "merge_group"
+                        && policy.schema == 2
+                        && policy.candidate_reuse.is_some()),
+                "this execution policy does not support the event subject; native merge-group production needs reviewed policy 2, otherwise use fresh execution"
             );
             Ok(ContextIdentity {
                 repository: required("GITHUB_REPOSITORY")?,
@@ -136,7 +140,15 @@ pub fn execute(args: &ExecuteArgs) -> Result<ExitCode> {
             "current job differs from the reviewed producer"
         );
     }
-    let record = opdev_engine::run_canonical_producer(&root, &manifest, binding)?;
+    let mut record = opdev_engine::run_canonical_producer(&root, &manifest, binding)?;
+    if policy.schema == 2 {
+        record.schema = 2;
+        record.completed_at = Some(
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)?
+                .as_secs(),
+        );
+    }
     // A single JSON line escapes captured child output; child-generated marker
     // text cannot become a separate provider-log record through ordinary stdout.
     println!("OPDEV_EXECUTION_V1 {}", serde_json::to_string(&record)?);
@@ -154,6 +166,7 @@ pub fn evaluate(
     policy_path: &Path,
     environment: &str,
     review: Option<&opdev_engine::ValidatedReview>,
+    candidate_path: Option<&Path>,
 ) -> Result<CheckReport> {
     let policy = ExecutionPolicy::load(root, policy_path)?;
     let context = current_run(manifest, &policy)?;
@@ -167,6 +180,9 @@ pub fn evaluate(
         options.test_stage,
         environment,
     )?;
+    if let Some(path) = candidate_path {
+        return evaluate_candidate(root, manifest, options, &policy, path, &bindings, review);
+    }
     let required: Vec<_> = bindings
         .iter()
         .map(|b| b.producer.clone())
@@ -221,6 +237,120 @@ pub fn evaluate(
     Ok(report)
 }
 
+#[allow(clippy::too_many_arguments)] // Explicit current review, provider and source identities.
+fn evaluate_candidate(
+    root: &Path,
+    manifest: &ProjectManifest,
+    options: CheckOptions,
+    policy: &ExecutionPolicy,
+    path: &Path,
+    bindings: &[opdev_engine::ExecutionBinding],
+    review: Option<&opdev_engine::ValidatedReview>,
+) -> Result<CheckReport> {
+    ensure!(
+        options.test_stage == TestStage::PostMerge && options.execute_checks,
+        "Native-candidate reuse needs the post-merge boundary with fresh execution enabled"
+    );
+    ensure!(
+        policy.schema == 2
+            && policy.candidate_reuse.is_some()
+            && manifest
+                .assurance
+                .engineering
+                .as_ref()
+                .is_some_and(|p| p.version == "3"),
+        "Select reviewed engineering policy 3 and execution policy 2 before native-candidate reuse; no checks ran"
+    );
+    ensure!(
+        std::fs::metadata(path)?.len() <= 16_384,
+        "Candidate selector exceeds 16 KiB"
+    );
+    let selection: opdev_remote::CandidateSelection =
+        serde_json::from_slice(&std::fs::read(path)?)?;
+    let required: Vec<_> = bindings
+        .iter()
+        .filter(|b| {
+            policy
+                .candidate_reuse
+                .as_ref()
+                .is_some_and(|p| p.suites.contains(&b.suite))
+        })
+        .map(|b| b.producer.clone())
+        .collect::<std::collections::BTreeSet<_>>()
+        .into_iter()
+        .collect();
+    let observe = || -> std::result::Result<_, String> {
+        let candidate = opdev_remote::observe_integrated_candidate(manifest, &selection)?;
+        let snapshot = opdev_remote::observe_producers(manifest, &selection.run, &required)
+            .map_err(|_| "Native producer observation failed")??;
+        let executions = opdev_engine::validate_candidate_records(
+            root, manifest, policy, &candidate, &snapshot, bindings,
+        )?;
+        candidate.recheck(manifest)?;
+        Ok((candidate, executions))
+    };
+    let (_, executions) = match observe() {
+        Ok(value) => value,
+        Err(reason) => return candidate_fallback(root, manifest, options, review, &reason),
+    };
+    let ledger = std::fs::read(root.join(opdev_project::EVIDENCE_PATH)).ok();
+    let mut report = if let Some(review) = review {
+        opdev_engine::evaluate_with_review(root, manifest, options, review, Some(&executions))?
+    } else {
+        opdev_engine::evaluate_with_executions(root, manifest, options, &executions)?
+    };
+    let refreshed = observe().and_then(|(_, current)| {
+        current.verify_subject(root, manifest, TestStage::PostMerge)?;
+        for observed in current.checks().iter().filter(|c| {
+            matches!(
+                c.outcome,
+                opdev_core::Outcome::Failed | opdev_core::Outcome::Error
+            )
+        }) {
+            if let Some(previous) = report
+                .checks
+                .iter_mut()
+                .find(|c| c.kind == observed.kind && c.id == observed.id)
+            {
+                *previous = observed.clone();
+            }
+        }
+        if current.checks() != executions.checks()
+            || ledger != std::fs::read(root.join(opdev_project::EVIDENCE_PATH)).ok()
+        {
+            return Err("Native producer attempt changed during verification".into());
+        }
+        Ok(())
+    });
+    if let Err(reason) = refreshed {
+        // Do not secretly rerun already-consumed evidence after qualification.
+        // A later attempt can explicitly execute fresh checks with current review.
+        invalidate_reuse(&mut report, executions.bindings(), &reason)?;
+    }
+    Ok(report)
+}
+
+fn candidate_fallback(
+    root: &Path,
+    manifest: &ProjectManifest,
+    options: CheckOptions,
+    review: Option<&opdev_engine::ValidatedReview>,
+    reason: &str,
+) -> Result<CheckReport> {
+    let mut report = if let Some(review) = review {
+        opdev_engine::evaluate_with_review(root, manifest, options, review, None)?
+    } else {
+        opdev_engine::evaluate(root, manifest, options)?
+    };
+    report.checks.push(opdev_engine::CheckResult {
+        id:"native-candidate-reuse".into(),kind:opdev_engine::CheckKind::Policy,blocking:false,gates:vec![],outcome:opdev_core::Outcome::Unverified,
+        summary:format!("Native candidate was not reused: {reason}. Requested canonical checks used fresh execution; this observation is not a test pass."),
+        evidence:vec![],stdout:None,stderr:None,duration_ms:None,
+    });
+    opdev_engine::reaggregate(&mut report)?;
+    Ok(report)
+}
+
 fn invalidate_reuse(
     report: &mut CheckReport,
     bindings: &[opdev_engine::ExecutionBinding],
@@ -238,8 +368,10 @@ fn invalidate_reuse(
         }
     }
     for rule in &mut report.rules {
-        if matches!(rule.rule_id.as_str(), "OPDEV-TEST-002" | "OPDEV-TEST-003")
-            && rule.outcome == opdev_core::Outcome::Passed
+        if matches!(
+            rule.rule_id.as_str(),
+            "OPDEV-TEST-002" | "OPDEV-TEST-003" | "OPDEV-VERIFY-001" | "OPDEV-REVIEW-001"
+        ) && rule.outcome == opdev_core::Outcome::Passed
         {
             rule.outcome = opdev_core::Outcome::Unverified;
             rule.diagnostic = Some("Execution or acceptance evidence changed during the final provider observation; this result cannot qualify the change".into());
@@ -285,6 +417,66 @@ mod tests {
     use super::*;
     use opdev_core::{Gate, Outcome};
     use opdev_engine::{CheckKind, CheckResult, ExecutionBinding};
+
+    #[test]
+    fn unavailable_candidate_uses_fresh_checks_once_and_discloses_the_fallback() -> Result<()> {
+        let root = tempfile::tempdir()?;
+        ensure!(
+            std::process::Command::new("git")
+                .args(["init", "-q"])
+                .arg(root.path())
+                .status()?
+                .success()
+        );
+        let mut manifest = opdev_project::discover(root.path())?.manifest;
+        manifest.commands.insert("test".into(),opdev_project::CommandSpec {
+            argv:vec![if cfg!(windows) {"python".into()} else {"python3".into()},"-c".into(),
+                "from pathlib import Path; p=Path('count'); p.write_text(p.read_text()+'run\\n' if p.exists() else 'run\\n')".into()],
+            working_directory:None,timeout_seconds:Some(30),
+        });
+        manifest.testing.suites = vec![opdev_project::TestSuite {
+            id: "source".into(),
+            command: "test".into(),
+            stages: vec![TestStage::PostMerge],
+        }];
+        let report = candidate_fallback(
+            root.path(),
+            &manifest,
+            CheckOptions {
+                test_stage: TestStage::PostMerge,
+                extension_stage: opdev_project::ExtensionStage::PostMerge,
+                execute_checks: true,
+                fail_fast: false,
+            },
+            None,
+            "Synthetic unavailable native correspondence",
+        )?;
+        assert_eq!(
+            std::fs::read_to_string(root.path().join("count"))?
+                .lines()
+                .collect::<Vec<_>>(),
+            ["run"]
+        );
+        assert_eq!(report.checks.iter().filter(|c| c.id == "source").count(), 1);
+        assert_eq!(
+            report
+                .checks
+                .iter()
+                .find(|c| c.id == "source")
+                .context("suite")?
+                .outcome,
+            Outcome::Passed
+        );
+        let observation = report
+            .checks
+            .iter()
+            .find(|c| c.id == "native-candidate-reuse")
+            .context("fallback")?;
+        assert!(!observation.blocking);
+        assert_eq!(observation.outcome, Outcome::Unverified);
+        assert!(observation.summary.contains("fresh execution"));
+        Ok(())
+    }
 
     #[test]
     fn unavailable_post_merge_execution_blocks_integration_and_delivery() -> Result<()> {

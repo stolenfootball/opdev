@@ -10,6 +10,194 @@ use std::{
 type TestResult = Result<(), Box<dyn std::error::Error>>;
 
 #[test]
+fn policy_three_is_explicit_and_reports_unverified_without_tests_or_review() -> TestResult {
+    use opdev_project::{Capability, CapabilityFact, CapabilityState, SafeguardPolicy};
+    let dir = fixture()?;
+    let path = dir.path().join(MANIFEST_PATH);
+    let mut project = ProjectManifest::load(&path)?;
+    project.schema = 4;
+    project.assurance.profiles.clear();
+    project.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+        version: "3".into(),
+        minimumcd: None,
+        review_reference: "synthetic explicit decision".into(),
+        maintenance_branches: vec![],
+    });
+    project.assurance.safeguards = Some(SafeguardPolicy {
+        version: 2,
+        review_reference: "synthetic explicit assessment".into(),
+        capabilities: Capability::for_version(2)
+            .iter()
+            .map(|&capability| {
+                (
+                    capability,
+                    CapabilityFact {
+                        state: CapabilityState::Unknown,
+                        rationale: "unresolved test fixture".into(),
+                        authority: "contracts".into(),
+                    },
+                )
+            })
+            .collect(),
+    });
+    fs::write(&path, project.to_yaml()?)?;
+    let output = cli(dir.path(), &["check", "--no-exec", "--format", "json"])?;
+    assert_eq!(
+        output.status.code(),
+        Some(1),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: Value = serde_json::from_slice(&output.stdout)?;
+    assert_eq!(report["schema"], 4);
+    assert_eq!(report["catalog_version"], 5);
+    assert_eq!(report["engineering"]["version"], "3");
+    let schema: Value = serde_json::from_str(include_str!("../../../schema/report.schema.json"))?;
+    assert!(jsonschema::is_valid(&schema, &report));
+    let project_schema: Value =
+        serde_json::from_str(include_str!("../../../schema/project.schema.json"))?;
+    assert!(jsonschema::is_valid(
+        &project_schema,
+        &serde_json::to_value(&project)?
+    ));
+    for id in [
+        "OPDEV-VERIFY-001",
+        "OPDEV-REVIEW-001",
+        "OPDEV-LIFECYCLE-001",
+    ] {
+        assert_eq!(
+            report["rules"]
+                .as_array()
+                .ok_or("rules")?
+                .iter()
+                .find(|r| r["rule_id"] == id)
+                .ok_or("rule")?["outcome"],
+            "unverified"
+        );
+    }
+    project
+        .assurance
+        .safeguards
+        .as_mut()
+        .ok_or("safeguards")?
+        .version = 1;
+    assert!(
+        project.to_yaml().is_err(),
+        "policy 3 must not silently retain incomplete capability questions"
+    );
+    assert!(!jsonschema::is_valid(
+        &project_schema,
+        &serde_json::to_value(&project)?
+    ));
+    project
+        .assurance
+        .engineering
+        .as_mut()
+        .ok_or("engineering")?
+        .version = "2".into();
+    assert!(
+        project.to_yaml().is_err(),
+        "version-1 safeguards must not reinterpret new capabilities"
+    );
+    assert!(!jsonschema::is_valid(
+        &project_schema,
+        &serde_json::to_value(&project)?
+    ));
+    check_policy_three_preview(dir.path(), project)
+}
+
+fn check_policy_three_preview(root: &Path, mut project: ProjectManifest) -> TestResult {
+    use opdev_project::{Capability, CapabilityState};
+    let path = root.join(MANIFEST_PATH);
+    project
+        .assurance
+        .safeguards
+        .as_mut()
+        .ok_or("safeguards")?
+        .capabilities
+        .retain(|cap, _| Capability::ALL.contains(cap));
+    fs::write(&path, project.to_yaml()?)?;
+    let before = fs::read(&path)?;
+    let preview = cli(
+        root,
+        &[
+            "upgrade",
+            "--engineering-policy",
+            "3",
+            "--policy-review-reference",
+            "fixture:decision",
+            "--format",
+            "json",
+        ],
+    )?;
+    assert!(
+        preview.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preview.stderr)
+    );
+    assert_eq!(
+        fs::read(&path)?,
+        before,
+        "preview must not migrate the project"
+    );
+    let preview: Value = serde_json::from_slice(&preview.stdout)?;
+    let candidate =
+        ProjectManifest::from_yaml(preview["candidate_yaml"].as_str().ok_or("candidate")?)?;
+    assert_eq!(candidate.catalog()?.catalog_version, 5);
+    assert_eq!(
+        opdev_project::clean_adoption::target_name(&candidate),
+        "clean-4"
+    );
+    assert_eq!(opdev_project::project_adoption_catalog(&candidate), 3);
+    for cap in [Capability::SensitiveData, Capability::HighConsequence] {
+        assert_eq!(
+            candidate
+                .assurance
+                .safeguards
+                .as_ref()
+                .ok_or("safeguards")?
+                .capabilities[&cap]
+                .state,
+            CapabilityState::Unknown
+        );
+    }
+    Ok(())
+}
+
+#[test]
+fn policy_three_adoption_reopens_changed_duties_without_losing_existing_facts() -> TestResult {
+    use opdev_project::{AdoptionRecord, AdoptionState};
+    let mut record = AdoptionRecord::pending_for_catalog(2)?;
+    for decision in record.practices.values_mut() {
+        decision.state = AdoptionState::Implemented;
+        decision.reason = "Retained previous assessment; needs review where duties changed".into();
+    }
+    let old_reason = record.practices["setup"].reason.clone();
+    record.migrate_catalog(3)?;
+    assert_eq!(record.catalog_version, 3);
+    assert!(record.review.is_none());
+    for id in [
+        "testing",
+        "review",
+        "observability",
+        "sensitive_data",
+        "domain_assurance",
+        "lifecycle",
+    ] {
+        assert_eq!(record.practices[id].state, AdoptionState::Pending, "{id}");
+    }
+    assert_eq!(record.practices["setup"].state, AdoptionState::Implemented);
+    assert_eq!(record.practices["setup"].reason, old_reason);
+    let round_trip = AdoptionRecord::from_yaml(&record.to_yaml()?)?;
+    assert_eq!(round_trip.practices.len(), 23);
+    assert!(
+        record.migrate_catalog(2).is_err(),
+        "no silent obligation removal"
+    );
+    Ok(())
+}
+
+#[test]
 fn policy_two_requires_explicit_schema_and_capabilities_without_claiming_execution() -> TestResult {
     use opdev_project::{Capability, CapabilityFact, CapabilityState, SafeguardPolicy};
     let dir = fixture()?;

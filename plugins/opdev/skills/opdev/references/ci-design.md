@@ -81,6 +81,21 @@ and the [release boundary](workflow.md#release-authorization).
 
 ## Provider checks, not a universal template
 
+With explicit engineering policy 3, `ci.native-candidate-reuse.v1` can avoid
+repeating eligible source checks after a native integration candidate. Propose it
+only after reviewing command/input completeness, immutable effective CI and
+environment inputs, commit/ref/event/stage independence, current producer identity
+and a bounded age. Use execution policy 2 and an exact native-run selector;
+provider-owned logs and actual merge correspondence are required. A matching tree
+alone is insufficient. Unknown correspondence falls back to fresh execution;
+changed evidence after evaluation invalidates reuse. Keep deployment, live-system,
+artifact-dependent and non-equivalent checks fresh. Do not enable paid features,
+expand credentials, migrate policy or change CI merely to obtain reuse.
+GitHub currently requires the exact integrated merge-group commit; rewritten
+commits remain unsupported. GitLab requires a completed non-skipped merge train.
+Reports must distinguish earlier execution from equivalent integrated verification.
+This does not establish the separate literal MinimumCD post-merge obligation.
+
 For GitHub, verify PR/head versus synthetic merge subjects and `merge_group` when
 a merge queue is used. A skipped job may report success; a skipped workflow may
 leave checks pending. An always-running required collector must inspect every

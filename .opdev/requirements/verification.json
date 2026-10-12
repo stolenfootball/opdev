@@ -158,7 +158,7 @@
       "id": "V-safeguards-1",
       "target": {
         "path": "crates/opdev-cli/tests/safeguards.rs",
-        "sha256": "6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041",
+        "sha256": "68b855660d98c17f3162ecca912a8bc25570b6a3aeb3610a50e163ad703967c2",
         "excerpt": "fn missing_unknown_contradictory_or_unmapped_capabilities_cannot_use_a_green_suite("
       },
       "inputs": [
@@ -193,7 +193,7 @@
       "id": "V-safeguards-2",
       "target": {
         "path": "crates/opdev-cli/tests/safeguards.rs",
-        "sha256": "6e773f777c074b16b3c09d72b9160e6551ed6b14cf724a24ac0ebc4c29b28041",
+        "sha256": "68b855660d98c17f3162ecca912a8bc25570b6a3aeb3610a50e163ad703967c2",
         "excerpt": "fn remaining_capabilities_require_their_own_observed_assertions("
       },
       "inputs": [
@@ -335,10 +335,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "cc7d82b95ae1aaf295d33126d37cd4e040a30d4d09ec7bc6da01619c40504e9b"
+        "reviewer": "Codex (implementing agent, distinct review pass)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "6d453e21eac0320e7c9b28e70f1d41b3128408c79a2c39963f96711f8c26bf0d"
       }
     },
     {
@@ -360,10 +360,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "fed8db1e36f6e34851fd780ed541a8c22d3970fb5406c7c6bf8f3ed22008b169"
+        "reviewer": "Codex (implementing agent, distinct review pass)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "a75576ae0c97b9ee9b3c321915f83469381db91493613b5fba2fe8b7553b917d"
       }
     },
     {
@@ -385,10 +385,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "916e20a2a56cc9d5e22ba37349c8e2768df4af3fbb93433d5a0dd45a710a0e85"
+        "reviewer": "Codex (implementing agent, distinct review pass)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "6cda62cf7a06b58ddc238121b1a7583b260c63f847383d49a9599c589c43a563"
       }
     }
   ]

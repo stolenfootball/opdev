@@ -281,7 +281,14 @@ fn safeguard_gap(
         return Some("Unsupported safeguard review version; use a reader and reviewed policy supporting the same version".into());
     }
     let mut required = std::collections::BTreeSet::new();
-    for capability in Capability::ALL {
+    if review
+        .impacts
+        .keys()
+        .any(|c| !Capability::for_version(policy.version).contains(c))
+    {
+        return Some("Capability impact is not supported by the selected safeguards version; review the policy migration rather than discarding it".into());
+    }
+    for &capability in Capability::for_version(policy.version) {
         let name = serde_json::to_value(capability).unwrap_or_default();
         let Some(fact) = policy.capabilities.get(&capability) else {
             return Some(format!(
@@ -312,7 +319,7 @@ fn safeguard_gap(
                     ));
                 };
                 if impact.impact == Impact::Affected {
-                    required.extend(capability.objectives());
+                    required.extend(capability.objectives_for_version(policy.version));
                 }
             }
         }

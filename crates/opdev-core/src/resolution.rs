@@ -66,7 +66,7 @@ pub struct PolicyResolution {
 pub enum PolicyResolutionError {
     /// Exact supported versions only.
     #[error(
-        "Unsupported engineering policy {0}; supported preview versions are 1 and 2. Nothing changed."
+        "Unsupported engineering policy {0}; supported preview versions are 1, 2 and 3. Nothing changed."
     )]
     UnsupportedVersion(String),
     /// Incomplete or invalid policy definitions.
@@ -110,6 +110,9 @@ const REPLACEMENTS: &[(&str, &str, &str)] = &[
 pub fn resolve_engineering_policy(
     version: &str,
 ) -> Result<PolicyResolution, PolicyResolutionError> {
+    if version == "3" {
+        return resolve_three();
+    }
     if !matches!(version, "1" | "2") {
         return Err(PolicyResolutionError::UnsupportedVersion(version.into()));
     }
@@ -123,6 +126,52 @@ pub fn resolve_engineering_policy(
         }
     };
     resolve_definitions(version, historical, &additions)
+}
+
+fn resolve_three() -> Result<PolicyResolution, PolicyResolutionError> {
+    let historical = catalog_for_version(4)?;
+    let catalog = catalog_for_version(5)?;
+    let mut controls = Vec::new();
+    let mut external_rules = Vec::new();
+    for rule in catalog.rules {
+        let class = crate::engineering_rule_class("3", rule.id.as_str())
+            .ok_or_else(|| CatalogError::Unclassified(rule.id.clone()))?;
+        if class == RuleClass::MinimumcdAssessment {
+            external_rules.push(rule);
+        } else {
+            controls.push(ResolvedControl { rule, class });
+        }
+    }
+    let changes = historical.rules.into_iter().map(|rule| {
+        let replaced = matches!(rule.id.as_str(), "MCD-TEST-001" | "MCD-TEST-002");
+        let external = crate::engineering_rule_class("3", rule.id.as_str())
+            == Some(RuleClass::MinimumcdAssessment);
+        Ok(PolicyChange {
+            rule: rule.id,
+            disposition: if replaced { PolicyDisposition::Replaced }
+                else if external { PolicyDisposition::ExternalOnly }
+                else { PolicyDisposition::Retained },
+            replacement: if replaced { Some("OPDEV-VERIFY-001".parse()?) } else { None },
+            rationale: if replaced {
+                "Controlled repeatable procedures and predeclared decision rules replace absolute deterministic-test wording. Integrated verification may reuse an explicitly reviewed, equivalent native candidate source execution; no tree-only, stage or artifact shortcut. Unexplained flakiness and inconclusive results do not qualify."
+            } else if external {
+                "Retain this historical obligation for separately selected exact-version standards."
+            } else {
+                "Retain policy-2 meaning; new capability, review and lifecycle obligations are explicit additions."
+            }.into(),
+        })
+    }).collect::<Result<Vec<_>, CatalogError>>()?;
+    let semantic = serde_json::to_vec(&(1_u32, "3", 5_u32, &controls, &changes, &external_rules))?;
+    Ok(PolicyResolution {
+        schema: 1,
+        engineering_version: "3".into(),
+        catalog_version: 5,
+        definition_sha256: format!("{:x}", Sha256::digest(semantic)),
+        controls,
+        changes,
+        external_rules,
+        limits: "Definition preview only. No checks ran, project migrated, consent authenticated or certification established. Agentic review does not require human sign-off; actual review and verification remain necessary.".into(),
+    })
 }
 
 fn resolve_definitions(
@@ -229,6 +278,61 @@ mod tests {
     use super::*;
 
     #[test]
+    fn policy_three_adds_solo_review_without_reinterpreting_historical_definitions()
+    -> Result<(), Box<dyn std::error::Error>> {
+        for (version, digest) in [
+            (
+                "1",
+                "cd9a245b71a3a6df82e795a7120fdfa88b250cbeca707f90a9cb823c05f355cb",
+            ),
+            (
+                "2",
+                "4b3162f2bbdc811469f8ac8856b68ba57d830dd0a60c077f79b3cc83bc0a3711",
+            ),
+        ] {
+            assert_eq!(
+                resolve_engineering_policy(version)?.definition_sha256,
+                digest
+            );
+        }
+        let next = resolve_engineering_policy("3")?;
+        assert_eq!(next.catalog_version, 5);
+        assert_eq!(next.changes.len(), catalog_for_version(4)?.rules.len());
+        assert_eq!(next.controls.len() + next.external_rules.len(), 49);
+        for id in ["MCD-TEST-001", "MCD-TEST-002"] {
+            let change = next
+                .changes
+                .iter()
+                .find(|c| c.rule.as_str() == id)
+                .ok_or("replacement")?;
+            assert_eq!(
+                change.replacement.as_ref().map(RuleId::as_str),
+                Some("OPDEV-VERIFY-001")
+            );
+            assert!(next.external_rules.iter().any(|r| r.id.as_str() == id));
+            assert!(!next.controls.iter().any(|c| c.rule.id.as_str() == id));
+        }
+        let review = next
+            .controls
+            .iter()
+            .find(|c| c.rule.id.as_str() == "OPDEV-REVIEW-001")
+            .ok_or("review")?;
+        assert!(
+            review
+                .rule
+                .statement
+                .contains("neither a second agent nor human sign-off is required")
+        );
+        assert!(
+            next.external_rules
+                .iter()
+                .any(|r| r.id.as_str() == "MCD-TEST-001")
+        );
+        assert_eq!(next, resolve_engineering_policy("3")?);
+        Ok(())
+    }
+
+    #[test]
     fn preview_accounts_for_every_old_rule_without_mutating_it()
     -> Result<(), Box<dyn std::error::Error>> {
         let old = catalog_for_version(3)?;
@@ -280,7 +384,7 @@ mod tests {
 
     #[test]
     fn unknown_and_conflicting_definitions_fail_closed() -> Result<(), Box<dyn std::error::Error>> {
-        for version in ["", "latest", "02", "3", "1 "] {
+        for version in ["", "latest", "02", "4", "1 "] {
             assert!(resolve_engineering_policy(version).is_err());
         }
         let historical = catalog_for_version(3)?;

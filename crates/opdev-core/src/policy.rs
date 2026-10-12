@@ -7,7 +7,7 @@ use crate::{CatalogError, Gate, RuleCatalog, embedded_catalog};
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct EngineeringPolicy {
-    /// Exact engineering baseline version (`1` or `2`).
+    /// Exact engineering baseline version (`1`, `2` or `3`).
     pub version: String,
     /// Exact `MinimumCD` mapping version, or no requested assessment.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -79,6 +79,13 @@ pub fn engineering_rule_class(version: &str, id: &str) -> Option<RuleClass> {
             | "OPDEV-RECOVERY-001" => Some(RuleClass::Conditional),
             _ => rule_class(id),
         },
+        "3" => match id {
+            "MCD-TEST-001" | "MCD-TEST-002" => Some(RuleClass::MinimumcdAssessment),
+            "OPDEV-VERIFY-001" | "OPDEV-REVIEW-001" | "OPDEV-LIFECYCLE-001" => {
+                Some(RuleClass::Conditional)
+            }
+            _ => engineering_rule_class("2", id),
+        },
         _ => None,
     }
 }
@@ -88,6 +95,21 @@ pub fn engineering_rule_class(version: &str, id: &str) -> Option<RuleClass> {
 /// # Errors
 /// Rejects unknown versions and malformed embedded rules.
 pub fn catalog_for_version(version: u32) -> Result<RuleCatalog, CatalogError> {
+    if version == 5 {
+        let mut catalog = catalog_for_version(4)?;
+        let additions = RuleCatalog::from_yaml(include_str!("../../../rules/engineering-3.yaml"))?;
+        catalog.catalog_version = 5;
+        catalog.rules.extend(additions.rules);
+        for rule in &mut catalog.rules {
+            let class = engineering_rule_class("3", rule.id.as_str())
+                .ok_or_else(|| CatalogError::Unclassified(rule.id.clone()))?;
+            if class == RuleClass::MinimumcdAssessment {
+                rule.gates = vec![Gate::Compliance];
+            }
+        }
+        catalog.validate()?;
+        return Ok(catalog);
+    }
     if version == 4 {
         let mut catalog = catalog_for_version(3)?;
         let additions = RuleCatalog::from_yaml(include_str!("../../../rules/engineering-2.yaml"))?;

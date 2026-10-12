@@ -327,16 +327,16 @@ fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
         "{}",
         serde_json::to_string_pretty(&serde_json::json!({
             "schema": 1, "plan_id": record.as_ref().map(|r| r.plan_id(&manifest)).transpose()?, "record": record,
-            "target": opdev_project::clean_adoption::TARGET,
+            "target": opdev_project::clean_adoption::target_name(&manifest),
             "starting_state": if configured {"configured_project"} else {"uninitialized_project"},
             "required_migrations": target_gaps,
-            "required_practices": adoption_catalog_version(2)?,
+            "required_practices": adoption_catalog_version(project_adoption_catalog(&manifest).max(2))?,
             "discovery_warnings": discovery.warnings,
             "contract": manifest, "approval": "review_required",
             "branch_choices": branch_choices,
             "remote_qualification": {"verification":"not_run", "policy_ready":manifest.remote_qualification_gap().is_none(), "gap":manifest.remote_qualification_gap(), "worksheet":policy_worksheet(&manifest, remote)?},
             "delivery_readiness":"not_run",
-            "notice": "Review retained, changed and retired content against clean-3. An empty project needs real behavior before verification; setup alone is incomplete. Reuse adequate tools and actual decisions, resolve material choices, and reopen changed duties. A plan hash is not consent."
+            "notice": "Review retained, changed and retired content against the selected destination. Engineering policy 3 selects clean-4, capability safeguards 2 and adoption inventory 3. Existing policy choices are not migrated automatically. An empty project needs real behavior before verification; setup alone is incomplete. Reuse adequate tools and actual decisions, resolve material choices, and reopen changed duties. A plan hash is not consent."
         }))?
     );
     Ok(())
@@ -573,6 +573,7 @@ fn check(
         fingerprint.as_deref(),
         &blockers,
         core_report.as_ref(),
+        opdev_project::clean_adoption::target_name(&manifest),
     )?;
     Ok(if passed {
         ExitCode::SUCCESS
@@ -688,13 +689,14 @@ fn present_adoption(
     fingerprint: Option<&str>,
     blockers: &[String],
     core_report: Option<&opdev_engine::CheckReport>,
+    target: &str,
 ) -> Result<()> {
     let complete = passed && !mode.legacy_assessment && !mode.preflight;
     if matches!(format, OutputFormat::Json) {
         println!(
             "{}",
             serde_json::to_string_pretty(&serde_json::json!({
-                "schema":1,"complete":complete,"target":opdev_project::clean_adoption::TARGET,
+                "schema":1,"complete":complete,"target":target,
                 "legacy_policy_passed":(mode.legacy_assessment && !mode.preflight).then_some(passed),
                 "inputs_ready": mode.preflight.then_some(passed),
                 "qualification_scope": "project_adoption",
@@ -779,7 +781,7 @@ fn delivery_rule(manifest: &opdev_project::ProjectManifest) -> &'static str {
         .assurance
         .engineering
         .as_ref()
-        .is_some_and(|p| p.version == "2")
+        .is_some_and(|p| matches!(p.version.as_str(), "2" | "3"))
     {
         "OPDEV-PIPELINE-001"
     } else {
@@ -863,7 +865,7 @@ fn adoption_gate_blocked(
         .assurance
         .engineering
         .as_ref()
-        .is_none_or(|p| p.version != "2")
+        .is_none_or(|p| !matches!(p.version.as_str(), "2" | "3"))
     {
         return !report.gate_passed(gate);
     }

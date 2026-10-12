@@ -51,9 +51,11 @@ pub(crate) fn selected(
     selections: &[StandardSelection],
 ) -> Result<Vec<StandardAssessment>, EvaluationError> {
     let mut names = std::collections::HashSet::new();
-    if !selections.is_empty() && policy.version != "2" || selections.len() > 16 {
+    if !selections.is_empty() && !matches!(policy.version.as_str(), "2" | "3")
+        || selections.len() > 16
+    {
         return Err(EvaluationError::Report(
-            "Additional standards need policy 2 and at most 16 selections.".into(),
+            "Additional standards need engineering policy 2 or 3 and at most 16 selections.".into(),
         ));
     }
     for s in selections {

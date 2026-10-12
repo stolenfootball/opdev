@@ -235,6 +235,9 @@ struct CheckArgs {
     /// Reuse provider-authenticated results from this CI run under a reviewed policy (network access).
     #[arg(long, requires_all = ["ci", "execution_environment"], conflicts_with = "delivery")]
     reuse_ci_policy: Option<PathBuf>,
+    /// Try equivalent native-candidate source checks, otherwise execute fresh checks; selector JSON is not evidence.
+    #[arg(long, requires_all = ["reuse_ci_policy", "post_merge"], conflicts_with = "no_exec")]
+    reuse_native_candidate: Option<PathBuf>,
     /// Nonsecret actual environment identity supplied by the reviewed producer configuration.
     #[arg(long, requires = "reuse_ci_policy")]
     execution_environment: Option<String>,
@@ -768,6 +771,7 @@ fn change_scoped_rule(rule_id: &str) -> bool {
             | "OPDEV-AI-001"
             | "OPDEV-LEARN-001"
             | "OPDEV-BRANCH-001"
+            | "OPDEV-REVIEW-001"
     )
 }
 
@@ -843,7 +847,7 @@ fn show_profiles(args: ProfilesArgs) -> Result<()> {
 
 fn clean_target_version(project: &ProjectManifest) -> u32 {
     if project.schema == 4 {
-        return 3;
+        return opdev_project::clean_adoption::target_version(project);
     }
     project
         .assurance
@@ -994,7 +998,7 @@ fn select_initial_policy(
     } else {
         discovery.manifest.schema = match version.as_str() {
             "1" => 3,
-            "2" => 4,
+            "2" | "3" => 4,
             _ => bail!("Unsupported engineering policy; no project initialized"),
         };
         discovery
@@ -1011,7 +1015,8 @@ fn select_initial_policy(
                 });
         discovery.manifest.to_yaml()?;
         if let Some(record) = opdev_project::AdoptionRecord::load(&discovery.root)?
-            && record.catalog_version != 2
+            && record.catalog_version
+                != opdev_project::project_adoption_catalog(&discovery.manifest)
         {
             bail!(
                 "partial initialization has an older adoption inventory; preserve it and complete the original initialization before an explicit policy/catalog migration"
@@ -1199,6 +1204,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
                 .as_deref()
                 .context("execution environment is required")?,
             review.as_ref(),
+            args.reuse_native_candidate.as_deref(),
         )?
     } else if let Some(review) = &review {
         opdev_engine::evaluate_with_review(&root, &manifest, options, review, None)
@@ -1476,7 +1482,7 @@ fn apply_remote_audit(
     if report
         .engineering
         .as_ref()
-        .is_some_and(|p| p.version == "2")
+        .is_some_and(|p| matches!(p.version.as_str(), "2" | "3"))
     {
         // A failing check required for this exact boundary cannot be waived by an
         // independence judgment. Green remote execution supports, but does not
