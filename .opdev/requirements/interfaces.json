@@ -54,8 +54,8 @@
         "kind": "source",
         "source": {
           "path": "spec/installation.md",
-          "sha256": "d647f4eed1cd2875db9824c79088fbfd6ece9052634aec250cf81629395f9e8f",
-          "excerpt": "The plugin can install a compatible native CLI from the canonical release host\nwithout requiring a Rust toolchain or a global signature-verifier installation.\nPlugin 0.4.2 pins the qualified, immutable CLI 0.4.0 GitHub release. The\npin is deliberately separate from the plugin version so a source-marketplace\nupdate never depends on an unpublished archive. The declared CLI compatibility\nrange MUST accept the pin. Updating the pin is a reviewed source change."
+          "sha256": "8811744bf4009e4582de5bdf30f6faf30fbbd593b4d5ed5a2ecec4ce8cc0fccd",
+          "excerpt": "The plugin can install a compatible native CLI from the canonical release host\nwithout requiring a Rust toolchain or a global signature-verifier installation.\nSource plugin 0.5.1 pins the qualified, immutable CLI 0.5.0 GitHub release. The\npin is deliberately separate from the plugin version so a source-marketplace\nupdate never depends on an unpublished archive. The declared CLI compatibility\nrange MUST accept the pin. Updating the pin is a reviewed source change."
         }
       },
       "origin": "spec/installation.md",
@@ -172,13 +172,13 @@
         },
         {
           "path": "plugins/opdev/runtime.lock",
-          "sha256": "f3c13c22d65f3da61e28086be972509c7a761d16b792bb1410f1069b9c36abb9",
-          "excerpt": "# Pinned CLI and verifier assets. Whitespace-separated data, never sourced as code.\nversion 0.4.0\ntag v0.4.0\nidentity https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v0.4.0\ncosign v3.1.3\n# target OS architecture Rust-triple cosign-asset cosign-SHA256\n# Windows ARM64 uses the x64 verifier under Windows 11 x64 emulation.\ntarget Darwin x86_64 x86_64-apple-darwin cosign-darwin-amd64 2347488e5d5b25336644024dfeca5601b190e91197a71a917bda44744aff106c\ntarget Darwin arm64 aarch64-apple-darwin cosign-darwin-arm64 5cf948c2f4dfe59687bdd0b8523709067383e03982cc543475c8a7dc70e92a76\ntarget Linux x86_64 x86_64-unknown-linux-gnu cosign-linux-amd64 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71\ntarget Linux aarch64 aarch64-unknown-linux-gnu cosign-linux-arm64 c5d324e091826b0d7a78eb16fef316450b4eb9aaec045611c08ba06f5e73220a\ntarget Windows X64 x86_64-pc-windows-msvc cosign-windows-amd64.exe 9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be\ntarget Windows Arm64 aarch64-pc-windows-msvc cosign-windows-amd64.exe 9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be"
+          "sha256": "afe55a185a391be77e600b5fb6ed63baa72b115a0d4574e2f2d5cc059d95de3d",
+          "excerpt": "# Pinned CLI and verifier assets. Whitespace-separated data, never sourced as code.\nversion 0.5.0\ntag v0.5.0\nidentity https://gitlab.com/stolenfootball-tools/opdev//.gitlab-ci.yml@refs/tags/v0.5.0\ncosign v3.1.3\n# target OS architecture Rust-triple cosign-asset cosign-SHA256\n# Windows ARM64 uses the x64 verifier under Windows 11 x64 emulation.\ntarget Darwin x86_64 x86_64-apple-darwin cosign-darwin-amd64 2347488e5d5b25336644024dfeca5601b190e91197a71a917bda44744aff106c\ntarget Darwin arm64 aarch64-apple-darwin cosign-darwin-arm64 5cf948c2f4dfe59687bdd0b8523709067383e03982cc543475c8a7dc70e92a76\ntarget Linux x86_64 x86_64-unknown-linux-gnu cosign-linux-amd64 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71\ntarget Linux aarch64 aarch64-unknown-linux-gnu cosign-linux-arm64 c5d324e091826b0d7a78eb16fef316450b4eb9aaec045611c08ba06f5e73220a\ntarget Windows X64 x86_64-pc-windows-msvc cosign-windows-amd64.exe 9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be\ntarget Windows Arm64 aarch64-pc-windows-msvc cosign-windows-amd64.exe 9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be"
         },
         {
           "path": "plugins/opdev/opdev-compatibility.json",
-          "sha256": "a8f028cc451de5a29f976a475eb0111b1335c8b77243704a50c8e22c1662cec6",
-          "excerpt": "\"version\": \"0.5.0\""
+          "sha256": "e4378618924f0976d29287c635486df6009deb19f7e4023f5aeb20a68638b13a",
+          "excerpt": "\"version\": \"0.5.1\""
         }
       ],
       "method": {
@@ -323,10 +323,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "fc7da829dd61a9a8c1935537227ba5215227693215c821f6925beac24592fd9b"
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed exact scalar/tag/identity/range and six unique-target assertions in installer.rs. Pin changes only to qualified CLI 0.5.0 and plugin 0.5.1; verifier hashes and all assertions remain unchanged. Structural checks do not prove installation; offline negative/recovery tests and live managed bootstrap retain separate execution obligations.",
+        "subject_sha256": "7986827929105ce1efcc6c9863f34247a0bcfe102e6280a01bb8adee563696bf"
       }
     },
     {
@@ -343,10 +343,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "187cfb8123f4e92f8037e8dc5841fa898108c5834463c18616431d4db32a1715"
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed exact scalar/tag/identity/range and six unique-target assertions in installer.rs. Pin changes only to qualified CLI 0.5.0 and plugin 0.5.1; verifier hashes and all assertions remain unchanged. Structural checks do not prove installation; offline negative/recovery tests and live managed bootstrap retain separate execution obligations.",
+        "subject_sha256": "e50a4ac6497b64ef71a5eba910b35938a13778fea41227aefbf0eb68e3e2fadc"
       }
     },
     {
@@ -363,10 +363,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the current test diff and retained assertions: interruption now explicitly preserves new product writes and readable migrated contracts; existing policy/retirement and pin assertions are unchanged. Publication fixtures moved from POSIX-only selection into the cross-platform canonical suite without losing coverage. No result is reused as new artifact qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "b61a8d299369ce4354d38ed78d474d7fcb3a33e44cb84f53680cb6d93ce0d705"
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed exact scalar/tag/identity/range and six unique-target assertions in installer.rs. Pin changes only to qualified CLI 0.5.0 and plugin 0.5.1; verifier hashes and all assertions remain unchanged. Structural checks do not prove installation; offline negative/recovery tests and live managed bootstrap retain separate execution obligations.",
+        "subject_sha256": "cc272e5bc04ae9854a996d89da3d9effb982ac0f3091e9ee94e4a8270bba5a00"
       }
     }
   ]
