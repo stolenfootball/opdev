@@ -1,7 +1,7 @@
 {
   "name": "opdev",
   "description": "Evidence-driven software development with a versioned engineering baseline, flexible project contracts, and cross-agent continuity.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": {
     "name": "Opinionated Development contributors"
   },

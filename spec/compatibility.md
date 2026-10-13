@@ -18,7 +18,7 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.5.0 retains qualified CLI 0.4.0 during publication and requires
+0.5.1 pins qualified CLI 0.5.0 and requires
 CLI >=0.2.0, <0.6.0 for ordinary legacy work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
@@ -33,7 +33,9 @@ Policy 3 explicitly uses project schema 4, safeguards 2 and adoption inventory 3
 policy 2 remains clean-3. Default fresh execution and single-agent work remain.
 Native-candidate reuse is opt-in and does not claim live-provider qualification.
 
-The 0.5.0 release does not update installed plugin caches, managed runtime pins,
+The immutable 0.5.0 plugin archive retains its CLI 0.4.0 pin; the subsequent
+source-plugin 0.5.1 update selects the separately qualified CLI 0.5.0. Neither
+publication nor this source update changes installed plugin caches,
 project contracts or CI versions automatically. See the release migration notes
 and the guides under `docs/`; do not reinterpret old reports as new-policy passes.
 

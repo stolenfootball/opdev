@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "release/README.md",
-          "sha256": "32474b1751c059171d274c2367c02b13ba608889b8853f97b94428a85712f418",
+          "sha256": "1f043af953cb0ce2c5c6d55645ff5abd6a9b4b9718c9bac7597a5300346c3b89",
           "excerpt": "The protected GitLab tag pipeline is the only supported way to publish OpDev."
         }
       },
@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "release/README.md",
-          "sha256": "32474b1751c059171d274c2367c02b13ba608889b8853f97b94428a85712f418",
+          "sha256": "1f043af953cb0ce2c5c6d55645ff5abd6a9b4b9718c9bac7597a5300346c3b89",
           "excerpt": "The automated recovery paths are bounded by the failure they address:"
         }
       },
@@ -154,11 +154,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "42ec44439f339927bc2d0240c0f48f475cfd34dcdcb2d65f6dd4e56e9d71e28d",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
+        "subject_sha256": "c7868ce19e3100a3b1a5792b232b06df1ccab670393a0825584f746fdb13cc01"
       }
     },
     {
@@ -174,11 +174,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "34b61c42dc1a1b8dad0d4c79510327e0e40a7a13911437c88acd750809bbf23c",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
+        "subject_sha256": "2d161ff47f53b516e42fdb862ab55f89e2e88d81799750a13fc6f1a613561dc7"
       }
     },
     {
@@ -194,11 +194,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "ca4ec1271bfc4fac05b198e0b77f21e912c94413f3764d8f0731deea0b500db7",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
+        "subject_sha256": "1e9935c19a24a6e5bf584c008242c99a2241793146cb74fa19bd12ea529fc623"
       }
     },
     {
@@ -214,11 +214,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "068aa3beb30ffdbb01822b6ee16369492fb14c50b27900e11e365d1e7df9cfdf",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
+        "subject_sha256": "de790b722f57f3c7dddc5d3fa2419436b506ff8128304ea584845cd7c2220663"
       }
     },
     {
@@ -234,11 +234,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "09abcc9dc038e2d4566092a4a7ecd881c539df286ebd68b1c8151129d3295ea8",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
+        "subject_sha256": "88207077c6b5965833162b53a5bff7735b6d945a6fe3783006f06a8619dd7f01"
       }
     },
     {
@@ -254,11 +254,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "f9506a3d18c21f4f3bd026f28ce720a7bcfec59bbfb758dcd2d38f3c71563c8a",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct pin review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
+        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
+        "subject_sha256": "663a423e8a0adfb4695fd2bedc3076fc25f8f86db4c5ee2e1354ddade7ff5d31"
       }
     }
   ]
