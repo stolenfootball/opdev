@@ -31,7 +31,7 @@ making every new agent rediscover them.
   GitHub Actions and GitLab CI are first-class providers. The CLI also works
   without an agent.
 
-Current development builds offer an explicitly selected engineering policy:
+CLI 0.5.0 offers explicitly selected engineering policies:
 non-waivable baseline checks, capability-dependent safeguards, and flexible
 choices of adequate tools. Meaningful tests, reproducible setup, appropriate
 formatting/static checks, one integration trunk and enforced CI remain required.
@@ -41,8 +41,11 @@ does not happen without developer authorization. Extensions cannot waive rules.
 Under that policy, [MinimumCD](https://minimumcd.org/) is a separately selected
 assessment, not another execution of the same tests. Legacy projects retain their
 existing MinimumCD-based rules until an explicitly reviewed migration. See
-[engineering policy](spec/assurance-profiles.md#engineering-policy-1); a new plugin
-does not imply that its installed CLI supports these development capabilities.
+[engineering policy](docs/engineering-policy.md) and the
+[policy-3 baseline](docs/engineering-baseline.md). Solo-agent review is the default;
+no routine human sign-off or second agent is required. Policy 3 adds controlled
+verification, sensitive-data and high-consequence safeguards, and lifecycle duties.
+Installing the plugin does not select these policies or upgrade its managed CLI.
 
 In CLI 0.4.0's catalog 2, daily merging is a monitored target, not a deadline
 that blocks a later merge. Delays prompt replanning; required tests still have
@@ -105,7 +108,7 @@ Open the project with your agent and say:
 > document locations with me before adopting them.
 
 The agent reviews material policy, tooling and ownership choices with you before
-implementing them. With the current CLI and explicitly selected layout 1, OpDev
+implementing them. With CLI 0.5.0 and the reviewed current adoption target, OpDev
 creates `.opdev/project.yaml`, pending `.opdev/adoption.yaml`, and one shared
 `.opdev/guidance.md`. Short managed sections in `AGENTS.md` and `CLAUDE.md` point
 to that guide, preserving unrelated instructions. Legacy layouts retain their
@@ -169,9 +172,10 @@ and offers setup rather than silently continuing without the protocol.
 | --- | --- |
 | `.opdev/project.yaml` | Project commands, document and tracker locations, testing policy, delivery requirements, and context routes. |
 | `.opdev/adoption.yaml` | Practice dispositions and review provenance; pending records do not mean completed adoption. |
-| `.opdev/guidance.md` | With selected layout 1, the single shared managed guide, reloaded after a context reset. |
-| `AGENTS.md` and `CLAUDE.md` | With layout 1, short pointers to the guide alongside existing instructions/imports. Legacy roots retain their earlier format. |
-| `.opdev/evidence.yaml` | Legacy reviewed evidence only. Preserve it until a reviewed storage migration verifies complete history retrieval and recovery. |
+| `.opdev/guidance.md` | The shared managed guide in selected layouts 1–3, reloaded after a context reset. |
+| `AGENTS.md` and `CLAUDE.md` | Short pointers to the guide alongside existing instructions/imports. Legacy roots retain their earlier format until migration. |
+| `.opdev/requirements/<capability>.json` | Durable requirements, observable criteria and reviewed test relationships; not execution history. |
+| `.opdev/policies/<id>.json` | Only explicitly selected additive organization-policy definitions, when needed. |
 
 The contract points to your existing sources of truth. Design notes can live in
 your chosen folder or declared external authority. There is no required project
@@ -186,10 +190,12 @@ Legacy locations remain valid until an explicit migration; do not tidy them
 automatically. Small changes can stay in the existing work item.
 
 Typed local drafts and attempts live in CLI-owned state outside product source.
-With separately selected review-storage policy, exact semantic reviews are
-retrieved from the reviewed external archive; retained reports do not replace
-current execution or authenticate developer consent. Export alone never permits
-deleting a legacy ledger. See [storage and migration](spec/upgrades.md#explicit-coordinated-migration).
+With review-storage policy 2, current source-bound reviews live in the existing
+MR/PR and detailed reports have bounded retention in CI. No evidence repository
+or ever-growing ledger is required. Reviewed migration removes the obsolete
+`.opdev/evidence.yaml` without a historical-copy archive; temporary rollback
+protection lasts only through migration verification. Storage policy 1 retains
+its older archive semantics. See [storage and migration](spec/upgrades.md#explicit-coordinated-migration).
 
 Public documentation retains its project/ecosystem locations, and the root
 README should link to development guidance when it exists. Both root agent
@@ -232,17 +238,20 @@ audits are read-only, and extensions cannot replace core verdicts. OpDev does
 not certify software or replace engineering judgment.
 
 **Status:** OpDev is pre-1.0. See [published releases](https://github.com/stolenfootball/opdev/releases)
-for available binaries. Source plugin 0.4.2 pins qualified CLI 0.4.0. Updating
+for available binaries. Plugin 0.5.0 retains qualified CLI 0.4.0 during release
+publication; use standalone CLI 0.5.0 for the new policies and storage capabilities.
+The source pin is updated only after separate artifact qualification. Updating
 the plugin does not migrate existing project records or CI pins. The
 [compatibility policy](spec/compatibility.md) explains their separate versions.
 GitLab is the source and CI authority; GitHub hosts current binary releases.
 
-The 0.3.0 line adds change-bound acceptance evidence, advisory consistency review,
-test-execution receipts, exact remote CI qualification, readiness diagnostics and
-proportionate planning research. Review the [migration notes](release/CHANGELOG.md)
-before upgrading required CI: acceptance ledgers need explicit schema-2 review,
-remote qualification needs a reviewed policy, and `doctor` exit codes changed.
-Existing project files are not silently migrated. Compact report and evidence
+The 0.5.0 line adds clean adoption and coordinated migration, MR/PR-native review,
+a requirements-to-tests catalog, strict project layout and versioned engineering
+policies with separately selected standards. Review the
+[migration notes](release/CHANGELOG.md) before updating local or CI runtimes:
+declared policies alone no longer establish behavioral verification, and current
+adoption requires a reviewed clean target. Existing project files are not
+silently migrated. Compact report and evidence
 views remain behind the explicit
 `--experimental-compact` flag, disabled by default. Agents use full output unless
 you or your project explicitly opt in; omit the flag to return to stable behavior.
@@ -264,11 +273,16 @@ See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are p
 - [Getting started with the CLI](docs/GETTING_STARTED.md): installation,
   initialization, a first change, evidence review, and CI.
 - [Normative specification](spec/README.md): lifecycle, rules, and authority order.
-- [Engineering policy](docs/engineering-policy.md): baseline versus external
-  standards and read-only policy definition previews.
+- [Engineering policy](docs/engineering-policy.md): mandatory baseline versus
+  external/organization standards, inspection, enforcement and reviewed migration.
+- [Engineering baseline 3](docs/engineering-baseline.md): solo-agent review,
+  controlled verification, data/domain safeguards and lifecycle duties.
+- [Native candidate reuse](docs/ci-candidate-reuse.md): opt-in equivalent
+  source checks; fresh execution is the default, not a guaranteed speedup.
 - [Requirements and verification](docs/requirements-and-verification.md): durable
   product guarantees, test relationships, current observations and explicit migration.
-- [Evidence ledger](spec/evidence-ledger.md): review and freshness requirements.
+- [Review storage](spec/evidence-ledger.md): current MR/PR review, freshness and
+  legacy compatibility.
 - [Acceptance evidence](spec/evidence-ledger.md#schema-2-acceptance-evidence): development
   CLIs bind reviewed requirements and assertions to the current change and suite
   execution; older ledgers need explicit migration before these checks qualify.

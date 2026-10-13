@@ -1090,7 +1090,7 @@ checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
 
 [[package]]
 name = "opdev-ci"
-version = "0.4.1"
+version = "0.5.0"
 dependencies = [
  "opdev-core",
  "opdev-project",
@@ -1102,7 +1102,7 @@ dependencies = [
 
 [[package]]
 name = "opdev-cli"
-version = "0.4.1"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -1123,7 +1123,7 @@ dependencies = [
 
 [[package]]
 name = "opdev-core"
-version = "0.4.1"
+version = "0.5.0"
 dependencies = [
  "jsonschema",
  "serde",
@@ -1135,7 +1135,7 @@ dependencies = [
 
 [[package]]
 name = "opdev-engine"
-version = "0.4.1"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "command-group",
@@ -1153,7 +1153,7 @@ dependencies = [
 
 [[package]]
 name = "opdev-project"
-version = "0.4.1"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "jsonschema",
@@ -1169,7 +1169,7 @@ dependencies = [
 
 [[package]]
 name = "opdev-release"
-version = "0.4.1"
+version = "0.5.0"
 dependencies = [
  "flate2",
  "jsonschema",
@@ -1184,7 +1184,7 @@ dependencies = [
 
 [[package]]
 name = "opdev-remote"
-version = "0.4.1"
+version = "0.5.0"
 dependencies = [
  "jsonschema",
  "opdev-core",

@@ -6,8 +6,9 @@ authoritative home for individual requirements. This specification is the
 authoritative home for cross-rule semantics.
 
 OpDev is a development operating system for general software projects. It
-combines an evidence-driven development workflow with the delivery constraints
-published by [MinimumCD](https://minimumcd.org/).
+combines an evidence-driven workflow with a versioned engineering baseline.
+[MinimumCD](https://minimumcd.org/) is a separately selected exact assessment in
+engineering-policy projects; legacy contracts retain their original semantics.
 
 ## Normative language
 
@@ -95,11 +96,13 @@ guidance application and preserved project decisions.
 See [readiness diagnostics](doctor.md) for read-only prerequisites, scoped exits,
 runtime identity, actionable findings and explicit qualification limits.
 
-## Proposed architecture
+## Policy design and historical proposals
 
 The [engineering policy 2 design](engineering-policy.md) separates mandatory
-engineering guarantees from additional exact-version standards. Its read-only
-definition preview does not migrate existing policy or establish enforcement.
+engineering guarantees from additional exact-version standards. Explicit policy
+selection and current verification enforce it; read-only definition preview alone
+does not migrate a project or qualify a gate. See the
+[policy-3 baseline](../docs/engineering-baseline.md) for its subsequent evolution.
 
 The [resumable workflow redesign](workflow-redesign.md) consolidates the proposed
 execution/evaluation separation, evidence lifetimes, resumable decisions and

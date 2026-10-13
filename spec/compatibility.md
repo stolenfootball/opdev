@@ -18,11 +18,24 @@ range. Runtime selection, installation, and recovery are defined in
 are intentionally distinct.
 
 Plugin-only updates do not require rebuilding or republishing the CLI. Plugin
-0.4.2 pins qualified CLI 0.4.0 and requires
-CLI >=0.2.0, <0.5.0 for ordinary work. Schema-2 adoption needs CLI 0.2.1;
+0.5.0 retains qualified CLI 0.4.0 during publication and requires
+CLI >=0.2.0, <0.6.0 for ordinary legacy work. Schema-2 adoption needs CLI 0.2.1;
 capability detection must report the gap when an older standalone runtime is selected. Both host
 manifests and the packaged compatibility contract must agree on the plugin
 version; the current CLI and managed pin must satisfy its CLI range.
+
+CLI 0.5.0 supplies the capabilities described below as development additions:
+engineering policies 1–3, safeguards 1–2, requirements policy 1, layouts 1–3,
+MR/PR review storage 2 and clean-adoption targets through clean-4. Historical
+version notes retain their original meaning; older compatible runtimes do not
+gain these capabilities. Check actual local and CI capabilities before selection.
+Policy 3 explicitly uses project schema 4, safeguards 2 and adoption inventory 3;
+policy 2 remains clean-3. Default fresh execution and single-agent work remain.
+Native-candidate reuse is opt-in and does not claim live-provider qualification.
+
+The 0.5.0 release does not update installed plugin caches, managed runtime pins,
+project contracts or CI versions automatically. See the release migration notes
+and the guides under `docs/`; do not reinterpret old reports as new-policy passes.
 
 CLI 0.3.0 introduces the strengthened acceptance/remote qualification and doctor
 exit contracts described below and in `release/CHANGELOG.md`. Plugin 0.4.2's

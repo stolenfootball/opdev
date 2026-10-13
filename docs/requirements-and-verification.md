@@ -5,7 +5,9 @@ how those promises are checked. It is a set of versioned JSON files in Git, not
 a database service and not a history of every test run.
 
 This capability requires `requirements.catalog.v1`, explicit requirements policy
-1, layout 2, project schema 3 and MR/PR review storage 2. Installing a newer plugin
+1, a supported layout (2 or 3), project schema 3 or 4 and MR/PR review storage 2.
+CLI 0.5.0 provides it; current clean-3/4 adoption selects layout 3 and schema 4.
+Installing a newer plugin
 does **not** select these policies or migrate your project.
 
 ## What belongs where

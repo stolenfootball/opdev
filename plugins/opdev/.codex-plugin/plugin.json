@@ -1,7 +1,7 @@
 {
   "name": "opdev",
-  "version": "0.4.2",
-  "description": "Evidence-driven software development with mandatory MinimumCD rules, flexible project contracts, and cross-agent continuity.",
+  "version": "0.5.0",
+  "description": "Evidence-driven software development with a versioned engineering baseline, flexible project contracts, and cross-agent continuity.",
   "author": {
     "name": "Opinionated Development contributors"
   },
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "OpDev",
     "shortDescription": "Evidence-driven development for any software",
-    "longDescription": "OpDev guides Codex through a risk-based development loop, discovers project-specific authorities and commands, enforces MinimumCD semantics, and preserves the process for fresh agents through project-owned guidance.",
+    "longDescription": "OpDev guides Codex through outcome-based planning, meaningful verification and reviewed integration. It enforces the selected engineering policy, assesses additional standards separately, and preserves project context for fresh agents.",
     "developerName": "Opinionated Development contributors",
     "category": "Productivity",
     "capabilities": ["Skills"],
