@@ -105,7 +105,11 @@ impl DiscussionObservation {
         if post_merge && !self.head.merged {
             return Err("Post-merge review needs an actually merged MR/PR; a source-branch check is not integrated verification".into());
         }
-        let commit = if post_merge {
+        let commit = if stage == opdev_project::TestStage::Delivery && self.head.merged {
+            self.head.merge_commit.as_deref().ok_or(
+                "Delivery review for a merged MR/PR needs its provider-observed integration commit. Integration metadata is unavailable; the old source branch was not substituted.",
+            )?
+        } else if post_merge {
             self.head
                 .merge_commit
                 .as_deref()
@@ -565,6 +569,7 @@ mod tests {
         }
         let mut observed = read(&locator, replies)?;
         observed.verify_source(root, TestStage::PreMerge)?;
+        observed.verify_source(root, TestStage::Delivery)?;
         assert!(
             observed.verify_source(root, TestStage::PostMerge).is_err(),
             "unmerged is not post-merge"
@@ -580,11 +585,79 @@ mod tests {
         observed.head.merged = true;
         observed.head.merge_commit = Some(integrated);
         observed.verify_source(root, TestStage::PostMerge)?;
+        observed.verify_source(root, TestStage::Delivery)?;
         assert!(
             observed.verify_source(root, TestStage::PreMerge).is_err(),
             "integrated tree cannot replace reviewed source-head stage"
         );
         assert!(verify_commit_tree(root, &"f".repeat(40)).is_err());
+        Ok(())
+    }
+
+    #[test]
+    fn delivery_binds_provider_head_but_checks_observed_integrated_tree() -> Result {
+        use opdev_project::TestStage;
+        let temp = tempfile::tempdir()?;
+        let root = temp.path();
+        let git = |args: &[&str]| -> Result<String> {
+            let output = std::process::Command::new("git")
+                .arg("-C")
+                .arg(root)
+                .args(args)
+                .output()?;
+            assert!(output.status.success());
+            Ok(String::from_utf8(output.stdout)?.trim().into())
+        };
+        git(&["init", "-q"])?;
+        git(&["config", "user.name", "Review fixture"])?;
+        git(&["config", "user.email", "fixture@example.invalid"])?;
+        std::fs::write(root.join("product"), "reviewed source")?;
+        git(&["add", "."])?;
+        git(&["commit", "-qm", "source"])?;
+        let source = git(&["rev-parse", "HEAD"])?;
+        git(&["commit", "--allow-empty", "-qm", "same-tree integration"])?;
+        let integrated = git(&["rev-parse", "HEAD"])?;
+        assert_ne!(source, integrated);
+        for provider in [CiProvider::Gitlab, CiProvider::Github] {
+            let (mut locator, mut replies) = fixture(provider, Some(11))?;
+            locator.source_commit.clone_from(&source);
+            let last = replies.len() - 1;
+            for index in [1, last] {
+                replies[index].1["sha"] = json!(source);
+                replies[index].1["head"]["sha"] = json!(source);
+                replies[index].1["state"] = json!("merged");
+                replies[index].1["merged"] = json!(true);
+                replies[index].1["merge_commit_sha"] = json!(integrated);
+            }
+            let observed = read(&locator, replies.clone())?;
+            observed.verify_source(root, TestStage::Delivery)?;
+            observed.verify_source(root, TestStage::PostMerge)?;
+            observed.verify_source(root, TestStage::PreMerge)?;
+            let mut wrong_locator = locator.clone();
+            wrong_locator.source_commit.clone_from(&integrated);
+            assert!(
+                read(&wrong_locator, replies.clone()).is_err(),
+                "tag/merge SHA is not MR/PR source head"
+            );
+            // A merged review with no resolvable integration object is unknown,
+            // not permission to qualify the old branch just because it exists.
+            for missing in [serde_json::Value::Null, json!("f".repeat(40))] {
+                let mut unavailable = replies.clone();
+                for index in [1, last] {
+                    unavailable[index].1["merge_commit_sha"] = missing.clone();
+                }
+                assert!(
+                    read(&locator, unavailable)?
+                        .verify_source(root, TestStage::Delivery)
+                        .is_err()
+                );
+            }
+            std::fs::write(root.join("product"), "unreviewed bytes")?;
+            git(&["add", "."])?;
+            assert!(observed.verify_source(root, TestStage::Delivery).is_err());
+            std::fs::write(root.join("product"), "reviewed source")?;
+            git(&["add", "."])?;
+        }
         Ok(())
     }
 

@@ -244,6 +244,7 @@ fn initial_report(args: &DoctorArgs) -> Report {
                 "evidence.bundle.v1",
                 "evidence.authenticated-review.v1",
                 "evidence.discussion-review.v1",
+                "evidence.merged-delivery.v1",
                 "evidence.ci-review.v1",
                 "evidence.discussion-wire.v2",
                 "evidence.review-handoff.v1",

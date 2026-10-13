@@ -106,6 +106,24 @@ policy migration, publication or credential provisioning occurs. See
 
 ## Bounded review handoff and representation
 
+Capability `evidence.merged-delivery.v1` makes explicit-locator delivery checks
+use the provider-observed integration commit when the MR/PR is merged. Missing
+integration metadata or an unavailable/different staged tree fails closed;
+there is no source-branch fallback for merged delivery. Unmerged candidates
+retain source-head semantics. The locator's `source_commit` still MUST equal
+the actual provider source head, not the tag/merge SHA. Different commit IDs
+with identical trees remain valid at this source boundary. Full current review
+validation independently binds source, configuration, delivery stage, acceptance
+and artifact subject; this change neither reuses pre-merge review nor qualifies
+an artifact by tree equality. Native CI selection remains pre/post-merge only.
+
+Rationale: after integration, qualification must describe the actual combined
+source, not force delivery of the former branch. Comparing trees preserves
+supported merge strategies without accepting arbitrary content. Revisit when
+provider metadata cannot identify the actual integrated commit; do not infer it
+from a tag or silently choose an older source. Historical post-merge semantics
+are unchanged by this delivery capability.
+
 `evidence.review-handoff.v1` provides `ci prepare-review --change NUMBER --note ID
 --acceptance-sha256 ID [--post-merge]`. It reads the explicitly selected posted
 comment through existing provider authentication and verifies current source,

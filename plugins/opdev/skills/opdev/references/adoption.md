@@ -17,6 +17,59 @@ agent-selected plan does not substitute for resolving material developer choices
 
 ## Validate recommendations before asking for approval
 
+### Rehearse the connected lifecycle early
+
+Before broad migration edits or expensive verification, trace the proposed
+contract through its actual consumers: local preparation, MR/PR verification,
+integrated-trunk verification and applicable artifact delivery. For an empty
+project, design this minimal connected path alongside its first behavior. For
+existing projects, inspect the effective CI commands/includes and retained
+decisions; for upgrades, compare both installed local and pinned CI capabilities.
+Keep the findings and unresolved boundaries in the one adoption work item, not
+a new checklist file. Reuse a sufficient existing rehearsal rather than repeating it.
+
+Do not stop at a version check or CI lint. Verify how the exact reviewed comment,
+acceptance identity, stage, source and artifact reach the command that consumes
+them. A successful `ci review-check` does not pass its selection to a later
+`check`: the real invocation still needs `--review-ci` or its explicit locator
+and acceptance arguments. Native CI selection currently covers pre/post-merge,
+not delivery. Plan the explicit delivery-stage review/locator and immutable
+artifact subject before declaring the publication path implemented. A manual
+hold can wait for that selection; it cannot supply missing review inputs.
+
+Use native `adoption prepare-evidence`, `evidence prepare`, discussion export
+and `ci prepare-review` where supported. The adoption worksheet is partial:
+merge its reviewed assertions into the current-change record, including both
+OPDEV-WORK-001 and OPDEV-TEST-002 `adoption_review` entries, cleanup and the
+policy-selected pipeline review. Requirements/catalog and safeguard bindings
+still belong in the complete acceptance record. Never invent rule IDs or build
+custom hash-binding scripts to replace these commands. Inspect CLI help rather
+than guessing flags; inspect the posted body and native handoff before starting CI.
+
+Exercise the smallest safe connected fixture for uncertain handoffs, including
+missing/wrong selection, distinct source/merge commit IDs with identical trees,
+and changed integrated content. Test the actual reader/consumer boundary, not
+only strings in YAML. Mocked-provider tests establish adapter behavior, not live
+job-token access; disclose which boundary was actually exercised. No real tag,
+publication, deployment or release-specific rollback run is needed or authorized
+by this rehearsal. Use ordinary affected pipeline tests and an isolated diagnostic
+within existing authority; retain a missing live observation as a limitation.
+
+A locator's `source_commit` is the provider's MR/PR head, not automatically the
+checkout/tag SHA. With `evidence.merged-delivery.v1`, a merged delivery review
+checks the provider-observed integrated tree; its review still must be prepared
+for the exact current source, configuration, delivery stage and artifact subject.
+An unmerged candidate retains source-head semantics, not release permission.
+Without the capability, report the limitation and offer a compatible runtime;
+do not silently substitute a source tree or update consumer pins.
+
+Before calling a suspected tool defect a blocker, isolate the first failed
+boundary and reproduce it with the smallest discriminating case. Different Git
+commit IDs alone do not prove different trees. Separate invalid caller inputs,
+unsupported capability and confirmed implementation failure. When reproduction
+is unavailable, label the cause a hypothesis and state what would distinguish it;
+continue independent authorized work without weakening the failing boundary.
+
 Recommend engineering policy 3 for a new policy decision, after verifying local
 and CI support. Its exact target is `clean-4` (`adoption.clean-target.v4`): project
 schema 4, engineering policy 3, layout 3, requirements catalog 1, MR/PR-native
@@ -380,6 +433,12 @@ Ordinary adoption check repeats these guards; a saved preflight cannot qualify i
 `prepare-evidence` includes an unresolved delivery-gate candidate, not approval.
 After local verification, use capable `ci qualify` for the separate current-trunk
 remote observation. Do not rerun equivalent suites just to refresh provider state.
+Repair input failures in the preflight loop before running the canonical suites.
+The subsequent `adoption check` already executes its referenced pre-merge suites:
+do not first run a standalone full check solely for a second report. Focused
+regressions, distinct environments, required remote/integrated checks and fresh
+verification after material edits remain necessary. Preflight success neither
+proves the CI handoff nor permits omission of any required execution.
 
 Applicable delivery also needs `delivery_gate` evidence pointing to the
 reviewed release/tag pipeline path. Under policy 2 or 3, bind it to the current change's
