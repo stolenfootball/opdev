@@ -138,6 +138,15 @@ their existing compliant setup, including deliberate extra checks.
 
 Read [workflow.md](references/workflow.md) for the full lifecycle and gate behavior when planning or carrying out a substantive change.
 
+Keep permission, verification and completion separate in advice as well as actions.
+[Focused feedback checks](references/testing.md#feedback-and-required-checks) do
+not waive project-required integration checks, even for documentation-only edits.
+[Normal integration](references/workflow.md#merge-authority) within an authorized
+implementation assignment does not need a new release-style approval; an explicit
+advice-only, review-first or no-merge boundary still controls. Make
+[completion claims](references/results.md#completion-claims) only for verified
+accepted outcomes, not merely reported implementation or a green unrelated test.
+
 Release-specific preparation and execution require explicit developer release
 authorization under the [release boundary](references/workflow.md#release-authorization).
 Milestone/implementation approval, preview acceptance and green CI do not grant

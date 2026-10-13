@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "docs/engineering-baseline.md",
-          "sha256": "48d447285c38d4f871f9552f95ef7bd85bd6d3cc72da02d21e44eef264c948f5",
+          "sha256": "b258eaafc1359a537c38648ce51e54043b8e6fcc8ab5b6f08160d8bcc8b24398",
           "excerpt": "Engineering policies 1 and 2 retain their"
         }
       },
@@ -446,9 +446,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct review pass)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
-        "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity.",
-        "subject_sha256": "286eab62d0cbea8d02ee8f2eb442dec6baf1bbf4294a2b6ec58e173b9cff12c7"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/115",
+        "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity. Issue115 adds boundary explanations only: deterministic criterion, tests and assertions remain unchanged and adequate for their stated scope. Agent advice is evaluated separately, not proved by these mappings.",
+        "subject_sha256": "e04263a87bea1d720bac3ca3c779f446fadb79a4ca63ce8f8f00e90944eb6192"
       }
     },
     {
@@ -486,9 +486,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct review pass)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
-        "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity.",
-        "subject_sha256": "73f72436591af3ab5da6cedc9705931872738e23dcc73da36fbc7d894bfc82d7"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/115",
+        "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity. Issue115 adds boundary explanations only: deterministic criterion, tests and assertions remain unchanged and adequate for their stated scope. Agent advice is evaluated separately, not proved by these mappings.",
+        "subject_sha256": "f521cc00b105e6fe85d0c1284b951b4593036e5106ef3ab3f078729c07734c3e"
       }
     },
     {
@@ -526,9 +526,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct review pass)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
-        "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity.",
-        "subject_sha256": "7500e5a3f4f5f57836ca1add7bff9032d4e2d868968085fe96fea79897ad1186"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/115",
+        "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity. Issue115 adds boundary explanations only: deterministic criterion, tests and assertions remain unchanged and adequate for their stated scope. Agent advice is evaluated separately, not proved by these mappings.",
+        "subject_sha256": "c7f81861a2b65b5d3e73682e3f8f1b0ee12ffe1de2a10325664eeb5c6844060f"
       }
     },
     {

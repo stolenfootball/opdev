@@ -22,6 +22,16 @@ required checks at integration. A slow pipeline prompts improvement, not another
 merge blocker or permission to omit assurance. Measure feedback delay, queue/setup
 time, compute, false blocks and unnecessary questions separately from correctness.
 
+Keep three boundaries distinct. Focused documentation or other low-risk feedback
+checks do not waive project-required integration checks; they also do not create
+a universal full-suite requirement where the reviewed project policy has none.
+Normal integration is within an authorized implementation assignment unless the
+developer or project reserved it; release still needs its separate authorization.
+Advice-only and review-first requests retain their actual stopping boundaries.
+Claim a milestone reached only after its accepted outcome and required checks are
+verified. Otherwise report implementation and missing verification separately,
+without using a success headline for an unverified outcome.
+
 ## Agentic review is the default
 
 The normal reviewer is an agent. One implementing agent can switch to a distinct

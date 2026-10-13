@@ -37,6 +37,19 @@ Advice is not an integration gate or a reason to delay the requested work.
 
 ## Result meanings
 
+### Completion claims
+
+Reserve milestone-complete or milestone-reached wording for demonstrated accepted
+outcomes and their required verification. Reported code completion, a success exit,
+green unrelated tests or a merge alone cannot establish that result. When accepted
+behavior is unverified, say "Implementation reported; milestone verification
+incomplete" and identify what remains. Do not append a verification caveat to a
+headline that already declares the milestone reached. If implementation itself
+was not inspected, retain that uncertainty too. This rule applies to progress
+updates and advice, not only final handoffs. A genuinely completed learning-only
+milestone can report its verified learning outcome, without claiming the untested
+product behavior. Verified milestone completion does not authorize release.
+
 Explain blockers for a developer who has never used OpDev. Lead with the action
 that cannot proceed (for example merging, publishing, or claiming compliance),
 what was observed or is missing, and the smallest useful next step. Keep rule IDs

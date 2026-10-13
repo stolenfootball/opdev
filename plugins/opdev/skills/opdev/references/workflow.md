@@ -65,6 +65,18 @@ work. A required red trunk takes restoration priority, not parallel feature work
 Feedback readiness is not an automatic stop during an implementation assignment;
 show progress and continue unless feedback is needed for the next dependent step.
 
+### Merge authority
+
+Ordinary integration through the project's normal branch/MR/PR workflow is part
+of an authorized implementation assignment unless the developer or project has
+reserved that step (for example, review first, prepare a patch only, or do not
+merge). Do not group merge permission with the separate release authorization
+below or demand another approval just because checks are ready. Required review,
+checks, protections and access still apply. An advice-only exercise authorizes no
+mutation now; explain the next authorized implementation steps without inventing
+a general future merge-permission gap. A standalone plan/review request grants no
+implementation authority. Clarify only genuinely unresolved scope.
+
 ### Integrate a settled increment
 
 Use one trunk (the branch where changes come together). Keep changes small and branches short-lived; branches start there, merge back there, and are removed afterward. Aim to merge tested work daily. Missing that target prompts reassessment of the blocker and next useful slice, not a merge prohibition or an exception-approval workflow. Do not use branch age alone as a one-day failure under another rule. Catalog 2 keeps daily cadence visible for compliance but removes it from development and integration gates; older CLIs still enforce their own catalog, so explain a version mismatch rather than claiming a blocked check passed. Stop feature work while required trunk CI is red; diagnosis and restoration take priority.
