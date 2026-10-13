@@ -246,6 +246,36 @@ verified and delivery-ready; status never certifies completion.
 
 ## CLI workflow
 
+### Connected lifecycle rehearsal
+
+Before broad migration or expensive qualification, assess the actual configured
+local, MR/PR, integrated-trunk and applicable delivery handoffs. Compare local
+and CI reader capabilities, current review selection, consumer arguments and
+artifact/publication dependencies. Reuse adequate existing observations. Record
+uncertainty in the existing adoption work item; no extra repository checklist,
+schema or completion flag is required. Empty projects design this path with the
+first behavior; existing projects inspect it; upgrades compare changed boundaries.
+
+A readiness command does not pass its inputs to the real gate. Test the actual
+producer-to-reader contract with the smallest safe fixture, including invalid
+selection and source/merge identity cases. Configuration/string checks alone do
+not prove execution or provider permissions. Preserve the distinction between
+mocked adapter behavior, live access, input readiness and qualification. This
+rehearsal does not authorize release, tag, publication or consumer installation.
+
+Use native preparation and the selected rule catalog. The partial adoption
+worksheet supplements complete current acceptance/catalog/safeguard review, not
+a hand-written replacement schema. Inspect the posted record and native handoff,
+then repair adoption preflight gaps before executing canonical suites once at
+that boundary. Required distinct environments and integrated checks remain.
+Diagnoses MUST distinguish invalid input, capability gaps and reproduced defects;
+unreproduced causes remain hypotheses rather than asserted implementation bugs.
+
+See [the operator guide](../docs/adoption.md). This approach reuses existing
+preparation/preflight rather than adding another approval service or execution
+ledger. Revisit if the early rehearsal duplicates full qualification instead of
+resolving a concrete compatibility uncertainty.
+
 `adoption plan` and `status` additionally show local remote-policy prerequisites
 without network requests, separating verification scope from record schema and
 delivery readiness. `--remote` prints a schema-1 read-only policy worksheet using

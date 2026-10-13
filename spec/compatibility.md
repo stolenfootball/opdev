@@ -174,6 +174,13 @@ Its exact locator and independent acceptance identity follow ordinary check;
 current adoption assertions, canonical execution and source freshness still apply.
 It does not migrate project policy or establish approval by retrieval.
 
+Development capability `evidence.merged-delivery.v1` selects the observed integrated
+tree for delivery review of a merged MR/PR, while locators still bind its actual
+source head. Missing integration metadata fails rather than falling back. Source,
+configuration, stage and artifact review remain independently required. Older
+readers use source-head delivery semantics; check local and CI support before
+promising the new handoff. No schema, policy, runtime pin or release changes.
+
 Development capability `evidence.authenticated-review.v1` adds an explicit
 schema-3 review-storage boundary and independent schema-1 semantic-review/work
 observation records. Legacy projects retain their ledger and previous qualification

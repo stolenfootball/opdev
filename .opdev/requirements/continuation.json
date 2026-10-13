@@ -54,7 +54,7 @@
         "kind": "source",
         "source": {
           "path": "spec/evidence-lifetimes.md",
-          "sha256": "f500d9f4951dd11b8bf5b27bacd757386e90bbde02ce656d341d2687240770b7",
+          "sha256": "6e78c63845ab8c7d527cbfa13a9ed1be9535260ba62fbe244c008dddcf17c4de",
           "excerpt": "| Fact | Lifetime and invalidation |\n| --- | --- |\n| Assertion review | Exact source, complete acceptance inventory and current assertions; new conditions invalidate review even when execution is unchanged |\n| Canonical execution | Exact reviewed input/configuration/environment identities, provider producer/run/attempt and stage; newer attempts and unavailable evidence cannot fall back to old green |\n| Artifact qualification | Exact retained artifact bytes and separate qualification evidence; replacement or missing bytes cannot inherit old qualification |\n| Developer decision | Original attributed scope, authority, revocation/supersession and applicable expiry; permission is not feedback or release authority |\n| Remote observation | Explicit observation context and freshness, rechecked through the provider when qualification requires it; local journals cannot refresh or authenticate it |"
         }
       },
@@ -328,10 +328,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "605aa0ab340a05992c91abbdd44c25f3f454655d1423ab96d5787aeff272aec4"
+        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
+        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
+        "subject_sha256": "99c364522f878ecca7273a56bf4f50ceb251db9e5fa79a2fa83d9d70fbc29667"
       }
     },
     {
@@ -348,10 +348,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "cbf90278fcb05bf171ca4b4bf488b550283ab4980e21555f4c8322b35358a209"
+        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
+        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
+        "subject_sha256": "874c761a793028009d29264b9d329ae5087706c000c9bcff6d82422bf0fc407a"
       }
     },
     {
@@ -368,10 +368,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "c87423c28b1ae234142102c9d61b0042c7ed66ff10a1ba7f534d7df259157d8a"
+        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
+        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
+        "subject_sha256": "0f91feaae581e71907d1093f41517f25955aa78223a35f4b9ad1221193f8c09d"
       }
     }
   ]

@@ -56,6 +56,13 @@ project controls separately and reports artifact delivery not evaluated. Histori
 release facts do not qualify new bytes; do not make every gate green by copying
 old artifact assertions. Release permission remains separate from all verdicts.
 
+Capability `evidence.merged-delivery.v1` checks a merged delivery review against
+the provider-observed integrated tree, while the explicit locator still names
+the actual MR/PR source head. Never replace that head with a checkout/tag SHA.
+Missing integration metadata fails closed. Prepare a fresh delivery-stage record
+for its actual source/configuration/artifact; tree equality does not transfer
+another stage's review or execution. Check local and CI support during adoption.
+
 Discussion export now requires `evidence.discussion-wire.v2` on both local and CI
 readers. It losslessly shares repeated strings within the bounded note; the full
 typed review, assertions and digests are unchanged. Existing v1 notes remain

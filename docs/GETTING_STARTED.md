@@ -56,11 +56,11 @@ installer verifies and reinstalls that version; automatic updating is disabled.
 See [manual verification and historical releases](../release/README.md#consumer-verification)
 and [recovery](../release/README.md#recovery).
 
-The plugin has a separate managed-runtime path: it deliberately pins CLI 0.4.0
+The plugin has a separate managed-runtime path: current source pins CLI 0.5.0
 in [runtime.lock](../plugins/opdev/runtime.lock), verifies compatibility, and
-does not modify PATH. That pin is independent of the plugin's version and does not supply the 0.5.0
-capabilities below. Select a verified compatible standalone 0.5.0 CLI for those
-features; do not silently modify the managed cache.
+does not modify PATH. That pin is independent of the plugin's version. Older
+installed plugins may retain an older pin; inspect actual runtime capabilities
+and offer an update when needed rather than silently modifying the managed cache.
 
 For source development, Rust 1.97 or newer provides a fallback. This installs
 from the repository, not necessarily the published release:
@@ -70,6 +70,10 @@ cargo install --locked --git https://gitlab.com/stolenfootball-tools/opdev.git o
 ```
 
 ## Initialize a repository
+
+For new, existing and upgrading projects, first read the
+[connected adoption workflow](adoption.md). It explains how to catch review/CI
+handoff gaps before expensive verification without triggering a release.
 
 From an existing Git repository, inspect discovery before writing anything:
 

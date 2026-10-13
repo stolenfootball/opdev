@@ -226,7 +226,7 @@
       "id": "V-review-handoff-3",
       "target": {
         "path": "crates/opdev-engine/src/review.rs",
-        "sha256": "06f5259164ac061eddf114f87c774ca1d6899152652338430e74576a7827776f",
+        "sha256": "1cc0aff95aafe64ac424aed25f6989aab75d321f02fdc71b3c14143c4608f84e",
         "excerpt": "fn prior_stage_preflight_rejects_project_claims_wrong_sources_and_nonpasses"
       },
       "inputs": [
@@ -422,11 +422,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "efccc1062e3ef4692bf59b43aff8db5e57fe9ffe5bb0e5d89ab4e42dbe74e53d",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
+        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
+        "subject_sha256": "331c135e240e398dbdbc70dfa35e1a901cf7d72ea36477919d499be65e3e4d9c"
       }
     },
     {
@@ -452,11 +452,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "ace2213b1076353913ec13d8fd3cd7d36b5ad898cbc54f6f82e3433664b1f1e4",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
+        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
+        "subject_sha256": "ef3d915846234ae158da7ff99c8da6e1eed2032e746cff7092b78d2aa9d6273d"
       }
     },
     {
@@ -482,11 +482,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "b5236393f71c5ef807430b9226077883093a053b422314a8c9ad6b08183c8128",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
+        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
+        "subject_sha256": "68106c3d6ad6939e2b33b804b00bee2f15202a36cd94291ab6d97090276a85fc"
       }
     },
     {

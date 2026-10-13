@@ -68,6 +68,12 @@ change the single GitLab publication path or make an unrun check pass.
 5. If the candidate is accepted, create the final `v0.1.2` tag on the same
    qualified revision. The final tag runs the complete pipeline again; it does
    not promote candidate bytes under a new identity.
+6. After the final CLI release is published and qualified, complete
+   [managed-runtime pin maintenance](#managed-runtime-pin-maintenance): update
+   the source plugin to select that CLI, verify installation and reuse, and
+   merge the pin change with its required pre- and post-merge checks. Do not
+   report the release task complete while its managed pin still targets the
+   previous CLI; report any blocker and keep the release work open.
 
 The separate final build is intentional because the versioned asset names,
 source revision, and tag-bound signing identity differ. Within each tag
@@ -163,6 +169,22 @@ adoption checks do not require a new publication. New release artifacts still
 need their own complete qualification and explicit release authorization.
 
 ## Managed-runtime pin maintenance
+
+An authorized OpDev CLI release includes this follow-up pin update; do not wait
+for a separate developer request. Publish and qualify the final CLI first, then
+update `plugins/opdev/runtime.lock` to its version, tag and exact signing
+identity. Preserve verifier digests unless the verifier itself is deliberately
+updated and qualified. Bump the source plugin version consistently in both host
+manifests, the compatibility contract and versioned marketplace metadata, and
+reconcile the installation documentation and affected requirements bindings.
+Run the offline and live installer checks and complete normal integration.
+
+This is a source-plugin follow-up, not another CLI release: never rewrite the
+published tag or immutable plugin archive to include the later pin, and do not
+start a recursive release/version-bump cycle. A plugin-only release keeps the
+current qualified CLI pin unless a CLI update is part of its scope. Updating
+installed plugin caches, consumer CI pins or project policy remains separate
+work and requires its own applicable authorization.
 
 Standalone CLI 0.5.0 is published and qualified; source plugin 0.5.1 pins that
 immutable GitHub release. No historical release assets or cached runtimes are

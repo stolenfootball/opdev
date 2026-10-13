@@ -778,6 +778,10 @@ mod tests {
         assert!(validate_bytes(root, &manifest, TestStage::PreMerge, expected, &bytes).is_ok());
         assert!(validate_bytes(root, &manifest, TestStage::PostMerge, expected, &bytes).is_err());
         assert!(
+            validate_bytes(root, &manifest, TestStage::Delivery, expected, &bytes).is_err(),
+            "same source and acceptance do not transfer a pre-merge review to delivery"
+        );
+        assert!(
             validate_bytes(
                 root,
                 &manifest,

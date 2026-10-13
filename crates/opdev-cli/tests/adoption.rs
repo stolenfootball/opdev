@@ -1395,6 +1395,36 @@ fn preflight_reports_missing_inputs_together_and_never_executes_suites()
     assert!(value["core_report"].is_null());
     assert!(!root.join("unexpected-suite-execution").exists());
     let mut ledger = EvidenceLedger::load_optional(root, &embedded_catalog()?)?.ok_or("ledger")?;
+    for rule in ["OPDEV-WORK-001", "OPDEV-TEST-002"] {
+        let mut incomplete = ledger.clone();
+        let assertion = incomplete.changes[0]
+            .assertions
+            .iter_mut()
+            .find(|a| a.rule_id.as_str() == rule)
+            .ok_or("adoption assertion")?;
+        for evidence in &mut assertion.evidence {
+            if evidence.kind == "adoption_review" {
+                evidence.kind = "generic_review".into();
+            }
+        }
+        fs::write(root.join(EVIDENCE_PATH), incomplete.to_yaml()?)?;
+        for extra in [vec!["--preflight"], vec![]] {
+            let mut args = vec![
+                "adoption",
+                "check",
+                "--legacy-assessment",
+                "--format",
+                "json",
+            ];
+            args.extend(extra);
+            let output = cli(root, &args)?;
+            let value: Value = serde_json::from_slice(&output.stdout)?;
+            assert_eq!(output.status.code(), Some(1), "{value}");
+            assert!(value["blockers"].to_string().contains("adoption_review"));
+            assert_eq!(value["checks_ran"], false);
+            assert!(!root.join("unexpected-suite-execution").exists());
+        }
+    }
     ledger.changes[0]
         .assertions
         .retain(|a| !matches!(a.rule_id.as_str(), "MCD-PIPELINE-001" | "OPDEV-WORK-001"));

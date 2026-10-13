@@ -68,5 +68,6 @@ Exit 0 and `inputs_ready: true` mean only readiness: `complete: false`,
 guards before commands, then retains all existing gate and freshness checks.
 
 `adoption prepare-evidence` includes unresolved adoption/cleanup evidence and a
-separate unresolved MCD-PIPELINE-001 delivery-gate candidate. Fill real locations
+separate unresolved delivery-gate candidate: current-change OPDEV-PIPELINE-001
+for engineering policy 2/3, historical MCD-PIPELINE-001 otherwise. Fill real locations
 and review each decision; placeholders do not establish applicability or a pass.

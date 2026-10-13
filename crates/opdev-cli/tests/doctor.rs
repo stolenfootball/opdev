@@ -143,6 +143,12 @@ fn runtime_only_is_not_adoption_and_same_version_is_not_build_identity() -> Test
         report["runtime"]["capabilities"]
             .as_array()
             .ok_or("capabilities")?
+            .contains(&Value::from("evidence.merged-delivery.v1"))
+    );
+    assert!(
+        report["runtime"]["capabilities"]
+            .as_array()
+            .ok_or("capabilities")?
             .contains(&Value::from("evidence.acceptance-digest"))
     );
     assert!(

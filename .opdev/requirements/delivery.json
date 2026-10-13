@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "release/README.md",
-          "sha256": "1f043af953cb0ce2c5c6d55645ff5abd6a9b4b9718c9bac7597a5300346c3b89",
+          "sha256": "2963580cd655fd5775ac24d6b54d1e596b546f8776ffcada0b5a2be61a9c45da",
           "excerpt": "The protected GitLab tag pipeline is the only supported way to publish OpDev."
         }
       },
@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "release/README.md",
-          "sha256": "1f043af953cb0ce2c5c6d55645ff5abd6a9b4b9718c9bac7597a5300346c3b89",
+          "sha256": "2963580cd655fd5775ac24d6b54d1e596b546f8776ffcada0b5a2be61a9c45da",
           "excerpt": "The automated recovery paths are bounded by the failure they address:"
         }
       },
@@ -155,10 +155,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct pin review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
-        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
-        "subject_sha256": "c7868ce19e3100a3b1a5792b232b06df1ccab670393a0825584f746fdb13cc01"
+        "reviewer": "Codex (implementing agent, distinct release-instruction review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
+        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
+        "subject_sha256": "49c89b6e99714fdd514d515145f0c8494a07aa6f99baa5f7e36f022517bcb3f4"
       }
     },
     {
@@ -175,10 +175,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct pin review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
-        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
-        "subject_sha256": "2d161ff47f53b516e42fdb862ab55f89e2e88d81799750a13fc6f1a613561dc7"
+        "reviewer": "Codex (implementing agent, distinct release-instruction review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
+        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
+        "subject_sha256": "6a4dd2131bde1dc54bba374063220329f6e85a0964177ba3d955168bac2a2f30"
       }
     },
     {
@@ -195,10 +195,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct pin review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
-        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
-        "subject_sha256": "1e9935c19a24a6e5bf584c008242c99a2241793146cb74fa19bd12ea529fc623"
+        "reviewer": "Codex (implementing agent, distinct release-instruction review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
+        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
+        "subject_sha256": "4ac4124a12d412415adc702aee13e9df49c2e18d98ccba16e936a855c658db9f"
       }
     },
     {
@@ -215,10 +215,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct pin review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
-        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
-        "subject_sha256": "de790b722f57f3c7dddc5d3fa2419436b506ff8128304ea584845cd7c2220663"
+        "reviewer": "Codex (implementing agent, distinct release-instruction review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
+        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
+        "subject_sha256": "ad941e264ac702760636525a085a6946c89dce351c0b9c70d32c454ce9957970"
       }
     },
     {
@@ -235,10 +235,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct pin review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
-        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
-        "subject_sha256": "88207077c6b5965833162b53a5bff7735b6d945a6fe3783006f06a8619dd7f01"
+        "reviewer": "Codex (implementing agent, distinct release-instruction review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
+        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
+        "subject_sha256": "38e995e77bef47fbec928b6fa3e2b6edf0a8f6fc06a155e886b038049c3219b4"
       }
     },
     {
@@ -255,10 +255,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct pin review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117",
-        "rationale": "Reviewed delivery_recovery.rs graph-bypass mutations and publication retry/conflict fixture selection. Only the factual pin paragraph changed in the specification; publisher, recovery guarantees, test inputs and assertions are unchanged. These tests qualify controls, not a new artifact or release permission.",
-        "subject_sha256": "663a423e8a0adfb4695fd2bedc3076fc25f8f86db4c5ee2e1354ddade7ff5d31"
+        "reviewer": "Codex (implementing agent, distinct release-instruction review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
+        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
+        "subject_sha256": "94802c8f1a9bf1eea02c2b35f44737dcf28fd576e2f4f9e2daef96c1323fc923"
       }
     }
   ]
