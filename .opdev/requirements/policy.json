@@ -99,7 +99,7 @@
       "id": "V-policy-preview-1",
       "target": {
         "path": "crates/opdev-core/src/resolution.rs",
-        "sha256": "3866f2ce7320a333a727fb75a72cb9d10c0027541f5ce1643bd5507967d4a120",
+        "sha256": "c376db496b23bdd5dcaa57f7ba4639fd174be8e96325bca0ba10dc69e1f87c4e",
         "excerpt": "fn preview_accounts_for_every_old_rule_without_mutating_it("
       },
       "inputs": [
@@ -145,7 +145,7 @@
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn rule_class("
         },
         {
@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -169,7 +169,7 @@
       "id": "V-policy-preview-2",
       "target": {
         "path": "crates/opdev-core/src/resolution.rs",
-        "sha256": "3866f2ce7320a333a727fb75a72cb9d10c0027541f5ce1643bd5507967d4a120",
+        "sha256": "c376db496b23bdd5dcaa57f7ba4639fd174be8e96325bca0ba10dc69e1f87c4e",
         "excerpt": "fn unknown_and_conflicting_definitions_fail_closed("
       },
       "inputs": [
@@ -215,7 +215,7 @@
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn rule_class("
         },
         {
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -239,7 +239,7 @@
       "id": "V-policy-preview-3",
       "target": {
         "path": "crates/opdev-core/src/resolution.rs",
-        "sha256": "3866f2ce7320a333a727fb75a72cb9d10c0027541f5ce1643bd5507967d4a120",
+        "sha256": "c376db496b23bdd5dcaa57f7ba4639fd174be8e96325bca0ba10dc69e1f87c4e",
         "excerpt": "fn mandatory_controls_and_semantic_identity_are_not_optional("
       },
       "inputs": [
@@ -285,7 +285,7 @@
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn rule_class("
         },
         {
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -355,7 +355,7 @@
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn rule_class("
         },
         {
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -425,7 +425,7 @@
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn rule_class("
         },
         {
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -449,7 +449,7 @@
       "id": "V-policy-enforcement-1",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "6be6dee84a1d6f77c83adf5cc0808ffed5f3ada3218247e528b0ba4a41cdfd6c",
+        "sha256": "57bf955bbf40f0a7f9517db1eb67ed56c8d90f75c083ca882439c2c7eb036413",
         "excerpt": "fn policy_two_requires_explicit_schema_and_capabilities_without_claiming_execution"
       },
       "inputs": [
@@ -495,62 +495,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -564,7 +564,7 @@
       "id": "V-policy-enforcement-2",
       "target": {
         "path": "crates/opdev-engine/src/assessment.rs",
-        "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+        "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
         "excerpt": "fn policy_two_membership_keeps_old_standard_failures_separate"
       },
       "inputs": [
@@ -610,62 +610,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -679,7 +679,7 @@
       "id": "V-policy-enforcement-3",
       "target": {
         "path": "crates/opdev-engine/src/policy_controls.rs",
-        "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+        "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
         "excerpt": "fn control_links_need_exact_policy_stage_and_current_verification"
       },
       "inputs": [
@@ -725,62 +725,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -794,7 +794,7 @@
       "id": "V-policy-enforcement-4",
       "target": {
         "path": "crates/opdev-engine/src/policy_controls.rs",
-        "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+        "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
         "excerpt": "fn new_links_are_digest_material_but_omission_preserves_legacy"
       },
       "inputs": [
@@ -840,62 +840,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -909,7 +909,7 @@
       "id": "V-policy-enforcement-5",
       "target": {
         "path": "crates/opdev-engine/src/policy_controls.rs",
-        "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+        "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
         "excerpt": "fn missing_execution_stale_review_and_false_absence_do_not_qualify"
       },
       "inputs": [
@@ -955,62 +955,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1070,62 +1070,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1185,67 +1185,67 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -1345,67 +1345,67 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -1505,67 +1505,67 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -1619,7 +1619,7 @@
       "id": "V-policy-standards-4",
       "target": {
         "path": "crates/opdev-engine/src/standard_assessment.rs",
-        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
         "excerpt": "fn guidance_assessment_and_requirement_have_different_effects("
       },
       "inputs": [
@@ -1665,62 +1665,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1779,7 +1779,7 @@
       "id": "V-policy-standards-5",
       "target": {
         "path": "crates/opdev-engine/src/standard_assessment.rs",
-        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
         "excerpt": "fn required_mapping_is_scoped_and_does_not_waive_baseline("
       },
       "inputs": [
@@ -1825,62 +1825,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1939,7 +1939,7 @@
       "id": "V-policy-standards-6",
       "target": {
         "path": "crates/opdev-engine/src/standard_assessment.rs",
-        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
         "excerpt": "fn partial_mappings_and_changed_definitions_cannot_establish_conformance("
       },
       "inputs": [
@@ -1985,62 +1985,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2099,7 +2099,7 @@
       "id": "V-policy-standards-7",
       "target": {
         "path": "crates/opdev-engine/src/standard_assessment.rs",
-        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
         "excerpt": "fn command_failure_survives_projection_and_cannot_be_shadowed_by_a_name("
       },
       "inputs": [
@@ -2145,62 +2145,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2259,7 +2259,7 @@
       "id": "V-policy-standards-8",
       "target": {
         "path": "crates/opdev-engine/src/standard_assessment.rs",
-        "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+        "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
         "excerpt": "fn conflicts_and_forged_metadata_never_survive_reprojection("
       },
       "inputs": [
@@ -2305,62 +2305,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2465,62 +2465,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2530,7 +2530,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -2625,62 +2625,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2690,7 +2690,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -2785,62 +2785,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2850,7 +2850,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -2899,7 +2899,7 @@
       "id": "V-policy-standards-12",
       "target": {
         "path": "crates/opdev-engine/src/assessment.rs",
-        "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+        "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
         "excerpt": "fn incomplete_mapping_cannot_turn_green_results_into_compliance("
       },
       "inputs": [
@@ -2945,57 +2945,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3005,7 +3005,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -3105,57 +3105,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3165,7 +3165,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -3230,7 +3230,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3290,57 +3290,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3350,7 +3350,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -3415,7 +3415,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3475,57 +3475,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3535,7 +3535,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -3600,7 +3600,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3660,57 +3660,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3720,7 +3720,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -3785,7 +3785,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -3845,57 +3845,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3905,7 +3905,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -3970,7 +3970,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4030,57 +4030,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4090,7 +4090,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -4155,7 +4155,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4215,57 +4215,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4275,7 +4275,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -4340,7 +4340,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4354,7 +4354,7 @@
       "id": "V-organization-policy-8",
       "target": {
         "path": "crates/opdev-project/src/acceptance.rs",
-        "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+        "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
         "excerpt": "fn organization_links_are_material_and_legacy_digest_is_unchanged("
       },
       "inputs": [
@@ -4400,57 +4400,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4460,7 +4460,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -4525,7 +4525,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4539,7 +4539,7 @@
       "id": "V-organization-policy-9",
       "target": {
         "path": "crates/opdev-engine/src/policy_controls.rs",
-        "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+        "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
         "excerpt": "fn organization_controls_require_current_accepted_verification_and_stage("
       },
       "inputs": [
@@ -4585,57 +4585,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4645,7 +4645,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -4710,7 +4710,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4724,7 +4724,7 @@
       "id": "V-organization-policy-10",
       "target": {
         "path": "crates/opdev-engine/src/policy_controls.rs",
-        "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+        "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
         "excerpt": "fn organization_source_edits_during_checks_invalidate_positive_projection("
       },
       "inputs": [
@@ -4770,57 +4770,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4830,7 +4830,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -4895,7 +4895,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -4909,7 +4909,7 @@
       "id": "V-organization-policy-11",
       "target": {
         "path": "crates/opdev-engine/src/policy_controls.rs",
-        "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+        "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
         "excerpt": "fn organization_extension_links_require_the_declared_current_stage_and_result("
       },
       "inputs": [
@@ -4955,57 +4955,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5015,7 +5015,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -5080,7 +5080,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5140,57 +5140,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5200,7 +5200,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -5265,7 +5265,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5325,57 +5325,57 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5385,7 +5385,7 @@
         },
         {
           "path": "crates/opdev-engine/src/standard_assessment.rs",
-          "sha256": "23d4aad450d1c6e3a3727ad00d5e496d345271d9174f53381dbab33bf960e6f1",
+          "sha256": "2b3774fbb9a60ce06c542a08b70b4dad6d6ee9396a8603231271da91d9267fa0",
           "excerpt": "//! Additional standards project existing observations; they never launch verification."
         },
         {
@@ -5450,7 +5450,7 @@
         },
         {
           "path": "docs/engineering-policy.md",
-          "sha256": "56aaaf1fab164df3880a35fc815fb46fa345a5f8e74b97188a06311dfd125d14",
+          "sha256": "7f985921891bb54cf544e6cf1fbfb35179fe37347aa239088e6dc30da59c7b1b",
           "excerpt": "# Understanding engineering policy"
         }
       ],
@@ -5464,7 +5464,7 @@
       "id": "V-policy-shape-no-exec",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "6be6dee84a1d6f77c83adf5cc0808ffed5f3ada3218247e528b0ba4a41cdfd6c",
+        "sha256": "57bf955bbf40f0a7f9517db1eb67ed56c8d90f75c083ca882439c2c7eb036413",
         "excerpt": "fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance("
       },
       "inputs": [
@@ -5510,62 +5510,62 @@
         },
         {
           "path": "crates/opdev-project/src/manifest.rs",
-          "sha256": "ed386ee58ece8a750c8d7ca1d4bd6ff88dc9324cd0123a9e6cd88ecb0d163533",
+          "sha256": "be5112428c43910bbc59182d20b1b36a7b2a56aa18bb14ce2042eb822bf82513",
           "excerpt": "fn validate_engineering("
         },
         {
           "path": "crates/opdev-project/src/acceptance.rs",
-          "sha256": "438e5a945c6d9c6cec6dbc4ccadabcad5801b7ac17a29fe8ab07e448a3af4aea",
+          "sha256": "58ce4545b926ef006750cf9f17e92a720590c5365a2ff3a3b5dd1046599f1af2",
           "excerpt": "pub struct PolicyControlReview"
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "37b9c34af7a535e07b1add82573f529f34226e459b718e4791647cb77b5b2a8e",
+          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
           "path": "crates/opdev-engine/src/evaluator.rs",
-          "sha256": "fb5c19ea28388d25575a18892dae47e2dc7b412c764035d9b221adbc68cccb00",
+          "sha256": "8a870dae9280f7dbf46b612bcd598a841e60b40e0206758efc4dc6f7577a0e57",
           "excerpt": "fn evaluate_inner("
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "fccb910292e521bce4a096b6c04130c65802b0e061f67061fbdd47ace91427d6",
+          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
           "excerpt": "fn control_selection_matches("
         },
         {
           "path": "crates/opdev-engine/src/policy_controls.rs",
-          "sha256": "d7ae508ef7c90389a061f1c180075ee33d90949d9d1bd67e3d1bf96a1bbb19a1",
+          "sha256": "2768eb6445397302fef401c97186cee69d997a48d7eaf17af9be85abf12bb497",
           "excerpt": "pub(crate) fn qualify("
         },
         {
           "path": "crates/opdev-engine/src/assessment.rs",
-          "sha256": "08a892db08457511619f53fb6225fe93e7219b8fecd010a5c95dfbaec6300acf",
+          "sha256": "2b838430ee141a63abf82cbe27570c48626857939cc8b661d0a3791d93ade55c",
           "excerpt": "pub(crate) fn for_policy("
         },
         {
           "path": "schema/evidence.schema.json",
-          "sha256": "d0f9a4ded4f4c35b748e2fec50864d0be4a44fac25e80b73e0991c093bb033b8",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
           "excerpt": "\"policy_controls\": {"
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "\"schema\": { \"enum\": [1, 2, 3, 4] }"
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "\"$id\": \"https://opdev.dev/schema/report-v1.json\""
         },
         {
           "path": "crates/opdev-core/src/policy.rs",
-          "sha256": "030d80f22f8e90e8a9a6a8382c4b7d90fb719ee1f091cc405f2d770cddee8023",
+          "sha256": "d0a14698303ff04e2049d16d1618e1c4cc80f1fc94660439b33b464a38496847",
           "excerpt": "pub fn engineering_rule_class("
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5615,10 +5615,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "6d6d479e37e761b937396ea22f33a46929a8bf1b67dce01de69a87751972b896",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "0be0efd84c30ad1925daac05233a5631113fad86d34341e15b3c9453efa41bfc",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -5655,10 +5655,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "494f16918092fd1adc932d310d56fd1c85492a7fcac46812a60bb0a1d7f0c85b",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "4b3672c3eb9a2881baebf798d5422d8a48d03d932c130aefe145cea585f77998",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -5695,10 +5695,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "8e3d69190b4cd025bc5b130ad3d7f9ff897ee7a6a2ee054d83324dc7658b4468",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "3bb311a2a1b319b237c174db8ba44e1fe0ec4957ce6a28e2af1be99290cfba67",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -5745,10 +5745,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "96ab285e843e4b114fbbcb4fa5b5ec4e61bd846c57ff0e59c7ff849701354488",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "abe2820aa89bd53fab919120cccaa3aab2ee320a61e0482f568ed13ccec24d43",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -5795,10 +5795,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "6a376d401ca7b356efd245ccefde035d95663b85317e12f290726f4285cd3f2e",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "e3d3ba2cfc404d25923c489571c2e4ddb9d90bad5ce09bf1bfb2c75bfb06f86a",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -5845,10 +5845,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "cf99da9cac3b1a7cf77e121d64366212f9d8bc241e9255936ba393c00d105ec6",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "f1d96c7da7613c79af7af53e9745c3c6767ce32127ddb646c439c9b873f193c3",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -5920,10 +5920,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "eeb22a141c18b09539d25b51d2387c187fd7e7a5e904c87acf2b5b586bb15a92",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "70277a59a7ffc06c085ce0a3ddc9dddbeaf8657b565cb3833a667844fc38a182",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -5995,10 +5995,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "ab3cb77189cccb987fdd36a99aaf8b2d410c8c1f02e2a0e9652ddc886615f8f3",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "9d2260d5ec09cc652cc6d9148036b048428ac28f4b53678656d1906570ae3963",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -6070,10 +6070,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "2020eb9877fade88c84f419e1bae62793b8497364fdf99490a57b137da9fd00d",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "6c2f5cffc435fe4d2918b22bb6130185312c534b01ce9db9277658c301a26a43",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -6150,10 +6150,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "16fe41b42563798308fcc6a9f8b5ca806945a94738ca1556c9c8a9b3129cbc49",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "ddbbc24467c7debc379321982432d257383d08404d40a5a4cc832a4ba2561f2f",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -6230,10 +6230,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "7c9e1701e627d1388f27b89ba8c65f4875f9a55254e12646711407862485b598",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "d9f57c679ea4a80409807106f7a3ce64666b338f8c4ea1dd488a455bec2b462c",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -6310,10 +6310,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "646e34d43f4ba9701e6a8bf228b29f7d6f0cd8934c7e97f676d7b9ff4d3669ba",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "85e2a52e58f3794a5d1acd1b2f052b674e76bf37ae81227336bd7536d7472eea",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     }

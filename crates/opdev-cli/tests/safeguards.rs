@@ -177,6 +177,122 @@ fn real_api_and_data_assertions_pass_then_detect_incompatibility_and_interruptio
 }
 
 #[test]
+#[allow(clippy::too_many_lines)] // Keep this bounded six-case adversarial fixture and oracle together.
+fn transient_sensitive_data_needs_real_verification_and_solo_agent_review() -> Result {
+    const PRIVACY_APP: &str = "def classify(value):\n    return '@' in value\n";
+    const PRIVACY_TEST: &str = "import contextlib, io, unittest\nfrom app import classify\nclass PrivacyTests(unittest.TestCase):\n    def test_transient_input_not_disclosed(self):\n        out, err = io.StringIO(), io.StringIO()\n        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):\n            self.assertTrue(classify('fixture@example.test'))\n            self.assertFalse(classify('not-an-address'))\n        self.assertEqual(out.getvalue(), '')\n        self.assertEqual(err.getvalue(), '')\n";
+    for mode in [
+        "healthy",
+        "leak",
+        "unknown",
+        "unmapped",
+        "no-execution",
+        "no-review",
+    ] {
+        let f = fixture()?;
+        let root = f.path();
+        let mut project: Value = serde_json::from_slice(&fs::read(root.join(MANIFEST_PATH))?)?;
+        project["schema"] = json!(4);
+        project["assurance"]["engineering"]["version"] = json!("3");
+        project["assurance"]["safeguards"]["version"] = json!(2);
+        for &cap in opdev_project::Capability::for_version(2) {
+            let name = serde_json::to_value(cap)?
+                .as_str()
+                .ok_or("name")?
+                .to_owned();
+            project["assurance"]["safeguards"]["capabilities"][&name] = json!({
+                "state": if cap == opdev_project::Capability::SensitiveData {
+                    if mode == "unknown" { "unknown" } else { "present" }
+                } else { "absent" },
+                "rationale":"Isolated transient-processing fixture, no retained data or supported distribution",
+                "authority":"contract.md"
+            });
+        }
+        fs::write(
+            root.join(MANIFEST_PATH),
+            serde_json::to_vec_pretty(&project)?,
+        )?;
+        fs::write(
+            root.join("contract.md"),
+            "Classify transient input without writing personal input to stdout or stderr. No persistence or external processing exists in this fixture.\n",
+        )?;
+        fs::write(root.join("test_app.py"), PRIVACY_TEST)?;
+        fs::write(
+            root.join("app.py"),
+            if mode == "leak" {
+                PRIVACY_APP.replace("    return", "    print(value)\n    return")
+            } else {
+                PRIVACY_APP.into()
+            },
+        )?;
+        git(root, &["add", "."])?;
+        let source = TrackedEvidence::bind(
+            root,
+            "contract.md".into(),
+            "Classify transient input".into(),
+        )?;
+        let target = TrackedEvidence::bind(
+            root,
+            "test_app.py".into(),
+            "self.assertEqual(out.getvalue(), '')".into(),
+        )?;
+        let mut record = ledger(root)?;
+        let acceptance = &mut record["changes"][0]["acceptance"];
+        acceptance["conditions"] = json!([{"id":"privacy", "statement":"Transient input is not logged", "authority":"contract.md", "source":source}]);
+        acceptance["verifications"] = json!([{"condition":"privacy","method":"automated","target":target,
+            "assertion":"Classification is correct and neither output stream discloses input",
+            "discriminating_case":"Adding print(value) fails the empty-output assertion", "suite":"check","outcome":"passed"}]);
+        acceptance["review"]["reviewer"] =
+            json!("agent:implementer performing a distinct review pass");
+        acceptance["safeguards"] = json!({"version":2,
+            "impacts":{"sensitive_data":{"impact":"affected","rationale":"Classifies personal input transiently"}},
+            "objectives": if mode == "unmapped" { json!({}) } else { json!({"data_handling":["privacy"]}) }});
+        record["changes"][0]["assertions"] = if mode == "no-review" {
+            json!([])
+        } else {
+            json!([{"rule_id":"OPDEV-REVIEW-001", "outcome":"passed", "summary":"Synthetic agent review of actual input/output path and assertions",
+                "evidence":[{"kind":"review","summary":"Read the classify path, both output assertions and lack of external effects; fixture not general privacy proof", "location":"fixture:source-and-assertion-review"}]}])
+        };
+        save(root, record)?;
+        let mut args = vec!["check", "--ci", "--format", "json"];
+        if mode == "no-execution" {
+            args.push("--no-exec");
+        }
+        let output = cli(root, &args)?;
+        assert!(
+            matches!(output.status.code(), Some(0 | 1)),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let report: Value = serde_json::from_slice(&output.stdout)?;
+        let outcome = |id: &str| {
+            report["rules"]
+                .as_array()
+                .and_then(|r| r.iter().find(|r| r["rule_id"] == id))
+                .map(|r| r["outcome"].clone())
+        };
+        assert_eq!(
+            outcome("OPDEV-VERIFY-001"),
+            Some(json!(match mode {
+                "healthy" | "no-review" => "passed",
+                "leak" => "failed",
+                _ => "unverified",
+            })),
+            "{mode}: {report}"
+        );
+        assert_eq!(
+            outcome("OPDEV-REVIEW-001"),
+            Some(json!(if mode == "healthy" {
+                "passed"
+            } else {
+                "unverified"
+            }))
+        );
+    }
+    Ok(())
+}
+
+#[test]
 fn missing_unknown_contradictory_or_unmapped_capabilities_cannot_use_a_green_suite() -> Result {
     for mode in [
         "missing-review",
@@ -245,6 +361,83 @@ fn missing_unknown_contradictory_or_unmapped_capabilities_cannot_use_a_green_sui
                 .ok_or("diagnostic")?
                 .is_empty()
         );
+    }
+    Ok(())
+}
+
+#[test]
+fn policy_three_domain_operations_and_inconclusive_results_need_current_checks() -> Result {
+    for (capability, objectives) in [
+        ("high_consequence", vec!["domain_assurance"]),
+        (
+            "operations",
+            vec!["operational_recovery", "operational_objectives"],
+        ),
+    ] {
+        for mode in ["healthy", "defect", "missing-objective", "inconclusive"] {
+            let f = fixture()?;
+            let root = f.path();
+            let mut project: Value = serde_json::from_slice(&fs::read(root.join(MANIFEST_PATH))?)?;
+            project["schema"] = json!(4);
+            project["assurance"]["engineering"]["version"] = json!("3");
+            project["assurance"]["safeguards"]["version"] = json!(2);
+            for &cap in opdev_project::Capability::for_version(2) {
+                let name = serde_json::to_value(cap)?
+                    .as_str()
+                    .ok_or("capability")?
+                    .to_owned();
+                project["assurance"]["safeguards"]["capabilities"][&name] = json!({
+                    "state":if name == capability {"present"} else {"absent"},
+                    "rationale":"Synthetic bounded stop/recovery fixture, not safety certification or service reliability proof", "authority":"contract.md"});
+            }
+            fs::write(root.join(MANIFEST_PATH), serde_json::to_vec(&project)?)?;
+            fs::write(
+                root.join("contract.md"),
+                "Refuse requests above the declared limit without changing state. A rejected request must not prevent a later valid request.\n",
+            )?;
+            fs::write(
+                root.join("app.py"),
+                if mode == "defect" {
+                    "def request(value):\n    return (0, value)\n"
+                } else {
+                    "def request(value):\n    return (1, 'limit exceeded') if value > 10 else (0, value)\n"
+                },
+            )?;
+            fs::write(
+                root.join("test_app.py"),
+                "import unittest\nfrom app import request\nclass Limits(unittest.TestCase):\n    def test_boundary(self):\n        self.assertEqual(request(10), (0, 10))\n        self.assertEqual(request(11), (1, 'limit exceeded'))\n        self.assertEqual(request(3), (0, 3))\n",
+            )?;
+            git(root, &["add", "."])?;
+            let mut record = ledger(root)?;
+            let acceptance = &mut record["changes"][0]["acceptance"];
+            acceptance["conditions"] = json!([{"id":"limit", "statement":"Bounded handling rejects excess and recovers for the next valid request", "authority":"contract.md",
+                "source":TrackedEvidence::bind(root,"contract.md".into(),"Refuse requests".into())?}]);
+            acceptance["verifications"] = json!([{"condition":"limit","method":"automated", "suite":"check",
+                "target":TrackedEvidence::bind(root,"test_app.py".into(),"self.assertEqual(request(11)".into())?,
+                "assertion":"Checks accepted boundary, explicit refusal and next-request recovery", "discriminating_case":"Removing the limit guard makes the exact refusal assertion fail",
+                "outcome":if mode == "inconclusive" {"unverified"} else {"passed"}}]);
+            acceptance["safeguards"] = json!({"version":2,"impacts":{},"objectives":{}});
+            acceptance["safeguards"]["impacts"][capability] = json!({"impact":"affected","rationale":"Declared control changes in this synthetic fixture"});
+            for objective in &objectives {
+                acceptance["safeguards"]["objectives"][*objective] = json!(["limit"]);
+            }
+            if mode == "missing-objective" {
+                acceptance["safeguards"]["objectives"]
+                    .as_object_mut()
+                    .ok_or("objectives")?
+                    .remove(objectives.last().ok_or("objective")?.to_owned());
+            }
+            save(root, record)?;
+            assert_eq!(
+                check(root, &[])?["outcome"],
+                match mode {
+                    "healthy" => "passed",
+                    "defect" => "failed",
+                    _ => "unverified",
+                },
+                "{capability}/{mode}"
+            );
+        }
     }
     Ok(())
 }

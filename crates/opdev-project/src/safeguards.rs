@@ -21,6 +21,10 @@ pub enum Capability {
     UserInterface,
     /// Outcomes dependent on measured data/model or user effectiveness.
     Effectiveness,
+    /// Personal or sensitive information, including transient processing.
+    SensitiveData,
+    /// Behavior with material safety or other high-consequence domain obligations.
+    HighConsequence,
 }
 
 /// Explicitly unresolved is distinct from reviewed absence.
@@ -51,7 +55,7 @@ pub struct CapabilityFact {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct SafeguardPolicy {
-    /// Supported mapping version, currently 1.
+    /// Supported mapping version: 1, or 2 with engineering policy 3.
     pub version: u32,
     /// Actual policy decision reference, not inferred consent.
     pub review_reference: String,
@@ -103,6 +107,12 @@ pub enum SafeguardObjective {
     Accessibility,
     /// Measured utility with scope/data limitations separate from correctness.
     EffectivenessEvaluation,
+    /// Purpose, minimization, retention/deletion and disclosure controls.
+    DataHandling,
+    /// Consequence-specific assurance and honest limits for the supported use.
+    DomainAssurance,
+    /// Relevant success, resource and response objectives for operated behavior.
+    OperationalObjectives,
 }
 
 impl Capability {
@@ -117,6 +127,39 @@ impl Capability {
         Self::Effectiveness,
     ];
 
+    /// Versioned questions; adding a capability never rewrites version 1.
+    #[must_use]
+    pub fn for_version(version: u32) -> &'static [Self] {
+        if version == 2 {
+            &[
+                Self::PersistentData,
+                Self::PublicContract,
+                Self::Distribution,
+                Self::SecurityBoundary,
+                Self::Operations,
+                Self::UserInterface,
+                Self::Effectiveness,
+                Self::SensitiveData,
+                Self::HighConsequence,
+            ]
+        } else {
+            &Self::ALL
+        }
+    }
+
+    /// The extra operational objective belongs only to version 2.
+    #[must_use]
+    pub const fn objectives_for_version(self, version: u32) -> &'static [SafeguardObjective] {
+        if version == 2 && matches!(self, Self::Operations) {
+            &[
+                SafeguardObjective::OperationalRecovery,
+                SafeguardObjective::OperationalObjectives,
+            ]
+        } else {
+            self.objectives()
+        }
+    }
+
     /// Required objectives for an affected capability.
     #[must_use]
     pub const fn objectives(self) -> &'static [SafeguardObjective] {
@@ -129,6 +172,8 @@ impl Capability {
             Self::Operations => &[O::OperationalRecovery],
             Self::UserInterface => &[O::Accessibility],
             Self::Effectiveness => &[O::EffectivenessEvaluation],
+            Self::SensitiveData => &[O::DataHandling],
+            Self::HighConsequence => &[O::DomainAssurance],
         }
     }
 }
@@ -143,4 +188,44 @@ pub struct SafeguardReview {
     pub impacts: BTreeMap<Capability, CapabilityImpact>,
     /// Links to inventoried conditions that carry the ordinary test/review mappings.
     pub objectives: BTreeMap<SafeguardObjective, Vec<String>>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{Capability, SafeguardObjective};
+
+    #[test]
+    fn version_two_adds_independent_risks_without_changing_legacy_duties() {
+        assert_eq!(Capability::for_version(1), Capability::ALL);
+        assert_eq!(Capability::for_version(2).len(), 9);
+        assert!(!Capability::ALL.contains(&Capability::SensitiveData));
+        assert!(!Capability::ALL.contains(&Capability::HighConsequence));
+        assert_eq!(
+            Capability::Operations.objectives_for_version(1),
+            &[SafeguardObjective::OperationalRecovery]
+        );
+        assert_eq!(
+            Capability::Operations.objectives_for_version(2),
+            &[
+                SafeguardObjective::OperationalRecovery,
+                SafeguardObjective::OperationalObjectives
+            ]
+        );
+        assert_eq!(
+            Capability::SensitiveData.objectives_for_version(2),
+            &[SafeguardObjective::DataHandling]
+        );
+        assert_eq!(
+            Capability::HighConsequence.objectives_for_version(2),
+            &[SafeguardObjective::DomainAssurance]
+        );
+        for capability in Capability::ALL {
+            if capability != Capability::Operations {
+                assert_eq!(
+                    capability.objectives_for_version(1),
+                    capability.objectives_for_version(2)
+                );
+            }
+        }
+    }
 }

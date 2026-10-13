@@ -4,7 +4,8 @@
   "type": "object", "additionalProperties": false,
   "required": ["schema", "binding", "inputs_unchanged", "result"],
   "properties": {
-    "schema": {"const": 1},
+    "schema": {"enum": [1,2]},
+    "completed_at":{"type":"integer","minimum":1},
     "inputs_unchanged": {"type": "boolean"},
     "binding": {
       "type": "object", "additionalProperties": false,
@@ -41,6 +42,9 @@
       }
     }
   },
+  "if":{"properties":{"schema":{"const":2}}},
+  "then":{"required":["completed_at"]},
+  "else":{"not":{"required":["completed_at"]}},
   "$defs": {
     "text": {"type": "string", "minLength": 1, "maxLength": 1024},
     "digest": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}

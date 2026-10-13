@@ -103,6 +103,17 @@ references. Do not transfer old approval to the new contract or reset unrelated
 adequate tools. The original work authority governs removals and weakening;
 an authority reference supplied in a candidate is not authenticated consent.
 
+For explicitly selected policy 3, require `engineering.assessment.v3`,
+`acceptance.safeguards.v2` and `adoption.clean-target.v4`. Its read-only policy
+preview retains capability facts, adds sensitive-data and high-consequence
+questions as unknown, and does not resolve applicability from project kind.
+Coordinated migration selects inventory 3 and clean-target 4, reopens changed
+testing/review/operations duties and adds pending new duties. Resolve these with
+actual project evidence before completion; earlier approval cannot transfer.
+Routine code and assertion review is agentic by default, not another human
+approval round or permission to delegate. See [testing](testing.md) and
+[acceptance review](acceptance.md) for the substantive pass and its limits.
+
 For a requested project migration, first check `upgrade.coordinated-migration.v1`.
 Do not interpret a missing capability as permission to install, delete the ledger,
 or manually imitate a successful migration. Use the existing work authority for

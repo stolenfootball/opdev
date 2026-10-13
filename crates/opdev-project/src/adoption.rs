@@ -183,12 +183,28 @@ pub fn adoption_catalog() -> Result<AdoptionCatalog, AdoptionError> {
 /// # Errors
 /// Rejects unsupported versions or malformed bundled catalogs.
 pub fn adoption_catalog_version(version: u32) -> Result<AdoptionCatalog, AdoptionError> {
+    if version == 3 {
+        let mut catalog = adoption_catalog_version(2)?;
+        let additions: AdoptionCatalog =
+            serde_json::from_str(include_str!("../../../rules/adoption-engineering-3.json"))?;
+        catalog.version = 3;
+        catalog.practices.extend(additions.practices);
+        for practice in &mut catalog.practices {
+            practice.title = match practice.id.as_str() {
+                "testing" => "Meaningful consumer-path verification and controlled decision procedures".into(),
+                "review" => "Agentic behavior, assertion and maintainability review; no routine human sign-off".into(),
+                "observability" => "Operational objectives, diagnostics and response".into(),
+                _ => continue,
+            };
+        }
+        return Ok(catalog);
+    }
     let source = match version {
         1 => CATALOG,
         2 => include_str!("../../../rules/adoption-engineering.json"),
         _ => {
             return Err(AdoptionError::Invalid(format!(
-                "unsupported adoption catalog {version}; supported versions are 1 and 2"
+                "unsupported adoption catalog {version}; supported versions are 1, 2 and 3"
             )));
         }
     };
@@ -197,8 +213,15 @@ pub fn adoption_catalog_version(version: u32) -> Result<AdoptionCatalog, Adoptio
 
 /// Adoption inventory selected by the explicitly reviewed project policy.
 #[must_use]
-pub const fn project_adoption_catalog(manifest: &ProjectManifest) -> u32 {
-    if manifest.assurance.engineering.is_some() {
+pub fn project_adoption_catalog(manifest: &ProjectManifest) -> u32 {
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.version == "3")
+    {
+        3
+    } else if manifest.assurance.engineering.is_some() {
         2
     } else {
         1
@@ -400,7 +423,7 @@ impl AdoptionRecord {
                     Some(_) => {}
                 }
             }
-            if project_adoption_catalog(manifest) == 2
+            if project_adoption_catalog(manifest) >= 2
                 && practice.automated
                 && decision.state == AdoptionState::Implemented
             {
@@ -439,6 +462,13 @@ impl AdoptionRecord {
         }
         let pending = Self::pending_for_catalog(version)?;
         if version != self.catalog_version || self.schema != 2 {
+            if version == 3 && self.catalog_version < 3 {
+                for id in ["testing", "review", "observability"] {
+                    if let Some(decision) = self.practices.get_mut(id) {
+                        decision.state = AdoptionState::Pending;
+                    }
+                }
+            }
             for (id, decision) in pending.practices {
                 self.practices.entry(id).or_insert(decision);
             }

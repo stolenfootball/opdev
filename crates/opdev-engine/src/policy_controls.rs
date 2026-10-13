@@ -17,6 +17,38 @@ const CONTROLS: [&str; 4] = [
     "OPDEV-RECOVERY-001",
 ];
 
+/// Validate current review provenance, not the truth or competence of a judgment.
+pub(crate) fn qualify_review(
+    rules: &mut [RuleResult],
+    change: Option<&opdev_project::ChangeEvidence>,
+    acceptance: Outcome,
+) {
+    for rule in rules
+        .iter_mut()
+        .filter(|r| r.rule_id.as_str() == "OPDEV-REVIEW-001")
+    {
+        if matches!(
+            rule.outcome,
+            Outcome::Failed | Outcome::Error | Outcome::MigrationRequired
+        ) {
+            continue;
+        }
+        let current = change.and_then(|c| c.assertions.iter().find(|a| a.rule_id == rule.rule_id));
+        let scoped = current.is_some_and(|a| {
+            a.outcome == Outcome::Passed
+                && a.evidence.iter().any(|e| {
+                    e.kind == "review"
+                        && !e.summary.trim().is_empty()
+                        && e.location.as_ref().is_some_and(|l| !l.trim().is_empty())
+                })
+        });
+        if acceptance != Outcome::Passed || !scoped {
+            rule.outcome = Outcome::Unverified;
+            rule.diagnostic = Some("Review the actual changed behavior, assertions, failure paths and maintainability, then reference the findings in this change's review evidence. The implementing agent may perform this pass; no human sign-off or second agent is required. Green tests or a historical project assertion do not replace review.".into());
+        }
+    }
+}
+
 #[allow(clippy::too_many_arguments)] // The already-evaluated source/stage, not another execution.
 pub(crate) fn qualify(
     root: &Path,
@@ -32,7 +64,7 @@ pub(crate) fn qualify(
         .assurance
         .engineering
         .as_ref()
-        .is_none_or(|p| p.version != "2")
+        .is_none_or(|p| !matches!(p.version.as_str(), "2" | "3"))
     {
         return;
     }
@@ -74,7 +106,18 @@ pub(crate) fn qualify(
             }
         } else {
             acceptance.and_then(|a| {
-                mapping_gap(a, catalog.as_ref(), checks, rule.rule_id.as_str(), stage)
+                mapping_gap(
+                    a,
+                    catalog.as_ref(),
+                    checks,
+                    rule.rule_id.as_str(),
+                    stage,
+                    manifest
+                        .assurance
+                        .engineering
+                        .as_ref()
+                        .map_or("", |p| p.version.as_str()),
+                )
             })
         };
         if let Some(gap) = gap {
@@ -102,15 +145,16 @@ fn mapping_gap(
     checks: &[CheckResult],
     control: &str,
     stage: TestStage,
+    version: &str,
 ) -> Option<&'static str> {
     let Some(review) = &acceptance.policy_controls else {
         return Some(
             "Link this policy control to existing acceptance conditions or durable criteria. A general passed assertion does not establish current verification.",
         );
     };
-    if review.version != "2"
+    if review.version != version
         || review.stage != stage
-        || !opdev_core::resolve_engineering_policy("2")
+        || !opdev_core::resolve_engineering_policy(version)
             .is_ok_and(|d| d.definition_sha256 == review.definition_sha256)
     {
         return Some(
@@ -414,15 +458,43 @@ mod tests {
     fn control_links_need_exact_policy_stage_and_current_verification() -> TestResult {
         let mut a = acceptance()?;
         assert!(
-            mapping_gap(&a, None, &[], "OPDEV-RECOVERY-001", TestStage::Recovery).is_none(),
+            mapping_gap(
+                &a,
+                None,
+                &[],
+                "OPDEV-RECOVERY-001",
+                TestStage::Recovery,
+                "2"
+            )
+            .is_none(),
             "this helper consumes an already successful acceptance/execution evaluation"
         );
-        assert!(mapping_gap(&a, None, &[], "OPDEV-RECOVERY-001", TestStage::PreMerge).is_some());
+        assert!(
+            mapping_gap(
+                &a,
+                None,
+                &[],
+                "OPDEV-RECOVERY-001",
+                TestStage::PreMerge,
+                "2"
+            )
+            .is_some()
+        );
         a.policy_controls
             .as_mut()
             .ok_or("review")?
             .definition_sha256 = "b".repeat(64);
-        assert!(mapping_gap(&a, None, &[], "OPDEV-RECOVERY-001", TestStage::Recovery).is_some());
+        assert!(
+            mapping_gap(
+                &a,
+                None,
+                &[],
+                "OPDEV-RECOVERY-001",
+                TestStage::Recovery,
+                "2"
+            )
+            .is_some()
+        );
         a = acceptance()?;
         a.policy_controls
             .as_mut()
@@ -430,15 +502,43 @@ mod tests {
             .bindings
             .get_mut("OPDEV-RECOVERY-001")
             .ok_or("binding")?[0] = "missing".into();
-        assert!(mapping_gap(&a, None, &[], "OPDEV-RECOVERY-001", TestStage::Recovery).is_some());
+        assert!(
+            mapping_gap(
+                &a,
+                None,
+                &[],
+                "OPDEV-RECOVERY-001",
+                TestStage::Recovery,
+                "2"
+            )
+            .is_some()
+        );
         a = acceptance()?;
         a.verifications[0].method = AcceptanceMethod::Review;
         assert!(
-            mapping_gap(&a, None, &[], "OPDEV-RECOVERY-001", TestStage::Recovery).is_some(),
+            mapping_gap(
+                &a,
+                None,
+                &[],
+                "OPDEV-RECOVERY-001",
+                TestStage::Recovery,
+                "2"
+            )
+            .is_some(),
             "a mapping review is not an executed recovery"
         );
         a.policy_controls = None;
-        assert!(mapping_gap(&a, None, &[], "OPDEV-RECOVERY-001", TestStage::Recovery).is_some());
+        assert!(
+            mapping_gap(
+                &a,
+                None,
+                &[],
+                "OPDEV-RECOVERY-001",
+                TestStage::Recovery,
+                "2"
+            )
+            .is_some()
+        );
         Ok(())
     }
 

@@ -28,7 +28,7 @@ pub(super) struct UpgradeArgs {
     /// New external recovery snapshot, required before the first migration write.
     #[arg(long, requires_all = ["migration", "apply"])]
     recovery_output: Option<PathBuf>,
-    /// Preview an exact engineering policy migration (1 or 2); never writes.
+    /// Preview an exact engineering policy migration (1, 2 or 3); never writes.
     #[arg(long, conflicts_with = "apply", requires = "policy_review_reference")]
     engineering_policy: Option<String>,
     /// Keep the existing assessment intent, require mapping 1, or explicitly choose none.
@@ -180,9 +180,35 @@ pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
     })
 }
 
+fn preview_safeguards_two(
+    candidate: &mut opdev_project::ProjectManifest,
+    reference: &str,
+) -> Result<()> {
+    let safeguards = candidate
+        .assurance
+        .safeguards
+        .as_mut()
+        .context("Assess capability safeguards before previewing policy 3")?;
+    safeguards.version = 2;
+    safeguards.review_reference = reference.into();
+    for &capability in opdev_project::Capability::for_version(2) {
+        safeguards
+            .capabilities
+            .entry(capability)
+            .or_insert(opdev_project::CapabilityFact {
+                state: opdev_project::CapabilityState::Unknown,
+                rationale:
+                    "New policy question; assess actual behavior before adoption can complete"
+                        .into(),
+                authority: "Unresolved; use the existing project authority".into(),
+            });
+    }
+    Ok(())
+}
+
 fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
     let (root, manifest) = crate::load_project(&args.root)?;
-    if version == "2"
+    if matches!(version, "2" | "3")
         && manifest.assurance.engineering.is_none()
         && args
             .minimumcd_assessment
@@ -232,9 +258,12 @@ fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
     };
     candidate.schema = match version {
         "1" => 3,
-        "2" => 4,
+        "2" | "3" => 4,
         _ => bail!("Unsupported engineering policy; no migration preview or write occurred"),
     };
+    if version == "3" {
+        preview_safeguards_two(&mut candidate, &policy.review_reference)?;
+    }
     candidate.assurance.engineering = Some(policy);
     candidate
         .assurance
@@ -258,7 +287,7 @@ fn policy_preview(args: &UpgradeArgs, version: &str) -> Result<ExitCode> {
             "MinimumCD requires separate rollback evidence; broader recovery and integration success do not establish compliance.",
             "Daily cadence remains visible without forcing merges. Release authorization is unchanged."
         ],
-        "required_capability": if version == "2" { "engineering.assessment.v2" } else { "engineering.assessment.v1" },
+        "required_capability": match version { "3" => "engineering.assessment.v3", "2" => "engineering.assessment.v2", _ => "engineering.assessment.v1" },
         "next": "Review the exact candidate and decision reference, verify this capability in both local and CI runtimes, then explicitly edit the existing project contract. Recheck changed acceptance/evidence. No installation, CI invocation or consumer migration was performed.",
         "candidate_yaml": yaml
     });

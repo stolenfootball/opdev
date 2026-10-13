@@ -424,7 +424,7 @@ impl AcceptanceEvidence {
         if let Some(controls) = &self.policy_controls {
             let definition = opdev_core::resolve_engineering_policy(&controls.version)
                 .map_err(|e| EvidenceError::Semantic(e.to_string()))?;
-            if controls.version != "2"
+            if !matches!(controls.version.as_str(), "2" | "3")
                 || controls.definition_sha256 != definition.definition_sha256
                 || controls.bindings.iter().any(|(id, conditions)| {
                     !matches!(

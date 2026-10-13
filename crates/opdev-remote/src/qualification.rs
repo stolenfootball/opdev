@@ -443,7 +443,7 @@ fn capability(result: Verdict, summary: &str) -> RemoteCapability {
     }
 }
 
-struct Api {
+pub(crate) struct Api {
     client: Client,
     repository: Repository,
     base: String,
@@ -453,7 +453,7 @@ struct Api {
 }
 
 impl Api {
-    fn new(repository: &Repository) -> Result<Self, RemoteError> {
+    pub(crate) fn new(repository: &Repository) -> Result<Self, RemoteError> {
         let _ = rustls::crypto::ring::default_provider().install_default();
         let github = repository.provider == CiProvider::Github;
         Ok(Self {
@@ -480,7 +480,7 @@ impl Api {
         })
     }
 
-    fn get(&self, path: &str) -> Result<Value, String> {
+    pub(crate) fn get(&self, path: &str) -> Result<Value, String> {
         if self.started.elapsed() >= Duration::from_mins(2) {
             return Err("Remote qualification exceeded its request-start budget".into());
         }

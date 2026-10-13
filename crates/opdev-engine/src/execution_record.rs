@@ -6,6 +6,7 @@ use opdev_core::Outcome;
 use opdev_project::{CiProvider, TestStage};
 use opdev_remote::ProducerSnapshot;
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 use crate::CheckResult;
 
@@ -29,7 +30,7 @@ pub struct ExecutionBinding {
     pub run_attempt: Option<u64>,
     /// Full source commit.
     pub revision: String,
-    /// Exact suite stage; pre-merge never qualifies post-merge.
+    /// Exact execution stage; cross-boundary equivalence needs separate native-candidate validation.
     pub stage: TestStage,
     /// Canonical suite ID.
     pub suite: String,
@@ -97,6 +98,9 @@ impl ExecutionBinding {
 pub struct ExecutionRecord {
     /// Independent schema; legacy diagnostic receipts are not this protocol.
     pub schema: u32,
+    /// Schema-2 trusted producer completion time; absent preserves legacy records.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub completed_at: Option<u64>,
     /// Identity observed by the reviewed canonical wrapper.
     pub binding: ExecutionBinding,
     /// Whether relevant inputs remained stable during execution.
@@ -260,6 +264,166 @@ fn unavailable_result(binding: &ExecutionBinding, outcome: Outcome, reason: Stri
     }
 }
 
+/// Reuse only equivalent source checks from an authenticated native candidate.
+/// Current post-merge acceptance, deployment and artifact qualification stay separate.
+/// # Errors
+/// Missing correspondence, review, complete inputs, time bounds or canonical records fails closed.
+pub fn validate_candidate_records(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    policy: &crate::ExecutionPolicy,
+    candidate: &opdev_remote::IntegratedCandidate,
+    snapshot: &ProducerSnapshot,
+    destination: &[ExecutionBinding],
+) -> Result<ValidatedExecutions, String> {
+    policy
+        .validate()
+        .map_err(|_| "Native candidate reuse policy is incomplete or unsupported")?;
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_none_or(|p| p.version != "3")
+        || policy.schema != 2
+    {
+        return Err("Cross-boundary candidate reuse needs explicitly selected engineering policy 3 and execution policy 2".into());
+    }
+    let selected = policy
+        .candidate_reuse
+        .as_ref()
+        .ok_or("Candidate reuse policy is absent")?;
+    candidate.verify_checkout(root)?;
+    let selection = candidate.selection();
+    let (targets, sources) = candidate_bindings(
+        manifest,
+        policy,
+        selection,
+        candidate.repository(),
+        candidate.attempt(),
+        destination,
+    )?;
+    let mut executions = validate_producer_records(snapshot, &sources)?;
+    if executions
+        .checks
+        .iter()
+        .any(|c| c.outcome == Outcome::Unverified)
+    {
+        return Err(
+            "A native candidate producer has no verified current execution; use fresh checks"
+                .into(),
+        );
+    }
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_err(|_| "Current clock is unavailable")?
+        .as_secs();
+    for source in &sources {
+        let job = snapshot
+            .jobs()
+            .current
+            .iter()
+            .find(|job| job.name == source.producer)
+            .ok_or("Candidate producer is missing")?;
+        let log = snapshot
+            .log(job.id)
+            .ok_or("Candidate producer log is unavailable")?;
+        current_candidate_time(log, source, now, selected.maximum_age_seconds)?;
+    }
+    for check in &mut executions.checks {
+        check.gates = crate::evaluator::gates_for_test_stage(TestStage::PostMerge);
+        check.evidence.push(opdev_core::Evidence { kind:"native_candidate_execution".into(),
+            summary:format!("Source check executed before integration in native run {} at {}; equivalent to integrated {} under the reviewed source-only policy. This is not a post-merge execution or artifact/deployment qualification.", selection.run.run_id, selection.run.revision, selection.integrated_revision),
+            location:Some(format!("run:{}", selection.run.run_id)) });
+    }
+    // Destination bindings protect the current qualification subject; the actual
+    // earlier execution identity remains explicit in provider evidence above.
+    executions.bindings = targets;
+    executions.verify_subject(root, manifest, TestStage::PostMerge)?;
+    Ok(executions)
+}
+
+// Private derivation only: selectors never become authenticated observations.
+fn candidate_bindings(
+    manifest: &opdev_project::ProjectManifest,
+    policy: &crate::ExecutionPolicy,
+    selection: &opdev_remote::CandidateSelection,
+    repository: &str,
+    attempt: Option<u64>,
+    destination: &[ExecutionBinding],
+) -> Result<(Vec<ExecutionBinding>, Vec<ExecutionBinding>), String> {
+    let selected = policy
+        .candidate_reuse
+        .as_ref()
+        .ok_or("Candidate reuse policy is absent")?;
+    let policy_digest = format!(
+        "{:x}",
+        Sha256::digest(serde_json::to_vec(policy).map_err(|_| "Reuse policy cannot be encoded")?)
+    );
+    let mut targets = Vec::new();
+    let mut sources = Vec::new();
+    for target in destination
+        .iter()
+        .filter(|b| selected.suites.contains(&b.suite))
+    {
+        if target.stage != TestStage::PostMerge
+            || target.revision != selection.integrated_revision
+            || target.repository != repository
+            || target.environment != policy.environment
+            || target.policy_sha256 != policy_digest
+            || !selected.source_only
+            || !selected.commit_ref_stage_independent
+            || !policy.inputs_complete
+            || selected.review_reference.trim().is_empty()
+            || !(1..=86_400).contains(&selected.maximum_age_seconds)
+            || !crate::plan::selected_suites(manifest, TestStage::PreMerge)
+                .any(|s| s.id == target.suite)
+        {
+            return Err("Candidate command is not a reviewed equivalent source check at both boundaries; execute it freshly".into());
+        }
+        let mut source = target.clone();
+        source.stage = TestStage::PreMerge;
+        source.revision.clone_from(&selection.run.revision);
+        source.run_id = selection.run.run_id;
+        source.run_attempt = attempt;
+        targets.push(target.clone());
+        sources.push(source);
+    }
+    if sources.is_empty() {
+        return Err("No eligible native-candidate suite is selected at this boundary".into());
+    }
+    Ok((targets, sources))
+}
+
+fn current_candidate_time(
+    log: &str,
+    binding: &ExecutionBinding,
+    now: u64,
+    maximum_age: u64,
+) -> Result<(), String> {
+    validate_log(log, binding)?;
+    let record = log
+        .lines()
+        .map(strip_timestamp)
+        .filter_map(|line| line.strip_prefix(RECORD_PREFIX))
+        .filter_map(|payload| serde_json::from_str::<ExecutionRecord>(payload).ok())
+        .find(|record| record.binding == *binding)
+        .ok_or("Candidate execution record is absent")?;
+    let completed = record
+        .completed_at
+        .filter(|_| record.schema == 2)
+        .ok_or("Candidate producer has no supported completion time; execute fresh checks")?;
+    if !(1..=86_400).contains(&maximum_age)
+        || completed == 0
+        || completed > now
+        || now - completed > maximum_age
+    {
+        return Err(
+            "Candidate execution is expired or its clock is invalid; execute fresh checks".into(),
+        );
+    }
+    Ok(())
+}
+
 fn observed_result(
     binding: &ExecutionBinding,
     provider_outcome: Outcome,
@@ -294,7 +458,6 @@ pub(crate) fn current_subject(
     executions: &ValidatedExecutions,
     require_recent: bool,
 ) -> Result<(), String> {
-    use sha2::{Digest, Sha256};
     if require_recent && executions.validated_at.elapsed() > std::time::Duration::from_secs(30) {
         return Err("Provider observations are older than this immediate evaluation window; re-observe the current attempts or use fresh execution".into());
     }
@@ -343,7 +506,9 @@ fn validate_log(log: &str, expected: &ExecutionBinding) -> Result<CheckResult, S
             let record: ExecutionRecord = serde_json::from_str(payload).map_err(|_| {
                 "Producer execution record is malformed or uses unsupported fields".to_owned()
             })?;
-            if record.schema != 1 {
+            if !((record.schema == 1 && record.completed_at.is_none())
+                || (record.schema == 2 && record.completed_at.is_some_and(|n| n > 0)))
+            {
                 return Err("Execution record version is unsupported; use a compatible producer or fresh execution".into());
             }
             if record.binding.suite != expected.suite {
@@ -396,6 +561,140 @@ fn strip_timestamp(line: &str) -> &str {
 mod tests {
     use super::*;
 
+    #[test]
+    #[allow(clippy::too_many_lines)] // One unchanged fixture contrasts every identity field.
+    fn candidate_mapping_changes_only_native_execution_identity_and_rejects_input_drift()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let root = tempfile::tempdir()?;
+        assert!(
+            std::process::Command::new("git")
+                .arg("-C")
+                .arg(root.path())
+                .args(["init", "--quiet"])
+                .status()?
+                .success()
+        );
+        let mut manifest = opdev_project::discover(root.path())?.manifest;
+        manifest.testing.suites = vec![opdev_project::TestSuite {
+            id: "unit".into(),
+            command: "check".into(),
+            stages: vec![TestStage::PreMerge, TestStage::PostMerge],
+        }];
+        let mut original = record();
+        original.schema = 2;
+        original.completed_at = Some(1940);
+        let policy: crate::ExecutionPolicy = serde_json::from_value(serde_json::json!({
+            "schema":2, "review_reference":"fixture input review", "inputs_complete":true,
+            "environment":original.binding.environment,"executor_sha256":original.binding.executor_sha256,
+            "producers":[{"suite":"unit","job":"unit-job","executable_sha256":original.binding.executable_sha256}],
+            "candidate_reuse":{"review_reference":"fixture equivalence review","suites":["unit"],
+                "source_only":true,"commit_ref_stage_independent":true,"maximum_age_seconds":60}
+        }))?;
+        policy.validate()?;
+        original.binding.policy_sha256 =
+            format!("{:x}", Sha256::digest(serde_json::to_vec(&policy)?));
+        let selector = opdev_remote::CandidateSelection {
+            change: 1,
+            integrated_revision: "9".repeat(40),
+            run: opdev_remote::RunExpectation {
+                revision: original.binding.revision.clone(),
+                run_id: original.binding.run_id,
+                reference: "refs/merge-requests/1/train".into(),
+                source: "merge_request_event".into(),
+                workflow_id: None,
+            },
+        };
+        let mut target = original.binding.clone();
+        target.revision.clone_from(&selector.integrated_revision);
+        target.run_id = 20;
+        target.stage = TestStage::PostMerge;
+        let derive = |target: &ExecutionBinding| {
+            candidate_bindings(
+                &manifest,
+                &policy,
+                &selector,
+                "neutral/project",
+                None,
+                std::slice::from_ref(target),
+            )
+        };
+        let (targets, sources) = derive(&target)?;
+        assert_eq!(targets, vec![target.clone()]);
+        assert_eq!(sources, vec![original.binding.clone()]);
+        let bytes = log(&original)?;
+        current_candidate_time(&bytes, &sources[0], 2000, 60)?;
+        // Even when native trees match, no input may be copied from the old log
+        // to disguise a changed current command, environment or producer.
+        for field in [
+            "command_sha256",
+            "inputs_sha256",
+            "configuration_sha256",
+            "environment",
+            "executable_sha256",
+            "executor_sha256",
+            "policy_sha256",
+            "producer",
+            "ledger_is_input",
+            "repository",
+            "revision",
+            "stage",
+        ] {
+            let mut changed = serde_json::to_value(&target)?;
+            changed[field] = match field {
+                "ledger_is_input" => serde_json::json!(false),
+                "stage" => serde_json::json!("pre_merge"),
+                "revision" => serde_json::json!("8".repeat(40)),
+                "environment" | "producer" | "repository" => serde_json::json!("different"),
+                _ => serde_json::json!("8".repeat(64)),
+            };
+            let changed = serde_json::from_value(changed)?;
+            if let Ok((_, mapped)) = derive(&changed) {
+                assert!(
+                    current_candidate_time(&bytes, &mapped[0], 2000, 60).is_err(),
+                    "accepted {field}"
+                );
+            }
+        }
+        manifest.testing.suites[0].stages = vec![TestStage::PostMerge];
+        assert!(
+            candidate_bindings(
+                &manifest,
+                &policy,
+                &selector,
+                "neutral/project",
+                None,
+                &[target]
+            )
+            .is_err()
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn candidate_freshness_requires_exact_current_supported_record()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let mut record = record();
+        assert!(current_candidate_time(&log(&record)?, &record.binding, 2000, 60).is_err());
+        record.schema = 2;
+        record.completed_at = Some(1940);
+        let bytes = log(&record)?;
+        current_candidate_time(&bytes, &record.binding, 2000, 60)?;
+        assert!(current_candidate_time(&bytes, &record.binding, 2001, 60).is_err());
+        assert!(current_candidate_time(&bytes, &record.binding, 1939, 60).is_err());
+        assert!(current_candidate_time(&bytes, &record.binding, 2000, 0).is_err());
+        assert!(current_candidate_time(&bytes, &record.binding, 2000, 86401).is_err());
+        assert!(
+            current_candidate_time(&format!("{bytes}\n{bytes}"), &record.binding, 2000, 60)
+                .is_err()
+        );
+        let mut other = record.binding.clone();
+        other.command_sha256 = "9".repeat(64);
+        assert!(current_candidate_time(&bytes, &other, 2000, 60).is_err());
+        record.inputs_unchanged = false;
+        assert!(current_candidate_time(&log(&record)?, &record.binding, 2000, 60).is_err());
+        Ok(())
+    }
+
     fn record() -> ExecutionRecord {
         let binding = ExecutionBinding {
             repository: "neutral/project".into(),
@@ -417,6 +716,7 @@ mod tests {
         };
         ExecutionRecord {
             schema: 1,
+            completed_at: None,
             binding,
             inputs_unchanged: true,
             result: CheckResult {

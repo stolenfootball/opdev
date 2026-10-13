@@ -104,7 +104,35 @@ reuse unless the reviewed policy explicitly excludes the ledger from execution
 inputs; unknown inputs require fresh execution. No policy, credential permission
 or installed runtime is changed implicitly to enable this option.
 
+The separately selected native-candidate path additionally requires engineering
+policy 3, execution policy 2 and `ci.native-candidate-reuse.v1`. Follow
+[CI candidate checks](ci-design.md#provider-checks-not-a-universal-template)
+before adding `--reuse-native-candidate FILE` to a post-merge check. Its selector
+is not evidence. This option explicitly permits fresh execution when initial
+candidate evidence cannot be verified; it never converts earlier execution into
+a claim that tests ran after merge. Same-run policy-1 behavior above is unchanged.
+
 ## Capability-specific safeguards
+
+Engineering policy 3 explicitly requires safeguards 2. In addition to the original
+capabilities, assess `sensitive_data` independently of persistence (including
+transient inputs, logs, fixtures, reports, exports and model prompts) and
+`high_consequence` behavior with domain assurance needs. Affected objectives are
+`data_handling` and `domain_assurance`; affected `operations` additionally needs
+`operational_objectives`. Reuse the existing acceptance conditions or durable
+criteria. Verify declared handling, meaningful success/resource bounds and
+response/recovery for the actual consumer. No universal uptime target, new
+monitoring vendor, human approval checkpoint or safety/legal certification follows.
+Missing applicability is unknown; an unrelated change may be genuinely unaffected.
+
+Policy 3 uses controlled repeatable verification procedures, not an absolute claim
+that every test result is deterministic. For statistical checks, establish workload,
+sampling, thresholds, uncertainty, retries and stopping rules before observing
+results. Keep failed attempts and report inconclusive required outcomes as
+unverified; no threshold shopping or retry-until-pass. An unexplained flaky test
+still cannot qualify a boundary. Review this adequacy in the existing acceptance
+review; the CLI cannot infer statistical validity from exit zero. Older policies
+and separately selected MinimumCD keep their original definitions.
 
 When `assurance.safeguards` is explicitly selected and the CLI advertises
 `acceptance.safeguards.v1`, reuse its reviewed capability facts rather than

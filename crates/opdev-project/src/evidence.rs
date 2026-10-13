@@ -410,9 +410,9 @@ impl EvidenceLedger {
                 if (acceptance.delivery_subject.is_some()
                     || acceptance.policy_controls.is_some()
                     || acceptance.organization_controls.is_some())
-                    && catalog.catalog_version != 4
+                    && !matches!(catalog.catalog_version, 4 | 5)
                 {
-                    return Err(EvidenceError::Semantic("Policy-2 control links need explicitly selected catalog 4; older policy meaning is unchanged.".into()));
+                    return Err(EvidenceError::Semantic("Engineering control links need explicitly selected catalog 4 or 5; older policy meaning is unchanged.".into()));
                 }
                 if catalog.catalog_version < 3
                     && acceptance

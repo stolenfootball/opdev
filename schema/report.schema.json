@@ -5,12 +5,12 @@
   "additionalProperties": false,
   "required": ["schema", "catalog_version", "subject", "evaluated_at", "rules", "checks", "gates"],
   "properties": {
-    "schema": { "enum": [1, 2, 3] },
+    "schema": { "enum": [1, 2, 3, 4] },
     "engineering": {
       "type": "object", "additionalProperties": false, "required": ["version", "minimumcd"],
       "properties": {
         "standards": {"type":"array","maxItems":16,"items":{"$ref":"#/$defs/standard_assessment"}},
-        "version": { "enum": ["1", "2"] },
+        "version": { "enum": ["1", "2", "3"] },
         "definition_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
         "stage": { "enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"] },
         "minimumcd": {
@@ -47,6 +47,11 @@
     }
   },
   "allOf": [
+    { "if": { "properties": { "schema": { "const": 4 } } },
+      "then": { "required": ["engineering"], "properties": {
+        "catalog_version": { "const": 5 },
+        "engineering": { "required": ["definition_sha256", "stage"], "properties": { "version": { "const": "3" } } }
+      } } },
     { "if": { "properties": { "schema": { "const": 1 } } },
       "then": { "not": { "required": ["engineering"] } } },
     { "if": { "properties": { "schema": { "const": 2 } } },

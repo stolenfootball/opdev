@@ -111,6 +111,7 @@ impl ProjectManifest {
                 .as_ref()
                 .map(|p| p.version.as_str())
             {
+                Some("3") => 5,
                 Some("2") => 4,
                 Some("1") => 3,
                 Some(unknown) => {
@@ -223,13 +224,14 @@ impl ProjectManifest {
         }
         match (&self.assurance.engineering, self.schema) {
             (Some(policy), 3 | 4) => {
-                let expected = if self.schema == 3 { "1" } else { "2" };
+                let supported = if self.schema == 3 { policy.version == "1" }
+                    else { matches!(policy.version.as_str(), "2" | "3") };
                 if self.schema == 4 && self.assurance.safeguards.is_none() {
-                    return Err(ManifestError::Semantic("Engineering policy 2 needs reviewed capability safeguards. Missing capability assessment cannot waive applicable controls.".into()));
+                    return Err(ManifestError::Semantic("Engineering policy 2 or 3 needs reviewed capability safeguards. Missing capability assessment cannot waive applicable controls.".into()));
                 }
-                if policy.version != expected || policy.minimumcd.as_deref().is_some_and(|v| v != "1")
+                if !supported || policy.minimumcd.as_deref().is_some_and(|v| v != "1")
                     || policy.review_reference.trim().is_empty() {
-                    return Err(ManifestError::Semantic("Project schema 3 selects engineering policy 1; schema 4 selects policy 2. Use an exact supported selection and actual decision reference; optional MinimumCD mapping remains version 1.".into()));
+                    return Err(ManifestError::Semantic("Project schema 3 selects engineering policy 1; schema 4 selects policy 2 or 3. Use an exact supported selection and actual decision reference; optional MinimumCD mapping remains version 1.".into()));
                 }
                 let mut names = HashSet::new();
                 for branch in &policy.maintenance_branches {
@@ -296,13 +298,27 @@ impl ProjectManifest {
         }
         if let Some(policy) = &self.assurance.safeguards
             && (self.assurance.engineering.is_none()
-                || policy.version != 1
+                || policy.version
+                    != if self
+                        .assurance
+                        .engineering
+                        .as_ref()
+                        .is_some_and(|p| p.version == "3")
+                    {
+                        2
+                    } else {
+                        1
+                    }
+                || policy
+                    .capabilities
+                    .keys()
+                    .any(|c| !crate::Capability::for_version(policy.version).contains(c))
                 || policy.review_reference.trim().is_empty()
                 || policy.capabilities.values().any(|fact| {
                     fact.rationale.trim().is_empty() || fact.authority.trim().is_empty()
                 }))
         {
-            return Err(ManifestError::Semantic("Safeguards require engineering policy, supported version 1, an actual decision reference and capability rationales with authorities".into()));
+            return Err(ManifestError::Semantic("Safeguards need an actual decision reference and capability rationales with authorities. Engineering policy 3 requires safeguards 2; earlier policies retain safeguards 1 and its original capability set.".into()));
         }
         Ok(())
     }

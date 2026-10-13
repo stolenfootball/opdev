@@ -223,12 +223,12 @@
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
@@ -283,12 +283,12 @@
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
           "path": "schema/project.schema.json",
-          "sha256": "52d82990bfaf90ae33f8a716a55a4ca8ddc102d23caacd25b81b73b7c7d84af3",
+          "sha256": "08893181d5e2c042f525bb89e33d44c132be5f32487a484048e015bf92398a1d",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
@@ -338,7 +338,7 @@
         },
         {
           "path": "schema/report.schema.json",
-          "sha256": "303d025356b3905b61af9016c22b8a3acc043d4c3243bdae8a54b9d6d88dd043",
+          "sha256": "79af181ff24bd7c8550eb8a413b29916dd6fabbc21a8567c078f4daf1e3d9432",
           "excerpt": "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\","
         },
         {
@@ -393,17 +393,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -418,17 +418,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -438,17 +438,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -493,17 +493,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -518,17 +518,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -538,17 +538,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -593,17 +593,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -618,17 +618,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -638,17 +638,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -693,17 +693,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -718,17 +718,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -738,17 +738,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -793,17 +793,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -818,17 +818,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -838,17 +838,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -862,7 +862,7 @@
       "id": "V-clean-policy-adoption-6",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "6be6dee84a1d6f77c83adf5cc0808ffed5f3ada3218247e528b0ba4a41cdfd6c",
+        "sha256": "57bf955bbf40f0a7f9517db1eb67ed56c8d90f75c083ca882439c2c7eb036413",
         "excerpt": "fn policy_two_preview_requires_explicit_legacy_choice_and_preserves_standard_boundaries("
       },
       "inputs": [
@@ -893,17 +893,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -918,17 +918,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -938,17 +938,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -993,17 +993,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1018,17 +1018,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -1038,17 +1038,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -1093,17 +1093,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1118,17 +1118,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -1138,17 +1138,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -1193,17 +1193,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "0c8280468b34b9a6e6a04299822b212dd65b8d93fc80b92955d748cd3e696c55",
+          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "bac358a42f3a290d3145e231e174e327f20218b7f14eec609eca01e5bc3c6408",
+          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "206a4f7a4c66b8aa44482a48b59041309b8bb02733ad28c38e68d58547c8f677",
+          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1218,17 +1218,17 @@
         },
         {
           "path": "crates/opdev-project/src/clean_adoption.rs",
-          "sha256": "4886d7b13a4239f2dadfe36332b474a8d42ccdedeafa5f85640ae03724f0c419",
+          "sha256": "f313b439b8594a220ffb26123d4b6a7ccf5a58ba5a432c8b5f6246978893c123",
           "excerpt": "//! Versioned destination, not a waiver list or an automatic cleanup authority."
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "909275a549407d9711e684263ac4a8a61142eb8748cbd79c1cebaf380e72ce9e",
+          "sha256": "1299e1ee1a06a0c61eb0026f15527654f4d2647c00dd159c4d54558210c257e6",
           "excerpt": "use std::fs;"
         },
         {
           "path": "schema/adoption.schema.json",
-          "sha256": "037a1bc8f05ded4497210496c3be20e27c8f2b6534474f54d33e652fd59c8c19",
+          "sha256": "59b3d2b92ad276dc99ed394bc2d5cd87bfff3653621d708b10be85483f76eb6e",
           "excerpt": "\"title\": \"OpDev adoption decisions\""
         },
         {
@@ -1238,17 +1238,17 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "7ddd24a6858a3b44895153ad9991a692b25107f3f90921b85f7e99dce3c4baca",
+          "sha256": "171148e6594854840c8ef6e5b41efdf3dc9038b4374078c5e88eff885ba55d36",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "5f002e0ff0db07499f19f132089b81719370096b5e1d7a9da914e9d95440183d",
+          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/project-contract.md",
-          "sha256": "ec014566a50013910c228893a0cc3fc0742a66cbeab17eacbf2c334a91a74a76",
+          "sha256": "25e2aed4ef19bd8aa666279ee3be2e0b78caf23df528b89c2972fdc4b3a25e4e",
           "excerpt": "# Project contract interpretation"
         }
       ],
@@ -1398,10 +1398,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "7da245d1bb311b1f3f0d53582f39729174450d12caf5eb06e2689abab403c844",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "dcb3165aee1b45503ed69cf566754c0c9d55c1fbfb7467b4a55ca98787242327",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -1423,10 +1423,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "f4a5efc9341192884ef4b5dec5514a3f9ba80e492dfb9bd590c184ed63872bed",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "c7fea9c2d92296f7ad035cbb1a1be7c77bbf5457f8db69fad413aca24581e336",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -1448,10 +1448,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "5b9546fc9d48e3d0807b638af5b2842e375c67e00fe053de61c16a728fd2a5a7",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "6d300742761ff9c81eb070ddedb4c52a8af3b5be330a53eef6ce5a3e205449b2",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -1469,10 +1469,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "bb55f724d8ffcf307a51846a2d0c165120d44003e531a9e94e63fe09d9f61b58"
+        "reviewer": "Codex (implementing agent, distinct review pass)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "7caa9943dc3463bffa267f4a29105c98159b8fea1f01371a9fde959abe99342d"
       }
     },
     {
@@ -1489,10 +1489,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "f712911f451f0921d8e088728cb10809f4d46931e2e8d8e09c21e8565f0e975e"
+        "reviewer": "Codex (implementing agent, distinct review pass)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "fa0780dd74ed592ff30e6d41f57238216a7122a2dda186fb7a9c7a0f41b8b83e"
       }
     },
     {
@@ -1509,10 +1509,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/112#note_3992040083",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption.",
-        "subject_sha256": "dc33be93137c7cbe2337e719aa30033942c90efe24d54712bc4e1cc0d9e9f98b"
+        "reviewer": "Codex (implementing agent, distinct review pass)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "c3a708174e31778cabf9a7f7607ef3f2124653bc89b9ca698afe6a86d6f3c551"
       }
     },
     {
@@ -1568,10 +1568,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "adedd7756d03e14f5bed2a3e8d5d98e51dda8ef1b4c57ebc9148a3c5b1e4c5d7",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "0f428a2c222e9db5668a0b30a067b18f087803dedc9583cdffc3e8e7e6631ae1",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -1628,10 +1628,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "29ef23bfcd2e0c6f82840007b0263d847e2026571a8a42d9be8463043082dea6",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "b39b51320110f73a674dcf44a4be74344859572c285e31d1691db62444b79cbb",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     },
@@ -1688,10 +1688,10 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed changed assertions and retained guarantees: explicit delivery subject scope, ledger-free unresolved preparation, prior-stage source/nonpass checks, counted fail-fast execution, blocking CI hold and actual pre/post-interruption data. Unchanged assertions in touched files retain their original guarantees. No live provider or artifact qualification inferred from unit tests.",
-        "subject_sha256": "4a7f1b8d6ac48c6a17824f327e7a522788b7c73b41149577054ab2e85ee5b9cd",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/113#note_3994442219",
-        "reviewer": "Codex (implementing agent)",
+        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification.",
+        "subject_sha256": "98905392192096cf7c5dc79fa6553d484e53aa006e916636a80ed794df235702",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/114#note_4000563800",
+        "reviewer": "Codex (implementing agent, distinct review pass)",
         "outcome": "passed"
       }
     }

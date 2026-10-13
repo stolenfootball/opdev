@@ -15,7 +15,8 @@ mod evaluator;
 mod execution_policy;
 mod execution_record;
 pub use execution_policy::{
-    ExecutionPolicy, ProducerPolicy, prepare_execution_bindings, run_canonical_producer,
+    CandidateReusePolicy, ExecutionPolicy, ProducerPolicy, prepare_execution_bindings,
+    run_canonical_producer,
 };
 mod organization_controls;
 mod plan;
@@ -24,7 +25,8 @@ mod report;
 mod requirements;
 mod review;
 pub use execution_record::{
-    ExecutionBinding, ExecutionRecord, ValidatedExecutions, validate_producer_records,
+    ExecutionBinding, ExecutionRecord, ValidatedExecutions, validate_candidate_records,
+    validate_producer_records,
 };
 pub use review::ValidatedReview;
 mod test_execution;

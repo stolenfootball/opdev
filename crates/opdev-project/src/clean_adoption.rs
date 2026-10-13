@@ -15,7 +15,7 @@ pub const TARGET: &str = "clean-3";
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct CleanTarget {
-    /// Destination revision; current 3, legacy 1 and 2 remain readable.
+    /// Destination revision: 4 for policy 3; earlier explicit targets remain readable.
     pub version: u32,
     /// Existing work/review authority covering inventory scope, purpose and retained content.
     pub inventory_reference: String,
@@ -71,7 +71,7 @@ pub fn valid_path(path: &str) -> bool {
 /// # Errors
 /// Reject unsafe, overlapping or protected paths before binding plan approval.
 pub fn validate_target(target: &CleanTarget) -> Result<(), String> {
-    if !matches!(target.version, 1..=3) || target.retirements.len() > 256 {
+    if !matches!(target.version, 1..=4) || target.retirements.len() > 256 {
         return Err(
             "Unsupported destination or retirement inventory exceeds 256 exact paths".into(),
         );
@@ -122,19 +122,46 @@ pub fn validate_target(target: &CleanTarget) -> Result<(), String> {
 /// Missing target requirements; declarations alone never qualify behavior.
 #[must_use]
 pub fn policy_gaps(project: &ProjectManifest) -> Vec<String> {
-    policy_gaps_for(project, 3)
+    policy_gaps_for(project, target_version(project))
+}
+
+/// New policy has its own destination; installing a reader does not migrate old projects.
+#[must_use]
+pub fn target_version(project: &ProjectManifest) -> u32 {
+    if project
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| p.version == "3")
+    {
+        4
+    } else {
+        3
+    }
+}
+
+/// Explicit selected policy's target, not a floating version alias.
+#[must_use]
+pub fn target_name(project: &ProjectManifest) -> &'static str {
+    if target_version(project) == 4 {
+        "clean-4"
+    } else {
+        TARGET
+    }
 }
 
 /// Inspect the exact selected destination; legacy clean-1 keeps its archive policy.
 #[must_use]
 pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
     let mut gaps = Vec::new();
-    if !matches!(version, 1..=3) {
+    if !matches!(version, 1..=4) {
         return vec![
             "Unsupported clean-adoption destination; no current completion can be claimed".into(),
         ];
     }
-    let (schema, engineering, storage) = if version == 3 {
+    let (schema, engineering, storage) = if version == 4 {
+        (4, "3", 2)
+    } else if version == 3 {
         (4, "2", 2)
     } else {
         (3, "1", version)
@@ -151,13 +178,13 @@ pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
         ));
     }
     if project.layout.as_ref().is_none_or(|p| {
-        if version == 3 {
+        if version >= 3 {
             p.version != 3
         } else {
             !matches!(p.version, 1 | 2)
         }
     }) {
-        gaps.push(if version == 3 { "Select strict layout 3 with shared guidance, requirements and only current selected policy definitions".into() } else { "Migrate to strict layout 1 or 2 with shared guidance and thin host entries".into() });
+        gaps.push(if version >= 3 { "Select strict layout 3 with shared guidance, requirements and only current selected policy definitions".into() } else { "Migrate to strict layout 1 or 2 with shared guidance and thin host entries".into() });
     }
     if project
         .assurance
@@ -171,7 +198,7 @@ pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
             "Select external semantic-review storage with reviewed retention and recovery".into()
         });
     }
-    if version == 3
+    if version >= 3
         && project
             .assurance
             .requirements
@@ -184,11 +211,10 @@ pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
         .assurance
         .safeguards
         .as_ref()
-        .is_none_or(|p| p.version != 1)
+        .is_none_or(|p| p.version != if version == 4 { 2 } else { 1 })
     {
         gaps.push(
-            "Select capability safeguards 1; assess actual capabilities, not missing configuration"
-                .into(),
+            format!("Select capability safeguards {}; assess actual capabilities, not missing configuration", if version == 4 { 2 } else { 1 }),
         );
     }
     gaps
@@ -199,7 +225,7 @@ pub fn policy_gaps_for(project: &ProjectManifest, version: u32) -> Vec<String> {
 pub fn decision_gaps(project: &ProjectManifest, record: Option<&AdoptionRecord>) -> Vec<String> {
     let mut gaps = policy_gaps(project);
     if let Some(safeguards) = &project.assurance.safeguards {
-        for capability in Capability::ALL {
+        for &capability in Capability::for_version(safeguards.version) {
             if safeguards.capabilities.get(&capability).is_none_or(|fact| {
                 fact.state == CapabilityState::Unknown
                     || fact.rationale.trim().is_empty()
@@ -212,12 +238,13 @@ pub fn decision_gaps(project: &ProjectManifest, record: Option<&AdoptionRecord>)
         }
     }
     match record.and_then(|r| r.clean_target.as_ref()) {
-        None => gaps.push(
-            "Review the clean-3 destination and repository inventory in the adoption record".into(),
-        ),
+        None => gaps.push(format!(
+            "Review the {} destination and repository inventory in the adoption record",
+            target_name(project)
+        )),
         Some(target) => {
-            if target.version != 3 {
-                gaps.push("Current adoption requires clean-3. Preview a reviewed migration; existing policy and historical completion are not changed automatically".into());
+            if target.version != target_version(project) {
+                gaps.push(format!("Current adoption requires {}. Preview a reviewed migration; existing policy and historical completion are not changed automatically", target_name(project)));
             }
             if target.inventory_reference.trim().is_empty() {
                 gaps.push("Repository inventory needs its actual review reference, including retained and retired content".into());

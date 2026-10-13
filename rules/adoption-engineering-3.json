@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "practices": [
+    {"id":"sensitive_data","title":"Personal and sensitive data handling, including transient processing","requirement":"conditional","automated":false},
+    {"id":"domain_assurance","title":"High-consequence behavior and applicable domain assurance","requirement":"conditional","automated":false},
+    {"id":"lifecycle","title":"Supported versions, reporting, maintenance and end of support","requirement":"conditional","automated":false}
+  ]
+}

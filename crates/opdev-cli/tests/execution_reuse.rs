@@ -68,6 +68,7 @@ fn fixture(
     manifest.write_new(&root.path().join(".opdev/project.yaml"))?;
     let policy = ExecutionPolicy {
         schema: 1,
+        candidate_reuse: None,
         review_reference: "controlled neutral fixture, not human approval".into(),
         inputs_complete: true,
         ledger_is_input: true,
@@ -285,5 +286,55 @@ fn post_merge_produces_its_own_stage_and_rejects_pull_request_subjects()
             1
         );
     }
+    Ok(())
+}
+
+#[test]
+fn native_candidate_production_is_explicit_timed_and_still_executes_once()
+-> Result<(), Box<dyn std::error::Error>> {
+    let (root, revision) = fixture(CiProvider::Github, "pass")?;
+    let denied = producer(root.path(), &revision, CiProvider::Github)
+        .env("GITHUB_EVENT_NAME", "merge_group")
+        .output()?;
+    assert_eq!(denied.status.code(), Some(2));
+    assert!(!root.path().join("target/count").exists());
+    let path = root.path().join(".opdev/execution.json");
+    let mut policy: serde_json::Value = serde_json::from_slice(&fs::read(&path)?)?;
+    policy["schema"] = 2.into();
+    policy["candidate_reuse"] = serde_json::json!({"review_reference":"fixture controlled-source decision",
+        "suites":["unit"],"commit_ref_stage_independent":true,"source_only":true,"maximum_age_seconds":3600});
+    fs::write(&path, serde_json::to_vec(&policy)?)?;
+    git(root.path(), &["add", "."])?;
+    git(
+        root.path(),
+        &["commit", "-qm", "explicit candidate producer policy"],
+    )?;
+    let revision = git(root.path(), &["rev-parse", "HEAD"])?;
+    let before = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)?
+        .as_secs();
+    let output = producer(root.path(), &revision, CiProvider::Github)
+        .env("GITHUB_EVENT_NAME", "merge_group")
+        .env("GITHUB_REF_NAME", "gh-readonly-queue/main/pr-7-a")
+        .output()?;
+    assert_eq!(
+        output.status.code(),
+        Some(0),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let result = record(&output)?;
+    assert_eq!(result.schema, 2);
+    assert!(result.completed_at.is_some_and(|t| t >= before));
+    assert_eq!(result.binding.stage, TestStage::PreMerge);
+    assert_eq!(result.binding.revision, revision);
+    assert_eq!(
+        fs::read_to_string(root.path().join("target/count"))?
+            .lines()
+            .count(),
+        1
+    );
+    // Producing a record is not evidence of actual provider identity or a merge.
+    assert_eq!(result.result.outcome, opdev_core::Outcome::Passed);
     Ok(())
 }

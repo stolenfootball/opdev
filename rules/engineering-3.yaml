@@ -1,0 +1,38 @@
+catalog_version: 5
+rules:
+  - id: OPDEV-VERIFY-001
+    kind: opdev
+    title: Verify accepted behavior with controlled procedures
+    statement: Required verification MUST use controlled repeatable procedures and meaningful requirement-derived expected outcomes, including the assembled consumer path and relevant failure cases. Critical assertions MUST discriminate against plausible incorrect behavior. Statistical checks MUST declare workload, sampling, thresholds, uncertainty, retries and stopping rules before observing results. Integrated verification MAY reuse source checks from a provider-verified native integration candidate only under explicit reviewed equivalence of source, complete inputs, configuration, commands, environment, producer attempt and freshness; commit/ref/stage-sensitive or artifact/deployment checks require their own verification. Unknown equivalence requires fresh execution. Unexplained flakiness, hidden failures and inconclusive results MUST NOT qualify a required boundary. No universal coverage percentage, mutation score or test-layer quota is required.
+    applicability: projects with changes to supported behavior or its verification
+    gates: [development, integration, delivery, compliance]
+    verification: [ci, evidence, agent]
+    sources:
+      - name: Engineering baseline 3
+        url: docs/engineering-baseline.md
+      - name: Inozemtseva and Holmes, Coverage is not strongly correlated with test suite effectiveness
+        url: https://cs.uwaterloo.ca/~rtholmes/papers/icse_2014_inozemtseva.pdf
+  - id: OPDEV-REVIEW-001
+    kind: opdev
+    title: Review behavior, assertions and maintainability
+    statement: Substantive changes MUST receive a scoped agentic or human review of accepted behavior, actual assertions, affected interfaces, failure paths and maintainability before integration. A single implementing agent MAY perform a distinct requirement-led review pass; neither a second agent nor human sign-off is required by this baseline. Review MUST inspect actual source and findings, not merely the author's summary or green tests. Depth MUST reflect consequences and uncertainty, with unresolved material findings retained. Review does not grant developer authorization or domain certification.
+    applicability: substantive retained changes
+    gates: [integration, delivery, compliance]
+    verification: [evidence, agent]
+    sources:
+      - name: Engineering baseline 3
+        url: docs/engineering-baseline.md
+      - name: Google code review practices
+        url: https://google.github.io/eng-practices/review/reviewer/looking-for.html
+  - id: OPDEV-LIFECYCLE-001
+    kind: opdev
+    title: Define proportionate support and lifecycle responsibilities
+    statement: Supported software MUST identify supported versions and platforms, defect and private vulnerability reporting routes, dependency maintenance responsibility, compatibility and deprecation expectations, and end-of-support behavior. A solo maintainer MAY own all responsibilities. Review affected lifecycle promises and user/operator documentation when behavior changes. Existing adequate authorities MUST be reused; no separate lifecycle file, staffing requirement or universal support duration is imposed.
+    applicability: software with supported consumers, including internal consumers
+    gates: [delivery, compliance]
+    verification: [evidence, agent]
+    sources:
+      - name: Engineering baseline 3
+        url: docs/engineering-baseline.md
+      - name: NIST SSDF 1.1
+        url: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-218.pdf

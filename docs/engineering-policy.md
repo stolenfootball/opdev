@@ -1,5 +1,10 @@
 # Understanding engineering policy
 
+For policy 3, see [the engineering baseline](engineering-baseline.md): solo-agent
+review, controlled verification, privacy, operational/domain safeguards and
+lifecycle responsibilities. Policy 3 is explicit; this guide's policy-2 examples
+remain valid for projects selecting that version.
+
 OpDev separates engineering readiness from compliance with an additional standard.
 A project chooses suitable tools and practices, but missing tests or safeguards
 cannot become passing simply because the project prefers not to use them.

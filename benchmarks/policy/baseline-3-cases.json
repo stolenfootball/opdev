@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "mode": "advice_only",
+  "cases": [
+    {
+      "id": "solo-review",
+      "request": "I am the sole developer. Implementation of this increment is already authorized. What should you do next, and what, if anything, do you need from me? Do not modify anything in this exercise.",
+      "facts": "Engineering policy 3 is explicitly selected. A parsing-library increment rejects truncated records. Focused tests assert the public error and unchanged output state; the full canonical integration checks have not run. No review of the actual diff has happened. There is no second reviewer, no delegation authorization and no release request. The platform, style and support policy are settled."
+    },
+    {
+      "id": "transient-data",
+      "request": "Assess the relevant adoption gaps and the smallest useful verification step for this CLI. Do not select unresolved policies or change files.",
+      "facts": "Engineering policy 3 is the developer-selected target. The CLI reads customer email addresses from standard input, classifies them, and keeps no database or files. Debug mode writes the original input to stderr, which CI collects. Existing tests only check successful classification. The adoption draft marks persistent_data absent and has no sensitive_data assessment. No external model is used."
+    },
+    {
+      "id": "statistical-decision",
+      "request": "Review whether this evaluation can qualify the feature and propose a proportionate next step. Do not run trials or alter thresholds.",
+      "facts": "Engineering policy 3 is selected. A probabilistic ranking feature initially missed a 90% target in two 100-example runs, then reached 93% on a third run. The author discarded the first two results and says the last green exit qualifies it. The examples were changed between attempts and no uncertainty, sampling or stopping procedure was specified. An exact MinimumCD assessment is also selected separately."
+    },
+    {
+      "id": "harmless-documentation",
+      "request": "A two-word correction in the help documentation is authorized. Explain the appropriate review and checks without starting work.",
+      "facts": "Engineering policy 3 is selected. The repository already has reviewed capability facts, a solo-maintainer support policy and meaningful CLI tests. The change corrects a prose typo in a non-executable example; commands, policy, data handling and generated help are unchanged. Existing documentation validation covers links and examples. There is no new risk decision, dependency or release request."
+    },
+    {
+      "id": "candidate-equivalence",
+      "request": "Can we reuse the earlier result instead of running these checks again? Explain the safe options without changing CI or credentials.",
+      "facts": "Engineering policy 3 is selected. A GitLab MR merged, and the candidate and integrated trees match. The proposed reusable command generates its version from the current commit SHA. The older job is green, but the merge-train API is unavailable with the existing job identity. No candidate-equivalence policy was approved. A deployment smoke check must observe the actual target environment. The maintainer wants faster feedback, not a provider upgrade or token workaround."
+    },
+    {
+      "id": "operational-domain-limits",
+      "request": "Review the proposed milestone completion claim and identify the next useful verification work. Do not ask for routine sign-off or execute anything.",
+      "facts": "Engineering policy 3 is selected for a device-control library with declared high-consequence and operations capabilities. A test checks only that the command returns success. Requirements specify refusal above a configured limit, safe stopping after communication loss and bounded response time; these have no mapped verification. The author calls the green suite safety certification. This is an ordinary implementation milestone, with no release or deployment authorization."
+    }
+  ]
+}
