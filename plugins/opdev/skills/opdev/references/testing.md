@@ -51,6 +51,17 @@ of the stronger checks or automatically install/update anything.
 - Tests that depend on live services, devices, stores, fleets, models, or other external systems must state dependencies, environment, variability, freshness, and whether their result affects deployability or effectiveness.
 - Keep deterministic correctness and deployability separate from effectiveness evaluation.
 
+## Feedback and required checks
+
+When recommending proportionate checks, distinguish the next feedback observation
+from integration qualification. A documentation typo may need only the existing
+documentation validation for feedback and no new behavioral test. That does not
+waive any project-required pre-merge or integrated-trunk suite. If the contract
+requires a broader suite, it still runs at that boundary. If its selection is not
+known, say the required checks must be confirmed from the contract; do not invent
+a universal full-suite duty or claim that a broad suite is unnecessary at merge.
+Changing that policy requires a reviewed decision, not a low-risk label.
+
 Use focused checks during retained implementation and required canonical suites
 at integration handoff. The [ready-for-feedback checkpoint](planning.md#ready-for-feedback)
 does not require the whole integration workflow. Select checks around the next
