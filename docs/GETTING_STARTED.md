@@ -12,7 +12,7 @@ run the equivalent commands using its selected executable.
 - Network access for initial installation and any remote provider audit.
 - A supported native target: macOS, Windows, or Linux GNU; x86-64 or ARM64.
   Check the selected [release's assets](https://github.com/stolenfootball/opdev/releases)
-  before installing. Linux 0.1 releases require glibc 2.39 or newer. Windows
+  before installing. Published Linux GNU builds require glibc 2.39 or newer. Windows
   needs PowerShell 5.1+; ARM64 needs Windows 11 x64 emulation for the signature
   verifier. Linux musl is not a promised published target.
 
@@ -23,20 +23,20 @@ and [managed runtime setup and recovery](../plugins/opdev/skills/setup/SKILL.md)
 
 ## Install the standalone CLI
 
-The following installers select published **0.1.2**. Read or download a release
+The following installers select **0.5.0** from the release download host. Read or download a release
 script for review before executing it if required by your trust policy: the
 installer itself supplies the verification trust anchors.
 
 macOS or Linux:
 
 ```sh
-curl --proto '=https' --tlsv1.2 -fsSL https://github.com/stolenfootball/opdev/releases/download/v0.1.2/opdev-installer.sh | sh
+curl --proto '=https' --tlsv1.2 -fsSL https://github.com/stolenfootball/opdev/releases/download/v0.5.0/opdev-installer.sh | sh
 ```
 
 Windows PowerShell:
 
 ```powershell
-powershell -NoProfile -Command "& ([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://github.com/stolenfootball/opdev/releases/download/v0.1.2/opdev-installer.ps1').Content))"
+powershell -NoProfile -Command "& ([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://github.com/stolenfootball/opdev/releases/download/v0.5.0/opdev-installer.ps1').Content))"
 ```
 
 The installers download a checksum-pinned verifier and verify the archive
@@ -47,7 +47,7 @@ install into a user bin directory and configure user PATH. Open a new terminal:
 opdev version
 ```
 
-Expect version `0.1.2` for these URLs. To leave PATH unchanged, use
+Expect version `0.5.0` for these URLs. To leave PATH unchanged, use
 `OPDEV_NO_MODIFY_PATH=1` with the shell installer or the PowerShell installer's
 `-NoModifyPath` option. Installation does not initialize a repository.
 
@@ -58,7 +58,9 @@ and [recovery](../release/README.md#recovery).
 
 The plugin has a separate managed-runtime path: it deliberately pins CLI 0.4.0
 in [runtime.lock](../plugins/opdev/runtime.lock), verifies compatibility, and
-does not modify PATH. That pin is independent of the plugin's version.
+does not modify PATH. That pin is independent of the plugin's version and does not supply the 0.5.0
+capabilities below. Select a verified compatible standalone 0.5.0 CLI for those
+features; do not silently modify the managed cache.
 
 For source development, Rust 1.97 or newer provides a fallback. This installs
 from the repository, not necessarily the published release:
@@ -78,7 +80,7 @@ opdev adoption plan
 ```
 
 Discovery reads static metadata; it does not run repository-controlled commands
-or approve its inferred choices. On a current development build, bare `init`
+or approve its inferred choices. In CLI 0.5.0, bare `init`
 refuses to write a new project policy. Review the plan and resolve material
 choices before supplying the approved complete contract:
 
@@ -92,17 +94,18 @@ Use `--legacy-policy` only for intentional older-policy compatibility scaffoldin
 not for current adoption. Older published CLIs have different initialization
 behavior; check capabilities before using these commands.
 
-Development builds also create `.opdev/adoption.yaml` with every practice
+CLI 0.5.0 also creates `.opdev/adoption.yaml` with every practice
 pending for new projects. Re-running initialization preserves existing decisions;
 legacy projects are not silently migrated. See the completion workflow below.
 
-### Select current development policy and layout explicitly
+### Select current policy and layout explicitly
 
-Check `opdev init --help` and compatibility first; the historical installer
-example above does not supply these newer capabilities. A new project can select
-the versioned `clean-1` destination in its reviewed contract: schema 3,
-engineering policy 1, the separately selected MinimumCD assessment, layout 1,
-external semantic-review storage 1 and capability safeguards 1. See
+Check `opdev init --help`, `opdev doctor --format json` and compatibility first.
+CLI 0.5.0 supports `clean-3`: project schema 4, engineering policy 2, layout 3,
+requirements policy 1, MR/PR review storage 2 and safeguards 1. Explicitly selecting
+engineering policy 3 uses `clean-4`, safeguards 2 and adoption inventory 3.
+MinimumCD and other standards are separate reviewed selections, not implied
+conformance. See [the policy-3 baseline](engineering-baseline.md) and
 [current adoption destination](../spec/adoption.md#current-destination).
 The older individual engineering/layout flags still support partial scaffolding;
 they are not a complete current-adoption contract. A supplied decision reference
@@ -110,16 +113,22 @@ is attribution, not proof of developer consent; do not invent an approval.
 
 Engineering policy makes baseline outcomes mandatory while preserving adequate
 tools. Applicability depends on real capabilities, not missing configuration.
-Selected layout 1 creates the shared `.opdev/guidance.md` and short root pointers,
+Selected layout 3 creates the shared `.opdev/guidance.md` and short root pointers,
 in addition to the project and pending adoption records. It creates no optional
 documents. Review and stage all files actually generated, including adoption and
-shared guidance when present; the legacy example below is not their complete list.
+shared guidance when present. Add capability-level requirements and reviewed
+verification plans as supported guarantees are established; see the
+[requirements guide](requirements-and-verification.md).
 
 For an existing project, `init` preserves its policy. Inspect a policy proposal
 through `upgrade --engineering-policy ...`; use the separately reviewed
 [coordinated migration](../spec/upgrades.md#explicit-coordinated-migration) when
 moving layout, adoption and evidence storage together. It requires the explicit
-candidate choices, complete retained history and a verified recovery path.
+candidate choices, reviewed cleanup and a verified recovery path. Storage policy 2
+removes the obsolete ledger without an evidence archive; temporary rollback
+protection lasts through migration verification. Storage policy 1 retains its older
+archive duties. Known obsolete active artifacts must be retired, not left merely
+because they do not break a check.
 Neither plugin update nor a successful preview migrates the project.
 
 Review the contract before running checks. Confirm the exact command arguments,
@@ -127,13 +136,13 @@ working directories, test suites, authority locations, and CI provider.
 Discovery leaves ambiguous facts for review. It does not invent a production-like
 environment, artifact, recovery strategy, or coverage threshold.
 
-Once those files reflect the project, stage and commit them through its normal
-development workflow:
+Once those files reflect the project, stage the actual generated files and any
+reviewed requirements/policy definitions, then prepare current review and complete
+the normal integration workflow below. Do not commit unresolved scaffolding as
+completed adoption. For the generated entry files:
 
 ```sh
-git add .opdev/project.yaml AGENTS.md CLAUDE.md
-git commit -m "chore: initialize OpDev"
-opdev check
+git add -- .opdev/project.yaml .opdev/adoption.yaml .opdev/guidance.md AGENTS.md CLAUDE.md
 ```
 
 ## Understand the first check
@@ -164,11 +173,11 @@ adoption or release readiness. Older doctor exits were unconditional: check
 Only `passed` and justified `not_applicable` satisfy required rules. Recording
 a migration gap is not delivery approval. See [result semantics](../spec/result-semantics.md).
 
-## Complete adoption in development builds
+## Complete adoption
 
-Check `opdev adoption --help` first. Published 0.2.0 has the original assessment;
-schema-2 plan/approve/migrate/prepare-evidence are development capabilities.
-If unavailable, select a
+Check `opdev adoption --help` first. CLI 0.5.0 supplies the current workflow;
+older runtimes may only supply legacy assessment. If required capabilities are
+unavailable, select a
 compatible source-built CLI or leave adoption explicitly incomplete; do not
 report older scaffolding as completed assessment.
 
@@ -214,9 +223,13 @@ Then run:
 opdev adoption check --format json
 ```
 
-Completion requires the current reviewed decisions, successful declared checks,
-and all core gates. Local execution does not replace actual CI or delivery
-qualification. Save the result in the work item and complete the normal CI
+For review storage 2, also supply the exact current `--review-locator FILE` and
+`--review-acceptance-sha256 ID`; do not create a repository ledger to satisfy a
+missing review. Completion requires reviewed decisions, verified applicable
+practices, clean-target retirement checks and required engineering/adoption gates.
+Local execution does not replace actual CI or artifact-specific delivery
+qualification. Adoption does not authorize release or qualify new artifacts.
+Save the result in the work item and complete the normal CI
 integration workflow. Do not register this command as a project test suite:
 it runs the project's verification itself.
 
@@ -230,11 +243,10 @@ Start with the project's work item and relevant authorities. Establish the
 expected outcome and risks, make a focused change, and add or update regression
 coverage for behavior changes. For retained feedback, run focused meaningful
 checks and review the direction without finalizing evidence on every tweak.
-When the increment is ready for integration, run its required declared checks
-and stage **all** material files for the change:
+When the increment is ready for integration, stage **all** material files and
+prepare current review before running its required declared checks:
 
 ```sh
-opdev check
 git add -- path/to/changed-file path/to/regression-test
 ```
 
@@ -244,6 +256,39 @@ Do not fabricate evidence merely to make a gate pass.
 
 ### Review evidence
 
+For current review storage 2, keep enduring requirements and reviewed mappings
+in the [catalog](requirements-and-verification.md); put current change review
+in the existing MR/PR. Prepare unresolved input outside the checkout:
+
+```sh
+opdev evidence prepare --input REVIEW_INPUT --work MR_OR_PR_URL --output NEW_DRAFT
+opdev evidence prepare --draft NEW_DRAFT
+```
+
+These placeholders require real paths and the actual change URL. Preview binds
+source and assertions; it does not approve them or run tests. Perform a distinct
+requirement-led review, record its current identity, then export with
+`--draft FILE --write --ledger-output NEW_FILE` and
+`evidence bundle export-review --discussion`. The temporary ledger is export input
+outside source, not a permanent execution history. Post the reviewed record and
+select its exact locator and independent acceptance identity. Run canonical
+verification once for the applicable boundary:
+
+```sh
+opdev check --ci --review-locator LOCATOR --review-acceptance-sha256 ACCEPTANCE_ID
+```
+
+After integration, prepare the actual integrated-source review and add
+`--post-merge` for that stage. Required checks still apply to documentation-only
+changes when selected by project policy. Normal authorized implementation includes
+integration unless reserved by the developer; release needs separate authorization.
+See [native CI handoff](../spec/evidence-lifetimes.md#native-ci-review-integration)
+and [acceptance preparation](../spec/evidence-preparation.md) for complete fields
+and freshness rules. Saved reports and attributed reviews are not human consent
+and cannot replace current execution.
+
+#### Legacy storage compatibility
+
 The following ledger flow is for legacy evidence storage, not for a project
 that explicitly selects `assurance.review_storage`. With external storage,
 prepare a new candidate outside source (`bootstrap --output`, or `prepare
@@ -251,7 +296,8 @@ prepare a new candidate outside source (`bootstrap --output`, or `prepare
 then explicitly export and retain it at the reviewed authority. Qualification
 uses `check --review-locator FILE --review-acceptance-sha256 ID` plus actual
 current stage checks. Neither a cached report nor export success proves execution,
-consent, retention or authority to delete history. See the
+consent or authority to change storage policy. Storage 1 retains its archive
+contract; storage 2 uses the MR/PR and reviewed ledger removal described above. See the
 [evidence guidance](../plugins/opdev/skills/opdev/references/evidence.md).
 
 For a legacy-storage project with no `.opdev/evidence.yaml` yet, generate a questionnaire
@@ -337,7 +383,7 @@ use an authenticated `glab` session when higher-priority provider credentials
 are absent. See [credential precedence](../spec/remote-audits.md); never put
 credentials in the project contract or evidence ledger.
 
-## Compact inspection in development builds
+## Compact inspection
 
 Compact output is experimental and requires explicit user/project opt-in. Check
 the selected CLI's help for `--experimental-compact` and `--report`; version

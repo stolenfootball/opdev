@@ -164,12 +164,17 @@ need their own complete qualification and explicit release authorization.
 
 ## Managed-runtime pin maintenance
 
-Standalone CLI 0.4.0 is published and qualified; source plugin 0.4.2 pins that
+Standalone CLI 0.4.0 is published and qualified; plugin 0.5.0 retains that
 immutable GitHub release. No historical release assets or cached runtimes are
 replaced. The plugin and CLI versions are independent. Update the lock's
 version, tag, signing identity, and verifier digests only as a reviewed change,
 then run the offline and live installer suites. Do not point a source-marketplace
 plugin at a release that has not been published.
+
+CLI 0.5.0 supplies the newer engineering, clean-adoption and requirements/review
+capabilities. Until its separate qualified pin update, use a verified compatible
+standalone 0.5.0 executable for these features. Publication itself does not edit
+installed plugin caches, migrate project policy or update consumer CI pins.
 
 The bootstrap scripts and lock are included automatically in the shared plugin
 archive. Existing native archives and release signing/publication remain the

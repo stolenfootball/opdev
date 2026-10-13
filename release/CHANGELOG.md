@@ -5,6 +5,62 @@ the public compatibility boundary stabilizes.
 
 ## Unreleased
 
+## 0.5.0 / Plugin 0.5.0
+
+- Add versioned engineering policies with mandatory baseline outcomes and separate
+  exact-version external standards and additive organization policies. Policy 3
+  adds agentic review, controlled repeatable verification, sensitive-data and
+  high-consequence safeguards, operational objectives and lifecycle duties.
+  Existing policy selections retain their meanings; no automatic migration.
+- Add clean adoption for empty, existing and previously adopted projects. Review
+  the full contract and material choices before initialization; explicitly retire
+  obsolete active artifacts and reopen duties changed by a policy migration.
+  Policy 2 uses clean-3; policy 3 uses clean-4. Scaffolding is not completion.
+- Store current semantic review in the existing MR/PR under review storage 2,
+  using provider-native CI identity and bounded execution reports. Reviewed
+  migration removes the legacy ledger without an evidence repository or archive.
+  Older storage policy 1 retains its distinct archive contract.
+- Add capability-level requirements, observable criteria, reviewed test mappings
+  and stage-specific verification in versioned JSON. No database service or
+  ever-growing execution ledger. Source changes invalidate affected reviews;
+  a mapping or passing suite alone does not prove semantic adequacy.
+- Enforce explicitly selected strict layouts, support private local continuation
+  state and coordinated migration recovery, and preserve later developer edits.
+  Documentation stays with its declared owner; task progress stays in the tracker.
+- Plan connected outcome slices and MVP/later phases. Continue authorized work
+  through independent tasks while local decisions are pending. Focused feedback
+  checks do not waive integration checks; normal authorized merging does not need
+  a separate release-style approval. Unverified milestones are not complete.
+- Add evidence-led CI design recommendations without automatically changing a
+  project's pipeline. Opt-in native integration-candidate reuse conservatively
+  checks source/input/producer/freshness equivalence; fresh execution stays the
+  default. API fixtures are not live merge-train qualification or measured savings.
+- Strengthen declaration-only behavioral verification, current review selection,
+  prior-stage observations and custom GitHub workflow recognition. Projects may
+  need actual missing observations even when older policy-only checks passed.
+- Update onboarding, storage and compatibility documentation. Ordinary code and
+  wording review is agentic, not a routine manual approval gate. Bounded Codex
+  trials retain failures and limitations; no universal reliability or live Claude
+  behavior claim is made. Compact/token-reduction features remain experimental
+  and disabled by default.
+
+### Upgrade notes
+
+Select a compatible 0.5.0 CLI locally and in CI before reviewing new project
+policies. Bare `init` needs a complete reviewed `--project` contract for current
+adoption. `upgrade` previews before a reviewed apply; installation alone changes
+neither project records nor CI pins. Clean migration does not mean deleting useful
+project documentation or rewriting Git history. Keep unsupported transitions
+explicitly incomplete rather than manufacturing approval or verification.
+
+Plugin 0.5.0 accepts CLI >=0.2.0, <0.6.0 for legacy workflows and retains qualified
+managed CLI 0.4.0 during publication. The new features require the matching 0.5.0
+capabilities; ordinary version compatibility is not sufficient. A separate
+qualified source-pin update follows publication, not an automatic installed-cache
+rewrite. See [getting started](../docs/GETTING_STARTED.md),
+[the engineering baseline](../docs/engineering-baseline.md) and
+[requirements and verification](../docs/requirements-and-verification.md).
+
 ## 0.4.1 / Plugin 0.4.2
 
 - Separate post-merge integration verification from release readiness. Required

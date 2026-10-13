@@ -10,16 +10,22 @@ separate from project-manifest schema 1 and the core rule catalog.
 
 ### Current destination
 
-Capability `adoption.clean-target.v3` makes default completion target exactly
+For engineering policy 2, capability `adoption.clean-target.v3` makes the completion target exactly
 `clean-3`: project schema 4, engineering policy 2, strict layout 3, requirements
 catalog 1, MR/PR-native semantic-review storage 2, capability safeguards 1 and
 adoption schema 2/inventory 2. `clean-1` and `clean-2` remain readable with their
 original policy meanings; ordinary checks do not migrate them. Current full
-adoption requires the reviewed clean-3 transition.
+adoption requires the reviewed clean-3 transition. Explicit engineering policy 3
+uses `clean-4` (`adoption.clean-target.v4`) instead, retaining schema 4, layout 3,
+requirements 1 and review storage 2 while selecting safeguards 2 and adoption
+inventory 3. Its clean-target record has version 4. New sensitive-data and
+high-consequence questions remain unresolved until actually assessed; migration
+reopens changed testing/review/operations duties and does not transfer approval.
 This bundled combination is not a network `latest` alias. All seven capabilities
 need supported reviewed facts; unknown/missing entries cannot exempt requirements.
 Ordinary work on older policy and tooling-only upgrades remain usable without
-automatic migration. Full adoption must reach this destination.
+automatic migration. Full adoption must reach the destination for its explicitly
+selected engineering policy, not an inferred latest policy.
 
 Empty, existing non-OpDev and older OpDev projects share the destination, not the
 same transformation. Empty projects resolve material product choices and need
