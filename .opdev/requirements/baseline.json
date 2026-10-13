@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "docs/engineering-baseline.md",
-          "sha256": "48d447285c38d4f871f9552f95ef7bd85bd6d3cc72da02d21e44eef264c948f5",
+          "sha256": "b258eaafc1359a537c38648ce51e54043b8e6fcc8ab5b6f08160d8bcc8b24398",
           "excerpt": "Engineering policies 1 and 2 retain their"
         }
       },
