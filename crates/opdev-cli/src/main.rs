@@ -801,6 +801,10 @@ fn change_scoped_rule(rule_id: &str) -> bool {
             | "OPDEV-LEARN-001"
             | "OPDEV-BRANCH-001"
             | "OPDEV-REVIEW-001"
+            | "OPDEV-FLOW-001"
+            | "OPDEV-DELIVERY-001"
+            | "OPDEV-PIPELINE-001"
+            | "OPDEV-RECOVERY-001"
     )
 }
 

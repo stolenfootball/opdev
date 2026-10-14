@@ -508,6 +508,26 @@ pub(super) fn complete_review_candidates(
             change.push(id.into());
         }
     }
+    // Current-policy qualification requires an exact-change decision even for
+    // justified non-applicability. A durable project assertion cannot supply it.
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|policy| matches!(policy.version.as_str(), "2" | "3"))
+    {
+        for id in [
+            "OPDEV-FLOW-001",
+            "OPDEV-DELIVERY-001",
+            "OPDEV-PIPELINE-001",
+            "OPDEV-RECOVERY-001",
+        ] {
+            project.retain(|candidate| candidate != id);
+            if !change.iter().any(|candidate| candidate == id) {
+                change.push(id.into());
+            }
+        }
+    }
     let rule = delivery_rule(manifest);
     let destination = if rule == "OPDEV-PIPELINE-001" {
         change

@@ -61,6 +61,14 @@ a second older copy. Resolved modern-policy answers must round-trip unchanged in
 meaning; null impact slots, malformed identities and unknown fields remain invalid.
 Preparation and schema validity still supply neither consent nor qualification.
 
+Engineering policies 2 and 3 require flow, delivery, pipeline and recovery
+decisions on the exact current change, including justified non-applicability.
+Complete adoption preparation always supplies those four unresolved decisions
+in change scope, never as historical project assertions. Ordinary bootstrap uses
+the same scope when these controls need review; older policy rule IDs retain
+their meaning. Assembling a reviewed assertion still does not run its mapped
+checks or establish adoption completion.
+
 ### Adoption input preflight
 
 With `adoption.preflight.v1`, `adoption check --preflight` shares ordinary adoption

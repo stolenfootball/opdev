@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -550,7 +550,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -665,7 +665,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -780,7 +780,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -895,7 +895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1010,7 +1010,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1125,7 +1125,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1240,7 +1240,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1400,7 +1400,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1560,7 +1560,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1720,7 +1720,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1880,7 +1880,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2040,7 +2040,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2360,7 +2360,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2520,7 +2520,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2680,7 +2680,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2840,7 +2840,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2995,7 +2995,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3155,7 +3155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3340,7 +3340,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3525,7 +3525,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3710,7 +3710,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3895,7 +3895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4080,7 +4080,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4265,7 +4265,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4450,7 +4450,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4635,7 +4635,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4820,7 +4820,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5005,7 +5005,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5190,7 +5190,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5375,7 +5375,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5565,7 +5565,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
+          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5617,9 +5617,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
-        "subject_sha256": "36bf89084fabcc35136de77c6d794af308135103e8e1b0b58cab0e6bb75832f4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "83e902b051f5a7efd4fa496878e96f2add0c90e7d88389e29381b6735f0feab4"
       }
     },
     {
@@ -5657,9 +5657,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
-        "subject_sha256": "540f16fa4aed6aa6d4a40be910bb5162a432ea09d688449bb2b17b6b4bdfe2d5"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "e3309152374b56db2b81c2f98f6d95c7dcb17c299c19a8c898687d0fed233e7e"
       }
     },
     {
@@ -5697,9 +5697,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
-        "subject_sha256": "d2c0edbaffb653b40abc03569f3fc4831ace2ac2be66f8a22e76b45a3aeb0a25"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "3c8213db809ae15b9da39c008997f7b207a252fd9ffc956dc2390f56968b0fc5"
       }
     },
     {
@@ -5747,9 +5747,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "7b0f822a5afcb08ada64e5b490e94fd7f3de928d39627843cb55adec05f1129d"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "79ba066ffe7bd25e2244d18addbfd42f391895a280ea3bd03903d8ab3f9ebe1c"
       }
     },
     {
@@ -5797,9 +5797,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "c301e65b8702ffc1202ec413c484e66c43d1a2f02aaf2b7d8234f8d80697b5aa"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "8ef04745df96c68f11344a91082488830918a8d049e156dcbc9d5235f5ef5b29"
       }
     },
     {
@@ -5847,9 +5847,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "f5da170cc55338c6e0d0b796608eee9373d25232e6da954b14ca4ec9ff9193b8"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "c74fb7555ef125b93d71f1c82576bda1c5ed67d7e8267672f8ff784b4e8146f1"
       }
     },
     {
@@ -5922,9 +5922,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "b083526227a6d1ab22d0f6c8991d32d8538ff28f0bc6d622d6d6ee7b3f4b3ab6"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "6c2048a98a77ca1c178c12580c796071b51052adff1f3d832b497f34fc8cb639"
       }
     },
     {
@@ -5997,9 +5997,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "4d88acfd13986d6e979c275cf7789eab6adefa78ff8b97aae42b4327f3dc1ca6"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "67e16797971097f950d224bf5438c5159bcc1d19fc6351c9ecb1a1f4df36c27f"
       }
     },
     {
@@ -6072,9 +6072,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "685929aa8e577e3fbbef8752a632171f505ceaeb797e5f668a6eac8208d0f04e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "ecf5bac45e8262dbc0d70541db3372492d82d15eda6b05d125d0564960d48935"
       }
     },
     {
@@ -6152,9 +6152,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "77fe8e5469f4926ea1358bfe2624fc68248a2d408c7c24196832cfbad1c364fe"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "5620157e902155bc8a6176d0ebdedabf83e06834a8de88e569568b9018ff53ea"
       }
     },
     {
@@ -6232,9 +6232,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "d6d1dd7db92bb8df26c0ba51b4487b3cd47963e557a15447990c4358acff9981"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "7841c9a1eba13a5b5794c737ecc0515240becdc2594dc0dc143cac77768d66e4"
       }
     },
     {
@@ -6312,9 +6312,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
-        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
-        "subject_sha256": "be30ed8bfd497e1ea37a5eebce3aa843c81dd6218dbe111c04466abd9e0afda5"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "804ab5668ba67210718c8203196a11b00891d1305a306a3de055f7d618138b89"
       }
     }
   ]

@@ -317,6 +317,24 @@ that boundary. Required distinct environments and integrated checks remain.
 Diagnoses MUST distinguish invalid input, capability gaps and reproduced defects;
 unreproduced causes remain hypotheses rather than asserted implementation bugs.
 
+The native GitLab adapter inspects ordered workflow and job admission together:
+the first matching rule controls the boundary, and an unknown earlier predicate
+is not assumed false. The bounded static subset covers source-event equality,
+default or declared-trunk comparisons, branch/tag presence and conjunctions or
+disjunctions. Path filters, dynamic variables and unsupported expressions remain
+unverified. Job-level setup replaces, rather than merges with, default setup.
+This follows GitLab's [workflow ordering](https://docs.gitlab.com/ci/yaml/workflow/)
+and [default inheritance](https://docs.gitlab.com/ci/yaml/#default).
+
+Runtime wiring can declare a same-job signed installer, a locked local build,
+or a final three-command clone/exact-checkout/locked-build sequence from the
+OpDev source repositories with a direct invocation of its output. Prerequisite
+programs before that sequence still need ordinary review; static recognition
+does not authenticate them, the runner or actual execution. Intervening commands,
+mutable revisions, mismatched paths and unsupported inheritance cannot supply
+runtime proof. Neither this inspection nor its supported subset authorizes
+rewriting an adequate project's CI or choosing a convenient passing review.
+
 See [the operator guide](../docs/adoption.md). This approach reuses existing
 preparation/preflight rather than adding another approval service or execution
 ledger. Revisit if the early rehearsal duplicates full qualification instead of

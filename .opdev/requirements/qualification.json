@@ -106,7 +106,7 @@
       "id": "V-delivery-scope-2",
       "target": {
         "path": "crates/opdev-cli/src/adoption.rs",
-        "sha256": "92654671924b4bcac7399662961c04518cf01e51fd0c83ddc084dba73f85be66",
+        "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
         "excerpt": "fn adoption_scope_preserves_delivery_gaps_and_rejects_other_blockers"
       },
       "inputs": [
@@ -334,9 +334,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release.",
-        "subject_sha256": "fddf5ead55d47ee45614e7af211001d368862481913eff18ad8186bce77b5550"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "8ebf9c476092b640c4576fc2e82d18024b33cf1cbb7c9faadff5592db8edfc19"
       }
     },
     {
@@ -364,9 +364,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release.",
-        "subject_sha256": "96a95ccd37db124a0bc2cebd2e962834aac8802066cb8883a570d9363c7b919e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "dc1c8799ede9af3657339c35976b2265a57ea0189f38ea72e4bde700e55cafe5"
       }
     },
     {
@@ -394,9 +394,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release.",
-        "subject_sha256": "f206982b810347fc9e541853511cb2244e40f5486f3bd9adacf25635dacd8ccd"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
+        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
+        "subject_sha256": "495a1c34ceaa1c94b0ee9a996d87420b24dbe307ea77b815d4262bc4cfcfde3b"
       }
     },
     {

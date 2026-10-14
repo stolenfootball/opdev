@@ -252,6 +252,15 @@ fn complete_preparation_for_policy(
         String::from_utf8_lossy(&generated.stderr)
     );
     let value: Value = serde_saphyr::from_slice(&generated.stdout)?;
+    for control in [
+        "OPDEV-FLOW-001",
+        "OPDEV-DELIVERY-001",
+        "OPDEV-PIPELINE-001",
+        "OPDEV-RECOVERY-001",
+    ] {
+        assert_eq!(value["change"]["decisions"][control], "review_required");
+        assert!(value["project"]["decisions"].get(control).is_none());
+    }
     let acceptance = &value["change"]["acceptance"];
     let catalog = opdev_project::requirements::load_index(root)?.digest()?;
     assert_eq!(acceptance["requirements"]["catalog_sha256"], catalog);
@@ -307,6 +316,15 @@ fn round_trip_current_questionnaire(
     // Synthetic schema/assembly judgments only, not project qualification.
     value["change"]["work"] = json!("synthetic current-policy assembly regression");
     value["change"]["decisions"]["OPDEV-WORK-001"] = json!("passed");
+    let controls = [
+        "OPDEV-FLOW-001",
+        "OPDEV-DELIVERY-001",
+        "OPDEV-PIPELINE-001",
+        "OPDEV-RECOVERY-001",
+    ];
+    for control in controls {
+        value["change"]["decisions"][control] = json!("passed");
+    }
     for evidence in value["change"]["evidence"]
         .as_array_mut()
         .ok_or("evidence")?
@@ -349,6 +367,20 @@ fn round_trip_current_questionnaire(
     );
     let ledger: opdev_project::EvidenceLedger = serde_saphyr::from_slice(&output.stdout)?;
     assert_eq!(ledger.changes[0].acceptance.as_ref(), Some(&expected));
+    for control in controls {
+        assert!(
+            ledger.changes[0]
+                .assertions
+                .iter()
+                .any(|assertion| assertion.rule_id.as_str() == control)
+        );
+        assert!(
+            !ledger
+                .project
+                .iter()
+                .any(|assertion| assertion.rule_id.as_str() == control)
+        );
+    }
     assert!(!root.join(EVIDENCE_PATH).exists());
     for (pointer, invalid) in [
         (
