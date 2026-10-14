@@ -19,6 +19,9 @@ use sha2::{Digest, Sha256};
 
 #[derive(Debug, Args)]
 pub(super) struct UpgradeArgs {
+    /// Print this CLI's complete offline migration JSON Schema, not a request or approval.
+    #[arg(long, conflicts_with_all = ["migration", "resume", "apply", "recovery_output", "engineering_policy", "plugin_root"])]
+    request_schema: bool,
     /// Preview an explicit coordinated migration request; no default policy choices.
     #[arg(long, conflicts_with_all = ["resume", "engineering_policy"])]
     migration: Option<PathBuf>,
@@ -122,6 +125,13 @@ impl UpgradeReport {
 }
 
 pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
+    if args.request_schema {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&migration_request_schema()?)?
+        );
+        return Ok(ExitCode::SUCCESS);
+    }
     if args.migration.is_some() || args.resume.is_some() {
         return crate::migration::run(
             &args.root,
@@ -178,6 +188,47 @@ pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
     } else {
         ExitCode::SUCCESS
     })
+}
+
+/// A compound schema preserves each resource's URI and local-reference scope.
+/// It is compiled from the maintained definitions, never fetched from their IDs.
+fn migration_request_schema() -> Result<serde_json::Value> {
+    let mut root: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../schema/migration-request.schema.json"
+    ))?;
+    let mut definitions = serde_json::Map::new();
+    for (name, source) in [
+        (
+            "project",
+            include_str!("../../../schema/project.schema.json"),
+        ),
+        (
+            "requirements",
+            include_str!("../../../schema/requirements.schema.json"),
+        ),
+        (
+            "policies",
+            include_str!("../../../schema/policy-pack.schema.json"),
+        ),
+        (
+            "adoption",
+            include_str!("../../../schema/adoption.schema.json"),
+        ),
+        (
+            "history",
+            include_str!("../../../schema/evidence-archive.schema.json"),
+        ),
+    ] {
+        let mut resource: serde_json::Value = serde_json::from_str(source)?;
+        // The published adoption schema historically has no ID; this is the
+        // exact URI already referenced by the migration contract.
+        if name == "adoption" {
+            resource["$id"] = "https://opdev.dev/schema/adoption.json".into();
+        }
+        definitions.insert(name.into(), resource);
+    }
+    root["$defs"] = definitions.into();
+    Ok(root)
 }
 
 fn preview_safeguards_two(

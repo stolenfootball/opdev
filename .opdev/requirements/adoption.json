@@ -54,7 +54,7 @@
         "kind": "source",
         "source": {
           "path": "spec/upgrades.md",
-          "sha256": "a1de63c83520e67e3a8d59527cc0453e209860e41bebe1e4c5d1bf346388dc54",
+          "sha256": "ca8a7d8ea016f42efb619541c652ad79e8d92913d7899e32a7b216bafcb4a134",
           "excerpt": "Writes are atomic per file, not a multi-file transaction. Project, adoption,\nmanaged routing and supplied CI replacements precede retiring the old active ledger.\nEach step rechecks the inventory and all original/target states; linked paths or\nlater edits stop the operation. Exclude concurrent writers during application;\nthese checks do not provide hostile-writer filesystem locking. On interruption,\ninspect the actual diff and original snapshot; do not run `init`, blindly roll back,\nor regenerate approvals to conceal partial state."
         }
       },
@@ -403,7 +403,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -443,7 +443,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -503,7 +503,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -543,7 +543,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -603,7 +603,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -643,7 +643,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -703,7 +703,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -743,7 +743,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -803,7 +803,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -843,7 +843,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -903,7 +903,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -943,7 +943,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -1003,7 +1003,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1043,7 +1043,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -1103,7 +1103,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1143,7 +1143,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -1203,7 +1203,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1243,7 +1243,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -1402,7 +1402,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
         "rationale": "Rechecked unchanged guarded migration assertions and helpers against the added every-boundary test. Explicit preview remains read-only, imported policy is unreviewed, stale/concurrent edits are rejected and repeat resume retains unrelated content. No migration algorithm or authority was replaced.",
-        "subject_sha256": "751f23e1e2fe8264bac91673de14206f81da5650dfbe969ba24c5d05efcf75ac"
+        "subject_sha256": "5f4c898c3f1d813b2f6f38d1007718c1b3c9798037c6e73238a1c9d560fa855f"
       }
     },
     {
@@ -1427,7 +1427,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
         "rationale": "Rechecked unchanged guarded migration assertions and helpers against the added every-boundary test. Explicit preview remains read-only, imported policy is unreviewed, stale/concurrent edits are rejected and repeat resume retains unrelated content. No migration algorithm or authority was replaced.",
-        "subject_sha256": "24457c22cfbcc1645622bfff81e397fae317605d7b5dd8b69b299c9f40ea45c4"
+        "subject_sha256": "1a30be27ca5f55ed781214ceb70481a29b00e059430e6804748b597d679ec8e3"
       }
     },
     {
@@ -1452,7 +1452,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
         "rationale": "Rechecked unchanged guarded migration assertions and helpers against the added every-boundary test. Explicit preview remains read-only, imported policy is unreviewed, stale/concurrent edits are rejected and repeat resume retains unrelated content. No migration algorithm or authority was replaced.",
-        "subject_sha256": "a1ded1f1cc8e7293146eeb6cc59b253d360acbb7da32464067b2fc399683cb69"
+        "subject_sha256": "7127b6600f075790d116bc36087db9521bebf9e23927224e78bf0a05e7895810"
       }
     },
     {
@@ -1572,7 +1572,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
         "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
-        "subject_sha256": "03a3c20e042d291e78b0ce784e765953cb946f6e4d2f9ad0beeb4f772e68c190"
+        "subject_sha256": "f1f22ef0f6a0ad0a2d48c2763227c21189cd1d4abf58e203e43b17b5b28739b3"
       }
     },
     {
@@ -1632,7 +1632,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
         "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
-        "subject_sha256": "723feefd4828c6d3d896b574acd5e8f089e1d1bfc9a4f7555184d2ea0c14ab6e"
+        "subject_sha256": "b869b57373886e68a068f422d7a90d7697b164d26f09cac4aa9917d712685782"
       }
     },
     {
@@ -1692,7 +1692,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
         "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
-        "subject_sha256": "4ac6583756deaaf332207e23c9609e346c50e97afddfdfe5e5009a2116fff917"
+        "subject_sha256": "9cebf105d564cdeddaa22cbd29675231f68fcef37ebea8aee71d147f187743b7"
       }
     }
   ]

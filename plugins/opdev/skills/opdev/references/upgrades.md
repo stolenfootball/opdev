@@ -119,7 +119,13 @@ Do not interpret a missing capability as permission to install, delete the ledge
 or manually imitate a successful migration. Use the existing work authority for
 the decision and preserve all unresolved choices. Build the ephemeral strict
 migration request from actual reviewed project policy, not guessed defaults or
-an agent-created owner label. `upgrade --migration FILE` previews exact changes;
+an agent-created owner label. If `upgrade --help` lists `--request-schema`, use
+`upgrade --request-schema` for the running CLI's complete offline JSON Schema,
+including project, cleanup and referenced definitions. It is a format reference,
+not a filled request, default policy, authenticated decision or verification.
+Use the maintained schema for an older compatible CLI; do not reverse-engineer
+binary strings or guess fields when the matching definition is unavailable.
+`upgrade --migration FILE` previews exact changes;
 unknown internal content needs purpose/owner resolution, not cleanup to satisfy
 an allowlist. Adequate outside authorities stay intact.
 

@@ -11,6 +11,85 @@ use std::{
 type TestResult = Result<(), Box<dyn std::error::Error>>;
 
 #[test]
+fn migration_schema_is_self_contained_read_only_and_not_an_apply_request() -> TestResult {
+    let root = tempfile::tempdir()?;
+    let before = snapshot(root.path())?;
+    let output = cli(root.path(), &["upgrade", "--request-schema"])?;
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let schema: Value = serde_json::from_slice(&output.stdout)?;
+    for (name, source) in [
+        (
+            "project",
+            include_str!("../../../schema/project.schema.json"),
+        ),
+        (
+            "requirements",
+            include_str!("../../../schema/requirements.schema.json"),
+        ),
+        (
+            "policies",
+            include_str!("../../../schema/policy-pack.schema.json"),
+        ),
+        (
+            "adoption",
+            include_str!("../../../schema/adoption.schema.json"),
+        ),
+        (
+            "history",
+            include_str!("../../../schema/evidence-archive.schema.json"),
+        ),
+    ] {
+        let mut expected: Value = serde_json::from_str(source)?;
+        if name == "adoption" {
+            expected["$id"] = "https://opdev.dev/schema/adoption.json".into();
+        }
+        assert_eq!(schema["$defs"][name], expected);
+    }
+    let validator = jsonschema::validator_for(&schema)?;
+    let project =
+        opdev_project::ProjectManifest::from_yaml(include_str!("fixtures/doctor-project.yaml"))?;
+    let mut request = serde_json::json!({
+        "schema": 1, "decision_reference": "test decision, not consent",
+        "ci_review_reference": "test CI review", "project": project
+    });
+    assert!(validator.is_valid(&request));
+    request["cleanup"] = serde_json::json!([{"path":".opdev/old.txt","kind":"delete_anything","reason":"bad action"}]);
+    assert!(!validator.is_valid(&request));
+    request.as_object_mut().ok_or("object")?.remove("cleanup");
+    request["automatic_approval"] = Value::Bool(true);
+    assert!(!validator.is_valid(&request));
+    request
+        .as_object_mut()
+        .ok_or("object")?
+        .remove("automatic_approval");
+    request["project"]["schema"] = Value::from(99);
+    assert!(!validator.is_valid(&request));
+    assert!(
+        !validator.is_valid(&schema),
+        "schema is not an executable request"
+    );
+    for incompatible in [
+        vec!["--apply", "invented"],
+        vec!["--migration", "absent.json"],
+        vec!["--resume", "absent.json", "--apply", "invented"],
+    ] {
+        let mut args = vec!["upgrade", "--request-schema"];
+        args.extend(incompatible);
+        assert!(!cli(root.path(), &args)?.status.success());
+    }
+    assert_eq!(
+        snapshot(root.path())?,
+        before,
+        "no Git/project setup or writes"
+    );
+    Ok(())
+}
+
+#[test]
 fn partial_guidance_upgrade_is_observed_without_claiming_session_activation() -> TestResult {
     let repo = fixture()?;
     let before = snapshot(repo.path())?;
