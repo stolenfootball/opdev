@@ -54,6 +54,13 @@ a project check report. Neither bootstrap nor preparation creates approvals or
 infers adoption completion; an external-policy project cannot omit the new output
 and silently recreate the legacy ledger.
 
+Complete adoption answers use the ledger's same bundled acceptance schema,
+including selected requirements, safeguards and engineering-policy control links.
+The bootstrap validator resolves that definition offline, rather than maintaining
+a second older copy. Resolved modern-policy answers must round-trip unchanged in
+meaning; null impact slots, malformed identities and unknown fields remain invalid.
+Preparation and schema validity still supply neither consent nor qualification.
+
 ### Adoption input preflight
 
 With `adoption.preflight.v1`, `adoption check --preflight` shares ordinary adoption

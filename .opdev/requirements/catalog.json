@@ -533,7 +533,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
+          "sha256": "c27a47dcd1979fe6c5d8eae2986752fc89aa8b0d27940494ea741afdb5a3c4c2",
           "excerpt": "pub(crate) fn git_output("
         }
       ],
@@ -861,8 +861,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Reviewed current lock/object preservation and exact-tree tests plus the new legacy-Git configuration guard: complete repositories are accepted, promisor configuration is refused before object reads, and configuration bytes remain intact. Git subprocesses disable lazy fetch, transports and optional writes; the whole-file bindings include those inputs. Earlier live follow-ups exercised the pre-guard candidate and are not silently rebound as current-source execution.",
-        "subject_sha256": "959e56c0b24d4ae8bf5121c1d6dc1fa9828d181f1b89208e1d8e66f8e775484c"
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
+        "subject_sha256": "90eecfdcec9e2a6df691ee4b63fc713267741e675cbb9845a770d720060d2339"
       }
     },
     {
@@ -896,8 +896,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Reviewed current lock/object preservation and exact-tree tests plus the new legacy-Git configuration guard: complete repositories are accepted, promisor configuration is refused before object reads, and configuration bytes remain intact. Git subprocesses disable lazy fetch, transports and optional writes; the whole-file bindings include those inputs. Earlier live follow-ups exercised the pre-guard candidate and are not silently rebound as current-source execution.",
-        "subject_sha256": "131d01a8f5bc61f1b550e6acc69dc54193a52f77fb1eb530b3adca6dcd5484cb"
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
+        "subject_sha256": "9e680f33390eb2943585a02ab67bfb6eecb09e69161276825cee45561d590dd6"
       }
     },
     {
@@ -931,8 +931,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Reviewed current lock/object preservation and exact-tree tests plus the new legacy-Git configuration guard: complete repositories are accepted, promisor configuration is refused before object reads, and configuration bytes remain intact. Git subprocesses disable lazy fetch, transports and optional writes; the whole-file bindings include those inputs. Earlier live follow-ups exercised the pre-guard candidate and are not silently rebound as current-source execution.",
-        "subject_sha256": "b089c9b004d3283de9ac4173adfbd1eebf25390436aca6a4b22e523243e10a62"
+        "rationale": "Re-reviewed the bootstrap-schema repair: the validator registers only the bundled canonical evidence resource and references it from bootstrap. Ledger acceptance definitions, semantic policy/organization checks, stage bindings, Git read guards and existing test assertions are unchanged. Unknown/malformed input still fails. Whole-file helper bindings remain appropriate; current canonical execution is separately required.",
+        "subject_sha256": "4bd014a43e0028b5803fbf8ff264220155a64ae74fa8508bb317cc4203d1f807"
       }
     }
   ]

@@ -151,7 +151,7 @@
       "id": "V-native-complete-inputs-1",
       "target": {
         "path": "crates/opdev-cli/tests/evidence_bootstrap.rs",
-        "sha256": "6ccf9c93b09fbd1e1606b4d49461fd3ec6c6c18478cb833f81627c29a07de0d5",
+        "sha256": "295f8a96f56b2da47bc37998a844059774ef860b4122a6048948b8b49e9b549d",
         "excerpt": "fn complete_adoption_questionnaire_round_trips_without_hand_written_rule_ids("
       },
       "inputs": [
@@ -174,6 +174,21 @@
           "path": "crates/opdev-cli/Cargo.toml",
           "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
           "excerpt": "[package]"
+        },
+        {
+          "path": "schema/evidence-bootstrap.schema.json",
+          "sha256": "475dbeeae74c394ee2b28fcf3cdc8e8b9c892bea8691fc606febcca8757016e7",
+          "excerpt": "\"title\": \"OpDev evidence bootstrap review\""
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
+          "excerpt": "\"title\""
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "c27a47dcd1979fe6c5d8eae2986752fc89aa8b0d27940494ea741afdb5a3c4c2",
+          "excerpt": "fn validate_schema_document("
         }
       ],
       "method": {
@@ -186,7 +201,7 @@
       "id": "V-native-complete-inputs-2",
       "target": {
         "path": "crates/opdev-cli/tests/evidence_bootstrap.rs",
-        "sha256": "6ccf9c93b09fbd1e1606b4d49461fd3ec6c6c18478cb833f81627c29a07de0d5",
+        "sha256": "295f8a96f56b2da47bc37998a844059774ef860b4122a6048948b8b49e9b549d",
         "excerpt": "fn complete_preparation_binds_catalogs_but_leaves_capability_judgments_unresolved("
       },
       "inputs": [
@@ -209,6 +224,21 @@
           "path": "crates/opdev-cli/Cargo.toml",
           "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
           "excerpt": "[package]"
+        },
+        {
+          "path": "schema/evidence-bootstrap.schema.json",
+          "sha256": "475dbeeae74c394ee2b28fcf3cdc8e8b9c892bea8691fc606febcca8757016e7",
+          "excerpt": "\"title\": \"OpDev evidence bootstrap review\""
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
+          "excerpt": "\"title\""
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "c27a47dcd1979fe6c5d8eae2986752fc89aa8b0d27940494ea741afdb5a3c4c2",
+          "excerpt": "fn validate_schema_document("
         }
       ],
       "method": {
@@ -614,6 +644,21 @@
           "path": "crates/opdev-cli/Cargo.toml",
           "sha256": "a3778c4ec997580d98346eeb61b1ba9983da3569fe9299689e86ee2da7357073",
           "excerpt": "[package]"
+        },
+        {
+          "path": "schema/evidence-bootstrap.schema.json",
+          "sha256": "475dbeeae74c394ee2b28fcf3cdc8e8b9c892bea8691fc606febcca8757016e7",
+          "excerpt": "\"title\": \"OpDev evidence bootstrap review\""
+        },
+        {
+          "path": "schema/evidence.schema.json",
+          "sha256": "bb216d8e7a9679aed34825011db55e5312b3f2e7964e8daaf59e2a43447920dc",
+          "excerpt": "\"title\""
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "c27a47dcd1979fe6c5d8eae2986752fc89aa8b0d27940494ea741afdb5a3c4c2",
+          "excerpt": "fn validate_schema_document("
         }
       ],
       "method": {
@@ -795,8 +840,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed actual CLI assembly, both current-policy catalog/capability slots and sentinel preflight assertions. Unknown impacts remain null, only explicit absence omits a slot, baseline identities come from staged/revision readers, unresolved input fails, and missing adoption review cannot execute suites. Controlled synthetic judgments test assembly only, not real adoption adequacy.",
-        "subject_sha256": "d3741cc6613ef88686a14196356c5488f5eab8b38c53a9cca265f2e52d034b7b"
+        "rationale": "Reviewed real policy-2/3 generated questionnaires through resolved-input loading and native ledger assembly, retaining typed acceptance equality, exact catalog bindings, unresolved first state and no source-ledger write. The old validator rejects modern fields; shared offline canonical validation accepts them and rejects invalid digest/version/null-impact/unknown nested fields. Existing original-policy and external create-new tests still pass. Synthetic judgments prove schema/assembly, not actual project adequacy.",
+        "subject_sha256": "36e21ed8820dbdfba30e1cf4843cd065f59b54847033279e05cc29e5bfc53645"
       }
     },
     {
@@ -825,8 +870,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed actual CLI assembly, both current-policy catalog/capability slots and sentinel preflight assertions. Unknown impacts remain null, only explicit absence omits a slot, baseline identities come from staged/revision readers, unresolved input fails, and missing adoption review cannot execute suites. Controlled synthetic judgments test assembly only, not real adoption adequacy.",
-        "subject_sha256": "f0c9f756d76e39f2a947fc4d7c8cdb2004031da145e214d625e427d56049e3b8"
+        "rationale": "Reviewed real policy-2/3 generated questionnaires through resolved-input loading and native ledger assembly, retaining typed acceptance equality, exact catalog bindings, unresolved first state and no source-ledger write. The old validator rejects modern fields; shared offline canonical validation accepts them and rejects invalid digest/version/null-impact/unknown nested fields. Existing original-policy and external create-new tests still pass. Synthetic judgments prove schema/assembly, not actual project adequacy.",
+        "subject_sha256": "19720390dd5a6ff6c03389822f3b5096dc04f0546feae0aae063b95415c3bda2"
       }
     },
     {
@@ -855,8 +900,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed actual CLI assembly, both current-policy catalog/capability slots and sentinel preflight assertions. Unknown impacts remain null, only explicit absence omits a slot, baseline identities come from staged/revision readers, unresolved input fails, and missing adoption review cannot execute suites. Controlled synthetic judgments test assembly only, not real adoption adequacy.",
-        "subject_sha256": "863728c97afabce7e42ea4afc4efa7f5e71478beba2c08bb9c83f9f6150df4f2"
+        "rationale": "Reviewed real policy-2/3 generated questionnaires through resolved-input loading and native ledger assembly, retaining typed acceptance equality, exact catalog bindings, unresolved first state and no source-ledger write. The old validator rejects modern fields; shared offline canonical validation accepts them and rejects invalid digest/version/null-impact/unknown nested fields. Existing original-policy and external create-new tests still pass. Synthetic judgments prove schema/assembly, not actual project adequacy.",
+        "subject_sha256": "2a86395febe069ad9d026ca8c706a94cfe995398c1f20d455420d9becadf3b4e"
       }
     },
     {

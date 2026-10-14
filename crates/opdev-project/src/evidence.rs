@@ -647,7 +647,19 @@ fn validate_schema_document(
     document_name: &str,
 ) -> Result<(), EvidenceError> {
     let schema: serde_json::Value = serde_json::from_str(schema_document)?;
-    let validator = jsonschema::validator_for(&schema)
+    // Bootstrap and ledger accept exactly the same versioned acceptance shape.
+    // Resolve the shared definition from bundled bytes, never from the network.
+    let acceptance_schema: serde_json::Value = serde_json::from_str(EVIDENCE_SCHEMA)?;
+    let registry = jsonschema::Registry::new()
+        .add(
+            "https://opdev.dev/schema/evidence-v2.json",
+            jsonschema::Resource::from_contents(acceptance_schema),
+        )
+        .and_then(jsonschema::RegistryBuilder::prepare)
+        .map_err(|error| EvidenceError::SchemaCompile(error.to_string()))?;
+    let validator = jsonschema::options()
+        .with_registry(&registry)
+        .build(&schema)
         .map_err(|error| EvidenceError::SchemaCompile(error.to_string()))?;
     let messages = validator
         .iter_errors(value)

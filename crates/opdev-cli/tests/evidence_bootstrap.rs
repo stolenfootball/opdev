@@ -284,6 +284,7 @@ fn complete_preparation_for_policy(
             .values()
             .all(|v| v == &json!([]))
     );
+    round_trip_current_questionnaire(root, value, engineering)?;
     assert!(
         Command::new("git")
             .current_dir(root)
@@ -292,6 +293,82 @@ fn complete_preparation_for_policy(
             .stdout
             .is_empty()
     );
+    Ok(())
+}
+
+fn round_trip_current_questionnaire(
+    root: &std::path::Path,
+    mut value: serde_json::Value,
+    engineering: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
+    use serde_json::json;
+    let scratch = tempfile::tempdir()?;
+    let input = scratch.path().join("current-answers.json");
+    // Synthetic schema/assembly judgments only, not project qualification.
+    value["change"]["work"] = json!("synthetic current-policy assembly regression");
+    value["change"]["decisions"]["OPDEV-WORK-001"] = json!("passed");
+    for evidence in value["change"]["evidence"]
+        .as_array_mut()
+        .ok_or("evidence")?
+    {
+        evidence["summary"] = json!("Synthetic assembly review, no execution claim");
+        evidence["location"] = json!("synthetic fixture authority");
+    }
+    let acceptance = &mut value["change"]["acceptance"];
+    acceptance["rationale"] = json!("Current-policy input round trip, not a passing gate");
+    acceptance["requirements"]["rationale"] = json!("Preserve the exact generated catalog IDs");
+    acceptance["requirements"]["decision_reference"] = json!("synthetic selected catalog");
+    for impact in acceptance["safeguards"]["impacts"]
+        .as_object_mut()
+        .ok_or("impacts")?
+        .values_mut()
+    {
+        impact["impact"] = json!("unaffected");
+        impact["rationale"] = json!("No product changes in this schema-only synthetic fixture");
+    }
+    acceptance["safeguards"]["objectives"] = json!({});
+    acceptance["policy_controls"] = json!({
+        "version": engineering,
+        "definition_sha256": opdev_core::resolve_engineering_policy(engineering)?.definition_sha256,
+        "stage": "pre_merge", "bindings": {}
+    });
+    fs::write(&input, serde_json::to_vec(&value)?)?;
+    let loaded = EvidenceBootstrap::load(&input)?;
+    let expected: opdev_project::AcceptanceEvidence =
+        serde_json::from_value(value["change"]["acceptance"].clone())?;
+    assert_eq!(loaded.change.acceptance.as_ref(), Some(&expected));
+    let output = opdev()
+        .current_dir(root)
+        .args(["evidence", "bootstrap", "--adoption", "--answers"])
+        .arg(&input)
+        .output()?;
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let ledger: opdev_project::EvidenceLedger = serde_saphyr::from_slice(&output.stdout)?;
+    assert_eq!(ledger.changes[0].acceptance.as_ref(), Some(&expected));
+    assert!(!root.join(EVIDENCE_PATH).exists());
+    for (pointer, invalid) in [
+        (
+            "/change/acceptance/requirements/catalog_sha256",
+            json!("bad"),
+        ),
+        ("/change/acceptance/policy_controls/version", json!("99")),
+        (
+            "/change/acceptance/safeguards/impacts/persistent_data/impact",
+            json!(null),
+        ),
+    ] {
+        let mut malformed = value.clone();
+        *malformed.pointer_mut(pointer).ok_or("negative target")? = invalid;
+        fs::write(&input, serde_json::to_vec(&malformed)?)?;
+        assert!(EvidenceBootstrap::load(&input).is_err(), "{pointer}");
+    }
+    value["change"]["acceptance"]["requirements"]["invented"] = json!(true);
+    fs::write(&input, serde_json::to_vec(&value)?)?;
+    assert!(EvidenceBootstrap::load(&input).is_err());
     Ok(())
 }
 
