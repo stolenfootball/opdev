@@ -862,7 +862,7 @@
       "id": "V-clean-policy-adoption-6",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "e4d6744a76ab028facfb314dacd59282eb02690741f9d30ed05e04be3eabb120",
+        "sha256": "616c534b39acdaca22a715bf7746a330659a60ef5564f4fd258dc3bdaae9cbc4",
         "excerpt": "fn policy_two_preview_requires_explicit_legacy_choice_and_preserves_standard_boundaries("
       },
       "inputs": [
@@ -1572,7 +1572,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "168813dd47dac74e29d9f4217e87ac8d166af6083a2937befcd0968185a8e1aa"
+        "subject_sha256": "fe2d2746fbdc4db529c1a2fdb71faf17b17a6acfbed192b35c4d5eb3597dc55c"
       }
     },
     {
@@ -1632,7 +1632,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "b4ab7a09497694af12f100af8e88318f5ff2c5dd9d376978f5f66cd9716baa10"
+        "subject_sha256": "9b1f11157a0d35c0d621131b738c5d6c13f5b947b821237c3811f44a82be10de"
       }
     },
     {
@@ -1692,7 +1692,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "792a9fb90e066679516468d978ae586cbaddf3317c611f4e38fd7e9521d7eb42"
+        "subject_sha256": "684262d4ed45b4f79e080fab081a4d2a44bb1b3743925407f7ee9f5d9fcdd788"
       }
     }
   ]

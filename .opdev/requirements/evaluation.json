@@ -202,7 +202,7 @@
       "id": "V-policy-separation-1",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "e4d6744a76ab028facfb314dacd59282eb02690741f9d30ed05e04be3eabb120",
+        "sha256": "616c534b39acdaca22a715bf7746a330659a60ef5564f4fd258dc3bdaae9cbc4",
         "excerpt": "fn cli_reports_separate_assessment_without_claiming_verification("
       },
       "inputs": [
@@ -547,7 +547,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "dda847fd46fa26649c5a687837730ecb78d6d969f104d30963f16a0a531d05e3"
+        "subject_sha256": "a9f58d92f5a3dcc38dd0ca74179dda8bde20cc7636c8e309760013404080c82f"
       }
     },
     {
@@ -567,7 +567,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "193c6c1fad2aa5c82e3068343d3c2767deaf119e48bba7f13373767595556503"
+        "subject_sha256": "41378fd7931ae8a7776aeb0828205ab137859fcfff2f5997724a859b2334ad1f"
       }
     },
     {
@@ -587,7 +587,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "5db4f226e4660657cacd9be4556fdae500396e5f817a01059493980ad19b8a6e"
+        "subject_sha256": "0fc75b8cce1b2055d87e2ab95a07e4c82f9d1721caff7666cd53812fdf36b9ae"
       }
     },
     {

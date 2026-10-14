@@ -53,7 +53,7 @@
       "id": "V-baseline-three-selection",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "e4d6744a76ab028facfb314dacd59282eb02690741f9d30ed05e04be3eabb120",
+        "sha256": "616c534b39acdaca22a715bf7746a330659a60ef5564f4fd258dc3bdaae9cbc4",
         "excerpt": "fn policy_three_is_explicit_and_reports_unverified_without_tests_or_review("
       },
       "inputs": [
@@ -83,7 +83,7 @@
       "id": "V-baseline-three-migration",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "e4d6744a76ab028facfb314dacd59282eb02690741f9d30ed05e04be3eabb120",
+        "sha256": "616c534b39acdaca22a715bf7746a330659a60ef5564f4fd258dc3bdaae9cbc4",
         "excerpt": "fn policy_three_adoption_reopens_changed_duties_without_losing_existing_facts("
       },
       "inputs": [
@@ -448,7 +448,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity. Issue115 adds boundary explanations only: deterministic criterion, tests and assertions remain unchanged and adequate for their stated scope. Agent advice is evaluated separately, not proved by these mappings. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "43e3231ef6418df7b0d24224cb829b9f6a1681aa26e471c17b480e64edc954e1"
+        "subject_sha256": "09019970282fd795ef48b223961744ec9fab706702d1c911754dbd19f6fb5c99"
       }
     },
     {
@@ -488,7 +488,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity. Issue115 adds boundary explanations only: deterministic criterion, tests and assertions remain unchanged and adequate for their stated scope. Agent advice is evaluated separately, not proved by these mappings. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "c414dc7c9226ef27b4f46e0e61164b809a089d754d1cf1bc16b105d767738330"
+        "subject_sha256": "ba4c19919ddb4d4cc810a7d8e9ecd9c49188adf5cba5804f4e5047d02aa5d9bf"
       }
     },
     {
@@ -528,7 +528,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
         "rationale": "Reviewed policy/schema round trips, exact legacy semantic digests, reopened adoption duties, actual output-disclosure and limit-guard defects, missing/unknown/inconclusive evidence and current same-agent review. Assertions establish these deterministic baseline mechanics; they do not prove agent compliance, legal/safety certification or statistical validity. Issue115 adds boundary explanations only: deterministic criterion, tests and assertions remain unchanged and adequate for their stated scope. Agent advice is evaluated separately, not proved by these mappings. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "c1b8df5c40305a9dc3c9bddb49dc77087115d73cda4d497b17b09a2ee19bf87b"
+        "subject_sha256": "47d0bf2db243ff30973993ca2536f5d2644a7b60d3682354cdbd022a1dc2ba6e"
       }
     },
     {
