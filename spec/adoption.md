@@ -460,6 +460,15 @@ is unchanged. Engineering gates and the separately requested MinimumCD assessmen
 retain their distinct meanings; adoption completion is not a MinimumCD claim or
 permission to release.
 
+For engineering policies 2 and 3, genuinely absent distribution and supported
+operations allow current, acceptance-bound non-applicability review of artifact
+definition/promotion, production-like environments and external configuration.
+Discovery's unconfigured delivery placeholder alone is neither a reason to invent
+an artifact nor evidence of absence. Unknown or present capabilities still need
+their applicable delivery setup. Historical assertions and lack of release
+authorization cannot replace this review; known failed/error results remain
+blocking. This does not waive separately selected standards or authorize release.
+
 Default exit 0 from `check` means completion verified for this state under the existing
 reviewed-evidence trust model. Exit 1 means pending decisions, insufficient/stale
 review, failed checks or blocked gates. Exit 2 means malformed/unsupported input

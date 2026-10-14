@@ -521,6 +521,10 @@ pub(super) fn complete_review_candidates(
             "OPDEV-DELIVERY-001",
             "OPDEV-PIPELINE-001",
             "OPDEV-RECOVERY-001",
+            "MCD-ARTIFACT-001",
+            "MCD-ARTIFACT-002",
+            "MCD-ENV-001",
+            "MCD-CONFIG-002",
         ] {
             project.retain(|candidate| candidate != id);
             if !change.iter().any(|candidate| candidate == id) {

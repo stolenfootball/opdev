@@ -257,6 +257,10 @@ fn complete_preparation_for_policy(
         "OPDEV-DELIVERY-001",
         "OPDEV-PIPELINE-001",
         "OPDEV-RECOVERY-001",
+        "MCD-ARTIFACT-001",
+        "MCD-ARTIFACT-002",
+        "MCD-ENV-001",
+        "MCD-CONFIG-002",
     ] {
         assert_eq!(value["change"]["decisions"][control], "review_required");
         assert!(value["project"]["decisions"].get(control).is_none());
@@ -321,6 +325,10 @@ fn round_trip_current_questionnaire(
         "OPDEV-DELIVERY-001",
         "OPDEV-PIPELINE-001",
         "OPDEV-RECOVERY-001",
+        "MCD-ARTIFACT-001",
+        "MCD-ARTIFACT-002",
+        "MCD-ENV-001",
+        "MCD-CONFIG-002",
     ];
     for control in controls {
         value["change"]["decisions"][control] = json!("passed");

@@ -69,6 +69,16 @@ the same scope when these controls need review; older policy rule IDs retain
 their meaning. Assembling a reviewed assertion still does not run its mapped
 checks or establish adoption completion.
 
+For policies 2 and 3, artifact definition, immutable promotion, production-like
+environment and external configuration applicability also use current-change
+decisions. A discovery-time `migration_required` delivery placeholder does not
+require a source-only project to invent a release. Both distribution and supported
+operations must be explicitly reviewed as absent, with current acceptance and
+an exact-change `not_applicable` decision for each affected rule. Missing or
+unknown capability facts, historical assertions, lack of release permission and
+known failures cannot establish absence. Applicable delivery and older policy
+requirements retain their existing migration checks.
+
 ### Adoption input preflight
 
 With `adoption.preflight.v1`, `adoption check --preflight` shares ordinary adoption

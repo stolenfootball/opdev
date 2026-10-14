@@ -775,7 +775,12 @@ fn evidence_candidates(
         if !unverified || !reviewable {
             continue;
         }
-        let destination = if change_scoped_rule(rule.id.as_str()) {
+        let destination = if change_scoped_rule(rule.id.as_str())
+            || (catalog.catalog_version >= 4
+                && matches!(
+                    rule.id.as_str(),
+                    "MCD-ARTIFACT-001" | "MCD-ARTIFACT-002" | "MCD-ENV-001" | "MCD-CONFIG-002"
+                )) {
             &mut change
         } else {
             &mut project

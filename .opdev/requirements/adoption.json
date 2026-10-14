@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "b19e1ef668e9798750e708c5ddb31b0c476e69de4ce23c6c75362cc08bb73500",
+          "sha256": "2510b632eee8b7ec3b4aee176266497dd482e0e3f18b570a4de3f0a9dc2ee41e",
           "excerpt": "The input is an ephemeral external proposal, not a second permanent contract.\nIt selects target policies but leaves inventory review/practices unresolved.\nRemove `--dry-run` only within approved scope; references do not authenticate\nconsent. No tools run or install. Bare `init --dry-run` retains read-only discovery;\nbare new `init` refuses inferred policy writes. `--legacy-policy` explicitly\nscaffolds older policy for compatibility work; older engineering-only flags remain\npartial scaffolding. Neither is current adoption. Existing contracts are never\nmigrated by init. For an existing project, review the project-policy upgrade\nfirst, then preview `adoption migrate --catalog-version 2`. Explicit `--write`\npreserves existing decisions, adds pending setup/review entries and clears stale\napproval when the inventory changes. Newly mandatory ignored decisions remain\nvisible blockers, not silently rewritten as implemented. Same-catalog migration\nis idempotent; downgrade is rejected. Ordinary work never upgrades an inventory."
         }
       },
@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "b19e1ef668e9798750e708c5ddb31b0c476e69de4ce23c6c75362cc08bb73500",
+          "sha256": "2510b632eee8b7ec3b4aee176266497dd482e0e3f18b570a4de3f0a9dc2ee41e",
           "excerpt": "`adoption plan` works before initialization and prints the destination, required\nmigrations, discovery warnings and proposed/existing contract. Record/plan ID are\nabsent before assessment; neither discovery nor a missing ID authorizes policy.\nWith a record it also prints a SHA-256 plan ID.\nThe ID binds scope, choices, rationale, owners, references, suites, research and\nworkflow roles to the contract. It excludes the approval itself and normalizes\npending/in-progress/implemented as one implementation choice, so approved work\ncan progress without a new policy decision. Changing an exclusion, rationale,\nscope, references or the contract requires a new review. This ID is not the staged\nacceptance fingerprint: repository changes still require fresh acceptance evidence."
         }
       },
@@ -100,7 +100,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "b19e1ef668e9798750e708c5ddb31b0c476e69de4ce23c6c75362cc08bb73500",
+          "sha256": "2510b632eee8b7ec3b4aee176266497dd482e0e3f18b570a4de3f0a9dc2ee41e",
           "excerpt": "For engineering policy 2, capability `adoption.clean-target.v3` makes the completion target exactly"
         }
       },
@@ -393,12 +393,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -493,12 +493,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -593,12 +593,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -693,12 +693,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -793,12 +793,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -862,7 +862,7 @@
       "id": "V-clean-policy-adoption-6",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "57bf955bbf40f0a7f9517db1eb67ed56c8d90f75c083ca882439c2c7eb036413",
+        "sha256": "e4d6744a76ab028facfb314dacd59282eb02690741f9d30ed05e04be3eabb120",
         "excerpt": "fn policy_two_preview_requires_explicit_legacy_choice_and_preserves_standard_boundaries("
       },
       "inputs": [
@@ -893,12 +893,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -993,12 +993,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -1093,12 +1093,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -1193,12 +1193,12 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "421fee24745956b566f25a4667a0860832f1d7f5a6c0efc3f6e864784560433f",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "c55f56666c1e681a93982d1deffeb87e104be709dc1b62191d31c1065eecdd9f",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
@@ -1275,9 +1275,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "b2c6c2fccaac5c90219b22c4f4cb4042b74f7bb0d69ff0b52c987f518d7c7b11"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "83e0766a2677befabe1c11b7d4220ae4bf80bfeee79276b590da7e0c5096b722"
       }
     },
     {
@@ -1295,9 +1295,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "f251b1995eb08bb877cff1c62e795da5b1abc248111710c1f49c755976f7ffd4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "fd877931ceb09f7d2f0adba1da4a4b3be6eec316fad4a3e7b26999828adbf25d"
       }
     },
     {
@@ -1315,9 +1315,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "4fb3bf3954799232b9159ef6d6db0a17ad78e6cf0c329b3e0e67df935929882f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "b853d28d8e5e78e282b38fcba512b83989487834898980594a9cd30db8b4695a"
       }
     },
     {
@@ -1335,9 +1335,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "3b5779cb2a23d9cb8c58f6371b3c9cbd1bb6a9def79adc1df63865baeb6ffe84"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "2aefbabfd7425472fb6293c9b8095fe60bd48b22cb1fad9f46700a4b04fc3762"
       }
     },
     {
@@ -1355,9 +1355,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "858d642ce4dfca651ea8662bde3f4d258d791478041f4ca301911a5ff689fc5f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "bc351dbb988a90b823b423f3bcda8ec3336e1d5cd92a416bfb2ca2e66d80bf1f"
       }
     },
     {
@@ -1375,9 +1375,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "32f3cbd473605b3ba279a78d7f842ae978e2ac553127528203979c957a224cd9"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "8f16ad7727db04fd874dc95311e147fd9ab54f3e4ffa63e6c46ac183f5709cb3"
       }
     },
     {
@@ -1570,9 +1570,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "618622f52965d51157e454b24d79c8a5a070d0b1c6c5a14631ee3af83d07959f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "168813dd47dac74e29d9f4217e87ac8d166af6083a2937befcd0968185a8e1aa"
       }
     },
     {
@@ -1630,9 +1630,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "2b022bfad85211f93bda4b1e1e8e7e51ffc93e465f3d7fc7acacdedfc6505aa3"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "b4ab7a09497694af12f100af8e88318f5ff2c5dd9d376978f5f66cd9716baa10"
       }
     },
     {
@@ -1690,9 +1690,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009549280",
-        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution.",
-        "subject_sha256": "b9e84920c2f0e2c5998e6f5fc00508bf819a64b6e4de188220ec9adef140032b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "792a9fb90e066679516468d978ae586cbaddf3317c611f4e38fd7e9521d7eb42"
       }
     }
   ]
