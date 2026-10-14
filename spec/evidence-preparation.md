@@ -54,6 +54,31 @@ a project check report. Neither bootstrap nor preparation creates approvals or
 infers adoption completion; an external-policy project cannot omit the new output
 and silently recreate the legacy ledger.
 
+Complete adoption answers use the ledger's same bundled acceptance schema,
+including selected requirements, safeguards and engineering-policy control links.
+The bootstrap validator resolves that definition offline, rather than maintaining
+a second older copy. Resolved modern-policy answers must round-trip unchanged in
+meaning; null impact slots, malformed identities and unknown fields remain invalid.
+Preparation and schema validity still supply neither consent nor qualification.
+
+Engineering policies 2 and 3 require flow, delivery, pipeline and recovery
+decisions on the exact current change, including justified non-applicability.
+Complete adoption preparation always supplies those four unresolved decisions
+in change scope, never as historical project assertions. Ordinary bootstrap uses
+the same scope when these controls need review; older policy rule IDs retain
+their meaning. Assembling a reviewed assertion still does not run its mapped
+checks or establish adoption completion.
+
+For policies 2 and 3, artifact definition, immutable promotion, production-like
+environment and external configuration applicability also use current-change
+decisions. A discovery-time `migration_required` delivery placeholder does not
+require a source-only project to invent a release. Both distribution and supported
+operations must be explicitly reviewed as absent, with current acceptance and
+an exact-change `not_applicable` decision for each affected rule. Missing or
+unknown capability facts, historical assertions, lack of release permission and
+known failures cannot establish absence. Applicable delivery and older policy
+requirements retain their existing migration checks.
+
 ### Adoption input preflight
 
 With `adoption.preflight.v1`, `adoption check --preflight` shares ordinary adoption

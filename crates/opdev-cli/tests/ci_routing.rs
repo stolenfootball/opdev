@@ -3,6 +3,200 @@
 use serde_json::{Value, json};
 
 #[test]
+fn external_review_inspection_exposes_generated_handoff_gap_without_running_checks()
+-> Result<(), Box<dyn std::error::Error>> {
+    use std::{fs, process::Command};
+    for provider in [
+        opdev_project::CiProvider::Github,
+        opdev_project::CiProvider::Gitlab,
+    ] {
+        let repo = tempfile::tempdir()?;
+        let root = repo.path();
+        assert!(
+            Command::new("git")
+                .args(["init", "--quiet"])
+                .arg(root)
+                .status()?
+                .success()
+        );
+        let mut manifest = opdev_project::discover(root)?.manifest;
+        manifest.schema = 3;
+        manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
+            version: "1".into(),
+            minimumcd: None,
+            review_reference: "Synthetic explicit policy choice".into(),
+            maintenance_branches: vec![],
+        });
+        manifest.assurance.profiles.clear();
+        manifest.project.ci.provider = provider;
+        manifest.project.ci.remote = Some(
+            match provider {
+                opdev_project::CiProvider::Github => "https://github.com/example/fixture.git",
+                _ => "https://gitlab.com/example/fixture.git",
+            }
+            .into(),
+        );
+        manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
+            version: 2,
+            provider,
+            repository_id: 7,
+            review_reference: "Synthetic explicit review-storage selection".into(),
+            retention_authority: "fixture".into(),
+            report_retention_days: Some(1),
+        });
+        manifest.write_new(&root.join(opdev_project::MANIFEST_PATH))?;
+        let adapter = opdev_ci::adapter_for(provider)?;
+        opdev_ci::write_new(
+            adapter,
+            root,
+            &opdev_ci::TemplateContext {
+                opdev_version: "0.5.0".into(),
+                trunk: manifest.project.trunk.clone(),
+                job_image: Some("ubuntu:24.04".into()),
+            },
+        )?;
+        let before = fs::read(root.join(adapter.configuration_path()))?;
+        let output = Command::new(env!("CARGO_BIN_EXE_opdev"))
+            .args(["ci", "inspect", "--root"])
+            .arg(root)
+            .output()?;
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let text = String::from_utf8(output.stdout)?;
+        assert!(
+            text.contains("review_handoff: Unverified"),
+            "{provider:?}: {text}"
+        );
+        assert!(text.contains("selected review"), "{text}");
+        assert_eq!(fs::read(root.join(adapter.configuration_path()))?, before);
+    }
+    Ok(())
+}
+
+#[test]
+#[allow(clippy::too_many_lines)] // Connected fixture setup and all stage/no-execution assertions.
+fn composed_verifier_requires_stage_and_native_identity_before_any_suite()
+-> Result<(), Box<dyn std::error::Error>> {
+    use std::{fs, process::Command};
+    let repo = tempfile::tempdir()?;
+    let root = repo.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "--quiet"])
+            .arg(root)
+            .status()?
+            .success()
+    );
+    let cli = || {
+        let mut cmd = Command::new(env!("CARGO_BIN_EXE_opdev"));
+        cmd.current_dir(root);
+        for key in [
+            "GITLAB_CI",
+            "CI_JOB_TOKEN",
+            "CI_PROJECT_ID",
+            "GITHUB_ACTIONS",
+            "GITHUB_TOKEN",
+        ] {
+            cmd.env_remove(key);
+        }
+        cmd
+    };
+    assert!(
+        cli()
+            .args(["init", "--legacy-policy"])
+            .output()?
+            .status
+            .success()
+    );
+    let path = root.join(opdev_project::MANIFEST_PATH);
+    let mut manifest = opdev_project::ProjectManifest::load(&path)?;
+    manifest.commands.insert(
+        "marker".into(),
+        opdev_project::CommandSpec {
+            argv: vec![
+                "git".into(),
+                "config".into(),
+                "--local".into(),
+                "opdev.executed".into(),
+                "yes".into(),
+            ],
+            working_directory: None,
+            timeout_seconds: Some(10),
+        },
+    );
+    manifest.testing.suites = vec![opdev_project::TestSuite {
+        id: "marker".into(),
+        command: "marker".into(),
+        stages: vec![
+            opdev_project::TestStage::PreMerge,
+            opdev_project::TestStage::PostMerge,
+            opdev_project::TestStage::Delivery,
+        ],
+    }];
+    fs::write(path, manifest.to_yaml()?)?;
+    for args in [
+        vec!["add", "."],
+        vec![
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.test",
+            "commit",
+            "-qm",
+            "fixture",
+        ],
+    ] {
+        assert!(
+            Command::new("git")
+                .current_dir(root)
+                .args(args)
+                .status()?
+                .success()
+        );
+    }
+    assert_eq!(
+        cli().args(["ci", "verify"]).output()?.status.code(),
+        Some(2)
+    );
+    for stage in ["pre-merge", "post-merge", "delivery"] {
+        for preflight in [false, true] {
+            let mut command = cli();
+            command.args(["ci", "verify", "--stage", stage]);
+            if preflight {
+                command.arg("--preflight");
+            }
+            let result = command.output()?;
+            assert_eq!(
+                result.status.code(),
+                Some(2),
+                "{}",
+                String::from_utf8_lossy(&result.stderr)
+            );
+            assert!(
+                !Command::new("git")
+                    .current_dir(root)
+                    .args(["config", "--local", "--get", "opdev.executed"])
+                    .output()?
+                    .status
+                    .success()
+            );
+        }
+    }
+    assert!(
+        Command::new("git")
+            .current_dir(root)
+            .args(["status", "--porcelain"])
+            .output()?
+            .stdout
+            .is_empty()
+    );
+    Ok(())
+}
+
+#[test]
 fn diagnostic_examples_are_explicit_and_do_not_publish_candidates()
 -> Result<(), Box<dyn std::error::Error>> {
     let lab: Value = serde_saphyr::from_str(include_str!(

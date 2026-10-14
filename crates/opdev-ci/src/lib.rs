@@ -4,6 +4,7 @@
 
 mod github;
 pub mod gitlab;
+mod native_gitlab;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -116,6 +117,37 @@ struct GitlabAdapter;
 
 static GITHUB: GithubAdapter = GithubAdapter;
 static GITLAB: GitlabAdapter = GitlabAdapter;
+
+/// Inspect how the explicitly selected external review reaches both CI stages.
+/// This does not retrieve reviews, test token permissions or execute commands.
+#[must_use]
+pub fn inspect_review_handoff(
+    root: &Path,
+    manifest: &opdev_project::ProjectManifest,
+) -> Capability {
+    let Some(storage) = &manifest.assurance.review_storage else {
+        return Capability {
+            outcome: Outcome::NotApplicable,
+            evidence: vec![],
+            diagnostic: Some(
+                "No external review storage is selected; legacy review behavior is unchanged"
+                    .into(),
+            ),
+        };
+    };
+    match manifest.project.ci.provider {
+        CiProvider::Github => github::review_handoff(root, &manifest.project.trunk, storage.version),
+        CiProvider::Gitlab => {
+            let parsed = gitlab::read_local(root, ".gitlab-ci.yml")
+                .and_then(|source| gitlab::resolve(&source, |relative| gitlab::read_local(root, relative)));
+            match parsed {
+                Ok(value) => native_gitlab::review_handoff(&root.join(".gitlab-ci.yml"), &value, storage.version),
+                Err(problem) => Capability { outcome: problem.outcome, evidence: vec![], diagnostic: Some(problem.diagnostic) },
+            }
+        }
+        _ => Capability { outcome: Outcome::Unverified, evidence: vec![], diagnostic: Some("The selected review provider has no supported handoff inspector; inspect its actual consumer path. No checks ran".into()) },
+    }
+}
 
 /// Returns the first-class adapter for a provider.
 ///
@@ -423,11 +455,24 @@ fn inspect_value(
         source: std::io::Error::other(source),
     })?;
     let configuration = passed(path, "CI configuration is valid YAML");
+    let native = native_gitlab::present(parsed);
     Ok(CiInspection {
         configuration,
-        pre_merge: required_strings(path, &searchable, requirements.pre_merge),
-        post_merge: required_strings(path, &searchable, requirements.post_merge),
-        integrity: required_strings(path, &searchable, requirements.integrity),
+        pre_merge: if native {
+            native_gitlab::inspect(path, parsed, false)
+        } else {
+            required_strings(path, &searchable, requirements.pre_merge)
+        },
+        post_merge: if native {
+            native_gitlab::inspect(path, parsed, true)
+        } else {
+            required_strings(path, &searchable, requirements.post_merge)
+        },
+        integrity: if native {
+            native_gitlab::integrity(path, parsed)
+        } else {
+            required_strings(path, &searchable, requirements.integrity)
+        },
     })
 }
 

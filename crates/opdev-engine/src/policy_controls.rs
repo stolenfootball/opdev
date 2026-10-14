@@ -17,6 +17,37 @@ const CONTROLS: [&str; 4] = [
     "OPDEV-RECOVERY-001",
 ];
 
+pub(crate) const ABSENT_DELIVERY_RULES: [&str; 4] = [
+    "MCD-ARTIFACT-001",
+    "MCD-ARTIFACT-002",
+    "MCD-ENV-001",
+    "MCD-CONFIG-002",
+];
+
+/// A discovery placeholder is not an obligation to invent a delivery product.
+/// Absence still requires current reviewed facts, never just a project label.
+pub(crate) fn qualify_delivery_absence(
+    manifest: &ProjectManifest,
+    rules: &mut [RuleResult],
+    change: Option<&opdev_project::ChangeEvidence>,
+    acceptance: Outcome,
+) {
+    for rule in rules.iter_mut().filter(|rule| {
+        ABSENT_DELIVERY_RULES.contains(&rule.rule_id.as_str())
+            && rule.outcome == Outcome::NotApplicable
+    }) {
+        let current = change.is_some_and(|change| {
+            change.assertions.iter().any(|assertion| {
+                assertion.rule_id == rule.rule_id && assertion.outcome == Outcome::NotApplicable
+            })
+        });
+        if acceptance != Outcome::Passed || !current || !delivery_absent(manifest) {
+            rule.outcome = Outcome::Unverified;
+            rule.diagnostic = Some("Delivery non-applicability needs reviewed absence of distribution and supported operations plus an exact-change decision and current acceptance. Missing configuration, historical assertions or lack of release permission are not absence.".into());
+        }
+    }
+}
+
 /// Validate current review provenance, not the truth or competence of a judgment.
 pub(crate) fn qualify_review(
     rules: &mut [RuleResult],
@@ -237,6 +268,77 @@ mod tests {
     };
 
     type TestResult = Result<(), Box<dyn std::error::Error>>;
+
+    #[test]
+    fn absent_delivery_needs_current_applicability_review_and_preserves_negatives() -> TestResult {
+        let mut fixture = fixture()?;
+        for fact in fixture
+            .project
+            .assurance
+            .safeguards
+            .as_mut()
+            .ok_or("safeguards")?
+            .capabilities
+            .values_mut()
+        {
+            fact.state = CapabilityState::Absent;
+        }
+        for id in ABSENT_DELIVERY_RULES {
+            let mut rule = fixture.rule.clone();
+            rule.rule_id = id.parse()?;
+            rule.outcome = Outcome::NotApplicable;
+            let mut change = fixture.ledger.changes[0].clone();
+            change.assertions[0].rule_id = id.parse()?;
+            change.assertions[0].outcome = Outcome::NotApplicable;
+            let mut rules = vec![rule.clone()];
+            qualify_delivery_absence(&fixture.project, &mut rules, Some(&change), Outcome::Passed);
+            assert_eq!(rules[0].outcome, Outcome::NotApplicable);
+            for acceptance in [Outcome::Unverified, Outcome::Failed, Outcome::Error] {
+                rules[0] = rule.clone();
+                qualify_delivery_absence(&fixture.project, &mut rules, Some(&change), acceptance);
+                assert_eq!(rules[0].outcome, Outcome::Unverified);
+            }
+            rules[0] = rule.clone();
+            qualify_delivery_absence(&fixture.project, &mut rules, None, Outcome::Passed);
+            assert_eq!(
+                rules[0].outcome,
+                Outcome::Unverified,
+                "historical claims are not current absence"
+            );
+            for capability in [Capability::Distribution, Capability::Operations] {
+                for state in [CapabilityState::Present, CapabilityState::Unknown] {
+                    let mut project = fixture.project.clone();
+                    project
+                        .assurance
+                        .safeguards
+                        .as_mut()
+                        .ok_or("safeguards")?
+                        .capabilities
+                        .get_mut(&capability)
+                        .ok_or("capability")?
+                        .state = state;
+                    rules[0] = rule.clone();
+                    qualify_delivery_absence(&project, &mut rules, Some(&change), Outcome::Passed);
+                    assert_eq!(rules[0].outcome, Outcome::Unverified);
+                }
+            }
+            for outcome in [Outcome::Failed, Outcome::Error, Outcome::MigrationRequired] {
+                rules[0] = rule.clone();
+                rules[0].outcome = outcome;
+                qualify_delivery_absence(
+                    &fixture.project,
+                    &mut rules,
+                    Some(&change),
+                    Outcome::Passed,
+                );
+                assert_eq!(
+                    rules[0].outcome, outcome,
+                    "known negatives are never erased"
+                );
+            }
+        }
+        Ok(())
+    }
 
     struct Fixture {
         temp: tempfile::TempDir,

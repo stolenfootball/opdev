@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "a22603bbc3fdaf67314be2d49c3f2a1ca30b621c9d3ea7a4c2834ce9bf0b075e",
+          "sha256": "2510b632eee8b7ec3b4aee176266497dd482e0e3f18b570a4de3f0a9dc2ee41e",
           "excerpt": "The input is an ephemeral external proposal, not a second permanent contract.\nIt selects target policies but leaves inventory review/practices unresolved.\nRemove `--dry-run` only within approved scope; references do not authenticate\nconsent. No tools run or install. Bare `init --dry-run` retains read-only discovery;\nbare new `init` refuses inferred policy writes. `--legacy-policy` explicitly\nscaffolds older policy for compatibility work; older engineering-only flags remain\npartial scaffolding. Neither is current adoption. Existing contracts are never\nmigrated by init. For an existing project, review the project-policy upgrade\nfirst, then preview `adoption migrate --catalog-version 2`. Explicit `--write`\npreserves existing decisions, adds pending setup/review entries and clears stale\napproval when the inventory changes. Newly mandatory ignored decisions remain\nvisible blockers, not silently rewritten as implemented. Same-catalog migration\nis idempotent; downgrade is rejected. Ordinary work never upgrades an inventory."
         }
       },
@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "a22603bbc3fdaf67314be2d49c3f2a1ca30b621c9d3ea7a4c2834ce9bf0b075e",
+          "sha256": "2510b632eee8b7ec3b4aee176266497dd482e0e3f18b570a4de3f0a9dc2ee41e",
           "excerpt": "`adoption plan` works before initialization and prints the destination, required\nmigrations, discovery warnings and proposed/existing contract. Record/plan ID are\nabsent before assessment; neither discovery nor a missing ID authorizes policy.\nWith a record it also prints a SHA-256 plan ID.\nThe ID binds scope, choices, rationale, owners, references, suites, research and\nworkflow roles to the contract. It excludes the approval itself and normalizes\npending/in-progress/implemented as one implementation choice, so approved work\ncan progress without a new policy decision. Changing an exclusion, rationale,\nscope, references or the contract requires a new review. This ID is not the staged\nacceptance fingerprint: repository changes still require fresh acceptance evidence."
         }
       },
@@ -54,7 +54,7 @@
         "kind": "source",
         "source": {
           "path": "spec/upgrades.md",
-          "sha256": "a1de63c83520e67e3a8d59527cc0453e209860e41bebe1e4c5d1bf346388dc54",
+          "sha256": "ca8a7d8ea016f42efb619541c652ad79e8d92913d7899e32a7b216bafcb4a134",
           "excerpt": "Writes are atomic per file, not a multi-file transaction. Project, adoption,\nmanaged routing and supplied CI replacements precede retiring the old active ledger.\nEach step rechecks the inventory and all original/target states; linked paths or\nlater edits stop the operation. Exclude concurrent writers during application;\nthese checks do not provide hostile-writer filesystem locking. On interruption,\ninspect the actual diff and original snapshot; do not run `init`, blindly roll back,\nor regenerate approvals to conceal partial state."
         }
       },
@@ -100,7 +100,7 @@
         "kind": "source",
         "source": {
           "path": "spec/adoption.md",
-          "sha256": "a22603bbc3fdaf67314be2d49c3f2a1ca30b621c9d3ea7a4c2834ce9bf0b075e",
+          "sha256": "2510b632eee8b7ec3b4aee176266497dd482e0e3f18b570a4de3f0a9dc2ee41e",
           "excerpt": "For engineering policy 2, capability `adoption.clean-target.v3` makes the completion target exactly"
         }
       },
@@ -122,7 +122,7 @@
       "id": "V-initialization-1",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "2765f99107250af5bf08cd48622d11555e93c249a8b504f45f8df84fe851b094",
+        "sha256": "b3c681d56ece559d6096ef694fc6ba064b61228cca6e9f5516330feaab46c429",
         "excerpt": "fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy("
       },
       "inputs": [
@@ -157,7 +157,7 @@
       "id": "V-approval-1",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "2765f99107250af5bf08cd48622d11555e93c249a8b504f45f8df84fe851b094",
+        "sha256": "b3c681d56ece559d6096ef694fc6ba064b61228cca6e9f5516330feaab46c429",
         "excerpt": "fn approval_is_separate_stale_choices_fail_and_progress_preserves_approval("
       },
       "inputs": [
@@ -192,7 +192,7 @@
       "id": "V-migration-1",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
+        "sha256": "cde21a3ec8e33b544defd2375fc2ff4bc470668a0e89691eff55d3b625f92277",
         "excerpt": "fn catalog_migration_is_explicit_unreviewed_and_preserves_later_edits("
       },
       "inputs": [
@@ -252,7 +252,7 @@
       "id": "V-migration-2",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
+        "sha256": "cde21a3ec8e33b544defd2375fc2ff4bc470668a0e89691eff55d3b625f92277",
         "excerpt": "fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work("
       },
       "inputs": [
@@ -393,17 +393,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -438,12 +438,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -462,7 +462,7 @@
       "id": "V-clean-policy-adoption-2",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "2765f99107250af5bf08cd48622d11555e93c249a8b504f45f8df84fe851b094",
+        "sha256": "b3c681d56ece559d6096ef694fc6ba064b61228cca6e9f5516330feaab46c429",
         "excerpt": "fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_policy("
       },
       "inputs": [
@@ -493,17 +493,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -538,12 +538,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -562,7 +562,7 @@
       "id": "V-clean-policy-adoption-3",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "2765f99107250af5bf08cd48622d11555e93c249a8b504f45f8df84fe851b094",
+        "sha256": "b3c681d56ece559d6096ef694fc6ba064b61228cca6e9f5516330feaab46c429",
         "excerpt": "fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools("
       },
       "inputs": [
@@ -593,17 +593,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -638,12 +638,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -662,7 +662,7 @@
       "id": "V-clean-policy-adoption-4",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
+        "sha256": "cde21a3ec8e33b544defd2375fc2ff4bc470668a0e89691eff55d3b625f92277",
         "excerpt": "fn policy_two_migration_binds_definitions_and_refuses_selected_retirement("
       },
       "inputs": [
@@ -693,17 +693,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -738,12 +738,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -762,7 +762,7 @@
       "id": "V-clean-policy-adoption-5",
       "target": {
         "path": "crates/opdev-cli/src/migration/tests.rs",
-        "sha256": "88c8d952da84a930062aba8f3bab456120da326723f6003eaae8427ce29bed0e",
+        "sha256": "cde21a3ec8e33b544defd2375fc2ff4bc470668a0e89691eff55d3b625f92277",
         "excerpt": "fn preview_is_read_only_and_apply_preserves_owners_pending_choices_and_root_text("
       },
       "inputs": [
@@ -793,17 +793,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -838,12 +838,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -862,7 +862,7 @@
       "id": "V-clean-policy-adoption-6",
       "target": {
         "path": "crates/opdev-cli/tests/engineering_policy.rs",
-        "sha256": "57bf955bbf40f0a7f9517db1eb67ed56c8d90f75c083ca882439c2c7eb036413",
+        "sha256": "616c534b39acdaca22a715bf7746a330659a60ef5564f4fd258dc3bdaae9cbc4",
         "excerpt": "fn policy_two_preview_requires_explicit_legacy_choice_and_preserves_standard_boundaries("
       },
       "inputs": [
@@ -893,17 +893,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -938,12 +938,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -993,17 +993,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1038,12 +1038,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -1062,7 +1062,7 @@
       "id": "V-clean-policy-adoption-8",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "2765f99107250af5bf08cd48622d11555e93c249a8b504f45f8df84fe851b094",
+        "sha256": "b3c681d56ece559d6096ef694fc6ba064b61228cca6e9f5516330feaab46c429",
         "excerpt": "fn policy_two_adoption_uses_current_pipeline_review_not_legacy_standard_assertions("
       },
       "inputs": [
@@ -1093,17 +1093,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1138,12 +1138,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -1162,7 +1162,7 @@
       "id": "V-clean-policy-adoption-9",
       "target": {
         "path": "crates/opdev-cli/tests/adoption.rs",
-        "sha256": "2765f99107250af5bf08cd48622d11555e93c249a8b504f45f8df84fe851b094",
+        "sha256": "b3c681d56ece559d6096ef694fc6ba064b61228cca6e9f5516330feaab46c429",
         "excerpt": "fn external_adoption_requires_selected_review_and_never_recreates_legacy_evidence("
       },
       "inputs": [
@@ -1193,17 +1193,17 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "84567d488fdf269dff9feace36de404e1036bac3c4a3c4be3c69dae55e666c12",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
           "path": "crates/opdev-cli/src/adoption.rs",
-          "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+          "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
           "excerpt": "//! Agent-guided adoption with deterministic completion verification."
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "d233e979d67466fca3a0f0ca94dfef9e06a2ba73d5901f68c8442fa1c8127ba3",
+          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
           "excerpt": "//! Offline upgrade assessment and snapshot-bound guidance application."
         },
         {
@@ -1238,12 +1238,12 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "2f40b5038baa27b125a2297404500bbc99c5194106392a9dbe1b20e074187663",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
           "path": "plugins/opdev/skills/opdev/references/upgrades.md",
-          "sha256": "48a77d6c438fa73d00d5e38adb757e0517fc05b69d356e7427aa5ecd64d4377e",
+          "sha256": "2eb587ced36adbe4329704d82f2338341dbb5436e79799b470236dcb7c715d18",
           "excerpt": "# Upgrade OpDev without silently changing a project"
         },
         {
@@ -1274,10 +1274,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "bca400c3cdff41106c461ecf373b0f4052f6a92f4cd5456a69dc4940964fbee5"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "83e0766a2677befabe1c11b7d4220ae4bf80bfeee79276b590da7e0c5096b722"
       }
     },
     {
@@ -1294,10 +1294,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "9e52564a175250353b2d48cde223081e840867a5c5c814a4613b495177d779bf"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "fd877931ceb09f7d2f0adba1da4a4b3be6eec316fad4a3e7b26999828adbf25d"
       }
     },
     {
@@ -1314,10 +1314,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "3ffd4f881aa10a7f35efd6e9d9083586ead489ad058a61140bdc55cf2c4b11f9"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Reviewed existing empty/brownfield no-write assertions and expanded policy discovery checks. Bare initialization still refuses implicit choices; explicit reviewed policy 2/3 initialization stays pending without tools or consent. Discovery's default is now explicitly distinguished from maximum runtime capability. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "b853d28d8e5e78e282b38fcba512b83989487834898980594a9cd30db8b4695a"
       }
     },
     {
@@ -1334,10 +1334,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "e936be7e5a63dd84fdafac628e240854db53e9d13daff83264a4d202eace12cc"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "2aefbabfd7425472fb6293c9b8095fe60bd48b22cb1fad9f46700a4b04fc3762"
       }
     },
     {
@@ -1354,10 +1354,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "37cb3ac7006c2315dd8d046f7a6670cf57742a552a55762588d1177eaa38b254"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "bc351dbb988a90b823b423f3bcda8ec3336e1d5cd92a416bfb2ca2e66d80bf1f"
       }
     },
     {
@@ -1374,10 +1374,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "45e63ea00897ca3a22f40a27aa64ec9f5bbd253acabbaa93a7ceeefb542997b1"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained progress-versus-policy assertions against the additive coordinator/reporting change. Progress keeps the original plan identity; changed rationale invalidates approval; stale approval writes nothing and unfinished work remains incomplete. No changed implementation can authorize a policy from its own readiness observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "8f16ad7727db04fd874dc95311e147fd9ab54f3e4ffa63e6c46ac183f5709cb3"
       }
     },
     {
@@ -1398,11 +1398,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "5d60c101c7feb30dfc039cab4a4d1de1ae83bf701f524f85b48fd738a578c482",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked unchanged guarded migration assertions and helpers against the added every-boundary test. Explicit preview remains read-only, imported policy is unreviewed, stale/concurrent edits are rejected and repeat resume retains unrelated content. No migration algorithm or authority was replaced.",
+        "subject_sha256": "5f4c898c3f1d813b2f6f38d1007718c1b3c9798037c6e73238a1c9d560fa855f"
       }
     },
     {
@@ -1423,11 +1423,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "2cb8e9673d1d3bb25e530be1d30cf0113c20ab3c0980be8e9f6b11a98f59057c",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked unchanged guarded migration assertions and helpers against the added every-boundary test. Explicit preview remains read-only, imported policy is unreviewed, stale/concurrent edits are rejected and repeat resume retains unrelated content. No migration algorithm or authority was replaced.",
+        "subject_sha256": "1a30be27ca5f55ed781214ceb70481a29b00e059430e6804748b597d679ec8e3"
       }
     },
     {
@@ -1448,11 +1448,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "c5d94cf918b6ae9a88f3b05acc9f3cef420d1fb2b59dde04707a984f70d8904f",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked unchanged guarded migration assertions and helpers against the added every-boundary test. Explicit preview remains read-only, imported policy is unreviewed, stale/concurrent edits are rejected and repeat resume retains unrelated content. No migration algorithm or authority was replaced.",
+        "subject_sha256": "7127b6600f075790d116bc36087db9521bebf9e23927224e78bf0a05e7895810"
       }
     },
     {
@@ -1569,10 +1569,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "9967bdaa01fd239ef40ee8e2b133596f46fa357f443c5e95b51ac6f6d4efa57d"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "fe2d2746fbdc4db529c1a2fdb71faf17b17a6acfbed192b35c4d5eb3597dc55c"
       }
     },
     {
@@ -1629,10 +1629,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "74b123a17c52500c2f2969295e780f07b275da60cd594c50c335609771187c39"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "9b1f11157a0d35c0d621131b738c5d6c13f5b947b821237c3811f44a82be10de"
       }
     },
     {
@@ -1689,10 +1689,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "647f33f74def4c81ebbd080bb2501b21388481fcdff98bfb15326d6c379a3afd"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
+        "subject_sha256": "684262d4ed45b4f79e080fab081a4d2a44bb1b3743925407f7ee9f5d9fcdd788"
       }
     }
   ]

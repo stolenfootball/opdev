@@ -164,6 +164,13 @@ authenticates consent nor substitutes for post-merge execution. Changed merge
 content requires fresh impact review, not forced transfer. No CI token expansion
 or developer login export is needed; prepare this handoff outside CI.
 
+When pre-merge job names differ from trunk qualification jobs, repeat
+`--required-job NAME` for the complete reviewed pre-merge inventory and supply
+`--job-review-reference REF`. This selects only the prior observation's inventory;
+it does not alter trunk policy or permit selecting just the jobs that passed.
+Without those options, the existing reviewed job names are used. A reference is
+attributed review, not authenticated approval or proof of completeness.
+
 Required CI uses `check --ci --review-ci --fail-fast`. Review readiness is checked
 before suites, then suites run once in their declared order (cheap formatting and
 lint precede full tests). After a suite fails, remaining suites are recorded as

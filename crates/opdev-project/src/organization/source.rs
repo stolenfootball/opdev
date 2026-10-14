@@ -93,6 +93,9 @@ pub fn inspect_file(root: &Path, id: &str) -> Result<PolicyPack> {
 
 fn git(root: &Path, args: &[&str]) -> Result<Vec<u8>> {
     let output = Command::new("git")
+        .env("GIT_NO_LAZY_FETCH", "1")
+        .env("GIT_ALLOW_PROTOCOL", "")
+        .env("GIT_OPTIONAL_LOCKS", "0")
         .arg("-C")
         .arg(root)
         .arg("--no-replace-objects")
@@ -134,11 +137,7 @@ fn checkout_inventory(root: &Path, selected: &BTreeSet<String>) -> Result<()> {
     Ok(())
 }
 
-fn staged_definitions(root: &Path, tree: &str) -> Result<BTreeMap<String, PolicyPack>> {
-    let entries = git(
-        root,
-        &["ls-tree", "-r", "-z", tree, "--", ".opdev/policies"],
-    )?;
+fn staged_definitions(root: &Path, entries: &[u8]) -> Result<BTreeMap<String, PolicyPack>> {
     ensure!(
         entries.len() <= 64 * 1024,
         "Policy inventory exceeds its safety bound."
@@ -178,7 +177,7 @@ fn staged_definitions(root: &Path, tree: &str) -> Result<BTreeMap<String, Policy
 }
 
 /// Resolve all current selected definitions before execution, without network or
-/// working-tree edits. Git may materialize immutable objects with `write-tree`.
+/// working-tree, index or object-store writes.
 /// # Errors
 /// Stale pins, unknown files, unstaged semantic changes, unsafe files or missing policy fail closed.
 pub fn load_selected(root: &Path, selections: &[PolicySelection]) -> Result<PolicySnapshot> {
@@ -195,14 +194,8 @@ pub fn load_selected(root: &Path, selections: &[PolicySelection]) -> Result<Poli
         );
     }
     checkout_inventory(root, &paths)?;
-    let tree = String::from_utf8(git(root, &["write-tree"])?)?
-        .trim()
-        .to_owned();
-    ensure!(
-        matches!(tree.len(), 40 | 64) && tree.bytes().all(|b| b.is_ascii_hexdigit()),
-        "Invalid policy source tree identity."
-    );
-    let definitions = staged_definitions(root, &tree)?;
+    let snapshot = crate::index_snapshot::IndexSnapshot::read(root)?;
+    let definitions = staged_definitions(root, &snapshot.listing(".opdev/policies"))?;
     ensure!(
         definitions.keys().cloned().collect::<BTreeSet<_>>() == paths,
         "Staged policies differ from current selections; stage the reviewed definitions and retire obsolete ones."
@@ -224,7 +217,7 @@ pub fn load_selected(root: &Path, selections: &[PolicySelection]) -> Result<Poli
         Sha256::digest(serde_json_canonicalizer::to_vec(&(1_u32, &policies))?)
     );
     Ok(PolicySnapshot {
-        tree,
+        tree: snapshot.tree,
         policies,
         resolution_sha256,
     })
@@ -269,6 +262,27 @@ mod tests {
         )?;
         git(dir.path(), &["add", "--", ".opdev/policies/example.json"])?;
         Ok((dir, pack, selected))
+    }
+
+    #[test]
+    fn selected_policy_inspection_does_not_need_an_index_lock() -> Result<()> {
+        let (dir, _, selected) = fixture()?;
+        let root = dir.path();
+        let index = fs::read(root.join(".git/index"))?;
+        fs::write(root.join(".git/index.lock"), "owned test lock")?;
+        let snapshot = load_selected(root, &[selected])?;
+        assert_eq!(snapshot.policies.len(), 1);
+        assert_eq!(fs::read(root.join(".git/index"))?, index);
+        assert_eq!(
+            fs::read_to_string(root.join(".git/index.lock"))?,
+            "owned test lock"
+        );
+        fs::remove_file(root.join(".git/index.lock"))?;
+        assert_eq!(
+            snapshot.tree,
+            String::from_utf8(git(root, &["write-tree"])?)?.trim()
+        );
+        Ok(())
     }
 
     #[test]

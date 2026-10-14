@@ -584,7 +584,7 @@ fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance() -> T
         let dir = fixture()?;
         let path = dir.path().join(MANIFEST_PATH);
         let initial = ProjectManifest::load(&path)?;
-        for version in ["1", "2"] {
+        for version in ["1", "2", "3"] {
             let mut project = serde_json::to_value(&initial)?;
             project["schema"] = serde_json::json!(if version == "1" { 3 } else { 4 });
             project["project"]["kind"] = case["kind"].clone();
@@ -593,7 +593,8 @@ fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance() -> T
                 "version": version, "minimumcd": "1",
                 "review_reference": "synthetic paired policy fixture"
             });
-            let capabilities = opdev_project::Capability::ALL.into_iter().map(|capability| {
+            let safeguard_version = if version == "3" { 2 } else { 1 };
+            let capabilities = opdev_project::Capability::for_version(safeguard_version).iter().map(|&capability| {
                 let name = serde_json::to_value(capability)?;
                 let state = if case["present"].as_array().ok_or("capabilities")?.contains(&name) {
                     "present"
@@ -606,7 +607,7 @@ fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance() -> T
                 })))
             }).collect::<Result<serde_json::Map<String, Value>, Box<dyn std::error::Error>>>()?;
             project["assurance"]["safeguards"] = serde_json::json!({
-                "version": 1, "review_reference": "synthetic capability inventory",
+                "version": safeguard_version, "review_reference": "synthetic capability inventory",
                 "capabilities": capabilities
             });
             let manifest = ProjectManifest::from_yaml(&serde_json::to_string(&project)?)?;
@@ -617,12 +618,22 @@ fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance() -> T
             let report: Value = serde_json::from_slice(&output.stdout)?;
             assert_eq!(
                 report["catalog_version"],
-                if version == "1" { 3 } else { 4 }
+                match version {
+                    "1" => 3,
+                    "2" => 4,
+                    _ => 5,
+                }
             );
             assert_eq!(report["engineering"]["version"], version);
             assert_eq!(report["engineering"]["minimumcd"]["verdict"], "blocked");
             assert_eq!(fs::read(&path)?, before, "assessment cannot migrate policy");
             let rules = report["rules"].as_array().ok_or("rules")?;
+            let absent = !case["present"]
+                .as_array()
+                .ok_or("capabilities")?
+                .iter()
+                .any(|capability| capability == "distribution" || capability == "operations");
+            assert_delivery_applicability(rules, version, absent)?;
             for id in [
                 "MCD-TEST-001",
                 "MCD-TEST-002",
@@ -646,9 +657,33 @@ fn capability_shapes_do_not_turn_missing_execution_into_policy_compliance() -> T
                 rules
                     .iter()
                     .any(|rule| rule["rule_id"] == "OPDEV-RECOVERY-001"),
-                version == "2"
+                version != "1"
             );
         }
+    }
+    Ok(())
+}
+
+fn assert_delivery_applicability(rules: &[Value], version: &str, absent: bool) -> TestResult {
+    for id in [
+        "MCD-ARTIFACT-001",
+        "MCD-ARTIFACT-002",
+        "MCD-ENV-001",
+        "MCD-CONFIG-002",
+    ] {
+        let rule = rules
+            .iter()
+            .find(|rule| rule["rule_id"] == id)
+            .ok_or("delivery rule")?;
+        assert_eq!(
+            rule["outcome"],
+            if version != "1" && absent {
+                "unverified"
+            } else {
+                "migration_required"
+            },
+            "a source-only modern project needs reviewed absence, not an invented release; legacy and applicable delivery retain migration gaps"
+        );
     }
     Ok(())
 }

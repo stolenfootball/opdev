@@ -409,6 +409,12 @@ fn evaluate_inner(
         .as_ref()
         .is_some_and(|p| matches!(p.version.as_str(), "2" | "3"))
     {
+        crate::policy_controls::qualify_delivery_absence(
+            manifest,
+            &mut rules,
+            acceptance_fingerprint.and_then(|f| acceptance_ledger.as_ref()?.matching_change(f)),
+            acceptance_outcome,
+        );
         crate::delivery_subject::qualify(
             &mut rules,
             acceptance_fingerprint.and_then(|f| acceptance_ledger.as_ref()?.matching_change(f)),
@@ -997,6 +1003,19 @@ fn evaluate_applicability(rule: &Rule, manifest: &ProjectManifest) -> Option<Eva
 }
 
 fn default_evaluation(rule: &Rule, manifest: &ProjectManifest) -> Evaluation {
+    if crate::policy_controls::ABSENT_DELIVERY_RULES.contains(&rule.id.as_str())
+        && manifest
+            .assurance
+            .engineering
+            .as_ref()
+            .is_some_and(|policy| matches!(policy.version.as_str(), "2" | "3"))
+        && crate::policy_controls::delivery_absent(manifest)
+    {
+        return configured_review(
+            "Declared delivery absence needs exact-change applicability review; the unconfigured delivery placeholder neither proves absence nor requires inventing an artifact".into(),
+            Some(".opdev/project.yaml"),
+        );
+    }
     if is_delivery_rule(rule.id.as_str())
         && manifest.delivery.status == DeliveryStatus::MigrationRequired
     {

@@ -21,6 +21,12 @@ pub(crate) struct ObserveArgs {
     reference: String,
     #[arg(long)]
     workflow: Option<u64>,
+    /// Complete reviewed pre-merge job inventory when it differs from trunk jobs.
+    #[arg(long = "required-job", requires = "job_review_reference")]
+    required_jobs: Vec<String>,
+    /// Actual review reference for the explicitly selected pre-merge inventory.
+    #[arg(long, requires = "required_jobs")]
+    job_review_reference: Option<String>,
     #[arg(long)]
     output: PathBuf,
 }
@@ -64,17 +70,13 @@ pub(crate) fn observe(args: &ObserveArgs) -> Result<ExitCode> {
         observation,
     )
     .map_err(anyhow::Error::msg)?;
-    let jobs = &manifest
+    let defaults = manifest
         .project
         .ci
         .qualification
         .as_ref()
-        .context("Reviewed required jobs are missing")?
-        .required_jobs;
-    ensure!(
-        !jobs.is_empty(),
-        "Prior-stage handoff needs reviewed required job names; a green aggregate alone is insufficient"
-    );
+        .map(|policy| policy.required_jobs.as_slice());
+    let jobs = select_jobs(args, defaults)?;
     let expected = opdev_remote::RunExpectation {
         revision: locator.source_commit.clone(),
         run_id: args.run,
@@ -100,7 +102,12 @@ pub(crate) fn observe(args: &ObserveArgs) -> Result<ExitCode> {
         crate::clean_remote_revision(&root).as_deref() == Some(&revision),
         "Source changed during prior-stage observation; nothing written"
     );
-    let prepared = prepare_observation(&result, policy.repository_id, &revision)?;
+    let prepared = prepare_observation(
+        &result,
+        policy.repository_id,
+        &revision,
+        args.job_review_reference.as_deref(),
+    )?;
     let observed_success = prepared["observed_success"] == true;
     crate::local_state::write_new(&output, &serde_json::to_vec_pretty(&prepared)?)?;
     Ok(if observed_success {
@@ -110,10 +117,36 @@ pub(crate) fn observe(args: &ObserveArgs) -> Result<ExitCode> {
     })
 }
 
+fn select_jobs<'a>(args: &'a ObserveArgs, defaults: Option<&'a [String]>) -> Result<&'a [String]> {
+    let jobs = if args.required_jobs.is_empty() {
+        ensure!(
+            args.job_review_reference.is_none(),
+            "An inventory review needs explicit pre-merge job names"
+        );
+        defaults.context("Reviewed required jobs are missing")?
+    } else {
+        ensure!(
+            args.job_review_reference
+                .as_deref()
+                .is_some_and(|reference| !reference.trim().is_empty()
+                    && reference.len() <= 4096
+                    && !reference.chars().any(char::is_control)),
+            "Explicit pre-merge jobs need their actual inventory review reference; do not select only passing jobs"
+        );
+        &args.required_jobs
+    };
+    ensure!(
+        !jobs.is_empty(),
+        "Prior-stage handoff needs reviewed required job names; a green aggregate alone is insufficient"
+    );
+    Ok(jobs)
+}
+
 fn prepare_observation(
     result: &opdev_remote::RunVerification,
     repository_id: u64,
     revision: &str,
+    inventory_reference: Option<&str>,
 ) -> Result<serde_json::Value> {
     let expected = &result.expected;
     let observed_success = result.outcome == Outcome::Passed
@@ -121,7 +154,7 @@ fn prepare_observation(
             .jobs
             .as_ref()
             .is_some_and(|j| j.outcome == Outcome::Passed);
-    let assertion = EvidenceAssertion {
+    let mut assertion = EvidenceAssertion {
         rule_id: "MCD-TEST-001".parse()?,
         outcome: Outcome::Unverified,
         summary: format!(
@@ -137,6 +170,13 @@ fn prepare_observation(
             )),
         }],
     };
+    if let Some(reference) = inventory_reference {
+        assertion.evidence.push(Evidence {
+            kind: "prior_stage_inventory_review".into(),
+            location: Some(reference.into()),
+            summary: "Explicit pre-merge job inventory selected for this observation only; trunk policy is unchanged. Attribution is not authenticated approval or proof of inventory completeness.".into(),
+        });
+    }
     Ok(serde_json::json!({
         "schema":1,"kind":"prior_stage_observation","source":expected.revision,
         "integrated_revision":revision,"matching_trees":true,"observed_success":observed_success,
@@ -148,6 +188,69 @@ fn prepare_observation(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use clap::Parser;
+
+    #[derive(Parser)]
+    struct Harness {
+        #[command(flatten)]
+        args: ObserveArgs,
+    }
+
+    #[test]
+    fn distinct_prior_inventory_requires_review_and_preserves_trunk_policy() -> Result<()> {
+        let base = [
+            "opdev",
+            "--review-locator",
+            "fixture.json",
+            "--acceptance-sha256",
+            "fixture",
+            "--run",
+            "1",
+            "--ref",
+            "refs/merge-requests/1/head",
+            "--output",
+            "out.json",
+        ];
+        let defaults = vec!["native-post".into()];
+        let parsed = Harness::try_parse_from(base)?;
+        assert_eq!(select_jobs(&parsed.args, Some(&defaults))?, defaults);
+        assert!(select_jobs(&parsed.args, None).is_err());
+        assert!(select_jobs(&parsed.args, Some(&[])).is_err());
+        for incomplete in [
+            vec!["--required-job", "native-pre"],
+            vec!["--job-review-reference", "fixture:review"],
+        ] {
+            assert!(Harness::try_parse_from(base.into_iter().chain(incomplete)).is_err());
+        }
+        let mut parsed = Harness::try_parse_from(base.into_iter().chain([
+            "--required-job",
+            "native-pre",
+            "--required-job",
+            "security-pre",
+            "--job-review-reference",
+            "fixture:complete-pre-inventory",
+        ]))?;
+        assert_eq!(
+            select_jobs(&parsed.args, Some(&defaults))?,
+            ["native-pre", "security-pre"]
+        );
+        assert_eq!(
+            defaults,
+            ["native-post"],
+            "trunk obligations are never rewritten"
+        );
+        for reference in [
+            None,
+            Some(String::new()),
+            Some("  ".into()),
+            Some("invalid\nreference".into()),
+        ] {
+            parsed.args.job_review_reference = reference;
+            assert!(select_jobs(&parsed.args, Some(&defaults)).is_err());
+        }
+        Ok(())
+    }
+
     #[test]
     fn observed_run_is_never_an_approved_assertion_or_current_execution() -> Result<()> {
         let mut result = opdev_remote::RunVerification {
@@ -180,7 +283,7 @@ mod tests {
             Outcome::Error,
         ] {
             result.outcome = outcome;
-            let draft = prepare_observation(&result, 1, &"b".repeat(40))?;
+            let draft = prepare_observation(&result, 1, &"b".repeat(40), None)?;
             assert_eq!(draft["observed_success"], outcome == Outcome::Passed);
             assert_eq!(draft["assertion"]["outcome"], "unverified");
             assert_eq!(draft["qualification"], "unverified");
@@ -188,9 +291,31 @@ mod tests {
             assert_eq!(draft["integrated_revision"], "b".repeat(40));
         }
         result.outcome = Outcome::Passed;
+        for outcome in [Outcome::Failed, Outcome::Unverified, Outcome::Error] {
+            result
+                .jobs
+                .as_mut()
+                .ok_or_else(|| anyhow::anyhow!("jobs"))?
+                .outcome = outcome;
+            let draft = prepare_observation(
+                &result,
+                1,
+                &"b".repeat(40),
+                Some("fixture:complete-pre-inventory"),
+            )?;
+            assert_eq!(
+                draft["observed_success"], false,
+                "review cannot erase missing or failed jobs"
+            );
+            assert_eq!(draft["assertion"]["outcome"], "unverified");
+            assert_eq!(
+                draft["assertion"]["evidence"][1]["location"],
+                "fixture:complete-pre-inventory"
+            );
+        }
         result.jobs = None;
         assert_eq!(
-            prepare_observation(&result, 1, &"b".repeat(40))?["observed_success"],
+            prepare_observation(&result, 1, &"b".repeat(40), Some("fixture:inventory"))?["observed_success"],
             false
         );
         Ok(())

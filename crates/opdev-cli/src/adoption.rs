@@ -16,6 +16,8 @@ use crate::{
     OutputFormat, apply_local_ci, apply_remote_audit, load_project, print_human_report, views,
 };
 
+mod coordinator;
+
 #[derive(Debug, Args)]
 pub(super) struct AdoptionArgs {
     #[command(subcommand)]
@@ -24,6 +26,14 @@ pub(super) struct AdoptionArgs {
 
 #[derive(Debug, Subcommand)]
 enum AdoptionCommand {
+    /// Derive prerequisites and next actions from current authorities; no commands, writes or consent.
+    Next {
+        #[arg(long, default_value = ".")]
+        root: PathBuf,
+        /// Include current read-only provider policy observations, not remote qualification.
+        #[arg(long)]
+        remote: bool,
+    },
     /// Print the exact choices and contract identifier for developer review; writes nothing.
     Plan {
         #[arg(long, default_value = ".")]
@@ -60,6 +70,12 @@ enum AdoptionCommand {
     PrepareEvidence {
         #[arg(long, default_value = ".")]
         root: PathBuf,
+        /// Produce a complete bootstrap input with unresolved catalog and safeguard review slots.
+        #[arg(long)]
+        complete: bool,
+        /// Exact reviewed target commit, required for the selected requirements policy.
+        #[arg(long, requires = "complete")]
+        base: Option<String>,
     },
     /// Inspect the versioned, tool-neutral practice catalog.
     Catalog {
@@ -89,6 +105,9 @@ enum AdoptionCommand {
     },
     /// Verify all decisions, fresh reviewed evidence, executable checks and all core gates.
     Check {
+        /// Resolve the exact native CI review selection using the built-in job identity.
+        #[arg(long, conflicts_with_all = ["review_locator", "review_acceptance_sha256"])]
+        review_ci: bool,
         /// Inspect all required inputs without running suites or claiming completed adoption.
         #[arg(long, conflicts_with = "report")]
         preflight: bool,
@@ -116,6 +135,16 @@ enum AdoptionCommand {
 
 pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
     match &args.command {
+        AdoptionCommand::Next { root, remote } => {
+            let discovery = opdev_project::discover(root)?;
+            let record = AdoptionRecord::load(&discovery.root)?;
+            let mut observed =
+                coordinator::inspect(&discovery.root, &discovery.manifest, record.as_ref())?;
+            observed["remote_observation"] =
+                serde_json::to_value(policy_worksheet(&discovery.manifest, *remote)?)?;
+            observed["remote_qualification"] = serde_json::json!("not_run");
+            println!("{}", serde_json::to_string_pretty(&observed)?);
+        }
         AdoptionCommand::Plan { root, remote } => plan(root, *remote)?,
         AdoptionCommand::Approve {
             root,
@@ -137,7 +166,24 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             write,
             catalog_version,
         } => migrate(root, *write, *catalog_version)?,
-        AdoptionCommand::PrepareEvidence { root } => prepare_evidence(root)?,
+        AdoptionCommand::PrepareEvidence {
+            root,
+            complete,
+            base,
+        } => {
+            if *complete {
+                crate::bootstrap_evidence(&crate::EvidenceBootstrapArgs {
+                    adoption: true,
+                    base: base.clone(),
+                    root: root.clone(),
+                    output: None,
+                    answers: None,
+                    write: false,
+                })?;
+            } else {
+                prepare_evidence(root)?;
+            }
+        }
         AdoptionCommand::Catalog {
             root,
             catalog_version,
@@ -149,6 +195,7 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             remote,
         } => status(root, *format, *remote)?,
         AdoptionCommand::Check {
+            review_ci,
             preflight,
             legacy_assessment,
             review_locator,
@@ -166,6 +213,8 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                 review_locator.as_ref(),
                 review_acceptance_sha256.as_deref(),
                 CheckMode {
+                    remote: *remote,
+                    review_ci: *review_ci,
                     legacy_assessment: *legacy_assessment,
                     preflight: *preflight,
                 },
@@ -329,6 +378,7 @@ fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
             "schema": 1, "plan_id": record.as_ref().map(|r| r.plan_id(&manifest)).transpose()?, "record": record,
             "target": opdev_project::clean_adoption::target_name(&manifest),
             "starting_state": if configured {"configured_project"} else {"uninitialized_project"},
+            "policy_selection": policy_selection(configured),
             "required_migrations": target_gaps,
             "required_practices": adoption_catalog_version(project_adoption_catalog(&manifest).max(2))?,
             "discovery_warnings": discovery.warnings,
@@ -340,6 +390,18 @@ fn plan(root: &std::path::Path, remote: bool) -> Result<()> {
         }))?
     );
     Ok(())
+}
+
+pub(super) fn policy_selection(configured: bool) -> serde_json::Value {
+    serde_json::json!({
+        "status": if configured {"selected_by_existing_contract"} else {"unselected_discovery_proposal"},
+        "supported_current_targets":[
+            {"engineering_policy":"2","target":"clean-3","project_schema":4,"safeguards":1,"adoption_inventory":2},
+            {"engineering_policy":"3","target":"clean-4","project_schema":4,"safeguards":2,"adoption_inventory":3}
+        ],
+        "initialization":"Use init --project FILE with the actual reviewed contract. The older --engineering-policy shorthand accepts only policies 1/2; it does not limit the policies accepted by --project.",
+        "meaning":"The target field describes this discovered or selected contract, not the runtime's maximum capability. Discovery is not a policy choice, approval or a reason to downgrade or install another runtime. Existing policy changes require reviewed migration."
+    })
 }
 
 fn policy_worksheet(
@@ -436,6 +498,127 @@ fn prepare_evidence(root: &std::path::Path) -> Result<()> {
     Ok(())
 }
 
+pub(super) fn complete_review_candidates(
+    manifest: &opdev_project::ProjectManifest,
+    project: &mut Vec<String>,
+    change: &mut Vec<String>,
+) {
+    for id in ["OPDEV-WORK-001", "OPDEV-TEST-002"] {
+        if !change.iter().any(|v| v == id) {
+            change.push(id.into());
+        }
+    }
+    // Current-policy qualification requires an exact-change decision even for
+    // justified non-applicability. A durable project assertion cannot supply it.
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|policy| matches!(policy.version.as_str(), "2" | "3"))
+    {
+        for id in [
+            "OPDEV-FLOW-001",
+            "OPDEV-DELIVERY-001",
+            "OPDEV-PIPELINE-001",
+            "OPDEV-RECOVERY-001",
+            "MCD-ARTIFACT-001",
+            "MCD-ARTIFACT-002",
+            "MCD-ENV-001",
+            "MCD-CONFIG-002",
+        ] {
+            project.retain(|candidate| candidate != id);
+            if !change.iter().any(|candidate| candidate == id) {
+                change.push(id.into());
+            }
+        }
+    }
+    let rule = delivery_rule(manifest);
+    let destination = if rule == "OPDEV-PIPELINE-001" {
+        change
+    } else {
+        project
+    };
+    if !destination.iter().any(|v| v == rule) {
+        destination.push(rule.into());
+    }
+}
+
+pub(super) fn complete_review_template(
+    root: &std::path::Path,
+    manifest: &opdev_project::ProjectManifest,
+    mut questionnaire: opdev_project::EvidenceBootstrap,
+    base: Option<&str>,
+) -> Result<serde_json::Value> {
+    use serde_json::json;
+    opdev_project::AdoptionRecord::load(root)?
+        .context("Start the reviewed adoption assessment before preparing its review")?;
+    for kind in ["adoption_review", "adoption_cleanup_review"] {
+        questionnaire.change.evidence.push(opdev_core::Evidence {
+            kind: kind.into(),
+            summary: String::new(),
+            location: Some(ADOPTION_PATH.into()),
+        });
+    }
+    let evidence = opdev_core::Evidence {
+        kind: "delivery_gate".into(),
+        summary: String::new(),
+        location: None,
+    };
+    if delivery_rule(manifest) == "OPDEV-PIPELINE-001" {
+        questionnaire.change.evidence.push(evidence);
+    } else {
+        questionnaire.project.evidence.push(evidence);
+    }
+    let mut value = serde_json::to_value(questionnaire)?;
+    if manifest.assurance.requirements.is_some() {
+        let base = base.context("Complete adoption preparation needs --base with the provider-observed target commit; no baseline was guessed")?;
+        anyhow::ensure!(
+            matches!(base.len(), 40 | 64)
+                && base
+                    .bytes()
+                    .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+            "Use the full target commit, not a moving branch name"
+        );
+        value["change"]["acceptance"]["requirements"] = json!({
+            "catalog_sha256":opdev_project::requirements::load_index(root)?.digest()?,
+            "baseline_commit":base,
+            "baseline_catalog_sha256":opdev_project::requirements::load_revision(root, base)?.digest()?,
+            "rationale":"", "decision_reference":"", "manual_observations":[],
+        });
+    }
+    if let Some(policy) = &manifest.assurance.safeguards {
+        let mut impacts = serde_json::Map::new();
+        let mut objectives = serde_json::Map::new();
+        for capability in opdev_project::Capability::for_version(policy.version) {
+            if !policy
+                .capabilities
+                .get(capability)
+                .is_some_and(|fact| fact.state == opdev_project::CapabilityState::Absent)
+            {
+                let name = serde_json::to_value(capability)?
+                    .as_str()
+                    .context("capability")?
+                    .to_owned();
+                // Null is an unresolved question, not an invented impact selection.
+                impacts.insert(name, json!({"impact":null,"rationale":""}));
+                for objective in capability.objectives_for_version(policy.version) {
+                    let name = serde_json::to_value(objective)?
+                        .as_str()
+                        .context("objective")?
+                        .to_owned();
+                    objectives.insert(name, json!([]));
+                }
+            }
+        }
+        value["change"]["acceptance"]["safeguards"] =
+            json!({"version":policy.version,"impacts":impacts,"objectives":objectives});
+    }
+    eprintln!(
+        "Complete unresolved adoption questionnaire. Resolve null impacts and actual objective mappings; remove objectives only after reviewing them as unaffected. Fill the real review summaries, conditions and tests. Use evidence bootstrap --adoption --answers after review. No checks, approval or writes occurred."
+    );
+    Ok(value)
+}
+
 fn replace_record(root: &std::path::Path, before: &[u8], record: &AdoptionRecord) -> Result<()> {
     use std::io::Write;
     let path = root.join(ADOPTION_PATH);
@@ -473,11 +656,36 @@ fn adoption_core_report(
 }
 
 #[derive(Clone, Copy)]
+#[allow(clippy::struct_excessive_bools)] // Independent CLI controls; not persisted workflow state or permission.
 struct CheckMode {
+    remote: bool,
+    review_ci: bool,
     legacy_assessment: bool,
     preflight: bool,
 }
 
+struct Findings<'a> {
+    messages: &'a [String],
+    decision_end: usize,
+    input_end: usize,
+}
+
+impl Findings<'_> {
+    fn structured(&self) -> Vec<serde_json::Value> {
+        self.messages.iter().enumerate().map(|(index, message)| {
+            let (code, next_action) = if index < self.decision_end {
+                ("adoption.prerequisites", "Inspect adoption next and resolve the current policy, decision, cleanup or source prerequisite. Do not run checks yet.")
+            } else if index < self.input_end {
+                ("adoption.review_inputs", "Resolve the named field in the current complete review input, select its exact review identity, then repeat preflight. Do not invent a passing assertion.")
+            } else {
+                ("adoption.verification", "Inspect the current check report and failed boundary. Correct the cause and verify again; no saved report can replace execution.")
+            };
+            serde_json::json!({"code":code,"message":message,"next_action":next_action})
+        }).collect()
+    }
+}
+
+#[allow(clippy::too_many_lines)] // Keep prerequisite, review, execution and freshness boundaries in one auditable order.
 fn check(
     root: &std::path::Path,
     remote: bool,
@@ -505,21 +713,26 @@ fn check(
             None
         }
     };
+    let decision_end = blockers.len();
     let review_deferred = !blockers.is_empty()
         && manifest.assurance.review_storage.is_some()
-        && review_locator.is_some()
-        && review_acceptance_sha256.is_some();
+        && (mode.review_ci || (review_locator.is_some() && review_acceptance_sha256.is_some()));
     // Do not retrieve provider evidence or execute commands for unresolved choices.
-    let review = if blockers.is_empty() {
-        crate::selected_review(
-            review_locator,
-            review_acceptance_sha256,
-            &root,
-            &manifest,
-            opdev_project::TestStage::PreMerge,
-        )?
+    let (review, ci_selection) = if blockers.is_empty() && mode.review_ci {
+        crate::selected_ci_review(&root, &manifest, opdev_project::TestStage::PreMerge)?
+    } else if blockers.is_empty() {
+        (
+            crate::selected_review(
+                review_locator,
+                review_acceptance_sha256,
+                &root,
+                &manifest,
+                opdev_project::TestStage::PreMerge,
+            )?,
+            None,
+        )
     } else {
-        None
+        (None, None)
     };
     let ledger = adoption_ledger(
         &root,
@@ -547,6 +760,7 @@ fn check(
     {
         blockers.push("Adoption inputs changed during inspection; inspect the current source and selected review before retrying. No project checks ran.".into());
     }
+    let input_end = blockers.len();
     // Never run project commands until decisions and their explicit review are ready.
     let core_report = if blockers.is_empty() && !mode.preflight {
         let (report, verification_gaps) = verify_core(
@@ -565,13 +779,20 @@ fn check(
     } else {
         None
     };
+    if let Some(selection) = ci_selection {
+        selection.recheck().map_err(anyhow::Error::msg)?;
+    }
     let passed = blockers.is_empty();
     present_adoption(
         format,
         passed,
         mode,
         fingerprint.as_deref(),
-        &blockers,
+        &Findings {
+            messages: &blockers,
+            decision_end,
+            input_end,
+        },
         core_report.as_ref(),
         opdev_project::clean_adoption::target_name(&manifest),
     )?;
@@ -687,22 +908,28 @@ fn present_adoption(
     passed: bool,
     mode: CheckMode,
     fingerprint: Option<&str>,
-    blockers: &[String],
+    findings: &Findings<'_>,
     core_report: Option<&opdev_engine::CheckReport>,
     target: &str,
 ) -> Result<()> {
-    let complete = passed && !mode.legacy_assessment && !mode.preflight;
+    let blockers = findings.messages;
+    let controls_verified = passed && !mode.legacy_assessment && !mode.preflight;
+    let integration_qualified =
+        mode.remote && core_report.is_some_and(|report| integrated_qualification(&report.rules));
+    let complete = controls_verified && integration_qualified;
     if matches!(format, OutputFormat::Json) {
         println!(
             "{}",
             serde_json::to_string_pretty(&serde_json::json!({
                 "schema":1,"complete":complete,"target":target,
+                "controls_verified":controls_verified,
+                "integration_qualified":integration_qualified,
                 "legacy_policy_passed":(mode.legacy_assessment && !mode.preflight).then_some(passed),
                 "inputs_ready": mode.preflight.then_some(passed),
                 "qualification_scope": "project_adoption",
                 "artifact_delivery": "not_evaluated",
                 "checks_ran": core_report.is_some(),
-                "fingerprint":fingerprint,"blockers":blockers,"core_report":core_report
+                "fingerprint":fingerprint,"blockers":blockers,"diagnostics":findings.structured(),"core_report":core_report
             }))?
         );
     } else {
@@ -721,12 +948,14 @@ fn present_adoption(
             );
         } else {
             println!(
-                "Qualification scope: project adoption and current controls. Artifact delivery was not evaluated; no release is authorized."
+                "Qualification scope: current adoption controls and any explicitly requested integrated CI observation. Artifact delivery was not evaluated; no release is authorized."
             );
             println!(
                 "Adoption: {}",
                 if complete {
                     "passed for the evaluated staged state"
+                } else if controls_verified {
+                    "local controls verified; integrated CI not yet qualified. Reconcile current trunk with ci qualify before reporting adoption complete. Do not rerun suites merely to refresh remote status"
                 } else {
                     "incomplete"
                 }
@@ -737,6 +966,18 @@ fn present_adoption(
         }
     }
     Ok(())
+}
+
+fn integrated_qualification(rules: &[opdev_core::RuleResult]) -> bool {
+    rules.iter().any(|rule| {
+        rule.rule_id.as_str() == "MCD-CI-001"
+            && rule.outcome == Outcome::Passed
+            && rule.verifier == opdev_core::VerificationSource::Remote
+            && rule
+                .evidence
+                .iter()
+                .any(|e| e.kind == "remote_ci_qualification")
+    })
 }
 
 fn delivery_input_blockers(
@@ -969,6 +1210,48 @@ fn review_blockers(
 #[cfg(test)]
 mod scope_tests {
     use super::*;
+    #[test]
+    fn local_or_attributed_ci_success_cannot_claim_integrated_adoption() -> Result<()> {
+        use opdev_core::{Evidence, RuleResult, VerificationSource};
+        let mut rule = RuleResult {
+            rule_id: "MCD-CI-001".parse()?,
+            catalog_version: 2,
+            outcome: Outcome::Passed,
+            subject: "synthetic exact revision".into(),
+            verifier: VerificationSource::Remote,
+            evaluated_at: 0,
+            evidence: vec![Evidence {
+                kind: "remote_ci_qualification".into(),
+                summary: "synthetic observed run".into(),
+                location: None,
+            }],
+            diagnostic: None,
+        };
+        assert!(integrated_qualification(&[rule.clone()]));
+        assert!(!integrated_qualification(&[]));
+        for source in [
+            VerificationSource::Ci,
+            VerificationSource::Evidence,
+            VerificationSource::Agent,
+        ] {
+            rule.verifier = source;
+            assert!(!integrated_qualification(&[rule.clone()]));
+        }
+        rule.verifier = VerificationSource::Remote;
+        for outcome in [
+            Outcome::Unverified,
+            Outcome::Failed,
+            Outcome::Error,
+            Outcome::NotApplicable,
+        ] {
+            rule.outcome = outcome;
+            assert!(!integrated_qualification(&[rule.clone()]));
+        }
+        rule.outcome = Outcome::Passed;
+        rule.evidence.clear();
+        assert!(!integrated_qualification(&[rule]));
+        Ok(())
+    }
     #[test]
     fn adoption_scope_preserves_delivery_gaps_and_rejects_other_blockers() -> Result<()> {
         let temp = tempfile::tempdir()?;

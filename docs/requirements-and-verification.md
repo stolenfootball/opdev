@@ -12,6 +12,14 @@ does **not** select these policies or migrate your project.
 
 ## What belongs where
 
+Inspection reads the actual staged files without changing Git's index or object
+store. It does not fetch missing objects or repair Git permissions. An unresolved
+merge or missing staged blob blocks inspection; resolve it through your normal
+authorized Git workflow, then inspect again. The reported tree ID is compatible
+with Git, but inspection alone does not create that tree object.
+Partial clones need Git's `--no-lazy-fetch` support; older Git is still supported
+for complete repositories. An inspection failure never installs or upgrades Git.
+
 | Information | Home |
 | --- | --- |
 | Supported product guarantees, criteria, verification plans | `.opdev/requirements/<capability>.json` |

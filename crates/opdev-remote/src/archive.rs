@@ -8,7 +8,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 
-use super::{CiProvider, encode, first_env, github_request, gitlab_credential, gitlab_request};
+use super::{
+    CiProvider, encode, github_credential, github_request, gitlab_credential, gitlab_request,
+};
 
 const META_LIMIT: u64 = 1024 * 1024;
 const BLOB_LIMIT: u64 = 8 * 1024 * 1024;
@@ -111,7 +113,7 @@ pub(crate) fn authenticated_reads<T>(
         .build()
         .map_err(|_| "Could not initialize archive retrieval")?;
     let github = (provider == CiProvider::Github)
-        .then(|| first_env(&["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"]))
+        .then(github_credential)
         .flatten();
     let gitlab = (provider == CiProvider::Gitlab)
         .then(gitlab_credential)

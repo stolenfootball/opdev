@@ -11,7 +11,7 @@ use super::jobs::{collect_pages, job_outcome, reconcile_jobs, validate_required}
 use super::run::read_response;
 use super::{
     CiProvider, Client, Duration, JobObservation, JobVerification, Outcome, ProjectManifest,
-    RemoteError, RunExpectation, RunVerification, encode, first_env, github_request,
+    RemoteError, RunExpectation, RunVerification, encode, github_credential, github_request,
     gitlab_credential, gitlab_request, verify_run,
 };
 
@@ -126,9 +126,7 @@ fn collect_snapshot(
 ) -> Result<ProducerSnapshot, String> {
     let client = producer_client()?;
     let github = initial.provider == CiProvider::Github;
-    let token = github
-        .then(|| first_env(&["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"]))
-        .flatten();
+    let token = github.then(github_credential).flatten();
     let credential = (!github).then(gitlab_credential).flatten();
     let (base, inventory_url) = producer_urls(initial)?;
     let started = Instant::now();

@@ -89,7 +89,8 @@ pub enum RemoteError {
 /// provider API requests.
 ///
 /// Authentication is optional. GitHub reads `OPDEV_GITHUB_TOKEN`,
-/// `GITHUB_TOKEN`, then `GH_TOKEN`. GitLab uses the credential precedence
+/// `GITHUB_TOKEN`, then `GH_TOKEN`, or the existing local `gh` login. Actions
+/// exclusively uses its built-in token. GitLab uses the credential precedence
 /// documented in `spec/remote-audits.md`, including an authenticated `glab`
 /// fallback. Tokens are never included in evidence or diagnostics.
 ///
@@ -195,7 +196,7 @@ struct GithubRun {
 fn audit_github(client: &Client, repository: &Repository, trunk: &str) -> RemoteAudit {
     let slug = repository.slug();
     let base = format!("https://api.github.com/repos/{slug}");
-    let token = first_env(&["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"]);
+    let token = github_credential();
     let project =
         get_json::<GithubRepository>(github_request(client.get(&base), token.as_deref()), &base);
     let Ok(project) = project else {
@@ -369,6 +370,48 @@ fn github_request(request: RequestBuilder, token: Option<&str>) -> RequestBuilde
     } else {
         request
     }
+}
+
+fn github_credential() -> Option<String> {
+    github_credential_with(
+        |name| env::var(name).ok(),
+        || {
+            let output = Command::new("gh")
+                .args(["auth", "token", "--hostname", "github.com"])
+                .stdin(Stdio::null())
+                .stderr(Stdio::null())
+                .output()
+                .ok()?;
+            if !output.status.success() {
+                return None;
+            }
+            let value = String::from_utf8(output.stdout).ok()?;
+            (!value.trim().is_empty()).then(|| value.trim().to_owned())
+        },
+    )
+}
+
+fn github_credential_with(
+    mut environment: impl FnMut(&str) -> Option<String>,
+    local: impl FnOnce() -> Option<String>,
+) -> Option<String> {
+    if environment("GITHUB_ACTIONS").as_deref() == Some("true") {
+        // CI must never substitute a personal login or broader local token.
+        return environment("GITHUB_TOKEN").filter(|value| !value.trim().is_empty());
+    }
+    for name in ["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"] {
+        if let Some(value) = environment(name).filter(|value| !value.trim().is_empty()) {
+            return Some(value);
+        }
+    }
+    if ["CI", "GITLAB_CI"]
+        .iter()
+        .any(|name| environment(name).is_some_and(|value| !value.is_empty() && value != "false"))
+    {
+        return None;
+    }
+    // No interactive authentication or persisted credential mutation.
+    local()
 }
 
 fn gitlab_request(
@@ -570,12 +613,6 @@ fn unverified_audit(repository: &str, diagnostic: Option<&str>) -> RemoteAudit {
     }
 }
 
-fn first_env(names: &[&str]) -> Option<String> {
-    names
-        .iter()
-        .find_map(|name| env::var(name).ok().filter(|value| !value.trim().is_empty()))
-}
-
 fn encode(value: &str) -> String {
     url::form_urlencoded::byte_serialize(value.as_bytes()).collect()
 }
@@ -637,6 +674,61 @@ mod tests {
             pipeline_capability("completed", Some("failure"), "run").outcome,
             Outcome::Failed
         );
+    }
+
+    #[test]
+    fn github_local_login_is_optional_and_never_substituted_for_ci_identity() {
+        use std::cell::Cell;
+        let called = Cell::new(false);
+        for job_token in [None, Some("job"), Some(" ")] {
+            let selected = github_credential_with(
+                |name| match name {
+                    "GITHUB_ACTIONS" => Some("true".into()),
+                    "GITHUB_TOKEN" => job_token.map(str::to_owned),
+                    "OPDEV_GITHUB_TOKEN" | "GH_TOKEN" => Some("personal".into()),
+                    _ => None,
+                },
+                || {
+                    called.set(true);
+                    Some("local".into())
+                },
+            );
+            assert_eq!(
+                selected.as_deref(),
+                job_token.filter(|v| !v.trim().is_empty())
+            );
+            assert!(!called.get());
+        }
+        let names = ["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"];
+        for flag in ["CI", "GITLAB_CI"] {
+            assert!(
+                github_credential_with(
+                    |name| (name == flag).then(|| "true".into()),
+                    || {
+                        called.set(true);
+                        Some("local".into())
+                    },
+                )
+                .is_none()
+            );
+            assert!(!called.get());
+        }
+        for first in 0..names.len() {
+            let selected = github_credential_with(
+                |name| names[first..].contains(&name).then(|| name.to_owned()),
+                || {
+                    called.set(true);
+                    Some("local".into())
+                },
+            );
+            assert_eq!(selected.as_deref(), Some(names[first]));
+            assert!(!called.get());
+        }
+        assert_eq!(
+            github_credential_with(|_| None, || Some("local".into())).as_deref(),
+            Some("local")
+        );
+        assert!(github_credential_with(|_| None, || None).is_none());
     }
 
     #[test]

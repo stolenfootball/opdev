@@ -6,6 +6,15 @@ others passed. This applies to both Codex and Claude Code and all software stack
 
 ## Consumer flow
 
+`upgrade --request-schema` emits the running CLI's migration-request JSON Schema
+as a self-contained compound document with its referenced definitions. It works
+outside a repository, reads no project or provider state, and never writes or
+selects policy. It conflicts with migration/apply/resume modes. The maintained
+schema files remain the source; resource IDs are identifiers, not fetch requests.
+Schema validity establishes structure only: native preview still enforces semantic
+constraints, current source state and reviewed migration decisions. The schema
+itself is not a migration request, approval or completed adoption.
+
 The shared agent's [upgrade procedure](../plugins/opdev/skills/opdev/references/upgrades.md)
 coordinates inspection, explanation, preview, approved application and verification.
 Host plugin updates use the host's supported installation path. Runtime updates

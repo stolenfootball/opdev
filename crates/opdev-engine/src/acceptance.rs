@@ -50,6 +50,17 @@ pub fn acceptance_input_gaps(
     } else {
         vec![crate::evaluator::review_diagnostic(manifest, &diagnostic)]
     };
+    if manifest
+        .assurance
+        .engineering
+        .as_ref()
+        .is_some_and(|p| matches!(p.version.as_str(), "2" | "3"))
+    {
+        gaps.extend(crate::delivery_subject::input_gaps(
+            ledger.and_then(|l| fingerprint.and_then(|f| l.matching_change(f))),
+            stage,
+        ));
+    }
     if manifest.assurance.requirements.is_some() {
         match opdev_project::requirements::load_index(root).and_then(|s| s.inspect(root, manifest))
         {

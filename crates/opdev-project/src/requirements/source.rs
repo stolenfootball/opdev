@@ -10,7 +10,7 @@ use std::{
 /// Source snapshot; no writable database or execution verdicts.
 #[derive(Debug, Clone)]
 pub struct CatalogSnapshot {
-    /// Immutable Git tree used for this read.
+    /// Exact Git tree identity; staged inspection does not materialize the object.
     pub tree: String,
     /// Capability-sized documents.
     pub documents: BTreeMap<String, CatalogDocument>,
@@ -18,6 +18,9 @@ pub struct CatalogSnapshot {
 
 fn git(root: &Path, args: &[&str]) -> Result<Vec<u8>> {
     let out = Command::new("git")
+        .env("GIT_NO_LAZY_FETCH", "1")
+        .env("GIT_ALLOW_PROTOCOL", "")
+        .env("GIT_OPTIONAL_LOCKS", "0")
         .arg("-C")
         .arg(root)
         .arg("--no-replace-objects")
@@ -34,14 +37,15 @@ fn git(root: &Path, args: &[&str]) -> Result<Vec<u8>> {
 /// # Errors
 /// Git/index errors, invalid input and exceeded safety limits fail closed.
 pub fn load_index(root: &Path) -> Result<CatalogSnapshot> {
-    let tree = String::from_utf8(git(root, &["write-tree"])?)?;
-    load_tree(root, tree.trim())
+    let snapshot = crate::index_snapshot::IndexSnapshot::read(root)?;
+    load_entries(root, &snapshot.tree, &snapshot.listing(DIRECTORY))
 }
 
 /// Read an explicit baseline without changing checkout state.
 /// # Errors
 /// Unknown revision, invalid input and exceeded safety limits fail closed.
 pub fn load_revision(root: &Path, revision: &str) -> Result<CatalogSnapshot> {
+    crate::index_snapshot::ensure_read_only_objects(root)?;
     ensure!(
         !revision.is_empty()
             && !revision.starts_with('-')
@@ -66,6 +70,10 @@ fn load_tree(root: &Path, tree: &str) -> Result<CatalogSnapshot> {
         "Invalid Git tree identity"
     );
     let entries = git(root, &["ls-tree", "-r", "-z", tree, "--", DIRECTORY])?;
+    load_entries(root, tree, &entries)
+}
+
+fn load_entries(root: &Path, tree: &str, entries: &[u8]) -> Result<CatalogSnapshot> {
     ensure!(
         entries.len() <= 2 * 1024 * 1024,
         "Requirements path inventory exceeds 2 MiB"
