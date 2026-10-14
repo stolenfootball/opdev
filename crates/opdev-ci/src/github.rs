@@ -43,8 +43,8 @@ pub(crate) fn inspect(root: &Path, trunk: &str) -> CiInspection {
         Ok(documents) => documents,
         Err(problem) => return all(problem),
     };
-    let pre = stage(&documents, trunk, false);
-    let post = stage(&documents, trunk, true);
+    let pre = stage(&documents, trunk, false, None);
+    let post = stage(&documents, trunk, true, None);
     let integrity = match (&pre, &post) {
         (Ok(a), Ok(b)) => passed(
             &root.join(DIRECTORY),
@@ -272,7 +272,26 @@ fn hint(job: &Value) -> bool {
         })
 }
 
-fn stage(documents: &BTreeMap<String, Value>, trunk: &str, post: bool) -> Result<String> {
+pub(crate) fn review_handoff(root: &Path, trunk: &str, storage: u32) -> Capability {
+    let result = read(root).and_then(|documents| {
+        stage(&documents, trunk, false, Some(storage))?;
+        stage(&documents, trunk, true, Some(storage))
+    });
+    match result {
+        Ok(_) => passed(
+            &root.join(DIRECTORY),
+            "Selected review inputs are wired to both stage invocations; live token access, review identity and execution remain unverified",
+        ),
+        Err(problem) => capability(problem),
+    }
+}
+
+fn stage(
+    documents: &BTreeMap<String, Value>,
+    trunk: &str,
+    post: bool,
+    storage: Option<u32>,
+) -> Result<String> {
     let mut gates = vec![];
     let mut visits = 0;
     for (path, workflow) in documents {
@@ -283,7 +302,15 @@ fn stage(documents: &BTreeMap<String, Value>, trunk: &str, post: bool) -> Result
             continue;
         }
         if admitted(workflow, trunk, post)? {
-            visit(documents, path, post, &mut vec![], &mut gates, &mut visits)?;
+            visit(
+                documents,
+                path,
+                post,
+                storage,
+                &mut vec![],
+                &mut gates,
+                &mut visits,
+            )?;
         }
     }
     match gates.as_slice() {
@@ -302,6 +329,7 @@ fn visit(
     documents: &BTreeMap<String, Value>,
     path: &str,
     post: bool,
+    storage: Option<u32>,
     stack: &mut Vec<String>,
     gates: &mut Vec<String>,
     visits: &mut usize,
@@ -363,8 +391,8 @@ fn visit(
                     "Referenced workflow does not declare workflow_call",
                 ));
             }
-            visit(documents, target, post, stack, gates, visits)?;
-        } else if job_gate(workflow, job, post)? {
+            visit(documents, target, post, storage, stack, gates, visits)?;
+        } else if job_gate(workflow, job, post, storage)? {
             gates.push(format!("{path}#jobs.{name}"));
         }
     }
@@ -554,6 +582,67 @@ pub(crate) fn gate(script: &str, post: bool) -> Result<Option<String>> {
     ))
 }
 
+pub(crate) fn review_gate(script: &str, post: bool, storage: u32) -> Result<Option<String>> {
+    let executable = gate(script, post)?;
+    if executable.is_none() {
+        return Ok(None);
+    }
+    let active = lines(script);
+    if active.len() != 1 {
+        return Err(unknown(
+            "The selected review is not wired through a supported direct gate invocation. Inspect the wrapper; use ci verify or check with its actual review inputs. No checks ran",
+        ));
+    }
+    let command = active[0].strip_prefix("& ").unwrap_or(active[0]);
+    let args: Vec<_> = command.split_whitespace().collect();
+    if args.get(1..3) == Some(&["ci", "verify"]) {
+        return if storage == 2 {
+            Ok(executable)
+        } else {
+            Err(unknown(
+                "Native CI selection requires MR/PR review storage 2; use the actual selected review locator for the retained storage policy",
+            ))
+        };
+    }
+    let mut native = false;
+    let mut locator = false;
+    let mut acceptance = false;
+    let mut index = 2;
+    while index < args.len() {
+        match args[index] {
+            "--review-ci" => {
+                native = true;
+                index += 1;
+            }
+            "--ci" | "--post-merge" | "--fail-fast" => index += 1,
+            option @ ("--format"
+            | "--report"
+            | "--review-locator"
+            | "--review-acceptance-sha256")
+                if args
+                    .get(index + 1)
+                    .is_some_and(|v| !v.starts_with('-') && !matches!(*v, "\"\"" | "''")) =>
+            {
+                locator |= option == "--review-locator";
+                acceptance |= option == "--review-acceptance-sha256";
+                index += 2;
+            }
+            _ => {
+                return Err(unknown(
+                    "The selected review arguments are incomplete or ambiguous; inspect the actual invocation. No checks ran",
+                ));
+            }
+        }
+    }
+    if (storage == 2 && native && !locator && !acceptance) || (!native && locator && acceptance) {
+        Ok(executable)
+    } else {
+        Err(unknown(
+            "The gate does not receive the selected review: use ci verify, check --ci --review-ci, or both --review-locator and --review-acceptance-sha256 for the actual stage. No checks ran",
+        ))
+    }
+}
+
 fn shell(workflow: &Value, job: &Value, step: &Value) -> Result<()> {
     let setting = step
         .get("shell")
@@ -603,7 +692,7 @@ fn runner(job: &Value) -> Result<()> {
     Ok(())
 }
 
-fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
+fn job_gate(workflow: &Value, job: &Value, post: bool, storage: Option<u32>) -> Result<bool> {
     runner(job)?;
     let steps = job["steps"]
         .as_array()
@@ -674,7 +763,11 @@ fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
             runtimes.push(format!("{prefix}target/{profile}/opdev"));
             runtimes.push(format!("{prefix}target/{profile}/opdev.exe"));
         } else if lines(run).iter().any(|line| is_gate_line(line)) {
-            if let Some(executable) = gate(run, post)? {
+            let executable = match storage {
+                Some(version) => review_gate(run, post, version)?,
+                None => gate(run, post)?,
+            };
+            if let Some(executable) = executable {
                 if !main_checkout || !cwd.is_empty() {
                     return Err(unknown(
                         "Gate checkout does not establish the selected PR head or integrated trunk source at the repository root",

@@ -1082,6 +1082,11 @@ fn ci_command(args: &CiArgs) -> Result<ExitCode> {
 
 fn generate_ci(args: &CiGenerateArgs) -> Result<()> {
     let discovery = discover(&args.root).context("could not inspect the repository")?;
+    if discovery.manifest.assurance.review_storage.is_some() {
+        eprintln!(
+            "This generated baseline does not wire the project's selected review storage. Before using it, connect the actual stage's review through ci verify or check with supported review arguments, and review the job's built-in identity permissions. ci inspect reports review_handoff separately; configuration alone is not a working pipeline."
+        );
+    }
     let provider: CiProvider = args.provider.into();
     let adapter = adapter_for(provider)?;
     let job_image = match (provider, &args.image) {
@@ -1122,6 +1127,10 @@ fn inspect_ci(args: &CiInspectArgs) -> Result<()> {
     print_capability("pre_merge", &inspection.pre_merge);
     print_capability("post_merge", &inspection.post_merge);
     print_capability("integrity", &inspection.integrity);
+    print_capability(
+        "review_handoff",
+        &opdev_ci::inspect_review_handoff(&root, &manifest),
+    );
     Ok(())
 }
 

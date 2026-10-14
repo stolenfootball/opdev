@@ -393,7 +393,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -493,7 +493,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -593,7 +593,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -693,7 +693,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -793,7 +793,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -893,7 +893,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -993,7 +993,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1093,7 +1093,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1193,7 +1193,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1570,9 +1570,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
-        "subject_sha256": "f1f22ef0f6a0ad0a2d48c2763227c21189cd1d4abf58e203e43b17b5b28739b3"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "4ebf7a192039f3dbd6edfc51a5540a5dc4662a3263c7579a149c5c417c811c74"
       }
     },
     {
@@ -1630,9 +1630,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
-        "subject_sha256": "b869b57373886e68a068f422d7a90d7697b164d26f09cac4aa9917d712685782"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "a429af9258c6a42e034d6806f5da7612f1477fabc9edda7299c3f9694f2036c7"
       }
     },
     {
@@ -1690,9 +1690,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
-        "subject_sha256": "9cebf105d564cdeddaa22cbd29675231f68fcef37ebea8aee71d147f187743b7"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "9988a5c3a68ea04b81cae96160beb542fc390dcc68301c23ea008b9c8af4aea2"
       }
     }
   ]

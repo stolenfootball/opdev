@@ -118,6 +118,37 @@ struct GitlabAdapter;
 static GITHUB: GithubAdapter = GithubAdapter;
 static GITLAB: GitlabAdapter = GitlabAdapter;
 
+/// Inspect how the explicitly selected external review reaches both CI stages.
+/// This does not retrieve reviews, test token permissions or execute commands.
+#[must_use]
+pub fn inspect_review_handoff(
+    root: &Path,
+    manifest: &opdev_project::ProjectManifest,
+) -> Capability {
+    let Some(storage) = &manifest.assurance.review_storage else {
+        return Capability {
+            outcome: Outcome::NotApplicable,
+            evidence: vec![],
+            diagnostic: Some(
+                "No external review storage is selected; legacy review behavior is unchanged"
+                    .into(),
+            ),
+        };
+    };
+    match manifest.project.ci.provider {
+        CiProvider::Github => github::review_handoff(root, &manifest.project.trunk, storage.version),
+        CiProvider::Gitlab => {
+            let parsed = gitlab::read_local(root, ".gitlab-ci.yml")
+                .and_then(|source| gitlab::resolve(&source, |relative| gitlab::read_local(root, relative)));
+            match parsed {
+                Ok(value) => native_gitlab::review_handoff(&root.join(".gitlab-ci.yml"), &value, storage.version),
+                Err(problem) => Capability { outcome: problem.outcome, evidence: vec![], diagnostic: Some(problem.diagnostic) },
+            }
+        }
+        _ => Capability { outcome: Outcome::Unverified, evidence: vec![], diagnostic: Some("The selected review provider has no supported handoff inspector; inspect its actual consumer path. No checks ran".into()) },
+    }
+}
+
 /// Returns the first-class adapter for a provider.
 ///
 /// # Errors

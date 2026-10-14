@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -550,7 +550,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -665,7 +665,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -780,7 +780,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -895,7 +895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1010,7 +1010,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1125,7 +1125,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1240,7 +1240,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1400,7 +1400,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1560,7 +1560,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1720,7 +1720,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1880,7 +1880,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2040,7 +2040,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2360,7 +2360,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2520,7 +2520,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2680,7 +2680,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2840,7 +2840,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2995,7 +2995,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3155,7 +3155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3340,7 +3340,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3525,7 +3525,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3710,7 +3710,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3895,7 +3895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4080,7 +4080,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4265,7 +4265,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4450,7 +4450,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4635,7 +4635,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4820,7 +4820,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5005,7 +5005,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5190,7 +5190,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5375,7 +5375,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5565,7 +5565,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
+          "sha256": "89e3e7de3a43b0b84261b9cfc0f5ee1ad2b98df799c96c5a193ec9d29664e041",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5617,9 +5617,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees.",
-        "subject_sha256": "8770eae28859dcb93dee88536f18f30ec6e505f9d198911ed7e77baf6b38984f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "36bf89084fabcc35136de77c6d794af308135103e8e1b0b58cab0e6bb75832f4"
       }
     },
     {
@@ -5657,9 +5657,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees.",
-        "subject_sha256": "6019bc08c9ae3f6813eab401871ff3be6d08a0fae0c29f0e93ec4c486d1ca6f0"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "540f16fa4aed6aa6d4a40be910bb5162a432ea09d688449bb2b17b6b4bdfe2d5"
       }
     },
     {
@@ -5697,9 +5697,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees.",
-        "subject_sha256": "2d62cab96b79f871431ad250f732640ae1c91e376205d1edc198449dd7b0b102"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "d2c0edbaffb653b40abc03569f3fc4831ace2ac2be66f8a22e76b45a3aeb0a25"
       }
     },
     {
@@ -5747,9 +5747,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
-        "subject_sha256": "f5111e8c26d5b5ac9dad0f6787ec650b83e3702aa3c800746ffa8a24aede57ac"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "5adfc08247245dd541e4783e99b252d85a3ac7751b3d97c0c52b307637d15907"
       }
     },
     {
@@ -5797,9 +5797,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
-        "subject_sha256": "b4cb56510068256ca4eb70fbe2623e97a304536a26346655f7f038ff0007a1a5"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "e987903df85d32a8bc4d79c2d4e816ce0008798d3d83b8af7344a37b7beb0d36"
       }
     },
     {
@@ -5847,9 +5847,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
-        "subject_sha256": "42a79ee4c5d703c6b12c3069d17cf663a9d5fd40aac40d8d7e27fd4cd00ff035"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "87e9cbcb6b0a7a766b1e7fdeb1d4de760424060cdeb36ddefdc11dc7715d1fcb"
       }
     },
     {
@@ -5922,9 +5922,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
-        "subject_sha256": "258fb1cb9b49531397ad1e720e4d52372fa148d83b63ac07ca208ddab7e34a6e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "477ebda4036a20b405e4be60d2e0ad5c088d781be0dcddab7332d91fd0a2bbb0"
       }
     },
     {
@@ -5997,9 +5997,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
-        "subject_sha256": "903fa1b37821c057a77f7e74a61ae7de0e5ab1b97cdd804f80123c11b9a3927b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "08ac677b39925e473f281471cc3dcef28ff928aadef5e592e54b06fe4e97149f"
       }
     },
     {
@@ -6072,9 +6072,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
-        "subject_sha256": "9330a729dbcfbfb0e2e7f43262ad93491f4bd7dace073c2443bff603641c68c6"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "e719d1c78deb9aeae3993242a3e4bb21f0b7e6ec8ea69dba89fe7d5ca7946505"
       }
     },
     {
@@ -6152,9 +6152,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
-        "subject_sha256": "9d0fc711154b0c97d5fc7763da4e98c1e3a42fe33dbcf06da9d579026d41d038"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "6bcdedac0076595ca6363f68b6d0e8e5202563d457ae142c9f412eb184b3a71f"
       }
     },
     {
@@ -6232,9 +6232,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
-        "subject_sha256": "84fdc3c0eda18de7a6d8868a69a36b1e18ce6ecb9f1219fda2bca8942772f2de"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "f7a2bb855a30e55b5c8c67bc2f840fd888e5a7925db713fde7dde6cd254f5d60"
       }
     },
     {
@@ -6312,9 +6312,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
-        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
-        "subject_sha256": "2cfb6185c2a09749d17e165bd3bef46d23b81a028a632d7092b7608ec26a1553"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/121#note_4009370441",
+        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion.",
+        "subject_sha256": "642ab5c9ee9e54d532b0fded0651505098424bd9ab6122873c974fcb1c40d9f6"
       }
     }
   ]

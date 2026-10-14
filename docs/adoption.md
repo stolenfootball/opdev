@@ -98,6 +98,17 @@ unverified until their effective setup is reviewed. Do not rewrite a product's
 toolchain or pipeline merely to fit a recognized example. Static recognition is
 not proof that the selected runtime has the required capabilities or ran in CI.
 
+`ci inspect` reports `review_handoff` separately from structural gate presence.
+When external review storage is selected, a bare `check --ci` does not establish
+this handoff. Both stages need a supported actual review invocation; comments,
+one half of a locator/acceptance pair, preflight-only commands and wrong-stage
+commands do not qualify it. Unsupported wrappers stay unverified, not automatically
+rewritten. The finding checks configured argument routing only: it does not prove
+token permissions, current review validity, runtime capability parity or execution.
+Inspection exit 0 means the inspection completed, not that its findings passed.
+The generic generated CI baseline still needs this project-specific connection;
+generation warns about that gap and never grants additional token permissions.
+
 ## Source head, integrated source and artifact are different identities
 
 The discussion locator's `source_commit` always identifies the provider's MR/PR

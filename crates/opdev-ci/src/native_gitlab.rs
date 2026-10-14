@@ -140,6 +140,36 @@ fn gap(message: &str) -> Capability {
 }
 
 fn gates(value: &Value, post: bool) -> Result<usize, &'static str> {
+    gates_with_review(value, post, None)
+}
+
+pub(crate) fn review_handoff(path: &Path, value: &Value, storage: u32) -> Capability {
+    for post in [false, true] {
+        match gates_with_review(value, post, Some(storage)) {
+            Ok(1) => {}
+            Ok(_) => {
+                return gap(
+                    "The selected review needs exactly one supported required invocation per stage; inspect the missing or duplicate handoff. No checks ran",
+                );
+            }
+            Err(message) => {
+                return gap(&format!(
+                    "The selected review handoff is unverified: {message}. No checks ran"
+                ));
+            }
+        }
+    }
+    passed(
+        path,
+        "Selected review inputs are wired to both stage invocations; live token access, review identity and execution remain unverified",
+    )
+}
+
+fn gates_with_review(
+    value: &Value,
+    post: bool,
+    storage: Option<u32>,
+) -> Result<usize, &'static str> {
     let jobs = value.as_object().ok_or("CI jobs must be a mapping")?;
     if value.get("workflow").is_some() || value["default"].get("allow_failure").is_some() {
         return Err(
@@ -159,10 +189,12 @@ fn gates(value: &Value, post: bool) -> Result<usize, &'static str> {
         let Some(scripts) = job["script"].as_array() else {
             continue;
         };
-        if !scripts
-            .iter()
-            .any(|s| s.as_str().is_some_and(|s| s.contains("ci verify")))
-        {
+        if !scripts.iter().any(|s| {
+            s.as_str().is_some_and(|s| {
+                s.contains("ci verify")
+                    || (storage.is_some() && s.contains("opdev") && s.contains("check"))
+            })
+        }) {
             continue;
         }
         if [
@@ -219,11 +251,15 @@ fn gates(value: &Value, post: bool) -> Result<usize, &'static str> {
         let script = scripts[0]
             .as_str()
             .ok_or("Native invocation must be text")?;
-        match crate::github::gate(script, post) {
+        let invocation = match storage {
+            Some(version) => crate::github::review_gate(script, post, version),
+            None => crate::github::gate(script, post),
+        };
+        match invocation {
             Ok(Some(_)) => count += 1,
             _ => {
                 return Err(
-                    "Native verifier stage or exit propagation is unresolved; preflight cannot replace execution",
+                    "Stage, review arguments or exit propagation is unresolved; preflight cannot replace execution",
                 );
             }
         }
