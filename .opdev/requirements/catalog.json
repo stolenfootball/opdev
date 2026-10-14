@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/requirements-catalog.md",
-          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "sha256": "0e450872fa4000d2d4f369861ed438ff14e0d394e5757587fd8efc8a4f2243dd",
           "excerpt": "All requirement, criterion, verification and plan IDs MUST be unique across the\ncatalog. Stable identities are independent of file placement. A requirement has\nexactly one normative inline statement or exact tracked source, explicit supported\nconfiguration applicability and observable criteria. Empty criteria remain\nincomplete. Definitions may be reused; every criterion/configuration/required-stage\ncombination needs exactly one all-members plan. Empty/ambiguous/missing plans,\ndangling links and unknown configurations cannot qualify."
         }
       },
@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "spec/requirements-catalog.md",
-          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "sha256": "0e450872fa4000d2d4f369861ed438ff14e0d394e5757587fd8efc8a4f2243dd",
           "excerpt": "Mapping subjects include requirement identity, normative owner, origin/rationale,\napplicability, criterion, plan/stage/configuration, relationships, full assertion\nand declared input references, suite/command and testing/quality/assurance policy.\nThey exclude the review itself and unrelated implementation bytes. An input list\ndoes not prove dependency completeness; unknown/shared changes broaden semantic\nreview. Mechanical binding MUST NOT write a passed review."
         }
       },
@@ -54,7 +54,7 @@
         "kind": "source",
         "source": {
           "path": "spec/requirements-catalog.md",
-          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "sha256": "0e450872fa4000d2d4f369861ed438ff14e0d394e5757587fd8efc8a4f2243dd",
           "excerpt": "Suite assurance establishes canonical command execution, not named-case selection.\nUnsupported selected case-level assurance remains unverified. There is no required\nJUnit adapter. Manual observation is a separate attributed current-change record\nwith exact plan subject, method context, actual result, observer, reference and\nbounded age. It cannot qualify another source/stage. Future, stale, absent and\nambiguous observations fail closed; known contradictions remain visible."
         }
       },
@@ -77,7 +77,7 @@
         "kind": "source",
         "source": {
           "path": "spec/requirements-catalog.md",
-          "sha256": "9977c7e63fed48622d581e9293a8cf6c8a02b4ec82d60cdf2f140391a86fe2ce",
+          "sha256": "0e450872fa4000d2d4f369861ed438ff14e0d394e5757587fd8efc8a4f2243dd",
           "excerpt": "Current change review selects candidate and baseline catalog identities in the\nexisting MR/PR. Provider-observed target snapshot metadata binds the baseline;\nmissing or changed metadata MUST NOT select an older/caller-supplied substitute.\nReview removals and applicability reductions against that accepted baseline and\nactual authorization. Enduring conditions need not be copied into each change;\none-off conditions and capability-impact reviews remain required when applicable."
         }
       },
@@ -92,6 +92,29 @@
           "expected": "A catalog selection binds actual candidate and baseline identities, a real commit and valid unique manual members; observed provider baseline drift is rejected."
         }
       ]
+    },
+    {
+      "id": "R-staged-read-only",
+      "title": "Catalog and policy inspection do not write Git metadata",
+      "statement": {
+        "kind": "source",
+        "source": {
+          "path": "spec/requirements-catalog.md",
+          "sha256": "0e450872fa4000d2d4f369861ed438ff14e0d394e5757587fd8efc8a4f2243dd",
+          "excerpt": "Staged inspection MUST NOT acquire an index lock, write tree objects or lazily\nfetch missing objects. It reads native `ls-files --stage -z` entries and hashes\nthe Git tree representation using `hash-object -t tree --stdin` without `-w`.\nThe exposed tree identity remains the exact Git object ID, not a new digest\nformat; inspection does not promise that the tree object has been materialized.\nUnmerged entries, missing file blobs and unsupported modes fail closed. Gitlinks\noutside the catalog may name commits available only in their submodule. The\nwhole staged inventory is bounded to 64 MiB and paths to 128 components. This\nsame reader serves selected organization-policy inspection."
+        }
+      },
+      "origin": "spec/requirements-catalog.md",
+      "rationale": "Inspection must work without index/object write authority while retaining native Git identity and fail-closed missing-object handling.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-staged-read-only",
+          "expected": "Requirements and selected policy reads preserve the index, object inventory and existing lock; identity matches Git for SHA-1/SHA-256, ordering, executable/symlink/gitlink modes and intent-to-add exclusions; missing file objects fail closed. Older Git with promisor configuration is rejected before object reads without modifying configuration."
+        }
+      ]
     }
   ],
   "verifications": [
@@ -99,7 +122,7 @@
       "id": "V-completeness-1",
       "target": {
         "path": "crates/opdev-project/tests/requirements.rs",
-        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "sha256": "2ea5e666e31fa6e56dc2a7968a84f38ac598e56879b6dd88dd020fcc96b13c21",
         "excerpt": "fn empty_criteria_and_empty_members_never_pass_vacuously("
       },
       "inputs": [
@@ -169,7 +192,7 @@
       "id": "V-freshness-1",
       "target": {
         "path": "crates/opdev-project/tests/requirements.rs",
-        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "sha256": "2ea5e666e31fa6e56dc2a7968a84f38ac598e56879b6dd88dd020fcc96b13c21",
         "excerpt": "fn stage_configuration_policy_and_assertion_changes_invalidate_review("
       },
       "inputs": [
@@ -204,7 +227,7 @@
       "id": "V-freshness-2",
       "target": {
         "path": "crates/opdev-project/tests/requirements.rs",
-        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "sha256": "2ea5e666e31fa6e56dc2a7968a84f38ac598e56879b6dd88dd020fcc96b13c21",
         "excerpt": "fn ambiguous_excerpts_and_git_errors_never_become_current_sources("
       },
       "inputs": [
@@ -274,7 +297,7 @@
       "id": "V-baseline-1",
       "target": {
         "path": "crates/opdev-project/tests/requirements.rs",
-        "sha256": "23249ffbb0251e30ad846c2270b9c0dbdbf6b59e49bca9acf59952761e14d0b0",
+        "sha256": "2ea5e666e31fa6e56dc2a7968a84f38ac598e56879b6dd88dd020fcc96b13c21",
         "excerpt": "fn change_review_binds_real_commit_and_rejects_ambiguous_or_wrong_manual_members("
       },
       "inputs": [
@@ -344,6 +367,181 @@
         "suite": "check",
         "assurance": "suite"
       }
+    },
+    {
+      "id": "V-read-only-identity",
+      "target": {
+        "path": "crates/opdev-project/src/index_snapshot.rs",
+        "sha256": "3cf971554086184162950aee26bf326bf40a2ed31927b1daa53f5f5e3dc67db3",
+        "excerpt": "fn read_only_identity_matches_git_for_formats_modes_and_nested_names()"
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "0231e0451a400aa0966856f69924f1cac63dd7bee06a7acf518550e16b34908a",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "f1d2d2ade73ae540d17dae233504d5c3a1627a38c474b228c590cd2790a372a1",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-project/src/requirements/source.rs",
+          "sha256": "1c7ddbd538443e12d8c9211f112b7acf48c9a4d130fe49c63ed27f5e7be29396",
+          "excerpt": "pub fn load_index(root: &Path)"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-read-only-catalog",
+      "target": {
+        "path": "crates/opdev-project/tests/requirements.rs",
+        "sha256": "2ea5e666e31fa6e56dc2a7968a84f38ac598e56879b6dd88dd020fcc96b13c21",
+        "excerpt": "fn staged_catalog_read_needs_no_index_lock_or_object_writes()"
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "0231e0451a400aa0966856f69924f1cac63dd7bee06a7acf518550e16b34908a",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "f1d2d2ade73ae540d17dae233504d5c3a1627a38c474b228c590cd2790a372a1",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-project/src/index_snapshot.rs",
+          "sha256": "3cf971554086184162950aee26bf326bf40a2ed31927b1daa53f5f5e3dc67db3",
+          "excerpt": "fn read_only_identity_matches_git_for_formats_modes_and_nested_names()"
+        },
+        {
+          "path": "crates/opdev-project/src/requirements/source.rs",
+          "sha256": "1c7ddbd538443e12d8c9211f112b7acf48c9a4d130fe49c63ed27f5e7be29396",
+          "excerpt": "pub fn load_index(root: &Path)"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-read-only-policy",
+      "target": {
+        "path": "crates/opdev-project/src/organization/source.rs",
+        "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
+        "excerpt": "fn selected_policy_inspection_does_not_need_an_index_lock()"
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "0231e0451a400aa0966856f69924f1cac63dd7bee06a7acf518550e16b34908a",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "f1d2d2ade73ae540d17dae233504d5c3a1627a38c474b228c590cd2790a372a1",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-project/src/index_snapshot.rs",
+          "sha256": "3cf971554086184162950aee26bf326bf40a2ed31927b1daa53f5f5e3dc67db3",
+          "excerpt": "fn read_only_identity_matches_git_for_formats_modes_and_nested_names()"
+        },
+        {
+          "path": "crates/opdev-project/src/requirements/source.rs",
+          "sha256": "1c7ddbd538443e12d8c9211f112b7acf48c9a4d130fe49c63ed27f5e7be29396",
+          "excerpt": "pub fn load_index(root: &Path)"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    },
+    {
+      "id": "V-read-only-legacy-partial",
+      "target": {
+        "path": "crates/opdev-project/src/index_snapshot.rs",
+        "sha256": "3cf971554086184162950aee26bf326bf40a2ed31927b1daa53f5f5e3dc67db3",
+        "excerpt": "fn legacy_git_partial_clone_is_rejected_before_object_reads()"
+      },
+      "inputs": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "0231e0451a400aa0966856f69924f1cac63dd7bee06a7acf518550e16b34908a",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "f1d2d2ade73ae540d17dae233504d5c3a1627a38c474b228c590cd2790a372a1",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/Cargo.toml",
+          "sha256": "9e17c0a405476b8eb2ae952b13b8ba0acc0ec00ab9de0a2a773d36e5d6a7bb31",
+          "excerpt": "[package]"
+        },
+        {
+          "path": "crates/opdev-project/src/requirements/source.rs",
+          "sha256": "1c7ddbd538443e12d8c9211f112b7acf48c9a4d130fe49c63ed27f5e7be29396",
+          "excerpt": "pub fn load_index(root: &Path)"
+        },
+        {
+          "path": "crates/opdev-project/src/evidence.rs",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
+          "excerpt": "pub(crate) fn git_output("
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
     }
   ],
   "plans": [
@@ -366,10 +564,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "5cebdf78a5f142fd5ddb2a94372c062c8b17f73f36a9ec8e324f124c3aab2cb0"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked empty-criterion/member negative assertions and all-member/current-stage execution tests; the read-only snapshot change preserves their real staged inputs and cannot make an empty or partially executed plan pass. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "47ada5a064a7df8abbd2838f923be09431c951dda2c3ba9b06cb959b41e05aa6"
       }
     },
     {
@@ -391,10 +589,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "ac80cc11779dfd0d3ed3654bf192a5ccf650c5ee0625dec63d9bf4cece553f54"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked empty-criterion/member negative assertions and all-member/current-stage execution tests; the read-only snapshot change preserves their real staged inputs and cannot make an empty or partially executed plan pass. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "fcebecd6ffe3a894d7652cde3e3e6acf34e394602c1e40fbce6c31bf99f1c5cd"
       }
     },
     {
@@ -416,10 +614,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "d43f739bb87d297d7f2840ea798110e7b0e4b23f825aef669c44711ea2c3ed21"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked empty-criterion/member negative assertions and all-member/current-stage execution tests; the read-only snapshot change preserves their real staged inputs and cannot make an empty or partially executed plan pass. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "d80133856ebcf4c165eed209a183f8e0b857c3c32e36663b9e52bc2e74db687e"
       }
     },
     {
@@ -441,10 +639,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "e6d02a90b074a1bdb1b979af9de783e918a4e61f18796f5316a6d23023749b0d"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked stage/configuration/member/source/command mutations, duplicate and overlapping excerpts, and unrelated-source behavior. Exact Git tree identity is retained; immutable catalog references and current mapping subjects remain independently checked. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "d307a2529b852aee7f7c3381fae1b50ccf6505aedbb474c389536ae7a6850602"
       }
     },
     {
@@ -466,10 +664,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "4356598d20da0872675221fd4f27a975bed313686eb68552501f36c6d24b7794"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked stage/configuration/member/source/command mutations, duplicate and overlapping excerpts, and unrelated-source behavior. Exact Git tree identity is retained; immutable catalog references and current mapping subjects remain independently checked. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "891f5ada2d198aeab52c778fa32891a3a39a7c70312ccedca169ad4200df4227"
       }
     },
     {
@@ -491,10 +689,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "73c8808d8b13bfc00b82df5c6daeb4dba28e1b4f9427134dad4d994fe8a634d6"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked stage/configuration/member/source/command mutations, duplicate and overlapping excerpts, and unrelated-source behavior. Exact Git tree identity is retained; immutable catalog references and current mapping subjects remain independently checked. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "b028337c831cd654fe9943f4c85d56f30b4b16b4344ba7b97d25391801a705d5"
       }
     },
     {
@@ -511,10 +709,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "afbe92f1f057c48193854efaf7e997efb9aa04a9152c99ba3bda6c6f570ef398"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the inclusive age boundary, expired/future times, changed subject and missing observer assertions. Only the normative file gained a read-only inspection contract; manual-observation validity and stage separation are unchanged. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "9caf5b0e32d604bed7cdc16fefbcfc60787cb573c1a3dff9f26f54a89634b5fb"
       }
     },
     {
@@ -531,10 +729,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "07b6c9ade607d5e40d51c388a58c88e003cb6ae4367bd4b8758ace8eabc3423a"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the inclusive age boundary, expired/future times, changed subject and missing observer assertions. Only the normative file gained a read-only inspection contract; manual-observation validity and stage separation are unchanged. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "596799318732aec845b7f406d70f0c81ec412b640ab8d64f2d8b5af49b2d05da"
       }
     },
     {
@@ -551,10 +749,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "rationale": "Reviewed the explicit project policy migration against unchanged commands, capabilities, required stages and supported guarantees. Current adoption uses its replacement pipeline control without borrowing legacy/project-level passes; retained assertion bodies remain adequate. Two additional regressions cover current adoption review scope and six paired no-exec capability shapes. Static mechanism review does not prove live effectiveness, delivery, human consent or completed adoption. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "ede72de805c76faf99132d5a785b1aa824385864862c05773b43fe35cd416e3f"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the inclusive age boundary, expired/future times, changed subject and missing observer assertions. Only the normative file gained a read-only inspection contract; manual-observation validity and stage separation are unchanged. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "767d0f5c934fcfeeec0a32ed044d24daf405b61a50fa3ca992f1f02fee515efa"
       }
     },
     {
@@ -576,10 +774,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "19d2e47fd98c6b3f6dbc362822371c0071786b838633822e257d489d596df821"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked real-commit versus tree identity, candidate/baseline digest and ambiguous-manual-member assertions plus provider-observed baseline drift. A computed unmaterialized tree is still not a valid baseline commit. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "dd0c135748c8537ca5f299c458b38dece4cd280e4156265cf139a5c2c2d097c8"
       }
     },
     {
@@ -601,10 +799,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "100a2785227c395362e96206aebc2420cc073c603efadfe2ddf3ef7899a2d934"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked real-commit versus tree identity, candidate/baseline digest and ambiguous-manual-member assertions plus provider-observed baseline drift. A computed unmaterialized tree is still not a valid baseline commit. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "f5a79f0138196d8771421ec634ab13573157cee5b3bdebc13f5579267af09143"
       }
     },
     {
@@ -626,10 +824,115 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "2e189dc0bbc4e1c73a1defcdccbd8cdf6804b8813faaf465d0cd6a0390b57107"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked real-commit versus tree identity, candidate/baseline digest and ambiguous-manual-member assertions plus provider-observed baseline drift. A computed unmaterialized tree is still not a valid baseline commit. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "044856c01da305291b093dd1df535fa565be3bbf8c3b2a2c1ee0c07f5d16d8d2"
+      }
+    },
+    {
+      "id": "P-read-only-local",
+      "criterion": "C-staged-read-only",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-read-only-identity",
+          "assertion": "Exact native Git tree equality across both object formats and modes with an untouched existing lock; missing blob rejected.",
+          "discriminating_case": "An implementation using write-tree fails with the preexisting lock; including intent-to-add changes the expected tree."
+        },
+        {
+          "verification": "V-read-only-catalog",
+          "assertion": "Index bytes, owned lock bytes and complete object-file inventory unchanged, followed by exact write-tree equality.",
+          "discriminating_case": "A new staged file invalidates the cached tree, so a hidden write-tree call cannot succeed under the existing lock."
+        },
+        {
+          "verification": "V-read-only-policy",
+          "assertion": "Selected policy resolves under an existing index lock, leaves bytes intact and preserves Git tree identity.",
+          "discriminating_case": "Even a semantically unchanged policy must not require writes to inspect its staged definition."
+        },
+        {
+          "verification": "V-read-only-legacy-partial",
+          "assertion": "Legacy-Git safety preflight accepts a complete repository but rejects promisor configuration without changing its bytes.",
+          "discriminating_case": "A Git version silently ignoring GIT_NO_LAZY_FETCH must not fall through to object reads in a partial clone."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Reviewed current lock/object preservation and exact-tree tests plus the new legacy-Git configuration guard: complete repositories are accepted, promisor configuration is refused before object reads, and configuration bytes remain intact. Git subprocesses disable lazy fetch, transports and optional writes; the whole-file bindings include those inputs. Earlier live follow-ups exercised the pre-guard candidate and are not silently rebound as current-source execution.",
+        "subject_sha256": "959e56c0b24d4ae8bf5121c1d6dc1fa9828d181f1b89208e1d8e66f8e775484c"
+      }
+    },
+    {
+      "id": "P-read-only-pre-merge",
+      "criterion": "C-staged-read-only",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-read-only-identity",
+          "assertion": "Exact native Git tree equality across both object formats and modes with an untouched existing lock; missing blob rejected.",
+          "discriminating_case": "An implementation using write-tree fails with the preexisting lock; including intent-to-add changes the expected tree."
+        },
+        {
+          "verification": "V-read-only-catalog",
+          "assertion": "Index bytes, owned lock bytes and complete object-file inventory unchanged, followed by exact write-tree equality.",
+          "discriminating_case": "A new staged file invalidates the cached tree, so a hidden write-tree call cannot succeed under the existing lock."
+        },
+        {
+          "verification": "V-read-only-policy",
+          "assertion": "Selected policy resolves under an existing index lock, leaves bytes intact and preserves Git tree identity.",
+          "discriminating_case": "Even a semantically unchanged policy must not require writes to inspect its staged definition."
+        },
+        {
+          "verification": "V-read-only-legacy-partial",
+          "assertion": "Legacy-Git safety preflight accepts a complete repository but rejects promisor configuration without changing its bytes.",
+          "discriminating_case": "A Git version silently ignoring GIT_NO_LAZY_FETCH must not fall through to object reads in a partial clone."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Reviewed current lock/object preservation and exact-tree tests plus the new legacy-Git configuration guard: complete repositories are accepted, promisor configuration is refused before object reads, and configuration bytes remain intact. Git subprocesses disable lazy fetch, transports and optional writes; the whole-file bindings include those inputs. Earlier live follow-ups exercised the pre-guard candidate and are not silently rebound as current-source execution.",
+        "subject_sha256": "131d01a8f5bc61f1b550e6acc69dc54193a52f77fb1eb530b3adca6dcd5484cb"
+      }
+    },
+    {
+      "id": "P-read-only-post-merge",
+      "criterion": "C-staged-read-only",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-read-only-identity",
+          "assertion": "Exact native Git tree equality across both object formats and modes with an untouched existing lock; missing blob rejected.",
+          "discriminating_case": "An implementation using write-tree fails with the preexisting lock; including intent-to-add changes the expected tree."
+        },
+        {
+          "verification": "V-read-only-catalog",
+          "assertion": "Index bytes, owned lock bytes and complete object-file inventory unchanged, followed by exact write-tree equality.",
+          "discriminating_case": "A new staged file invalidates the cached tree, so a hidden write-tree call cannot succeed under the existing lock."
+        },
+        {
+          "verification": "V-read-only-policy",
+          "assertion": "Selected policy resolves under an existing index lock, leaves bytes intact and preserves Git tree identity.",
+          "discriminating_case": "Even a semantically unchanged policy must not require writes to inspect its staged definition."
+        },
+        {
+          "verification": "V-read-only-legacy-partial",
+          "assertion": "Legacy-Git safety preflight accepts a complete repository but rejects promisor configuration without changing its bytes.",
+          "discriminating_case": "A Git version silently ignoring GIT_NO_LAZY_FETCH must not fall through to object reads in a partial clone."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Reviewed current lock/object preservation and exact-tree tests plus the new legacy-Git configuration guard: complete repositories are accepted, promisor configuration is refused before object reads, and configuration bytes remain intact. Git subprocesses disable lazy fetch, transports and optional writes; the whole-file bindings include those inputs. Earlier live follow-ups exercised the pre-guard candidate and are not silently rebound as current-source execution.",
+        "subject_sha256": "b089c9b004d3283de9ac4173adfbd1eebf25390436aca6a4b22e523243e10a62"
       }
     }
   ]

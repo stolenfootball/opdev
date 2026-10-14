@@ -19,6 +19,7 @@ mod bootstrap;
 mod discovery;
 mod evidence;
 mod experiment;
+mod index_snapshot;
 /// Read-only namespace checks shared by CLI inspection and selected-policy evaluation.
 pub mod layout;
 mod manifest;

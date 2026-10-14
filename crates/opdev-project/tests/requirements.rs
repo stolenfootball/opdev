@@ -195,6 +195,49 @@ fn unrelated_implementation_preserves_mapping_but_changes_execution_snapshot() -
 }
 
 #[test]
+fn staged_catalog_read_needs_no_index_lock_or_object_writes() -> Result<()> {
+    fn objects(path: &Path) -> Result<Vec<std::path::PathBuf>> {
+        let mut found = Vec::new();
+        for entry in fs::read_dir(path)? {
+            let entry = entry?;
+            if entry.file_type()?.is_dir() {
+                found.extend(objects(&entry.path())?);
+            } else {
+                found.push(entry.path());
+            }
+        }
+        found.sort();
+        Ok(found)
+    }
+    let (temp, _, _) = fixture()?;
+    let root = temp.path();
+    fs::write(root.join("new-staged-file.txt"), "new staged bytes")?;
+    git(root, &["add", "."])?;
+    let before_index = fs::read(root.join(".git/index"))?;
+    let before_objects = objects(&root.join(".git/objects"))?;
+    // Own only this disposable fixture's sentinel; never remove a real user's lock.
+    fs::write(
+        root.join(".git/index.lock"),
+        "another operation owns this lock",
+    )?;
+    let snapshot = load_index(root)?;
+    assert_eq!(fs::read(root.join(".git/index"))?, before_index);
+    assert_eq!(objects(&root.join(".git/objects"))?, before_objects);
+    assert_eq!(
+        fs::read_to_string(root.join(".git/index.lock"))?,
+        "another operation owns this lock"
+    );
+    fs::remove_file(root.join(".git/index.lock"))?;
+    let actual = std::process::Command::new("git")
+        .current_dir(root)
+        .arg("write-tree")
+        .output()?;
+    assert!(actual.status.success());
+    assert_eq!(snapshot.tree, String::from_utf8(actual.stdout)?.trim());
+    Ok(())
+}
+
+#[test]
 fn duplicate_ids_dangling_links_and_known_contradictions_accumulate() -> Result<()> {
     let (temp, manifest, mut snapshot) = fixture()?;
     let doc = snapshot

@@ -438,7 +438,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -538,7 +538,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -638,7 +638,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -738,7 +738,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -838,7 +838,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -938,7 +938,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -1038,7 +1038,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -1138,7 +1138,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -1238,7 +1238,7 @@
         },
         {
           "path": "plugins/opdev/skills/opdev/references/adoption.md",
-          "sha256": "c8aa80c52caa5743c01c8928603904c2035dd050c137e18de841204360071896",
+          "sha256": "347d295e502640d419fd2250228ce8b48755e7fb2e982e467fa2cc5a6f02eb0a",
           "excerpt": "# Adopt OpDev in an existing or new project"
         },
         {
@@ -1570,9 +1570,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed the expanded explicit initialization cases for policies 2/3 and retained migration, decision, selected-pipeline and external-review-defer assertions. New discovery guidance clarifies supported targets without selecting policy; no legacy assessment, fabricated tool or unavailable review is promoted to completion. Current complete-input preparation and execution retain separate scope.",
-        "subject_sha256": "6aac30ab450cd8cfecb010b5e1df9ddf283ed3fc6d65ef1ff4e6dc2dc71de743"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
+        "subject_sha256": "03a3c20e042d291e78b0ce784e765953cb946f6e4d2f9ad0beeb4f772e68c190"
       }
     },
     {
@@ -1630,9 +1630,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed the expanded explicit initialization cases for policies 2/3 and retained migration, decision, selected-pipeline and external-review-defer assertions. New discovery guidance clarifies supported targets without selecting policy; no legacy assessment, fabricated tool or unavailable review is promoted to completion. Current complete-input preparation and execution retain separate scope.",
-        "subject_sha256": "116b0cdb755b0852562e03c72451ca596c4d4c5ae48b11cd91c70eeb7030581e"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
+        "subject_sha256": "723feefd4828c6d3d896b574acd5e8f089e1d1bfc9a4f7555184d2ea0c14ab6e"
       }
     },
     {
@@ -1690,9 +1690,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed the expanded explicit initialization cases for policies 2/3 and retained migration, decision, selected-pipeline and external-review-defer assertions. New discovery guidance clarifies supported targets without selecting policy; no legacy assessment, fabricated tool or unavailable review is promoted to completion. Current complete-input preparation and execution retain separate scope.",
-        "subject_sha256": "34920a4f68f4ba9c77f4ff3ce8c060fcfd2f7ddd8c289fbfb95f827f30812df4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked retained clean-target initialization, migration, policy-selection and review-defer assertions. The added guidance prohibits alternate Git metadata after denial and grants no new authority; current connected guidance remains shared. Live read-only trials are separate behavioral evidence, not a string-test claim of universal compliance.",
+        "subject_sha256": "4ac6583756deaaf332207e23c9609e346c50e97afddfdfe5e5009a2116fff917"
       }
     }
   ]

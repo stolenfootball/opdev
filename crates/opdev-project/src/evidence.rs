@@ -504,6 +504,9 @@ fn reject_unindexed_content(root: &Path) -> Result<(), EvidenceError> {
 
 pub(crate) fn git_output(root: &Path, arguments: &[&str]) -> Result<Vec<u8>, EvidenceError> {
     let output = Command::new("git")
+        .env("GIT_NO_LAZY_FETCH", "1")
+        .env("GIT_ALLOW_PROTOCOL", "")
+        .env("GIT_OPTIONAL_LOCKS", "0")
         .arg("-C")
         .arg(root)
         .args(arguments)

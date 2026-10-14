@@ -52,6 +52,28 @@ Files are regular staged Git blobs, not symlinks, submodules or checkout-normali
 bytes. Capability filenames use lowercase portable ASCII letters/digits, hyphens
 or underscores with `.json`; no nested arbitrary namespaces or reserved devices.
 
+Staged inspection MUST NOT acquire an index lock, write tree objects or lazily
+fetch missing objects. It reads native `ls-files --stage -z` entries and hashes
+the Git tree representation using `hash-object -t tree --stdin` without `-w`.
+The exposed tree identity remains the exact Git object ID, not a new digest
+format; inspection does not promise that the tree object has been materialized.
+Unmerged entries, missing file blobs and unsupported modes fail closed. Gitlinks
+outside the catalog may name commits available only in their submodule. The
+whole staged inventory is bounded to 64 MiB and paths to 128 components. This
+same reader serves selected organization-policy inspection.
+Older Git without `--no-lazy-fetch` remains usable for complete repositories;
+promisor/partial-clone configuration is rejected before object reads on those
+versions. Inspection also disables transport protocols as a process-local
+backstop. It does not edit Git configuration or install a newer Git.
+
+This replaces `write-tree`, whose normal behavior creates objects and may update
+the index even when the caller only wants an identity. Standard read-only Git
+plumbing preserves source identity without granting filesystem writes or using
+an alternate index. See [Git hash-object](https://git-scm.com/docs/git-hash-object)
+and [Git's no-lazy-fetch option](https://git-scm.com/docs/git). Reconsider this
+implementation if measured large-repository inspection cost warrants an equally
+read-only, identity-compatible implementation; do not weaken snapshot binding.
+
 Referenced excerpts MUST identify one occurrence in their full source file.
 Inspection shares only bounded in-memory reads within the current invocation;
 no persisted source cache can qualify a later check. The catalog is bounded to

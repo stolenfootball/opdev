@@ -23,6 +23,15 @@ New projects use reviewed `init --project`; existing policy uses the existing
 guarded `upgrade --migration` preview/apply/resume. Keep original recovery outside
 source; do not overwrite unexpected later edits or blindly retry remote writes.
 
+If the host denies a Git metadata operation, do not copy the index, redirect the
+object store or move the same operation elsewhere to evade that denial. Report
+the exact blocked operation and continue independent authorized work. If a
+documented read-only inspection unexpectedly needs writes, report a runtime
+defect; it is not permission to repair the sandbox or replace native bindings
+with hand-computed evidence. An authorized controller may stage reviewed files
+through its normal permitted tools, but the denied agent must not manufacture
+an alternate index or claim that a different snapshot verifies the real one.
+
 An uninitialized discovery contract is a proposal, not the selected policy or a
 runtime capability limit. Compare `policy_selection.supported_current_targets`
 and actual doctor capabilities. Policy 3/clean-4 uses `init --project FILE`;

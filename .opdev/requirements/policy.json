@@ -505,7 +505,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -620,7 +620,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -735,7 +735,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -850,7 +850,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -965,7 +965,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -1080,7 +1080,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -1195,7 +1195,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -1355,7 +1355,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -1515,7 +1515,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -1675,7 +1675,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -1835,7 +1835,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -1995,7 +1995,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -2155,7 +2155,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -2315,7 +2315,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -2475,7 +2475,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -2635,7 +2635,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -2795,7 +2795,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -2955,7 +2955,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -3115,7 +3115,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -3215,7 +3215,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -3300,7 +3300,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -3400,7 +3400,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -3485,7 +3485,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -3585,7 +3585,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -3670,7 +3670,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -3770,7 +3770,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -3799,7 +3799,7 @@
       "id": "V-organization-policy-5",
       "target": {
         "path": "crates/opdev-project/src/organization/source.rs",
-        "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+        "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
         "excerpt": "fn snapshot_requires_selected_staged_and_checkout_definitions_to_agree("
       },
       "inputs": [
@@ -3855,7 +3855,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -3955,7 +3955,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -3984,7 +3984,7 @@
       "id": "V-organization-policy-6",
       "target": {
         "path": "crates/opdev-project/src/organization/source.rs",
-        "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+        "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
         "excerpt": "fn stale_or_unselected_namespace_is_not_silently_ignored("
       },
       "inputs": [
@@ -4040,7 +4040,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -4140,7 +4140,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -4169,7 +4169,7 @@
       "id": "V-organization-policy-7",
       "target": {
         "path": "crates/opdev-project/src/organization/source.rs",
-        "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+        "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
         "excerpt": "fn executable_staged_definition_is_rejected_even_with_regular_checkout("
       },
       "inputs": [
@@ -4225,7 +4225,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -4325,7 +4325,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -4410,7 +4410,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -4510,7 +4510,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -4595,7 +4595,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -4695,7 +4695,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -4780,7 +4780,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -4880,7 +4880,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -4965,7 +4965,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -5065,7 +5065,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -5150,7 +5150,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -5250,7 +5250,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -5335,7 +5335,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -5435,7 +5435,7 @@
         },
         {
           "path": "crates/opdev-project/src/organization/source.rs",
-          "sha256": "bd1493020f223c7e4fe335a684ead0e387c11c065aa0b2a77b8ef583807a33e9",
+          "sha256": "8af111dc3fd8d462cc813d3cc9888dabc0a768121b4a8fb8a5b9eac6ec8f6aa4",
           "excerpt": "//! Read bounded immutable Git definitions and verify the actual checkout separately."
         },
         {
@@ -5520,7 +5520,7 @@
         },
         {
           "path": "crates/opdev-project/src/evidence.rs",
-          "sha256": "700296fe55f79b0c6512f07bfe26d77011876a20d55e9066ec57624080891b6e",
+          "sha256": "5d843bcb60ed42ec0dba10c00e7a0eacdcb87cbe4b8933ebfaa915617ad09784",
           "excerpt": "pub fn validate(&self, catalog:"
         },
         {
@@ -5747,9 +5747,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed changed acceptance preflight and main routing against retained source/stage-bound policy controls. The only new preflight condition strengthens delivery artifact input checking for explicit current policy; legacy assessments keep their meaning and known failures are not overridden. Existing meaningful control mappings and execution requirements remain.",
-        "subject_sha256": "2dd3d507d578b17b06d4ffb889dce15ef27df8ee103b22a89c92e7e64aade1ec"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
+        "subject_sha256": "f5111e8c26d5b5ac9dad0f6787ec650b83e3702aa3c800746ffa8a24aede57ac"
       }
     },
     {
@@ -5797,9 +5797,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed changed acceptance preflight and main routing against retained source/stage-bound policy controls. The only new preflight condition strengthens delivery artifact input checking for explicit current policy; legacy assessments keep their meaning and known failures are not overridden. Existing meaningful control mappings and execution requirements remain.",
-        "subject_sha256": "3c146439b7e5c04593807499c5e7811dd641cd75d4457ca1efd57aa1885a010c"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
+        "subject_sha256": "b4cb56510068256ca4eb70fbe2623e97a304536a26346655f7f038ff0007a1a5"
       }
     },
     {
@@ -5847,9 +5847,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed changed acceptance preflight and main routing against retained source/stage-bound policy controls. The only new preflight condition strengthens delivery artifact input checking for explicit current policy; legacy assessments keep their meaning and known failures are not overridden. Existing meaningful control mappings and execution requirements remain.",
-        "subject_sha256": "93c25c9fef52502e35db5fc48a0bf32bfb79e4ad3b2086bc31bd6e792a249ea9"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
+        "subject_sha256": "42a79ee4c5d703c6b12c3069d17cf663a9d5fd40aac40d8d7e27fd4cd00ff035"
       }
     },
     {
@@ -5922,9 +5922,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed retained standard projection, exact selection and command-counter assertions against the scoped CLI additions. Standards definitions, stages, mapping completeness and shared execution are unchanged; composed verification invokes the existing engine once and does not change standards into approval or full conformance.",
-        "subject_sha256": "43d9f76295d46dcf463da35c0e021fde58e2b4a9ae1222ea4368897e485925b1"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
+        "subject_sha256": "258fb1cb9b49531397ad1e720e4d52372fa148d83b63ac07ca208ddab7e34a6e"
       }
     },
     {
@@ -5997,9 +5997,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed retained standard projection, exact selection and command-counter assertions against the scoped CLI additions. Standards definitions, stages, mapping completeness and shared execution are unchanged; composed verification invokes the existing engine once and does not change standards into approval or full conformance.",
-        "subject_sha256": "1e9e6f40f3916d59336d6010bdaffe8bfb63c54f24dc87a91950626321a5c5fa"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
+        "subject_sha256": "903fa1b37821c057a77f7e74a61ae7de0e5ab1b97cdd804f80123c11b9a3927b"
       }
     },
     {
@@ -6072,9 +6072,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Reviewed retained standard projection, exact selection and command-counter assertions against the scoped CLI additions. Standards definitions, stages, mapping completeness and shared execution are unchanged; composed verification invokes the existing engine once and does not change standards into approval or full conformance.",
-        "subject_sha256": "28631c4aa601001b4380d29cfddc7edc047c6bcfe7bceeeb5265480e8e18d3e7"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked the only evidence-helper change: process-local lazy-fetch, transport and optional-lock restrictions. Rule validation, exact policy/stage/current-verification assertions and multi-standard execution reuse remain unchanged; unavailable source reads fail rather than satisfy a control. Prior semantic assertions remain adequate for the selected policy, with current suite execution still required.",
+        "subject_sha256": "9330a729dbcfbfb0e2e7f43262ad93491f4bd7dace073c2443bff603641c68c6"
       }
     },
     {
@@ -6152,9 +6152,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked retained bounded-definition, stage/source link and executable-counter guarantees against changed acceptance routing. Organization parsing/projection and semantic links are unchanged. New native preflight cannot replace a required duty with a declaration or an earlier stage's observation.",
-        "subject_sha256": "2b8a5154c06e0ce301eb64266e4929ac60b4ee86533e74bb7f6268c2b72089c2"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "9d0fc711154b0c97d5fc7763da4e98c1e3a42fe33dbcf06da9d579026d41d038"
       }
     },
     {
@@ -6232,9 +6232,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked retained bounded-definition, stage/source link and executable-counter guarantees against changed acceptance routing. Organization parsing/projection and semantic links are unchanged. New native preflight cannot replace a required duty with a declaration or an earlier stage's observation.",
-        "subject_sha256": "1c2e4e76fcfc01d59661ca4a3167abb6993afc92193851505018da719c1c6058"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "84fdc3c0eda18de7a6d8868a69a36b1e18ce6ecb9f1219fda2bca8942772f2de"
       }
     },
     {
@@ -6312,9 +6312,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked retained bounded-definition, stage/source link and executable-counter guarantees against changed acceptance routing. Organization parsing/projection and semantic links are unchanged. New native preflight cannot replace a required duty with a declaration or an earlier stage's observation.",
-        "subject_sha256": "ff1edd8566f5b8f3d73bdbbe3f821f83f48d473e344231d927d4bd8362a5b71a"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009085345",
+        "rationale": "Rechecked exact staged/checkout definition agreement, pinned canonical definitions, unknown applicability, selected namespace and executable-file negatives. Only snapshot acquisition changes; the shared reader preserves exact Git identity and fails on unmerged or unavailable file inputs. Existing acceptance/stage/extension/execution obligations remain in force. Rechecked the additional legacy-Git partial-clone guard and read-process isolation; neither changes plan meaning or approves unavailable objects.",
+        "subject_sha256": "2cfb6185c2a09749d17e165bd3bef46d23b81a028a632d7092b7608ec26a1553"
       }
     }
   ]
