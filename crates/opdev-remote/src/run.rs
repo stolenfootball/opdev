@@ -7,7 +7,7 @@ use serde_json::Value;
 
 use super::{
     CiProvider, Client, Duration, Outcome, ProjectManifest, RemoteError, Repository,
-    RequestBuilder, encode, first_env, github_request, gitlab_credential, gitlab_request,
+    RequestBuilder, encode, github_credential, github_request, gitlab_credential, gitlab_request,
 };
 
 /// Caller-selected identity, not an inferred project qualification policy.
@@ -97,7 +97,7 @@ pub fn verify_run(
     let slug = repository.slug();
     let observation = match repository.provider {
         CiProvider::Github => {
-            let token = first_env(&["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"]);
+            let token = github_credential();
             let url = format!(
                 "https://api.github.com/repos/{}/{}/actions/runs/{}",
                 encode(&repository.namespace),

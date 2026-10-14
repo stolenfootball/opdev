@@ -4,8 +4,16 @@
 
 Remote URLs are accepted only for the first-class `github.com` and `gitlab.com` hosts in 0.1. This prevents a repository-controlled remote from turning the audit into a request to an arbitrary host. Self-managed instances and additional providers require a future adapter with an explicit trusted API origin.
 
-Authentication is optional. GitHub reads `OPDEV_GITHUB_TOKEN`, `GITHUB_TOKEN`,
-then `GH_TOKEN`, and sends the selected value as a bearer credential. GitLab
+Authentication is optional for general audits and required for private review
+retrieval. In GitHub Actions, only the built-in `GITHUB_TOKEN` is selected; a
+missing job token never falls back to a developer login. Outside Actions, GitHub
+reads `OPDEV_GITHUB_TOKEN`, `GITHUB_TOKEN`, then `GH_TOKEN`, followed by the
+existing `github.com` login returned by `gh auth token --hostname github.com`.
+The selected value is a bearer credential. The local CLI lookup is noninteractive,
+does not write credentials and never retries rejected authentication with another
+identity. Other CI environments may use their explicitly supplied token but never
+the local `gh` fallback. Keep the secret in process memory, not a generated file
+or CI export. GitLab
 uses `CI_JOB_TOKEN` as `JOB-TOKEN` first when `GITLAB_CI=true`, avoiding a
 developer's stored login in runners. Without that built-in job identity, it
 uses the first non-empty source in this exact order:

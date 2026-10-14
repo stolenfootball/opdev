@@ -176,7 +176,7 @@ struct InitArgs {
     /// Explicit reviewed strict layout for new projects; existing layouts need migration.
     #[arg(long, requires = "engineering_policy", value_parser = clap::value_parser!(u32).range(1..=3))]
     layout_version: Option<u32>,
-    /// Explicit reviewed engineering policy for a new project (1 or 2).
+    /// Legacy partial-scaffold shorthand (1 or 2); use --project for current policy 2/3 adoption.
     #[arg(long, requires_all = ["policy_review_reference", "minimumcd_assessment"])]
     engineering_policy: Option<String>,
     /// Actual developer choice/delegation reference, not authenticated by the CLI.
@@ -200,7 +200,7 @@ struct CheckArgs {
     #[arg(long, conflicts_with = "no_exec")]
     fail_fast: bool,
     /// Read this CI change's explicit MR/PR review selection using built-in job authentication.
-    #[arg(long, requires = "ci", conflicts_with_all = ["review_locator", "review_acceptance_sha256", "plan", "delivery", "remote"])]
+    #[arg(long, requires = "ci", conflicts_with_all = ["review_locator", "review_acceptance_sha256", "plan", "remote"])]
     review_ci: bool,
     /// Exact MR/PR or legacy archive selection matching the reviewed storage policy.
     #[arg(long, requires = "review_acceptance_sha256", conflicts_with = "plan")]
@@ -285,6 +285,8 @@ struct CiArgs {
 
 #[derive(Debug, Subcommand)]
 enum CiCommand {
+    /// Verify native CI review and execute required checks for one explicit stage; never publish.
+    Verify(ci_review::VerifyArgs),
     /// Prepare exact prior-stage provider facts for review; never qualifies post-merge execution.
     ObservePriorStage(prior_stage::ObserveArgs),
     /// Run a reviewed canonical producer once and emit its versioned execution record.
@@ -481,6 +483,12 @@ struct EvidenceFingerprintArgs {
 
 #[derive(Debug, Args)]
 struct EvidenceBootstrapArgs {
+    /// Include the complete policy-selected adoption review, not a partial worksheet.
+    #[arg(long)]
+    adoption: bool,
+    /// Exact reviewed target commit for adoption catalog comparison; never inferred from HEAD.
+    #[arg(long, requires = "adoption", conflicts_with = "answers")]
+    base: Option<String>,
     /// Create a reviewed candidate outside source instead of the legacy ledger.
     #[arg(long, requires_all = ["answers", "write"])]
     output: Option<PathBuf>,
@@ -685,10 +693,17 @@ fn bootstrap_evidence(args: &EvidenceBootstrapArgs) -> Result<()> {
     let catalog = manifest
         .catalog()
         .context("could not load the selected rule catalog")?;
-    let (project_rules, change_rules) = evidence_candidates(&catalog, &report);
+    let (mut project_rules, mut change_rules) = evidence_candidates(&catalog, &report);
+    if args.adoption {
+        adoption::complete_review_candidates(&manifest, &mut project_rules, &mut change_rules);
+    }
 
     if let Some(path) = &args.answers {
-        let answers = EvidenceBootstrap::load(path)?;
+        let answers = EvidenceBootstrap::load(path).with_context(|| if args.adoption {
+            "Adoption review inputs are unresolved or malformed. Fill actual summaries, impact choices and acceptance mappings in the complete questionnaire; null placeholders are not decisions. No checks ran."
+        } else {
+            "Could not load evidence bootstrap answers"
+        })?;
         answers.validate_candidates(&project_rules, &change_rules, &fingerprint)?;
         let ledger = answers.to_ledger(&catalog)?;
         if args.write {
@@ -713,11 +728,25 @@ fn bootstrap_evidence(args: &EvidenceBootstrapArgs) -> Result<()> {
         }
     } else {
         let questionnaire = EvidenceBootstrap::new(
-            fingerprint,
+            fingerprint.clone(),
             project_rules.iter().cloned(),
             change_rules.iter().cloned(),
         );
-        print!("{}", questionnaire.to_review_yaml(&catalog)?);
+        if args.adoption {
+            let value = adoption::complete_review_template(
+                &root,
+                &manifest,
+                questionnaire,
+                args.base.as_deref(),
+            )?;
+            anyhow::ensure!(
+                staged_fingerprint(&root)? == fingerprint,
+                "Source changed during adoption preparation; inspect current inputs before retrying"
+            );
+            print!("{}", serde_saphyr::to_string(&value)?);
+        } else {
+            print!("{}", questionnaire.to_review_yaml(&catalog)?);
+        }
         eprintln!(
             "all decisions are review_required; add shared evidence and explicitly review each outcome"
         );
@@ -1039,6 +1068,7 @@ fn report_agent_changes(changes: &[opdev_project::ManagedFile]) {
 
 fn ci_command(args: &CiArgs) -> Result<ExitCode> {
     match &args.command {
+        CiCommand::Verify(args) => ci_review::verify(args),
         CiCommand::Execute(args) => execution_reuse::execute(args),
         CiCommand::Generate(args) => generate_ci(args).map(|()| ExitCode::SUCCESS),
         CiCommand::Inspect(args) => inspect_ci(args).map(|()| ExitCode::SUCCESS),
@@ -1178,7 +1208,7 @@ fn check_project(args: &CheckArgs) -> Result<ExitCode> {
         return Ok(ExitCode::SUCCESS);
     }
     let (review, ci_selection) = check_review(args, &root, &manifest, options.test_stage)?;
-    if args.fail_fast
+    if (args.fail_fast || args.review_ci)
         && let Some(review) = &review
     {
         let gaps = review
@@ -1249,6 +1279,17 @@ fn check_review(
             None,
         ));
     }
+    selected_ci_review(root, manifest, stage)
+}
+
+fn selected_ci_review(
+    root: &Path,
+    manifest: &ProjectManifest,
+    stage: opdev_project::TestStage,
+) -> Result<(
+    Option<opdev_engine::ValidatedReview>,
+    Option<opdev_remote::CiReviewSelection>,
+)> {
     let revision = clean_remote_revision(root)
         .context("CI review requires a clean committed checkout; no checks ran")?;
     let selection =

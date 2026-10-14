@@ -15,6 +15,23 @@ pub fn artifact_scoped_rule(id: &str) -> bool {
     )
 }
 
+pub(crate) fn input_gaps(change: Option<&ChangeEvidence>, stage: TestStage) -> Vec<String> {
+    if stage != TestStage::Delivery {
+        return vec![];
+    }
+    let Some(change) = change else {
+        return vec![];
+    };
+    let subject = change
+        .acceptance
+        .as_ref()
+        .and_then(|a| a.delivery_subject.as_ref());
+    change.assertions.iter().filter(|a| artifact_scoped_rule(a.rule_id.as_str()) && a.outcome == Outcome::Passed)
+        .filter(|a| !subject.is_some_and(|s| a.evidence.iter().any(|e| e.kind == "delivery_subject" && e.location.as_deref() == Some(s.sha256.as_str()))))
+        .map(|a| format!("{}: Delivery review needs an exact artifact or inventory subject and matching current digest evidence. Select the intended bytes before executing delivery checks; source or integration evidence is not artifact qualification.", a.rule_id))
+        .collect()
+}
+
 pub(crate) fn qualify(
     rules: &mut [RuleResult],
     change: Option<&ChangeEvidence>,
@@ -114,6 +131,17 @@ mod tests {
         let mut rules = vec![make()];
         qualify(&mut rules, None, Outcome::Passed, TestStage::Delivery);
         assert_eq!(rules[0].outcome, Outcome::Unverified);
+        assert!(input_gaps(Some(&change), TestStage::Delivery).is_empty());
+        let mut missing_subject = change.clone();
+        missing_subject
+            .acceptance
+            .as_mut()
+            .ok_or_else(|| anyhow::anyhow!("fixture acceptance"))?
+            .delivery_subject = None;
+        assert_eq!(
+            input_gaps(Some(&missing_subject), TestStage::Delivery).len(),
+            1
+        );
         let mut rules = vec![make()];
         qualify(
             &mut rules,
@@ -124,6 +152,8 @@ mod tests {
         assert_eq!(rules[0].subject, format!("inventory:sha256:{digest}"));
         assert_eq!(rules[0].outcome, Outcome::Passed);
         change.assertions[0].evidence[0].location = Some("c".repeat(64));
+        assert_eq!(input_gaps(Some(&change), TestStage::Delivery).len(), 1);
+        assert!(input_gaps(Some(&change), TestStage::PreMerge).is_empty());
         let mut rules = vec![make()];
         qualify(
             &mut rules,

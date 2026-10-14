@@ -265,11 +265,9 @@ fn hint(job: &Value) -> bool {
     job.get("uses").is_some()
         || job["steps"].as_array().is_some_and(|steps| {
             steps.iter().any(|s| {
-                s["run"].as_str().is_some_and(|run| {
-                    lines(run)
-                        .iter()
-                        .any(|line| line.contains("opdev") && line.contains("check"))
-                })
+                s["run"]
+                    .as_str()
+                    .is_some_and(|run| lines(run).iter().any(|line| is_gate_line(line)))
             })
         })
 }
@@ -473,7 +471,7 @@ fn signed_install(step: &Value) -> bool {
         .is_some_and(|(a, b)| normalized(a) == normalized(b))
 }
 
-fn gate(script: &str, post: bool) -> Result<Option<String>> {
+pub(crate) fn gate(script: &str, post: bool) -> Result<Option<String>> {
     // Reviewed generated report wrapper preserves the gate's exit through report copying.
     if let Some(steps) = reference_steps("0.4.0") {
         let index = if post { 3 } else { 2 };
@@ -500,6 +498,31 @@ fn gate(script: &str, post: bool) -> Result<Option<String>> {
         ));
     }
     let args: Vec<_> = command.split_whitespace().collect();
+    if args.get(1..3) == Some(&["ci", "verify"]) {
+        let mut stage = None;
+        let mut index = 3;
+        while index < args.len() {
+            match args[index] {
+                "--stage" if index + 1 < args.len() && stage.is_none() => {
+                    stage = Some(args[index + 1]);
+                    index += 2;
+                }
+                "--format" | "--report" if index + 1 < args.len() => index += 2,
+                _ => {
+                    return Err(unknown(
+                        "Native verification needs one explicit stage and no preflight or scope override",
+                    ));
+                }
+            }
+        }
+        if stage != Some(if post { "post-merge" } else { "pre-merge" }) {
+            return Ok(None);
+        }
+        let executable = args[0].replace('\\', "/");
+        return Ok(Some(
+            executable.strip_prefix("./").unwrap_or(&executable).into(),
+        ));
+    }
     if args.len() < 3 || args[1] != "check" || !args.contains(&"--ci") {
         return Ok(None);
     }
@@ -512,7 +535,7 @@ fn gate(script: &str, post: bool) -> Result<Option<String>> {
     let mut index = 2;
     while index < args.len() {
         match args[index] {
-            "--ci" | "--post-merge" | "--review-ci" => index += 1,
+            "--ci" | "--post-merge" | "--review-ci" | "--fail-fast" => index += 1,
             "--format" | "--report" | "--review-locator" | "--review-acceptance-sha256"
                 if index + 1 < args.len() =>
             {
@@ -599,11 +622,9 @@ fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
         // Once the gate ran, ordinary retention steps cannot undo its status.
         // A second actual gate still needs inspection and is not silently chosen.
         if count > 0
-            && !step["run"].as_str().is_some_and(|run| {
-                lines(run)
-                    .iter()
-                    .any(|s| s.contains("opdev") && s.contains("check"))
-            })
+            && !step["run"]
+                .as_str()
+                .is_some_and(|run| lines(run).iter().any(|s| is_gate_line(s)))
         {
             continue;
         }
@@ -652,10 +673,7 @@ fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
             };
             runtimes.push(format!("{prefix}target/{profile}/opdev"));
             runtimes.push(format!("{prefix}target/{profile}/opdev.exe"));
-        } else if lines(run)
-            .iter()
-            .any(|line| line.contains("opdev") && line.contains("check"))
-        {
+        } else if lines(run).iter().any(|line| is_gate_line(line)) {
             if let Some(executable) = gate(run, post)? {
                 if !main_checkout || !cwd.is_empty() {
                     return Err(unknown(
@@ -685,4 +703,8 @@ fn job_gate(workflow: &Value, job: &Value, post: bool) -> Result<bool> {
         }
     }
     Ok(count == 1)
+}
+
+fn is_gate_line(line: &str) -> bool {
+    line.contains("opdev") && (line.contains("check") || line.contains("ci verify"))
 }

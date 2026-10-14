@@ -8,6 +8,52 @@ separate from project-manifest schema 1 and the core rule catalog.
 
 ## Engineering baseline inventory
 
+### Deterministic mechanics and agent-assisted judgment
+
+The native coordinator (`adoption next`, capability `adoption.coordination.v1`)
+derives prerequisites and actions from current authorities; it is not a persisted
+step machine or new approval service. Facts distinguish observations, developer
+decisions, attributed permission and reviewed implementation claims. Each action
+lists dependencies, activity kind and supported invocation when all required
+arguments are known. Missing selections remain unresolved rather than fabricated.
+Inspection never runs project commands, writes state or claims completion.
+
+The existing guarded migration engine owns policy/guidance/cleanup transformations.
+Its reviewed before/after states, plan and runtime identities and external recovery
+snapshot also govern resume. Every target must still match its original or planned
+contents. Replays are idempotent; an unexpected edit blocks without restoring an
+old whole-tree snapshot. Individual writes are atomic, the whole migration is not.
+No new remote mutation/retry controller is introduced: inspect uncertain provider
+writes before any retry, and retain original decision scope.
+
+`adoption.complete-review.v1` compiles a complete unresolved bootstrap input from
+the selected catalog, requirements target and safeguard capabilities. It supplies
+mechanical identifiers but never impact judgments, semantic passes or consent.
+Null impacts and empty summaries are deliberate unresolved preparation slots, not
+valid completed answers. Existing preparation/export validators remain authoritative.
+Adoption-check JSON includes stable diagnostic categories (`adoption.prerequisites`,
+`adoption.review_inputs`, `adoption.verification`) and next actions as well as the
+compatible blocker strings. Tool/parse failures remain errors, not failed product
+tests. Readiness never transfers to another command as cached permission.
+
+`ci.verify.v1` composes native selection, input preflight and the actual gate at one
+explicit pre-merge, post-merge or delivery boundary. Selection is rechecked after
+execution; no new credentials or release path are created. `adoption check
+--review-ci` uses that reader for adoption's pre-merge inputs and rechecks selection.
+`evidence.delivery-handoff.v1` adds an optional delivery slot to native selection
+schema 1; prior slots and surrounding description content are preserved. Older
+readers may reject this field, so local and CI capability parity is required.
+Delivery uses current artifact/inventory bindings, not a source review relabeled
+as artifact proof. Full adoption, integrated qualification and release permission
+remain separate outcomes.
+
+This design uses reviewed plan/apply and observed-state reconciliation rather than
+a second durable workflow database. Alternatives are a prompt-only checklist
+(more manual identity and ordering mistakes) or an autonomous migration service
+(larger credential/state surface). Revisit the boundary if repeated controlled
+trials show native composition does not reduce mistakes or simply relocates them;
+deterministic tests alone do not establish agent reliability.
+
 ### Current destination
 
 For engineering policy 2, capability `adoption.clean-target.v3` makes the completion target exactly
@@ -297,7 +343,13 @@ project commands; local verification retains its existing meaning.
 4. `opdev adoption status` reports decisions/gaps without executing anything.
    `decisions_ready_for_verification` is not a completion verdict.
 5. Stage all material files and review evidence as described below.
-6. `opdev adoption check` verifies completion for the evaluated staged state.
+6. `opdev adoption check` verifies current controls for the evaluated staged state.
+   `controls_verified` and `integration_qualified` are separate; JSON `complete`
+   requires both. Without explicit remote qualification, even successful local
+   checks cannot claim integrated completion. Reconcile a separate current-trunk
+   `ci qualify` result in the existing work item rather than repeating suites just
+   for a combined label. `adoption check --remote` may include that observation;
+   a saved or attributed remote pass is not a freshly verified provider result.
 
 `adoption catalog` prints the project-selected practice definitions (legacy 1
 outside a repository); `--catalog-version 1|2` inspects an exact inventory without

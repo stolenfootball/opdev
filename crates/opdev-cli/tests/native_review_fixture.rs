@@ -43,11 +43,16 @@ fn prepare_fixture_or_stage_review() -> anyhow::Result<()> {
             maintenance_branches: vec![],
         });
         manifest.project.trunk = "main".into();
-        manifest.project.ci.provider = opdev_project::CiProvider::Github;
+        let provider = match std::env::var("OPDEV_NATIVE_REVIEW_PROVIDER").as_deref() {
+            Ok("gitlab") => opdev_project::CiProvider::Gitlab,
+            Ok("github") | Err(_) => opdev_project::CiProvider::Github,
+            _ => anyhow::bail!("unsupported fixture provider"),
+        };
+        manifest.project.ci.provider = provider;
         manifest.project.ci.remote = Some(std::env::var("OPDEV_NATIVE_REVIEW_REMOTE")?);
         manifest.assurance.review_storage = Some(opdev_project::ReviewStorage {
             version: 2,
-            provider: opdev_project::CiProvider::Github,
+            provider,
             repository_id: std::env::var("OPDEV_NATIVE_REVIEW_REPOSITORY_ID")?.parse()?,
             review_reference: "Synthetic fixture boundary".into(),
             retention_authority: "requirements.md".into(),
@@ -57,7 +62,7 @@ fn prepare_fixture_or_stage_review() -> anyhow::Result<()> {
         manifest.commands.insert(
             "behavior".into(),
             opdev_project::CommandSpec {
-                argv: vec!["python".into(), "-B".into(), "test_product.py".into()],
+                argv: vec!["python3".into(), "-B".into(), "test_product.py".into()],
                 working_directory: None,
                 timeout_seconds: Some(10),
             },
@@ -65,7 +70,11 @@ fn prepare_fixture_or_stage_review() -> anyhow::Result<()> {
         manifest.testing.suites = vec![opdev_project::TestSuite {
             id: "behavior".into(),
             command: "behavior".into(),
-            stages: vec![TestStage::PreMerge, TestStage::PostMerge],
+            stages: vec![
+                TestStage::PreMerge,
+                TestStage::PostMerge,
+                TestStage::Delivery,
+            ],
         }];
         manifest.write_new(&root.join(MANIFEST_PATH))?;
         fs::write(
@@ -84,13 +93,14 @@ fn prepare_fixture_or_stage_review() -> anyhow::Result<()> {
             root.join(".gitattributes"),
             "* text=auto eol=lf\n*.exe binary\n",
         )?;
-        fs::write(root.join(".gitignore"), "__pycache__/\n")?;
+        fs::write(root.join(".gitignore"), "__pycache__/\ntarget/\n")?;
         opdev_project::reconcile_agent_files(&root)?;
         return Ok(());
     }
     let stage = match mode.as_str() {
         "pre_merge" => TestStage::PreMerge,
         "post_merge" => TestStage::PostMerge,
+        "delivery" => TestStage::Delivery,
         _ => anyhow::bail!("unknown mode"),
     };
     let manifest = ProjectManifest::load(&root.join(MANIFEST_PATH))?;

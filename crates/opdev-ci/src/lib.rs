@@ -4,6 +4,7 @@
 
 mod github;
 pub mod gitlab;
+mod native_gitlab;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -423,11 +424,24 @@ fn inspect_value(
         source: std::io::Error::other(source),
     })?;
     let configuration = passed(path, "CI configuration is valid YAML");
+    let native = native_gitlab::present(parsed);
     Ok(CiInspection {
         configuration,
-        pre_merge: required_strings(path, &searchable, requirements.pre_merge),
-        post_merge: required_strings(path, &searchable, requirements.post_merge),
-        integrity: required_strings(path, &searchable, requirements.integrity),
+        pre_merge: if native {
+            native_gitlab::inspect(path, parsed, false)
+        } else {
+            required_strings(path, &searchable, requirements.pre_merge)
+        },
+        post_merge: if native {
+            native_gitlab::inspect(path, parsed, true)
+        } else {
+            required_strings(path, &searchable, requirements.post_merge)
+        },
+        integrity: if native {
+            native_gitlab::integrity(path, parsed)
+        } else {
+            required_strings(path, &searchable, requirements.integrity)
+        },
     })
 }
 

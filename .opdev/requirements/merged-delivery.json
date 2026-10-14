@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/evidence-lifetimes.md",
-          "sha256": "6e78c63845ab8c7d527cbfa13a9ed1be9535260ba62fbe244c008dddcf17c4de",
+          "sha256": "ab8fc984a70eee61daa0dc99d5febb6297f0489b49b500965281760b6c40152c",
           "excerpt": "Capability `evidence.merged-delivery.v1` makes explicit-locator delivery checks\nuse the provider-observed integration commit when the MR/PR is merged."
         }
       },
@@ -162,10 +162,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct boundary review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed executable provider fixtures for both identities, same-tree unequal commits, changed integrated content, missing metadata/objects and staged drift. Red-before-green tests reproduced the actual delivery source bug. Separate engine negative test rejects a pre-merge record at delivery. Assertions exercise adapter and stage contracts, not live provider authentication or actual artifact publication.",
-        "subject_sha256": "9c3fc3575d96ddf2b79e02ce8a0fbe951e1fd5c9f70e074c8676964d7bf69be7"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred.",
+        "subject_sha256": "4a59fccad58bda5621432aa5b3eca163c5294152036af23cd369f85175f60736"
       }
     },
     {
@@ -192,10 +192,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct boundary review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed executable provider fixtures for both identities, same-tree unequal commits, changed integrated content, missing metadata/objects and staged drift. Red-before-green tests reproduced the actual delivery source bug. Separate engine negative test rejects a pre-merge record at delivery. Assertions exercise adapter and stage contracts, not live provider authentication or actual artifact publication.",
-        "subject_sha256": "91910ed8dabbd70430f1c5cdb4f1bdd5dd076715771bc428133d6c7e37516f02"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred.",
+        "subject_sha256": "c497a1a6c40e8ffad41cb854410e716e845d6e830f5018b1722054cbf4e33c8b"
       }
     },
     {
@@ -222,10 +222,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct boundary review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed executable provider fixtures for both identities, same-tree unequal commits, changed integrated content, missing metadata/objects and staged drift. Red-before-green tests reproduced the actual delivery source bug. Separate engine negative test rejects a pre-merge record at delivery. Assertions exercise adapter and stage contracts, not live provider authentication or actual artifact publication.",
-        "subject_sha256": "99674f6590f47c8ceddf1a54536c13c18f40350f80c333c3455e12544f20cee2"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred.",
+        "subject_sha256": "04e6bd2e53d2af18b5955e2ae8804723ad541ba01f972659819c57c2be93efa1"
       }
     }
   ]

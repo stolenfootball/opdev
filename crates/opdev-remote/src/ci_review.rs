@@ -79,9 +79,14 @@ fn context_with(
         .as_ref()
         .filter(|p| p.version == 2)
         .ok_or("CI review selection requires the project's reviewed MR/PR storage policy")?;
-    if !matches!(stage, TestStage::PreMerge | TestStage::PostMerge) || !hex(revision, 40) {
+    if !matches!(
+        stage,
+        TestStage::PreMerge | TestStage::PostMerge | TestStage::Delivery
+    ) || !hex(revision, 40)
+    {
         return Err(
-            "CI review selection requires an exact pre-merge or post-merge checkout".into(),
+            "CI review selection requires an exact pre-merge, post-merge or delivery checkout"
+                .into(),
         );
     }
     let repository = crate::Repository::parse(
@@ -247,6 +252,8 @@ struct Selection {
 struct Stages {
     pre_merge: Option<Choice>,
     post_merge: Option<Choice>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    delivery: Option<Choice>,
 }
 #[derive(Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -305,7 +312,10 @@ pub fn prepare_review_handoff(
         || note_id == 0
         || !hex(revision, 40)
         || !hex(acceptance, 64)
-        || !matches!(stage, TestStage::PreMerge | TestStage::PostMerge)
+        || !matches!(
+            stage,
+            TestStage::PreMerge | TestStage::PostMerge | TestStage::Delivery
+        )
     {
         return Err("Review handoff needs the project's exact change, comment, source, stage and independent acceptance identity".into());
     }
@@ -420,7 +430,8 @@ fn update_description(body: &str, stage: TestStage, choice: Choice) -> Result<St
     match stage {
         TestStage::PreMerge => data.stages.pre_merge = Some(choice),
         TestStage::PostMerge => data.stages.post_merge = Some(choice),
-        _ => return Err("CI handoff needs a pre-merge or post-merge stage".into()),
+        TestStage::Delivery => data.stages.delivery = Some(choice),
+        _ => return Err("CI handoff needs a pre-merge, post-merge or delivery stage".into()),
     }
     let json = serde_json::to_string(&data).map_err(|_| "Cannot encode CI selection")?;
     let separator = if section.is_none() { "\n\n" } else { "" };
@@ -467,7 +478,7 @@ fn select(context: &Context, number: u64, item: &Value) -> Result<CiReviewSelect
         .filter(|v| hex(v, 40))
         .ok_or("CI change source identity is unavailable")?;
     let pre = context.stage == TestStage::PreMerge;
-    let actual = if pre {
+    let actual = if pre || (context.stage == TestStage::Delivery && !merged) {
         Some(head)
     } else {
         item["merge_commit_sha"].as_str().filter(|_| merged)
@@ -491,10 +502,11 @@ fn select(context: &Context, number: u64, item: &Value) -> Result<CiReviewSelect
         .ok_or("CI review selection markers are out of order")?;
     let data: Selection = serde_json::from_str(section)
         .map_err(|_| "CI review selection is malformed; no private content echoed")?;
-    let choice = if pre {
-        data.stages.pre_merge
-    } else {
-        data.stages.post_merge
+    let choice = match context.stage {
+        TestStage::PreMerge => data.stages.pre_merge,
+        TestStage::PostMerge => data.stages.post_merge,
+        TestStage::Delivery => data.stages.delivery,
+        _ => return Err("Unsupported CI review stage".into()),
     }
     .ok_or("Select a reviewed comment for this verification stage before running CI")?;
     if data.schema != 1
@@ -595,7 +607,11 @@ mod tests {
     #[test]
     fn handoff_both_providers_require_explicit_note_and_unchanged_parent() -> Result {
         for provider in [CiProvider::Gitlab, CiProvider::Github] {
-            for stage in [TestStage::PreMerge, TestStage::PostMerge] {
+            for stage in [
+                TestStage::PreMerge,
+                TestStage::PostMerge,
+                TestStage::Delivery,
+            ] {
                 let (context, mut item) = fixture(provider, stage);
                 item["project_id"] = json!(7);
                 item["pull_request"] = json!({});
@@ -656,10 +672,11 @@ mod tests {
             stage,
             number: (stage == TestStage::PreMerge).then_some(3),
         };
-        let key = if stage == TestStage::PreMerge {
-            "pre_merge"
-        } else {
-            "post_merge"
+        let key = match stage {
+            TestStage::PreMerge => "pre_merge",
+            TestStage::PostMerge => "post_merge",
+            TestStage::Delivery => "delivery",
+            _ => unreachable!(),
         };
         let selection = json!({"schema":1,"stages":{key:{"revision":context.revision,"note_id":11,
             "body_sha256":"b".repeat(64),"acceptance_sha256":"c".repeat(64)}}});
@@ -680,7 +697,11 @@ mod tests {
     #[test]
     fn both_providers_resolve_exact_stages_without_general_gitlab_project_reads() -> Result {
         for provider in [CiProvider::Gitlab, CiProvider::Github] {
-            for stage in [TestStage::PreMerge, TestStage::PostMerge] {
+            for stage in [
+                TestStage::PreMerge,
+                TestStage::PostMerge,
+                TestStage::Delivery,
+            ] {
                 let (context, item) = fixture(provider, stage);
                 let mut urls = Vec::new();
                 let result = resolve_with(&context, |url| {
@@ -786,6 +807,55 @@ mod tests {
         let after = select(&context, 3, &item)?;
         assert_eq!(before.locator, after.locator);
         assert_ne!(before.description_sha256, after.description_sha256);
+        Ok(())
+    }
+
+    #[test]
+    fn delivery_selection_never_substitutes_another_stage_or_checkout_for_source_head() -> Result {
+        for provider in [CiProvider::Gitlab, CiProvider::Github] {
+            let (context, item) = fixture(provider, TestStage::Delivery);
+            let selected = select(&context, 3, &item)?;
+            assert_eq!(selected.locator.source_commit, "d".repeat(40));
+            assert_ne!(selected.locator.source_commit, context.revision);
+            for fault in 0..5 {
+                let mut wrong = item.clone();
+                match fault {
+                    0 => wrong["merge_commit_sha"] = json!("e".repeat(40)),
+                    1 => wrong["merge_commit_sha"] = Value::Null,
+                    2 => {
+                        wrong["merged"] = json!(false);
+                        wrong["state"] = json!("opened");
+                    }
+                    _ => {
+                        let text = item["body"].as_str().ok_or("body")?;
+                        let text = text.replace(
+                            "delivery",
+                            if fault == 3 {
+                                "pre_merge"
+                            } else {
+                                "post_merge"
+                            },
+                        );
+                        wrong["body"] = json!(text);
+                        wrong["description"] = json!(text);
+                    }
+                }
+                assert!(select(&context, 3, &wrong).is_err(), "fault {fault}");
+            }
+            let key = if provider == CiProvider::Github {
+                "body"
+            } else {
+                "description"
+            };
+            let updated = update_description(
+                item[key].as_str().ok_or("body")?,
+                TestStage::PreMerge,
+                choice(&"d".repeat(40)),
+            )?;
+            let mut retained = item;
+            retained[key] = updated.into();
+            assert_eq!(select(&context, 3, &retained)?.locator, selected.locator);
+        }
         Ok(())
     }
 

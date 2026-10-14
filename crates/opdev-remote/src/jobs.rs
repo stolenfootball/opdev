@@ -9,7 +9,7 @@ use serde_json::Value;
 use super::run::{number, read_response, string};
 use super::{
     CiProvider, Client, Duration, Outcome, ProjectManifest, RemoteError, RunExpectation,
-    RunVerification, encode, first_env, github_request, gitlab_credential, gitlab_request,
+    RunVerification, encode, github_credential, github_request, gitlab_credential, gitlab_request,
     verify_run,
 };
 
@@ -117,7 +117,7 @@ fn fetch_jobs(
         .map_err(|_| "Job observation client could not start".to_owned())?;
     let expected = &report.expected;
     let token = (report.provider == CiProvider::Github)
-        .then(|| first_env(&["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"]))
+        .then(github_credential)
         .flatten();
     let credential = (report.provider == CiProvider::Gitlab)
         .then(gitlab_credential)

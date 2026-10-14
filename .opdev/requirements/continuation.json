@@ -54,7 +54,7 @@
         "kind": "source",
         "source": {
           "path": "spec/evidence-lifetimes.md",
-          "sha256": "6e78c63845ab8c7d527cbfa13a9ed1be9535260ba62fbe244c008dddcf17c4de",
+          "sha256": "ab8fc984a70eee61daa0dc99d5febb6297f0489b49b500965281760b6c40152c",
           "excerpt": "| Fact | Lifetime and invalidation |\n| --- | --- |\n| Assertion review | Exact source, complete acceptance inventory and current assertions; new conditions invalidate review even when execution is unchanged |\n| Canonical execution | Exact reviewed input/configuration/environment identities, provider producer/run/attempt and stage; newer attempts and unavailable evidence cannot fall back to old green |\n| Artifact qualification | Exact retained artifact bytes and separate qualification evidence; replacement or missing bytes cannot inherit old qualification |\n| Developer decision | Original attributed scope, authority, revocation/supersession and applicable expiry; permission is not feedback or release authority |\n| Remote observation | Explicit observation context and freshness, rechecked through the provider when qualification requires it; local journals cannot refresh or authenticate it |"
         }
       },
@@ -328,10 +328,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "99c364522f878ecca7273a56bf4f50ceb251db9e5fa79a2fa83d9d70fbc29667"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened.",
+        "subject_sha256": "650965fb5ca68ffa7d0af177e4b8a7974fce9fee70d482387525645b2576e1b2"
       }
     },
     {
@@ -348,10 +348,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "874c761a793028009d29264b9d329ae5087706c000c9bcff6d82422bf0fc407a"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened.",
+        "subject_sha256": "2a3bc4f0697511ee0b5e0bafec65c495596127e9bd799fe4d942a2e99ada09f9"
       }
     },
     {
@@ -368,10 +368,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "0f91feaae581e71907d1093f41517f25955aa78223a35f4b9ad1221193f8c09d"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened.",
+        "subject_sha256": "a7f280263fc495cd771db9221d7d750106a3e8c0a1fe982b603fae0f3e71a522"
       }
     }
   ]

@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -515,7 +515,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -550,7 +550,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -630,7 +630,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -665,7 +665,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -745,7 +745,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -780,7 +780,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -860,7 +860,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -895,7 +895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -975,7 +975,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -1010,7 +1010,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1090,7 +1090,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -1125,7 +1125,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1205,7 +1205,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -1240,7 +1240,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1365,7 +1365,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -1400,7 +1400,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1525,7 +1525,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -1560,7 +1560,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1685,7 +1685,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -1720,7 +1720,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1845,7 +1845,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -1880,7 +1880,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2005,7 +2005,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -2040,7 +2040,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2165,7 +2165,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2325,7 +2325,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -2360,7 +2360,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2485,7 +2485,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -2520,7 +2520,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2645,7 +2645,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -2680,7 +2680,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2805,7 +2805,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -2840,7 +2840,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2965,7 +2965,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -2995,7 +2995,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3125,7 +3125,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -3155,7 +3155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3310,7 +3310,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -3340,7 +3340,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3495,7 +3495,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -3525,7 +3525,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3680,7 +3680,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -3710,7 +3710,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3865,7 +3865,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -3895,7 +3895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4050,7 +4050,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -4080,7 +4080,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4235,7 +4235,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -4265,7 +4265,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4420,7 +4420,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -4450,7 +4450,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4605,7 +4605,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -4635,7 +4635,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4790,7 +4790,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -4820,7 +4820,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4975,7 +4975,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -5005,7 +5005,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5160,7 +5160,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -5190,7 +5190,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5345,7 +5345,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -5375,7 +5375,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5530,7 +5530,7 @@
         },
         {
           "path": "crates/opdev-engine/src/acceptance.rs",
-          "sha256": "df365515e988f7d143665276fdeba2d2764a7d82fbf334fbadca120e74469447",
+          "sha256": "a281dbd0acff966ae0d3e39682909142714229521e36fd1e638d6c8e8dbc79c3",
           "excerpt": "fn control_selection_matches("
         },
         {
@@ -5565,7 +5565,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "1fd73d312ee8bd14196825ed00a939d2136b1696b3492f10dd3d8a793cbf20ff",
+          "sha256": "ccd56bd3dbee0b4f02da3ef7412a6e4a3b86d7fe5a433edfd1ab3b3985a89ff6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5615,11 +5615,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "d80e865ec4bd621c5f7c25e63b7d35caa7b057ac65b275cdcb26a6f5eedb19e6",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees.",
+        "subject_sha256": "8770eae28859dcb93dee88536f18f30ec6e505f9d198911ed7e77baf6b38984f"
       }
     },
     {
@@ -5655,11 +5655,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "4940612e4ffa9681361ad2caf0c1d600954396be72e20ac255c6fe47aca089c2",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees.",
+        "subject_sha256": "6019bc08c9ae3f6813eab401871ff3be6d08a0fae0c29f0e93ec4c486d1ca6f0"
       }
     },
     {
@@ -5695,11 +5695,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "a068926be8bfefbafd32903afe9afed634be2df0e834c5ea83aa94a1ca8036e3",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed the scoped main routing diff against unchanged pure resolver and real preview no-write/no-execution assertions. The new commands and legacy-shorthand clarification do not mutate selected definitions or weaken exact version and historical accounting guarantees.",
+        "subject_sha256": "2d62cab96b79f871431ad250f732640ae1c91e376205d1edc198449dd7b0b102"
       }
     },
     {
@@ -5745,11 +5745,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "a9cc7ec146599b1a9734380be4c76be0fec49f7fbc74d0dad2e7f5befafcb3a0",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed changed acceptance preflight and main routing against retained source/stage-bound policy controls. The only new preflight condition strengthens delivery artifact input checking for explicit current policy; legacy assessments keep their meaning and known failures are not overridden. Existing meaningful control mappings and execution requirements remain.",
+        "subject_sha256": "2dd3d507d578b17b06d4ffb889dce15ef27df8ee103b22a89c92e7e64aade1ec"
       }
     },
     {
@@ -5795,11 +5795,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "2c66c96a7b73a3863b0b15fe78d56399a24673c03a5b1171849c205fc4b69316",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed changed acceptance preflight and main routing against retained source/stage-bound policy controls. The only new preflight condition strengthens delivery artifact input checking for explicit current policy; legacy assessments keep their meaning and known failures are not overridden. Existing meaningful control mappings and execution requirements remain.",
+        "subject_sha256": "3c146439b7e5c04593807499c5e7811dd641cd75d4457ca1efd57aa1885a010c"
       }
     },
     {
@@ -5845,11 +5845,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "e39b86a64572ee45d2fa4aac06b15ab701587e5cb2b857db6bc942cb1c83f57b",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed changed acceptance preflight and main routing against retained source/stage-bound policy controls. The only new preflight condition strengthens delivery artifact input checking for explicit current policy; legacy assessments keep their meaning and known failures are not overridden. Existing meaningful control mappings and execution requirements remain.",
+        "subject_sha256": "93c25c9fef52502e35db5fc48a0bf32bfb79e4ad3b2086bc31bd6e792a249ea9"
       }
     },
     {
@@ -5920,11 +5920,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "e151440754ef1301e721e82b57b4105f420bc74a0d5bf01aaa9b49c93442f6fd",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed retained standard projection, exact selection and command-counter assertions against the scoped CLI additions. Standards definitions, stages, mapping completeness and shared execution are unchanged; composed verification invokes the existing engine once and does not change standards into approval or full conformance.",
+        "subject_sha256": "43d9f76295d46dcf463da35c0e021fde58e2b4a9ae1222ea4368897e485925b1"
       }
     },
     {
@@ -5995,11 +5995,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "bb57c8b324db9261c507a4aa8aa59f88ff1dba01b812a48be5895ac1680e3d8d",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed retained standard projection, exact selection and command-counter assertions against the scoped CLI additions. Standards definitions, stages, mapping completeness and shared execution are unchanged; composed verification invokes the existing engine once and does not change standards into approval or full conformance.",
+        "subject_sha256": "1e9e6f40f3916d59336d6010bdaffe8bfb63c54f24dc87a91950626321a5c5fa"
       }
     },
     {
@@ -6070,11 +6070,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "567f2c9fb5814070919071579f3d273fdecdf5c38569332b32df8087bf88f56c",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed retained standard projection, exact selection and command-counter assertions against the scoped CLI additions. Standards definitions, stages, mapping completeness and shared execution are unchanged; composed verification invokes the existing engine once and does not change standards into approval or full conformance.",
+        "subject_sha256": "28631c4aa601001b4380d29cfddc7edc047c6bcfe7bceeeb5265480e8e18d3e7"
       }
     },
     {
@@ -6150,11 +6150,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "30761a85362bfd4b0d8efa12244f016fb26fea36b6fc6c801e53275eed74df32",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked retained bounded-definition, stage/source link and executable-counter guarantees against changed acceptance routing. Organization parsing/projection and semantic links are unchanged. New native preflight cannot replace a required duty with a declaration or an earlier stage's observation.",
+        "subject_sha256": "2b8a5154c06e0ce301eb64266e4929ac60b4ee86533e74bb7f6268c2b72089c2"
       }
     },
     {
@@ -6230,11 +6230,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "423b6ab26d99194fb4cca92bac93e33e243c09bebe9d49e93384885971f0e251",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked retained bounded-definition, stage/source link and executable-counter guarantees against changed acceptance routing. Organization parsing/projection and semantic links are unchanged. New native preflight cannot replace a required duty with a declaration or an earlier stage's observation.",
+        "subject_sha256": "1c2e4e76fcfc01d59661ca4a3167abb6993afc92193851505018da719c1c6058"
       }
     },
     {
@@ -6310,11 +6310,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "2b8e41245bd9ae6499c2a8f5fc7167065a5d8c53b81dfce621bf8843cd81de27",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Rechecked retained bounded-definition, stage/source link and executable-counter guarantees against changed acceptance routing. Organization parsing/projection and semantic links are unchanged. New native preflight cannot replace a required duty with a declaration or an earlier stage's observation.",
+        "subject_sha256": "ff1edd8566f5b8f3d73bdbbe3f821f83f48d473e344231d927d4bd8362a5b71a"
       }
     }
   ]

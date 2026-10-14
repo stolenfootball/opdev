@@ -3,6 +3,126 @@
 use serde_json::{Value, json};
 
 #[test]
+#[allow(clippy::too_many_lines)] // Connected fixture setup and all stage/no-execution assertions.
+fn composed_verifier_requires_stage_and_native_identity_before_any_suite()
+-> Result<(), Box<dyn std::error::Error>> {
+    use std::{fs, process::Command};
+    let repo = tempfile::tempdir()?;
+    let root = repo.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "--quiet"])
+            .arg(root)
+            .status()?
+            .success()
+    );
+    let cli = || {
+        let mut cmd = Command::new(env!("CARGO_BIN_EXE_opdev"));
+        cmd.current_dir(root);
+        for key in [
+            "GITLAB_CI",
+            "CI_JOB_TOKEN",
+            "CI_PROJECT_ID",
+            "GITHUB_ACTIONS",
+            "GITHUB_TOKEN",
+        ] {
+            cmd.env_remove(key);
+        }
+        cmd
+    };
+    assert!(
+        cli()
+            .args(["init", "--legacy-policy"])
+            .output()?
+            .status
+            .success()
+    );
+    let path = root.join(opdev_project::MANIFEST_PATH);
+    let mut manifest = opdev_project::ProjectManifest::load(&path)?;
+    manifest.commands.insert(
+        "marker".into(),
+        opdev_project::CommandSpec {
+            argv: vec![
+                "git".into(),
+                "config".into(),
+                "--local".into(),
+                "opdev.executed".into(),
+                "yes".into(),
+            ],
+            working_directory: None,
+            timeout_seconds: Some(10),
+        },
+    );
+    manifest.testing.suites = vec![opdev_project::TestSuite {
+        id: "marker".into(),
+        command: "marker".into(),
+        stages: vec![
+            opdev_project::TestStage::PreMerge,
+            opdev_project::TestStage::PostMerge,
+            opdev_project::TestStage::Delivery,
+        ],
+    }];
+    fs::write(path, manifest.to_yaml()?)?;
+    for args in [
+        vec!["add", "."],
+        vec![
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.test",
+            "commit",
+            "-qm",
+            "fixture",
+        ],
+    ] {
+        assert!(
+            Command::new("git")
+                .current_dir(root)
+                .args(args)
+                .status()?
+                .success()
+        );
+    }
+    assert_eq!(
+        cli().args(["ci", "verify"]).output()?.status.code(),
+        Some(2)
+    );
+    for stage in ["pre-merge", "post-merge", "delivery"] {
+        for preflight in [false, true] {
+            let mut command = cli();
+            command.args(["ci", "verify", "--stage", stage]);
+            if preflight {
+                command.arg("--preflight");
+            }
+            let result = command.output()?;
+            assert_eq!(
+                result.status.code(),
+                Some(2),
+                "{}",
+                String::from_utf8_lossy(&result.stderr)
+            );
+            assert!(
+                !Command::new("git")
+                    .current_dir(root)
+                    .args(["config", "--local", "--get", "opdev.executed"])
+                    .output()?
+                    .status
+                    .success()
+            );
+        }
+    }
+    assert!(
+        Command::new("git")
+            .current_dir(root)
+            .args(["status", "--porcelain"])
+            .output()?
+            .stdout
+            .is_empty()
+    );
+    Ok(())
+}
+
+#[test]
 fn diagnostic_examples_are_explicit_and_do_not_publish_candidates()
 -> Result<(), Box<dyn std::error::Error>> {
     let lab: Value = serde_saphyr::from_str(include_str!(

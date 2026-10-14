@@ -59,7 +59,8 @@ Capability `evidence.ci-review.v1` supplies `check --ci --review-ci`, optionally
 authentication/discovery scripts. It reads one explicit selection in the current
 MR/PR description, between `<!-- opdev-ci-selection:start -->` and
 `<!-- opdev-ci-selection:end -->`. JSON format 1 contains `schema: 1` and `stages`
-with optional `pre_merge`/`post_merge` entries. Each selected entry has exactly
+with optional `pre_merge`/`post_merge` entries; `evidence.delivery-handoff.v1` adds
+an optional `delivery` entry. Each selected entry has exactly
 `revision` (full stage commit), `note_id` (positive comment ID), `body_sha256`
 (whole comment), and `acceptance_sha256` (independently reviewed inventory).
 Duplicate/unknown fields, ambiguous markers, missing stages and invalid identities
@@ -115,7 +116,23 @@ the actual provider source head, not the tag/merge SHA. Different commit IDs
 with identical trees remain valid at this source boundary. Full current review
 validation independently binds source, configuration, delivery stage, acceptance
 and artifact subject; this change neither reuses pre-merge review nor qualifies
-an artifact by tree equality. Native CI selection remains pre/post-merge only.
+an artifact by tree equality. With `evidence.delivery-handoff.v1`, native delivery
+selection discovers the associated merged change and binds the exact integrated
+checkout, while keeping the locator's actual source head. An explicit local
+handoff can select an unmerged candidate without treating it as integrated.
+`ci prepare-review --delivery` proposes this separate slot and preserves the
+other stages and surrounding text. Older readers can reject this new optional
+field: verify both local and CI capabilities before using it.
+
+With `ci.verify.v1`, `ci verify --stage pre-merge|post-merge|delivery` composes
+current native selection and preflight with the real required gate. It runs
+canonical suites once and stops remaining suites after a failure. `--preflight`
+executes no suites and carries no selection into a later process. The executing
+operation retrieves its own current selection and rechecks it after execution.
+Missing artifact subjects or mismatched digest evidence for passed artifact
+claims are input gaps before delivery suites under engineering policy 2/3;
+they cannot be satisfied by source/integration evidence. No adapter authorizes
+publication or changes provider credentials.
 
 Rationale: after integration, qualification must describe the actual combined
 source, not force delivery of the former branch. Comparing trees preserves

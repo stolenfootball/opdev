@@ -31,8 +31,8 @@
         "kind": "source",
         "source": {
           "path": "spec/evidence-lifetimes.md",
-          "sha256": "6e78c63845ab8c7d527cbfa13a9ed1be9535260ba62fbe244c008dddcf17c4de",
-          "excerpt": "Capability `evidence.ci-review.v1` supplies `check --ci --review-ci`, optionally\n`--post-merge`, under explicit storage policy 2. This replaces per-repository\nauthentication/discovery scripts. It reads one explicit selection in the current\nMR/PR description, between `<!-- opdev-ci-selection:start -->` and\n`<!-- opdev-ci-selection:end -->`. JSON format 1 contains `schema: 1` and `stages`\nwith optional `pre_merge`/`post_merge` entries. Each selected entry has exactly\n`revision` (full stage commit), `note_id` (positive comment ID), `body_sha256`\n(whole comment), and `acceptance_sha256` (independently reviewed inventory).\nDuplicate/unknown fields, ambiguous markers, missing stages and invalid identities\nfail before canonical execution. The description selects the comment; the comment\ncannot select its own expected acceptance identity. Attribution is not consent."
+          "sha256": "ab8fc984a70eee61daa0dc99d5febb6297f0489b49b500965281760b6c40152c",
+          "excerpt": "Capability `evidence.ci-review.v1` supplies `check --ci --review-ci`, optionally\n`--post-merge`, under explicit storage policy 2. This replaces per-repository\nauthentication/discovery scripts. It reads one explicit selection in the current\nMR/PR description, between `<!-- opdev-ci-selection:start -->` and\n`<!-- opdev-ci-selection:end -->`. JSON format 1 contains `schema: 1` and `stages`\nwith optional `pre_merge`/`post_merge` entries; `evidence.delivery-handoff.v1` adds\nan optional `delivery` entry. Each selected entry has exactly\n`revision` (full stage commit), `note_id` (positive comment ID), `body_sha256`\n(whole comment), and `acceptance_sha256` (independently reviewed inventory).\nDuplicate/unknown fields, ambiguous markers, missing stages and invalid identities\nfail before canonical execution. The description selects the comment; the comment\ncannot select its own expected acceptance identity. Attribution is not consent."
         }
       },
       "origin": "spec/evidence-lifetimes.md",
@@ -93,7 +93,7 @@
       "id": "V-ci-selection-1",
       "target": {
         "path": "crates/opdev-remote/src/ci_review.rs",
-        "sha256": "acd4ff0b0b1a8960a00abc6f6aa4717c7550c201049420dc9eb8ee87a510015a",
+        "sha256": "ad6a79a62005ee1dd7790292b32fcc04b5dec9d6eb4b6fb78d9acf62943fea2b",
         "excerpt": "fn wrong_project_fork_branch_revision_stage_and_mutable_selection_never_pass("
       },
       "inputs": [
@@ -200,10 +200,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "282e087c63242968454b8c7c9877ec7833f1e52fd44ea2713fe0d8ed22c4a500"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed the retained fork/project/trunk/revision/mutable-marker cases and new delivery-slot negative cases for both providers. The schema-1 extension retains existing pre/post slots, rejects wrong current identity and does not turn job access into developer consent.",
+        "subject_sha256": "c267c490b5d50c52845329c86e75c505d5e658ad881a31c9e2d580c3fb562659"
       }
     },
     {
@@ -220,10 +220,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "fe7bdc23dbddf479c717fed7a5ea2eb5a44bc3f5875ac50920f83e6ccf9cb394"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed the retained fork/project/trunk/revision/mutable-marker cases and new delivery-slot negative cases for both providers. The schema-1 extension retains existing pre/post slots, rejects wrong current identity and does not turn job access into developer consent.",
+        "subject_sha256": "6c2d90156c4c5138eafef5798c0ad9c9ea27c06b70c408888fd3c7d5b34c6d76"
       }
     },
     {
@@ -240,10 +240,10 @@
       ],
       "review": {
         "outcome": "passed",
-        "reviewer": "Codex (implementing agent, distinct adoption lifecycle review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/118",
-        "rationale": "Reviewed retained criteria and assertion bodies against the scoped diff: no prior guarantees removed. Adoption guidance adds early connected rehearsal and input repair, without schema, approval or release changes. Existing preparation/preflight tests retain sentinel execution checks; new cases distinguish both adoption assertions. Provider regressions reproduced the delivery defect before repair and preserve source-head, stage and freshness rejection. Reference-only bindings refreshed; deterministic checks do not prove live agent compliance or live delivery.",
-        "subject_sha256": "cf3394d6a509024e6e2cc9c0823b73aba646f249fde12109e2c5ab398e604f95"
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed the retained fork/project/trunk/revision/mutable-marker cases and new delivery-slot negative cases for both providers. The schema-1 extension retains existing pre/post slots, rejects wrong current identity and does not turn job access into developer consent.",
+        "subject_sha256": "26d5167985fc7d6f35020133b30585b11990ea0b7d0c4e48ecbc40128ccef863"
       }
     }
   ]

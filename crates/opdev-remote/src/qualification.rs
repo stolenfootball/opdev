@@ -9,7 +9,7 @@ use serde_json::Value;
 use super::run::{number, read_response, string};
 use super::{
     CiProvider, Client, Duration, GitlabCredential, Outcome, ProjectManifest, RemoteCapability,
-    RemoteError, Repository, RunExpectation, RunVerification, encode, failed, first_env,
+    RemoteError, Repository, RunExpectation, RunVerification, encode, failed, github_credential,
     github_request, gitlab_credential, gitlab_request, passed, unverified, verify_run,
     verify_run_with_jobs,
 };
@@ -472,9 +472,7 @@ impl Api {
                     encode(&repository.slug())
                 )
             },
-            token: github
-                .then(|| first_env(&["OPDEV_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"]))
-                .flatten(),
+            token: github.then(github_credential).flatten(),
             credential: (!github).then(gitlab_credential).flatten(),
             started: Instant::now(),
         })

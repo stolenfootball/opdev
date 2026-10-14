@@ -21,6 +21,65 @@ fn cli(root: &Path, args: &[&str]) -> Result<Output, std::io::Error> {
         .output()
 }
 
+#[test]
+fn coordinator_reconstructs_current_dependencies_without_writes_or_completion()
+-> Result<(), Box<dyn std::error::Error>> {
+    let repo = repo()?;
+    let root = repo.path();
+    let first = cli(root, &["adoption", "next"])?;
+    assert!(
+        first.status.success(),
+        "{}",
+        String::from_utf8_lossy(&first.stderr)
+    );
+    let first: Value = serde_json::from_slice(&first.stdout)?;
+    assert_eq!(first["complete"], false);
+    assert_eq!(first["checks_ran"], false);
+    assert!(!root.join(".opdev").exists());
+    assert!(
+        first["actions"]
+            .as_array()
+            .ok_or("actions")?
+            .iter()
+            .any(|a| a["id"] == "initialize")
+    );
+    assert!(cli(root, &["init", "--legacy-policy"])?.status.success());
+    let original = fs::read(root.join(ADOPTION_PATH))?;
+    let second = cli(root, &["adoption", "next"])?;
+    assert!(second.status.success());
+    let second: Value = serde_json::from_slice(&second.stdout)?;
+    let actions = second["actions"].as_array().ok_or("actions")?;
+    assert!(!actions.iter().any(|a| a["id"] == "initialize"));
+    assert!(
+        actions
+            .iter()
+            .filter(|a| a["kind"] == "engineering_work")
+            .all(|a| a["ready"] == false)
+    );
+    assert!(
+        actions
+            .iter()
+            .any(|a| a["id"] == "inspect_runtime" && a["ready"] == true)
+    );
+    assert!(
+        actions
+            .iter()
+            .any(|a| a["id"] == "verify" && a["ready"] == false)
+    );
+    assert_eq!(fs::read(root.join(ADOPTION_PATH))?, original);
+    assert!(!root.join(EVIDENCE_PATH).exists());
+    // Re-running observes the same authorities rather than consuming a stage flag.
+    let repeated: Value = serde_json::from_slice(&cli(root, &["adoption", "next"])?.stdout)?;
+    assert_eq!(second, repeated);
+    fs::write(root.join(ADOPTION_PATH), "invalid: changed by developer\n")?;
+    assert!(!cli(root, &["adoption", "next"])?.status.success());
+    assert_eq!(
+        fs::read_to_string(root.join(ADOPTION_PATH))?,
+        "invalid: changed by developer\n"
+    );
+    Ok(())
+}
+
 // Older-policy fixtures below use --legacy-assessment explicitly so their engine
 // regression coverage does not depend on the strengthened default destination.
 // These tests exercise the real default independently.
@@ -42,6 +101,20 @@ fn discovery_without_configuration_is_read_only_and_bare_init_cannot_select_poli
         let value: Value = serde_json::from_slice(&plan.stdout)?;
         assert_eq!(value["target"], "clean-3");
         assert_eq!(value["starting_state"], "uninitialized_project");
+        assert_eq!(
+            value["policy_selection"]["status"],
+            "unselected_discovery_proposal"
+        );
+        assert_eq!(
+            value["policy_selection"]["supported_current_targets"][1]["target"],
+            "clean-4"
+        );
+        assert!(
+            value["policy_selection"]["initialization"]
+                .as_str()
+                .ok_or("init route")?
+                .contains("init --project")
+        );
         assert!(value["plan_id"].is_null());
         assert!(value["required_migrations"].as_array().ok_or("gaps")?.len() >= 4);
         assert!(!root.join(".opdev").exists());
@@ -82,6 +155,13 @@ fn default_completion_rejects_otherwise_passing_legacy_policy_without_running_ch
 #[test]
 fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools()
 -> Result<(), Box<dyn std::error::Error>> {
+    for version in ["2", "3"] {
+        reviewed_contract_initialization(version)?;
+    }
+    Ok(())
+}
+
+fn reviewed_contract_initialization(version: &str) -> Result<(), Box<dyn std::error::Error>> {
     let repo = repo()?;
     let root = repo.path();
     let mut manifest = discover(root)?.manifest;
@@ -91,7 +171,7 @@ fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools
         .profiles
         .retain(|p| p.name != "opdev-core");
     manifest.assurance.engineering = Some(opdev_core::EngineeringPolicy {
-        version: "2".into(),
+        version: version.into(),
         minimumcd: None,
         review_reference: "synthetic actual choice".into(),
         maintenance_branches: vec![],
@@ -115,7 +195,7 @@ fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools
         retention_authority: "synthetic retention decision".into(),
     });
     manifest.assurance.safeguards = Some(opdev_project::SafeguardPolicy {
-        version: 1,
+        version: if version == "3" { 2 } else { 1 },
         review_reference: "synthetic actual choice".into(),
         capabilities: std::collections::BTreeMap::new(),
     });
@@ -141,17 +221,11 @@ fn reviewed_current_contract_scaffolds_pending_decisions_without_inventing_tools
     assert!(root.join(".opdev/guidance.md").is_file());
     assert!(!root.join(EVIDENCE_PATH).exists());
     let record = AdoptionRecord::load(root)?.ok_or("record")?;
-    assert_eq!(record.catalog_version, 2);
-    assert_eq!(record.clean_target.as_ref().ok_or("target")?.version, 3);
+    assert_eq!(record.catalog_version, if version == "3" { 3 } else { 2 });
+    let target = record.clean_target.as_ref().ok_or("target")?;
+    assert_eq!(target.version, if version == "3" { 4 } else { 3 });
     assert!(record.review.is_none());
-    assert!(
-        record
-            .clean_target
-            .as_ref()
-            .ok_or("target")?
-            .inventory_reference
-            .is_empty()
-    );
+    assert!(target.inventory_reference.is_empty());
     assert!(
         record
             .practices
@@ -1391,6 +1465,8 @@ fn preflight_reports_missing_inputs_together_and_never_executes_suites()
     assert!(ready.status.success(), "{value}");
     assert_eq!(value["inputs_ready"], true);
     assert_eq!(value["complete"], false);
+    assert_eq!(value["controls_verified"], false);
+    assert_eq!(value["integration_qualified"], false);
     assert_eq!(value["checks_ran"], false);
     assert!(value["core_report"].is_null());
     assert!(!root.join("unexpected-suite-execution").exists());
@@ -1421,6 +1497,16 @@ fn preflight_reports_missing_inputs_together_and_never_executes_suites()
             let value: Value = serde_json::from_slice(&output.stdout)?;
             assert_eq!(output.status.code(), Some(1), "{value}");
             assert!(value["blockers"].to_string().contains("adoption_review"));
+            assert!(
+                value["diagnostics"]
+                    .as_array()
+                    .ok_or("diagnostics")?
+                    .iter()
+                    .any(|d| {
+                        d["code"] == "adoption.review_inputs"
+                            && d["next_action"].as_str().is_some_and(|s| !s.is_empty())
+                    })
+            );
             assert_eq!(value["checks_ran"], false);
             assert!(!root.join("unexpected-suite-execution").exists());
         }

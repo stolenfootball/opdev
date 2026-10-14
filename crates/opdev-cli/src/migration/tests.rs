@@ -726,6 +726,41 @@ fn interrupted_apply_resumes_original_states_but_never_overwrites_later_work() -
 }
 
 #[test]
+fn every_interruption_boundary_resumes_idempotently_and_preserves_unrelated_work() -> Result<()> {
+    let boundaries = Fixture::new()?.preview()?.changes.len();
+    assert!(boundaries > 2, "exercise a multi-file migration");
+    for boundary in 0..=boundaries {
+        let f = Fixture::new()?;
+        let plan = f.preview()?;
+        assert_eq!(plan.changes.len(), boundaries);
+        let result = apply_plan(&plan, boundary);
+        assert_eq!(result.is_ok(), boundary == boundaries);
+        // A crash must leave each target in exactly its original or proposed state.
+        for (index, change) in plan.changes.iter().enumerate() {
+            assert_eq!(
+                inventory::text(&f.root.join(&change.path))?,
+                if index < boundary {
+                    change.after.clone()
+                } else {
+                    change.before.clone()
+                },
+                "boundary {boundary}, target {}",
+                change.path
+            );
+        }
+        let product = f.root.join("unrelated-product-data.txt");
+        fs::write(&product, "written after interruption")?;
+        apply_plan(&plan, usize::MAX)?;
+        apply_plan(&plan, usize::MAX)?;
+        for change in &plan.changes {
+            assert_eq!(inventory::text(&f.root.join(&change.path))?, change.after);
+        }
+        assert_eq!(fs::read_to_string(product)?, "written after interruption");
+    }
+    Ok(())
+}
+
+#[test]
 fn changed_inputs_new_junk_missing_recovery_and_forged_snapshot_are_not_applied() -> Result<()> {
     let f = Fixture::new()?;
     let plan = f.preview()?;

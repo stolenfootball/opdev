@@ -15,6 +15,21 @@ Before presenting choices or requesting approval, read
 [decision review](decision-review.md). A single approval question for an
 agent-selected plan does not substitute for resolving material developer choices.
 
+On runtimes with `adoption.coordination.v1`, use `adoption next` to derive current
+prerequisites and independent ready actions. Resolve real choices, use native
+preparation and reviewed transformations, then verify. Reinspect after changes or
+interruption; never treat its readiness graph as consent or cached qualification.
+New projects use reviewed `init --project`; existing policy uses the existing
+guarded `upgrade --migration` preview/apply/resume. Keep original recovery outside
+source; do not overwrite unexpected later edits or blindly retry remote writes.
+
+An uninitialized discovery contract is a proposal, not the selected policy or a
+runtime capability limit. Compare `policy_selection.supported_current_targets`
+and actual doctor capabilities. Policy 3/clean-4 uses `init --project FILE`;
+the older `--engineering-policy` shorthand only scaffolds policy 1/2. Do not
+report a broken runtime or request an upgrade merely because discovery proposes
+clean-3 or that older shorthand does not accept policy 3.
+
 ## Validate recommendations before asking for approval
 
 ### Rehearse the connected lifecycle early
@@ -32,13 +47,20 @@ Do not stop at a version check or CI lint. Verify how the exact reviewed comment
 acceptance identity, stage, source and artifact reach the command that consumes
 them. A successful `ci review-check` does not pass its selection to a later
 `check`: the real invocation still needs `--review-ci` or its explicit locator
-and acceptance arguments. Native CI selection currently covers pre/post-merge,
-not delivery. Plan the explicit delivery-stage review/locator and immutable
-artifact subject before declaring the publication path implemented. A manual
+and acceptance arguments. With `ci.verify.v1`, prefer the composed `ci verify
+--stage pre-merge|post-merge|delivery` in the actual required job; its optional
+`--preflight` remains inspection only. With `evidence.delivery-handoff.v1`, native
+delivery selection covers an associated merged change; explicit local locators
+remain available for unmerged candidates. Prepare the immutable artifact subject
+before declaring the publication path implemented. A manual
 hold can wait for that selection; it cannot supply missing review inputs.
 
-Use native `adoption prepare-evidence`, `evidence prepare`, discussion export
-and `ci prepare-review` where supported. The adoption worksheet is partial:
+Use native `adoption prepare-evidence --complete` with
+`adoption.complete-review.v1`, the actual target `--base` when requirements are
+selected, then `evidence bootstrap --adoption --answers`. Resolve its empty and
+null judgment slots; never convert unresolved questions into passes. Native
+`evidence prepare`, discussion export and `ci prepare-review` finish the handoff.
+Older runtimes' adoption worksheet without `--complete` is partial:
 merge its reviewed assertions into the current-change record, including both
 OPDEV-WORK-001 and OPDEV-TEST-002 `adoption_review` entries, cleanup and the
 policy-selected pipeline review. Requirements/catalog and safeguard bindings
@@ -433,6 +455,9 @@ Ordinary adoption check repeats these guards; a saved preflight cannot qualify i
 `prepare-evidence` includes an unresolved delivery-gate candidate, not approval.
 After local verification, use capable `ci qualify` for the separate current-trunk
 remote observation. Do not rerun equivalent suites just to refresh provider state.
+Current native reporting separates `controls_verified` from
+`integration_qualified`; a local success alone leaves `complete` false. Reconcile
+both current observations in the existing work item, not a new completion flag.
 Repair input failures in the preflight loop before running the canonical suites.
 The subsequent `adoption check` already executes its referenced pre-merge suites:
 do not first run a standalone full check solely for a second report. Focused

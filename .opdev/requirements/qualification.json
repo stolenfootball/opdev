@@ -76,7 +76,7 @@
       "id": "V-delivery-scope-1",
       "target": {
         "path": "crates/opdev-engine/src/delivery_subject.rs",
-        "sha256": "23ebe642f82531984dd9f4f1e0c80a219157114974c07b58eaf56502639911ef",
+        "sha256": "16676e47486bea120e2e4e56479c1d8572586b923f8fecee9ffb5d8c4aaafa40",
         "excerpt": "fn historical_project_claims_cannot_qualify_new_bytes_or_another_stage"
       },
       "inputs": [
@@ -106,7 +106,7 @@
       "id": "V-delivery-scope-2",
       "target": {
         "path": "crates/opdev-cli/src/adoption.rs",
-        "sha256": "fd5dbf625e692eecdfeec0e154bf047a69969d181847c722f504ac233f99435b",
+        "sha256": "92654671924b4bcac7399662961c04518cf01e51fd0c83ddc084dba73f85be66",
         "excerpt": "fn adoption_scope_preserves_delivery_gaps_and_rejects_other_blockers"
       },
       "inputs": [
@@ -332,11 +332,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "14086722aed38730f728bb9ff678ebe91c2c7fc510ce8a3a7ef790b21d641ae9",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release.",
+        "subject_sha256": "fddf5ead55d47ee45614e7af211001d368862481913eff18ad8186bce77b5550"
       }
     },
     {
@@ -362,11 +362,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "4626277ddc2b58091341f3a4af0a58f85d17ee3acffd6bb8595a60cb8d886334",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release.",
+        "subject_sha256": "96a95ccd37db124a0bc2cebd2e962834aac8802066cb8883a570d9363c7b919e"
       }
     },
     {
@@ -392,11 +392,11 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed policy-3 changes against retained assertions and helpers: old exact policy definitions, standards/organization boundaries and fail-closed stage/source mappings remain; schema-1 execution, migration recovery and explicit policy selection retain their guarantees. New fields are versioned rather than inferred. Full-file/input identities changed, not the accepted legacy guarantees. Suite-level assurance is not live-provider or agent qualification. Release116 review: requirement criteria, verification targets, assertion members and runtime implementation are unchanged. Cargo inputs change only seven workspace package versions; CI changes only OPDEV_VERSION. Compatibility extends the current CLI range and documentation clarifies already-implemented clean-4 without weakening existing duties. Retained assertions remain adequate for their original scope; canonical and artifact verification remain separate execution obligations.",
-        "subject_sha256": "5171d8c7c9c48341e98e4d216fbfbc42d958f97df5f9e9db2b088632e06b9d43",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/116",
-        "reviewer": "Codex (implementing agent, distinct release review)",
-        "outcome": "passed"
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
+        "rationale": "Reviewed unchanged adoption scope rejection of nonartifact failures and strengthened artifact preflight assertions. Missing artifact bytes remain distinct from project controls; failed/error/migration and required-standard blockers survive. Completion reporting is stricter but does not rewrite artifact verdicts or authorize release.",
+        "subject_sha256": "f206982b810347fc9e541853511cb2244e40f5486f3bd9adacf25635dacd8ccd"
       }
     },
     {

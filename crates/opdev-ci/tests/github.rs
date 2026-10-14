@@ -53,6 +53,41 @@ fn fixture(source: &str) -> Result<tempfile::TempDir, Box<dyn std::error::Error>
     Ok(root)
 }
 
+#[test]
+fn native_composed_verification_preserves_stage_and_refuses_readiness_as_execution()
+-> Result<(), Box<dyn std::error::Error>> {
+    let source = SOURCE_WORKFLOW
+        .replace(
+            "check --ci --post-merge --review-ci",
+            "ci verify --stage post-merge",
+        )
+        .replace("check --ci --review-ci", "ci verify --stage pre-merge");
+    let root = fixture(&source)?;
+    let adapter = adapter_for(CiProvider::Github)?;
+    let result = adapter.inspect(root.path())?;
+    assert_eq!(result.pre_merge.outcome, Outcome::Passed, "{result:?}");
+    assert_eq!(result.post_merge.outcome, Outcome::Passed);
+    for replacement in [
+        "ci verify --stage pre-merge --preflight",
+        "ci verify --stage delivery",
+        "ci verify --stage post-merge",
+        "ci verify --stage pre-merge --stage post-merge",
+        "ci verify --stage pre-merge --root other",
+    ] {
+        let root = fixture(&source.replace("ci verify --stage pre-merge", replacement))?;
+        assert_ne!(
+            adapter.inspect(root.path())?.pre_merge.outcome,
+            Outcome::Passed
+        );
+    }
+    let escaped = fixture(&source.replace("./target/debug/opdev", "../target/debug/opdev"))?;
+    assert_ne!(
+        adapter.inspect(escaped.path())?.integrity.outcome,
+        Outcome::Passed
+    );
+    Ok(())
+}
+
 fn observe(
     value: &serde_json::Value,
 ) -> Result<opdev_ci::CiInspection, Box<dyn std::error::Error>> {

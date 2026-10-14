@@ -45,10 +45,10 @@ for ordinary projects to replace their tracker.
 | Each state, assessment only | Current target, relevant unresolved choices, actual content inventory; no inferred consent, policy writes or cleanup. |
 | Design-only authorized behavior | Runnable first behavior and failure cases pass independent assertions; unselected CI/storage remain pending. |
 | Existing defect plus assessment | Requested regression repaired while independent adoption choices stay pending; existing tools and contracts remain. |
-| Older bounded cleanup | Useful content survives at its approved owner; exact recoverable history before retirement; references reconciled; no broader policy migration. |
+| Older bounded cleanup | Useful content survives at its approved owner; required temporary rollback is exact; references reconciled; no broader policy migration. Storage-2 ledger retirement needs no permanent archive. |
 | Tooling-only/status/routine controls | Scope honored; no automatic migration, release or tracker write from advice alone. |
-| Completed provider migration | Exact authenticated history retrieval, reviewed before/after state, interrupted resume, clean checkout/index, actual current-source checks and fresh-context access. |
-| Unavailable or changed archive | Old required history preserved; no completion and no recreation of a competing active ledger. |
+| Completed provider migration | Exact current review retrieval, reviewed before/after state, interrupted resume, clean checkout/index, actual current-source checks and fresh-context access. |
+| Unavailable or changed review | No completion and no recreation of a competing active ledger; only an explicitly selected legacy storage-1 migration requires historical archive verification. |
 | Unknown/malformed/linked artifacts | Explicit unresolved/error result; no filename-based deletion or normalization into success. |
 
 Inspect command attempts, outputs and final files, not just final prose. A blocked
@@ -73,8 +73,10 @@ qualification. A positive whole-adoption trial needs meaningful implementations,
 resolved capability facts, actual selected-policy evidence and integrated-source
 checks. Do not fill every rule with a synthetic passing claim to call the fixture
 compliant. Keep protocol/parser unit fixtures clearly separate from real adoption.
-Before authorized disposal, retain evidence and required original history outside
-the disposable repositories, verify a restore, then delete only exact new identities.
+Before authorized disposal, retain findings and the protocol's necessary fixture
+inputs outside the disposable repositories, verify their readability, then delete
+only exact new identities. Do not create a permanent consumer evidence archive
+merely to test storage-2 adoption; temporary migration rollback ends after verification.
 
 ## Report
 
