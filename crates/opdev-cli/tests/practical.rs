@@ -507,8 +507,18 @@ fn preset_preview_preserves_existing_requirement_selection() -> TestResult {
 #[test]
 fn doctor_recognizes_practical_contract_without_claiming_execution() -> TestResult {
     let dir = fixture()?;
+    opdev_project::apply_agent_preview(&opdev_project::preview_practical_agent_files(dir.path())?)?;
     let output = run(dir.path(), &["doctor", "--format", "json"])?;
     let result = report(&output)?;
+    assert_eq!(output.status.code(), Some(0), "{result}");
+    let guidance: Vec<_> = result["findings"]
+        .as_array()
+        .ok_or("findings")?
+        .iter()
+        .filter(|f| f["id"] == "inventory.project_guidance")
+        .collect();
+    assert_eq!(guidance.len(), 3, "{result}");
+    assert!(guidance.iter().all(|f| f["outcome"] == "passed"));
     assert!(
         result["runtime"]["project_schemas"]
             .as_array()
@@ -532,6 +542,47 @@ fn doctor_recognizes_practical_contract_without_claiming_execution() -> TestResu
             .iter()
             .any(|f| f["id"] == "remote.unsupported" && f["outcome"] == "unverified")
     );
+    Ok(())
+}
+
+#[test]
+fn practical_doctor_preserves_malformed_guidance_and_reports_error() -> TestResult {
+    let dir = fixture()?;
+    let path = dir.path().join(".opdev/guidance.md");
+    let malformed = "<!-- opdev:start -->\nmissing end marker\n";
+    fs::write(&path, malformed)?;
+    let output = run(dir.path(), &["doctor", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(2));
+    assert!(
+        report(&output)?["findings"]
+            .as_array()
+            .ok_or("findings")?
+            .iter()
+            .any(|f| f["id"] == "inventory.project_guidance" && f["outcome"] == "error")
+    );
+    assert_eq!(fs::read_to_string(path)?, malformed);
+    Ok(())
+}
+
+#[test]
+fn practical_doctor_reports_outdated_guidance_without_rewriting_it() -> TestResult {
+    let dir = fixture()?;
+    opdev_project::apply_agent_preview(&opdev_project::preview_practical_agent_files(dir.path())?)?;
+    let path = dir.path().join(".opdev/guidance.md");
+    let old = "<!-- opdev:start -->\nOld guidance\n<!-- opdev:end -->\n";
+    fs::write(&path, old)?;
+    let output = run(dir.path(), &["doctor", "--format", "json"])?;
+    assert_ne!(output.status.code(), Some(2));
+    assert!(
+        report(&output)?["findings"]
+            .as_array()
+            .ok_or("findings")?
+            .iter()
+            .any(
+                |f| f["id"] == "inventory.project_guidance" && f["outcome"] == "migration_required"
+            )
+    );
+    assert_eq!(fs::read_to_string(path)?, old);
     Ok(())
 }
 

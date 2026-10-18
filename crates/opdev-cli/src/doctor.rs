@@ -409,7 +409,7 @@ fn inspect_practical(report: &mut Report, contract: &opdev_project::practical::C
             "selected requirements, policies and assertion inputs",
         );
     }
-    if inspection::inspect_guidance(report).is_err() {
+    if inspection::inspect_practical_guidance(report).is_err() {
         report.inspection_error("inventory.project_guidance", "AGENTS.md / CLAUDE.md");
     }
     if report.remote_requested {

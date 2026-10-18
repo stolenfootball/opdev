@@ -473,7 +473,10 @@ fn preview_file(
     let existing = read_target(path)?;
 
     let (next, change) = match existing {
-        None => (format!("{desired_block}\n"), FileChange::Created),
+        None => (
+            format!("{}\n", normalize_block(desired_block)),
+            FileChange::Created,
+        ),
         Some(ref content)
             if accept_existing_agents_import
                 && !content.contains(START_MARKER)
@@ -508,6 +511,7 @@ fn replace_or_append_block(
     content: &str,
     desired_block: &str,
 ) -> Result<String, BootstrapError> {
+    let desired_block = normalize_block(desired_block);
     let starts: Vec<_> = content.match_indices(START_MARKER).collect();
     let ends: Vec<_> = content.match_indices(END_MARKER).collect();
     match (starts.as_slice(), ends.as_slice()) {
@@ -537,6 +541,15 @@ fn replace_or_append_block(
     }
 }
 
+fn normalize_block(block: &str) -> String {
+    // Embedded Markdown inherits checkout line endings. Convert once, then
+    // leave the surrounding target's newline and suffix to the renderer.
+    block
+        .replace("\r\n", "\n")
+        .trim_end_matches('\n')
+        .to_owned()
+}
+
 fn newline_style(content: &str) -> &'static str {
     if content.contains("\r\n") {
         "\r\n"
@@ -548,6 +561,34 @@ fn newline_style(content: &str) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn crlf_template_preserves_target_newlines_and_is_idempotent()
+    -> Result<(), Box<dyn std::error::Error>> {
+        let block = "<!-- opdev:start -->\r\nCurrent guidance\r\n<!-- opdev:end -->\r\n";
+        let root = tempfile::tempdir()?;
+        let path = root.path().join("AGENTS.md");
+        let created = preview_file(&path, block, false)?;
+        assert_eq!(created.after, block.replace("\r\n", "\n"));
+        apply_agent_preview(&[created])?;
+        assert_eq!(
+            preview_file(&path, block, false)?.file.change,
+            FileChange::Unchanged
+        );
+        for newline in ["\n", "\r\n"] {
+            let before = format!("Personal rules{newline}");
+            let expected = format!(
+                "Personal rules{newline}{newline}<!-- opdev:start -->{newline}Current guidance{newline}<!-- opdev:end -->{newline}"
+            );
+            let after = replace_or_append_block(Path::new("AGENTS.md"), &before, block)?;
+            assert_eq!(after, expected);
+            assert_eq!(
+                replace_or_append_block(Path::new("AGENTS.md"), &after, block)?,
+                expected
+            );
+        }
+        Ok(())
+    }
 
     #[test]
     fn shared_preview_preserves_project_text_and_rejects_stale_guide_before_any_write()

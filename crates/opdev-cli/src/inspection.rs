@@ -152,10 +152,23 @@ pub(super) fn inspect_ci(plan: &mut impl Inventory) -> Result<()> {
 }
 
 pub(super) fn inspect_guidance(plan: &mut impl Inventory) -> Result<()> {
+    inspect_guidance_with(plan, opdev_project::preview_agent_files)
+}
+
+pub(super) fn inspect_practical_guidance(plan: &mut impl Inventory) -> Result<()> {
+    inspect_guidance_with(plan, opdev_project::preview_practical_agent_files)
+}
+
+fn inspect_guidance_with(
+    plan: &mut impl Inventory,
+    preview: fn(
+        &Path,
+    ) -> Result<Vec<opdev_project::AgentFilePreview>, opdev_project::BootstrapError>,
+) -> Result<()> {
     for relative in ["AGENTS.md", "CLAUDE.md"] {
         plan.read(relative, &plan.root().join(relative))?;
     }
-    for item in opdev_project::preview_agent_files(plan.root())? {
+    for item in preview(plan.root())? {
         let relative = item
             .file
             .path
