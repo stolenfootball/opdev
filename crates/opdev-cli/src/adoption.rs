@@ -139,25 +139,14 @@ enum AdoptionCommand {
 pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
     match &args.command {
         AdoptionCommand::Next { root, remote } => {
-            let discovery = opdev_project::discover(root)?;
-            let record = AdoptionRecord::load(&discovery.root)?;
-            let mut observed =
-                coordinator::inspect(&discovery.root, &discovery.manifest, record.as_ref())?;
-            observed["remote_observation"] =
-                serde_json::to_value(policy_worksheet(&discovery.manifest, *remote)?)?;
-            observed["remote_qualification"] = serde_json::json!("not_run");
-            println!("{}", serde_json::to_string_pretty(&observed)?);
+            next(root, *remote)?;
         }
         AdoptionCommand::Plan {
             root,
             remote,
             preset,
         } => {
-            if let Some(preset) = preset {
-                crate::practical::adoption_plan(root, preset, *remote)?;
-            } else {
-                plan(root, *remote)?;
-            }
+            selected_plan(root, preset.as_deref(), *remote)?;
         }
         AdoptionCommand::Approve {
             root,
@@ -183,25 +172,18 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             root,
             complete,
             base,
-        } => {
-            if *complete {
-                crate::bootstrap_evidence(&crate::EvidenceBootstrapArgs {
-                    adoption: true,
-                    base: base.clone(),
-                    root: root.clone(),
-                    output: None,
-                    answers: None,
-                    write: false,
-                })?;
-            } else {
-                prepare_evidence(root)?;
-            }
-        }
+        } => prepare_selected_evidence(root, *complete, base.clone())?,
         AdoptionCommand::Catalog {
             root,
             catalog_version,
         } => print_catalog(root, *catalog_version)?,
-        AdoptionCommand::Start { root, dry_run } => start(root, *dry_run)?,
+        AdoptionCommand::Start { root, dry_run } => {
+            if let Some((root, contract)) = crate::practical::selected(root)? {
+                crate::practical::adoption_status(&root, &contract, OutputFormat::Human, false)?;
+            } else {
+                start(root, *dry_run)?;
+            }
+        }
         AdoptionCommand::Status {
             root,
             format,
@@ -218,6 +200,21 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             report,
             format,
         } => {
+            if let Some((root, contract)) = crate::practical::selected(root)? {
+                if *preflight
+                    && !*review_ci
+                    && !*legacy_assessment
+                    && !*remote
+                    && review_locator.is_none()
+                    && review_acceptance_sha256.is_none()
+                {
+                    crate::practical::adoption_status(&root, &contract, *format, false)?;
+                    return Ok(ExitCode::SUCCESS);
+                }
+                bail!(
+                    "Practical adoption has no all-in-one completion certificate. Use adoption status for configuration inspection, check --ci for pre-merge execution, and check --ci --post-merge on integrated source. Verify native required jobs separately. No checks ran."
+                );
+            }
             return check(
                 root,
                 *remote,
@@ -235,6 +232,55 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
         }
     }
     Ok(ExitCode::SUCCESS)
+}
+
+fn prepare_selected_evidence(
+    root: &std::path::Path,
+    complete: bool,
+    base: Option<String>,
+) -> Result<()> {
+    if complete {
+        crate::bootstrap_evidence(&crate::EvidenceBootstrapArgs {
+            adoption: true,
+            base,
+            root: root.to_path_buf(),
+            output: None,
+            answers: None,
+            write: false,
+        })?;
+        Ok(())
+    } else {
+        prepare_evidence(root)
+    }
+}
+
+fn next(root: &std::path::Path, remote: bool) -> Result<()> {
+    if let Some((root, contract)) = crate::practical::selected(root)? {
+        return crate::practical::adoption_status(&root, &contract, OutputFormat::Json, remote);
+    }
+    let discovery = opdev_project::discover(root)?;
+    let record = AdoptionRecord::load(&discovery.root)?;
+    let mut observed = coordinator::inspect(&discovery.root, &discovery.manifest, record.as_ref())?;
+    observed["remote_observation"] =
+        serde_json::to_value(policy_worksheet(&discovery.manifest, remote)?)?;
+    observed["remote_qualification"] = serde_json::json!("not_run");
+    println!("{}", serde_json::to_string_pretty(&observed)?);
+    Ok(())
+}
+
+fn selected_plan(root: &std::path::Path, preset: Option<&str>, remote: bool) -> Result<()> {
+    if let Some(preset) = preset {
+        crate::practical::adoption_plan(root, preset, remote)
+    } else if let Some((root, contract)) = crate::practical::selected(root)? {
+        let preset = serde_json::to_value(contract.preset)?;
+        crate::practical::adoption_plan(
+            &root,
+            preset.as_str().context("Preset must be a string")?,
+            remote,
+        )
+    } else {
+        plan(root, remote)
+    }
 }
 
 fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<()> {

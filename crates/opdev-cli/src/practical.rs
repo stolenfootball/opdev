@@ -16,6 +16,105 @@ use serde::Serialize;
 
 use crate::{CheckArgs, CheckFormat};
 
+pub(super) fn generate_ci(
+    args: &crate::CiGenerateArgs,
+    root: &Path,
+    contract: &Contract,
+) -> Result<()> {
+    let provider: opdev_project::CiProvider = args.provider.into();
+    let adapter = opdev_ci::adapter_for(provider)?;
+    let job_image = match (provider, &args.image) {
+        (opdev_project::CiProvider::Gitlab, Some(image)) => Some(image.clone()),
+        (opdev_project::CiProvider::Gitlab, None) => Some(opdev_ci::infer_gitlab_image(root)?),
+        (_, Some(_)) => anyhow::bail!("--image applies only to GitLab"),
+        _ => None,
+    };
+    let context = opdev_ci::TemplateContext {
+        opdev_version: args.opdev_version.clone(),
+        trunk: contract.trunk.clone(),
+        job_image,
+    };
+    eprintln!(
+        "Native integration template; no review handoff or release authorization. Verify the selected runtime supports practical.check.v1 before use. Published 0.5.0 does not contain this source preview; use a reviewed source build during development. Generation is not remote qualification."
+    );
+    let rendered = practical_ci(adapter, &context)?;
+    if args.write {
+        println!(
+            "created {}",
+            opdev_ci::write_rendered(&root.join(adapter.configuration_path()), &rendered)?
+                .display()
+        );
+    } else {
+        print!("{rendered}");
+    }
+    Ok(())
+}
+
+pub(super) fn inspect_ci(root: &Path, contract: &Contract) -> Result<()> {
+    let mut found = false;
+    for provider in [
+        opdev_project::CiProvider::Github,
+        opdev_project::CiProvider::Gitlab,
+    ] {
+        let adapter = opdev_ci::adapter_for(provider)?;
+        if !(root.join(adapter.configuration_path()).exists()
+            || provider == opdev_project::CiProvider::Github
+                && root.join(".github/workflows").exists())
+        {
+            continue;
+        }
+        found = true;
+        let report = adapter.inspect_for_trunk(root, &contract.trunk)?;
+        println!(
+            "{provider:?}: local inspection only; runtime capability and remote protection unverified"
+        );
+        for (name, capability) in [
+            ("configuration", report.configuration),
+            ("pre_merge", report.pre_merge),
+            ("post_merge", report.post_merge),
+            ("integrity", report.integrity),
+        ] {
+            crate::print_capability(name, &capability);
+        }
+    }
+    ensure!(
+        found,
+        "No first-class CI configuration found; native integration remains unverified"
+    );
+    Ok(())
+}
+
+fn practical_ci(
+    adapter: &dyn opdev_ci::CiAdapter,
+    context: &opdev_ci::TemplateContext,
+) -> Result<String> {
+    let mut document: serde_json::Value = serde_saphyr::from_str(&adapter.render(context)?)?;
+    if adapter.provider() == opdev_project::CiProvider::Gitlab {
+        document["variables"]["OPDEV_TRUNK"] = serde_json::json!(context.trunk);
+        let rules = serde_json::json!([
+            {"if":"$CI_PIPELINE_SOURCE == \"merge_request_event\""},
+            {"if":"$CI_PIPELINE_SOURCE == \"push\" && $CI_COMMIT_BRANCH == $OPDEV_TRUNK"}
+        ]);
+        document["workflow"] = serde_json::json!({"rules":rules});
+        document["opdev"]["rules"] = rules;
+        document["opdev"]["script"] = serde_json::json!([r#"set -e
+set --
+if [ "$CI_PIPELINE_SOURCE" = "push" ] && [ "$CI_COMMIT_BRANCH" = "$OPDEV_TRUNK" ]; then
+    set -- --post-merge
+fi
+report_file="$(mktemp)"
+set +e
+opdev check --ci "$@" --format json > "$report_file"
+opdev_status=$?
+cp "$report_file" opdev-report.json
+copy_status=$?
+if [ "$copy_status" -ne 0 ]; then exit "$copy_status"; fi
+exit "$opdev_status"
+"#]);
+    }
+    Ok(serde_saphyr::to_string(&document)?)
+}
+
 pub(super) fn adoption_status(
     root: &Path,
     contract: &Contract,
@@ -65,7 +164,7 @@ pub(super) fn adoption_plan(root: &Path, preset: &str, remote: bool) -> Result<(
         !remote,
         "Practical planning is local inspection only; remote qualification was not requested through a supported adapter"
     );
-    let (commands, checks, trunk, authorities, requirements, prior_obligations) =
+    let (commands, checks, trunk, authorities, requirements, policies, prior_obligations) =
         if let Some((_, current)) = selected(root)? {
             let prior = serde_json::to_value(&current)?;
             (
@@ -74,6 +173,7 @@ pub(super) fn adoption_plan(root: &Path, preset: &str, remote: bool) -> Result<(
                 current.trunk,
                 serde_json::to_value(current.authorities)?,
                 serde_json::to_value(current.requirements)?,
+                serde_json::to_value(current.policies)?,
                 prior,
             )
         } else {
@@ -90,6 +190,7 @@ pub(super) fn adoption_plan(root: &Path, preset: &str, remote: bool) -> Result<(
                 current.project.trunk,
                 serde_json::to_value(authorities)?,
                 serde_json::json!([]),
+                serde_json::json!([]),
                 if discovery.root.join(MANIFEST_PATH).exists() {
                     serde_json::to_value(&current.assurance)?
                 } else {
@@ -102,7 +203,7 @@ pub(super) fn adoption_plan(root: &Path, preset: &str, remote: bool) -> Result<(
         serde_json::to_string_pretty(&serde_json::json!({
             "schema":1,"kind":"practical_adoption_proposal",
             "project":{"schema":5,"policy_version":1,"preset":preset,"trunk":trunk,
-                "decision_reference":null,"commands":commands,"checks":checks,"authorities":authorities,"requirements":requirements},
+                "decision_reference":null,"commands":commands,"checks":checks,"authorities":authorities,"requirements":requirements,"policies":policies},
             "prior_obligations":prior_obligations,
             "choices":["Confirm assurance level and actual decision reference",
                 "Review existing check boundaries; inherited repetition is not automatically necessary",
@@ -132,7 +233,7 @@ pub(super) fn initialize(args: &crate::InitArgs) -> Result<bool> {
         "Existing policy preserved. Use a reviewed migration, not init, to replace it. Nothing changed."
     );
     contract.inspect_namespace(&root, false)?;
-    contract.inspect_requirements(&root)?;
+    contract.inspect_policies(&root, &contract.inspect_requirements(&root)?)?;
     let mut preview = opdev_project::preview_practical_agent_files(&root)?;
     preview.push(opdev_project::AgentFilePreview {
         file: opdev_project::ManagedFile {
@@ -182,7 +283,7 @@ pub(super) fn selected(start: &Path) -> Result<Option<(PathBuf, Contract)>> {
     Ok(Some((root, Contract::from_yaml(&content)?)))
 }
 
-fn git(root: &Path, args: &[&str]) -> Result<String> {
+pub(crate) fn git(root: &Path, args: &[&str]) -> Result<String> {
     let output = Command::new("git")
         .arg("-C")
         .arg(root)

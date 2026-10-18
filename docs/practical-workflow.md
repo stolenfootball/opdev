@@ -1,5 +1,12 @@
 # Practical workflow (source preview)
 
+`adoption next`, `adoption status`, `adoption start` and `adoption check
+--preflight` inspect an already configured practical project without creating a
+legacy adoption record. `adoption plan` retains its selected level unless an
+explicit `--preset` proposes another. These are not product-verification commands.
+Use actual stage checks and native required jobs to verify integration; the
+practical route deliberately has no all-in-one adoption certificate.
+
 This opt-in workflow reduces routine coordination and repeated checks. It is
 implemented by project schema `5`, policy version `1`. It is not enabled by
 updating an existing project's plugin. Schema 1–4 projects keep their selected
@@ -71,13 +78,20 @@ cannot report verification. `--plan` is a successful inspection, not a test pass
   guidance.md
   requirements/       # only explicitly selected current catalogs
     product.json
+  policies/           # only explicitly selected additional obligations
+    organization.json
 ```
 
 AGENTS.md and CLAUDE.md route to the short guide, preserving unrelated project
 instructions. Plans, logs, reports and scratch files do not belong in `.opdev`.
 Unknown or unselected files block checks but are never automatically deleted.
-The target design also allows selected additional policies; this source preview
-does not yet implement that contract and rejects unsupported policy fields.
+Additional definitions are selected by the contract's `policies` paths. Each
+schema-1 definition names `id`, original `source`, `decision_reference`, preserved
+`origin`, requirement IDs and execution `stages`. At those stages the mapped
+requirements need current source-bound review and execution even under Standard
+or Lightweight. Policy files are review inputs: changing them invalidates those
+reviews. This enforces the declared mapping, not completeness or certification
+against an entire external standard. Review scope against its original authority.
 
 A minimal project contract looks like this (replace the example commands and
 decision reference with the project's actual choices):
@@ -160,13 +174,45 @@ verification remains explicitly not run. Selected catalogs must already exist.
 `opdev adoption status` inspects that configuration and reports remaining check
 or mapping gaps without executing anything or claiming product verification.
 
-Initialization refuses to overwrite an existing contract. The coordinated
-schema-5 migration path is not implemented in this preview; do not manually
-replace the manifest to bypass that guard. Existing project catalogs and
-external policies are not automatically converted by the proposal. Migration
-must explicitly review assurance changes, preserve actual obligations, retire
-obsolete active artifacts and retain temporary rollback protection until
-verification. Existing Git history is not rewritten.
+Initialization refuses to overwrite an existing contract. Use coordinated
+migration for existing repositories or upgrades:
+
+```sh
+opdev upgrade --request-schema --request-version 2
+opdev upgrade --migration /outside/source/request.json
+opdev upgrade --migration /outside/source/request.json --apply PLAN_ID --recovery-output /outside/source/recovery.json
+opdev upgrade --resume /outside/source/recovery.json --apply PLAN_ID
+```
+
+The schema-2 request supplies the full reviewed `project`, an actual
+`assurance_change_reference`, exact replacement `files`, and obsolete `retire`
+paths with reasons. `retire_directories` names only inventoried empty directories;
+removal is never recursive. Files can replace selected definitions and native CI
+configuration; unrelated project files are not migration targets. Managed guide
+and root routing updates preserve unrelated instructions.
+
+The preview returns `plan.identity` and exact before/after contents. Apply needs
+that identity and a new recovery file outside source. Changed inputs or new
+namespace content block it; interrupted runs may resume only the original plan's
+before/after states. Later edits are preserved, not overwritten. Recovery writes
+are checked before changing source. Writes are atomic per file, not a multi-file
+transaction; keep recovery until verification and then remove it.
+
+Current requirement IDs must survive or have explicit `retired_requirements`
+decision references. Original additional standards, organization policies and
+profiles must be mapped through selected policy definitions with the same
+`origin`, or have explicit `retired_obligations` decisions from their original
+authority. An engineering MinimumCD selection has identity `minimumcd` and
+origin `{"minimumcd":"1"}`; other legacy identities use `standards:NAME`,
+`organization_policies:ID` or `profiles:NAME`. Practical policies retain their ID.
+Neither a reference nor a digest authenticates that authority. Do not invent a
+retirement to obtain green checks. Migration refuses transferred passed mapping
+reviews and erased known failed reviews. Review the resulting assertions afresh.
+
+After apply, inspect the actual diff, run applicable checks and qualify native CI.
+Configuration migration alone is not completed product verification. Retiring
+the old ledger needs no permanent archive or historical-copy verification.
+Existing Git history is not rewritten.
 
 ## Reports and current limits
 
@@ -177,12 +223,15 @@ artifacts or local state outside source rather than an accumulating ledger.
 Preserved command success does not qualify a policy or checkout that changed
 during the run; the overall command exits unsuccessfully with the finding.
 
-This preview supports practical initialization, proposal, requirement inspection,
-local/staged checks and read-only doctor inspection. Remote doctor inspection,
-additional-policy assessment, automated migration and all legacy convenience
-commands are not yet adapted. They must not be used to imply complete adoption
-or remote qualification. Existing native CI can execute a compatible source
-runtime, but published-version installation does not acquire unreleased support.
+`ci generate --provider github` or `gitlab` reuses the signed-runtime installer
+and native job templates without review transport. GitLab admits MR pipelines
+and pushes to the declared trunk, selecting post-merge checks only for the latter.
+Generation never replaces an existing file. `ci inspect` reports local provider
+observations, not current remote protection or passing pipelines. Review existing
+provider settings and observed required jobs using their native interfaces.
+Remote doctor inspection and historical review/ledger commands do not qualify a
+practical project. Published-version installation does not acquire unreleased
+capabilities; use a reviewed source runtime until a release is authorized.
 
 Whole-session cost and quality comparisons remain necessary. Fewer prompt words
 are not measured token savings, and passing regression tests are not proof that

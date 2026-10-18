@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/practical-policy.json",
+  "title": "Explicit additive obligation mapping",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "id", "source", "decision_reference", "origin", "requirements", "stages"],
+  "properties": {
+    "schema": {"const": 1},
+    "id": {"type": "string", "pattern": "\\S"},
+    "source": {"type": "string", "pattern": "\\S"},
+    "decision_reference": {"type": "string", "pattern": "\\S"},
+    "origin": {"not": {"type": "null"}},
+    "requirements": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "\\S"}},
+    "stages": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["local", "pre_merge", "post_merge", "package", "delivery", "recovery", "scheduled", "evaluation"]}}
+  },
+  "$comment": "Referenced requirements need current mapping review and execution at selected stages even under Standard or Lightweight. This is not certification of the source standard."
+}

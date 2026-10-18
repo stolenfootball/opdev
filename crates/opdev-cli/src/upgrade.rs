@@ -22,6 +22,9 @@ pub(super) struct UpgradeArgs {
     /// Print this CLI's complete offline migration JSON Schema, not a request or approval.
     #[arg(long, conflicts_with_all = ["migration", "resume", "apply", "recovery_output", "engineering_policy", "plugin_root"])]
     request_schema: bool,
+    /// Request format: 1 for historical migration, 2 for practical contracts.
+    #[arg(long, default_value_t = 1, requires = "request_schema", value_parser = clap::value_parser!(u32).range(1..=2))]
+    request_version: u32,
     /// Preview an explicit coordinated migration request; no default policy choices.
     #[arg(long, conflicts_with_all = ["resume", "engineering_policy"])]
     migration: Option<PathBuf>,
@@ -126,6 +129,14 @@ impl UpgradeReport {
 
 pub(super) fn run(args: &UpgradeArgs) -> Result<ExitCode> {
     if args.request_schema {
+        if args.request_version == 2 {
+            let mut schema: serde_json::Value = serde_json::from_str(include_str!(
+                "../../../schema/practical-migration.schema.json"
+            ))?;
+            schema["$defs"] = serde_json::json!({"project":serde_json::from_str::<serde_json::Value>(include_str!("../../../schema/practical-project.schema.json"))?});
+            println!("{}", serde_json::to_string_pretty(&schema)?);
+            return Ok(ExitCode::SUCCESS);
+        }
         println!(
             "{}",
             serde_json::to_string_pretty(&migration_request_schema()?)?

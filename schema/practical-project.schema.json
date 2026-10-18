@@ -24,6 +24,10 @@
     "requirements": {
       "type": "array", "maxItems": 1024, "uniqueItems": true,
       "items": {"type": "string", "pattern": "^\\.opdev/requirements/[^/\\\\:\\u0000]+\\.json$"}
+    },
+    "policies": {
+      "type": "array", "maxItems": 32, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^\\.opdev/policies/[^/\\\\:\\u0000]+\\.json$"}
     }
   },
   "$defs": {

@@ -16,6 +16,7 @@ use std::{
 
 mod cleanup;
 mod inventory;
+mod practical;
 #[cfg(test)]
 mod tests;
 
@@ -453,6 +454,19 @@ pub(super) fn run(
     recovery: Option<&Path>,
     plugin: Option<&Path>,
 ) -> Result<ExitCode> {
+    let input = resume.or(request).context("Migration input required")?;
+    let bytes = crate::local_state::read(&std::path::absolute(input)?)?
+        .context("Migration input missing")?;
+    let header: serde_json::Value = serde_json::from_slice(&bytes)?;
+    if header.get("kind").and_then(serde_json::Value::as_str) == Some("practical_migration")
+        || (resume.is_none() && header.get("schema").and_then(serde_json::Value::as_u64) == Some(2))
+    {
+        ensure!(
+            plugin.is_none(),
+            "Practical migration does not install or update a plugin"
+        );
+        return practical::run(root, &bytes, resume.is_some(), apply, recovery);
+    }
     let plan = if let Some(snapshot) = resume {
         let bytes = crate::local_state::read(&std::path::absolute(snapshot)?)?
             .context("Recovery snapshot is missing")?;

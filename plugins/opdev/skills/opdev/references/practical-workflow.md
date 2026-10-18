@@ -33,6 +33,12 @@ selects integrated-source checks. These can differ. `--no-exec` never qualifies
 missing executions. Multiple links to one canonical command need one execution.
 Do not run the full suite immediately before asking OpDev to run it again.
 
+For requested design feedback, use relevant focused checks and wait for that
+feedback without merging or running full integration CI merely to show the draft.
+A required failure blocks integration. Never substitute an older green report or
+lower the selected level to hide it. Continue genuinely independent authorized
+work while resolving the failure.
+
 Native GitHub/GitLab required jobs own remote integration status. A local stage
 selection is not remote execution or proof of integrated trunk. Changed merge
 content or relevant execution conditions require fresh verification. Distinct
@@ -68,8 +74,17 @@ inventing sample product code. Report product verification as not performed.
 
 Existing contracts need a supported reviewed migration. Explain assurance being
 reduced and preserve external obligations unless their authority changes them.
+On a runtime advertising `practical.migration.v1`, use `upgrade --request-schema
+--request-version 2`, then `upgrade --migration FILE` to inspect the exact proposal.
+Apply only its reviewed identity with temporary recovery outside source; resume
+the original snapshot after interruption, never overwrite a later edit. Preserve
+original obligations and requirements or record their actual retirement decisions.
+Do not transfer passed mapping reviews into the new contract.
 Remove superseded active artifacts after verification; keep temporary recovery
 protection and ordinary Git history, not an archive of obsolete OpDev files.
+If any reviewed migration input changes, do not apply the stale plan: inspect a
+new preview. Keeping a non-main trunk is valid. Ledger retirement does not require
+a permanent archive.
 Missing migration support is a limitation, not permission to force init or fake
 approval. Existing policy remains until its replacement is supported and selected.
 

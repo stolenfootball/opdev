@@ -47,6 +47,29 @@ pub struct Contract {
     /// Explicit catalog files, never a directory-wide context dump.
     #[serde(default)]
     pub requirements: Vec<String>,
+    /// Explicit additive obligation definitions; not implied certification.
+    #[serde(default)]
+    pub policies: Vec<String>,
+}
+
+/// Project-reviewed mapping of an additional obligation to current requirements.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Policy {
+    /// Exact definition format.
+    pub schema: u32,
+    /// Stable local identifier.
+    pub id: String,
+    /// Original authority defining the obligation.
+    pub source: String,
+    /// Actual review of this mapping's scope and limits.
+    pub decision_reference: String,
+    /// Preserved original selection on migration; not a conformance verdict.
+    pub origin: serde_json::Value,
+    /// Required current guarantees.
+    pub requirements: Vec<String>,
+    /// Required verification boundaries.
+    pub stages: Vec<TestStage>,
 }
 
 /// One canonical check, independently of its requirement mappings.
@@ -156,10 +179,15 @@ impl Contract {
                 .file_name()
                 .into_string()
                 .map_err(|_| anyhow::anyhow!("Non-UTF-8 .opdev path"))?;
-            if name == "requirements" {
+            if matches!(name.as_str(), "requirements" | "policies") {
+                let selected = if name == "requirements" {
+                    &self.requirements
+                } else {
+                    &self.policies
+                };
                 ensure!(
-                    !self.requirements.is_empty(),
-                    "Unselected requirements directory; review before removal or selection"
+                    !selected.is_empty(),
+                    "Unselected definition directory; review before removal or selection"
                 );
                 let meta = fs::symlink_metadata(entry.path())?;
                 ensure!(
@@ -173,9 +201,9 @@ impl Contract {
                         .file_name()
                         .into_string()
                         .map_err(|_| anyhow::anyhow!("Non-UTF-8 requirement path"))?;
-                    let path = format!(".opdev/requirements/{name}");
+                    let path = format!(".opdev/{}/{name}", entry.file_name().to_string_lossy());
                     ensure!(
-                        self.requirements.contains(&path),
+                        selected.contains(&path),
                         "Unselected file {path}; classify and explicitly migrate it"
                     );
                     read_regular(root, &path)?;
@@ -220,7 +248,8 @@ impl Contract {
         ensure!(
             self.commands.len() <= 256
                 && self.checks.len() <= 1024
-                && self.requirements.len() <= 1024,
+                && self.requirements.len() <= 1024
+                && self.policies.len() <= 32,
             "Project exceeds supported command/check/catalog bounds"
         );
         ensure!(
@@ -276,9 +305,14 @@ impl Contract {
             );
         }
         let mut files = BTreeSet::new();
-        for path in &self.requirements {
+        for path in self.requirements.iter().chain(&self.policies) {
             relative_path(path)?;
-            let name = path.strip_prefix(".opdev/requirements/").unwrap_or("");
+            let prefix = if self.policies.contains(path) {
+                ".opdev/policies/"
+            } else {
+                ".opdev/requirements/"
+            };
+            let name = path.strip_prefix(prefix).unwrap_or("");
             ensure!(
                 Path::new(name).extension().is_some_and(|e| e == "json")
                     && !name.contains('/')
@@ -384,6 +418,54 @@ impl Contract {
         Ok(result)
     }
 
+    /// Inspect additive definitions and their current requirement links.
+    /// # Errors
+    /// Missing definitions, duplicates, incomplete mappings and unknown versions fail.
+    pub fn inspect_policies(
+        &self,
+        root: &Path,
+        requirements: &[Requirement],
+    ) -> Result<Vec<Policy>> {
+        let mut result = Vec::new();
+        let mut ids = BTreeSet::new();
+        let mut bytes = 0usize;
+        for path in &self.policies {
+            let text = read_regular(root, path)?;
+            bytes += text.len();
+            ensure!(bytes <= 32 * 1024 * 1024, "Selected policies exceed 32 MiB");
+            let policy: Policy = serde_json::from_str(&text)?;
+            ensure!(
+                policy.schema == 1
+                    && !policy.id.trim().is_empty()
+                    && ids.insert(policy.id.clone())
+                    && !policy.source.trim().is_empty()
+                    && !policy.decision_reference.trim().is_empty()
+                    && !policy.origin.is_null()
+                    && !policy.requirements.is_empty()
+                    && !policy.stages.is_empty(),
+                "Policy {path} needs an exact reviewed definition, original authority and verification scope"
+            );
+            let mut stages = BTreeSet::new();
+            ensure!(
+                policy
+                    .stages
+                    .iter()
+                    .all(|s| stages.insert(format!("{s:?}"))),
+                "Duplicate policy stage"
+            );
+            let mut links = BTreeSet::new();
+            for id in &policy.requirements {
+                ensure!(
+                    links.insert(id) && requirements.iter().any(|r| &r.id == id),
+                    "Policy {} names missing or repeated requirement {id}",
+                    policy.id
+                );
+            }
+            result.push(policy);
+        }
+        Ok(result)
+    }
+
     /// Mechanically bind an Assured review to its actual current inputs.
     ///
     /// # Errors
@@ -403,7 +485,12 @@ impl Contract {
                 inputs.insert(path, read_regular(root, path)?);
             }
         }
-        let subject = serde_json::json!({"policy_version":self.policy_version, "preset":self.preset,
+        let policies: BTreeMap<_, _> = self
+            .policies
+            .iter()
+            .map(|path| Ok((path, read_regular(root, path)?)))
+            .collect::<Result<_>>()?;
+        let subject = serde_json::json!({"policy_version":self.policy_version, "preset":self.preset, "policies": policies,
             "id":requirement.id, "statement":requirement.statement,
             "verification":requirement.verification, "checks":checks, "inputs":inputs});
         Ok(format!(
@@ -422,6 +509,7 @@ impl Contract {
         requirements: &[Requirement],
         stage: TestStage,
     ) -> Result<Vec<String>> {
+        let policies = self.inspect_policies(root, requirements)?;
         let mut gaps = Vec::new();
         if self.preset == Preset::Assured && requirements.is_empty() {
             gaps.push(
@@ -439,7 +527,11 @@ impl Contract {
                     requirement.id
                 ));
             }
-            if self.preset != Preset::Assured {
+            if self.preset != Preset::Assured
+                && !policies
+                    .iter()
+                    .any(|p| p.stages.contains(&stage) && p.requirements.contains(&requirement.id))
+            {
                 continue;
             }
             let subject = self.mapping_subject(root, requirement)?;

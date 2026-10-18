@@ -221,6 +221,8 @@ fn initial_report(args: &DoctorArgs) -> Report {
             evidence_schemas: vec![1, 2],
             capabilities: vec![
                 "practical.check.v1",
+                "practical.migration.v1",
+                "practical.policies.v1",
                 "requirements.catalog.v1",
                 "layout.enforcement.v2",
                 "doctor.v1",
@@ -397,10 +399,14 @@ fn inspect_practical(report: &mut Report, contract: &opdev_project::practical::C
     if contract.inspect_namespace(&report.root, true).is_err() {
         report.inspection_error("project.namespace", ".opdev selected namespace");
     }
-    if contract.inspect_requirements(&report.root).is_err() {
+    if contract
+        .inspect_requirements(&report.root)
+        .and_then(|requirements| contract.inspect_policies(&report.root, &requirements))
+        .is_err()
+    {
         report.inspection_error(
             "project.requirements",
-            "selected requirements and assertion inputs",
+            "selected requirements, policies and assertion inputs",
         );
     }
     if inspection::inspect_guidance(report).is_err() {

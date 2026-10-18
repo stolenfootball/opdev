@@ -176,6 +176,14 @@ pub fn write_new(
 ) -> Result<PathBuf, CiError> {
     let path = root.join(adapter.configuration_path());
     let rendered = adapter.render(context)?;
+    write_rendered(&path, &rendered)
+}
+
+/// Write reviewed generated configuration without replacing an existing file.
+/// # Errors
+/// Creation or writing failures preserve the existing destination.
+pub fn write_rendered(path: &Path, rendered: &str) -> Result<PathBuf, CiError> {
+    let path = path.to_path_buf();
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|source| CiError::Write {
             path: parent.to_path_buf(),

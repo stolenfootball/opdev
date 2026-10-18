@@ -9,6 +9,340 @@ use std::{
 type TestResult = Result<(), Box<dyn std::error::Error>>;
 
 #[test]
+fn local_probe_accounting_is_offline_and_keeps_failed_attempts() -> TestResult {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let output = Command::new(if cfg!(windows) { "python" } else { "python3" })
+        .arg(root.join("tests/practical_trials_test.py"))
+        .output()?;
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    Ok(())
+}
+
+#[test]
+fn practical_adoption_routes_inspect_without_restarting_legacy_assessment() -> TestResult {
+    let dir = fixture()?;
+    for args in [
+        vec!["adoption", "next"],
+        vec!["adoption", "plan"],
+        vec!["adoption", "start"],
+        vec!["adoption", "check", "--preflight"],
+    ] {
+        let output = run(dir.path(), &args)?;
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert!(!dir.path().join(".opdev/adoption.yaml").exists());
+        assert!(!dir.path().join("ran.txt").exists());
+    }
+    let output = run(dir.path(), &["adoption", "check"])?;
+    assert_eq!(output.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&output.stderr).contains("No checks ran"));
+    Ok(())
+}
+
+#[test]
+fn legacy_migration_cannot_drop_original_obligations_or_guess_unknown_policy() -> TestResult {
+    let dir = fixture()?;
+    let outside = tempfile::tempdir()?;
+    let original = include_str!("../../../.opdev/project.yaml");
+    fs::write(dir.path().join(".opdev/project.yaml"), original)?;
+    let request = outside.path().join("request.json");
+    let mut value = json!({"schema":2,"project":contract(),"assurance_change_reference":"synthetic authorized migration"});
+    fs::write(&request, serde_json::to_vec(&value)?)?;
+    let path = request.to_str().ok_or("path")?;
+    let rejected = run(dir.path(), &["upgrade", "--migration", path])?;
+    assert_eq!(rejected.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("Original obligation"));
+    assert_eq!(
+        fs::read_to_string(dir.path().join(".opdev/project.yaml"))?,
+        original
+    );
+    value["retired_obligations"] = json!({"minimumcd":"synthetic original authority retirement", "profiles:nist-ssdf-derived":"synthetic original authority retirement"});
+    fs::write(&request, serde_json::to_vec(&value)?)?;
+    let accepted = run(dir.path(), &["upgrade", "--migration", path])?;
+    assert!(
+        accepted.status.success(),
+        "{}",
+        String::from_utf8_lossy(&accepted.stderr)
+    );
+    fs::write(dir.path().join(".opdev/project.yaml"), "schema: 99\n")?;
+    assert_eq!(
+        run(dir.path(), &["upgrade", "--migration", path])?
+            .status
+            .code(),
+        Some(2)
+    );
+    Ok(())
+}
+
+#[test]
+fn practical_migration_schema_is_offline_and_rejects_unknown_choices() -> TestResult {
+    let output = Command::new(env!("CARGO_BIN_EXE_opdev"))
+        .args(["upgrade", "--request-schema", "--request-version", "2"])
+        .output()?;
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let schema: Value = serde_json::from_slice(&output.stdout)?;
+    let validator = jsonschema::validator_for(&schema)?;
+    let mut request =
+        json!({"schema":2,"project":contract(),"assurance_change_reference":"reviewed"});
+    assert!(validator.is_valid(&request));
+    request["project"]["preset"] = json!("invented");
+    assert!(!validator.is_valid(&request));
+    Ok(())
+}
+
+#[test]
+fn migration_previews_retires_and_resumes_without_a_permanent_ledger() -> TestResult {
+    let dir = fixture()?;
+    let external = tempfile::tempdir()?;
+    fs::write(dir.path().join(".opdev/evidence.yaml"), "obsolete history")?;
+    fs::write(dir.path().join(".opdev/adoption.yaml"), "obsolete adoption")?;
+    fs::write(dir.path().join("AGENTS.md"), "Unrelated instruction\n")?;
+    let request = external.path().join("request.json");
+    let recovery = external.path().join("recovery.json");
+    fs::write(
+        &request,
+        serde_json::to_vec(&json!({"schema":2,"project":contract(),
+        "assurance_change_reference":"actual synthetic approval",
+        "retire":{".opdev/evidence.yaml":"replace permanent history", ".opdev/adoption.yaml":"workflow configuration replaces log"}}))?,
+    )?;
+    let request = request.to_str().ok_or("request path")?;
+    let recovery_path = recovery.to_str().ok_or("recovery path")?;
+    let preview = run(dir.path(), &["upgrade", "--migration", request])?;
+    assert!(
+        preview.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preview.stderr)
+    );
+    assert!(dir.path().join(".opdev/evidence.yaml").exists());
+    let identity = report(&preview)?["plan"]["identity"]
+        .as_str()
+        .ok_or("identity")?
+        .to_owned();
+    assert_eq!(
+        run(
+            dir.path(),
+            &["upgrade", "--migration", request, "--apply", &identity]
+        )?
+        .status
+        .code(),
+        Some(2)
+    );
+    let applied = run(
+        dir.path(),
+        &[
+            "upgrade",
+            "--migration",
+            request,
+            "--apply",
+            &identity,
+            "--recovery-output",
+            recovery_path,
+        ],
+    )?;
+    assert!(
+        applied.status.success(),
+        "{}",
+        String::from_utf8_lossy(&applied.stderr)
+    );
+    assert_eq!(report(&applied)?["verification"], "not_run");
+    assert!(!dir.path().join(".opdev/evidence.yaml").exists());
+    assert!(!dir.path().join(".opdev/adoption.yaml").exists());
+    assert!(fs::read_to_string(dir.path().join("AGENTS.md"))?.contains("Unrelated instruction"));
+    assert!(fs::read_to_string(&recovery)?.contains("obsolete history"));
+    // Recreate an interrupted per-file apply: some exact before states remain,
+    // while the already-written files retain their exact after states.
+    let saved: Value = serde_json::from_slice(&fs::read(&recovery)?)?;
+    for change in saved["changes"].as_array().ok_or("changes")?.iter().skip(2) {
+        let path = dir.path().join(change["path"].as_str().ok_or("path")?);
+        if let Some(before) = change["before"].as_str() {
+            fs::write(path, before)?;
+        } else if path.exists() {
+            fs::remove_file(path)?;
+        }
+    }
+    assert!(
+        run(
+            dir.path(),
+            &["upgrade", "--resume", recovery_path, "--apply", &identity]
+        )?
+        .status
+        .success()
+    );
+    fs::write(dir.path().join(".opdev/guidance.md"), "later user edit")?;
+    assert_eq!(
+        run(
+            dir.path(),
+            &["upgrade", "--resume", recovery_path, "--apply", &identity]
+        )?
+        .status
+        .code(),
+        Some(2)
+    );
+    assert_eq!(
+        fs::read_to_string(dir.path().join(".opdev/guidance.md"))?,
+        "later user edit"
+    );
+    Ok(())
+}
+
+#[test]
+fn migration_rejects_stale_unknown_and_unselected_content_before_writing() -> TestResult {
+    let dir = fixture()?;
+    let external = tempfile::tempdir()?;
+    let request = external.path().join("request.json");
+    let recovery = external.path().join("recovery.json");
+    fs::write(
+        &request,
+        serde_json::to_vec(
+            &json!({"schema":2,"project":contract(),"assurance_change_reference":"actual choice"}),
+        )?,
+    )?;
+    let request = request.to_str().ok_or("path")?;
+    let preview = run(dir.path(), &["upgrade", "--migration", request])?;
+    assert!(
+        preview.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preview.stderr)
+    );
+    let identity = report(&preview)?["plan"]["identity"]
+        .as_str()
+        .ok_or("identity")?
+        .to_owned();
+    fs::write(dir.path().join(".opdev/junk.txt"), "user content")?;
+    let result = run(
+        dir.path(),
+        &[
+            "upgrade",
+            "--migration",
+            request,
+            "--apply",
+            &identity,
+            "--recovery-output",
+            recovery.to_str().ok_or("path")?,
+        ],
+    )?;
+    assert_eq!(result.status.code(), Some(2));
+    assert!(!recovery.exists());
+    assert_eq!(
+        fs::read_to_string(dir.path().join(".opdev/junk.txt"))?,
+        "user content"
+    );
+    Ok(())
+}
+
+#[test]
+fn migration_preserves_requirement_identity_and_rejects_unknown_or_failed_inventory() -> TestResult
+{
+    let dir = fixture()?;
+    let external = tempfile::tempdir()?;
+    fs::create_dir(dir.path().join(".opdev/requirements"))?;
+    let legacy = dir.path().join(".opdev/requirements/old.json");
+    fs::write(&legacy, r#"{"schema":1,"requirements":[{"id":"R-old"}]}"#)?;
+    let request = external.path().join("request.json");
+    let mut value = json!({"schema":2,"project":contract(),
+        "assurance_change_reference":"synthetic approval",
+        "retire":{".opdev/requirements/old.json":"explicit obsolete format retirement"},
+        "retire_directories":[".opdev/requirements"]});
+    fs::write(&request, serde_json::to_vec(&value)?)?;
+    let path = request.to_str().ok_or("request path")?;
+    let blocked = run(dir.path(), &["upgrade", "--migration", path])?;
+    assert_eq!(blocked.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&blocked.stderr).contains("Requirement R-old would disappear"));
+    value["retired_requirements"] = json!({"R-old":"actual original authority decision"});
+    fs::write(&request, serde_json::to_vec(&value)?)?;
+    assert!(
+        run(dir.path(), &["upgrade", "--migration", path])?
+            .status
+            .success()
+    );
+    for contents in [
+        r#"{"schema":99,"requirements":[{"id":"R-old"}]}"#,
+        r#"{"schema":1,"requirements":[{"id":"R-old"}],"plans":[{"review":{"outcome":"failed"}}]}"#,
+    ] {
+        fs::write(&legacy, contents)?;
+        assert_eq!(
+            run(dir.path(), &["upgrade", "--migration", path])?
+                .status
+                .code(),
+            Some(2)
+        );
+        assert_eq!(fs::read_to_string(&legacy)?, contents);
+    }
+    Ok(())
+}
+
+#[test]
+fn additive_obligations_block_standard_without_current_mapping_review() -> TestResult {
+    let dir = fixture()?;
+    let mut config = contract();
+    config["requirements"] = json!([".opdev/requirements/security.json"]);
+    config["policies"] = json!([".opdev/policies/security.json"]);
+    fs::create_dir(dir.path().join(".opdev/requirements"))?;
+    fs::create_dir(dir.path().join(".opdev/policies"))?;
+    fs::write(dir.path().join("assertion.txt"), "reject an invalid token")?;
+    fs::write(
+        dir.path().join(".opdev/requirements/security.json"),
+        serde_json::to_vec(&json!({"schema":2,"requirements":[{
+        "id":"R1","statement":"Invalid token rejected", "verification":[{"check":"unit","path":"assertion.txt","assertion":"invalid token"}]}]}))?,
+    )?;
+    fs::write(
+        dir.path().join(".opdev/policies/security.json"),
+        serde_json::to_vec(
+            &json!({"schema":1,"id":"security","source":"original organization policy",
+        "origin":{"name":"organization-security","version":1},"decision_reference":"actual mapping review","requirements":["R1"],"stages":["local"]}),
+        )?,
+    )?;
+    write(dir.path(), &config)?;
+    let output = run(dir.path(), &["check", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    assert_eq!(report(&output)?["checks"][0]["status"], "not_run");
+    assert!(
+        report(&output)?["mapping_findings"]
+            .as_array()
+            .ok_or("findings")?
+            .iter()
+            .any(|f| f.as_str().is_some_and(|f| f.contains("needs review")))
+    );
+    Ok(())
+}
+
+#[test]
+fn both_native_provider_templates_support_practical_contracts_without_review_transport()
+-> TestResult {
+    let dir = fixture()?;
+    for provider in ["github", "gitlab"] {
+        let mut args = vec!["ci", "generate", "--provider", provider];
+        if provider == "gitlab" {
+            args.extend(["--image", "ubuntu:24.04"]);
+        }
+        let result = run(dir.path(), &args)?;
+        assert!(
+            result.status.success(),
+            "{}",
+            String::from_utf8_lossy(&result.stderr)
+        );
+        let text = String::from_utf8(result.stdout)?;
+        assert!(text.contains("opdev check --ci"));
+        assert!(text.contains("develop"));
+        assert!(!text.contains("--review-ci"));
+        assert!(text.contains("--post-merge"));
+        let _: Value = serde_saphyr::from_str(&text)?;
+    }
+    Ok(())
+}
+
+#[test]
 fn published_practical_schemas_reject_unknown_fields_and_versions() -> TestResult {
     let schema: Value = serde_json::from_str(include_str!(
         "../../../schema/practical-project.schema.json"
