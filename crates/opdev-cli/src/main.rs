@@ -37,6 +37,7 @@ mod layout;
 mod local_state;
 mod migration;
 mod policy;
+mod practical;
 mod prior_stage;
 mod requirements;
 mod state_io;
@@ -895,6 +896,9 @@ fn clean_target_version(project: &ProjectManifest) -> u32 {
 }
 
 fn initialize(args: &InitArgs) -> Result<()> {
+    if practical::initialize(args)? {
+        return Ok(());
+    }
     let mut discovery = discover(&args.root).context("could not inspect the repository")?;
     let manifest_path = discovery.root.join(MANIFEST_PATH);
     let adoption = opdev_project::AdoptionRecord::load(&discovery.root)?;
@@ -1187,6 +1191,9 @@ fn selected_review(
 }
 
 fn check_project(args: &CheckArgs) -> Result<ExitCode> {
+    if let Some((root, contract)) = practical::selected(&args.root)? {
+        return practical::check(args, &root, &contract);
+    }
     if args.format == CheckFormat::Summary && args.report.is_none() {
         bail!("--format summary requires --report PATH to retain the full evaluation");
     }

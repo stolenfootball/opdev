@@ -288,6 +288,22 @@ pub fn preview_agent_files_for_layout(
     ])
 }
 
+/// Preview thin routing and practical project guidance without changing policy.
+///
+/// # Errors
+/// Linked, unreadable or ambiguously marked existing files are preserved.
+pub fn preview_practical_agent_files(root: &Path) -> Result<Vec<AgentFilePreview>, BootstrapError> {
+    Ok(vec![
+        preview_file(
+            &root.join(".opdev/guidance.md"),
+            include_str!("practical-guidance.md"),
+            false,
+        )?,
+        preview_file(&root.join("AGENTS.md"), ROUTING_BLOCK, false)?,
+        preview_file(&root.join("CLAUDE.md"), ROUTING_BLOCK, false)?,
+    ])
+}
+
 /// Applies a previously reviewed candidate, checking all inputs before writing.
 /// Each changed file is staged and atomically replaced; this is not a multi-file
 /// transaction. On an I/O failure inspect the files and preview again.

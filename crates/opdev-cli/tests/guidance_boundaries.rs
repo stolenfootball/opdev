@@ -9,6 +9,8 @@ fn boundary_routes_survive_an_isolated_skill_copy() -> Result<(), Box<dyn std::e
     fs::create_dir(temp.path().join("references"))?;
     for relative in [
         "SKILL.md",
+        "references/legacy-workflow.md",
+        "references/practical-workflow.md",
         "references/testing.md",
         "references/workflow.md",
         "references/results.md",
@@ -16,6 +18,18 @@ fn boundary_routes_survive_an_isolated_skill_copy() -> Result<(), Box<dyn std::e
         fs::copy(source.join(relative), temp.path().join(relative))?;
     }
     let entry = fs::read_to_string(temp.path().join("SKILL.md"))?;
+    assert!(entry.split_whitespace().count() <= 800);
+    for route in [
+        "references/legacy-workflow.md",
+        "references/practical-workflow.md",
+    ] {
+        assert!(entry.contains(&format!("]({route})")));
+        assert_eq!(
+            fs::read(temp.path().join(route))?,
+            fs::read(source.join(route))?
+        );
+    }
+    let entry = fs::read_to_string(temp.path().join("references/legacy-workflow.md"))?;
     for (file, anchor, heading) in [
         (
             "testing.md",
@@ -31,10 +45,17 @@ fn boundary_routes_survive_an_isolated_skill_copy() -> Result<(), Box<dyn std::e
             .filter_map(|part| part.split_once(')').map(|(target, _)| target))
             .filter_map(|target| target.strip_suffix(&format!("#{anchor}")))
             .collect();
-        assert_eq!(routes, [format!("references/{file}")]);
-        let resolved = temp.path().join(routes[0]).canonicalize()?;
+        assert_eq!(routes, [file]);
+        let resolved = temp
+            .path()
+            .join("references")
+            .join(routes[0])
+            .canonicalize()?;
         assert!(resolved.starts_with(temp.path().canonicalize()?));
-        assert_eq!(fs::read(&resolved)?, fs::read(source.join(routes[0]))?);
+        assert_eq!(
+            fs::read(&resolved)?,
+            fs::read(source.join("references").join(routes[0]))?
+        );
         assert!(
             fs::read_to_string(resolved)?
                 .lines()

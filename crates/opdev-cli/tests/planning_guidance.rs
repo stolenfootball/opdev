@@ -11,7 +11,7 @@ fn scoped_continuation_routes_survive_isolated_plugin_copy()
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
     let sources = [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/planning.md",
         "references/results.md",
     ];
@@ -58,7 +58,7 @@ fn feedback_checkpoint_routes_survive_isolated_plugin_copy()
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
     let sources = [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/workflow.md",
         "references/testing.md",
         "references/acceptance.md",
@@ -109,7 +109,7 @@ fn delegation_permission_routes_survive_isolated_plugin_copy()
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/delegation.md",
         "references/delegation-codex.md",
         "references/delegation-claude.md",
@@ -118,7 +118,7 @@ fn delegation_permission_routes_survive_isolated_plugin_copy()
     }
     let expected = copied.join("references/delegation.md").canonicalize()?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/delegation-codex.md",
         "references/delegation-claude.md",
     ] {
@@ -160,13 +160,13 @@ fn release_authorization_route_survives_isolated_plugin_copy()
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/planning.md",
         "references/workflow.md",
     ] {
         fs::copy(skill.join(relative), copied.join(relative))?;
     }
-    for relative in ["SKILL.md", "references/planning.md"] {
+    for relative in ["references/legacy-workflow.md", "references/planning.md"] {
         let source = copied.join(relative);
         let text = fs::read_to_string(&source)?;
         let links: Vec<_> = text
@@ -208,7 +208,7 @@ fn placement_reference_routes_survive_isolated_plugin_copy()
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/planning.md",
         "references/workflow.md",
         "references/project-contract.md",
@@ -219,9 +219,9 @@ fn placement_reference_routes_survive_isolated_plugin_copy()
         .join("references/project-contract.md")
         .canonicalize()?;
     for (relative, anchor) in [
-        ("SKILL.md", "before-writing-a-document"),
+        ("references/legacy-workflow.md", "before-writing-a-document"),
         ("references/planning.md", "before-writing-a-document"),
-        ("SKILL.md", "review-document-content"),
+        ("references/legacy-workflow.md", "review-document-content"),
         ("references/workflow.md", "review-document-content"),
     ] {
         let source = copied.join(relative);
@@ -259,10 +259,13 @@ fn consistency_review_reference_survives_plugin_copy() -> Result<(), Box<dyn std
     let directory = tempfile::tempdir()?;
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
-    for relative in ["SKILL.md", "references/consistency-review.md"] {
+    for relative in [
+        "references/legacy-workflow.md",
+        "references/consistency-review.md",
+    ] {
         fs::copy(skill.join(relative), copied.join(relative))?;
     }
-    let source = copied.join("SKILL.md");
+    let source = copied.join("references/legacy-workflow.md");
     let text = fs::read_to_string(&source)?;
     let targets: Vec<_> = text
         .split("](")
@@ -271,7 +274,11 @@ fn consistency_review_reference_survives_plugin_copy() -> Result<(), Box<dyn std
         .filter(|target| target.ends_with("consistency-review.md"))
         .collect();
     assert_eq!(targets.len(), 1);
-    let resolved = copied.join(targets[0]).canonicalize()?;
+    let resolved = source
+        .parent()
+        .ok_or("parent")?
+        .join(targets[0])
+        .canonicalize()?;
     assert!(resolved.starts_with(copied.canonicalize()?));
     assert_eq!(
         fs::read(resolved)?,
@@ -286,7 +293,7 @@ fn planning_routes_are_local_and_resolve() -> Result<(), Box<dyn std::error::Err
     let skill = root.join("plugins/opdev/skills/opdev");
     let planning = skill.join("references/planning.md").canonicalize()?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/workflow.md",
         "references/adoption.md",
     ] {
@@ -323,7 +330,7 @@ fn planning_reference_survives_isolated_plugin_copy() -> Result<(), Box<dyn std:
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/workflow.md",
         "references/adoption.md",
         "references/planning.md",
@@ -331,7 +338,7 @@ fn planning_reference_survives_isolated_plugin_copy() -> Result<(), Box<dyn std:
         fs::copy(skill.join(relative), copied.join(relative))?;
     }
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/workflow.md",
         "references/adoption.md",
     ] {
@@ -368,7 +375,7 @@ fn adoption_decision_review_routes_survive_plugin_copy() -> Result<(), Box<dyn s
     let copied = directory.path().join("skills/opdev");
     fs::create_dir_all(copied.join("references"))?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/adoption.md",
         "references/decision-review.md",
     ] {
@@ -377,7 +384,7 @@ fn adoption_decision_review_routes_survive_plugin_copy() -> Result<(), Box<dyn s
     let expected = copied
         .join("references/decision-review.md")
         .canonicalize()?;
-    for relative in ["SKILL.md", "references/adoption.md"] {
+    for relative in ["references/legacy-workflow.md", "references/adoption.md"] {
         let source = copied.join(relative);
         let text = fs::read_to_string(&source)?;
         let targets: Vec<_> = text
@@ -481,7 +488,7 @@ fn acceptance_reference_is_reachable_in_copied_plugin() -> Result<(), Box<dyn st
     let directory = tempfile::tempdir()?;
     fs::create_dir_all(directory.path().join("references"))?;
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/testing.md",
         "references/evidence.md",
         "references/acceptance.md",
@@ -497,7 +504,7 @@ fn acceptance_reference_is_reachable_in_copied_plugin() -> Result<(), Box<dyn st
         fs::read(skill.join("references/acceptance.md"))?
     );
     for relative in [
-        "SKILL.md",
+        "references/legacy-workflow.md",
         "references/testing.md",
         "references/evidence.md",
     ] {

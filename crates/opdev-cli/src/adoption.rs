@@ -36,6 +36,9 @@ enum AdoptionCommand {
     },
     /// Print the exact choices and contract identifier for developer review; writes nothing.
     Plan {
+        /// Preview a practical preset without selecting or applying it.
+        #[arg(long, value_parser = ["lightweight", "standard", "assured"])]
+        preset: Option<String>,
         #[arg(long, default_value = ".")]
         root: PathBuf,
         /// Populate a read-only policy worksheet from provider observations.
@@ -145,7 +148,17 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
             observed["remote_qualification"] = serde_json::json!("not_run");
             println!("{}", serde_json::to_string_pretty(&observed)?);
         }
-        AdoptionCommand::Plan { root, remote } => plan(root, *remote)?,
+        AdoptionCommand::Plan {
+            root,
+            remote,
+            preset,
+        } => {
+            if let Some(preset) = preset {
+                crate::practical::adoption_plan(root, preset, *remote)?;
+            } else {
+                plan(root, *remote)?;
+            }
+        }
         AdoptionCommand::Approve {
             root,
             plan,
@@ -225,6 +238,9 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
 }
 
 fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<()> {
+    if let Some((root, contract)) = crate::practical::selected(root)? {
+        return crate::practical::adoption_status(&root, &contract, format, remote);
+    }
     let (root, manifest) = load_project(root)?;
     let record = AdoptionRecord::load(&root)?;
     let remote_gap = manifest.remote_qualification_gap();

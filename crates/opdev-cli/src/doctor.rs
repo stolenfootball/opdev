@@ -217,9 +217,10 @@ fn initial_report(args: &DoctorArgs) -> Report {
             arch: std::env::consts::ARCH,
             wsl_environment_hint: std::env::var_os("WSL_DISTRO_NAME").is_some()
                 || std::env::var_os("WSL_INTEROP").is_some(),
-            project_schemas: (1..=PROJECT_SCHEMA_VERSION).collect(),
+            project_schemas: (1..=PROJECT_SCHEMA_VERSION).chain([5]).collect(),
             evidence_schemas: vec![1, 2],
             capabilities: vec![
+                "practical.check.v1",
                 "requirements.catalog.v1",
                 "layout.enforcement.v2",
                 "doctor.v1",
@@ -343,7 +344,9 @@ fn inspect_project(report: &mut Report) {
             }
         }
         Ok(Some(source)) => {
-            if let Ok(manifest) = ProjectManifest::from_yaml(&source) {
+            if let Ok(contract) = opdev_project::practical::Contract::from_yaml(&source) {
+                inspect_practical(report, &contract);
+            } else if let Ok(manifest) = ProjectManifest::from_yaml(&source) {
                 report.add("project.contract", "project", MANIFEST_PATH, Outcome::Passed, true,
                         format!("Project schema {} parsed and validated; no policies selected or changed.", manifest.schema),
                         "Review command and authority prerequisites below; a valid contract is not completed adoption.");
@@ -377,8 +380,48 @@ fn inspect_project(report: &mut Report) {
     }
 }
 
+fn inspect_practical(report: &mut Report, contract: &opdev_project::practical::Contract) {
+    report.add(
+        "project.contract",
+        "project",
+        MANIFEST_PATH,
+        Outcome::Passed,
+        true,
+        format!(
+            "Practical project schema 5, policy version 1, {:?}; policy unchanged.",
+            contract.preset
+        ),
+        "A valid contract is not verification.",
+    );
+    inspect_command_map(report, &contract.commands);
+    if contract.inspect_namespace(&report.root, true).is_err() {
+        report.inspection_error("project.namespace", ".opdev selected namespace");
+    }
+    if contract.inspect_requirements(&report.root).is_err() {
+        report.inspection_error(
+            "project.requirements",
+            "selected requirements and assertion inputs",
+        );
+    }
+    if inspection::inspect_guidance(report).is_err() {
+        report.inspection_error("inventory.project_guidance", "AGENTS.md / CLAUDE.md");
+    }
+    if report.remote_requested {
+        report.add("remote.unsupported", "remote", "native CI", Outcome::Unverified, true,
+            "Practical contracts do not yet support remote doctor inspection. No credentials used and no remote verification claimed.",
+            "Inspect native provider settings separately; local checks do not establish branch protection.");
+    }
+}
+
 fn inspect_commands(report: &mut Report, manifest: &ProjectManifest) {
-    for (name, command) in &manifest.commands {
+    inspect_command_map(report, &manifest.commands);
+}
+
+fn inspect_command_map(
+    report: &mut Report,
+    commands: &std::collections::BTreeMap<String, opdev_project::CommandSpec>,
+) {
+    for (name, command) in commands {
         let directory = report
             .root
             .join(command.working_directory.as_deref().unwrap_or("."));
