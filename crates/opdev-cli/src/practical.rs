@@ -395,7 +395,7 @@ pub(super) fn check(args: &CheckArgs, root: &Path, contract: &Contract) -> Resul
         selected,
         !args.no_exec && mapping_findings.is_empty(),
     )?;
-    if read_regular(root, MANIFEST_PATH)? != initial_contract {
+    if !read_regular(root, MANIFEST_PATH).is_ok_and(|current| current == initial_contract) {
         mapping_findings.push(
             "Project policy changed during verification; results cannot qualify the changed policy"
                 .into(),
@@ -413,15 +413,7 @@ pub(super) fn check(args: &CheckArgs, root: &Path, contract: &Contract) -> Resul
             "Checkout changed during verification; inspect the change before retrying".into(),
         );
     }
-    let current_requirements = contract.inspect_requirements(root)?;
-    if current_requirements != requirements {
-        mapping_findings.push("Requirement definitions changed during verification".into());
-    }
-    for finding in contract.review_gaps(root, &current_requirements, stage)? {
-        if !mapping_findings.contains(&finding) {
-            mapping_findings.push(finding);
-        }
-    }
+    inspect_after_execution(root, contract, &requirements, stage, &mut mapping_findings);
     let status = if results.iter().any(|r| r.status == "error") {
         "error"
     } else if results.iter().any(|r| r.status == "failed") {
@@ -449,6 +441,42 @@ pub(super) fn check(args: &CheckArgs, root: &Path, contract: &Contract) -> Resul
         "error" => 2,
         _ => 1,
     }))
+}
+
+fn inspect_after_execution(
+    root: &Path,
+    contract: &Contract,
+    requirements: &[opdev_project::practical::Requirement],
+    stage: TestStage,
+    findings: &mut Vec<String>,
+) {
+    if let Err(error) = contract.inspect_namespace(root, true) {
+        findings.push(format!(
+            "Project namespace became invalid during verification: {error}"
+        ));
+    }
+    match contract.inspect_requirements(root) {
+        Ok(current) => {
+            if current != requirements {
+                findings.push("Requirement definitions changed during verification".into());
+            }
+            match contract.review_gaps(root, &current, stage) {
+                Ok(gaps) => {
+                    for gap in gaps {
+                        if !findings.contains(&gap) {
+                            findings.push(gap);
+                        }
+                    }
+                }
+                Err(error) => findings.push(format!(
+                    "Review inputs became invalid during verification: {error}"
+                )),
+            }
+        }
+        Err(error) => findings.push(format!(
+            "Requirement inputs became invalid during verification: {error}"
+        )),
+    }
 }
 
 fn print_plan(contract: &Contract, stage: TestStage) -> Result<()> {

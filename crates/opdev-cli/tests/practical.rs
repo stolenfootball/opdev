@@ -441,6 +441,51 @@ fn policy_mutation_retains_execution_but_cannot_qualify() -> TestResult {
 }
 
 #[test]
+fn invalidated_inputs_preserve_the_observed_command_failure() -> TestResult {
+    for mutation in [
+        "pathlib.Path('.opdev/project.yaml').unlink()",
+        "pathlib.Path('.opdev/requirements/product.json').write_text('{bad json')",
+        "pathlib.Path('.opdev/junk.txt').write_text('new content')",
+    ] {
+        let dir = fixture()?;
+        let mut config = contract();
+        config["requirements"] = json!([".opdev/requirements/product.json"]);
+        fs::create_dir(dir.path().join(".opdev/requirements"))?;
+        fs::write(dir.path().join("assertion.txt"), "test assertion")?;
+        fs::write(
+            dir.path().join(".opdev/requirements/product.json"),
+            serde_json::to_vec(&json!({
+                "schema":2,"requirements":[{"id":"R1","statement":"Observed behavior", "verification":[{"check":"unit","path":"assertion.txt","assertion":"test assertion"}]}]
+            }))?,
+        )?;
+        config["commands"]["test"]["argv"] = json!([
+            if cfg!(windows) { "python" } else { "python3" },
+            "-c",
+            format!(
+                "import pathlib,sys; {mutation}; print('observed product failure'); sys.exit(7)"
+            )
+        ]);
+        write(dir.path(), &config)?;
+        let output = run(dir.path(), &["check", "--format", "json"])?;
+        assert_eq!(output.status.code(), Some(1));
+        let result = report(&output)?;
+        assert_eq!(result["execution_status"], "failed");
+        assert_eq!(result["checks"][0]["exit_code"], 7);
+        assert!(
+            result["checks"][0]["stdout"]
+                .as_str()
+                .is_some_and(|s| s.contains("observed product failure"))
+        );
+        assert!(
+            result["mapping_findings"]
+                .as_array()
+                .is_some_and(|f| !f.is_empty())
+        );
+    }
+    Ok(())
+}
+
+#[test]
 fn preset_preview_preserves_existing_requirement_selection() -> TestResult {
     let dir = fixture()?;
     let mut config = contract();

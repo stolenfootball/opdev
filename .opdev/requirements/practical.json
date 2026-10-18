@@ -26,13 +26,53 @@
       "id": "V-practical-workflow",
       "target": {
         "path": "crates/opdev-cli/tests/practical.rs",
-        "sha256": "e9fb813d2097bc41840a7cbe6233ba0bb6e7a17b0b1c3bcc7ae2138f702106df",
+        "sha256": "36b2c68bd1c8bca7bb3af70a1a9dc7c1648276bf10f02ac0034713337aed68e8",
         "excerpt": "fn standard_executes_without_review_comment_or_provider_access()"
       },
       "inputs": [
         {
+          "path": "schema/practical-project.schema.json",
+          "sha256": "2843819fd4856a8ec34b4a45f4828fbdb8db530ebf9e297368ddafae8dfa3e70",
+          "excerpt": "OpDev practical project contract"
+        },
+        {
+          "path": "schema/practical-requirements.schema.json",
+          "sha256": "418d85a1918e591e6c61ee106d87b700b0117bebdcd4bdcf62de576b04f5e835",
+          "excerpt": "OpDev stage-independent requirements"
+        },
+        {
+          "path": "schema/practical-migration.schema.json",
+          "sha256": "6255ba1872f4094e337e6d954fa9a853658749664cd0d9e5d1d4ec35079c9c7c",
+          "excerpt": "Reviewed practical migration request"
+        },
+        {
+          "path": "schema/practical-policy.schema.json",
+          "sha256": "0c6596508fe0a6818fa0c4da8c19e3b156148469296579e9075a450ab2328ca3",
+          "excerpt": "Explicit additive obligation mapping"
+        },
+        {
+          "path": "templates/ci/github.yml",
+          "sha256": "12f2350d9e50e9df36c1114670f75950f68a4650720e969b531bd8e77524e30c",
+          "excerpt": "name: OpDev"
+        },
+        {
+          "path": "templates/ci/gitlab.yml",
+          "sha256": "f6a1182f4eef9b637e0a07f90d0afbfb1478b5b18e43b1955518869e4de22df1",
+          "excerpt": "stages:"
+        },
+        {
+          "path": "scripts/practical_local_trials.py",
+          "sha256": "a4b3780e4151bc1fc53e1f7a290af6442189c87efe4f32ce6105458463ca5937",
+          "excerpt": "def write_new("
+        },
+        {
+          "path": "tests/practical_trials_test.py",
+          "sha256": "7b178948284f610f7df8fdd7d8f8a3fb3c31b5b4ed5ff4232722eaaa27fcbd69",
+          "excerpt": "class ProbeTests("
+        },
+        {
           "path": "crates/opdev-cli/src/practical.rs",
-          "sha256": "16d5c0426439b27fc4ed7087d589cc8cf821842c6f22b6474a316897b48dfebc",
+          "sha256": "ab9d986dcab363d0133a122750a11f3cb0bed9bd091b21c77816d80b9389bbac",
           "excerpt": "fn execute_checks("
         },
         {
@@ -121,7 +161,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
         "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "4aaeba516a7cc80ce4de9a456577242da819813db90d9a3eee7254a3ad9da39b"
+        "subject_sha256": "d69befe99e7d51a0115bbb0fd073f35fb9419b93881a8211ac0bb4ecc9352fa2"
       }
     },
     {
@@ -141,7 +181,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
         "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "5cb3701acfa499fa595b09b452cf2106563d730c5deab24415883191a8a3e0ea"
+        "subject_sha256": "a8993fb02b44e4ce3a49fc368afa14b0757d53cc98b8cb7d27ca978b0adf5445"
       }
     },
     {
@@ -161,7 +201,7 @@
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
         "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "fc0d285036620bd93ce9460cf97592e9b77ef74c5cf07cff2c58dd2c50f66f5b"
+        "subject_sha256": "860ee99a064571a279ac8c7fa22b1cf1cbb2a580e979061b08cdd10437ab637d"
       }
     }
   ]
