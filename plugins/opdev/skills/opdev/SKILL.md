@@ -78,6 +78,12 @@ Report unrelated defects or documentation drift without repairing them as part
 of a narrow request. Include a necessary dependent correction only when it is
 needed for the requested outcome, and explain that connection. Permission to
 edit a file is not permission to fix every issue in it.
+Before editing, identify the requested outcome, exclusions and allowed changes
+in the existing task context. Resolve permissions as a whole, including explicit
+exceptions; do not silently discard an authorized requirement update because an
+earlier list named only product files. A genuinely conflicting restriction needs
+clarification, not an invented exception. An authoritative specification tells
+you what is correct; it does not authorize repairing every discrepancy now.
 At final diff review, remove unrelated edits you introduced or report them for
 separate work; do not revert pre-existing developer changes.
 

@@ -64,6 +64,26 @@ unrelated work. Keep pending design feedback provisional, then reconcile the
 affected promises before reporting implementation complete. An empty change to the catalog is valid
 only when its existing statements and links still cover the affected promises.
 
+At completion, use the actual diff, selected requirement statements and relevant
+test assertions together, not a recollection of the edits or only a file list.
+Answer two concrete questions in the existing review or handoff:
+
+- Which requested outcome or necessary dependency justifies each meaningful
+  change? Report unrelated discrepancies separately; authority is not scope.
+- Which existing or updated requirement and actual assertion cover each new or
+  changed supported promise? Name the relevant IDs and test locations, or explain
+  why an adequate existing mapping is unchanged. A compatibility statement alone
+  does not describe the behavior of a new feature.
+
+Use existing Git diff and project inspection tools to assemble these facts.
+Inspect requirement meaning rather than merely whether its file changed. Fix
+in-scope omissions before claiming completion; if permissions genuinely prevent
+that, report the specific incomplete part. Reuse current test execution when
+source and execution conditions are unchanged. This is the implementing agent's
+bounded review, not a new command, ledger, mandatory second agent, full-suite
+rerun or routine approval. Mechanical validation and an agent's own statement
+do not prove semantic completeness. Requested feedback may remain provisional.
+
 Affected data, security, public-interface, distribution and high-consequence
 behavior needs appropriate safeguards at every level. Unrelated work does not
 escalate just because these capabilities exist. Preserve additional obligations.

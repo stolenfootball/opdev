@@ -23,10 +23,11 @@ review actual assertions, failure paths and affected documentation. The
 implementing agent may perform the distinct review pass. One agent is the
 default; do not delegate without applicable authorization.
 
-Before handing off a completed implementation, update affected selected
-requirements and their actual test links for new or changed promises; reuse
-adequate mappings for repairs. A feedback checkpoint may leave them provisional.
-Review the diff against the requested outcome and leave unrelated repairs out.
+At completion, review the actual diff and assertions against the request. Update
+affected requirements for new promises; identify their IDs and tests in the
+existing handoff. Reuse adequate mappings for repairs; feedback may remain
+provisional. Authority is not permission for unrelated repairs. No extra ledger,
+reviewer or repeated checks are required.
 
 At integration run the checks selected for that boundary, once. Requirements
 link to checks independently of stages. Native CI owns remote status; a local

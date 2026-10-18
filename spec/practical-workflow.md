@@ -40,6 +40,14 @@ Repairs reuse adequate existing statements; unrelated work needs no catalog
 expansion. This is change-impact maintenance, not comprehensive traceability or
 a new task ledger. Provisional feedback work need not finalize these links early.
 
+The completion review compares the requested outcome with the actual diff,
+selected requirement statements and assertions. It identifies the affected
+promises and their existing or updated test links, and separates necessary
+dependent changes from unrelated repairs. Project authority establishes truth,
+not permission to expand a task. These findings belong in the existing review or
+handoff; no additional ledger, reviewer, routine approval or duplicate execution
+is required. Structural inspection cannot establish semantic completeness.
+
 Standard does not need a selected MR comment, acceptance digest, ledger or
 provider credential to run its checks. Existing GitHub/GitLab required jobs own
 the native integration boundary. Actual semantic review remains necessary, but
