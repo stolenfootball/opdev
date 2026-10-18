@@ -54,6 +54,16 @@ Never infer individual test execution from a suite exit code. Review narrowed
 requirements and removed assertions against developer intent. Strengthening an
 assertion is not automatically weakening coverage.
 
+When adding or intentionally changing supported behavior, update the affected
+selected requirement or add its enduring promise with the actual check and
+assertion location as part of completing the implementation, even when another
+agent owns CI or merging. A compatibility-only requirement does not cover a new
+feature's behavior. Reuse an adequate existing mapping for a repair; do not add
+one entry per task, duplicate the specification, or create a catalog merely for
+unrelated work. Keep pending design feedback provisional, then reconcile the
+affected promises before reporting implementation complete. An empty change to the catalog is valid
+only when its existing statements and links still cover the affected promises.
+
 Affected data, security, public-interface, distribution and high-consequence
 behavior needs appropriate safeguards at every level. Unrelated work does not
 escalate just because these capabilities exist. Preserve additional obligations.

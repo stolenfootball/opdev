@@ -33,6 +33,13 @@ boundaries. One suite can serve multiple requirements without extra execution.
 Do not claim that a named test ran merely because its suite exited successfully.
 Missing or failing required executions cannot be replaced by stored results.
 
+When a selected catalog exists, new or changed supported behavior updates its
+affected enduring promises and actual verification links before implementation
+handoff, even when a separate agent owns integration.
+Repairs reuse adequate existing statements; unrelated work needs no catalog
+expansion. This is change-impact maintenance, not comprehensive traceability or
+a new task ledger. Provisional feedback work need not finalize these links early.
+
 Standard does not need a selected MR comment, acceptance digest, ledger or
 provider credential to run its checks. Existing GitHub/GitLab required jobs own
 the native integration boundary. Actual semantic review remains necessary, but

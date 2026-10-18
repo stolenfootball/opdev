@@ -23,6 +23,11 @@ review actual assertions, failure paths and affected documentation. The
 implementing agent may perform the distinct review pass. One agent is the
 default; do not delegate without applicable authorization.
 
+Before handing off a completed implementation, update affected selected
+requirements and their actual test links for new or changed promises; reuse
+adequate mappings for repairs. A feedback checkpoint may leave them provisional.
+Review the diff against the requested outcome and leave unrelated repairs out.
+
 At integration run the checks selected for that boundary, once. Requirements
 link to checks independently of stages. Native CI owns remote status; a local
 pass is not remote verification. Suite success does not prove a named case ran

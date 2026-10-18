@@ -24,6 +24,10 @@ required runtime needs a repair/install offer, not a silently improvised workflo
 
 ## Select one route
 
+Resolve reference links relative to the actual `SKILL.md` you loaded, not the
+working directory or a guessed host cache. Read the selected reference before
+implementation; reading this router alone does not load it.
+
 - **Schema 5 or new practical adoption:** read
   [practical workflow](references/practical-workflow.md).
 - **Schemas 1–4:** read [legacy workflow](references/legacy-workflow.md). Preserve
@@ -45,6 +49,13 @@ Honor an explicit source-development runtime in project instructions. Install on
 with authorization. Use doctor for changed environments or concrete setup
 problems, not every turn. Advice/status alone needs no runtime.
 
+For a source preview, use the supplied executable and its actual package's
+compatibility file. A copied skill is not necessarily a complete plugin: if the
+package location is missing, report that gap rather than guessing another host's
+installation path. Reuse a verified handoff only for the same executable and
+package bytes in the current task. Inspect each required command's own result;
+a later successful shell command does not erase an earlier lookup failure.
+
 ## Work proportionately
 
 Honor specific requests. Plan larger goals as connected consumer outcomes, MVP
@@ -62,6 +73,13 @@ Continue authorized work through local blockers by completing useful independent
 work. A status question does not cancel an assignment; a later instruction can
 narrow or stop it. Ask only for material unresolved decisions, not already supplied
 permission. Do not invent busywork or repeat unchanged checks merely to continue.
+
+Report unrelated defects or documentation drift without repairing them as part
+of a narrow request. Include a necessary dependent correction only when it is
+needed for the requested outcome, and explain that connection. Permission to
+edit a file is not permission to fix every issue in it.
+At final diff review, remove unrelated edits you introduced or report them for
+separate work; do not revert pre-existing developer changes.
 
 ## Boundaries and honest results
 

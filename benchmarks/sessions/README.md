@@ -1,5 +1,27 @@
 # Complete coding-session experiment
 
+## Native follow-up accounting
+
+New frozen protocols can use `opdev_sessions.retain_process_result` to retain
+UTF-8 events and process exit, timeout and duration before parsing. Parse failure
+must not erase measured timing or trigger an automatic model retry. Native Codex
+resumed turns report cumulative thread usage: use `cumulative_session_usage` for
+ordered observations from one unchanged thread, never sum those totals or apply
+that rule to independent sessions. Bind thread identity in the protocol/records.
+Missing or decreasing accounting remains an error, not zero usage.
+
+Review embedded diagnostic candidates even when a shell exits zero. These are
+advisory text observations, not exhaustive detection or proof of execution.
+An exact reviewed host-configuration warning may be explicitly allowlisted by a
+new protocol and retained as a warning. Unknown errors and capacity/access failures
+still stop evaluation; never suppress arbitrary error items to recover a score.
+The historical whole-body `preserved_tests` oracle remains unchanged. A new
+protocol may separately use `additive_test_structure` to identify retained
+original bodies or appended assertions. It is not semantic proof: review class
+setup, imports, new tests, assertion behavior and any removed guarantees, and
+use independent behavioral/mutation checks. Preserve both original grades and
+the attributed review; never relabel frozen historical results.
+
 ## Workflow feedback follow-up (separate protocol)
 
 Issue #60 evaluates workflow changes independently of the historical compact-view

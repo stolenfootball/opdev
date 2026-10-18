@@ -31,16 +31,6 @@ fn token_efficiency_benchmark_regressions() -> Result<(), Box<dyn std::error::Er
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
-    let sessions = std::process::Command::new("python3")
-        .arg(root.join("tests/sessions_test.py"))
-        .current_dir(&root)
-        .output()?;
-    assert!(
-        sessions.status.success(),
-        "session benchmark regressions failed:\n{}\n{}",
-        String::from_utf8_lossy(&sessions.stdout),
-        String::from_utf8_lossy(&sessions.stderr)
-    );
     let ci_trials = std::process::Command::new("python3")
         .arg(root.join("tests/ci_trials_test.py"))
         .current_dir(&root)
@@ -50,6 +40,22 @@ fn token_efficiency_benchmark_regressions() -> Result<(), Box<dyn std::error::Er
         "CI trial harness regressions failed:\n{}\n{}",
         String::from_utf8_lossy(&ci_trials.stdout),
         String::from_utf8_lossy(&ci_trials.stderr)
+    );
+    Ok(())
+}
+
+#[test]
+fn native_session_observation_regressions() -> Result<(), Box<dyn std::error::Error>> {
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let sessions = std::process::Command::new(if cfg!(windows) { "python" } else { "python3" })
+        .arg(root.join("tests/sessions_test.py"))
+        .current_dir(&root)
+        .output()?;
+    assert!(
+        sessions.status.success(),
+        "session benchmark regressions failed:\n{}\n{}",
+        String::from_utf8_lossy(&sessions.stdout),
+        String::from_utf8_lossy(&sessions.stderr)
     );
     Ok(())
 }
