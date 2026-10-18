@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/practical-requirements.json",
+  "title": "OpDev stage-independent requirements",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "requirements"],
+  "properties": {
+    "schema": {"const": 2},
+    "requirements": {"type": "array", "minItems": 1, "maxItems": 4096, "items": {"$ref": "#/$defs/requirement"}}
+  },
+  "$defs": {
+    "requirement": {
+      "type": "object", "additionalProperties": false, "required": ["id", "statement", "verification"],
+      "properties": {
+        "id": {"type": "string", "pattern": "\\S"},
+        "statement": {"type": "string", "pattern": "\\S"},
+        "verification": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/verification"}},
+        "review": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/review"}]}
+      }
+    },
+    "verification": {
+      "type": "object", "additionalProperties": false, "required": ["check", "path", "assertion"],
+      "properties": {
+        "check": {"type": "string", "pattern": "\\S"},
+        "path": {"type": "string", "minLength": 1},
+        "assertion": {"type": "string", "pattern": "\\S"},
+        "inputs": {"type": "array", "maxItems": 256, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reviewer", "reference", "rationale", "subject_sha256", "outcome"],
+      "properties": {
+        "reviewer": {"type": "string"}, "reference": {"type": "string"},
+        "rationale": {"type": "string"}, "subject_sha256": {"type": "string"},
+        "outcome": {"enum": ["passed", "failed", "unverified"]}
+      }
+    }
+  },
+  "$comment": "Runtime checks cross-document uniqueness, actual file bounds, check links and Assured source-bound reviews. A document or digest is never execution evidence."
+}

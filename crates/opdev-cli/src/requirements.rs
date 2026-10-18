@@ -17,7 +17,11 @@ pub struct RequirementsArgs {
 #[derive(Debug, Subcommand)]
 enum RequirementsCommand {
     /// Print supported catalog JSON Schema; no network, commands or writes.
-    Schema,
+    Schema {
+        /// Catalog format: 1 for historical plans, 2 for practical stage-independent links.
+        #[arg(long, default_value_t = 1, value_parser = clap::value_parser!(u32).range(1..=2))]
+        version: u32,
+    },
     /// Inspect staged catalog, references and review subjects; no tests or writes.
     Inspect {
         #[arg(long, default_value = ".")]
@@ -51,14 +55,35 @@ enum RequirementsCommand {
 
 pub fn run(args: &RequirementsArgs) -> Result<ExitCode> {
     match &args.command {
-        RequirementsCommand::Schema => {
+        RequirementsCommand::Schema { version } => {
             println!(
                 "{}",
-                include_str!("../../../schema/requirements.schema.json")
+                if *version == 2 {
+                    include_str!("../../../schema/practical-requirements.schema.json")
+                } else {
+                    include_str!("../../../schema/requirements.schema.json")
+                }
             );
             Ok(ExitCode::SUCCESS)
         }
         RequirementsCommand::Inspect { root, project } => {
+            if project.is_none()
+                && let Some((root, contract)) = crate::practical::selected(root)?
+            {
+                let requirements = contract.inspect_requirements(&root)?;
+                let subjects: std::collections::BTreeMap<_, _> = requirements
+                    .iter()
+                    .map(|r| Ok((&r.id, contract.mapping_subject(&root, r)?)))
+                    .collect::<anyhow::Result<_>>()?;
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&serde_json::json!({
+                        "schema":2,"requirements":requirements,"mapping_subjects":subjects,
+                        "limits":"Current stored links and mechanical subjects only. No tests ran; no review or completeness claimed."
+                    }))?
+                );
+                return Ok(ExitCode::SUCCESS);
+            }
             let root = discover(root)?.root;
             let manifest = ProjectManifest::load(
                 &project.clone().unwrap_or_else(|| root.join(MANIFEST_PATH)),
@@ -87,6 +112,10 @@ pub fn run(args: &RequirementsArgs) -> Result<ExitCode> {
             Ok(ExitCode::SUCCESS)
         }
         RequirementsCommand::Show { root, id } => {
+            if let Some((root, contract)) = crate::practical::selected(root)? {
+                show_practical(&root, &contract, id)?;
+                return Ok(ExitCode::SUCCESS);
+            }
             let snapshot = requirements::load_index(&discover(root)?.root)?;
             let records: Vec<_> = snapshot.requirements().filter(|r| &r.id == id).collect();
             ensure!(records.len() == 1, "Requirement is missing or ambiguous");
@@ -122,6 +151,32 @@ pub fn run(args: &RequirementsArgs) -> Result<ExitCode> {
             Ok(ExitCode::SUCCESS)
         }
     }
+}
+
+fn show_practical(
+    root: &std::path::Path,
+    contract: &opdev_project::practical::Contract,
+    id: &str,
+) -> Result<()> {
+    let requirements = contract.inspect_requirements(root)?;
+    let requirement = requirements
+        .iter()
+        .find(|r| r.id == id)
+        .context("Requirement is missing")?;
+    let checks: Vec<_> = contract
+        .checks
+        .iter()
+        .filter(|c| requirement.verification.iter().any(|v| v.check == c.id))
+        .collect();
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&serde_json::json!({
+            "schema":2, "requirement":requirement, "checks":checks,
+            "mapping_subject":contract.mapping_subject(root, requirement)?,
+            "limits":"Current stored links only; no tests ran, adequacy or execution claimed."
+        }))?
+    );
+    Ok(())
 }
 
 #[derive(Serialize)]

@@ -137,7 +137,7 @@ fn walk(
     Ok(())
 }
 
-fn namespace(root: &Path) -> Result<BTreeMap<String, Option<String>>> {
+pub(super) fn namespace(root: &Path) -> Result<BTreeMap<String, Option<String>>> {
     let mut files = BTreeMap::new();
     walk(root, ".opdev", &mut files, &mut 0)?;
     Ok(files)

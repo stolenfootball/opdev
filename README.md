@@ -270,6 +270,8 @@ approval before applying them. CLI 0.2.0 supports `opdev upgrade
 this flow. Installation, project guidance and CI qualification are separate steps.
 See [upgrades](spec/upgrades.md); project choices and experimental opt-ins are preserved.
 
+- [Practical workflow source preview](docs/practical-workflow.md): opt-in assurance
+  presets, lean checks, reviewed migration and native CI integration.
 - [Getting started with the CLI](docs/GETTING_STARTED.md): installation,
   initialization, a first change, evidence review, and CI.
 - [Normative specification](spec/README.md): lifecycle, rules, and authority order.

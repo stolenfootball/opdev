@@ -277,7 +277,7 @@
         },
         {
           "path": "crates/opdev-cli/src/migration.rs",
-          "sha256": "9a05716da4713fd9a1d7d566e34f6547fa189e8e7aff15dacc82fae9019223f7",
+          "sha256": "4f0adbbd54e680f339126bea71f9486c0235fce911cdbd4746119144f26c2761",
           "excerpt": "//!"
         }
       ],
@@ -606,7 +606,7 @@
       "id": "V-native-completion-1",
       "target": {
         "path": "crates/opdev-cli/src/adoption.rs",
-        "sha256": "9bbcf343dcbc086d94008540ec6c7ee7c17b31ac8b090f07db93506dcf701bfe",
+        "sha256": "28a4d2bf0c58db8b110e1976d06e7ff5fa0a3ee54cabbc634874df98dafde43b",
         "excerpt": "fn local_or_attributed_ci_success_cannot_claim_integrated_adoption()"
       },
       "inputs": [
@@ -677,7 +677,7 @@
         },
         {
           "path": "crates/opdev-ci/src/lib.rs",
-          "sha256": "0d753babd3484a71d9b50750c1b5e463626c06b31dc4c9ec4202d2a1a0904a38",
+          "sha256": "41cfde34382b97f49b3decf31173c1e9cbfe34f85e35da0147b699cbc4cd520a",
           "excerpt": "impl CiAdapter for GitlabAdapter"
         }
       ],
@@ -1049,9 +1049,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed every write-boundary loop against guarded apply: before/after bytes are exact, repeated resume is idempotent, and unrelated post-interruption data survives. Existing stale-plan, changed-runtime, forged-snapshot and later-target-edit rejection tests remain. This finite fixture model does not prove arbitrary filesystem failure behavior. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "d6f01a4b3c3f45cfe08b7c5782dc5ee159c4b3d40820970e8dab370aec23f42b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "690711ab8e9a811bd1e5e0f3e540711304090721104d0a5235bdd9942396c686"
       }
     },
     {
@@ -1069,9 +1069,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed every write-boundary loop against guarded apply: before/after bytes are exact, repeated resume is idempotent, and unrelated post-interruption data survives. Existing stale-plan, changed-runtime, forged-snapshot and later-target-edit rejection tests remain. This finite fixture model does not prove arbitrary filesystem failure behavior. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "28dd45c7a07c6ee52ba2566cacfa672122cc568cd4061a927ce540be4fb27d4d"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "57b2d75315b308195ac6a125027dc49c43dcc037a6f9285a6555262a06a4444c"
       }
     },
     {
@@ -1089,9 +1089,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed every write-boundary loop against guarded apply: before/after bytes are exact, repeated resume is idempotent, and unrelated post-interruption data survives. Existing stale-plan, changed-runtime, forged-snapshot and later-target-edit rejection tests remain. This finite fixture model does not prove arbitrary filesystem failure behavior. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "037e90781ab62945b98b7fb39365be08d84725a78e50f542d7fc54a7639089aa"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "5b151a9be9ec550a49d3ae949c68456dcf8fb205d1a71c8030bb36757a33f337"
       }
     },
     {
@@ -1269,9 +1269,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed structural GitHub/GitLab admission and invocation assertions, same-job source build or signed installer, and negative duplicate, optional, wrong-stage, readiness, scope and runtime-path cases. Installer verification inputs are bound explicitly. Unsupported inherited/custom effective configuration remains unverified; static recognition is not a runtime capability or execution claim. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "99243e6fca49f4fd0916029eea40b0487438555fa27dccf9561de2477138dfb9"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "fe47fea1e648fffa0c1c87bd186870195944cacfbcb424c62b9289addcb0061c"
       }
     },
     {
@@ -1314,9 +1314,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed structural GitHub/GitLab admission and invocation assertions, same-job source build or signed installer, and negative duplicate, optional, wrong-stage, readiness, scope and runtime-path cases. Installer verification inputs are bound explicitly. Unsupported inherited/custom effective configuration remains unverified; static recognition is not a runtime capability or execution claim. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "2b16eebfcaf15e522d4db67d8c5c704a1f2568b526e4fd27fcb201b50eef2353"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "5ba625ede1a174bbe4233b93a2534dcc46c2680e9caf0a4812b0b17ec82e52a7"
       }
     },
     {
@@ -1359,9 +1359,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed structural GitHub/GitLab admission and invocation assertions, same-job source build or signed installer, and negative duplicate, optional, wrong-stage, readiness, scope and runtime-path cases. Installer verification inputs are bound explicitly. Unsupported inherited/custom effective configuration remains unverified; static recognition is not a runtime capability or execution claim. Rechecked the additive review-handoff inspection change: existing policy/organization and composed-verifier assertions and enforcement branches are unchanged; legacy inspection retains its meaning. New selected-review argument diagnostics have their own two-provider and actual-CLI criterion. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "24293f4e376e38ba6e883400a03d9d17035378aefb7ef78dfba7df4dcc6624c4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "ea546b6426527a6662c888108faa10e770559f163d96a6fbf3f70512382a1ae0"
       }
     },
     {
@@ -1439,9 +1439,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed actual completion computation and the remote-result classifier against all nonpassing outcomes, wrong verifier kinds, missing observation and absent remote request. Current controls and integrated CI are separate; legacy assessment and preflight cannot complete adoption. The synthetic classifier does not substitute for a live integrated-trunk observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "f9b05d39d58855a576e491d569488ea643f4be8d031ea9a31dd3b0948de5a9ec"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "5b3703fb67643159dd66e43e63221941952231db2160d33e2c59f08a4d8807ca"
       }
     },
     {
@@ -1459,9 +1459,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed actual completion computation and the remote-result classifier against all nonpassing outcomes, wrong verifier kinds, missing observation and absent remote request. Current controls and integrated CI are separate; legacy assessment and preflight cannot complete adoption. The synthetic classifier does not substitute for a live integrated-trunk observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "af1bba346c00fe03905673492c1634b6d0c5e37923c6d6162dd25a1b6bf9eb19"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "104e4937806b274892102f25d2e6ab066db066a0c6cdd7864d48a635aeac26ad"
       }
     },
     {
@@ -1479,9 +1479,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009623127",
-        "rationale": "Reviewed actual completion computation and the remote-result classifier against all nonpassing outcomes, wrong verifier kinds, missing observation and absent remote request. Current controls and integrated CI are separate; legacy assessment and preflight cannot complete adoption. The synthetic classifier does not substitute for a live integrated-trunk observation. Rechecked the connected-rehearsal repairs: no policy definitions, consent or runtime gates were weakened. Current-policy bootstrap supplies all four unresolved exact-change controls and preserves them in CLI output; normal GitLab workflow/default wiring and final immutable source-build declarations have new positive and adversarial tests. Existing mapped assertion bodies and scope guards outside these additions are unchanged. Static wiring remains distinct from program trust, live provider access and execution. Rechecked scoped delivery absence against actual assertions: legacy migration gaps remain; modern policy requires current reviewed absence, not guessed capability or release permission. Added negatives preserve errors/failures and unresolved preparation. Unchanged mapped assertions retain their scope; execution is separate.",
-        "subject_sha256": "0834b6ae7e8086c9cd5f1d9f5ec2aacba7fdf161d920c3086ed3a2e63be09400"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "b4ba0a9fddfd59fd7353597d5f4dc34a378836396aff497544a87e80bf3c9fb1"
       }
     },
     {

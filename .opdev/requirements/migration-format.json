@@ -61,7 +61,7 @@
         },
         {
           "path": "crates/opdev-cli/src/upgrade.rs",
-          "sha256": "73beb46f90ff605b16c35b6795bc6bf50353dd1bc722d97d25f56a0a6540624b",
+          "sha256": "9209b5718452acabaf3e4edc2aedfb1e26fb55ce0c90cf02a2a641e73d5655c4",
           "excerpt": "fn migration_request_schema()"
         },
         {
@@ -118,9 +118,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/120#note_4009206954",
-        "rationale": "Reviewed actual early-return CLI path, clap conflicts, maintained compound schema resources and executable regression assertions. The valid fixture and invalid schema/action/approval probes distinguish structural correctness; empty-directory comparison covers no initialization. Native preview remains the semantic validator. This does not prove live-agent usage or completed adoption.",
-        "subject_sha256": "53ec971a3b0a1a53f6c74ab748453ff4f0d785d9a92f93b0ca21de7da082403c"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "70dd2d2db6cb289fa7090d042410d510dee796c8978d80915c503e8ebeb40812"
       }
     },
     {
@@ -138,9 +138,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/120#note_4009206954",
-        "rationale": "Reviewed actual early-return CLI path, clap conflicts, maintained compound schema resources and executable regression assertions. The valid fixture and invalid schema/action/approval probes distinguish structural correctness; empty-directory comparison covers no initialization. Native preview remains the semantic validator. This does not prove live-agent usage or completed adoption.",
-        "subject_sha256": "42c2ae8993684efd4af12e4617c7d997902edf03b521006671329dd7d9c903c4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "d5a910f7d91f3ae8706dca4db29c404f171cd0e995487a931952ec00dde98bb0"
       }
     },
     {
@@ -158,9 +158,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/120#note_4009206954",
-        "rationale": "Reviewed actual early-return CLI path, clap conflicts, maintained compound schema resources and executable regression assertions. The valid fixture and invalid schema/action/approval probes distinguish structural correctness; empty-directory comparison covers no initialization. Native preview remains the semantic validator. This does not prove live-agent usage or completed adoption.",
-        "subject_sha256": "99d7851b79f1bc55fe54d4496272d6fe09dad3bdb0fb2e4d29c0f707d9d3413d"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
+        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
+        "subject_sha256": "e296903bebcbb1c6a16b6654c5e9cc1c4f5e738f783e4f2d95776197b01060de"
       }
     }
   ]

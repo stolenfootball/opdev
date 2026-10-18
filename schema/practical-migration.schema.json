@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opdev.dev/schema/practical-migration.json",
+  "title": "Reviewed practical migration request",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "project", "assurance_change_reference"],
+  "properties": {
+    "schema": {"const": 2},
+    "project": {"$ref": "https://opdev.dev/schema/practical-project.json"},
+    "assurance_change_reference": {"type": "string", "pattern": "\\S"},
+    "files": {"type": "object", "maxProperties": 256, "additionalProperties": {"type": "string"}},
+    "retire": {"type": "object", "maxProperties": 256, "additionalProperties": {"type": "string", "pattern": "\\S"}},
+    "retire_directories": {"type": "array", "maxItems": 64, "items": {"type": "string"}},
+    "retired_requirements": {"type": "object", "additionalProperties": {"type": "string", "pattern": "\\S"}},
+    "retired_obligations": {"type": "object", "additionalProperties": {"type": "string", "pattern": "\\S"}}
+  },
+  "$comment": "Path ownership, current files, stale inputs, original obligations and requirement retention are additionally checked by the runtime. References do not authenticate consent."
+}

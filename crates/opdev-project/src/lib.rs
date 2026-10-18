@@ -23,6 +23,8 @@ mod index_snapshot;
 /// Read-only namespace checks shared by CLI inspection and selected-policy evaluation.
 pub mod layout;
 mod manifest;
+/// Explicit assurance presets and stage-independent requirement links.
+pub mod practical;
 mod review;
 mod review_wire;
 pub use review::{ReviewRecord, ReviewStorage, WorkKind, WorkObservation, WorkSelector};
@@ -46,7 +48,7 @@ pub use adoption::{
 pub use bootstrap::{
     AgentFilePreview, BootstrapError, FileChange, ManagedFile, apply_agent_preview,
     preview_agent_files, preview_agent_files_for_layout, preview_configuration_format,
-    reconcile_agent_files, shared_guidance,
+    preview_practical_agent_files, reconcile_agent_files, shared_guidance,
 };
 pub use discovery::{Discovery, DiscoveryError, discover};
 pub use evidence::{
