@@ -64,6 +64,9 @@ clear intent and relevant checks. Research consequential unknowns and reuse curr
 findings. Work tracking belongs to its declared authority; durable documentation
 belongs to its own location, never a substitute backlog in `.opdev`.
 
+Before new capabilities or redesigns, follow [design acceptance](references/planning.md#agree-on-the-design-before-implementation).
+Technical self-review is not developer design acceptance.
+
 Use focused checks while iterating. Review actual assertions, error paths, side
 effects and affected documentation. The implementing agent can perform a distinct
 review pass; no routine human sign-off or reviewer subagent is required. One agent

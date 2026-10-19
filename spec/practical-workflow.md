@@ -80,6 +80,15 @@ execution on trunk; changed content or execution conditions require appropriate
 fresh checks. Platform coverage is not redundant merely because command text
 matches. Releases require separate developer authorization.
 
+## Design acceptance
+
+Design acceptance precedes dependent implementation of new capabilities,
+substantial changes and redesigns unless the design is already accepted, fully
+specified by the developer or explicitly delegated. Requirements clarification
+and technical self-review do not establish design acceptance. Material departures
+return to the developer; routine work within accepted scope and narrow repairs
+remain direct. This interaction boundary adds no evidence ledger or CI gate.
+
 ## Files and adoption
 
 Only project.yaml and short guidance.md are universal .opdev files. Requirements

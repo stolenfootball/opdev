@@ -94,6 +94,17 @@ an existing required check to another stage is a policy change, not this repair.
 
 ## Daily work
 
+For new capabilities, substantial changes and redesigns, the default interaction
+is **clarify requirements → propose a design → obtain acceptance → implement**.
+The proposal shows concrete user/API behavior, an example, scope, limitations and
+the first useful slice, not just a list of tasks. Requirements answers are not
+design acceptance; technical self-review cannot supply it. Once accepted, ordinary
+implementation proceeds autonomously. Material changes to the direction return
+to the developer before dependent work; independent authorized work can continue.
+Already accepted or fully specified designs, narrow repairs restoring agreed
+behavior and explicitly delegated design decisions do not need redundant approval.
+Use the existing conversation or tracker, not another approval document or CI gate.
+
 For a small fix, state the intended result and relevant checks, implement it,
 review the diff and failure paths, and test. Do not require a new issue, milestone
 or design document merely to begin. For a larger assignment, identify an MVP,

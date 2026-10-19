@@ -25,6 +25,46 @@ uncertainty. Reuse current project/work facts; ask only questions that materiall
 affect the next decision. Consumers may be people, API clients, library callers,
 operators, downstream pipelines or hardware. A visible UI is not required.
 
+## Agree on the design before implementation
+
+For new capabilities, substantial changes and redesigns, clarify requirements,
+present a concrete design, obtain developer acceptance, then implement. This is
+a product-direction boundary, not manual code review or approval of every task.
+
+1. Reuse existing answers and ask the material unresolved questions: who uses the
+   result, what they need to accomplish, expected behavior, exclusions and important
+   tradeoffs. Ask enough relevant questions to resolve the direction, not a fixed
+   questionnaire. Research can establish feasibility, not the user's preferences.
+2. Present the proposed experience or API behavior with a representative example,
+   scope, limitations, consequential tradeoffs and first useful slice. A milestone
+   list alone is not a design when these choices remain unresolved. Label proposed
+   assumptions and any placeholder behavior; do not replace discovery or working
+   capability with guesses simply to finish a slice.
+3. Wait for acceptance of that presented design before dependent implementation.
+   Requirements answers, silence, an agent-written plan, passing tests and technical
+   self-review are not acceptance. Interpret "do it" against the actual proposal:
+   approval to prepare a design or roadmap does not also approve unseen design
+   choices. Broad permission to finish a project does not erase this boundary.
+4. Implement within the accepted design without repeated permission for ordinary
+   coding, testing or internal technical decisions. Reopen only material changes
+   to behavior, scope, user workflow or consequential tradeoffs; explain the change
+   and obtain acceptance before dependent work. Continue genuinely independent
+   authorized work while waiting, without building the disputed design indirectly.
+
+A narrow repair restoring agreed behavior remains direct. A supplied accepted
+design needs no redundant proposal or acceptance round. Explicit delegation to
+choose the design is valid within its stated scope; ordinary implementation
+approval is not that delegation. If the request itself fully specifies the design,
+use it rather than asking the developer to approve their own instructions again.
+Authorized disposable prototypes may help answer design questions, but their
+existence or technical review does not authorize promotion into the product.
+
+Keep the proposal and actual response in the existing conversation or work item;
+no new file, approval registry, CLI mode or merge gate is required. Agentic review
+checks whether implementation satisfies the accepted design; it cannot accept an
+unseen design on the developer's behalf. "Continue authorized work" and "no routine
+approval rounds" apply inside this boundary, not in place of it.
+
 ## Check uncertainty before committing to an approach
 
 For substantial requests and milestone boundaries, assess what is known and

@@ -21,6 +21,12 @@ issue. Larger goals use connected useful slices, MVP phases and milestones;
 preserve accepted future requirements. Research material uncertainty and reuse
 adequate tools rather than re-investigating the stack on every task.
 
+For new capabilities, substantial changes and redesigns, follow
+[design acceptance](planning.md#agree-on-the-design-before-implementation):
+clarify material requirements, present concrete behavior and tradeoffs, then wait
+for acceptance before dependent implementation. Technical self-review is not
+design acceptance. Reuse accepted designs and keep narrow repairs direct.
+
 Implement with focused checks. Add meaningful behavioral and regression tests;
 explain genuine automation limitations. Review assertions and consumer-visible
 outcomes, not only test names or green suites. Record concrete decisions/findings

@@ -4,6 +4,21 @@ use std::{fs, path::Path};
 #[test]
 fn both_policy_routes_reach_packaged_checkpoint_guidance() -> Result<(), Box<dyn std::error::Error>>
 {
+    check_routes(
+        "choose-an-integration-checkpoint",
+        "### Choose an integration checkpoint",
+    )
+}
+
+#[test]
+fn both_policy_routes_reach_packaged_design_acceptance() -> Result<(), Box<dyn std::error::Error>> {
+    check_routes(
+        "agree-on-the-design-before-implementation",
+        "## Agree on the design before implementation",
+    )
+}
+
+fn check_routes(anchor: &str, heading: &str) -> Result<(), Box<dyn std::error::Error>> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let skill = root.join("plugins/opdev/skills/opdev");
     let directory = tempfile::tempdir()?;
@@ -28,7 +43,7 @@ fn both_policy_routes_reach_packaged_checkpoint_guidance() -> Result<(), Box<dyn
             .split("](")
             .skip(1)
             .filter_map(|part| part.split_once(')').map(|(target, _)| target))
-            .filter_map(|target| target.strip_suffix("#choose-an-integration-checkpoint"))
+            .filter_map(|target| target.strip_suffix(&format!("#{anchor}")))
             .collect();
         assert_eq!(links.len(), 1, "checkpoint route from {route}");
         let resolved = source
@@ -45,7 +60,7 @@ fn both_policy_routes_reach_packaged_checkpoint_guidance() -> Result<(), Box<dyn
         assert!(
             fs::read_to_string(resolved)?
                 .lines()
-                .any(|line| line == "### Choose an integration checkpoint")
+                .any(|line| line == heading)
         );
     }
     Ok(())
