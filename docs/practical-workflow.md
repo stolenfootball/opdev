@@ -113,6 +113,14 @@ Research consequential uncertainty rather than doing a mandatory research pass
 for every edit. Continue independent authorized work while a decision is pending.
 
 Run focused checks while iterating. A feedback checkpoint is not a merge gate.
+For a request to write or explain documentation/design, present the reviewed result
+after relevant content, consistency and documentation checks; don't withhold it
+until native CI and trunk qualification finish. Report integration separately.
+Review actual consumers: executable guidance, tested examples, generated inputs
+and changed contracts may need broader verification even inside Markdown files.
+Projects should establish a reviewed prose-only CI path, aligned with their check
+commands and protections. Until then, existing merge requirements still apply;
+focused checks are not a substitute for them.
 Completing an experiment or saving its findings does not automatically trigger
 integration. Finish related comparisons that are likely to revise the same result,
 then integrate a useful settled outcome. Do not delay a stable independent fix for

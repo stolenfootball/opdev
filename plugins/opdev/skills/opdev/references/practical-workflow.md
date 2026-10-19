@@ -27,6 +27,12 @@ clarify material requirements, present concrete behavior and tradeoffs, then wai
 for acceptance before dependent implementation. Technical self-review is not
 design acceptance. Reuse accepted designs and keep narrow repairs direct.
 
+For documentation, design and planning deliverables, follow
+[deliverable and verification boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification).
+Review actual impact, use relevant focused checks and present the requested result
+without waiting for unrelated native suites or an unrequested merge. Required
+integration checks remain binding once integration is selected.
+
 Implement with focused checks. Add meaningful behavioral and regression tests;
 explain genuine automation limitations. Review assertions and consumer-visible
 outcomes, not only test names or green suites. Record concrete decisions/findings

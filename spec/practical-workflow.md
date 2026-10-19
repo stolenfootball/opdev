@@ -91,6 +91,14 @@ remain direct. This interaction boundary adds no evidence ledger or CI gate.
 
 ## Files and adoption
 
+Requested deliverable completion and integration qualification are distinct.
+Design/documentation output is presented after relevant impact-based review and
+checks, without waiting for unrelated runtime qualification. Already authorized
+integration continues separately and retains its requirements. Prose-only CI
+selection must account for actual file consumers, mixed changes and unknown impact;
+extensions are not safe exemptions. Guidance does not change selected commands,
+provider protections or required-job inventories automatically.
+
 Only project.yaml and short guidance.md are universal .opdev files. Requirements
 and selected additional policies have their respective namespaces. Work lives in
 the existing tracker, documentation at the declared authority, and temporary

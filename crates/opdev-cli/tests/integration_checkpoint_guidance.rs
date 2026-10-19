@@ -18,6 +18,15 @@ fn both_policy_routes_reach_packaged_design_acceptance() -> Result<(), Box<dyn s
     )
 }
 
+#[test]
+fn both_policy_routes_reach_packaged_deliverable_boundary() -> Result<(), Box<dyn std::error::Error>>
+{
+    check_routes(
+        "deliver-the-requested-result-without-unrelated-qualification",
+        "### Deliver the requested result without unrelated qualification",
+    )
+}
+
 fn check_routes(anchor: &str, heading: &str) -> Result<(), Box<dyn std::error::Error>> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let skill = root.join("plugins/opdev/skills/opdev");

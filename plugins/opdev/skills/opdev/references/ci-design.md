@@ -91,6 +91,36 @@ During long CI waits, report meaningful changes, completion or actionable blocke
 Avoid repeating unchanged job state or reconstructing the full plan on each poll.
 Follow host-required communication intervals with a concise update when necessary.
 
+## Impact-based verification
+
+During new CI design, adoption or authorized improvement, establish a proportionate
+path for changes that affect only prose. It should run the relevant documentation
+checks without unrelated product compilation, native suites or dependency audits
+on every wording edit. Keep full coverage for changes that can affect the product,
+and retain independently justified scheduled dependency/security checks.
+
+Inspect the actual consumers of changed files before classifying them. Markdown
+may contain executable agent instructions, tested examples, generated build inputs
+or behavioral contracts. Mixed changes take the union of required checks; unknown
+impact, selector changes, shared build inputs and CI changes take the conservative
+path. Do not infer safety solely from a docs directory or file extension.
+
+Prefer existing commands and provider-native change rules over a custom optimizer.
+Review the contract's stage commands together with job rules and protection: a
+path filter does not change what an unconditional OpDev command executes. No new
+OpDev selector flag is implied. Where the current runtime cannot express the
+required selection, report the limitation and propose a supported arrangement;
+never manufacture a successful check, hide a required missing job, or weaken
+protection to accommodate skipped jobs.
+
+Test prose-only, executable-documentation, product-only, mixed and unknown-input
+changes, plus required-job failure/missing cases and actual MR/trunk comparison
+bases. A documentation-qualified result must not be reported as product runtime
+verification. Changing a project's required inventory or provider scheduling needs
+actual authorization; new guidance alone does not migrate its policy. Until an
+approved path exists, preserve existing merge gates while still presenting useful
+documentation/design results promptly.
+
 ## Provider checks, not a universal template
 
 With explicit engineering policy 3, `ci.native-candidate-reuse.v1` can avoid

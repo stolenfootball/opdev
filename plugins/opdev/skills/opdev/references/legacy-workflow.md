@@ -63,6 +63,8 @@ production gate or authorize publication/merge; ordinary safety still applies.
 Resolve the runtime below for retained development and applicable qualification.
 
 For retained work, use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback).
+For documentation, design and planning deliverables, follow
+[deliverable and verification boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification).
 For new capabilities, substantial changes and redesigns, first follow
 [design acceptance](planning.md#agree-on-the-design-before-implementation).
 Technical self-review cannot accept the design on the developer's behalf.

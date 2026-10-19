@@ -279,6 +279,32 @@ draft status or a green subset of jobs. A preview-only pipeline must not satisfy
 merge requirements; establish that boundary before changing provider scheduling.
 Separate producer and qualification checks only under reviewed provider policy.
 
+### Deliver the requested result without unrelated qualification
+
+Identify what the user asked to receive: a design, documentation edit, tracker
+plan, feedback candidate or integrated implementation. Do not silently expand a
+request to write and explain a design into "merge it and qualify trunk before
+showing it." Present the reviewed result promptly, with integration status stated
+separately. If integration is already authorized, continue it within scope without
+withholding the useful answer; do not abandon required work or claim it finished.
+
+Choose preparation checks from the actual diff and its consumers. Prose-only
+design/documentation work normally needs content, consistency, references and
+relevant formatting/render checks, not native product builds or broad runtime
+suites merely to present it. Inspect whether documentation is executable guidance,
+tested examples, generated input, a packaging dependency or a changed contract;
+those effects may justify broader checks. File extensions alone are insufficient.
+Label narrower diagnostics honestly; they do not satisfy an unchanged full-suite
+requirement. Explain what was checked and what remains unverified.
+
+Finish the content review before starting expensive integration checks so avoidable
+wording corrections do not restart qualification. Once integration is selected,
+honor existing required checks. If policy has only a broad check, identify the
+mismatch and propose the [impact-based CI path](ci-design.md#impact-based-verification),
+not a silent bypass. Don't run equivalent full suites repeatedly merely for local,
+pre-merge and report labels; reuse only where the selected policy actually permits.
+No new approval form, CLI mode or blanket documentation exemption is introduced.
+
 ### Choose an integration checkpoint
 
 Choose the next checkpoint by its purpose, not the end of an agent turn, test run
