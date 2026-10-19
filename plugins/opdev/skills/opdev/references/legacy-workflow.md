@@ -63,6 +63,8 @@ production gate or authorize publication/merge; ordinary safety still applies.
 Resolve the runtime below for retained development and applicable qualification.
 
 For retained work, use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback).
+Before treating an experiment's completion as a merge handoff, apply
+[integration checkpoint selection](planning.md#choose-an-integration-checkpoint).
 Show a meaningful result after focused tests and safety checks; do not require
 full integration qualification merely to request feedback. Keep real edits and
 tests current without calling them disposable. Finalize source-bound acceptance

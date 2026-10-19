@@ -102,6 +102,12 @@ Research consequential uncertainty rather than doing a mandatory research pass
 for every edit. Continue independent authorized work while a decision is pending.
 
 Run focused checks while iterating. A feedback checkpoint is not a merge gate.
+Completing an experiment or saving its findings does not automatically trigger
+integration. Finish related comparisons that are likely to revise the same result,
+then integrate a useful settled outcome. Do not delay a stable independent fix for
+unrelated experiments or wait for the whole product to be final. While CI runs,
+continue safely separated authorized work without changing the candidate being
+verified. This changes checkpoint selection, not required checks or CI policy.
 Configure one authoritative integration route in GitHub or GitLab, preserving
 useful platform coverage. Integrated-source checks may differ from candidate
 checks; a candidate result is not a trunk execution. Release remains a separate

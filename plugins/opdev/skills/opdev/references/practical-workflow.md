@@ -49,6 +49,13 @@ missing or mismatched artifacts fail closed. This reuses tooling, not test resul
 and does not authorize release or global installation. During waits, avoid repeated
 unchanged-state narration; report meaningful changes or host-required brief updates.
 
+Before promoting an experiment into an integration handoff, use
+[integration checkpoint selection](planning.md#choose-an-integration-checkpoint).
+Completing a trial or retaining its findings is not automatically a merge boundary;
+finish tightly coupled learning with focused checks, then integrate a useful settled
+result. Continue safely separated authorized work while CI runs, preserving its
+exact candidate and all required gates.
+
 For requested design feedback, use relevant focused checks and wait for that
 feedback without merging or running full integration CI merely to show the draft.
 A required failure blocks integration. Never substitute an older green report or

@@ -239,9 +239,41 @@ draft status or a green subset of jobs. A preview-only pipeline must not satisfy
 merge requirements; establish that boundary before changing provider scheduling.
 Separate producer and qualification checks only under reviewed provider policy.
 
+### Choose an integration checkpoint
+
+Choose the next checkpoint by its purpose, not the end of an agent turn, test run
+or experiment. In the existing plan or conversation, distinguish learning enough
+to choose a direction from settling an independently useful result for integration.
+No new record, workflow mode or routine approval is required.
+
+- Continue focused iteration when the next already-authorized comparison is likely
+  to revise the same behavior, interface or guidance. Writing findings into retained
+  files does not by itself make the result settled. For example, compare two related
+  interaction designs before integrating the resulting shared guidance, rather
+  than treating each comparison as a separate merge checkpoint.
+- Integrate when a coherent result is sufficiently settled and independently
+  useful, an authorized downstream task needs it on trunk, or continued branching
+  would create avoidable integration risk. An unrelated upcoming experiment is not
+  a reason to delay a stable fix. Honor an explicit requested integration checkpoint.
+- Keep this a bounded learning loop, not permission to wait for the final product
+  or indefinitely accumulate changes. Reassess scope and branch drift as learning
+  changes the plan; use supported isolation for unfinished behavior when appropriate.
+
+Once integration is chosen, all selected merge and integrated-source checks still
+apply. Do not disable push-triggered jobs, use skip-CI directives or weaken policy
+to simulate a feedback-only pipeline. Provider scheduling changes need their own
+authorized implementation and review.
+
+While required CI runs, continue genuinely independent authorized work if it can
+be safely separated from the exact candidate under verification. Preserve that
+revision; do not mix new edits into it or treat its pending result as a pass.
+Prioritize restoration of required failures and respect actual dependencies. If
+no useful independent work exists, wait or report the dependency without busywork
+or repeated unchanged updates. This grants no delegation or additional scope.
+
 ### Ready to merge and ready to release
 
-Once a small useful increment is sufficiently settled, finalize exact-source
+After choosing a settled integration checkpoint above, finalize exact-source
 acceptance bindings/review and run required local/pre-merge qualification, then
 required checks on integrated trunk. Material changes invalidate affected evidence;
 feedback observations or older green runs cannot qualify new source or artifacts.

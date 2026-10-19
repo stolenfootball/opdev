@@ -70,7 +70,12 @@ Assured mapping subjects include the procedure content. This avoids misleading
 dummy failures without introducing an observation ledger or weakening enforcement.
 
 Local feedback does not need the whole integration suite. Integration and
-integrated-source checks can differ deliberately. A candidate result is not an
+learning are deliberately separate checkpoints: experiment completion or retained
+findings alone do not require integration. Batch tightly coupled learning until a
+useful outcome is settled, without delaying independent stable increments or
+creating indefinite branches. Pending CI permits safely separated authorized work,
+not mutation of its candidate, a presumed pass or bypass of required checks.
+Integration and integrated-source checks can differ deliberately. A candidate result is not an
 execution on trunk; changed content or execution conditions require appropriate
 fresh checks. Platform coverage is not redundant merely because command text
 matches. Releases require separate developer authorization.
