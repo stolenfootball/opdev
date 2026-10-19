@@ -87,8 +87,16 @@ actual head, not Actions' default synthetic merge ref. Native selection rejects
 other unsupported contexts; these need an explicitly reviewed future path, not
 broader credentials or execution of untrusted code in a privileged job.
 
-Post-merge selection uses the commit-to-MR/PR endpoint and exactly one actual
+Post-merge selection uses the commit-to-MR/PR endpoint and one unambiguous actual
 merged change, then checks its target trunk, source project and integrated commit.
+GitLab can mark stacked ancestor MRs merged by the same commit. When multiple
+merged candidates match, its exact commit metadata must identify two distinct
+parents and exactly one candidate source head must equal the second parent.
+The detailed MR source must still match that parent. Missing metadata, duplicate
+heads, unsupported merge shapes and access errors fail closed; review contents or
+passing results never choose the MR. Single-candidate and GitHub behavior is
+unchanged. This uses the existing job-token-readable
+[commit endpoint](https://docs.gitlab.com/api/commits/), not broader credentials.
 Discovery is bounded to fewer than 100 returned candidates; ambiguous/truncated
 results fail, never select latest green. The current-stage record still binds
 actual source/configuration/acceptance and fresh execution. The selection and

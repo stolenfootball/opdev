@@ -54,7 +54,7 @@
         "kind": "source",
         "source": {
           "path": "spec/evidence-lifetimes.md",
-          "sha256": "ab8fc984a70eee61daa0dc99d5febb6297f0489b49b500965281760b6c40152c",
+          "sha256": "d64738a8dd7c423ae35c967cf125630fcf17e437bdf31c22926734a997e2a1bd",
           "excerpt": "| Fact | Lifetime and invalidation |\n| --- | --- |\n| Assertion review | Exact source, complete acceptance inventory and current assertions; new conditions invalidate review even when execution is unchanged |\n| Canonical execution | Exact reviewed input/configuration/environment identities, provider producer/run/attempt and stage; newer attempts and unavailable evidence cannot fall back to old green |\n| Artifact qualification | Exact retained artifact bytes and separate qualification evidence; replacement or missing bytes cannot inherit old qualification |\n| Developer decision | Original attributed scope, authority, revocation/supersession and applicable expiry; permission is not feedback or release authority |\n| Remote observation | Explicit observation context and freshness, rechecked through the provider when qualification requires it; local journals cannot refresh or authenticate it |"
         }
       },
@@ -330,8 +330,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened.",
-        "subject_sha256": "650965fb5ca68ffa7d0af177e4b8a7974fce9fee70d482387525645b2576e1b2"
+        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "532f03a404011e2f8bf163c577cfc6f3e08c8dc9d982b777a1f3dea4fef08773"
       }
     },
     {
@@ -350,8 +350,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened.",
-        "subject_sha256": "2a3bc4f0697511ee0b5e0bafec65c495596127e9bd799fe4d942a2e99ada09f9"
+        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "bd746c7d0be16b5f426fac8d8f6f9832e3ce226a3a7c4af03647685068dbfd7a"
       }
     },
     {
@@ -370,8 +370,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened.",
-        "subject_sha256": "a7f280263fc495cd771db9221d7d750106a3e8c0a1fe982b603fae0f3e71a522"
+        "rationale": "Rechecked the unchanged artifact/proof replacement assertions and artifact ownership semantics against changed adoption documentation. New stage handoff does not make saved qualification reusable after bytes disappear or change; no local continuation or artifact validation implementation is weakened. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "de68e449511d295419ca3ea3dd892245291f731789aeeaf6ba25989459ccb3d8"
       }
     }
   ]

@@ -153,6 +153,12 @@ tool installation, then executes the real check after setup. Neither handoff nor
 input readiness is approval or qualification. After integrated checks, `ci qualify`
 observes remote CI without rerunning local suites or claiming artifact readiness.
 
+When GitLab automatically marks stacked MRs merged by one normal merge commit,
+the source-built reader identifies the unique source head matching that commit's
+second parent. Prepare the post-merge review on that actual source MR. It does not
+pick the newest or passing review; duplicate heads, unsupported parent shapes or
+unavailable metadata still block verification. No token expansion is needed.
+
 The post-merge review must retain the actual pre-merge verification finding.
 `ci observe-prior-stage --review-locator FILE --acceptance-sha256 ID --run RUN
 --ref REF --output NEW_FILE` prepares those facts through the existing local

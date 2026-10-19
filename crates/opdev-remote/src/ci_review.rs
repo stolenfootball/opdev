@@ -195,6 +195,7 @@ fn resolve_with(
         }
     }
     let route = if hub { "pulls" } else { "merge_requests" };
+    let mut merge_source = None;
     let number = if let Some(number) = context.number {
         number
     } else {
@@ -211,7 +212,7 @@ fn resolve_with(
             .as_array()
             .filter(|a| a.len() < 100)
             .ok_or("CI change discovery is malformed or exceeds its bound; no partial selection")?;
-        let matches: Vec<_> = items
+        let mut matches: Vec<_> = items
             .iter()
             .filter(|v| {
                 v["merge_commit_sha"].as_str() == Some(&context.revision)
@@ -222,6 +223,25 @@ fn resolve_with(
                     }
             })
             .collect();
+        if !hub && matches.len() > 1 {
+            // GitLab can auto-merge ancestor MRs with the same merge commit.
+            // Identify the actual source parent, never a preferred/passing review.
+            let commit = read(
+                &mut get,
+                &format!("{base}/repository/commits/{}", context.revision),
+            )?;
+            let parents = commit["parent_ids"]
+                .as_array()
+                .filter(|parents| {
+                    parents.len() == 2
+                        && parents[0] != parents[1]
+                        && parents.iter().all(|p| p.as_str().is_some_and(|s| hex(s, 40)))
+                })
+                .filter(|_| commit["id"].as_str() == Some(&context.revision))
+                .ok_or("Stacked GitLab changes need the exact two-parent merge identity; no review selected")?;
+            merge_source = parents[1].as_str().map(str::to_owned);
+            matches.retain(|item| item["sha"].as_str() == merge_source.as_deref());
+        }
         if matches.len() != 1 {
             return Err(
                 "Integrated source needs exactly one merged MR/PR; no latest-success fallback"
@@ -234,6 +254,12 @@ fn resolve_with(
             .ok_or("Merged change identity unavailable")?
     };
     let item = read(&mut get, &format!("{base}/{route}/{number}"))?;
+    if merge_source.is_some() && item["sha"].as_str() != merge_source.as_deref() {
+        return Err(
+            "Merged change source differs from the observed merge parent; no review selected"
+                .into(),
+        );
+    }
     select(context, number, &item)
 }
 
@@ -778,6 +804,85 @@ mod tests {
             }
         }
         Ok(())
+    }
+
+    #[test]
+    fn stacked_gitlab_merge_selects_unique_second_parent_not_list_order() -> Result {
+        for stage in [TestStage::PostMerge, TestStage::Delivery] {
+            for reverse in [false, true] {
+                let (context, item) = fixture(CiProvider::Gitlab, stage);
+                let mut stacked = item.clone();
+                stacked["iid"] = json!(2);
+                stacked["sha"] = json!("e".repeat(40));
+                let mut items = vec![stacked, item.clone()];
+                if reverse {
+                    items.reverse();
+                }
+                let selected = resolve_with(&context, |url| {
+                    let value = if url.ends_with("/job") {
+                        json!({"pipeline":{"project_id":7},"commit":{"id":context.revision}})
+                    } else if url.contains("?per_page") {
+                        json!(items)
+                    } else if url.ends_with(&format!("/repository/commits/{}", context.revision)) {
+                        json!({"id":context.revision,"parent_ids":["f".repeat(40),"d".repeat(40)]})
+                    } else if url.ends_with("/merge_requests/3") {
+                        item.clone()
+                    } else {
+                        return Err("unexpected API endpoint".into());
+                    };
+                    serde_json::to_vec(&value).map_err(|_| "fixture".into())
+                })?;
+                assert_eq!(selected.locator.selector.number, 3);
+                assert_eq!(selected.locator.source_commit, "d".repeat(40));
+            }
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn stacked_gitlab_merge_rejects_missing_ambiguous_or_changed_parent_identity() {
+        for fault in 0..11 {
+            let (context, mut item) = fixture(CiProvider::Gitlab, TestStage::PostMerge);
+            let mut stacked = item.clone();
+            stacked["iid"] = json!(2);
+            stacked["sha"] = json!("e".repeat(40));
+            let mut commit =
+                json!({"id":context.revision,"parent_ids":["f".repeat(40),"d".repeat(40)]});
+            match fault {
+                0 => commit["id"] = json!("b".repeat(40)),
+                1 => commit["parent_ids"] = Value::Null,
+                2 => commit["parent_ids"] = json!(["d".repeat(40)]),
+                3 => commit["parent_ids"] = json!(["f".repeat(40), "d".repeat(40), "e".repeat(40)]),
+                4 => commit["parent_ids"][0] = json!("bad"),
+                5 => stacked["sha"] = json!("d".repeat(40)),
+                6 => commit["parent_ids"][1] = json!("b".repeat(40)),
+                9 => item["source_project_id"] = json!(8),
+                10 => item["target_branch"] = json!("other"),
+                _ => {}
+            }
+            let result = resolve_with(&context, |url| {
+                let value = if url.ends_with("/job") {
+                    json!({"pipeline":{"project_id":7},"commit":{"id":context.revision}})
+                } else if url.contains("?per_page") {
+                    json!([stacked, item])
+                } else if url.ends_with(&format!("/repository/commits/{}", context.revision)) {
+                    if fault == 7 {
+                        return Err("access denied".into());
+                    }
+                    commit.clone()
+                } else if url.ends_with("/merge_requests/3") {
+                    let mut current = item.clone();
+                    if fault == 8 {
+                        current["sha"] = json!("e".repeat(40));
+                    }
+                    current
+                } else {
+                    return Err("unexpected API endpoint".into());
+                };
+                serde_json::to_vec(&value).map_err(|_| "fixture".into())
+            });
+            assert!(result.is_err(), "fault {fault}");
+        }
     }
 
     #[test]
