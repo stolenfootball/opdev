@@ -21,17 +21,13 @@ issue. Larger goals use connected useful slices, MVP phases and milestones;
 preserve accepted future requirements. Research material uncertainty and reuse
 adequate tools rather than re-investigating the stack on every task.
 
-For new capabilities, substantial changes and redesigns, follow
-[design acceptance](planning.md#agree-on-the-design-before-implementation):
-clarify material requirements, present concrete behavior and tradeoffs, then wait
-for acceptance before dependent implementation. Technical self-review is not
-design acceptance. Reuse accepted designs and keep narrow repairs direct.
-
-For documentation, design and planning deliverables, follow
-[deliverable and verification boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification).
-Review actual impact, use relevant focused checks and present the requested result
-without waiting for unrelated native suites or an unrequested merge. Required
-integration checks remain binding once integration is selected.
+Use [work boundaries](work-boundaries.md) to select the current purpose and justify
+expensive checks. Declared commands do not advance an unsettled task to integration.
+In particular, a default or local-stage full suite is not a requirement to run it
+for every feedback preview; command selection and task readiness are different.
+Use its [design acceptance](planning.md#agree-on-the-design-before-implementation)
+and [deliverable boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification)
+before dependent implementation or final qualification.
 
 Implement with focused checks. Add meaningful behavioral and regression tests;
 explain genuine automation limitations. Review assertions and consumer-visible
@@ -131,6 +127,11 @@ propose a level and concrete changes, and ask only material questions. Reuse
 actual decisions. Preserve adequate tools, authority locations and non-main
 branch names; offer renaming without requiring it. Never manufacture approval
 or mark a required gap optional to complete adoption.
+
+Check that developers have usable focused-feedback commands, not only a wrapper
+that runs everything. Inspect actual command scope and CI triggers together;
+recommend a proportionate path using [CI design](ci-design.md), preserving existing
+gates until a reviewed change is implemented. A new label is not a faster command.
 
 For a new configuration, `init --project FILE --dry-run` previews the reviewed
 full contract and managed instructions. `init --project FILE` applies it without

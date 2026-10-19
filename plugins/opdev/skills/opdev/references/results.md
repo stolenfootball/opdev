@@ -2,6 +2,10 @@
 
 ## Handoff after development
 
+Apply [work boundaries](work-boundaries.md#deliver-without-expanding-completion)
+when deciding whether to present a result or continue qualification. Requested
+output and integration completion are distinct; state both honestly.
+
 Match the handoff to the authorized stopping boundary using
 [scoped continuation](workflow.md#scoped-continuation). A progress update or local
 blocker is not automatically a final handoff: continue available independent work

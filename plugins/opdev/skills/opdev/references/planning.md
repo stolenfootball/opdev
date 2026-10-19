@@ -27,43 +27,9 @@ operators, downstream pipelines or hardware. A visible UI is not required.
 
 ## Agree on the design before implementation
 
-For new capabilities, substantial changes and redesigns, clarify requirements,
-present a concrete design, obtain developer acceptance, then implement. This is
-a product-direction boundary, not manual code review or approval of every task.
-
-1. Reuse existing answers and ask the material unresolved questions: who uses the
-   result, what they need to accomplish, expected behavior, exclusions and important
-   tradeoffs. Ask enough relevant questions to resolve the direction, not a fixed
-   questionnaire. Research can establish feasibility, not the user's preferences.
-2. Present the proposed experience or API behavior with a representative example,
-   scope, limitations, consequential tradeoffs and first useful slice. A milestone
-   list alone is not a design when these choices remain unresolved. Label proposed
-   assumptions and any placeholder behavior; do not replace discovery or working
-   capability with guesses simply to finish a slice.
-3. Wait for acceptance of that presented design before dependent implementation.
-   Requirements answers, silence, an agent-written plan, passing tests and technical
-   self-review are not acceptance. Interpret "do it" against the actual proposal:
-   approval to prepare a design or roadmap does not also approve unseen design
-   choices. Broad permission to finish a project does not erase this boundary.
-4. Implement within the accepted design without repeated permission for ordinary
-   coding, testing or internal technical decisions. Reopen only material changes
-   to behavior, scope, user workflow or consequential tradeoffs; explain the change
-   and obtain acceptance before dependent work. Continue genuinely independent
-   authorized work while waiting, without building the disputed design indirectly.
-
-A narrow repair restoring agreed behavior remains direct. A supplied accepted
-design needs no redundant proposal or acceptance round. Explicit delegation to
-choose the design is valid within its stated scope; ordinary implementation
-approval is not that delegation. If the request itself fully specifies the design,
-use it rather than asking the developer to approve their own instructions again.
-Authorized disposable prototypes may help answer design questions, but their
-existence or technical review does not authorize promotion into the product.
-
-Keep the proposal and actual response in the existing conversation or work item;
-no new file, approval registry, CLI mode or merge gate is required. Agentic review
-checks whether implementation satisfies the accepted design; it cannot accept an
-unseen design on the developer's behalf. "Continue authorized work" and "no routine
-approval rounds" apply inside this boundary, not in place of it.
+Use the shared [work-boundary rule](work-boundaries.md) for requirements questions,
+design presentation and acceptance, explicit delegation, and material revisions.
+Technical self-review cannot accept an unseen design for the developer.
 
 ## Check uncertainty before committing to an approach
 
@@ -281,61 +247,15 @@ Separate producer and qualification checks only under reviewed provider policy.
 
 ### Deliver the requested result without unrelated qualification
 
-Identify what the user asked to receive: a design, documentation edit, tracker
-plan, feedback candidate or integrated implementation. Do not silently expand a
-request to write and explain a design into "merge it and qualify trunk before
-showing it." Present the reviewed result promptly, with integration status stated
-separately. If integration is already authorized, continue it within scope without
-withholding the useful answer; do not abandon required work or claim it finished.
-
-Choose preparation checks from the actual diff and its consumers. Prose-only
-design/documentation work normally needs content, consistency, references and
-relevant formatting/render checks, not native product builds or broad runtime
-suites merely to present it. Inspect whether documentation is executable guidance,
-tested examples, generated input, a packaging dependency or a changed contract;
-those effects may justify broader checks. File extensions alone are insufficient.
-Label narrower diagnostics honestly; they do not satisfy an unchanged full-suite
-requirement. Explain what was checked and what remains unverified.
-
-Finish the content review before starting expensive integration checks so avoidable
-wording corrections do not restart qualification. Once integration is selected,
-honor existing required checks. If policy has only a broad check, identify the
-mismatch and propose the [impact-based CI path](ci-design.md#impact-based-verification),
-not a silent bypass. Don't run equivalent full suites repeatedly merely for local,
-pre-merge and report labels; reuse only where the selected policy actually permits.
-No new approval form, CLI mode or blanket documentation exemption is introduced.
+Use [work boundaries](work-boundaries.md#deliver-without-expanding-completion):
+present the requested result promptly with its actual checks and integration status.
+Do not make unrelated qualification a prerequisite for delivering the answer.
 
 ### Choose an integration checkpoint
 
-Choose the next checkpoint by its purpose, not the end of an agent turn, test run
-or experiment. In the existing plan or conversation, distinguish learning enough
-to choose a direction from settling an independently useful result for integration.
-No new record, workflow mode or routine approval is required.
-
-- Continue focused iteration when the next already-authorized comparison is likely
-  to revise the same behavior, interface or guidance. Writing findings into retained
-  files does not by itself make the result settled. For example, compare two related
-  interaction designs before integrating the resulting shared guidance, rather
-  than treating each comparison as a separate merge checkpoint.
-- Integrate when a coherent result is sufficiently settled and independently
-  useful, an authorized downstream task needs it on trunk, or continued branching
-  would create avoidable integration risk. An unrelated upcoming experiment is not
-  a reason to delay a stable fix. Honor an explicit requested integration checkpoint.
-- Keep this a bounded learning loop, not permission to wait for the final product
-  or indefinitely accumulate changes. Reassess scope and branch drift as learning
-  changes the plan; use supported isolation for unfinished behavior when appropriate.
-
-Once integration is chosen, all selected merge and integrated-source checks still
-apply. Do not disable push-triggered jobs, use skip-CI directives or weaken policy
-to simulate a feedback-only pipeline. Provider scheduling changes need their own
-authorized implementation and review.
-
-While required CI runs, continue genuinely independent authorized work if it can
-be safely separated from the exact candidate under verification. Preserve that
-revision; do not mix new edits into it or treat its pending result as a pass.
-Prioritize restoration of required failures and respect actual dependencies. If
-no useful independent work exists, wait or report the dependency without busywork
-or repeated unchanged updates. This grants no delegation or additional scope.
+Apply [work boundaries](work-boundaries.md#advance-deliberately): authorization and
+readiness both matter. Finishing a trial or retaining files is not automatically
+an integration handoff. Continue safely independent authorized work while CI runs.
 
 ### Ready to merge and ready to release
 

@@ -82,6 +82,13 @@ matches. Releases require separate developer authorization.
 
 ## Design acceptance
 
+The skill's shared work-boundary rule selects discovery/design, implementation
+for feedback or integration from actual scope and readiness. These are neither
+presets nor persisted stages. Expensive verification needs a current risk/decision
+purpose, design-readiness assessment, boundary justification and valid-reuse check.
+Concrete early feasibility or safety probes remain valid; permission to eventually
+merge is not current readiness. No command execution semantics change implicitly.
+
 Design acceptance precedes dependent implementation of new capabilities,
 substantial changes and redesigns unless the design is already accepted, fully
 specified by the developer or explicitly delegated. Requirements clarification

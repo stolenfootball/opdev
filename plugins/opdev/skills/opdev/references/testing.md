@@ -53,6 +53,12 @@ of the stronger checks or automatically install/update anything.
 
 ## Feedback and required checks
 
+Apply [work boundaries](work-boundaries.md#before-expensive-verification) before
+full suites, native matrices or broad evaluations. Identify the decision/risk,
+design readiness, current boundary and valid reuse; don't run a broad command
+merely because it is listed as the default. These checks do not waive required
+integration work or prohibit a justified early risk/feasibility probe.
+
 When recommending proportionate checks, distinguish the next feedback observation
 from integration qualification. A documentation typo may need only the existing
 documentation validation for feedback and no new behavioral test. That does not

@@ -94,6 +94,23 @@ an existing required check to another stage is a policy change, not this repair.
 
 ## Daily work
 
+Choose work by purpose and readiness, not by whether files have been retained:
+
+| Purpose | Useful output | Checks now |
+| --- | --- | --- |
+| Discover/design | Questions, research, concrete proposal or authorized prototype | Those needed to trust the proposal or safely inspect the prototype |
+| Implement for feedback | Working accepted slice and user feedback | Meaningful focused behavior and safety checks |
+| Integrate | Settled, authorized useful increment | All required integration and integrated-source checks |
+
+These are not new assurance levels or CLI flags. Eventual merge permission does
+not make an unsettled candidate ready. Before costly verification, identify its
+decision/risk, design readiness, necessity now and any valid equivalent execution.
+An early broad compatibility or safety probe is appropriate when it resolves a
+concrete uncertainty; it does not accept the design. Reuse the rationale until
+facts change instead of adding forms or routine approval questions. Inspect command
+scope: plain `opdev check` can run the full declared suite. Adoption should establish
+real focused-feedback commands alongside reviewed integration checks.
+
 For new capabilities, substantial changes and redesigns, the default interaction
 is **clarify requirements → propose a design → obtain acceptance → implement**.
 The proposal shows concrete user/API behavior, an example, scope, limitations and

@@ -93,6 +93,13 @@ Follow host-required communication intervals with a concise update when necessar
 
 ## Impact-based verification
 
+First apply [work boundaries](work-boundaries.md): scheduling should support
+discovery/design and implementation feedback without requiring integration on
+every push or edit. Inspect actual cheap feedback commands alongside merge jobs.
+If the only entry point runs everything, recommend an existing narrower command
+or a reviewed focused entry point; don't merely advise the agent to run fewer tests.
+Align adoption decisions, command wrappers, provider triggers and required jobs.
+
 During new CI design, adoption or authorized improvement, establish a proportionate
 path for changes that affect only prose. It should run the relevant documentation
 checks without unrelated product compilation, native suites or dependency audits
