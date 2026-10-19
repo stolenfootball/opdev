@@ -21,17 +21,51 @@ issue. Larger goals use connected useful slices, MVP phases and milestones;
 preserve accepted future requirements. Research material uncertainty and reuse
 adequate tools rather than re-investigating the stack on every task.
 
+Use [work boundaries](work-boundaries.md) to select the current purpose and justify
+expensive checks. Declared commands do not advance an unsettled task to integration.
+In particular, a default or local-stage full suite is not a requirement to run it
+for every feedback preview; command selection and task readiness are different.
+Use its [design acceptance](planning.md#agree-on-the-design-before-implementation)
+and [deliverable boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification)
+before dependent implementation or final qualification.
+
 Implement with focused checks. Add meaningful behavioral and regression tests;
 explain genuine automation limitations. Review assertions and consumer-visible
 outcomes, not only test names or green suites. Record concrete decisions/findings
 in the existing change discussion. Standard needs no manual acceptance digest,
 selected review comment, ledger or extra reviewer.
 
-`check --plan` inspects selected commands without execution. `check` runs local
-feedback checks; `check --ci` selects pre-merge checks; `check --ci --post-merge`
+`check --plan` inspects selected commands without execution. With `check.purpose.v1`,
+use `check --purpose feedback --command ID` for named focused commands and
+`check --purpose integration` for required local qualification; a bare local check
+refuses execution. Follow the shared work-boundary rule for early-probe reasons.
+`check --ci` selects pre-merge checks; `check --ci --post-merge`
 selects integrated-source checks. These can differ. `--no-exec` never qualifies
 missing executions. Multiple links to one canonical command need one execution.
 Do not run the full suite immediately before asking OpDev to run it again.
+
+On a runtime advertising `practical.expected-revision.v1`, CI can add
+`--expected-revision` with its exact checkout SHA. Preserve OpDev's native exit
+status; do not add a project-specific parser to revalidate its report. Retain
+separate product artifact/host qualification. With `practical.manual-checks.v1`,
+checks may select `manual: path/to/procedure.md` instead of a command. These are
+reported as `not_run`, never a successful observation or a fake command failure.
+`check --evaluation` selects that explicit stage. A manual check at a required
+integration boundary still prevents a pass; don't move or waive it for green CI.
+
+For authorized development previews, prefer an identified, digest-verified binary
+from one successful producer job over rebuilding the same source in every consumer
+job. Select exact source, platform, producer job and independently approved digest;
+missing or mismatched artifacts fail closed. This reuses tooling, not test results,
+and does not authorize release or global installation. During waits, avoid repeated
+unchanged-state narration; report meaningful changes or host-required brief updates.
+
+Before promoting an experiment into an integration handoff, use
+[integration checkpoint selection](planning.md#choose-an-integration-checkpoint).
+Completing a trial or retaining its findings is not automatically a merge boundary;
+finish tightly coupled learning with focused checks, then integrate a useful settled
+result. Continue safely separated authorized work while CI runs, preserving its
+exact candidate and all required gates.
 
 For requested design feedback, use relevant focused checks and wait for that
 feedback without merging or running full integration CI merely to show the draft.
@@ -54,6 +88,36 @@ Never infer individual test execution from a suite exit code. Review narrowed
 requirements and removed assertions against developer intent. Strengthening an
 assertion is not automatically weakening coverage.
 
+When adding or intentionally changing supported behavior, update the affected
+selected requirement or add its enduring promise with the actual check and
+assertion location as part of completing the implementation, even when another
+agent owns CI or merging. A compatibility-only requirement does not cover a new
+feature's behavior. Reuse an adequate existing mapping for a repair; do not add
+one entry per task, duplicate the specification, or create a catalog merely for
+unrelated work. Keep pending design feedback provisional, then reconcile the
+affected promises before reporting implementation complete. An empty change to the catalog is valid
+only when its existing statements and links still cover the affected promises.
+
+At completion, use the actual diff, selected requirement statements and relevant
+test assertions together, not a recollection of the edits or only a file list.
+Answer two concrete questions in the existing review or handoff:
+
+- Which requested outcome or necessary dependency justifies each meaningful
+  change? Report unrelated discrepancies separately; authority is not scope.
+- Which existing or updated requirement and actual assertion cover each new or
+  changed supported promise? Name the relevant IDs and test locations, or explain
+  why an adequate existing mapping is unchanged. A compatibility statement alone
+  does not describe the behavior of a new feature.
+
+Use existing Git diff and project inspection tools to assemble these facts.
+Inspect requirement meaning rather than merely whether its file changed. Fix
+in-scope omissions before claiming completion; if permissions genuinely prevent
+that, report the specific incomplete part. Reuse current test execution when
+source and execution conditions are unchanged. This is the implementing agent's
+bounded review, not a new command, ledger, mandatory second agent, full-suite
+rerun or routine approval. Mechanical validation and an agent's own statement
+do not prove semantic completeness. Requested feedback may remain provisional.
+
 Affected data, security, public-interface, distribution and high-consequence
 behavior needs appropriate safeguards at every level. Unrelated work does not
 escalate just because these capabilities exist. Preserve additional obligations.
@@ -66,6 +130,11 @@ propose a level and concrete changes, and ask only material questions. Reuse
 actual decisions. Preserve adequate tools, authority locations and non-main
 branch names; offer renaming without requiring it. Never manufacture approval
 or mark a required gap optional to complete adoption.
+
+Check that developers have usable focused-feedback commands, not only a wrapper
+that runs everything. Inspect actual command scope and CI triggers together;
+recommend a proportionate path using [CI design](ci-design.md), preserving existing
+gates until a reviewed change is implemented. A new label is not a faster command.
 
 For a new configuration, `init --project FILE --dry-run` previews the reviewed
 full contract and managed instructions. `init --project FILE` applies it without

@@ -393,7 +393,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -423,7 +423,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -493,7 +493,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -523,7 +523,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -593,7 +593,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -623,7 +623,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -693,7 +693,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -723,7 +723,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -793,7 +793,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -823,7 +823,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -893,7 +893,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -923,7 +923,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -993,7 +993,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1023,7 +1023,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -1093,7 +1093,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1123,7 +1123,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -1193,7 +1193,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1223,7 +1223,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "use std::fs;"
         },
         {
@@ -1570,9 +1570,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "05b507862496750ce3f7b5c40cd0abd3e599ce41473e80814916c522aea6531b"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "7015522965111c3222dd3174e99c9a03138538e8e80afab2dc81539daf8e868b"
       }
     },
     {
@@ -1630,9 +1630,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "73e6218eee713e29682a0867e200a679f1791aa69f51cef35d25e7843a32ead0"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "1595ba3cc67f065c5611a3de3fb2819f353ca386c05588dca43071011b85fd3f"
       }
     },
     {
@@ -1690,9 +1690,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "4392dbf03b96e2ad880da31add104511651fcc46960de28caea41373d1adadd3"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "09d9776ec744ac9d99d38a35a0501a51072739b86818de13a5178b5a144dce08"
       }
     }
   ]

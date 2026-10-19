@@ -221,6 +221,9 @@ fn initial_report(args: &DoctorArgs) -> Report {
             evidence_schemas: vec![1, 2],
             capabilities: vec![
                 "practical.check.v1",
+                "check.purpose.v1",
+                "practical.expected-revision.v1",
+                "practical.manual-checks.v1",
                 "practical.migration.v1",
                 "practical.policies.v1",
                 "requirements.catalog.v1",
@@ -409,7 +412,7 @@ fn inspect_practical(report: &mut Report, contract: &opdev_project::practical::C
             "selected requirements, policies and assertion inputs",
         );
     }
-    if inspection::inspect_guidance(report).is_err() {
+    if inspection::inspect_practical_guidance(report).is_err() {
         report.inspection_error("inventory.project_guidance", "AGENTS.md / CLAUDE.md");
     }
     if report.remote_requested {

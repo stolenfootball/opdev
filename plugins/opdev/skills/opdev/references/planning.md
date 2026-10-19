@@ -25,6 +25,12 @@ uncertainty. Reuse current project/work facts; ask only questions that materiall
 affect the next decision. Consumers may be people, API clients, library callers,
 operators, downstream pipelines or hardware. A visible UI is not required.
 
+## Agree on the design before implementation
+
+Use the shared [work-boundary rule](work-boundaries.md) for requirements questions,
+design presentation and acceptance, explicit delegation, and material revisions.
+Technical self-review cannot accept an unseen design for the developer.
+
 ## Check uncertainty before committing to an approach
 
 For substantial requests and milestone boundaries, assess what is known and
@@ -239,9 +245,21 @@ draft status or a green subset of jobs. A preview-only pipeline must not satisfy
 merge requirements; establish that boundary before changing provider scheduling.
 Separate producer and qualification checks only under reviewed provider policy.
 
+### Deliver the requested result without unrelated qualification
+
+Use [work boundaries](work-boundaries.md#deliver-without-expanding-completion):
+present the requested result promptly with its actual checks and integration status.
+Do not make unrelated qualification a prerequisite for delivering the answer.
+
+### Choose an integration checkpoint
+
+Apply [work boundaries](work-boundaries.md#advance-deliberately): authorization and
+readiness both matter. Finishing a trial or retaining files is not automatically
+an integration handoff. Continue safely independent authorized work while CI runs.
+
 ### Ready to merge and ready to release
 
-Once a small useful increment is sufficiently settled, finalize exact-source
+After choosing a settled integration checkpoint above, finalize exact-source
 acceptance bindings/review and run required local/pre-merge qualification, then
 required checks on integrated trunk. Material changes invalidate affected evidence;
 feedback observations or older green runs cannot qualify new source or artifacts.

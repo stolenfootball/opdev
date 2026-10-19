@@ -33,19 +33,90 @@ boundaries. One suite can serve multiple requirements without extra execution.
 Do not claim that a named test ran merely because its suite exited successfully.
 Missing or failing required executions cannot be replaced by stored results.
 
+When a selected catalog exists, new or changed supported behavior updates its
+affected enduring promises and actual verification links before implementation
+handoff, even when a separate agent owns integration.
+Repairs reuse adequate existing statements; unrelated work needs no catalog
+expansion. This is change-impact maintenance, not comprehensive traceability or
+a new task ledger. Provisional feedback work need not finalize these links early.
+
+The completion review compares the requested outcome with the actual diff,
+selected requirement statements and assertions. It identifies the affected
+promises and their existing or updated test links, and separates necessary
+dependent changes from unrelated repairs. Project authority establishes truth,
+not permission to expand a task. These findings belong in the existing review or
+handoff; no additional ledger, reviewer, routine approval or duplicate execution
+is required. Structural inspection cannot establish semantic completeness.
+
 Standard does not need a selected MR comment, acceptance digest, ledger or
 provider credential to run its checks. Existing GitHub/GitLab required jobs own
 the native integration boundary. Actual semantic review remains necessary, but
 the CLI reports its mechanical scope rather than pretending to certify it.
 No cross-revision execution cache or test-selection inference is introduced.
 
+The native check command owns exit semantics: zero requires all selected automated
+commands to pass, no selected manual checks and no mapping findings. Failures or
+unexecuted requirements return nonzero; execution errors return 2. CI may require
+an exact full revision before execution; clean-source and unchanged-source checks
+remain mandatory. Consumers preserve that exit code instead of reimplementing
+report validation. Reports describe the selected stage, not inferred delivery.
+
+A check selects exactly one canonical command or a repository-relative `manual`
+procedure. Manual procedures must be nonempty regular contained files. They are
+reported separately as `not_run`, without fabricated exit codes or execution time.
+The CLI does not accept saved observations as a manual pass. Required manual work
+therefore keeps its boundary unverified; no silent stage move or waiver is implied.
+Assured mapping subjects include the procedure content. This avoids misleading
+dummy failures without introducing an observation ledger or weakening enforcement.
+
 Local feedback does not need the whole integration suite. Integration and
-integrated-source checks can differ deliberately. A candidate result is not an
+learning are deliberately separate checkpoints: experiment completion or retained
+findings alone do not require integration. Batch tightly coupled learning until a
+useful outcome is settled, without delaying independent stable increments or
+creating indefinite branches. Pending CI permits safely separated authorized work,
+not mutation of its candidate, a presumed pass or bypass of required checks.
+Integration and integrated-source checks can differ deliberately. A candidate result is not an
 execution on trunk; changed content or execution conditions require appropriate
 fresh checks. Platform coverage is not redundant merely because command text
 matches. Releases require separate developer authorization.
 
+## Design acceptance
+
+The skill's shared work-boundary rule selects discovery/design, implementation
+for feedback or integration from actual scope and readiness. These are neither
+presets nor persisted stages. Expensive verification needs a current risk/decision
+purpose, design-readiness assessment, boundary justification and valid-reuse check.
+Concrete early feasibility or safety probes remain valid; permission to eventually
+merge is not current readiness.
+
+Capability `check.purpose.v1` makes this explicit at the command boundary. Design
+and feedback select exact declared command IDs, reject qualification/reuse flags,
+and emit only non-qualifying preparation results. Integration forbids filtering
+and preserves all selected stage obligations. Practical local execution requires
+purpose; explicit CI/evaluation and inspection remain compatible. Legacy bare
+execution is preserved. An early integration-mapped command (including an identical
+alias) requires rationale, not a fabricated approval record. The CLI validates the
+selection before any command runs and preserves command failures and unrun work.
+This does not infer cost from names, enforce arbitrary shell behavior or authenticate
+consent. Reconsider the mechanism if measured friction exceeds avoided accidental
+broad execution; do not trade away integration checks to improve evaluation scores.
+
+Design acceptance precedes dependent implementation of new capabilities,
+substantial changes and redesigns unless the design is already accepted, fully
+specified by the developer or explicitly delegated. Requirements clarification
+and technical self-review do not establish design acceptance. Material departures
+return to the developer; routine work within accepted scope and narrow repairs
+remain direct. This interaction boundary adds no evidence ledger or CI gate.
+
 ## Files and adoption
+
+Requested deliverable completion and integration qualification are distinct.
+Design/documentation output is presented after relevant impact-based review and
+checks, without waiting for unrelated runtime qualification. Already authorized
+integration continues separately and retains its requirements. Prose-only CI
+selection must account for actual file consumers, mixed changes and unknown impact;
+extensions are not safe exemptions. Guidance does not change selected commands,
+provider protections or required-job inventories automatically.
 
 Only project.yaml and short guidance.md are universal .opdev files. Requirements
 and selected additional policies have their respective namespaces. Work lives in

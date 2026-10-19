@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "requirements": [
+    {
+      "id": "R-session-observation",
+      "title": "Native evaluation preserves attempts and honest accounting",
+      "statement": {
+        "kind": "inline",
+        "text": "Native trial support retains process outcomes before parsing, reads UTF-8 transcripts, uses cumulative totals for one resumed thread, and separates diagnostic and additive-test observations from qualification."
+      },
+      "origin": "benchmarks/sessions/README.md",
+      "rationale": "Prevent lost timing, double-counted usage and silent reinterpretation of historical grades; retain semantic and empirical review.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-session-observation",
+          "expected": "Offline regressions reject missing or decreasing accounting, retain failed attempts, distinguish exact reviewed warnings from unknown errors, and preserve the historical strict oracle."
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-session-observation",
+      "target": {
+        "path": "tests/sessions_test.py",
+        "sha256": "06000a084ea3e3a338fe14806285ed32b15b37577fd850282822539c464757fc",
+        "excerpt": "class NativeFollowUp(unittest.TestCase):"
+      },
+      "inputs": [
+        {
+          "path": "scripts/opdev_sessions.py",
+          "sha256": "d9253c3ece59203a1d11e5377e63c63bd41dfdf612dadb0d13ea5cd2a790dc9a",
+          "excerpt": "def retain_process_result("
+        },
+        {
+          "path": "crates/opdev-cli/tests/benchmark.rs",
+          "sha256": "75dc60fc4cdaaf4cbe3e104c3681e31c7e65994ff4d9db279281cb86b4a6a436",
+          "excerpt": "fn native_session_observation_regressions()"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "P-session-observation-local",
+      "criterion": "C-session-observation",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-session-observation",
+          "assertion": "NativeFollowUp exercises cumulative accounting, UTF-8 retention before failure, exact warning handling and additive structural observations; existing Accounting tests retain strict historical behavior.",
+          "discriminating_case": "Summing resumed totals, dropping failed attempts, accepting arbitrary errors or replacing an original expected value must not receive the corresponding accepted observation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/125",
+        "rationale": "Reviewed the actual NativeFollowUp assertions: exact warning allowlist retains diagnostics and rejects unknown errors; process metadata survives UTF-8/parse failures without overwrite; cumulative usage rejects decreases; additive observations reject changed expectations while historical strict grading remains. The canonical Rust wrapper invokes these tests on Windows and Unix. This is mapping adequacy, not execution at every stage or proof of model compliance.",
+        "subject_sha256": "8df6a3f53643966c858209a19bab9b7e6285caf8b4cc23925574701bc3d3b51e"
+      }
+    },
+    {
+      "id": "P-session-observation-pre",
+      "criterion": "C-session-observation",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-session-observation",
+          "assertion": "NativeFollowUp exercises cumulative accounting, UTF-8 retention before failure, exact warning handling and additive structural observations; existing Accounting tests retain strict historical behavior.",
+          "discriminating_case": "Summing resumed totals, dropping failed attempts, accepting arbitrary errors or replacing an original expected value must not receive the corresponding accepted observation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/125",
+        "rationale": "Reviewed the actual NativeFollowUp assertions: exact warning allowlist retains diagnostics and rejects unknown errors; process metadata survives UTF-8/parse failures without overwrite; cumulative usage rejects decreases; additive observations reject changed expectations while historical strict grading remains. The canonical Rust wrapper invokes these tests on Windows and Unix. This is mapping adequacy, not execution at every stage or proof of model compliance.",
+        "subject_sha256": "61bbf6a247f94742a199cd2d5b987b70ff00049967f393a97f70d4ab1f868f8e"
+      }
+    },
+    {
+      "id": "P-session-observation-post",
+      "criterion": "C-session-observation",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-session-observation",
+          "assertion": "NativeFollowUp exercises cumulative accounting, UTF-8 retention before failure, exact warning handling and additive structural observations; existing Accounting tests retain strict historical behavior.",
+          "discriminating_case": "Summing resumed totals, dropping failed attempts, accepting arbitrary errors or replacing an original expected value must not receive the corresponding accepted observation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/125",
+        "rationale": "Reviewed the actual NativeFollowUp assertions: exact warning allowlist retains diagnostics and rejects unknown errors; process metadata survives UTF-8/parse failures without overwrite; cumulative usage rejects decreases; additive observations reject changed expectations while historical strict grading remains. The canonical Rust wrapper invokes these tests on Windows and Unix. This is mapping adequacy, not execution at every stage or proof of model compliance.",
+        "subject_sha256": "07bbf90904e92967ce7a21c335ba866bfb33ebdff699631440d99c8484d0c8a3"
+      }
+    }
+  ]
+}

@@ -337,6 +337,13 @@ fn both_native_provider_templates_support_practical_contracts_without_review_tra
         assert!(text.contains("develop"));
         assert!(!text.contains("--review-ci"));
         assert!(text.contains("--post-merge"));
+        assert!(text.contains("--expected-revision"));
+        if provider == "github" {
+            assert!(text.contains("$OPDEV_CHECKOUT_SHA"));
+            assert!(text.contains("github.event.pull_request.head.sha || github.sha"));
+        } else {
+            assert!(text.contains("$CI_COMMIT_SHA"));
+        }
         let _: Value = serde_saphyr::from_str(&text)?;
     }
     Ok(())
@@ -349,6 +356,11 @@ fn published_practical_schemas_reject_unknown_fields_and_versions() -> TestResul
     ))?;
     let validator = jsonschema::validator_for(&schema)?;
     assert!(validator.is_valid(&contract()));
+    let mut manual = contract();
+    manual["checks"] = json!([{"id":"review", "manual":"docs/review.md", "stages":["evaluation"]}]);
+    assert!(validator.is_valid(&manual));
+    manual["checks"][0]["command"] = json!("test");
+    assert!(!validator.is_valid(&manual));
     for (field, value) in [
         ("preset", json!("fast")),
         ("policy_version", json!(99)),
@@ -507,8 +519,18 @@ fn preset_preview_preserves_existing_requirement_selection() -> TestResult {
 #[test]
 fn doctor_recognizes_practical_contract_without_claiming_execution() -> TestResult {
     let dir = fixture()?;
+    opdev_project::apply_agent_preview(&opdev_project::preview_practical_agent_files(dir.path())?)?;
     let output = run(dir.path(), &["doctor", "--format", "json"])?;
     let result = report(&output)?;
+    assert_eq!(output.status.code(), Some(0), "{result}");
+    let guidance: Vec<_> = result["findings"]
+        .as_array()
+        .ok_or("findings")?
+        .iter()
+        .filter(|f| f["id"] == "inventory.project_guidance")
+        .collect();
+    assert_eq!(guidance.len(), 3, "{result}");
+    assert!(guidance.iter().all(|f| f["outcome"] == "passed"));
     assert!(
         result["runtime"]["project_schemas"]
             .as_array()
@@ -535,12 +557,56 @@ fn doctor_recognizes_practical_contract_without_claiming_execution() -> TestResu
     Ok(())
 }
 
+#[test]
+fn practical_doctor_preserves_malformed_guidance_and_reports_error() -> TestResult {
+    let dir = fixture()?;
+    let path = dir.path().join(".opdev/guidance.md");
+    let malformed = "<!-- opdev:start -->\nmissing end marker\n";
+    fs::write(&path, malformed)?;
+    let output = run(dir.path(), &["doctor", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(2));
+    assert!(
+        report(&output)?["findings"]
+            .as_array()
+            .ok_or("findings")?
+            .iter()
+            .any(|f| f["id"] == "inventory.project_guidance" && f["outcome"] == "error")
+    );
+    assert_eq!(fs::read_to_string(path)?, malformed);
+    Ok(())
+}
+
+#[test]
+fn practical_doctor_reports_outdated_guidance_without_rewriting_it() -> TestResult {
+    let dir = fixture()?;
+    opdev_project::apply_agent_preview(&opdev_project::preview_practical_agent_files(dir.path())?)?;
+    let path = dir.path().join(".opdev/guidance.md");
+    let old = "<!-- opdev:start -->\nOld guidance\n<!-- opdev:end -->\n";
+    fs::write(&path, old)?;
+    let output = run(dir.path(), &["doctor", "--format", "json"])?;
+    assert_ne!(output.status.code(), Some(2));
+    assert!(
+        report(&output)?["findings"]
+            .as_array()
+            .ok_or("findings")?
+            .iter()
+            .any(
+                |f| f["id"] == "inventory.project_guidance" && f["outcome"] == "migration_required"
+            )
+    );
+    assert_eq!(fs::read_to_string(path)?, old);
+    Ok(())
+}
+
 fn run(root: &Path, args: &[&str]) -> std::io::Result<Output> {
-    Command::new(env!("CARGO_BIN_EXE_opdev"))
-        .args(args)
-        .arg("--root")
-        .arg(root)
-        .output()
+    // These existing cases exercise qualification, not implicit purpose selection.
+    // The separate check_purpose suite covers the no-purpose refusal directly.
+    let mut command = Command::new(env!("CARGO_BIN_EXE_opdev"));
+    command.args(args);
+    if args.first() == Some(&"check") && !args.contains(&"--evaluation") {
+        command.args(["--purpose", "integration"]);
+    }
+    command.arg("--root").arg(root).output()
 }
 
 fn fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
@@ -571,6 +637,194 @@ fn contract() -> Value {
         "decision_reference":"synthetic developer choice",
         "commands":{"test":{"argv":["git","--version"],"timeout_seconds":10}},
         "checks":[{"id":"unit","command":"test","stages":["local","pre_merge"]}]})
+}
+
+#[test]
+fn manual_checks_are_not_run_and_never_satisfy_a_required_boundary() -> TestResult {
+    let dir = fixture()?;
+    fs::write(
+        dir.path().join("procedure.md"),
+        "Observe keyboard navigation.",
+    )?;
+    let mut policy = contract();
+    policy["checks"]
+        .as_array_mut()
+        .ok_or("checks")?
+        .push(json!({
+            "id":"usability", "manual":"procedure.md", "stages":["evaluation"]
+        }));
+    write(dir.path(), &policy)?;
+    assert!(run(dir.path(), &["check"])?.status.success());
+    let output = run(dir.path(), &["check", "--evaluation", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    let result = report(&output)?;
+    assert_eq!(result["stage"], "evaluation");
+    assert_eq!(result["execution_status"], "not_run");
+    assert_eq!(result["checks"], json!([]));
+    assert_eq!(result["manual_checks"][0]["status"], "not_run");
+    assert_eq!(result["manual_checks"][0]["procedure"], "procedure.md");
+    policy["checks"][1]["stages"] = json!(["local"]);
+    write(dir.path(), &policy)?;
+    let output = run(dir.path(), &["check", "--format", "json"])?;
+    assert_eq!(output.status.code(), Some(1));
+    assert_eq!(report(&output)?["checks"][0]["status"], "passed");
+    assert_eq!(report(&output)?["execution_status"], "not_run");
+    policy["commands"]["test"]["argv"] = json!(["git", "not-a-git-command"]);
+    write(dir.path(), &policy)?;
+    let output = run(dir.path(), &["check", "--format", "json"])?;
+    assert_eq!(report(&output)?["execution_status"], "failed");
+    Ok(())
+}
+
+#[test]
+fn manual_check_rejects_missing_unsafe_and_contradictory_procedures() -> TestResult {
+    let dir = fixture()?;
+    for check in [
+        json!({"id":"manual", "stages":["local"]}),
+        json!({"id":"manual", "manual":"missing.md", "stages":["local"]}),
+        json!({"id":"manual", "manual":"../outside.md", "stages":["local"]}),
+        json!({"id":"manual", "command":"test", "manual":"procedure.md", "stages":["local"]}),
+    ] {
+        let mut policy = contract();
+        policy["checks"] = json!([check]);
+        write(dir.path(), &policy)?;
+        assert_eq!(run(dir.path(), &["check"])?.status.code(), Some(2));
+    }
+    Ok(())
+}
+
+#[test]
+fn manual_mapping_subject_binds_procedure_content_without_claiming_execution() -> TestResult {
+    let dir = fixture()?;
+    fs::write(
+        dir.path().join("procedure.md"),
+        "Observe keyboard navigation.",
+    )?;
+    let mut policy = contract();
+    policy["checks"] = json!([{"id":"manual", "manual":"procedure.md", "stages":["evaluation"]}]);
+    let contract = opdev_project::practical::Contract::from_yaml(&serde_json::to_string(&policy)?)?;
+    let requirement = serde_json::from_value(json!({"id":"R1", "statement":"Keyboard works",
+        "verification":[{"check":"manual","path":"procedure.md","assertion":"Observe"}]}))?;
+    let before = contract.mapping_subject(dir.path(), &requirement)?;
+    fs::write(
+        dir.path().join("procedure.md"),
+        "Observe keyboard navigation and error recovery.",
+    )?;
+    assert_ne!(before, contract.mapping_subject(dir.path(), &requirement)?);
+    Ok(())
+}
+
+#[test]
+fn preview_binary_reuses_the_existing_qualified_producer() -> TestResult {
+    let ci: Value = serde_saphyr::from_str(include_str!("../../../.gitlab-ci.yml"))?;
+    let job = &ci["package-linux-x86_64"];
+    assert!(
+        job["needs"]
+            .as_array()
+            .ok_or("needs")?
+            .contains(&json!("quality"))
+    );
+    assert!(
+        job["artifacts"]["paths"]
+            .as_array()
+            .ok_or("artifacts")?
+            .contains(&json!("target/x86_64-unknown-linux-gnu/release/opdev"))
+    );
+    assert_eq!(job["artifacts"]["expire_in"], "7 days");
+    let script = job["script"].as_array().ok_or("script")?;
+    assert_eq!(
+        script
+            .iter()
+            .filter(|s| s.as_str().is_some_and(|s| s.starts_with("cargo build")))
+            .count(),
+        1
+    );
+    for required in [
+        "plugin verify",
+        "preview-source.txt",
+        "preview-toolchain.txt",
+        "preview-binary.sha256",
+    ] {
+        assert!(
+            script
+                .iter()
+                .any(|s| s.as_str().is_some_and(|s| s.contains(required)))
+        );
+    }
+    Ok(())
+}
+
+#[test]
+fn native_ci_checks_bind_exact_revision_and_report_actual_stage() -> TestResult {
+    let dir = fixture()?;
+    let mut policy = contract();
+    policy["checks"][0]["stages"] = json!(["pre_merge", "post_merge", "delivery"]);
+    write(dir.path(), &policy)?;
+    for args in [
+        vec!["add", "."],
+        vec![
+            "-c",
+            "user.name=Test",
+            "-c",
+            "user.email=test@example.invalid",
+            "commit",
+            "-qm",
+            "fixture",
+        ],
+    ] {
+        assert!(
+            Command::new("git")
+                .current_dir(dir.path())
+                .args(args)
+                .status()?
+                .success()
+        );
+    }
+    let head = Command::new("git")
+        .current_dir(dir.path())
+        .args(["rev-parse", "HEAD"])
+        .output()?;
+    let head = String::from_utf8(head.stdout)?;
+    for (flag, stage) in [
+        (None, "pre_merge"),
+        (Some("--post-merge"), "post_merge"),
+        (Some("--delivery"), "delivery"),
+    ] {
+        let mut args = vec![
+            "check",
+            "--ci",
+            "--expected-revision",
+            head.trim(),
+            "--format",
+            "json",
+        ];
+        if let Some(flag) = flag {
+            args.push(flag);
+        }
+        let output = run(dir.path(), &args)?;
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert_eq!(report(&output)?["stage"], stage);
+    }
+    for wrong in ["HEAD", "0000000000000000000000000000000000000000"] {
+        let output = run(dir.path(), &["check", "--ci", "--expected-revision", wrong])?;
+        assert_eq!(output.status.code(), Some(2));
+        assert!(String::from_utf8_lossy(&output.stderr).contains("No checks ran"));
+    }
+    fs::write(dir.path().join("dirty.txt"), "not committed")?;
+    assert_eq!(
+        run(
+            dir.path(),
+            &["check", "--ci", "--expected-revision", head.trim()]
+        )?
+        .status
+        .code(),
+        Some(2)
+    );
+    Ok(())
 }
 
 fn write(root: &Path, contract: &Value) -> TestResult {

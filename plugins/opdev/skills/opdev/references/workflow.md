@@ -1,6 +1,8 @@
 # OpDev lifecycle
 
 Repeat this lifecycle per meaningful increment, not as project-wide phases.
+Use [work boundaries](work-boundaries.md) to choose how far to proceed and which
+checks are needed now; this lifecycle is not a mandate to finish every phase per turn.
 For all plans and next-step recommendations, use [planning.md](planning.md).
 Specific user objectives control scope; technical tasks support demonstrable
 outcomes or bounded enabling work. An advice request does not authorize execution.
@@ -70,7 +72,10 @@ show progress and continue unless feedback is needed for the next dependent step
 Ordinary integration through the project's normal branch/MR/PR workflow is part
 of an authorized implementation assignment unless the developer or project has
 reserved that step (for example, review first, prepare a patch only, or do not
-merge). Do not group merge permission with the separate release authorization
+merge). That authority is not readiness: first apply the shared work-boundary rule.
+Do not infer a merge prerequisite for a requested design/documentation answer,
+or take an unsettled experiment through full qualification merely because merging
+is eventually authorized. Do not group merge permission with release authorization
 below or demand another approval just because checks are ready. Required review,
 checks, protections and access still apply. An advice-only exercise authorizes no
 mutation now; explain the next authorized implementation steps without inventing

@@ -63,6 +63,15 @@ production gate or authorize publication/merge; ordinary safety still applies.
 Resolve the runtime below for retained development and applicable qualification.
 
 For retained work, use the [ready-for-feedback checkpoint](planning.md#ready-for-feedback).
+Select the current purpose through [work boundaries](work-boundaries.md) before
+choosing checks; retained files do not automatically require integration now.
+For documentation, design and planning deliverables, follow
+[deliverable and verification boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification).
+For new capabilities, substantial changes and redesigns, first follow
+[design acceptance](planning.md#agree-on-the-design-before-implementation).
+Technical self-review cannot accept the design on the developer's behalf.
+Before treating an experiment's completion as a merge handoff, apply
+[integration checkpoint selection](planning.md#choose-an-integration-checkpoint).
 Show a meaningful result after focused tests and safety checks; do not require
 full integration qualification merely to request feedback. Keep real edits and
 tests current without calling them disposable. Finalize source-bound acceptance

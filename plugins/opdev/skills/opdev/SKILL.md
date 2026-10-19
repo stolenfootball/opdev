@@ -24,6 +24,10 @@ required runtime needs a repair/install offer, not a silently improvised workflo
 
 ## Select one route
 
+Resolve reference links relative to the actual `SKILL.md` you loaded, not the
+working directory or a guessed host cache. Read the selected reference before
+implementation; reading this router alone does not load it.
+
 - **Schema 5 or new practical adoption:** read
   [practical workflow](references/practical-workflow.md).
 - **Schemas 1–4:** read [legacy workflow](references/legacy-workflow.md). Preserve
@@ -45,6 +49,13 @@ Honor an explicit source-development runtime in project instructions. Install on
 with authorization. Use doctor for changed environments or concrete setup
 problems, not every turn. Advice/status alone needs no runtime.
 
+For a source preview, use the supplied executable and its actual package's
+compatibility file. A copied skill is not necessarily a complete plugin: if the
+package location is missing, report that gap rather than guessing another host's
+installation path. Reuse a verified handoff only for the same executable and
+package bytes in the current task. Inspect each required command's own result;
+a later successful shell command does not erase an earlier lookup failure.
+
 ## Work proportionately
 
 Honor specific requests. Plan larger goals as connected consumer outcomes, MVP
@@ -52,6 +63,9 @@ phases and accepted later scope, not completed technical layers. Small fixes nee
 clear intent and relevant checks. Research consequential unknowns and reuse current
 findings. Work tracking belongs to its declared authority; durable documentation
 belongs to its own location, never a substitute backlog in `.opdev`.
+
+Read [work boundaries](references/work-boundaries.md) before choosing work or checks:
+discover/design, implement for feedback, or integrate. Authority is not readiness.
 
 Use focused checks while iterating. Review actual assertions, error paths, side
 effects and affected documentation. The implementing agent can perform a distinct
@@ -62,6 +76,13 @@ Continue authorized work through local blockers by completing useful independent
 work. A status question does not cancel an assignment; a later instruction can
 narrow or stop it. Ask only for material unresolved decisions, not already supplied
 permission. Do not invent busywork or repeat unchanged checks merely to continue.
+
+Before editing, identify the requested outcome, exclusions and allowed changes.
+Read permissions together, including explicit exceptions and authorized requirement
+updates; conflicting restrictions need clarification. Authority establishes truth,
+not permission to fix every discrepancy. Report unrelated defects separately.
+Explain necessary dependent corrections. At final review, remove unrelated edits
+you introduced or report them for separate work; preserve pre-existing changes.
 
 ## Boundaries and honest results
 

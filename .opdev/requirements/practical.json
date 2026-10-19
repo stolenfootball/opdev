@@ -6,7 +6,7 @@
       "title": "Explicit practical workflow preserves honest check and migration boundaries",
       "statement": {
         "kind": "inline",
-        "text": "A schema-5 opt-in contract runs canonical checks once at the selected boundary without legacy evidence transport, rejects unsafe or stale migration, and never treats setup or saved review as product verification."
+        "text": "A schema-5 opt-in contract runs canonical checks once at the selected boundary without legacy evidence transport, can bind CI to an exact revision, reports selected manual procedures as unrun rather than fabricated command failures, rejects unsafe or stale migration, and never treats setup or saved review as product verification."
       },
       "origin": "spec/practical-workflow.md",
       "rationale": "Reduce process cost while retaining explicit policy choice, current executions and safe migration; stronger external obligations remain additive.",
@@ -16,7 +16,26 @@
       "criteria": [
         {
           "id": "C-practical-workflow",
-          "expected": "Executable tests distinguish command deduplication and real failures, stage-independent links, explicit presets, strict namespace and stale-safe migration from approval, complete adoption and remote qualification claims."
+          "expected": "Executable tests distinguish command deduplication and real failures, exact CI revision and stage selection, nonqualifying manual procedures, stage-independent links, explicit presets, strict namespace and stale-safe migration from approval, complete adoption and remote qualification claims."
+        }
+      ]
+    },
+    {
+      "id": "R-check-purpose",
+      "title": "Preparation execution is explicit and cannot qualify integration",
+      "statement": {
+        "kind": "inline",
+        "text": "Design and feedback checks execute only named declared commands, require rationale for early integration-mapped execution, and report non-qualifying results. Practical bare local execution refuses to run; integration cannot filter required checks."
+      },
+      "origin": "spec/practical-workflow.md",
+      "rationale": "Prevent accidental full qualification during feedback without reducing integration obligations; this is not arbitrary-shell enforcement or consent authentication.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-check-purpose",
+          "expected": "Invalid selections execute nothing; plans execute nothing; scoped execution preserves failures and required integration selection, while always reporting preparation as integration unverified."
         }
       ]
     }
@@ -26,13 +45,13 @@
       "id": "V-practical-workflow",
       "target": {
         "path": "crates/opdev-cli/tests/practical.rs",
-        "sha256": "36b2c68bd1c8bca7bb3af70a1a9dc7c1648276bf10f02ac0034713337aed68e8",
+        "sha256": "f37fe427ab203dd81d1dc81a4304dcc245934bc54ac3ede883ce84a566b5570d",
         "excerpt": "fn standard_executes_without_review_comment_or_provider_access()"
       },
       "inputs": [
         {
           "path": "schema/practical-project.schema.json",
-          "sha256": "2843819fd4856a8ec34b4a45f4828fbdb8db530ebf9e297368ddafae8dfa3e70",
+          "sha256": "d2ea10e607a1eecf4214b0a4baa476a52e45993549991aa7513675a052af9d0c",
           "excerpt": "OpDev practical project contract"
         },
         {
@@ -72,12 +91,12 @@
         },
         {
           "path": "crates/opdev-cli/src/practical.rs",
-          "sha256": "ab9d986dcab363d0133a122750a11f3cb0bed9bd091b21c77816d80b9389bbac",
+          "sha256": "213dae87294e57c3a4e0dc65ed1c08d786751f700894f7237d7a4e5ba3161f10",
           "excerpt": "fn execute_checks("
         },
         {
           "path": "crates/opdev-project/src/practical.rs",
-          "sha256": "b1395575346733ee0522e7a52749da01bc1ceb6c2d2d23e83aff58c1a441f104",
+          "sha256": "b7dd0012e6b59fa4f5ba3adad4fbe9d4b2e80890c4e2af0071c1458a1cc1ecbb",
           "excerpt": "pub struct Contract"
         },
         {
@@ -102,7 +121,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "fn check_project("
         },
         {
@@ -112,7 +131,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "pub fn preview_practical_agent_files("
         },
         {
@@ -141,6 +160,66 @@
         "suite": "check",
         "assurance": "suite"
       }
+    },
+    {
+      "id": "V-check-purpose",
+      "target": {
+        "path": "crates/opdev-cli/tests/check_purpose.rs",
+        "sha256": "275f8787b2f87f5e6c7d488cbf61ef4277416c90e8925543400ac4b21f11b4f9",
+        "excerpt": "fn ambiguous_or_conflicting_selection_never_executes()"
+      },
+      "inputs": [
+        {
+          "path": "crates/opdev-cli/src/preparation.rs",
+          "sha256": "a18e155ef8e0c24eea9f871578f73c42621dc3519cd36551ef3ff49242ae70e1",
+          "excerpt": "pub(super) fn validate("
+        },
+        {
+          "path": "crates/opdev-cli/src/main.rs",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "excerpt": "fn check_project("
+        },
+        {
+          "path": "crates/opdev-cli/src/practical.rs",
+          "sha256": "213dae87294e57c3a4e0dc65ed1c08d786751f700894f7237d7a4e5ba3161f10",
+          "excerpt": "fn validate_options("
+        },
+        {
+          "path": "crates/opdev-cli/src/ci_review.rs",
+          "sha256": "11d157f75b59dfc515cab7415c94687ff73f838f21529765b668e875b5a5c966",
+          "excerpt": "pub(crate) fn verify("
+        },
+        {
+          "path": "crates/opdev-engine/src/command.rs",
+          "sha256": "391ce48151abf4d365dfda4eea43da319f8223188331e348e0b6c3a755552ff8",
+          "excerpt": "pub fn execute("
+        },
+        {
+          "path": "Cargo.toml",
+          "sha256": "0231e0451a400aa0966856f69924f1cac63dd7bee06a7acf518550e16b34908a",
+          "excerpt": "[workspace]"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "f1d2d2ade73ae540d17dae233504d5c3a1627a38c474b228c590cd2790a372a1",
+          "excerpt": "# This file is automatically @generated by Cargo."
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "c6af280187b9a9adab09e95461286632c4559fc6f7b0aad935eae5a07517d2f0",
+          "excerpt": "[toolchain]"
+        },
+        {
+          "path": "crates/opdev-project/src/practical.rs",
+          "sha256": "b7dd0012e6b59fa4f5ba3adad4fbe9d4b2e80890c4e2af0071c1458a1cc1ecbb",
+          "excerpt": "pub struct Contract"
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
     }
   ],
   "plans": [
@@ -159,9 +238,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "d69befe99e7d51a0115bbb0fd073f35fb9419b93881a8211ac0bb4ecc9352fa2"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "d05d33a055db09dd9432596522d1e95baa3a55e2b009ec154a109a2fbe5b5766"
       }
     },
     {
@@ -179,9 +258,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "a8993fb02b44e4ce3a49fc368afa14b0757d53cc98b8cb7d27ca978b0adf5445"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "19885a28113fdd347e9346d896aa313c75b19f65193f99c4c2b881f6c85a29b3"
       }
     },
     {
@@ -199,9 +278,69 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "860ee99a064571a279ac8c7fa22b1cf1cbb2a580e979061b08cdd10437ab637d"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "d35013d030eff4a75a24c33e184e6f57a96cc77c5a705daaff2592a52956da1b"
+      }
+    },
+    {
+      "id": "P-check-purpose-local",
+      "criterion": "C-check-purpose",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-check-purpose",
+          "assertion": "Tests inspect actual execution receipts and structured output for refused, selected, failed, timed-out, changed-policy and full integration runs.",
+          "discriminating_case": "A bare practical check, unknown command, identical alias without reason or integration subset must produce no receipt; required full and other commands both execute at integration; preparation never contains gates."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Requirement-led review: actual side-effect receipts distinguish refused selections from execution; exact command IDs and identical aliases are validated before execution. Tests assert preparation kind and unverified integration, required full plus other command execution, compatible CI stage, failure/timeout exit behavior, no-exec and policy-change stopping, legacy scoped behavior and contained working-directory/report collision failures. Assertions do not establish authenticated consent, arbitrary-shell enforcement, wrapper equivalence, live-agent reliability or remote qualification. Eight focused boundary tests and the complete CLI all-feature regression suite passed.",
+        "subject_sha256": "d78a4923a91cf265be8294c6851a596027906fe9e73fd9c89be459bd82d11c28"
+      }
+    },
+    {
+      "id": "P-check-purpose-pre",
+      "criterion": "C-check-purpose",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-check-purpose",
+          "assertion": "Tests inspect actual execution receipts and structured output for refused, selected, failed, timed-out, changed-policy and full integration runs.",
+          "discriminating_case": "A bare practical check, unknown command, identical alias without reason or integration subset must produce no receipt; required full and other commands both execute at integration; preparation never contains gates."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Requirement-led review: actual side-effect receipts distinguish refused selections from execution; exact command IDs and identical aliases are validated before execution. Tests assert preparation kind and unverified integration, required full plus other command execution, compatible CI stage, failure/timeout exit behavior, no-exec and policy-change stopping, legacy scoped behavior and contained working-directory/report collision failures. Assertions do not establish authenticated consent, arbitrary-shell enforcement, wrapper equivalence, live-agent reliability or remote qualification. Eight focused boundary tests and the complete CLI all-feature regression suite passed.",
+        "subject_sha256": "4329e8d921f302fe2a7bc0a94b0cbf4328e607aa47ef2eee1784203a38dce339"
+      }
+    },
+    {
+      "id": "P-check-purpose-post",
+      "criterion": "C-check-purpose",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-check-purpose",
+          "assertion": "Tests inspect actual execution receipts and structured output for refused, selected, failed, timed-out, changed-policy and full integration runs.",
+          "discriminating_case": "A bare practical check, unknown command, identical alias without reason or integration subset must produce no receipt; required full and other commands both execute at integration; preparation never contains gates."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Requirement-led review: actual side-effect receipts distinguish refused selections from execution; exact command IDs and identical aliases are validated before execution. Tests assert preparation kind and unverified integration, required full plus other command execution, compatible CI stage, failure/timeout exit behavior, no-exec and policy-change stopping, legacy scoped behavior and contained working-directory/report collision failures. Assertions do not establish authenticated consent, arbitrary-shell enforcement, wrapper equivalence, live-agent reliability or remote qualification. Eight focused boundary tests and the complete CLI all-feature regression suite passed.",
+        "subject_sha256": "a7a199ca32dbcfaa23a6b5c98aac96ab5ed8bc02eae0f7df45328179c14fd1b8"
       }
     }
   ]

@@ -57,7 +57,7 @@ def api(project, suffix):
     )
 
 
-def parse_session(raw):
+def parse_session(raw, allowed_host_warnings=()):
     events = [json.loads(line) for line in raw.splitlines() if line.strip()]
     turns = [e for e in events if e.get("type") == "turn.completed"]
     if len(turns) != 1 or any(e.get("type") in ("error", "turn.failed") for e in events):
@@ -69,6 +69,10 @@ def parse_session(raw):
     if usage["cached_input_tokens"] > usage["input_tokens"]:
         raise ValueError("inconsistent cached input")
     items = [e["item"] for e in events if e.get("type") == "item.completed"]
+    warnings = [
+        i for i in items if i.get("type") == "error" and i.get("message") in allowed_host_warnings
+    ]
+    items = [i for i in items if i not in warnings]
     if any(
         i.get("type")
         not in (
@@ -96,6 +100,16 @@ def parse_session(raw):
         "tool_commands": len(commands),
         "web_searches": sum(i.get("type") == "web_search" for i in items),
         "failed_commands": sum(i.get("exit_code") != 0 for i in commands),
+        "host_warnings": warnings,
+        # Review candidates, not an exhaustive shell parser or a failure verdict.
+        "embedded_diagnostic_candidates": [
+            {"command": i.get("command"), "output": i.get("aggregated_output", "")}
+            for i in commands
+            if any(
+                marker in i.get("aggregated_output", "").lower()
+                for marker in ("cannot find path", "error:", "traceback (most recent call last)")
+            )
+        ],
         "full_reads": sum(
             "Get-Content" in i.get("command", "") or "read_text" in i.get("command", "")
             for i in commands
@@ -311,6 +325,92 @@ def preserved_tests(root):
         if isinstance(n, ast.FunctionDef)
     }
     return all(actual.get(name) == body for name, body in expected.items())
+
+
+def cumulative_session_usage(turns):
+    """Native resumed usage is cumulative; caller must supply one ordered thread."""
+    if not turns:
+        raise ValueError("no completed turns")
+    keys = ("input_tokens", "cached_input_tokens", "output_tokens")
+    previous = dict.fromkeys(keys, 0)
+    for usage in turns:
+        if any(type(usage.get(k)) is not int or usage[k] < previous[k] for k in keys):
+            raise ValueError("missing or nonmonotonic cumulative usage")
+        if usage["cached_input_tokens"] > usage["input_tokens"]:
+            raise ValueError("inconsistent cached input")
+        previous = {k: usage[k] for k in keys}
+    return dict(turns[-1])
+
+
+def retain_process_result(directory, name, result, allowed_host_warnings=()):
+    """Persist measured process outcome before parsing host events; never overwrite."""
+    directory = Path(directory)
+    paths = [directory / f"{name}{suffix}" for suffix in (".process.json", ".jsonl", ".stderr.txt")]
+    if any(p.exists() for p in paths):
+        raise FileExistsError("attempt already retained")
+    metadata = {k: v for k, v in result.items() if k not in ("stdout", "stderr")}
+    values = (json.dumps(metadata, indent=2), result["stdout"], result["stderr"])
+    for path, value in zip(paths, values):
+        with path.open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(value)
+    if result.get("exit") != 0 or result.get("timeout") is not False:
+        raise ValueError("host failed or timed out; attempt retained")
+    return parse_session(paths[1].read_text(encoding="utf-8"), allowed_host_warnings)
+
+
+def additive_test_structure(original, candidate):
+    """Conservative structural observation, never proof of semantic preservation.
+
+    Historical preserved_tests stays strict. A new protocol may separately review
+    append-only unittest assertions; other changes require manual review.
+    """
+    try:
+        before, after = (ast.parse(source) for source in (original, candidate))
+    except SyntaxError:
+        return "review_required"
+    old = [n for n in ast.walk(before) if isinstance(n, ast.FunctionDef)]
+    new = [n for n in ast.walk(after) if isinstance(n, ast.FunctionDef)]
+    if len({n.name for n in new}) != len(new):
+        return "review_required"
+    mapping = {n.name: n for n in new}
+    added = False
+    for node in old:
+        other = mapping.get(node.name)
+        if other is None:
+            return "review_required"
+        prefix = ast.FunctionDef(
+            name=other.name,
+            args=other.args,
+            body=other.body[: len(node.body)],
+            decorator_list=other.decorator_list,
+            returns=other.returns,
+            type_comment=other.type_comment,
+            type_params=getattr(other, "type_params", []),
+        )
+        if ast.dump(prefix, include_attributes=False) != ast.dump(node, include_attributes=False):
+            return "review_required"
+        for statement in other.body[len(node.body) :]:
+            call = statement.value if isinstance(statement, ast.Expr) else None
+            if not (
+                isinstance(call, ast.Call)
+                and isinstance(call.func, ast.Attribute)
+                and isinstance(call.func.value, ast.Name)
+                and call.func.value.id == "self"
+                and call.func.attr
+                in (
+                    "assertEqual",
+                    "assertNotEqual",
+                    "assertTrue",
+                    "assertFalse",
+                    "assertIs",
+                    "assertIsNone",
+                    "assertIn",
+                    "assertNotIn",
+                )
+            ):
+                return "review_required"
+            added = True
+    return "additive_assertions" if added else "original_bodies_retained"
 
 
 def grade(root, case, seed, opdev, final):

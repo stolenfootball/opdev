@@ -320,5 +320,87 @@ class Accounting(unittest.TestCase):
             self.assertEqual(staged, filename if expected == "staged" else "")
 
 
+class NativeFollowUp(unittest.TestCase):
+    def test_only_exact_reviewed_host_warning_is_allowed_and_retained(self):
+        warning = {
+            "type": "item.completed",
+            "item": {"type": "error", "message": "known host warning"},
+        }
+        raw = events(extra=[warning])
+        with self.assertRaises(ValueError):
+            sessions.parse_session(raw)
+        parsed = sessions.parse_session(raw, ("known host warning",))
+        self.assertEqual(parsed["host_warnings"], [warning["item"]])
+        with self.assertRaises(ValueError):
+            sessions.parse_session(
+                raw.replace("known host warning", "capacity exhausted"), ("known host warning",)
+            )
+
+    def test_resumed_usage_is_final_total_not_sum(self):
+        first = {"input_tokens": 100, "cached_input_tokens": 60, "output_tokens": 10}
+        last = {"input_tokens": 240, "cached_input_tokens": 160, "output_tokens": 25}
+        self.assertEqual(sessions.cumulative_session_usage([first, last]), last)
+        for invalid in (
+            [],
+            [last, first],
+            [dict(first, input_tokens=True)],
+            [dict(first, cached_input_tokens=101)],
+        ):
+            with self.assertRaises(ValueError):
+                sessions.cumulative_session_usage(invalid)
+
+    def test_utf8_and_process_facts_survive_parse_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            result = {
+                "exit": 0,
+                "timeout": False,
+                "seconds": 1.25,
+                "stdout": events().replace("{}", "Luna — “ready”"),
+                "stderr": "",
+            }
+            parsed = sessions.retain_process_result(root, "good", result)
+            self.assertIn("“ready”", parsed["final"])
+            self.assertEqual(
+                json.loads((root / "good.process.json").read_text(encoding="utf-8"))["seconds"],
+                1.25,
+            )
+            with self.assertRaises(FileExistsError):
+                sessions.retain_process_result(root, "good", result)
+            for name, change in (
+                ("bad", {"stdout": "not JSON"}),
+                ("timeout", {"timeout": True}),
+                ("exit", {"exit": 2}),
+            ):
+                with self.assertRaises(ValueError):
+                    sessions.retain_process_result(root, name, dict(result, **change))
+                self.assertTrue((root / f"{name}.process.json").exists())
+                self.assertTrue((root / f"{name}.jsonl").exists())
+
+    def test_zero_shell_exit_does_not_hide_diagnostic(self):
+        rows = [json.loads(line) for line in events().splitlines()]
+        rows[0]["item"]["aggregated_output"] = "Cannot find path missing.md\nlast command succeeded"
+        parsed = sessions.parse_session("\n".join(json.dumps(r) for r in rows))
+        self.assertEqual(parsed["failed_commands"], 0)
+        self.assertEqual(len(parsed["embedded_diagnostic_candidates"]), 1)
+        self.assertIn("missing.md", parsed["embedded_diagnostic_candidates"][0]["output"])
+
+    def test_additions_are_observations_not_a_weakened_historical_oracle(self):
+        original = "def test_case(self):\n    self.assertEqual(value(), 1)\n"
+        self.assertEqual(
+            sessions.additive_test_structure(original, original), "original_bodies_retained"
+        )
+        added = original + "    self.assertEqual(other(), 2)\n"
+        self.assertEqual(sessions.additive_test_structure(original, added), "additive_assertions")
+        for changed in (
+            original.replace("1)", "2)"),
+            original + "    return\n",
+            "@skip\n" + original,
+            original + original,
+            "def test_other(self):\n    pass\n",
+        ):
+            self.assertEqual(sessions.additive_test_structure(original, changed), "review_required")
+
+
 if __name__ == "__main__":
     unittest.main()
