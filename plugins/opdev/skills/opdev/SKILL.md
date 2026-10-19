@@ -74,18 +74,12 @@ work. A status question does not cancel an assignment; a later instruction can
 narrow or stop it. Ask only for material unresolved decisions, not already supplied
 permission. Do not invent busywork or repeat unchanged checks merely to continue.
 
-Report unrelated defects or documentation drift without repairing them as part
-of a narrow request. Include a necessary dependent correction only when it is
-needed for the requested outcome, and explain that connection. Permission to
-edit a file is not permission to fix every issue in it.
-Before editing, identify the requested outcome, exclusions and allowed changes
-in the existing task context. Resolve permissions as a whole, including explicit
-exceptions; do not silently discard an authorized requirement update because an
-earlier list named only product files. A genuinely conflicting restriction needs
-clarification, not an invented exception. An authoritative specification tells
-you what is correct; it does not authorize repairing every discrepancy now.
-At final diff review, remove unrelated edits you introduced or report them for
-separate work; do not revert pre-existing developer changes.
+Before editing, identify the requested outcome, exclusions and allowed changes.
+Read permissions together, including explicit exceptions and authorized requirement
+updates; conflicting restrictions need clarification. Authority establishes truth,
+not permission to fix every discrepancy. Report unrelated defects separately.
+Explain necessary dependent corrections. At final review, remove unrelated edits
+you introduced or report them for separate work; preserve pre-existing changes.
 
 ## Boundaries and honest results
 

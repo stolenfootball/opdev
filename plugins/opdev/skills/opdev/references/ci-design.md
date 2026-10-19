@@ -79,6 +79,18 @@ and the [release boundary](workflow.md#release-authorization).
   bespoke wrappers or a new optimizer. Retain diagnostic logs with safe exposure
   and bounded retention. A more elaborate pipeline needs a concrete benefit.
 
+For practical contracts, use the native check exit status, actual stage flag and
+`--expected-revision` with the provider's exact checkout SHA. Do not duplicate
+OpDev's schema, command inventory or result validation in a project-specific JSON
+adapter. Preserve separate artifact/host qualification that OpDev does not perform.
+Manual evaluations reference a real procedure through `manual`, not a deliberately
+failing placeholder command. They remain `not_run` and cannot satisfy a required
+boundary through the CLI. Keep their actual product-review requirements intact.
+
+During long CI waits, report meaningful changes, completion or actionable blockers.
+Avoid repeating unchanged job state or reconstructing the full plan on each poll.
+Follow host-required communication intervals with a concise update when necessary.
+
 ## Provider checks, not a universal template
 
 With explicit engineering policy 3, `ci.native-candidate-reuse.v1` can avoid

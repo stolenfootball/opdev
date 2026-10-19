@@ -79,7 +79,11 @@ pub struct Check {
     /// Project-local stable identifier.
     pub id: String,
     /// Canonical command ID.
+    #[serde(default, skip_serializing_if = "String::is_empty")]
     pub command: String,
+    /// Repository-relative manual procedure, never an execution receipt.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub manual: Option<String>,
     /// Actual execution boundaries, never inferred from filenames.
     pub stages: Vec<TestStage>,
 }
@@ -287,7 +291,15 @@ impl Contract {
                 check.id
             );
             ensure!(
-                self.commands.contains_key(&check.command),
+                check.manual.is_some() == check.command.is_empty(),
+                "Check {} needs exactly one command or manual procedure",
+                check.id
+            );
+            if let Some(path) = &check.manual {
+                relative_path(path)?;
+            }
+            ensure!(
+                check.manual.is_some() || self.commands.contains_key(&check.command),
                 "Check {} names unknown command {}",
                 check.id,
                 check.command
@@ -335,7 +347,7 @@ impl Contract {
         let mut seen = BTreeSet::new();
         self.checks
             .iter()
-            .filter(|c| c.stages.contains(&stage))
+            .filter(|c| c.manual.is_none() && c.stages.contains(&stage))
             .filter_map(|c| {
                 seen.insert(c.command.as_str())
                     .then_some(c.command.as_str())
@@ -348,6 +360,14 @@ impl Contract {
     /// # Errors
     /// Dangling links, duplicate IDs, unsafe paths and obsolete formats fail.
     pub fn inspect_requirements(&self, root: &Path) -> Result<Vec<Requirement>> {
+        for check in &self.checks {
+            if let Some(path) = &check.manual {
+                ensure!(
+                    !read_regular(root, path)?.trim().is_empty(),
+                    "Manual procedure {path} is empty"
+                );
+            }
+        }
         let mut result = Vec::new();
         let mut ids = BTreeSet::new();
         let mut bytes = 0;
@@ -480,7 +500,10 @@ impl Contract {
                 .iter()
                 .find(|c| c.id == link.check)
                 .context("Mapping names an unknown check")?;
-            checks.insert(&check.id, (check, &self.commands[&check.command]));
+            checks.insert(&check.id, (check, self.commands.get(&check.command)));
+            if let Some(path) = &check.manual {
+                inputs.insert(path, read_regular(root, path)?);
+            }
             for path in std::iter::once(&link.path).chain(&link.inputs) {
                 inputs.insert(path, read_regular(root, path)?);
             }

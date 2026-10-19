@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -550,7 +550,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -665,7 +665,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -780,7 +780,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -895,7 +895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1010,7 +1010,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1125,7 +1125,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1240,7 +1240,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1400,7 +1400,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1560,7 +1560,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1720,7 +1720,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1880,7 +1880,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2040,7 +2040,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2360,7 +2360,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2520,7 +2520,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2680,7 +2680,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2840,7 +2840,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2995,7 +2995,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3155,7 +3155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3340,7 +3340,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3525,7 +3525,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3710,7 +3710,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3895,7 +3895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4080,7 +4080,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4265,7 +4265,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4450,7 +4450,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4635,7 +4635,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4820,7 +4820,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5005,7 +5005,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5190,7 +5190,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5375,7 +5375,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5565,7 +5565,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5617,9 +5617,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "a30369997c3fc96dd466d9e579252e6bb5d64e043ec810c6b4e268e80ec37e85"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "8aa53cd3a147e3a1eb3740d77ea572b0e49faed9041e37bf2cfd47bc016a4a0c"
       }
     },
     {
@@ -5657,9 +5657,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "76dca66ace4c44fd57e955da7722245501b1effbd999332575daa194c2af0ced"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "473265c8ecfa5d1bc98c640be77f2eb251f94c4436b63643f9491652506ee22a"
       }
     },
     {
@@ -5697,9 +5697,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "9198baa72c9e66e5939e4ce97c9591c1ebd3b6fddfc5f7ead47720289cad49b6"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "08c224ce96f7c8dd2698aa9d63ef07e78f5ed70995178a2dcd50366b8c846ef3"
       }
     },
     {
@@ -5747,9 +5747,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "7e2d094a8feecafcf516f16f4e8cb7d91e1335c5b24b9c72dddb84aaa96d2cc2"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "f54997e90c03314e325c69f94b797ca140b4197ec1b1d72bf16251c8b7b85d4f"
       }
     },
     {
@@ -5797,9 +5797,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "e49e1448133a89aed89836c138c3fcf700aae5b7a365b11edde93d348c665700"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "da69ced3cb524c80810627b271ff15e4bf09ac66f0532b7862fef6ff856088cd"
       }
     },
     {
@@ -5847,9 +5847,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "05870ff870c618acffa758ad4ed119cc09c918b4a4555fd9ede8350190f9885a"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "7f769ae6c6979ea221b5910d0a8a18f00dd1dafefd18b01bfe6409a8d0c8b27b"
       }
     },
     {
@@ -5922,9 +5922,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "b9200d43ce3dbae5f238b90041b5257cc6b1dcc442c617da28905adb6c0ba591"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "c4258b82e568cc5879fc2fa732caa8912660fb8999fb63d5d2e805e14112a84d"
       }
     },
     {
@@ -5997,9 +5997,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "d5d3d46e6f8e019387238cc66a26c0ddf43e2ac24b72fc603f7f0cb342dbe8f8"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "3e3f0f669901ff96a3f9bb04ba9b1457f94b5c2205e8f65d394b26afc4de3d09"
       }
     },
     {
@@ -6072,9 +6072,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "9812854deb83ac57298a33afd74b940963511aa552453712369cb6e7a13ecc68"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "39e448ae90a5e4d38435f1a53f172adcd4f43ae5a366d8d743c11381d30845cb"
       }
     },
     {
@@ -6152,9 +6152,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "166e0509272c187a3ccf391990bd59a32462604cf84ef66729ed1acdda4ef951"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "83fd0358f2f0839a549a0c5a70cab2edae03cca21a56479d25f3e87d37166bdb"
       }
     },
     {
@@ -6232,9 +6232,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "33797e0155323173d7b6867be429f572919dd149aa964b94fbce65fd1f6dc718"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "d6fe0346cae856c6ae6d7cf1022be6ed977e91dd53e7fd99def68675594d9021"
       }
     },
     {
@@ -6312,9 +6312,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "c53a64056df048073e904a9c1d5c87399413e6233f84b284258b7c4a29a65e69"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "2ddbe5e0a9dbc74021f924944cff4d28fe1c9ddc137c987f993cfd8e7b9b1db5"
       }
     }
   ]

@@ -6,7 +6,7 @@
       "title": "Explicit practical workflow preserves honest check and migration boundaries",
       "statement": {
         "kind": "inline",
-        "text": "A schema-5 opt-in contract runs canonical checks once at the selected boundary without legacy evidence transport, rejects unsafe or stale migration, and never treats setup or saved review as product verification."
+        "text": "A schema-5 opt-in contract runs canonical checks once at the selected boundary without legacy evidence transport, can bind CI to an exact revision, reports selected manual procedures as unrun rather than fabricated command failures, rejects unsafe or stale migration, and never treats setup or saved review as product verification."
       },
       "origin": "spec/practical-workflow.md",
       "rationale": "Reduce process cost while retaining explicit policy choice, current executions and safe migration; stronger external obligations remain additive.",
@@ -16,7 +16,7 @@
       "criteria": [
         {
           "id": "C-practical-workflow",
-          "expected": "Executable tests distinguish command deduplication and real failures, stage-independent links, explicit presets, strict namespace and stale-safe migration from approval, complete adoption and remote qualification claims."
+          "expected": "Executable tests distinguish command deduplication and real failures, exact CI revision and stage selection, nonqualifying manual procedures, stage-independent links, explicit presets, strict namespace and stale-safe migration from approval, complete adoption and remote qualification claims."
         }
       ]
     }
@@ -26,13 +26,13 @@
       "id": "V-practical-workflow",
       "target": {
         "path": "crates/opdev-cli/tests/practical.rs",
-        "sha256": "36b2c68bd1c8bca7bb3af70a1a9dc7c1648276bf10f02ac0034713337aed68e8",
+        "sha256": "5b84e7f339786c6fe78f2e4e5dd9ebf6f998e4de28f39005189498273f2b7a78",
         "excerpt": "fn standard_executes_without_review_comment_or_provider_access()"
       },
       "inputs": [
         {
           "path": "schema/practical-project.schema.json",
-          "sha256": "2843819fd4856a8ec34b4a45f4828fbdb8db530ebf9e297368ddafae8dfa3e70",
+          "sha256": "d2ea10e607a1eecf4214b0a4baa476a52e45993549991aa7513675a052af9d0c",
           "excerpt": "OpDev practical project contract"
         },
         {
@@ -72,12 +72,12 @@
         },
         {
           "path": "crates/opdev-cli/src/practical.rs",
-          "sha256": "ab9d986dcab363d0133a122750a11f3cb0bed9bd091b21c77816d80b9389bbac",
+          "sha256": "68fb4b65d35c27f87822eaac0a119fe2b8f09b379d16a90d318e106c5a6249f8",
           "excerpt": "fn execute_checks("
         },
         {
           "path": "crates/opdev-project/src/practical.rs",
-          "sha256": "b1395575346733ee0522e7a52749da01bc1ceb6c2d2d23e83aff58c1a441f104",
+          "sha256": "b7dd0012e6b59fa4f5ba3adad4fbe9d4b2e80890c4e2af0071c1458a1cc1ecbb",
           "excerpt": "pub struct Contract"
         },
         {
@@ -102,7 +102,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "6b420f7459740bdf1a4a21f345c46fdef7717b42195e2c96a09ba9434c5b3bed",
+          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
           "excerpt": "fn check_project("
         },
         {
@@ -112,7 +112,7 @@
         },
         {
           "path": "crates/opdev-project/src/bootstrap.rs",
-          "sha256": "0d15f388495666c61dbb6d59507d11b5abe363defe862cea8e5784f4b830cf52",
+          "sha256": "6772032d5f9f43d93640ac6da56e3f78ceade672f918157a11163c7c762964c9",
           "excerpt": "pub fn preview_practical_agent_files("
         },
         {
@@ -159,9 +159,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "d69befe99e7d51a0115bbb0fd073f35fb9419b93881a8211ac0bb4ecc9352fa2"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct review of the requested consumer repairs: exact-revision negative tests reject wrong or dirty checkout before commands; all three native CI stage selectors report their actual boundary; manual checks remain unrun and block qualification without masking automated failures. Procedure changes alter Assured subjects. Provider templates preserve the checkout expression and process exit; preview artifacts reuse the existing verified producer with bounded retention. Existing migration, policy and source-mutation assertions remain intact. Bootstrap input change is the previously reviewed newline normalization, not a new behavior change here. These are executable suite mappings, not live-consumer timing, authenticated consent or per-case runner receipts.",
+        "subject_sha256": "1dea14a8497b5e31c87cd7076c09560f1c45202e2558ae36b3dc47dce692f258"
       }
     },
     {
@@ -179,9 +179,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "a8993fb02b44e4ce3a49fc368afa14b0757d53cc98b8cb7d27ca978b0adf5445"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct review of the requested consumer repairs: exact-revision negative tests reject wrong or dirty checkout before commands; all three native CI stage selectors report their actual boundary; manual checks remain unrun and block qualification without masking automated failures. Procedure changes alter Assured subjects. Provider templates preserve the checkout expression and process exit; preview artifacts reuse the existing verified producer with bounded retention. Existing migration, policy and source-mutation assertions remain intact. Bootstrap input change is the previously reviewed newline normalization, not a new behavior change here. These are executable suite mappings, not live-consumer timing, authenticated consent or per-case runner receipts.",
+        "subject_sha256": "17b68b954970c07d97f10a0b5a4db7956589f547e886ed8f03668956b0eb9742"
       }
     },
     {
@@ -199,9 +199,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/123#note_4036898774",
-        "rationale": "Reviewed the practical-route changes against this mapping: legacy policy keeps its existing dispatcher and semantics; schema 5 is explicit. Actual regression assertions cover the stated observable boundary, not consent or host effectiveness. Existing assertions were retained; changed legacy guidance-copy tests follow the extracted legacy reference and preserve content/path checks. Source-bound inputs refreshed only after this impact review. Suite assurance still does not prove individual-case execution.",
-        "subject_sha256": "860ee99a064571a279ac8c7fa22b1cf1cbb2a580e979061b08cdd10437ab637d"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct review of the requested consumer repairs: exact-revision negative tests reject wrong or dirty checkout before commands; all three native CI stage selectors report their actual boundary; manual checks remain unrun and block qualification without masking automated failures. Procedure changes alter Assured subjects. Provider templates preserve the checkout expression and process exit; preview artifacts reuse the existing verified producer with bounded retention. Existing migration, policy and source-mutation assertions remain intact. Bootstrap input change is the previously reviewed newline normalization, not a new behavior change here. These are executable suite mappings, not live-consumer timing, authenticated consent or per-case runner receipts.",
+        "subject_sha256": "5babd81bdfad3a45ec27728ebfe365efacd1342012f2dfbdc07cddea8a7ee834"
       }
     }
   ]

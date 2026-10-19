@@ -50,6 +50,8 @@ pub(crate) fn verify(args: &VerifyArgs) -> Result<ExitCode> {
         fail_fast: true,
         post_merge,
         delivery,
+        evaluation: false,
+        expected_revision: None,
         format: match args.format {
             OutputFormat::Human => crate::CheckFormat::Human,
             OutputFormat::Json => crate::CheckFormat::Json,

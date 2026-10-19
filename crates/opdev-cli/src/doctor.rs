@@ -221,6 +221,8 @@ fn initial_report(args: &DoctorArgs) -> Report {
             evidence_schemas: vec![1, 2],
             capabilities: vec![
                 "practical.check.v1",
+                "practical.expected-revision.v1",
+                "practical.manual-checks.v1",
                 "practical.migration.v1",
                 "practical.policies.v1",
                 "requirements.catalog.v1",

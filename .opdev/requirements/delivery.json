@@ -79,7 +79,7 @@
         },
         {
           "path": ".gitlab-ci.yml",
-          "sha256": "75900d6c241f87e3070684a2e55731b3c67504434b708cb9fc296647644b1df9",
+          "sha256": "f3ddc5faf6461bc0efd2dbccb17c9829a5dd82a205b462d9448eaa9712131f92",
           "excerpt": "publish-github:"
         }
       ],
@@ -156,9 +156,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct release-instruction review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
-        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
-        "subject_sha256": "49c89b6e99714fdd514d515145f0c8494a07aa6f99baa5f7e36f022517bcb3f4"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "0469feeea2155fd47abeddb1b407d81b9bcd93043b3d2d4e665204c80cb0d74b"
       }
     },
     {
@@ -176,9 +176,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct release-instruction review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
-        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
-        "subject_sha256": "6a4dd2131bde1dc54bba374063220329f6e85a0964177ba3d955168bac2a2f30"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "19cdc47364dafb378d355338c3bf03019da42b12a9a7d5975f12eb64beb04fef"
       }
     },
     {
@@ -196,9 +196,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct release-instruction review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/117#note_4005692364",
-        "rationale": "Reviewed unchanged controlled-publication graph assertions, bypass mutations and portable recovery fixture selection. Added operator completion duty for post-publication managed pin integration; no pipeline, immutable-asset, retry or recovery guarantee changed. Existing mappings retain their scope and do not mechanically prove that an operator completed a pin update.",
-        "subject_sha256": "4ac4124a12d412415adc702aee13e9df49c2e18d98ccba16e936a855c658db9f"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
+        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
+        "subject_sha256": "310e5ea65d0b46d4311f2a1ff6d9a88ca8847ec907033103f6d96724b64a74d3"
       }
     },
     {

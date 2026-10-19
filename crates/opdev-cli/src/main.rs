@@ -245,6 +245,12 @@ struct CheckArgs {
     /// Verify integrated-trunk suites/extensions using the integration gate, not release readiness.
     #[arg(long, requires = "ci", conflicts_with = "delivery")]
     post_merge: bool,
+    /// Run explicitly declared evaluation checks (practical contracts only).
+    #[arg(long, conflicts_with_all = ["ci", "delivery", "post_merge"])]
+    evaluation: bool,
+    /// Require this exact full Git revision before executing CI checks (practical contracts only).
+    #[arg(long, requires = "ci", conflicts_with_all = ["plan", "no_exec"])]
+    expected_revision: Option<String>,
     /// Report presentation.
     #[arg(long, value_enum, default_value_t = CheckFormat::Human)]
     format: CheckFormat,
@@ -1199,6 +1205,11 @@ fn selected_review(
 fn check_project(args: &CheckArgs) -> Result<ExitCode> {
     if let Some((root, contract)) = practical::selected(&args.root)? {
         return practical::check(args, &root, &contract);
+    }
+    if args.evaluation || args.expected_revision.is_some() {
+        bail!(
+            "Evaluation selection and expected revision require a practical contract. No checks ran."
+        );
     }
     if args.format == CheckFormat::Summary && args.report.is_none() {
         bail!("--format summary requires --report PATH to retain the full evaluation");

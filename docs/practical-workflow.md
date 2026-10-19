@@ -17,6 +17,36 @@ Use a source-built CLI advertising `practical.check.v1` in `opdev doctor
 unreleased executable includes this capability. Do not change installed pins or
 point production CI at this preview as part of adoption.
 
+## Reuse a development preview in CI
+
+An authorized consumer trial need not compile OpDev on every change. The existing
+`package-linux-x86_64` producer job retains its verified Linux x86_64 GNU binary,
+source SHA, toolchain description and checksum for seven days. It depends on the
+required producer checks and verifies the packaged plugin/runtime combination.
+This is a job artifact, not a release, installed-plugin update or test-result cache.
+
+Select a successful producer **job ID**, inspect its source commit and toolchain,
+and retain the approved binary SHA-256 in the consumer's versioned CI configuration.
+Download the raw `target/x86_64-unknown-linux-gnu/release/opdev` artifact from
+`/api/v4/projects/85892266/jobs/JOB_ID/artifacts/target/x86_64-unknown-linux-gnu/release/opdev`.
+This uses GitLab's [single artifact by job ID API](https://docs.gitlab.com/api/job_artifacts/#download-a-single-artifact-file-by-job-id).
+Verify the downloaded bytes against that independently selected digest **before**
+making the file executable or running it. Check plugin compatibility afterward.
+Use the reviewed HTTPS provider and existing authorized access; do not broaden
+credentials. A checksum downloaded beside an untrusted binary is not a trust root.
+
+Pin the exact job ID, source SHA, platform and digest together. Do not use latest
+branch artifacts, download-and-execute installers or share writable executable
+caches across trust boundaries. Reuse only on a compatible Linux/glibc host; this
+job does not provide Windows, macOS or ARM binaries. Missing, expired or mismatched
+artifacts fail closed: deliberately select a new verified artifact or explicitly
+return to the exact-source build. Never fall back to a mutable branch. Artifact
+retention may be extended through the provider's normal retention controls for an
+authorized longer trial; no permanent preview registry is needed.
+
+Consumer checks still run on each required revision and stage. Binary reuse saves
+tool setup, not product verification; it does not establish release readiness.
+
 ## Choose the assurance, not the model effort
 
 | Preset | Intended use | Assurance tradeoff |
@@ -35,6 +65,32 @@ and less on mechanically validated review records. The CLI cannot prove test
 adequacy, authenticate a decision reference, or certify regulatory compliance.
 Assured's source binding makes stale reviews detectable; it does not turn an
 agent's judgment into proof.
+
+## Native CI and manual checks
+
+Use `opdev check --ci --expected-revision "$CI_COMMIT_SHA"` for GitLab's
+pre-merge checkout, adding `--post-merge` for integrated trunk or `--delivery`
+for the separate delivery boundary. GitHub uses its actual checked-out SHA,
+which may be a synthetic merge commit rather than the PR head. Preserve the
+command's exit code when saving its JSON output; no custom report adapter is
+needed. This requires `practical.expected-revision.v1`. It does not verify remote
+protection settings or substitute for artifact/host-specific qualification.
+
+With `practical.manual-checks.v1`, declare a manual evaluation directly:
+
+```yaml
+checks:
+  - id: usability
+    manual: docs/usability-procedure.md
+    stages: [evaluation]
+```
+
+Keep the actual procedure at that path and retain requirement links to the check
+ID. `opdev check --evaluation` reports it as `not_run` and exits nonzero, without
+launching a fake failing command. A selected manual check also prevents integration
+or delivery from passing if assigned to that boundary. Record actual observations
+in the project's existing review process; the CLI does not certify them. Moving
+an existing required check to another stage is a policy change, not this repair.
 
 ## Daily work
 

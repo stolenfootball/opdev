@@ -33,6 +33,22 @@ selects integrated-source checks. These can differ. `--no-exec` never qualifies
 missing executions. Multiple links to one canonical command need one execution.
 Do not run the full suite immediately before asking OpDev to run it again.
 
+On a runtime advertising `practical.expected-revision.v1`, CI can add
+`--expected-revision` with its exact checkout SHA. Preserve OpDev's native exit
+status; do not add a project-specific parser to revalidate its report. Retain
+separate product artifact/host qualification. With `practical.manual-checks.v1`,
+checks may select `manual: path/to/procedure.md` instead of a command. These are
+reported as `not_run`, never a successful observation or a fake command failure.
+`check --evaluation` selects that explicit stage. A manual check at a required
+integration boundary still prevents a pass; don't move or waive it for green CI.
+
+For authorized development previews, prefer an identified, digest-verified binary
+from one successful producer job over rebuilding the same source in every consumer
+job. Select exact source, platform, producer job and independently approved digest;
+missing or mismatched artifacts fail closed. This reuses tooling, not test results,
+and does not authorize release or global installation. During waits, avoid repeated
+unchanged-state narration; report meaningful changes or host-required brief updates.
+
 For requested design feedback, use relevant focused checks and wait for that
 feedback without merging or running full integration CI merely to show the draft.
 A required failure blocks integration. Never substitute an older green report or

@@ -170,9 +170,15 @@ package-linux-x86_64:
     - test -f plugin-smoke/plugins/opdev/skills/opdev/SKILL.md
     - test -f plugin-smoke/plugins/opdev/opdev-compatibility.json
     - package-smoke/opdev plugin verify --contract plugin-smoke/plugins/opdev/opdev-compatibility.json
+    # Reuse this exact verified build in authorized consumer trials. These are
+    # bounded job artifacts, not a release or a mutable "latest" installation.
+    - git rev-parse HEAD > release-artifacts/preview-source.txt
+    - rustc --version --verbose > release-artifacts/preview-toolchain.txt
+    - sha256sum target/x86_64-unknown-linux-gnu/release/opdev > release-artifacts/preview-binary.sha256
   artifacts:
     paths:
       - release-artifacts/
+      - target/x86_64-unknown-linux-gnu/release/opdev
     expire_in: 7 days
   extends: .release-package-rules
 

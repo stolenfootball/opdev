@@ -54,6 +54,21 @@ the native integration boundary. Actual semantic review remains necessary, but
 the CLI reports its mechanical scope rather than pretending to certify it.
 No cross-revision execution cache or test-selection inference is introduced.
 
+The native check command owns exit semantics: zero requires all selected automated
+commands to pass, no selected manual checks and no mapping findings. Failures or
+unexecuted requirements return nonzero; execution errors return 2. CI may require
+an exact full revision before execution; clean-source and unchanged-source checks
+remain mandatory. Consumers preserve that exit code instead of reimplementing
+report validation. Reports describe the selected stage, not inferred delivery.
+
+A check selects exactly one canonical command or a repository-relative `manual`
+procedure. Manual procedures must be nonempty regular contained files. They are
+reported separately as `not_run`, without fabricated exit codes or execution time.
+The CLI does not accept saved observations as a manual pass. Required manual work
+therefore keeps its boundary unverified; no silent stage move or waiver is implied.
+Assured mapping subjects include the procedure content. This avoids misleading
+dummy failures without introducing an observation ledger or weakening enforcement.
+
 Local feedback does not need the whole integration suite. Integration and
 integrated-source checks can differ deliberately. A candidate result is not an
 execution on trunk; changed content or execution conditions require appropriate

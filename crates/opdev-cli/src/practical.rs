@@ -104,13 +104,26 @@ if [ "$CI_PIPELINE_SOURCE" = "push" ] && [ "$CI_COMMIT_BRANCH" = "$OPDEV_TRUNK" 
 fi
 report_file="$(mktemp)"
 set +e
-opdev check --ci "$@" --format json > "$report_file"
+opdev check --ci "$@" --expected-revision "$CI_COMMIT_SHA" --format json > "$report_file"
 opdev_status=$?
 cp "$report_file" opdev-report.json
 copy_status=$?
 if [ "$copy_status" -ne 0 ]; then exit "$copy_status"; fi
 exit "$opdev_status"
 "#]);
+    } else if adapter.provider() == opdev_project::CiProvider::Github
+        && let Some(steps) = document["jobs"]["opdev"]["steps"].as_array_mut()
+    {
+        for step in steps {
+            if let Some(script) = step["run"].as_str() {
+                step["run"] = serde_json::json!(script.replace(
+                    "opdev check --ci",
+                    "opdev check --ci --expected-revision \"$OPDEV_CHECKOUT_SHA\""
+                ));
+                step["env"]["OPDEV_CHECKOUT_SHA"] =
+                    serde_json::json!("${{ github.event.pull_request.head.sha || github.sha }}");
+            }
+        }
     }
     Ok(serde_saphyr::to_string(&document)?)
 }
@@ -320,8 +333,31 @@ struct Report {
     source_commit: Option<String>,
     source_clean: bool,
     checks: Vec<CheckResult>,
+    manual_checks: Vec<ManualCheck>,
     mapping_findings: Vec<String>,
     limits: &'static str,
+}
+
+#[derive(Serialize)]
+struct ManualCheck {
+    id: String,
+    procedure: String,
+    status: &'static str,
+}
+
+fn manual_checks(contract: &Contract, stage: TestStage) -> Vec<ManualCheck> {
+    contract
+        .checks
+        .iter()
+        .filter(|check| check.stages.contains(&stage))
+        .filter_map(|check| {
+            check.manual.as_ref().map(|procedure| ManualCheck {
+                id: check.id.clone(),
+                procedure: procedure.clone(),
+                status: "not_run",
+            })
+        })
+        .collect()
 }
 
 const LIMITS: &str = "Canonical command results only; suite success is not proof that a named test ran or a requirement was adequately reviewed. Native CI owns remote integration status. No external standard was assessed and no release is authorized.";
@@ -352,11 +388,27 @@ fn validate_options(args: &CheckArgs) -> Result<()> {
     Ok(())
 }
 
+fn verify_revision(expected: Option<&String>, actual: Option<&String>) -> Result<()> {
+    if let Some(expected) = expected {
+        ensure!(
+            matches!(expected.len(), 40 | 64)
+                && expected
+                    .bytes()
+                    .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+                && actual == Some(expected),
+            "Checkout does not match the expected full Git revision. No checks ran."
+        );
+    }
+    Ok(())
+}
+
 pub(super) fn check(args: &CheckArgs, root: &Path, contract: &Contract) -> Result<ExitCode> {
     validate_options(args)?;
     contract.inspect_namespace(root, true)?;
     let requirements = contract.inspect_requirements(root)?;
-    let stage = if args.delivery {
+    let stage = if args.evaluation {
+        TestStage::Evaluation
+    } else if args.delivery {
         TestStage::Delivery
     } else if args.post_merge {
         TestStage::PostMerge
@@ -376,6 +428,7 @@ pub(super) fn check(args: &CheckArgs, root: &Path, contract: &Contract) -> Resul
     let source_clean = git(root, &["status", "--porcelain", "--untracked-files=normal"])?
         .trim()
         .is_empty();
+    verify_revision(args.expected_revision.as_ref(), source_commit.as_ref())?;
     if args.ci && !args.no_exec {
         ensure!(
             source_commit.is_some() && source_clean,
@@ -414,11 +467,15 @@ pub(super) fn check(args: &CheckArgs, root: &Path, contract: &Contract) -> Resul
         );
     }
     inspect_after_execution(root, contract, &requirements, stage, &mut mapping_findings);
+    let manual_checks = manual_checks(contract, stage);
     let status = if results.iter().any(|r| r.status == "error") {
         "error"
     } else if results.iter().any(|r| r.status == "failed") {
         "failed"
-    } else if results.is_empty() || results.iter().any(|r| r.status == "not_run") {
+    } else if !manual_checks.is_empty()
+        || results.is_empty()
+        || results.iter().any(|r| r.status == "not_run")
+    {
         "not_run"
     } else {
         "passed"
@@ -432,6 +489,7 @@ pub(super) fn check(args: &CheckArgs, root: &Path, contract: &Contract) -> Resul
         source_commit,
         source_clean,
         checks: results,
+        manual_checks,
         mapping_findings,
         limits: LIMITS,
     };
@@ -490,6 +548,7 @@ fn print_plan(contract: &Contract, stage: TestStage) -> Result<()> {
         serde_json::to_string_pretty(&serde_json::json!({
             "schema": 1, "kind": "practical_plan", "stage": stage,
             "preset": contract.preset, "commands": commands,
+            "manual_checks": manual_checks(contract, stage),
             "limits": "Read-only execution plan. No checks ran; no approval or qualification."
         }))?
     );
@@ -581,7 +640,13 @@ fn present(args: &CheckArgs, report: &Report) -> Result<()> {
                 println!("{}{}", result.stdout, result.stderr);
             }
         }
-        if report.checks.is_empty() {
+        for check in &report.manual_checks {
+            println!(
+                "  {}: not run; manual procedure {} requires an actual observation. This command cannot verify it.",
+                check.id, check.procedure
+            );
+        }
+        if report.checks.is_empty() && report.manual_checks.is_empty() {
             println!("No checks are configured for this boundary. No verification claimed.");
         }
         for finding in &report.mapping_findings {
