@@ -393,7 +393,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -493,7 +493,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -593,7 +593,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -693,7 +693,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -793,7 +793,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -893,7 +893,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -993,7 +993,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1093,7 +1093,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1193,7 +1193,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "fe07ccf8e6b359f92426979b65482851b8d453e12c60e69d21eeb5eeadcc64e6",
+          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
           "excerpt": "//! `OpDev` command-line entry point."
         },
         {
@@ -1570,9 +1570,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
-        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
-        "subject_sha256": "3e341638e63926bdcda58be86552fc890a709185afecc3c6a3cba0287be3c155"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "7015522965111c3222dd3174e99c9a03138538e8e80afab2dc81539daf8e868b"
       }
     },
     {
@@ -1630,9 +1630,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
-        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
-        "subject_sha256": "665efbe8f471708fb9554e9890d4f68d62a7b6d8f20f2be09b7f68218eea3f79"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "1595ba3cc67f065c5611a3de3fb2819f353ca386c05588dca43071011b85fd3f"
       }
     },
     {
@@ -1690,9 +1690,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/126",
-        "rationale": "Distinct change-impact review for issue 126: existing policy resolution, standards, organization controls and adoption dispatch remain unchanged; new flags reject legacy contracts before execution. Prior bootstrap change normalizes embedded newlines while preserving surrounding content. CI changes only retain the already built and verified binary with identity metadata; no required dependencies, release admission, recovery or publisher controls were removed. Existing mapped assertions and failure paths remain adequate for these unchanged promises; refreshed source references are not an execution claim.",
-        "subject_sha256": "09f617a6b0dc0a7ab8b5f8306b23c4931fc24faebab2d5fe20fef0bc8b3268e0"
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
+        "subject_sha256": "09d9776ec744ac9d99d38a35a0501a51072739b86818de13a5178b5a144dce08"
       }
     }
   ]

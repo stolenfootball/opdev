@@ -55,9 +55,25 @@ choosing a design. State its bounded question and limits; early execution is not
 design approval or integration qualification. Otherwise prefer the smallest check
 set that makes the current observation meaningful, not a universal smoke test.
 
-Inspect actual commands and consumers. `opdev check` may execute the whole declared
-suite even without `--ci`; inspect `check --plan` when scope is unclear. Use suitable
-existing focused commands during preparation and report their limited scope.
+Inspect actual commands and consumers. On a CLI advertising `check.purpose.v1`,
+use `check --purpose feedback --command ID` (repeat `--command` as needed) for
+declared focused commands, and `--purpose design` for design probes. Use `--plan`
+with the same selection to inspect exact argv, working directory and timeout.
+No command is selected implicitly. An integration-mapped command requires
+`--reason` for early execution: give the concrete risk/question, not "OpDev says
+so". Do not invent a reason, switch to integration or invoke the same broad
+command directly merely to get around a refusal. If an adequate focused command
+is not declared, use an existing documented project command and report its scope;
+do not edit policy merely to bypass the boundary. Wrappers still need inspection.
+
+Use `check --purpose integration` for all required local integration checks;
+`--ci` and `--post-merge` retain their actual stage requirements. Integration
+cannot select a command subset. Design/feedback output is not qualification,
+even when every selected command passes. A purpose label or reason does not
+authenticate developer approval. Bare local execution on practical contracts
+requires purpose; `check --plan` remains read-only. Legacy bare commands retain
+their old behavior and may run everything. On older runtimes, use suitable
+existing focused commands and disclose that these controls are unavailable.
 Default commands and `stages: [local, pre_merge, post_merge]` describe execution
 selection, not an instruction to invoke all of them on every edit. "Required local
 integration suite" means required when preparing integration, not required merely
@@ -97,5 +113,6 @@ busywork or repeat unchanged polling narration. Permission to continue grants no
 new delegation, policy change, resource use or release authority.
 
 Keep purpose, actual decisions, observations and missing evidence in existing
-conversation/work context. No boundary registry, required file, new CLI flag or
-approval ledger is introduced. Report only the boundary actually verified.
+conversation/work context. No boundary registry, required file or approval ledger
+is introduced. The command controls govern OpDev invocations, not arbitrary shell
+execution or the truth of supplied rationale. Report only the boundary verified.

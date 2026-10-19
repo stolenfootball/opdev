@@ -87,7 +87,19 @@ for feedback or integration from actual scope and readiness. These are neither
 presets nor persisted stages. Expensive verification needs a current risk/decision
 purpose, design-readiness assessment, boundary justification and valid-reuse check.
 Concrete early feasibility or safety probes remain valid; permission to eventually
-merge is not current readiness. No command execution semantics change implicitly.
+merge is not current readiness.
+
+Capability `check.purpose.v1` makes this explicit at the command boundary. Design
+and feedback select exact declared command IDs, reject qualification/reuse flags,
+and emit only non-qualifying preparation results. Integration forbids filtering
+and preserves all selected stage obligations. Practical local execution requires
+purpose; explicit CI/evaluation and inspection remain compatible. Legacy bare
+execution is preserved. An early integration-mapped command (including an identical
+alias) requires rationale, not a fabricated approval record. The CLI validates the
+selection before any command runs and preserves command failures and unrun work.
+This does not infer cost from names, enforce arbitrary shell behavior or authenticate
+consent. Reconsider the mechanism if measured friction exceeds avoided accidental
+broad execution; do not trade away integration checks to improve evaluation scores.
 
 Design acceptance precedes dependent implementation of new capabilities,
 substantial changes and redesigns unless the design is already accepted, fully

@@ -38,6 +38,7 @@ mod local_state;
 mod migration;
 mod policy;
 mod practical;
+mod preparation;
 mod prior_stage;
 mod requirements;
 mod state_io;
@@ -197,6 +198,15 @@ struct InitArgs {
 #[derive(Debug, Args)]
 #[allow(clippy::struct_excessive_bools)] // Independent CLI switches, constrained by clap.
 struct CheckArgs {
+    /// Work boundary. Design/feedback run only named commands and never qualify integration.
+    #[arg(long, value_enum)]
+    purpose: Option<preparation::Purpose>,
+    /// Exact declared command to run for design/feedback; repeat for more than one.
+    #[arg(long = "command", requires = "purpose")]
+    commands: Vec<String>,
+    /// Concrete reason for running a required integration command before integration.
+    #[arg(long, requires = "purpose")]
+    reason: Option<String>,
     /// Stop remaining canonical suites after the first failure; unrun checks remain blocking.
     #[arg(long, conflicts_with = "no_exec")]
     fail_fast: bool,
@@ -1203,9 +1213,20 @@ fn selected_review(
 }
 
 fn check_project(args: &CheckArgs) -> Result<ExitCode> {
+    preparation::validate(args)?;
+    if matches!(
+        args.purpose,
+        Some(preparation::Purpose::Design | preparation::Purpose::Feedback)
+    ) {
+        return preparation::check(args);
+    }
     if let Some((root, contract)) = practical::selected(&args.root)? {
         return practical::check(args, &root, &contract);
     }
+    check_legacy_project(args)
+}
+
+fn check_legacy_project(args: &CheckArgs) -> Result<ExitCode> {
     if args.evaluation || args.expected_revision.is_some() {
         bail!(
             "Evaluation selection and expected revision require a practical contract. No checks ran."

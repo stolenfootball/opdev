@@ -364,6 +364,10 @@ const LIMITS: &str = "Canonical command results only; suite success is not proof
 
 fn validate_options(args: &CheckArgs) -> Result<()> {
     ensure!(
+        args.purpose.is_some() || args.ci || args.evaluation || args.plan || args.no_exec,
+        "Choose the check purpose before running commands: use --purpose feedback --command ID for focused work, or --purpose integration for all required local checks. Use --plan to inspect scope. No checks ran."
+    );
+    ensure!(
         !args.review_ci
             && args.review_locator.is_none()
             && args.review_acceptance_sha256.is_none()

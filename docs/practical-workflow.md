@@ -102,14 +102,50 @@ Choose work by purpose and readiness, not by whether files have been retained:
 | Implement for feedback | Working accepted slice and user feedback | Meaningful focused behavior and safety checks |
 | Integrate | Settled, authorized useful increment | All required integration and integrated-source checks |
 
-These are not new assurance levels or CLI flags. Eventual merge permission does
+These are not new assurance levels. Eventual merge permission does
 not make an unsettled candidate ready. Before costly verification, identify its
 decision/risk, design readiness, necessity now and any valid equivalent execution.
 An early broad compatibility or safety probe is appropriate when it resolves a
 concrete uncertainty; it does not accept the design. Reuse the rationale until
 facts change instead of adding forms or routine approval questions. Inspect command
-scope: plain `opdev check` can run the full declared suite. Adoption should establish
+scope: older plain `opdev check` can run the full declared suite. Adoption should establish
 real focused-feedback commands alongside reviewed integration checks.
+
+### Explicit check purpose and scope
+
+With capability `check.purpose.v1`, select the boundary before execution:
+
+```sh
+opdev check --purpose feedback --command focused --plan
+opdev check --purpose feedback --command focused
+opdev check --purpose design --command full --reason "Requested compatibility probe before choosing migration design"
+opdev check --purpose integration --fail-fast
+```
+
+Command IDs refer to existing `commands` entries; repeat `--command` for a bounded
+set. OpDev validates the entire selection before any command runs. Plans show exact
+arguments, working directory and configured timeout, not an invented runtime estimate.
+A command mapped to local/pre-merge/post-merge/delivery checks (or an identical
+command under another ID) needs a nonblank early-probe reason during preparation.
+This is conservative scope disclosure, not a determination that every mapped test
+is expensive. Wrappers and differently spelled equivalents still need review.
+Do not manufacture a rationale or use a shell command to evade a refusal.
+
+Design/feedback results use a separate `preparation_check` JSON kind and always
+say integration is unverified. Exit zero means only that the selected commands
+passed. Failed or unrun commands return 1; execution errors, timeouts or policy
+changes return 2. `--plan` executes nothing and returns zero for a valid plan.
+No source-bound review, CI access or result reuse is implied. These results are
+not accepted as gate reports or CI qualification. User consent cannot be proved
+by the purpose label or reason.
+
+Practical local execution without a purpose now stops without running checks.
+Use `--purpose integration` to preserve the former full local execution, including
+required mapping/manual-check rules. Integration cannot use `--command` to omit
+checks. Existing `--ci`, `--post-merge`, `--delivery`, `--evaluation`, read-only
+`--plan` and `--no-exec` paths retain their semantics. Schemas 1–4 keep legacy bare
+check behavior but can opt into explicit preparation selections. No project schema
+migration is required. Direct shell execution is outside these controls.
 
 For new capabilities, substantial changes and redesigns, the default interaction
 is **clarify requirements → propose a design → obtain acceptance → implement**.

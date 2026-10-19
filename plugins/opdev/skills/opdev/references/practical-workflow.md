@@ -35,8 +35,11 @@ outcomes, not only test names or green suites. Record concrete decisions/finding
 in the existing change discussion. Standard needs no manual acceptance digest,
 selected review comment, ledger or extra reviewer.
 
-`check --plan` inspects selected commands without execution. `check` runs local
-feedback checks; `check --ci` selects pre-merge checks; `check --ci --post-merge`
+`check --plan` inspects selected commands without execution. With `check.purpose.v1`,
+use `check --purpose feedback --command ID` for named focused commands and
+`check --purpose integration` for required local qualification; a bare local check
+refuses execution. Follow the shared work-boundary rule for early-probe reasons.
+`check --ci` selects pre-merge checks; `check --ci --post-merge`
 selects integrated-source checks. These can differ. `--no-exec` never qualifies
 missing executions. Multiple links to one canonical command need one execution.
 Do not run the full suite immediately before asking OpDev to run it again.

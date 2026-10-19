@@ -44,6 +44,9 @@ pub(crate) fn verify(args: &VerifyArgs) -> Result<ExitCode> {
     // Compose the existing gate. This adapter cannot select an older review,
     // downgrade a gate, execute a second copy of suites, or publish anything.
     crate::check_project(&crate::CheckArgs {
+        purpose: Some(crate::preparation::Purpose::Integration),
+        commands: Vec::new(),
+        reason: None,
         root: args.root.clone(),
         ci: true,
         review_ci: true,

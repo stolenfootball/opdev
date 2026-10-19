@@ -599,11 +599,14 @@ fn practical_doctor_reports_outdated_guidance_without_rewriting_it() -> TestResu
 }
 
 fn run(root: &Path, args: &[&str]) -> std::io::Result<Output> {
-    Command::new(env!("CARGO_BIN_EXE_opdev"))
-        .args(args)
-        .arg("--root")
-        .arg(root)
-        .output()
+    // These existing cases exercise qualification, not implicit purpose selection.
+    // The separate check_purpose suite covers the no-purpose refusal directly.
+    let mut command = Command::new(env!("CARGO_BIN_EXE_opdev"));
+    command.args(args);
+    if args.first() == Some(&"check") && !args.contains(&"--evaluation") {
+        command.args(["--purpose", "integration"]);
+    }
+    command.arg("--root").arg(root).output()
 }
 
 fn fixture() -> Result<tempfile::TempDir, Box<dyn std::error::Error>> {
