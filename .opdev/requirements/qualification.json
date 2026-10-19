@@ -31,7 +31,7 @@
         "kind": "source",
         "source": {
           "path": "docs/CONTRIBUTING.md",
-          "sha256": "70c4e037f35d3ce78a8183e34a3a250ccae2f61b1d64e717a9e4a6f19cf9d1b3",
+          "sha256": "629529bd51d3a1f40c438c461029ced70dd23b3fa55e7ea5d8246d892908754e",
           "excerpt": "Its assertion deliberately starts **unverified**:"
         }
       },
@@ -54,7 +54,7 @@
         "kind": "source",
         "source": {
           "path": "docs/CONTRIBUTING.md",
-          "sha256": "70c4e037f35d3ce78a8183e34a3a250ccae2f61b1d64e717a9e4a6f19cf9d1b3",
+          "sha256": "629529bd51d3a1f40c438c461029ced70dd23b3fa55e7ea5d8246d892908754e",
           "excerpt": "Required CI uses `check --ci --review-ci --fail-fast`. Review readiness is checked"
         }
       },
@@ -460,8 +460,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009697985",
-        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability.",
-        "subject_sha256": "746cbeca71f617415a11f908fc9ab8ae05f01e1071d4a7a6e509f710671bf1e8"
+        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "423746f0acaaff0016ceb6991ecde8277042d77a4c05e74926c9c69e6f7bb274"
       }
     },
     {
@@ -495,8 +495,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009697985",
-        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability.",
-        "subject_sha256": "344f27f573421c49a9a3901f901e3307f3bb6dc2e250f152e8fc4b09374443fc"
+        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "b8c97d7ba6db6b868c374e03c7a981efc877e3bda6b3bdb521716cb516020f87"
       }
     },
     {
@@ -530,8 +530,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009697985",
-        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability.",
-        "subject_sha256": "743f4f360d95c73fbffdc91e7d47f6be4f16c6b50b6d6df1d9c16dc8efe4382b"
+        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "99f011f42b360ef509a04120203f4ba143e2e600a420343225d02798ab97b3b7"
       }
     },
     {
@@ -552,8 +552,8 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability.",
-        "subject_sha256": "700af77838fe8f0b886a23dba046af3527952d1b69d708b43e7819e74ab8bc62",
+        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "c19882c1bbd95c5ba281978ffd9f19efbcbc6cf08780b8763d69ff60bf25bf38",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009697985",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "outcome": "passed"
@@ -577,8 +577,8 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability.",
-        "subject_sha256": "d14a84ec81d21c146e064d3003d5481bef0e31f55dcc1b9d62ace21bc5220c9f",
+        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "7bf08347fa37c60b7a8365d6998dcb49581449e6a3c182d1fdcc60471a7777c5",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009697985",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "outcome": "passed"
@@ -602,8 +602,8 @@
         }
       ],
       "review": {
-        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability.",
-        "subject_sha256": "7bb0686b69e992a6eb295adda83f851c193d018453afecd1dbc7d91958b329ce",
+        "rationale": "Reviewed the exact prior-stage implementation and retained assertion bodies. Explicit inventory selection requires paired nonblank attribution, never mutates trunk policy, and still verifies exact source, merged tree, run and required jobs. Failed, missing and unverified jobs remain unsuccessful; observations never become approval or current execution. Existing ledger-free preparation, post-merge prerequisite and fail-fast sentinel guarantees remain unchanged. New argument-parser and observation regressions cover the added selection boundary. Suite assurance does not prove inventory completeness or live agent reliability. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "e652b38b8464cd04ba02756fd2c41d9b4e1bd12ade6bd82ab68a97bd138f27d2",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/119#note_4009697985",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "outcome": "passed"

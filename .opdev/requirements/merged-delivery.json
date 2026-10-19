@@ -8,7 +8,7 @@
         "kind": "source",
         "source": {
           "path": "spec/evidence-lifetimes.md",
-          "sha256": "ab8fc984a70eee61daa0dc99d5febb6297f0489b49b500965281760b6c40152c",
+          "sha256": "d64738a8dd7c423ae35c967cf125630fcf17e437bdf31c22926734a997e2a1bd",
           "excerpt": "Capability `evidence.merged-delivery.v1` makes explicit-locator delivery checks\nuse the provider-observed integration commit when the MR/PR is merged."
         }
       },
@@ -164,8 +164,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred.",
-        "subject_sha256": "4a59fccad58bda5621432aa5b3eca163c5294152036af23cd369f85175f60736"
+        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "197745f73ac819c3c18c32b23a58363ebefda799a2df31d34eab9aa70a5e2bae"
       }
     },
     {
@@ -194,8 +194,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred.",
-        "subject_sha256": "c497a1a6c40e8ffad41cb854410e716e845d6e830f5018b1722054cbf4e33c8b"
+        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "81eae08c87b3b45eed5e5d863d9941c24f23f737f11e1699fcda0bf3bc9de01d"
       }
     },
     {
@@ -224,8 +224,8 @@
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
         "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/milestones/17",
-        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred.",
-        "subject_sha256": "04e6bd2e53d2af18b5955e2ae8804723ad541ba01f972659819c57c2be93efa1"
+        "rationale": "Rechecked retained same-tree/different-SHA and changed integrated-content fixtures against the extended native stage selector. Existing provider head/tree and wrong-stage reader assertions remain unchanged; delivery selection adds a distinct slot rather than changing locator semantics. No artifact or release permission is inferred. Re-reviewed for issue129: only normal GitLab stacked-merge disambiguation changed. Existing mapped delivery, artifact, handoff and fail-fast assertions and source excerpts retain their guarantees; provider-stage negative tests passed. No prior result is substituted for current verification.",
+        "subject_sha256": "ba8db02533aa9d94ddd755db86fc63af8d3a032dabded3e62b61b4c261ef8be6"
       }
     }
   ]
