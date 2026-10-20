@@ -1,5 +1,9 @@
 # Practical workflow (source preview)
 
+Start new projects and adoption with [the project-design workflow](project-design.md):
+mandatory `design.md`, `interface.md` and `tech_stack.md`, separate acceptance of
+each material decision area, then a phased plan and authorized implementation.
+
 `adoption next`, `adoption status`, `adoption start` and `adoption check
 --preflight` inspect an already configured practical project without creating a
 legacy adoption record. `adoption plan` retains its selected level unless an

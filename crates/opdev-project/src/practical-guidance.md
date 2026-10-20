@@ -18,6 +18,11 @@ Research consequential uncertainty, reuse settled findings and avoid routine
 questionnaires. Work tracking belongs to the declared work authority; durable
 documentation belongs to its declared owner, not `.opdev` scratch files.
 
+For discovery/adoption/upgrades, read the skill's project-design reference.
+Every project needs design.md, interface.md and tech_stack.md outside `.opdev`.
+Preserve approvals; ask about consequential gaps. Product/interface/technical
+acceptance precedes phased execution; labels are not consent.
+
 Implement with focused checks. Add relevant behavioral/regression tests and
 review actual assertions, failure paths and affected documentation. The
 implementing agent may perform the distinct review pass. One agent is the

@@ -208,8 +208,9 @@ pub(super) fn run(args: &AdoptionArgs) -> Result<ExitCode> {
                     && review_locator.is_none()
                     && review_acceptance_sha256.is_none()
                 {
-                    crate::practical::adoption_status(&root, &contract, *format, false)?;
-                    return Ok(ExitCode::SUCCESS);
+                    let recorded =
+                        crate::practical::adoption_status(&root, &contract, *format, false)?;
+                    return Ok(ExitCode::from(u8::from(!recorded)));
                 }
                 bail!(
                     "Practical adoption has no all-in-one completion certificate. Use adoption status for configuration inspection, check --ci for pre-merge execution, and check --ci --post-merge on integrated source. Verify native required jobs separately. No checks ran."
@@ -256,7 +257,8 @@ fn prepare_selected_evidence(
 
 fn next(root: &std::path::Path, remote: bool) -> Result<()> {
     if let Some((root, contract)) = crate::practical::selected(root)? {
-        return crate::practical::adoption_status(&root, &contract, OutputFormat::Json, remote);
+        return crate::practical::adoption_status(&root, &contract, OutputFormat::Json, remote)
+            .map(|_| ());
     }
     let discovery = opdev_project::discover(root)?;
     let record = AdoptionRecord::load(&discovery.root)?;
@@ -285,12 +287,13 @@ fn selected_plan(root: &std::path::Path, preset: Option<&str>, remote: bool) -> 
 
 fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<()> {
     if let Some((root, contract)) = crate::practical::selected(root)? {
-        return crate::practical::adoption_status(&root, &contract, format, remote);
+        return crate::practical::adoption_status(&root, &contract, format, remote).map(|_| ());
     }
     let (root, manifest) = load_project(root)?;
     let record = AdoptionRecord::load(&root)?;
     let remote_gap = manifest.remote_qualification_gap();
     let worksheet = policy_worksheet(&manifest, remote)?;
+    let design = crate::design_documents::legacy(&root, &manifest);
     let mut blockers = record
         .as_ref()
         .map(|r| r.blockers(&manifest))
@@ -300,6 +303,7 @@ fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<
         &manifest,
         record.as_ref(),
     ));
+    blockers.extend(design.gaps());
     if let Some(target) = record.as_ref().and_then(|r| r.clean_target.as_ref()) {
         blockers.extend(
             opdev_project::clean_adoption::retirement_gaps(&root, target)
@@ -323,7 +327,7 @@ fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<
                     "approval": if record.as_ref().is_some_and(|r| r.approval_blockers(&manifest).is_ok_and(|b| b.is_empty())) { "approved" } else { "review_required" },
                     "verification":"not_run","blockers":blockers,"record":record,
                     "remote_qualification": {"verification":"not_run", "policy_ready":remote_gap.is_none(), "gap":remote_gap, "worksheet":worksheet},
-                    "delivery_readiness":"not_run"})
+                    "delivery_readiness":"not_run", "design_documents":design})
             )?
         );
     } else {
@@ -333,6 +337,7 @@ fn status(root: &std::path::Path, format: OutputFormat, remote: bool) -> Result<
             remote_gap.unwrap_or("reviewed policy present; provider verification still required")
         );
         println!("Delivery readiness: not run");
+        design.print();
         if let Some(worksheet) = worksheet {
             println!(
                 "Policy observations for developer review: {}",
@@ -765,6 +770,9 @@ fn check(
     let record = AdoptionRecord::load(&root)?
         .context("no adoption assessment; run opdev adoption start explicitly")?;
     let mut blockers = decision_blockers(&root, &manifest, &record, legacy_assessment)?;
+    if !legacy_assessment {
+        blockers.extend(crate::design_documents::legacy(&root, &manifest).gaps());
+    }
     if remote && let Some(gap) = manifest.remote_qualification_gap() {
         blockers.push(format!("remote qualification: {gap}; resolve developer choices before running adoption verification"));
     }

@@ -155,7 +155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -225,7 +225,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -295,7 +295,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -365,7 +365,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -435,7 +435,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "Command::Policy(args) => policy::run(&args),"
         }
       ],
@@ -550,7 +550,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -665,7 +665,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -780,7 +780,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -895,7 +895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1010,7 +1010,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1125,7 +1125,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         }
       ],
@@ -1240,7 +1240,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1400,7 +1400,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1560,7 +1560,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1720,7 +1720,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -1880,7 +1880,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2040,7 +2040,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2200,7 +2200,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2360,7 +2360,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2520,7 +2520,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2680,7 +2680,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2840,7 +2840,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -2995,7 +2995,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3155,7 +3155,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3340,7 +3340,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3525,7 +3525,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3710,7 +3710,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -3895,7 +3895,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4080,7 +4080,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4265,7 +4265,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4450,7 +4450,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4635,7 +4635,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -4820,7 +4820,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5005,7 +5005,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5190,7 +5190,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5375,7 +5375,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5565,7 +5565,7 @@
         },
         {
           "path": "crates/opdev-cli/src/main.rs",
-          "sha256": "99173c7b509ccb82fe1c2196ba8bcd250e6ab7d6aabf3cd3acae02e7a1e33f2f",
+          "sha256": "6f59e580f8edff36d5d41dd08af5dd1b8329f86b7f15cace98c0409e8a62a8e5",
           "excerpt": "fn apply_remote_audit("
         },
         {
@@ -5617,9 +5617,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "ce76b28f94d5bdd248f6a607ed992e36e25536116d8683c8a2dd28e549aaede5"
+        "subject_sha256": "d140905bade531e3ce2993ffb7b2ef91468dbda4fe0da628faeda2566942bb06"
       }
     },
     {
@@ -5657,9 +5657,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "69204f567d71b1bb3048ca04ddddc4fc03710a9d2c11388fcabaa8834d35d8e4"
+        "subject_sha256": "4b0948cb993405b53b879396d931d010650afd8c853e8fdbb956cf944b52bfba"
       }
     },
     {
@@ -5697,9 +5697,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "a8e0998c15fd92028a85debb5a0cc56c45e666c818ec885b1795e0f0e2b63bbb"
+        "subject_sha256": "f6ce920b2be055ccbcd609fd0ddaa1798f0258d33d8b1b51cf765c441733cbe9"
       }
     },
     {
@@ -5747,9 +5747,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "ccd6b578494a356f7002969f22df407adf4d9cdaf2182a8816f62cd728cbb5b3"
+        "subject_sha256": "881bda539b3146ee4ae0dab031fce8b9cabfdf4a55bd10c8d0f249fc734ca172"
       }
     },
     {
@@ -5797,9 +5797,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "467581c1690cc93bab071838f5292c0c0892972087fd5ed62f3bc87756adf759"
+        "subject_sha256": "177edc7be203ddb115314255ee82fc87e07f7eb46c2c9d41447f5bbaf9e6c742"
       }
     },
     {
@@ -5847,9 +5847,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "4f75a37f0ddd61db130d7087e1e660d92ef633c4100c15cd42f27260889123ca"
+        "subject_sha256": "b3d385bc84e2b24872211e1d23bc49ed0484d12a013ce0625d88e76589e708c8"
       }
     },
     {
@@ -5922,9 +5922,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "45150713a59604525ecb8872fe179ea45f84429beda7d6b7c4618ed2f34dd90a"
+        "subject_sha256": "e04f33ee26bcc1baaaaab056a65313dee6cf7556c6828b436494a6e25bb8cb25"
       }
     },
     {
@@ -5997,9 +5997,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "75d5458572daeb4da8c0bb0e92bb5c86c1b8044c86e7ddc931aaf81a206386e7"
+        "subject_sha256": "15df64171c3b8f2ddda99b16ad0d57ea5b2e65906c615f676363f23316a46736"
       }
     },
     {
@@ -6072,9 +6072,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "0d122f20e04b003cd495783ed462624fdffec58dcd50e2bb517db708ddcea1be"
+        "subject_sha256": "a88e621eb590952d42e1735bc8deaf01e184c80f3f94ba401b1cf15ff698d09d"
       }
     },
     {
@@ -6152,9 +6152,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "595bf8364a7deed1c896d8a0b5d74b9669c50580e63446b84a19df838c244ae8"
+        "subject_sha256": "e871ad5f66c9b0afad7f35b9bf84152a766412c7d2c1fc4ba5ee017b5ade790e"
       }
     },
     {
@@ -6232,9 +6232,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "b8cca6eab773a2b773592651f73d238ef28bbe04277daf5c032b553896b86ae0"
+        "subject_sha256": "eeac24dbc929e621c2ece5a003cf0a7b715e00d4cdf6fc01c29e01f18e67cf0e"
       }
     },
     {
@@ -6312,9 +6312,9 @@
       "review": {
         "outcome": "passed",
         "reviewer": "Codex (implementing agent, distinct requirement-led review)",
-        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/128",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
         "rationale": "Boundary-control delta reviewed against actual dispatch and assertions: preparation is selected only by explicit purpose; legacy ordinary qualification and policy/adoption handlers retain their existing bodies and obligations. Practical local execution now requires explicit integration purpose, while CI/evaluation/inspection remain compatible. The practical test helper supplies that purpose for existing qualification cases; new tests separately cover bare-command refusal and scoped preparation. No existing failure assertions, manual checks, mappings or migration protections were removed. Complete CLI all-feature regression suite passed; this is mapping adequacy, not remote qualification or per-case receipts.",
-        "subject_sha256": "db562a5f4f09237022ede8500458eb52ecb2ac3011db63a3049054351eb817a6"
+        "subject_sha256": "7e62722de48aaeff77991bc393a64782d1c4e1143b6c60dae24aa791fa26b056"
       }
     }
   ]

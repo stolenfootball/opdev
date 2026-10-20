@@ -126,6 +126,11 @@ Unsupported stronger verification remains unavailable, not a Standard pass.
 
 ## Adoption and upgrades
 
+Apply [project design](project-design.md): all projects require `design.md`,
+`interface.md` and `tech_stack.md`. Infer supported existing facts with sources,
+preserve accepted decisions, and ask about unresolved needs or standards. Workflow
+configuration alone does not complete this review or authorize implementation.
+
 Explicit adoption authorizes assessment. Inspect existing tools and instructions,
 propose a level and concrete changes, and ask only material questions. Reuse
 actual decisions. Preserve adequate tools, authority locations and non-main

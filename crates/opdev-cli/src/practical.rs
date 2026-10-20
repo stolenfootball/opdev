@@ -133,7 +133,7 @@ pub(super) fn adoption_status(
     contract: &Contract,
     format: crate::OutputFormat,
     remote: bool,
-) -> Result<()> {
+) -> Result<bool> {
     ensure!(
         !remote,
         "Practical remote adoption inspection is not supported; no checks ran or obligations waived"
@@ -141,6 +141,8 @@ pub(super) fn adoption_status(
     contract.inspect_namespace(root, true)?;
     let requirements = contract.inspect_requirements(root)?;
     let mut gaps = Vec::new();
+    let design = crate::design_documents::inspect(root, &contract.authorities);
+    gaps.extend(design.gaps());
     for stage in [TestStage::PreMerge, TestStage::PostMerge] {
         if contract.commands_at(stage).is_empty() {
             gaps.push(format!(
@@ -156,6 +158,7 @@ pub(super) fn adoption_status(
                 "schema":2, "status":"workflow_configured", "preset":contract.preset,
                 "product_verification":"not_run", "remote_qualification":"not_run",
                 "decision_reference":contract.decision_reference, "findings":gaps,
+                "design_documents":design,
                 "limits":"Read-only configuration inspection, not completed product verification, authenticated consent or release permission."
             }))?
         );
@@ -168,8 +171,9 @@ pub(super) fn adoption_status(
             println!("  {gap}");
         }
         println!("Decision reference recorded, not authenticated consent. No release authorized.");
+        design.print();
     }
-    Ok(())
+    Ok(design.recorded_decisions_complete)
 }
 
 pub(super) fn adoption_plan(root: &Path, preset: &str, remote: bool) -> Result<()> {

@@ -2,6 +2,11 @@
 
 ## Applicability and authority
 
+Project discovery and adoption use [project design](project-design.md): mandatory
+design/interface/technical documents, distinct acceptance boundaries, then a
+phased roadmap and explicit implementation scope. These decisions are reused at
+milestone boundaries; ordinary task tracking still belongs in the work authority.
+
 When OpDev is active, all planning objectives MUST use outcome-based incremental
 reasoning: plans, roadmaps, reviews, prioritization, task decomposition, adoption,
 replanning, and informal next-step recommendations. This does not activate OpDev

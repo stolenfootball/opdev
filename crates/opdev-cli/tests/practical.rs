@@ -29,7 +29,6 @@ fn practical_adoption_routes_inspect_without_restarting_legacy_assessment() -> T
         vec!["adoption", "next"],
         vec!["adoption", "plan"],
         vec!["adoption", "start"],
-        vec!["adoption", "check", "--preflight"],
     ] {
         let output = run(dir.path(), &args)?;
         assert!(
@@ -40,6 +39,17 @@ fn practical_adoption_routes_inspect_without_restarting_legacy_assessment() -> T
         assert!(!dir.path().join(".opdev/adoption.yaml").exists());
         assert!(!dir.path().join("ran.txt").exists());
     }
+    let preflight = run(
+        dir.path(),
+        &["adoption", "check", "--preflight", "--format", "json"],
+    )?;
+    assert_eq!(preflight.status.code(), Some(1));
+    let preflight: Value = serde_json::from_slice(&preflight.stdout)?;
+    assert_eq!(
+        preflight["design_documents"]["recorded_decisions_complete"],
+        false
+    );
+    assert!(!dir.path().join("ran.txt").exists());
     let output = run(dir.path(), &["adoption", "check"])?;
     assert_eq!(output.status.code(), Some(2));
     assert!(String::from_utf8_lossy(&output.stderr).contains("No checks ran"));

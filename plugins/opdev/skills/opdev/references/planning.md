@@ -35,6 +35,11 @@ Use the shared [work-boundary rule](work-boundaries.md) for requirements questio
 design presentation and acceptance, explicit delegation, and material revisions.
 Technical self-review cannot accept an unseen design for the developer.
 
+Read [project design decisions](project-design.md) for the required `design.md`,
+`interface.md` and `tech_stack.md`, their distinct acceptance boundaries, and
+existing-project inference. Settle product, interaction and technical choices
+before proposing the phased implementation roadmap and obtaining execution scope.
+
 ## Check uncertainty before committing to an approach
 
 For substantial requests and milestone boundaries, assess what is known and
@@ -128,6 +133,9 @@ database, finish backend, finish frontend, then test" the default roadmap.
 Small commits alone do not establish usable value or validated learning.
 
 For "what next?", inspect current progress, blockers and evidence, then recommend
+the earliest unresolved [design boundary](project-design.md) when one materially
+prevents implementation. Accepted product design alone does not settle stack or
+standards. Once those boundaries and execution authority are established, recommend
 one next outcome or bounded enabling step, why it comes next, and how completion
 will be demonstrated. A short answer can carry this method without a formal plan
 or questionnaire. Do not execute it unless asked. Required trunk restoration and

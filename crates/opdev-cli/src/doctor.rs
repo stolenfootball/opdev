@@ -222,6 +222,7 @@ fn initial_report(args: &DoctorArgs) -> Report {
             capabilities: vec![
                 "practical.check.v1",
                 "check.purpose.v1",
+                "planning.documents.v1",
                 "practical.expected-revision.v1",
                 "practical.manual-checks.v1",
                 "practical.migration.v1",

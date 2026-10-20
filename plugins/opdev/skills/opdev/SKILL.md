@@ -66,6 +66,9 @@ belongs to its own location, never a substitute backlog in `.opdev`.
 
 Read [work boundaries](references/work-boundaries.md) before choosing work or checks:
 discover/design, implement for feedback, or integrate. Authority is not readiness.
+For project discovery, adoption, upgrades or substantial redesign, also read
+[project design](references/project-design.md): every project maintains design,
+interface and technical documents; their decisions precede phased execution.
 
 Use focused checks while iterating. Review actual assertions, error paths, side
 effects and affected documentation. The implementing agent can perform a distinct

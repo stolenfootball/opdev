@@ -1,5 +1,11 @@
 # Adopt OpDev in an existing or new project
 
+Apply [project design](project-design.md) for mandatory `design.md`, `interface.md`
+and `tech_stack.md`, including existing codebases and upgrades. Populate supported
+facts from inspected sources, preserve actual approvals, and ask about material
+gaps. Inference and workflow configuration do not establish accepted design or
+completed adoption. This does not silently change the selected engineering policy.
+
 If the requested destination includes requirements policy 1, also follow
 [catalog adoption](requirements.md). Inventory actual supported promises and
 verification gaps; installing the capability does not choose this policy or

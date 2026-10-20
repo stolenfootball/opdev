@@ -20,8 +20,9 @@ obligations fail before execution. Changes to security, data, public interfaces,
 distribution or high-consequence behavior need appropriate safeguards regardless
 of the level. Presence of a capability alone does not escalate unrelated work.
 
-The developer owns scope and material policy choices. Agents own substantive
-design, test adequacy and review judgments. The CLI validates explicit inputs and
+The developer accepts material product, interface, technical and policy choices,
+or explicitly delegates their bounded selection. Agents investigate and propose
+designs, assess test adequacy and review implementation. The CLI validates explicit inputs and
 observes executions. A reference or digest does not authenticate a judgment.
 
 ## Requirements and execution
@@ -124,6 +125,10 @@ return to the developer; routine work within accepted scope and narrow repairs
 remain direct. This interaction boundary adds no evidence ledger or CI gate.
 
 ## Files and adoption
+
+All policy routes use the mandatory documents and distinct acceptance boundaries
+in [project design](project-design.md). They live outside `.opdev`; a configured
+workflow does not establish accepted product, interface or technical decisions.
 
 Requested deliverable completion and integration qualification are distinct.
 Design/documentation output is presented after relevant impact-based review and

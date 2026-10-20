@@ -19,6 +19,13 @@ pub(super) struct DocumentationArgs {
 
 #[derive(Debug, Subcommand)]
 enum DocumentationCommand {
+    /// Inspect required design documents and decision references; never infer consent.
+    Status {
+        #[arg(long, default_value = ".")]
+        root: std::path::PathBuf,
+        #[arg(long, value_enum, default_value_t = OutputFormat::Human)]
+        format: OutputFormat,
+    },
     /// Check a proposed destination against declared ownership; never write it.
     Plan(PlanArgs),
 }
@@ -71,7 +78,24 @@ struct Report {
 }
 
 pub(super) fn run(args: &DocumentationArgs) -> Result<ExitCode> {
-    let DocumentationCommand::Plan(args) = &args.command;
+    let args = match &args.command {
+        DocumentationCommand::Plan(args) => args,
+        DocumentationCommand::Status { root, format } => {
+            let report = if let Some((root, contract)) = crate::practical::selected(root)? {
+                crate::design_documents::inspect(&root, &contract.authorities)
+            } else {
+                let (root, project) = load_project(root)?;
+                crate::design_documents::legacy(&root, &project)
+            };
+            match format {
+                OutputFormat::Json => println!("{}", serde_json::to_string_pretty(&report)?),
+                OutputFormat::Human => report.print(),
+            }
+            return Ok(ExitCode::from(u8::from(
+                !report.recorded_decisions_complete,
+            )));
+        }
+    };
     let durable = matches!(args.purpose, Purpose::Durable | Purpose::Mixed);
     if durable != args.authority.is_some() {
         bail!(
