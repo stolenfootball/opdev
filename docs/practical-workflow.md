@@ -148,7 +148,16 @@ check behavior but can opt into explicit preparation selections. No project sche
 migration is required. Direct shell execution is outside these controls.
 
 For new capabilities, substantial changes and redesigns, the default interaction
-is **clarify requirements → propose a design → obtain acceptance → implement**.
+is **understand the need → reflect it back → propose a design → obtain acceptance → implement**.
+For an open-ended goal, start with an open question about a real intended use and
+desired result, not a menu of agent-selected architectures or MVPs. Follow the
+answer to clarify consequential needs and constraints in small rounds. Reflect
+what the developer stated, what is proposed or assumed, and what remains unknown;
+give them a chance to correct the understanding before narrowing the solution.
+Then recommend alternatives tied to those needs. Multiple-choice prompts help
+converge, but must allow rejection or reframing. A convenient test fixture does
+not establish the intended product experience. There is no fixed questionnaire,
+required question count or extra discovery artifact.
 The proposal shows concrete user/API behavior, an example, scope, limitations and
 the first useful slice, not just a list of tasks. Requirements answers are not
 design acceptance; technical self-review cannot supply it. Once accepted, ordinary
@@ -156,6 +165,8 @@ implementation proceeds autonomously. Material changes to the direction return
 to the developer before dependent work; independent authorized work can continue.
 Already accepted or fully specified designs, narrow repairs restoring agreed
 behavior and explicitly delegated design decisions do not need redundant approval.
+Reuse complete briefs and settled answers; revisit only consequential gaps or
+changed assumptions. Explicit research or comparison requests remain direct.
 Use the existing conversation or tracker, not another approval document or CI gate.
 
 For a small fix, state the intended result and relevant checks, implement it,

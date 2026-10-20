@@ -20,10 +20,14 @@ a new UI feature or demand product discovery. Explain material risks and propose
 alternatives when useful, but do not silently replace the request. Core safety,
 testing and delivery requirements still apply.
 
-For an open-ended objective, identify the consumer, desired outcome and largest
-uncertainty. Reuse current project/work facts; ask only questions that materially
-affect the next decision. Consumers may be people, API clients, library callers,
-operators, downstream pipelines or hardware. A visible UI is not required.
+## Understand the need before narrowing the design
+
+For an open-ended objective, use [discovery before narrowing](work-boundaries.md#understand-before-narrowing)
+before selecting an MVP, architecture or implementation order. Elicit a concrete
+desired use, follow consequential gaps and reflect the understanding for correction
+before offering a preferred solution. Reuse supplied facts and accepted decisions.
+Consumers may be people, API clients, library callers, operators, downstream
+pipelines or hardware. A visible UI is not required.
 
 ## Agree on the design before implementation
 

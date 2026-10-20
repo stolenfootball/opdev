@@ -101,6 +101,21 @@ This does not infer cost from names, enforce arbitrary shell behavior or authent
 consent. Reconsider the mechanism if measured friction exceeds avoided accidental
 broad execution; do not trade away integration checks to improve evaluation scores.
 
+For underspecified objectives, the shared guidance elicits a concrete intended
+use and desired outcome before narrowing the solution. It follows material needs
+and constraints, reflects user-stated facts separately from agent proposals and
+unknowns for correction, then compares designs against that understanding.
+Technical-choice menus and engineering test fixtures cannot substitute for needs
+discovery. Both policy routes reach this guidance before MVP or architecture
+selection. Supplied briefs, explicit research requests, accepted decisions, narrow
+repairs and bounded delegation do not trigger a repetitive interview.
+
+This deliberately remains adaptive guidance rather than a fixed questionnaire or
+CLI approval gate: a transcript marker cannot establish understanding, and a
+question quota would burden precise requests. Packaged-route tests establish
+availability, not live-agent compliance. Revisit the approach if observed sessions
+still narrow the product prematurely or repeat already resolved discovery.
+
 Design acceptance precedes dependent implementation of new capabilities,
 substantial changes and redesigns unless the design is already accepted, fully
 specified by the developer or explicitly delegated. Requirements clarification

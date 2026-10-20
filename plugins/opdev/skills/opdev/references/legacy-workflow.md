@@ -67,7 +67,9 @@ Select the current purpose through [work boundaries](work-boundaries.md) before
 choosing checks; retained files do not automatically require integration now.
 For documentation, design and planning deliverables, follow
 [deliverable and verification boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification).
-For new capabilities, substantial changes and redesigns, first follow
+For underspecified goals, start with
+[needs discovery](planning.md#understand-the-need-before-narrowing-the-design), not a menu of agent-selected designs.
+For new capabilities, substantial changes and redesigns, follow
 [design acceptance](planning.md#agree-on-the-design-before-implementation).
 Technical self-review cannot accept the design on the developer's behalf.
 Before treating an experiment's completion as a merge handoff, apply

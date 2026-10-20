@@ -73,6 +73,14 @@ fn both_policy_routes_reach_packaged_checkpoint_guidance() -> Result<(), Box<dyn
 }
 
 #[test]
+fn both_policy_routes_reach_packaged_needs_discovery() -> Result<(), Box<dyn std::error::Error>> {
+    check_routes(
+        "understand-the-need-before-narrowing-the-design",
+        "## Understand the need before narrowing the design",
+    )
+}
+
+#[test]
 fn both_policy_routes_reach_packaged_design_acceptance() -> Result<(), Box<dyn std::error::Error>> {
     check_routes(
         "agree-on-the-design-before-implementation",
