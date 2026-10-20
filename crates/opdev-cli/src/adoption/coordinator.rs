@@ -49,11 +49,23 @@ pub(super) fn inspect(
     record: Option<&AdoptionRecord>,
 ) -> Result<serde_json::Value> {
     let mut facts = observe(root, manifest, record)?;
+    let design = crate::design_documents::legacy(root, manifest);
+    facts.push(Fact {
+        id: "design_documents".into(),
+        kind: "attributed_decisions",
+        ready: design.recorded_decisions_complete,
+        details: design.gaps(),
+    });
     let configured = facts.iter().any(|f| f.id == "configured" && f.ready);
-    let actions = next_actions(root, record, configured, &mut facts);
+    let mut actions = next_actions(root, record, configured, &mut facts);
+    if !design.recorded_decisions_complete {
+        actions.insert(0, action(&facts, "review_project_design", "decision_review", &[], None,
+            "Populate design.md, interface.md and tech_stack.md from inspected facts and actual decisions. Resolve material gaps with the developer; document labels cannot authenticate acceptance. This is not permission to alter policy or start product implementation."));
+    }
     Ok(serde_json::json!({
         "schema":1,"kind":"adoption_coordination","target":opdev_project::clean_adoption::target_name(manifest),
         "facts":facts,"actions":actions,"source_fingerprint":opdev_project::staged_fingerprint(root).ok(),
+        "design_documents":design,
         "policy_selection":super::policy_selection(configured),
         "qualification":"unverified","complete":false,"checks_ran":false,"writes_performed":false,
         "authorities":[MANIFEST_PATH,ADOPTION_PATH],
@@ -222,7 +234,7 @@ fn next_actions(
     actions.push(action(facts,"prepare_review","review", &preparation, None, "Use adoption prepare-evidence --complete with the exact provider-observed target --base when requirements are selected. Resolve substantive review slots, then native evidence preparation/export. Never synthesize passing judgments."));
     facts.push(Fact {id:"review_selection".into(),kind:"observation",ready:false,details:vec!["Select the exact reviewed comment and independent acceptance identity; inspection does not retrieve or certify it.".into()]});
     actions.push(action(facts,"preflight","observation", &preparation, None, "Run adoption check --preflight with the actual review locator and acceptance identity before costly suites. Missing or stale inputs cannot execute project checks."));
-    actions.push(action(facts,"verify","execution", &["configured","policy","choices","approval","implementation","cleanup","source","review_selection"], None, "adoption check revalidates the selection and runs required suites itself. This inspection never permits bypassing its guards or reusing a saved preflight/report."));
+    actions.push(action(facts,"verify","execution", &["configured","policy","choices","approval","implementation","cleanup","source","review_selection","design_documents"], None, "adoption check revalidates the selection and runs required suites itself. This inspection never permits bypassing its guards or reusing a saved preflight/report."));
     actions.push(action(facts,"reconcile_integration","observation", &["configured"], None, "After required local/pre-merge checks and authorized integration, observe required integrated checks with ci qualify. Missing integrated evidence remains incomplete; artifact delivery and release are separate."));
     actions
 }

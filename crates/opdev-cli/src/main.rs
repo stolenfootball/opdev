@@ -27,6 +27,7 @@ mod adoption;
 mod ci_review;
 mod ci_run;
 mod delegation;
+mod design_documents;
 mod doctor;
 mod documentation;
 mod evidence_bundle;

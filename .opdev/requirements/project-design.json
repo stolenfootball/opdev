@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "requirements": [
+    {
+      "id": "R-project-design-documents",
+      "title": "Design document inspection distinguishes recorded decisions from consent",
+      "statement": {
+        "kind": "inline",
+        "text": "Every project has distinct design, interface and technical documents. Read-only inspection reports missing or unsafe files, malformed metadata and unreviewed decisions, preserves existing accepted references, and never treats structure as authenticated consent, product verification or implementation authority."
+      },
+      "origin": "spec/project-design.md",
+      "rationale": "Expose missing planning and adoption prerequisites without auto-selecting tools or adding a consent ledger.",
+      "configurations": [
+        "default"
+      ],
+      "criteria": [
+        {
+          "id": "C-project-design-documents",
+          "expected": "Both policy routes report the earliest unresolved document role, refuse unsafe or malformed inputs and preserve prior decisions. Templates remain unaccepted, adoption preflight executes nothing, and complete metadata still points to actual decisions and execution authority."
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-project-design-documents",
+      "target": {
+        "path": "crates/opdev-cli/tests/design_documents.rs",
+        "sha256": "3f6369b4fd35a7835487c0c73ab10f27d890efd10679df0dba3c37fb3497298f",
+        "excerpt": "fn distinct_boundaries_preserve_missing_technical_decision_after_product_and_interface_acceptance()"
+      },
+      "inputs": [
+        {
+          "path": "crates/opdev-cli/src/design_documents.rs",
+          "sha256": "bb2e957c5f6846fce6a1cb7d94f835062f79160e5abd415119ebbfee6998cdc1",
+          "excerpt": "pub(super) fn inspect("
+        },
+        {
+          "path": "crates/opdev-cli/src/documentation.rs",
+          "sha256": "d0ea4897addaa3a87dda4eaf074419f221a873cc6588ad6dfda7ae34884332a0",
+          "excerpt": "pub(super) fn run("
+        },
+        {
+          "path": "crates/opdev-cli/src/adoption.rs",
+          "sha256": "f7e81c6bfeb4ca42e0c89a53b73101f859c0c5cc554108004b5073de2077229a",
+          "excerpt": "fn check("
+        },
+        {
+          "path": "crates/opdev-cli/src/adoption/coordinator.rs",
+          "sha256": "2e0e49e9954afcf6a4d777319ad6d9d42509adfcf3a33b2d38ad4363a76ded1e",
+          "excerpt": "pub(super) fn inspect("
+        },
+        {
+          "path": "crates/opdev-cli/src/practical.rs",
+          "sha256": "5beeaf1a8481a41aafb0fa190775d4c48f08a56975c91e98da6b193e991aebd9",
+          "excerpt": "pub(super) fn adoption_status("
+        },
+        {
+          "path": "crates/opdev-project/src/practical.rs",
+          "sha256": "b7dd0012e6b59fa4f5ba3adad4fbe9d4b2e80890c4e2af0071c1458a1cc1ecbb",
+          "excerpt": "pub fn read_regular("
+        }
+      ],
+      "method": {
+        "kind": "automated",
+        "suite": "check",
+        "assurance": "suite"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": "P-project-design-local",
+      "criterion": "C-project-design-documents",
+      "configuration": "default",
+      "stage": "local",
+      "members": [
+        {
+          "verification": "V-project-design-documents",
+          "assertion": "Executable synthetic projects inspect document-role gaps, path/metadata rejection, preserved accepted records and nonexecuting adoption preflight.",
+          "discriminating_case": "Product/interface acceptance with inferred tech metadata must remain incomplete; copied templates and missing references cannot pass; accepted metadata cannot authorize implementation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
+        "rationale": "Reviewed exact parser, both adoption routes and process assertions: missing technical acceptance cannot inherit product approval; templates and malformed records remain unresolved; safe paths preserve existing content. Structural result is explicitly not consent. Conversation behavior is evaluated separately.",
+        "subject_sha256": "dd4b9e66d117a5906e6f54952967892dbcbe2d23b68d87227f78ef005936983b"
+      }
+    },
+    {
+      "id": "P-project-design-pre_merge",
+      "criterion": "C-project-design-documents",
+      "configuration": "default",
+      "stage": "pre_merge",
+      "members": [
+        {
+          "verification": "V-project-design-documents",
+          "assertion": "Executable synthetic projects inspect document-role gaps, path/metadata rejection, preserved accepted records and nonexecuting adoption preflight.",
+          "discriminating_case": "Product/interface acceptance with inferred tech metadata must remain incomplete; copied templates and missing references cannot pass; accepted metadata cannot authorize implementation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
+        "rationale": "Reviewed exact parser, both adoption routes and process assertions: missing technical acceptance cannot inherit product approval; templates and malformed records remain unresolved; safe paths preserve existing content. Structural result is explicitly not consent. Conversation behavior is evaluated separately.",
+        "subject_sha256": "12ead7819a967ef47ea9fa07aa306a28f4b3c20ec06d18d364ac2b8a21ed3bb8"
+      }
+    },
+    {
+      "id": "P-project-design-post_merge",
+      "criterion": "C-project-design-documents",
+      "configuration": "default",
+      "stage": "post_merge",
+      "members": [
+        {
+          "verification": "V-project-design-documents",
+          "assertion": "Executable synthetic projects inspect document-role gaps, path/metadata rejection, preserved accepted records and nonexecuting adoption preflight.",
+          "discriminating_case": "Product/interface acceptance with inferred tech metadata must remain incomplete; copied templates and missing references cannot pass; accepted metadata cannot authorize implementation."
+        }
+      ],
+      "review": {
+        "outcome": "passed",
+        "reviewer": "Codex (implementing agent, distinct requirement-led review)",
+        "reference": "https://gitlab.com/stolenfootball-tools/opdev/-/issues/127#note_4053863095",
+        "rationale": "Reviewed exact parser, both adoption routes and process assertions: missing technical acceptance cannot inherit product approval; templates and malformed records remain unresolved; safe paths preserve existing content. Structural result is explicitly not consent. Conversation behavior is evaluated separately.",
+        "subject_sha256": "76af98d123f2829f41d03a0d486a17f457a76aff35c5d9772250718340d5cbc1"
+      }
+    }
+  ]
+}

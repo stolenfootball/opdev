@@ -34,6 +34,10 @@ An authorized learning prototype is not permission to promote it into the produc
 Technical self-review assesses implementation against the accepted design; it
 cannot accept the design on the developer's behalf.
 
+For new projects, adoption and substantial redesign, use the distinct product,
+interface and technical decisions in [project design](project-design.md), then
+agree on phased execution scope. Don't collapse these into one product approval.
+
 Integrate when a coherent result is settled and independently useful, a real
 authorized dependency needs it on trunk, or branch drift makes integration useful.
 Finish tightly coupled comparisons likely to revise the same result first; don't
@@ -154,6 +158,6 @@ busywork or repeat unchanged polling narration. Permission to continue grants no
 new delegation, policy change, resource use or release authority.
 
 Keep purpose, actual decisions, observations and missing evidence in existing
-conversation/work context. No boundary registry, required file or approval ledger
-is introduced. The command controls govern OpDev invocations, not arbitrary shell
+conversation/work context and the required durable project-design documents.
+No boundary registry or approval ledger is introduced. Command controls govern OpDev invocations, not arbitrary shell
 execution or the truth of supplied rationale. Report only the boundary verified.

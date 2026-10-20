@@ -1,5 +1,10 @@
 # Documentation locations and ownership
 
+Current planning/adoption requires `design.md`, `interface.md`, `tech_stack.md`
+outside `.opdev`, under the [project-design contract](project-design.md). The
+historical defaults below describe older layouts, not permission to store new
+design documents in OpDev's configuration namespace.
+
 The project contract, rather than a folder name, selects authoritative material.
 The following defaults describe legacy layouts; the explicit strict target and
 its read-only inspection are defined below. Inspection alone changes no policy.
