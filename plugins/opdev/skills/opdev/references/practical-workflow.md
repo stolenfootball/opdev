@@ -25,7 +25,8 @@ Use [work boundaries](work-boundaries.md) to select the current purpose and just
 expensive checks. Declared commands do not advance an unsettled task to integration.
 In particular, a default or local-stage full suite is not a requirement to run it
 for every feedback preview; command selection and task readiness are different.
-Use its [design acceptance](planning.md#agree-on-the-design-before-implementation)
+Start underspecified goals with [needs discovery](planning.md#understand-the-need-before-narrowing-the-design),
+not a menu of agent-selected designs. Use [design acceptance](planning.md#agree-on-the-design-before-implementation)
 and [deliverable boundaries](planning.md#deliver-the-requested-result-without-unrelated-qualification)
 before dependent implementation or final qualification.
 

@@ -18,9 +18,10 @@ of an agent turn. Broad implementation or eventual merge authority is not proof
 that an unseen design is accepted or that a candidate is settled. Continue
 autonomously within the agreed boundary, not automatically through all boundaries.
 
-For new capabilities, substantial changes and redesigns, ask material unanswered
-questions, present concrete behavior with an example, scope, limitations and
-tradeoffs, then obtain design acceptance before dependent implementation. A task
+For new capabilities, substantial changes and redesigns, first
+[understand the need](#understand-before-narrowing), then present concrete behavior
+with an example, scope, limitations and tradeoffs, and obtain design acceptance
+before dependent implementation. A task
 list is insufficient when product choices remain unresolved. Requirements answers,
 silence, passing tests and agentic technical review are not design acceptance.
 Interpret "do it" against what was actually proposed. Reuse already accepted or
@@ -39,6 +40,46 @@ Finish tightly coupled comparisons likely to revise the same result first; don't
 delay an independent stable fix for unrelated experiments or accumulate indefinite
 branches. No extra merge approval is needed within existing authority, but permission
 and readiness must both hold. Release remains separately authorized.
+
+## Understand before narrowing
+
+For an underspecified project or substantial capability, discover what the
+developer wants to accomplish before choosing a solution, MVP or technical test
+fixture. Start with an open invitation grounded in what is already known, such as
+"Walk me through a real situation where you would use this. What would you want
+to happen?" Let the developer describe the goal in their own terms; do not start
+by asking them to select among assistant-designed workflows or architectures.
+
+Follow their answer in small, relevant rounds. Explore consequential gaps in who
+or what uses the software, the current workflow and pain, desired result, success
+criteria, degree of automation/control, and constraints such as cost, data, access
+or environment. These are prompts for judgment, not a mandatory questionnaire or
+quota. Ask about needs before proposing technical means; inspect available facts
+instead of asking the developer to rediscover them. An unanswered need is not
+permission to fill it with the agent's preferred design.
+
+Before narrowing scope or presenting a preferred solution, briefly reflect back
+the intended use and outcome. Distinguish what the developer stated or already
+accepted, what the agent is proposing or assuming, and consequential unknowns.
+Invite correction and give the developer a chance to respond; do not treat an
+agent-written summary or a partial answer as confirmation of the whole design.
+Reuse an explicit confirmation or sufficiently complete supplied brief instead
+of asking the same questions again. No separate approval form is needed.
+
+Then compare appropriate alternatives and explain recommendations against those
+needs. Choice prompts are useful for convergence once the problem is understood;
+they must allow rejection or reframing, not quietly define the entire answer
+space. Examples may help someone who is unsure, but label them as illustrations,
+not requirements. A benchmark fixture or engineering convenience is not itself
+the desired product experience. Research can resolve feasibility, not substitute
+for developer input about preferences. Design acceptance still precedes dependent
+implementation under the rule above.
+
+Honor explicit research/comparison requests, fully specified changes, narrow
+repairs, accepted decisions and bounded design delegation without imposing a new
+interview. Reopen only material unknowns or changed assumptions. Keep this exchange
+in existing conversation/work context; no discovery ledger, fixed question count,
+CLI gate or approval round for every answer is introduced.
 
 ## Before expensive verification
 
