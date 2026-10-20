@@ -17,6 +17,8 @@ Describe the intended users or callers, their problem and desired outcomes.
 
 Describe capabilities, conceptual responsibilities, constraints, exclusions and
 accepted future capabilities. Link the tracker for implementation sequencing.
+Own the product meaning here; put observable interactions in interface.md and
+technical mechanisms in tech_stack.md, rather than retaining a mixed master.
 
 ## Decisions and open questions
 

@@ -68,12 +68,44 @@ Ask focused questions where intent, policy, contradictions or consequential gaps
 cannot be established. Offer a concise preserve/change/resolve review; related
 confirmed existing choices may be accepted together, without three ceremonial turns.
 
-Preserve previous approvals and their scope/references. Reorganizing documentation
-does not revoke them or approve new behavior. Reuse existing detail by linking it
-from substantive role summaries; do not create competing specifications, empty
-pointer files, or silently delete unrelated material. A combined existing document
-may remain the design document while the other two summarize their distinct roles
-and link detailed sections. Move/remove duplicate content only under task authority.
+Preserve the meaning and scope of previous approvals, not the old arrangement of
+text. Reorganization neither revokes decisions nor approves new behavior. When
+authorized to split mixed documentation, give each concern one authoritative home:
+
+- `design.md`: product purpose, consumers, outcomes, scope and conceptual boundaries.
+- `interface.md`: user/caller journeys and observable behavior, including states,
+  outputs, errors and recovery.
+- `tech_stack.md`: technical decisions, architecture, rationale and engineering
+  standards. A component diagram is technical detail; its product responsibility
+  may still need a brief explanation in the abstract design.
+
+Move the substantive content, retire its superseded copy and update links and
+authority routes, including generic architecture/documentation routes that pointed
+to the former mixed owner. Three summaries pointing back to an unchanged mixed master do
+not separate concerns. Keep useful, narrowly scoped supporting specifications or
+research at their existing owners; link for depth, not to avoid stating the role's
+contract. Do not create a fourth catch-all or archive of the old mixed document.
+This is not permission to move unrelated files or erase unresolved requirements.
+
+Classify the claims before relocating them: accepted decisions with their actual
+scope/reference, observed or inferred facts, proposals, and unresolved questions.
+Do not transfer speculative mechanisms wholesale into the technical document under
+an accepted heading. Keep material alternatives/questions concise at the relevant
+owner and task sequencing in the work tracker. Preserve accepted later scope even
+when its implementation details remain open. Ask only where a consequential
+ambiguity cannot be resolved from the original decision.
+
+A document-organization task does not authorize filling gaps with new behavior.
+Even a sensible extra error rule, control or example must be supported by the
+existing contract or visibly proposed; do not place it under inherited acceptance.
+
+Before handing off, read the resulting files against the original material and
+decisions: are accepted meanings retained, ownership actually separated, proposals
+still distinguishable, and links/routes current? Name a concrete moved concern and
+any unresolved distinction in the existing review. A changed heading, valid
+metadata or the agent's completion summary does not establish this. Test migrations
+by inspecting rewritten artifacts, not only a conversation saying it would split
+them. No extra registry, paragraph ledger or automatic semantic gate is required.
 
 An empty repository may have workflow configuration while these documents are
 still proposed. Report design/adoption gaps separately: setup is not completed

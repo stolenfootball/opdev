@@ -36,8 +36,11 @@ Custom directories use the `design`, `interface` and `tech_stack` authority keys
 in `.opdev/project.yaml`. Practical contracts use path strings; older contracts
 use `{kind: path, location: ...}`. An existing `DESIGN.md` may serve the design
 role through an explicit route; do not make a conflicting lowercase copy.
-Keep these files outside `.opdev`. Reuse detailed specifications through links
-and meaningful summaries rather than competing copies. Exact command argument
+Keep these files outside `.opdev`. Each concern has one authoritative home:
+the product design should not remain a mixed master containing the real interface
+and technical contracts while the other files merely summarize or link to it.
+Narrowly scoped supporting specifications and research can supply deeper detail;
+links connect owners rather than creating competing copies. Exact command argument
 vectors live in the project contract. Milestones, issues, sequence and progress
 live in the work tracker—not in these documents.
 
@@ -72,6 +75,19 @@ You can review related preservation choices together rather than repeat the enti
 new-project interview. Missing documents remain an adoption gap until populated
 and their relevant decisions reviewed. Adding document structure does not invalidate
 earlier genuine approvals or require replacing the stack.
+
+When splitting an existing mixed document, move the substantive content to its
+role, retire superseded duplication, and update links and authority routes.
+Check generic architecture/documentation routes as well as the three role keys.
+Preserve the meaning of approved decisions, not an obsolete text arrangement.
+Separate confirmed choices, inferred current facts, proposals and open questions.
+Do not turn every speculative mechanism into an accepted technical requirement
+merely by moving it. Keep relevant uncertainties concise; retain accepted later
+scope and leave sequencing in the tracker. No fourth catch-all or archive is needed.
+New error rules or other plausible details still need support or a proposal label;
+document organization does not authorize filling design gaps on the user's behalf.
+Review the actual resulting documents against their sources, not just filenames,
+metadata or an agent's summary of what it changed.
 Adding these documents alone is not an assurance-policy migration. Already
 authorized document organization can proceed without reapproving unchanged
 choices. Adoption alone does not authorize new product capabilities.

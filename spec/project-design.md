@@ -9,6 +9,21 @@ conflicts need developer input. Current implementation is evidence of what exist
 not evidence that the developer approved it. A small library needs concise caller
 and technical contracts, not an invented UI or enterprise process.
 
+Each concern has one authoritative home. Authorized migration of mixed material
+moves product scope to design, observable interaction to interface, and technical
+architecture/standards to tech_stack, removing superseded duplication and repairing
+routes/links. Three summaries pointing back to an unchanged mixed master are not
+adequate separation. Narrowly scoped supporting specs/research remain valid; a
+fourth catch-all is not a substitute. Preserve approved meaning and attribution,
+not the old layout. Distinguish accepted, inferred, proposed and unresolved claims;
+neither moving speculative detail nor a file-level label accepts it. Preserve
+accepted later scope while keeping task sequencing at the work authority.
+
+Review source-to-result preservation and concern ownership in the actual artifacts.
+This is semantic review, not a deterministic CLI guarantee. Behavioral migration
+trials must inspect generated files as well as the conversation; structural tests
+and heading matches cannot establish this property.
+
 Product acceptance, interface acceptance and technical acceptance are distinct.
 They precede the phased implementation proposal and its execution authorization.
 Gather user journeys and hard constraints during discovery; refine these together,

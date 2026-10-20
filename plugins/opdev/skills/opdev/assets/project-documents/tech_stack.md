@@ -13,6 +13,8 @@ opdev_document:
 
 Record developer preferences and observed existing tools separately from proposals.
 Explain stack, runtime/platforms, architecture, storage/integrations and alternatives.
+Own technical decisions here. Moving a proposal from another document does not
+make it accepted; retain only useful detail with its actual decision status.
 
 ## Engineering standards
 

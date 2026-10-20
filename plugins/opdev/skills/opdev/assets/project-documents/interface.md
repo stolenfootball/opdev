@@ -18,6 +18,8 @@ Describe concrete user stories or caller scenarios and their desired results.
 Show representative entry points, actions, inputs, outputs, states and errors.
 Include cancellation, recovery, permissions, accessibility and control where relevant.
 An API, CLI, library or batch workflow needs no invented graphical interface.
+State the interaction contract here. Link to scoped supporting detail, not back
+to a mixed design document that still owns the real contract.
 
 ## Decisions and open questions
 
